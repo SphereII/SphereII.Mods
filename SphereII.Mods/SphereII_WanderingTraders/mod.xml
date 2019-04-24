@@ -1,0 +1,15 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>SphereII Wandering Traders</name>
+		<description>Allows traders to wander about the world.</description>
+		<mod_version>1.0.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+	
+	<dependencies>
+		<dependency>Hal's DLL Fixes</dependency>
+	</dependencies>
+</mod>

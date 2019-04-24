@@ -1,0 +1,340 @@
+<configs>
+	<append xpath="/entity_classes">
+		<entity_class name="Ammo Trader" >
+			<property name="Class" value="EntityWanderingTrader, Mods"/> 
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="NPCID" value="traderammo"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderAmmo_X" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="170"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/> 
+			<property name="HandItem" value="handTraderRifle"/> 
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.35"/> <!-- .35 for moddersupdate=true  -->
+			<property name="MoveSpeedAggro" value=".35, .35"/> <!-- .35, 1.1 for moddersupdate=true  -->
+			<property name="MoveSpeedPanic" value=".5"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxTurnSpeed" value="360"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="30"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="SpecialAttackIndexes" value="2" />
+			<property name="PainIndexes" value="0" /> 
+			<property name="DeathIndexes" value="0" /> 
+			<property name="RunIndexes" value="0" /> 
+			<property name="RandomIndexes" value="4" /> 
+			<property name="WalkIndexes" value="2" /> 
+			<property name="IdleIndexes" value="0" />  
+			<property name="AttackIdleIndexes" value="0" /> 
+			<property name="AITask-1" value="Swim"/>
+			<property name="AITask-2" value="BreakBlock"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
+			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
+			<property name="AITask-5" value="ApproachSpot"/>  
+			<property name="AITask-6" value="Look"/> 
+			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-8" value="Leap"/> 
+			<property name="AITask-9" value=""/>	
+			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-2" value="BlockingTargetTask"/> 
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
+			<property name="AITarget-4" value=""/> 		
+			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="800"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerTraderPack"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>	
+		</entity_class> 
+		<entity_class name="Heavy Trader" >
+			<property name="Class" value="EntityWanderingTrader, Mods"/> 
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="NPCID" value="traderheavy"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderHeavy_X" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="200"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/> 
+			<property name="HandItem" value="handTraderShotgun"/> 
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.35"/> <!-- .35 for moddersupdate=true  -->
+			<property name="MoveSpeedAggro" value=".35, .35"/> <!-- .35, 1.1 for moddersupdate=true  -->
+			<property name="MoveSpeedPanic" value="1.1"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxTurnSpeed" value="360"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="30"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="SpecialAttackIndexes" value="2" />
+			<property name="PainIndexes" value="0" /> 
+			<property name="DeathIndexes" value="0" /> 
+			<property name="RunIndexes" value="0" /> 
+			<property name="RandomIndexes" value="4" /> 
+			<property name="WalkIndexes" value="0" /> 
+			<property name="IdleIndexes" value="0" />  
+			<property name="AttackIdleIndexes" value="0" /> 
+			<property name="AITask-1" value="Swim"/>
+			<property name="AITask-2" value="BreakBlock"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
+			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
+			<property name="AITask-5" value="ApproachSpot"/>  
+			<property name="AITask-6" value="Look"/> 
+			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-8" value="Leap"/> 
+			<property name="AITask-9" value=""/>	
+			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-2" value="BlockingTargetTask"/> 
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
+			<property name="AITarget-4" value=""/> 		
+			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="1000"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerTraderBox"/>
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>	
+		</entity_class> 		
+		<entity_class name="Drug Trader" >
+			<property name="Class" value="EntityWanderingTrader, Mods"/> 
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="NPCID" value="traderdrug"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderDrugs_X" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="170"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/> 
+			<property name="HandItem" value="handTraderPistol"/> 
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.35"/> <!-- .35 for moddersupdate=true  -->
+			<property name="MoveSpeedAggro" value=".35, .35"/> <!-- .35, .35 for moddersupdate=true  -->
+			<property name="MoveSpeedPanic" value=".6"/>
+			<property name="PainResistPerHit" value=".95"/>
+			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxTurnSpeed" value="360"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="30"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="SpecialAttackIndexes" value="2" />
+			<property name="PainIndexes" value="0" /> 
+			<property name="DeathIndexes" value="0" /> 
+			<property name="RunIndexes" value="0" /> 
+			<property name="RandomIndexes" value="4" /> 
+			<property name="WalkIndexes" value="2" /> 
+			<property name="IdleIndexes" value="0" />  
+			<property name="AttackIdleIndexes" value="0" /> 
+			<property name="AITask-1" value="Swim"/>
+			<property name="AITask-2" value="BreakBlock"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
+			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
+			<property name="AITask-5" value="ApproachSpot"/>  
+			<property name="AITask-6" value="Look"/> 
+			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-8" value="Leap"/> 
+			<property name="AITask-9" value=""/>	
+			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-2" value="BlockingTargetTask"/> 
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
+			<property name="AITarget-4" value=""/> 	
+			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="750"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="300"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerTraderSatchel"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>	
+		</entity_class> 		
+		<entity_class name="EntityLootContainerTraderPack"> 
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderPack_X"/>
+			<property name="ModelType" value="Custom"/>
+			<property name="Prefab" value="Backpack"/> 
+			<property name="Class" value="EntityLootContainer"/>
+			<property name="Parent" value="Backpack"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="TimeStayAfterDeath" value="300"/>
+			<property name="LootListOnDeath" value="101"/> <!-- cntWeaponsBagLarge -->
+			<property name="Faction" value="none"/>
+		</entity_class>		
+		<entity_class name="EntityLootContainerTraderBox"> 
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderBox_X"/>
+			<property name="ModelType" value="Custom"/>
+			<property name="Prefab" value="Backpack"/> 
+			<property name="Class" value="EntityLootContainer"/>
+			<property name="Parent" value="Backpack"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="TimeStayAfterDeath" value="300"/>
+			<property name="LootListOnDeath" value="95"/> 
+			<property name="Faction" value="none"/>
+		</entity_class>	
+		<entity_class name="EntityLootContainerTraderSatchel"> 
+			<property name="Mesh" value="#@modfolder:Resources/Traders.unity3d?TraderSatchel_X"/>
+			<property name="ModelType" value="Custom"/>
+			<property name="Prefab" value="Backpack"/> 
+			<property name="Class" value="EntityLootContainer"/>
+			<property name="Parent" value="Backpack"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="TimeStayAfterDeath" value="300"/>
+			<property name="LootListOnDeath" value="107"/> 
+			<property name="Faction" value="none"/>
+		</entity_class>			
+	</append>
+</configs>

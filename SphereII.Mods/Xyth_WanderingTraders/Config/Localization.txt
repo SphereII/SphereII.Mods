@@ -1,0 +1,4 @@
+Key,Source,Context,Changes,English,French,German,Klingon,Spanish,Polish
+npcTraderAmmo,entityclasses,Entity,New,Trader Ammo,,,,,
+npcTraderDrug,entityclasses,Entity,New,Trader Drug,,,,,
+npcTraderHeavy,entityclasses,Entity,New,Trader Heavy,,,,,
