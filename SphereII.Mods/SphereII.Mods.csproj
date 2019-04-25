@@ -39,6 +39,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="DMT">
+      <HintPath>..\..\..\DMT\DMT\bin\Debug\DMT.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -66,19 +69,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSDX\Scripts\MecanimSDX.cs" />
+    <Compile Include="AntiNerdPole\Harmony\PlaceBlock.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="InitialTesting\MyTestClass.cs" />
+    <Compile Include="ClearUI\Harmony\ClearUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SphereII_WanderingTraders\Harmony\Harmony.cs" />
     <Compile Include="SphereII_WanderingTraders\Scripts\EntityWanderingTrader.cs" />
+    <Compile Include="SphereII_UnlockHealthBar\Harmony\UnlockHealthBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AnimationSDX\Config\entityclasses.xml" />
     <Content Include="AnimationSDX\mod.xml" />
     <Content Include="AnimationSDX\ModInfo.xml" />
+    <Content Include="AntiNerdPole\mod.xml" />
+    <Content Include="AntiNerdPole\ReadMe.txt" />
+    <Content Include="ClearUI\Config\XUi\xui.xml" />
+    <Content Include="ClearUI\mod.xml" />
+    <Content Include="ClearUI\ReadMe.txt" />
     <Content Include="SphereII_WanderingTraders\Config\entityclasses.xml" />
     <Content Include="SphereII_WanderingTraders\mod.xml" />
     <Content Include="SphereII_WanderingTraders\ModInfo.xml" />
+    <Content Include="SphereII_UnlockHealthBar\mod.xml" />
+    <Content Include="SphereII_UnlockHealthBar\ModInfo.xml" />
     <Content Include="Xyth_WanderingTraders\Config\entityclasses.xml" />
     <Content Include="Xyth_WanderingTraders\Config\entitygroups.xml" />
     <Content Include="Xyth_WanderingTraders\Config\items.xml" />
@@ -90,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SphereII_WanderingTraders\ReadMe.md" />
+    <None Include="SphereII_UnlockHealthBar\ReadMe.md" />
     <None Include="Xyth_WanderingTraders\Resources\Traders.unity3d" />
     <None Include="Xyth_WanderingTraders\Resources\XythAmmo.unity3d" />
   </ItemGroup>
