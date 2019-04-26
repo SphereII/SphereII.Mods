@@ -31,10 +31,10 @@ public class SphereII_XUiC_TargetBar : IHarmony
 
         for(int i = 0; i < MaxIteration; i++)
         {
-            Debug.Log(" OpCode: " + codes[i].opcode.ToString());
+          //  Debug.Log(" OpCode: " + codes[i].opcode.ToString());
             if(codes[i].opcode == OpCodes.Ret)
             {
-                Debug.Log(" Return Detected: " + i);
+            //    Debug.Log(" Return Detected: " + i);
                 startIndex = i;
                 break;
             }

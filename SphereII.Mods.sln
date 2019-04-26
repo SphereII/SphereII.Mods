@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII.Mods", "SphereII.Mods\SphereII.Mods.csproj", "{8DEB31E8-BCF5-429D-B125-A87F9791419A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MecanimSDX", "..\MecanimSDX\MecanimSDX\MecanimSDX.csproj", "{4F4D824D-6EED-48DE-9947-35646713DF72}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{8DEB31E8-BCF5-429D-B125-A87F9791419A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DEB31E8-BCF5-429D-B125-A87F9791419A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DEB31E8-BCF5-429D-B125-A87F9791419A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F4D824D-6EED-48DE-9947-35646713DF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F4D824D-6EED-48DE-9947-35646713DF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F4D824D-6EED-48DE-9947-35646713DF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F4D824D-6EED-48DE-9947-35646713DF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
