@@ -21,19 +21,27 @@ public class SphereII_XUiC_TargetBar : IHarmony
     static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
         int startIndex = -1;
-
         // Grab all the instructions
         var codes = new List<CodeInstruction>(instructions);
 
-        for(int i = 0; i < codes.Count; i++)
+        // Only look at the first 15 IL codes for this change.
+        int MaxIteration = 15;
+        if (codes.Count < MaxIteration)
+            MaxIteration = codes.Count;
+
+        for(int i = 0; i < MaxIteration; i++)
         {
+            Debug.Log(" OpCode: " + codes[i].opcode.ToString());
             if(codes[i].opcode == OpCodes.Ret)
             {
-                startIndex = i + 1;
+                Debug.Log(" Return Detected: " + i);
+                startIndex = i;
                 break;
             }
         }
-        codes.RemoveRange(startIndex, 8);
+
+        if ( startIndex > -1)
+            codes.RemoveAt(startIndex);
 
         return codes.AsEnumerable();
     }

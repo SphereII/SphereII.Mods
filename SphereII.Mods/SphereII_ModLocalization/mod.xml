@@ -1,0 +1,12 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>SphereII Mod Localization Hook</name>
+		<description>A modlet that will read ModLocalization.txt and ModLocalization - Quests.txt, and merge into the main localization at run time.</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+
+</mod>
