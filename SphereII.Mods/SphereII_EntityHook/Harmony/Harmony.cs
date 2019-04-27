@@ -16,17 +16,25 @@ public class SphereII_EntityFactoryPatch : IHarmony
         harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 
-    /*****************
-     * __result = return value of the vanilla method
-     * _gameObject / _className:  These are the original vanilla method parameter that we want to reference.
-     *     Note: if you want to change the values, add   ref string _className
-     *  Return Type is Entity, as we want to return the result. 
-     *      Return Type could also be void, with us setting __result to the value we want, ather than returning it
-     */
     static Entity Postfix(Entity __result, GameObject _gameObject, string _className)
     {
         if(__result == null)
         {
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            var result = assemblies.FirstOrDefault(a => a.GetType(_className, false) != null);
+            Debug.Log(" Result: " + result);
+            Debug.Log("  Result 2: " + result.FullName);
+            
+            Type myType = Type.GetType(_className + ", " + result);
+            if(myType != null)
+            {
+                Debug.Log(" Found Type: " + _className + ", " + result);
+                return (Entity)_gameObject.AddComponent(myType);
+            }    
+            //Type objectType = (from asm in AppDomain.CurrentDomain.GetAssemblies()
+            //                   from mytype in asm.GetTypes()
+            //                   where mytype.IsClass && mytype.Name == _className
+            //                   select mytype).Single();
             Type type = Type.GetType(_className + ", Mods");
             if(type != null)
             {

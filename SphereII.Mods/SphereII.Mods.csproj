@@ -70,13 +70,9 @@
   <ItemGroup>
     <Compile Include="AnimationSDX\Scripts\MecanimSDX.cs" />
     <Compile Include="AntiNerdPole\Harmony\PlaceBlock.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="ClearUI\Harmony\ClearUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SphereII_EntityHook\Harmony\Harmony.cs" />
-    <Compile Include="SphereII_ModLocalization\Harmony\ModLocalization.cs" />
-    <Compile Include="SphereII_ModLocalization\Scripts\LocalizationBlock.cs" />
-    <Compile Include="SphereII_WanderingTraders\Harmony\Harmony.cs" />
     <Compile Include="SphereII_WanderingTraders\Scripts\EntityWanderingTrader.cs" />
     <Compile Include="SphereII_UnlockHealthBar\Harmony\UnlockHealthBar.cs" />
   </ItemGroup>
@@ -93,10 +89,6 @@
     <Content Include="SphereII_EntityHook\Harmony\Harmony-SphereII_EntityHook.pdb" />
     <Content Include="SphereII_EntityHook\mod.xml" />
     <Content Include="SphereII_EntityHook\ModInfo.xml" />
-    <Content Include="SphereII_ModLocalization\Config\blocks.xml" />
-    <Content Include="SphereII_ModLocalization\mod.xml" />
-    <Content Include="SphereII_ModLocalization\ModInfo.xml" />
-    <Content Include="SphereII_ModLocalization\ReadMe.txt" />
     <Content Include="SphereII_UnlockHealthBar\Config\XUi\xui.xml" />
     <Content Include="SphereII_WanderingTraders\Config\entityclasses.xml" />
     <Content Include="SphereII_WanderingTraders\mod.xml" />

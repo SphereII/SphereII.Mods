@@ -1,7 +1,7 @@
 <configs>
 	<append xpath="/entity_classes">
 		<entity_class name="Food Trader" >
-			<property name="Class" value="EntityWanderingTrader, Mods"/> 
+			<property name="Class" value="EntityWanderingTrader, SphereII.Mods"/> 
 			<property name="Faction" value="trader"/>
 			<property name="Tags" value="entity,npc"/>
 			<property name="LootListAlive" value="62"/>
