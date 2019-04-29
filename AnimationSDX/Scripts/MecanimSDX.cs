@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-//namespace MecanimSDX
+//namespace Mods
 //{
     class MecanimSDX : AvatarController
     {

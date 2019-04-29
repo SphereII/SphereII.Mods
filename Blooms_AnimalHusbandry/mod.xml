@@ -18,6 +18,4 @@
     <dependency>SDX_EntityAliveSDX</dependency>
     <dependency>SDX_SpawnFromEntityGroup</dependency>
   </dependencies>
-  
-  
 </mod>
