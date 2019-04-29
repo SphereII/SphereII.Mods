@@ -1,0 +1,72 @@
+﻿<configs>
+  
+  <!-- Basic NPC definitions.  animalFarmCow does not provide the quest feature-->
+  <append xpath="/npc">
+    <npc_info
+			id="animalFarm"
+			name="NPC"
+			name_key="npc_traitorJoel"
+			faction="whiteriver"
+			portrait="npc_joel"
+			greeting_type="nearby"
+			stance="Like" voice_set="trader"
+			trader_id="1" dialog_id="animalFarm"/>
+  </append>
+
+  <!-- Factions are used to identify enemies and friends through the AI tasks-->
+  <append xpath="/npc/factions">
+    <faction name="farmCows">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmWolf" value="hate"/>
+      <relationship name="farmBoar" value="hate"/>
+    </faction>
+    <faction name="farmChickens">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmWolf" value="hate"/>
+      <relationship name="farmBoar" value="hate"/>
+    </faction>
+    <faction name="farmSheep">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmWolf" value="hate"/>
+      <relationship name="farmBoar" value="hate"/>
+    </faction>
+    <faction name="farmGoat">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmWolf" value="hate"/>
+      <relationship name="farmBoar" value="hate"/>
+    </faction>
+    <faction name="farmWolf">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmCows" value="hate"/>
+      <relationship name="farmChickens" value="hate"/>
+      <relationship name="farmSheep" value="hate"/>
+      <relationship name="farmGoat" value="hate"/>
+    </faction>
+    <faction name="farmBoar">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmCows" value="hate"/>
+      <relationship name="farmChickens" value="hate"/>
+      <relationship name="farmSheep" value="hate"/>
+      <relationship name="farmGoat" value="hate"/>
+    </faction>
+    <faction name="farmPigs">
+      <relationship name="*" value="neutral"/>
+      <relationship name="bandits" value="dislike"/>
+      <relationship name="undead" value="hate"/>
+      <relationship name="farmWolf" value="hate"/>
+      <relationship name="farmBoar" value="hate"/>
+    </faction>
+  </append>
+</configs>

@@ -1,0 +1,14 @@
+<mod>
+	<info>
+		<!-- Information about the Mod, the author and version information -->
+		<!-- These are displayed in the SDX Launcher -->
+		<author>sphereii</author>
+		<name>SphereII Take And Replace</name>
+		<description>A Take And Replace mod, designed to allow people to downgrade boarded windows into air.</description>
+		<mod_version>1.1</mod_version>
+		<game_version>16.4</game_version>
+		<launcher_version>0.0.0</launcher_version>
+	</info>
+
+	
+</mod>

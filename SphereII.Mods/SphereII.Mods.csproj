@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,7 +41,7 @@
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="DMT">
-      <HintPath>..\..\..\DMT\DMT\bin\Debug\DMT.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\DMT.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,7 +53,7 @@
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
@@ -72,29 +73,158 @@
     <Compile Include="AntiNerdPole\Harmony\PlaceBlock.cs" />
     <Compile Include="ClearUI\Harmony\ClearUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionAnimatorSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionCreateItemSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionGiveQuestSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionModifySkillSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionPumpQuestSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionSkillPointSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionSpawnBabySDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\RequirementEveryDawn.cs" />
+    <Compile Include="SDX_Buffs\Scripts\RequirementEveryXDaySDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\RequirementEveryXHourSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\RequirementOnSpecificBiomeSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\RequirementSameFactionSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\DialogActionExecuteCommandSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\DialogActionOpenDialogSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\DialogRequirementHiredSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\DialogRequirementPatrolSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\XUiC_DialogHireInformationSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\XUiC_DialogRespondentNameSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\XUiC_HireInformationPopupSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\XUiC_JoinInformationPopupSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIApproachAndAttackSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIApproachAndFollowTargetSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIGuardSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAILootLocationSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIMaslowLevel1SDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIPatrolSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIRunawayFromEntitySDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAISetAsTargetIfHurtSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAISetAsTargetNearestEnemySDX.cs" />
+    <Compile Include="SDX_EAITasks\Scripts\EAIWanderSDX.cs" />
+    <Compile Include="SDX_EntityAliveSDX\Harmony\EntityAlivePatcher.cs" />
+    <Compile Include="SDX_EntityAliveSDX\Scripts\EntityAliveFarmingAnimalSDX.cs" />
+    <Compile Include="SDX_EntityAliveSDX\Scripts\EntityAliveSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\ObjectiveBuffSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\ObjectiveGotoPOISDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\QuestActionGiveBuffSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\QuestActionReplaceEntitySDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\QuestActionSpawnEntitySDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\RewardGiveNPCSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\RewardItemSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\RewardQuestSDX.cs" />
+    <Compile Include="SDX_Quests\Scripts\RewardReassignNPCSDX.cs" />
+    <Compile Include="SDX_SpawnFromEntityGroup\Scripts\EntityAliveEventSpawnerSDX.cs" />
     <Compile Include="SphereII_EntityHook\Harmony\Harmony.cs" />
-    <Compile Include="SphereII_WanderingTraders\Scripts\EntityWanderingTrader.cs" />
+    <Compile Include="SphereII_EntityPlayer\Scripts\EntityPlayerLocal.cs" />
+    <Compile Include="SphereII_EntityPlayer\Scripts\EntityPlayerSDX.cs" />
+    <Compile Include="SphereII_ModLocalization\Scripts\LocalizationBlock.cs" />
+    <Compile Include="SphereII_MusicBoxes\Scripts\MusicBox.cs" />
+    <Compile Include="SphereII_MusicBoxes\Scripts\MusicBoxScript.cs" />
+    <Compile Include="SphereII_TakeAndReplace\Scripts\PickUpAndReplace.cs" />
     <Compile Include="SphereII_UnlockHealthBar\Harmony\UnlockHealthBar.cs" />
+    <Compile Include="SphereII_WanderingTraders\Scripts\EntityWanderingTrader.cs" />
+    <Compile Include="SphereII_XPBarRemoval\Harmony\XPIconRemove.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AnimationSDX\Config\entityclasses.xml" />
     <Content Include="AnimationSDX\mod.xml" />
     <Content Include="AnimationSDX\ModInfo.xml" />
+    <Content Include="AntiNerdPole\Harmony\Harmony-Anti Nerd Poling.dll" />
+    <Content Include="AntiNerdPole\Harmony\Harmony-Anti Nerd Poling.pdb" />
     <Content Include="AntiNerdPole\mod.xml" />
     <Content Include="AntiNerdPole\ReadMe.txt" />
+    <Content Include="aXUi_Dialog\Config\dialogs.xml" />
+    <Content Include="aXUi_Dialog\Config\npc.xml" />
+    <Content Include="aXUi_Dialog\Config\quests.xml" />
+    <Content Include="aXUi_Dialog\Config\XUi\controls.xml" />
+    <Content Include="aXUi_Dialog\Config\XUi\styles.xml" />
+    <Content Include="aXUi_Dialog\Config\XUi\windows.xml" />
+    <Content Include="aXUi_Dialog\Config\XUi\xui.xml" />
+    <Content Include="aXUi_Dialog\ItemIcons\smx_bulletpoint_icon.png" />
+    <Content Include="aXUi_Dialog\mod.xml" />
+    <Content Include="aXUi_Dialog\ModInfo.xml" />
+    <Content Include="aXUi_Dialog\Textures\trader\smx_player_bg.png" />
+    <Content Include="aXUi_Dialog\Textures\trader\smx_trader_bg.png" />
+    <Content Include="Blooms_AnimalHusbandry\Config\blocks.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\buffs.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\dialogs.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\entityclasses.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\entitygroups.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\items.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\Localization.txt" />
+    <Content Include="Blooms_AnimalHusbandry\Config\npc.xml" />
+    <Content Include="Blooms_AnimalHusbandry\Config\quests.xml" />
+    <Content Include="Blooms_AnimalHusbandry\mod.xml" />
+    <Content Include="Blooms_AnimalHusbandry\ModInfo.xml" />
     <Content Include="ClearUI\Config\XUi\xui.xml" />
+    <Content Include="ClearUI\Harmony\Harmony-Clear UI.pdb" />
     <Content Include="ClearUI\mod.xml" />
     <Content Include="ClearUI\ReadMe.txt" />
+    <Content Include="SDX_Buffs\mod.xml" />
+    <Content Include="SDX_Dialog\mod.xml" />
+    <Content Include="SDX_Dialog\ModInfo.xml" />
+    <Content Include="SDX_EAITasks\mod.xml" />
+    <Content Include="SDX_EntityAliveSDX\mod.xml" />
+    <Content Include="SDX_EntityAliveSDX\ModInfo.xml" />
+    <Content Include="SDX_Quests\mod.xml" />
+    <Content Include="SDX_SpawnFromEntityGroup\mod.xml" />
     <Content Include="SphereII_EntityHook\Harmony\Harmony-SphereII_EntityHook.dll" />
     <Content Include="SphereII_EntityHook\Harmony\Harmony-SphereII_EntityHook.pdb" />
     <Content Include="SphereII_EntityHook\mod.xml" />
     <Content Include="SphereII_EntityHook\ModInfo.xml" />
+    <Content Include="SphereII_EntityPlayer\Config\entityclasses.xml" />
+    <Content Include="SphereII_EntityPlayer\mod.xml" />
+    <Content Include="SphereII_EntityPlayer\ModInfo.xml" />
+    <Content Include="SphereII_ModLocalization\Config\blocks.xml" />
+    <Content Include="SphereII_ModLocalization\mod.xml" />
+    <Content Include="SphereII_ModLocalization\ModInfo.xml" />
+    <Content Include="SphereII_ModLocalization\ReadMe.txt" />
+    <Content Include="SphereII_MusicBoxes\Config\blocks.xml" />
+    <Content Include="SphereII_MusicBoxes\Config\items.xml" />
+    <Content Include="SphereII_MusicBoxes\Config\Localization - Quest.txt" />
+    <Content Include="SphereII_MusicBoxes\Config\Localization.txt" />
+    <Content Include="SphereII_MusicBoxes\Config\loot.xml" />
+    <Content Include="SphereII_MusicBoxes\Config\quests.xml" />
+    <Content Include="SphereII_MusicBoxes\Config\sounds.xml" />
+    <Content Include="SphereII_MusicBoxes\ItemIcons\CD.png" />
+    <Content Include="SphereII_MusicBoxes\ItemIcons\DVD.png" />
+    <Content Include="SphereII_MusicBoxes\ItemIcons\VideoPlayer.png" />
+    <Content Include="SphereII_MusicBoxes\ItemIcons\xmasCarousel.png" />
+    <Content Include="SphereII_MusicBoxes\mod.xml" />
+    <Content Include="SphereII_MusicBoxes\ModInfo.xml" />
+    <Content Include="SphereII_TakeAndReplace\Config\blocks.xml" />
+    <Content Include="SphereII_TakeAndReplace\Config\Localization.txt" />
+    <Content Include="SphereII_TakeAndReplace\mod.xml" />
+    <Content Include="SphereII_TakeAndReplace\ModInfo.xml" />
     <Content Include="SphereII_UnlockHealthBar\Config\XUi\xui.xml" />
-    <Content Include="SphereII_WanderingTraders\Config\entityclasses.xml" />
-    <Content Include="SphereII_WanderingTraders\mod.xml" />
-    <Content Include="SphereII_WanderingTraders\ModInfo.xml" />
+    <Content Include="SphereII_UnlockHealthBar\Harmony\Harmony-SphereII_UnlockHealthBar.dll" />
+    <Content Include="SphereII_UnlockHealthBar\Harmony\Harmony-SphereII_UnlockHealthBar.pdb" />
     <Content Include="SphereII_UnlockHealthBar\mod.xml" />
     <Content Include="SphereII_UnlockHealthBar\ModInfo.xml" />
+    <Content Include="SphereII_WanderingTraders\Config\entityclasses.xml" />
+    <Content Include="SphereII_WanderingTraders\Harmony\Mods.dll" />
+    <Content Include="SphereII_WanderingTraders\mod.xml" />
+    <Content Include="SphereII_WanderingTraders\ModInfo.xml" />
+    <Content Include="SphereII_XPBarRemoval\mod.xml" />
+    <Content Include="SphereII_XPBarRemoval\ModInfo.xml" />
+    <Content Include="SyX_SecurityBots\Config\entityclasses.xml" />
+    <Content Include="SyX_SecurityBots\Config\entitygroups.xml" />
+    <Content Include="SyX_SecurityBots\Config\items.xml" />
+    <Content Include="SyX_SecurityBots\Config\sounds.xml" />
+    <Content Include="SyX_SecurityBots\mod.xml" />
+    <Content Include="SyX_SecurityBots\ModInfo.xml" />
+    <Content Include="Xyth_NPCs\Config\buffs.xml" />
+    <Content Include="Xyth_NPCs\Config\entityclasses.xml" />
+    <Content Include="Xyth_NPCs\Config\entitygroups.xml" />
+    <Content Include="Xyth_NPCs\Config\items.xml" />
+    <Content Include="Xyth_NPCs\Config\Localization.txt" />
+    <Content Include="Xyth_NPCs\Config\sounds.xml" />
+    <Content Include="Xyth_NPCs\mod.xml" />
+    <Content Include="Xyth_NPCs\ModInfo.xml" />
     <Content Include="Xyth_WanderingTraders\Config\entityclasses.xml" />
     <Content Include="Xyth_WanderingTraders\Config\entitygroups.xml" />
     <Content Include="Xyth_WanderingTraders\Config\items.xml" />
@@ -105,9 +235,44 @@
     <Content Include="Xyth_WanderingTraders\ModInfo.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AnimationSDX\Harmony\" />
+    <Folder Include="SDX_EAITasks\Config\" />
+    <Folder Include="SDX_Quests\Config\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="aXUi_Dialog\ReadMe.md" />
+    <None Include="Blooms_AnimalHusbandry\ReadMe.md" />
+    <None Include="Blooms_AnimalHusbandry\Resources\BloomsFarmAnimals.unity3d" />
+    <None Include="Blooms_AnimalHusbandry\Resources\Cows.unity3d" />
+    <None Include="Blooms_AnimalHusbandry\Resources\FarmAnimalController.unitypackage" />
+    <None Include="SDX_Buffs\README.md" />
+    <None Include="SDX_Dialog\ReadMe.md" />
+    <None Include="SDX_EAITasks\README.md" />
+    <None Include="SDX_EntityAliveSDX\ReadMe.md" />
+    <None Include="SDX_Quests\README.md" />
+    <None Include="SDX_SpawnFromEntityGroup\ReadMe.md" />
     <None Include="SphereII_EntityHook\ReadMe.md" />
-    <None Include="SphereII_WanderingTraders\ReadMe.md" />
+    <None Include="SphereII_EntityPlayer\ReadMe.md" />
+    <None Include="SphereII_MusicBoxes\README.md" />
+    <None Include="SphereII_MusicBoxes\Resources\ChristmasMusic.unity3d" />
+    <None Include="SphereII_MusicBoxes\Resources\MediaCases.unity3d" />
+    <None Include="SphereII_MusicBoxes\Resources\singing-bell-com.unity3d" />
+    <None Include="SphereII_MusicBoxes\Resources\VideoPlayers.unity3d" />
+    <None Include="SphereII_MusicBoxes\Resources\Videos.unity3d" />
+    <None Include="SphereII_MusicBoxes\Resources\XmasCarousel.unity3d" />
+    <None Include="SphereII_TakeAndReplace\README.md" />
     <None Include="SphereII_UnlockHealthBar\ReadMe.md" />
+    <None Include="SphereII_WanderingTraders\ReadMe.md" />
+    <None Include="SphereII_XPBarRemoval\ReadMe.md" />
+    <None Include="SyX_SecurityBots\ReadMe.md" />
+    <None Include="SyX_SecurityBots\Resources\DroneSounds.unity3d" />
+    <None Include="SyX_SecurityBots\Resources\MecBee.unity3d" />
+    <None Include="SyX_SecurityBots\Resources\Mechs.unity3d" />
+    <None Include="SyX_SecurityBots\Resources\RobotSounds.unity3d" />
+    <None Include="SyX_SecurityBots\Resources\Spheres.unity3d" />
+    <None Include="Xyth_NPCs\Resources\HarleySounds.unity3d" />
+    <None Include="Xyth_NPCs\Resources\NPCs.unity3d" />
+    <None Include="Xyth_NPCs\Resources\XythNPCAmmo.unity3d" />
     <None Include="Xyth_WanderingTraders\Resources\Traders.unity3d" />
     <None Include="Xyth_WanderingTraders\Resources\XythAmmo.unity3d" />
   </ItemGroup>

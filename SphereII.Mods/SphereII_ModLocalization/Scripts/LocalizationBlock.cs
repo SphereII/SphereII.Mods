@@ -113,10 +113,10 @@ class BlockLocalizationBlock : Block
         if (!string.IsNullOrEmpty(text))
         {
             string text2 = _prefix + text;
-            if (Localization.mDictionary.ContainsKey(text2))
-                Localization.mDictionary.Remove(text2);
+            if (Localization.Dictionary.ContainsKey(text2))
+                Localization.Dictionary.Remove(text2);
                 
-            Localization.mDictionary.Add(text2, array);
+            Localization.Dictionary.Add(text2, array);
         }
     
     }

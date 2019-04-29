@@ -1,0 +1,15 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>SphereII Entity Player</name>
+		<description>Mod that changes the default player</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+	
+	<dependencies>
+		<dependency>Hal's DLL Fixes</dependency>
+	</dependencies>
+</mod>

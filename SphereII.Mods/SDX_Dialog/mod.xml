@@ -1,0 +1,15 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>SDX_Dialog</name>
+		<description>Add new dialog class</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+	
+	<dependencies>
+		<dependency>Hal's DLL Fixes</dependency>
+	</dependencies>
+</mod>

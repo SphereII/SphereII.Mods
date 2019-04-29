@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<ModInfo>
+		<Name value="SDX_Dialog" />
+		<Description value="Add new Dialog Class" />
+		<Author value="sphereii" />
+		<Version value="1.0.0.0" />
+	</ModInfo>
+</xml>

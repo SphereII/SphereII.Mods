@@ -1,0 +1,83 @@
+﻿<configs>
+  <append xpath="/items">
+
+    <!-- hand item with the Action1 as  a jar, to deplete the water source -->
+    <item name="meleeHandFarmAnimal">
+      <property name="Extends" value="meleeHandMaster"/>
+      <property name="Tags" value="blunt,melee,light,fists,perkLivingOffTheLandCrops"/>
+      <property name="CreativeMode" value="None"/>
+      <property name="HoldType" value="0"/>
+      <property class="Action0">
+        <!-- from bone shiv-->
+        <property name="Class" value="DynamicMelee"/>
+        <property name="Damage_type" value="Slashing"/>
+        <property name="Sphere" value="0.1"/>
+        <property name="Sound_start" value="swoosh"/>
+        <property name="ToolCategory.harvestingTools" value=".5" param1="1"/>
+        <property name="ToolCategory.Butcher" value="0" param1="4"/>
+        <property name="Sound_harvesting" value="open_animal" param1="organic"/>
+      </property>
+      <property class="Action1">
+        <property name="Class" value="ExchangeItem"/>
+        <property name="Delay" value="2.0"/>
+        <property name="Change_item_to" value="drinkJarRiverWater"/>
+        <property name="Do_block_action" value="deplete3"/>
+        <property name="Focused_blockname_1" value="water"/>
+        <property name="Focused_blockname_2" value="waterMoving"/>
+        <property name="Focused_blockname_3" value="waterStaticBucket"/>
+        <property name="Focused_blockname_4" value="waterMovingBucket"/>
+        <property name="Focused_blockname_5" value="terrWaterPOI"/>
+        <property name="Sound_start" value="bucketfill_water"/>
+      </property>
+
+
+      <!-- Since the food value of the animal may not have a food data (like the hay bale) just make everything the same value to be added. -->
+      <effect_group name="Regular stamina change">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$foodAmountAdd" operation="add" value="20"/>
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" target="self" buff="buffProcessConsumables"/>
+
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="ModifyCVar" cvar="$waterAmountAdd" operation="add" value="20"/>
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="AddBuff" target="self" buff="buffProcessConsumables"/>
+
+      </effect_group>
+    </item>
+
+    <!-- Template Item to show possible side effects -->
+    <item name="drugGrowthHormone">
+      <property name="Extends" value="medicalBandage" param1="DescriptionKey"/>
+      <property name="Group" value="Science"/>
+      <property name="EconomicValue" value="200"/>
+      <property name="CraftingSkillGroup" value="craftSkillScience"/>
+      <property name="Stacknumber" value="5"/>
+
+      <property class="Action1">
+        <property name="Class" value="UseOther"/>
+        <property name="Delay" value="1.0"/>
+        <property name="Use_time" value="..."/>
+        <property name="Sound_start" value="player_bandage"/>
+      </property>
+      
+      
+      <effect_group name="Applied to a baby.. you monster!">
+         <requirement name="HasBuff" target="other" buff="buffAnimalBaby"/>
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="RemoveBuff" target="other" buff="buffAnimalBaby" />
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="AddBuff" target="other" buff="buffAnimalJuvenile" />
+      </effect_group>
+
+      <effect_group name="Applied to a juvenile">
+        <requirement name="HasBuff" target="other" buff="buffAnimalJuvenile"/>
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="RemoveBuff" target="other" buff="buffAnimalJuvenile" />
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="AddBuff" target="other" buff="buffAnimalAdult" />
+      </effect_group>
+
+      <effect_group name="Applied to an adult">
+        <requirement name="HasBuff" target="other" buff="buffAnimalAdult"/>
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="RemoveBuff" target="other" buff="buffAnimalAdult" />
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="RemoveBuff" target="other" buff="buffAnimalPregnant" />
+        <triggered_effect trigger="onSelfSecondaryActionEnd" action="AddBuff" target="other" buff="buffAnimalSenior" />
+      </effect_group>
+
+    </item>
+
+  </append>
+</configs>

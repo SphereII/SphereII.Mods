@@ -17,6 +17,7 @@ public class SphereII_NerdPoll : IHarmony
     // Returns true for the default PlaceBlock code to execute. If it returns false, it won't execute it at all.
     static bool Prefix(EntityAlive _ea)
     {
+        Debug.Log("Prefix PlaceBox");
         EntityPlayerLocal player = _ea as EntityPlayerLocal;
         if(player == null)
             return true;

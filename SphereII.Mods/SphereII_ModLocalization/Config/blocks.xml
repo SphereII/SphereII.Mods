@@ -1,7 +1,7 @@
 <configs>
   <append xpath="/blocks">
     <!-- this is  a fake block which will trigger the localization -->
-    <block name="localiztionBlock" >
+    <block name="SphereIILocalizationBlock" >
       <property name="Extends" value="terrSnow" />
       <property name="CreativeMode" value="Dev"/>
       <property name="Class" value="LocalizationBlock, Mods"/>

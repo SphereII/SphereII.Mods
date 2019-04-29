@@ -1,0 +1,14 @@
+<mod>
+	<info>
+		<author>Xyth</author>
+		<name>Xyth NPCs</name>
+		<description>Xyth NPC Mod</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17.0</game_version>
+		<launcher_version>0.7.3</launcher_version>
+	</info>
+	<dependencies>
+		<dependency>Hal's DLL Fixes</dependency>
+		<dependency>AnimationSDX</dependency>
+	</dependencies>
+</mod>

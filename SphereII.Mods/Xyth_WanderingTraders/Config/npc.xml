@@ -30,16 +30,6 @@
 			greeting_type="nearby"
 			stance="Neutral" voice_set="trader"
 			trader_id="8" dialog_id="trader" 
-			quest_list="trader_quests" />	
-		<npc_info
-			id="traderfood"
-			name="Food Trader"
-			name_key="npcTraderFood"
-			faction="whiteriver"
-			portrait="npc_joel"
-			greeting_type="nearby"
-			stance="Neutral" voice_set="trader"
-			trader_id="9" dialog_id="trader" 
 			quest_list="trader_quests" />			
 	</insertAfter>		
 </configs>

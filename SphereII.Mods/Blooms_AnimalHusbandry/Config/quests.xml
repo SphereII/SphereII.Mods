@@ -1,0 +1,76 @@
+﻿<configs>
+  <append xpath="/quests">
+
+    <!-- Sample of a quest chain that can be given to a cow to control its pregnancy -->
+    <quest id="farmingAnimal_Cow_Pregnancy">
+      <property name="name_key" value="farmingAnimal_Cow_Pregnancy" />
+      <property name="subtitle_key" value="farmingAnimal_Cow_Pregnancy" />
+      <property name="description_key" value="farmingAnimal_Cow_Pregnancy" />
+      <property name="icon" value="ui_game_symbol_zombie" />
+      <property name="repeatable" value="true" />
+      <property name="category_key" value="challenge" />
+      <property name="offer_key" value="farmingAnimal_Cow_Pregnancy" />
+      <property name="difficulty" value="veryeasy" />
+
+      <!-- Before progressing, make sure the Animal has the buffAnimalAdult buff -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="1" />
+        <property name="buff" value="buffAnimalAdult" />
+      </objective>
+
+      <!-- Before progressing, make sure the animal has a buffAnimalPregnant buff -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="2" />
+        <property name="buff" value="buffAnimalPrgenant" />
+      </objective>
+
+      <!-- Before progressing, make sure the animal has a buffAnimalNewMother buff -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="3" />
+        <property name="buff" value="buffAnimalNewMother" />
+      </objective>
+
+      <!-- This will spawn in an animlFarmCow entity during Phase 3 -->
+      <!--action type="SpawnEntitySDX, Mods" id="animalFarmCow" value="1" phase="3" /-->
+
+      <!-- Once the entity is spawned, give back the same quest, and give it a casino coin for a good job. -->
+      <reward type="QuestSDX, Mods" id="farmingAnimal_Cow_Pregnancy" />
+      <reward type="ItemSDX, Mods" id="casinoCoin" value="1" />
+
+    </quest>
+
+    <!-- Another example quest line based on certain buffs being available to progress. -->
+    <quest id="farmingAnimal_InfectionTurn">
+      <property name="name_key" value="farmingAnimal_InfectionTurn" />
+      <property name="subtitle_key" value="farmingAnimal_Cow_Pregnancy" />
+      <property name="description_key" value="farmingAnimal_InfectionTurn" />
+      <property name="icon" value="ui_game_symbol_zombie" />
+      <property name="repeatable" value="true" />
+      <property name="category_key" value="challenge" />
+      <property name="offer_key" value="farmingAnimal_InfectionTurn" />
+      <property name="difficulty" value="veryeasy" />
+
+      <!-- Before progressing, make sure the Animal is infected -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="1" />
+        <property name="buff" value="buffInfectedAnimal1" />
+      </objective>
+
+      <!-- Before progressing, make sure the Animal is infected with level 2 -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="2" />
+        <property name="buff" value="buffInfectedAnimal2" />
+      </objective>
+
+      <!-- Before progressing, make sure the Animal is infected with level 3 -->
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="3" />
+        <property name="buff" value="buffInfectedAnimal3" />
+      </objective>
+
+      <!-- This will spawn in an animlFarmCow entity during Phase 3 -->
+      <action type="ReplaceEntitySDX, Mods" id="zombieFarmCow" value="1" phase="4" />
+    </quest>
+
+  </append>
+</configs>

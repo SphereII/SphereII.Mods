@@ -1,0 +1,62 @@
+﻿<configs>
+
+  <append xpath="/items">
+    
+    <!-- Audio CD examples. It references a SoundDataNode in sounds.xml -->
+		<item name="audioCD00">
+		  <property name="Extends" value="casinoCoin"/>
+		  <property name="Meshfile" value="#@modfolder:Resources/MediaCases.unity3d?CDCase00_X" /> 
+		  <property name="HandMeshfile" value="#@modfolder:Resources/MediaCases.unity3d?CDCase00_X"/>
+		  <property name="HoldType" value="21"/> 
+		  <property name="CustomIcon" value="CD" />
+		  <property name="Material" value="Mplastics"/>
+		  <property name="Stacknumber" value="1"/>
+		  <property name="SoundDataNode" value="christmasmusic01" />
+		</item>
+		<item name="audioCD01">
+		  <property name="Extends" value="casinoCoin"/>
+		  <property name="Meshfile" value="#@modfolder:Resources/MediaCases.unity3d?xmascd" /> 
+		  <property name="HandMeshfile" value="#@modfolder:Resources/MediaCases.unity3d?xmascd"/> 
+		  <property name="HoldType" value="21"/> 
+		  <property name="CustomIcon" value="CD" />
+		  <property name="Material" value="Mplastics"/>
+		  <property name="Stacknumber" value="1"/>
+      <!-- Sound Data node is tied to the Carousol -->
+		  <property name="SoundDataNode" value="christmasmusic02" />
+		</item>
+
+		<!-- DVD examples. The VideoSource references an mp4 file in an asset bundle-->
+		<item name="dvd01">
+		  <property name="Extends" value="casinoCoin"/>
+		  <property name="Meshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase01_X" /> 
+		  <property name="HandMeshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase01_X"/> 
+		  <property name="HoldType" value="21"/> 
+		  <property name="CustomIcon" value="DVD" />
+		  <property name="Material" value="Mplastics"/>
+		  <property name="Stacknumber" value="1"/>
+		  <!-- In the MyVideos.unity3d bundle, it expects  Sample320.mp4 -->
+		  <property name="VideoSource" value="#@modfolder:Resources/Videos.unity3d?spunky" />
+		</item>
+
+		<item name="dvd02">
+		  <property name="Extends" value="casinoCoin"/>
+		  <property name="Meshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase02_X" /> 
+		  <property name="HandMeshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase02_X"/> 
+		  <property name="HoldType" value="21"/> 
+		  <property name="CustomIcon" value="DVD" />
+		  <property name="Material" value="Mplastics"/>
+		  <property name="Stacknumber" value="1"/>
+		  <property name="VideoSource" value="#@modfolder:Resources/Videos.unity3d?zantaclaws" />
+		</item>
+ 		<item name="dvd03">
+		  <property name="Extends" value="casinoCoin"/>
+		  <property name="Meshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase03_X" /> 
+		  <property name="HandMeshfile" value="#@modfolder:Resources/MediaCases.unity3d?DVDCase03_X"/> 
+		  <property name="HoldType" value="21"/> 
+		  <property name="CustomIcon" value="DVD" />
+		  <property name="Material" value="Mplastics"/>
+		  <property name="Stacknumber" value="1"/>
+		  <property name="VideoSource" value="#@modfolder:Resources/Videos.unity3d?zombie" />
+		</item> 
+	</append>
+</configs>

@@ -1,0 +1,27 @@
+<configs>
+	<!-- 	
+		<append xpath="/buffs">	
+			<buff id="plasmaImpact" stack="extend" duration="1" type="Drowning" actions="attach(ParticleEffects/p_electric_shock, @impact);damage(100,1,0,0)" castsound="electric_fence_impact" onexpired="plasmaEffect" name_key="plasmaImpact">
+				<modify id="0" stat="speedmodifier" mulValue="0.5" />
+			</buff>
+			<buff id="plasmaEffect" stack="discard" duration="10" type="speedmodifier" actions="attach(ParticleEffects/p_electric_shock, @impact);damage(5,1,0,0)" icon="ui_game_symbol_electric_shock" name_key="plasmaEffect" description_key="You suffered a huge energy impact">
+				<modify id="0" stat="speedmodifier" mulValue="0.5" />
+			</buff>
+			<buff id="banditBonus" mutex="isPlayer" duration="2" stack="extend">
+				<modify id="0" stat="health" amount="-150" rate="1" />
+			</buff>
+			<buff id="fireballImpact" stack="extend" duration=".5" type="Drowning" actions="attach(#@modfolder:Resources/FireballParticles.unity3d?Fireball02Particle, @impact);damage(10,1,0,0)" 		 onexpired="burningSmall" name_key="fireballImpact">
+				<modify id="0" stat="speedmodifier" mulValue="0.5" />
+			</buff>
+			<buff id="droneShock" duration="1.5" stack="discard" debuffif="ShockAmount equals 0" buffif="ShockAmount greater 0"
+				actions="attach(ParticleEffects/p_electric_shock, @impact)" castsound="electric_fence_impact"
+				icon="ui_game_symbol_electric_power" name_key="shockedBuffName" description_key="shockedBuffDesc" tooltip_key="shockedBuffTooltip">
+				<modify id="0" stat="health" amount="-3" rate="0.5"/>
+				<modify id="1" stat="speedmodifier" mulValue="0.5" duration="3.2"/>
+			</buff>
+			<buff id="HarleyRegen" duration="15" type="healthup" ffcheck="true" actions="attach(#@modfolder:Resources/effects.unity3d?Fog, Graphics, 15)" icon="ui_game_symbol_regen" name_key="HarleyRegen" description_key="electricalShockDesc">
+				<modify id="1" stat="health" amount="30" rate="1" />
+			</buff>
+		</append>	
+		-->
+</configs>

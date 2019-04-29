@@ -1,0 +1,117 @@
+﻿<configs>
+    <!-- This is our weak block that we can pull of doors and windows. It uses wood_weak instead of wood_regular, so things don't get too op to quickly.-->
+    <insertBefore xpath="//blocks/block[@name='water']" >
+      <block name="boardedWindowsSheet_weak">
+        <property name="CustomIcon" value="boardedWindowsSheet4" />
+        <property name="Material" value="Mwood_weak" />
+        <property name="LightOpacity" value="5"/>
+        <property name="Shape" value="New"/>
+        <property name="Texture" value="241"/>
+        <property name="Model" value="window_boarded"/>
+        <property name="Place" value="TowardsPlacerInverted"/>
+        <property name="UseGlobalUV" value="Local"/>
+        <property name="Place" value="TowardsPlacerInverted"/>
+        <property name="ImposterExchange" value="imposterSheet" param1="16"/>
+        <property name="Tag" value="Window"/>
+        <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+        <property name="FuelValue" value="150"/>
+        <drop event="Destroy" count="0"/>
+        <property name="FilterTags" value="fdecor,fwindows"/>
+        <property name="SortOrder1" value="7080"/>
+        <property name="Class" value="TakeAndReplace, Mods"/>
+        <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+        <property name="TakeDelay" value="15" />
+      </block>
+    </insertBefore>
+
+    <!-- For boarded doors and windows, we want to use the special class. The Can Pick up attribute will put that block in our inventory, -->
+    <!-- and use the DowngradeBlock value as a replacement, copying the block's position -->
+    <append xpath="/blocks/block[@name='doorFrameWhiteBoarded1']">
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <append xpath="/blocks/block[@name='doorFrameWhiteBoarded2']">
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+
+    </append>
+    <append xpath="/blocks/block[@name='doorFrameMetalBoarded1']">
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+
+    </append>
+    <append xpath="/blocks/block[@name='doorFrameMetalBoarded2']">
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <!-- Let's pull off the boarded windows too, but use weak item instead.-->
+    <append xpath="//block[@name='boardedWindowsSheet4']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <!-- Sometimes the fences are used as barrier.-->
+    <append xpath="//block[@name='woodFenceFarmSheet']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <!-- append xpath="/blocks/block[@name ='cntShippingCrateHero']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append -->
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateLabEquipment']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateShamway']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateBookstore']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateCarParts']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateConstructionSupplies']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateShotgunMessiah']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+    <append xpath="/blocks/block[@name ='cntShippingCrateWorkingStiffs']" >
+      <property name="Class" value="TakeAndReplace, Mods"/>
+      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
+      <property name="TakeDelay" value="15" />
+    </append>
+
+</configs>

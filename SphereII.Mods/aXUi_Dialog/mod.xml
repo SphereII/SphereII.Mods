@@ -1,0 +1,15 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>aXUi_Dialog</name>
+		<description>Add new dialog windows for NPCs. Early loading for over-ride</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+	
+	<dependencies>
+		<dependency>SDX_Dialog</dependency>
+	</dependencies>
+</mod>

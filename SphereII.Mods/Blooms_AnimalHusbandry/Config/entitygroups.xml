@@ -1,0 +1,29 @@
+﻿<configs>
+  <append xpath="/entitygroups">
+    <entitygroup name="farmAnimalsCow">
+      <entity name="animalFarmCow" />
+      <entity name="animalFarmCowMale" prob="0.3"/>
+    </entitygroup>
+
+    <entitygroup name="farmAnimalsChicken">
+      <entity name="animalFarmChickenFemale" />
+      <entity name="animalFarmChickenFemale2" />
+      <entity name="animalFarmChickenMale" prob="0.3"/>
+    </entitygroup>
+
+    <entitygroup name="farmAnimalsGoats">
+      <entity name="animalFarmGoatFemale" />
+      <entity name="animalFarmGoatMale" prob="0.3"/>
+    </entitygroup>
+
+    <entitygroup name="farmAnimalsPigs">
+      <entity name="animalFarmPigFemale" />
+      <entity name="animalFarmPigMale" prob="0.3"/>
+    </entitygroup>
+  </append>
+
+  <append xpath="/entitygroups/entitygroup[@name='AnimalsFarm']">
+    <entity name="animalFarmCow" />
+    <entity name="animalFarmCowMale" prob="0.3"/>
+  </append>
+</configs>
