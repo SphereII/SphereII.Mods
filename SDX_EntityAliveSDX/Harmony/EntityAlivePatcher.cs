@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-public class Sphere__EntityAlivePatcher
+public class SphereII__EntityAlivePatcher
 {
     public class SphereII_EntityAlivePatch : IHarmony
     {

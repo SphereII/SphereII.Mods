@@ -92,16 +92,6 @@ public class EntityAliveSDX : EntityNPC
         return result;
     }
 
-    // Source Entity is me
-    public override bool CanDamageEntity(int _sourceEntityId)
-    {
-        Debug.Log(" Source Entity ID: " + _sourceEntityId);
-        if(IsInParty(_sourceEntityId))
-            return false;
-
-        return true;
-    }
-
     public float GetFloatValue(String strProperty)
     {
         float result = 0f;
