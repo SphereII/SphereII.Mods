@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-	<ModInfo>
-		<Name value="AnimationSDX" />
-		<Description value="SDX Animation Class for Legacy and Mecanim animations." />
-		<Author value="sphereii" />
-		<Version value="3.0" />
-	</ModInfo>
+  <ModInfo>
+    <Name value="AnimationSDX" />
+    <Description value="SDX Animation Class for Legacy and Mecanim animations." />
+    <Author value="sphereii" />
+    <Version value="3.0.0.2" />
+  </ModInfo>
 </xml>

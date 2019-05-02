@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-	<ModInfo>
-		<Name value="aXUI_Dialog" />
-		<Description value="Add new dialog windows for NPCs. Early loading for over-ride" />
-		<Author value="sphereii" />
-		<Version value="1.0.0.0" />
-	</ModInfo>
+  <ModInfo>
+    <Name value="aXUI_Dialog" />
+    <Description value="Add new dialog windows for NPCs. Early loading for over-ride" />
+    <Author value="sphereii" />
+    <Version value="1.0.0.0" />
+  </ModInfo>
 </xml>

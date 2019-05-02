@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-	<ModInfo>
-		<Name value="SphereII Mod Localization Hook" />
-		<Description value="A modlet that will read ModLocalization.txt and ModLocalization - Quests.txt, and merge into the main localization at run time." />
-		<Author value="sphereii" />
-		<Version value="1.0.0.0" />
-		<Website value="" />
-	</ModInfo>
+  <ModInfo>
+    <Name value="SphereII Mod Localization Hook" />
+    <Description value="A modlet that will read ModLocalization.txt and ModLocalization - Quests.txt, and merge into the main localization at run time." />
+    <Author value="sphereii" />
+    <Version value="1.0.0.0" />
+    <Website value="" />
+  </ModInfo>
 </xml>

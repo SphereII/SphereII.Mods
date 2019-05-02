@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-	<ModInfo>
-		<Name value="SphereII Music Boxes" />
-		<Description value="A simple modlet that can play music from asset bundles" />
-		<Author value="sphereii" />
-		<Version value="1.0.0.0" />
-		<Website value="" />
-	</ModInfo>
+  <ModInfo>
+    <Name value="SphereII Music Boxes" />
+    <Description value="A simple modlet that can play music from asset bundles" />
+    <Author value="sphereii" />
+    <Version value="1.0.0.0" />
+    <Website value="" />
+  </ModInfo>
 </xml>

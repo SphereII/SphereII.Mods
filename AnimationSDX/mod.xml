@@ -1,11 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <mod>
-	<info>
-		<author>sphereii</author>
-		<name>AnimationSDX</name>
-		<description>Allow custom entities to have Animations, originally from HAL9000</description>
-		<mod_version>3.0</mod_version>
-		<game_version>18</game_version>
-		<launcher_version>0.5.5</launcher_version>
-	</info>
-	
+  <info>
+    <author>sphereii</author>
+    <name>AnimationSDX</name>
+    <description>Allow custom entities to have Animations, originally from HAL9000</description>
+    <mod_version>3.0.0.2</mod_version>
+    <game_version>18</game_version>
+    <launcher_version>0.5.5</launcher_version>
+  </info>
 </mod>
