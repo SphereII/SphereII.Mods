@@ -16,16 +16,8 @@ public class ClearUI
         }
     }
 
-    // Remove the cross hair
-    [HarmonyPatch(typeof(EntityPlayerLocal))]
-    [HarmonyPatch("guiDrawCrosshair")]
-    public class SphereII_ClearUI_EntityPlayerLocal
-    {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
+   
+
     // Sneak Damage pop up
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("NotifySneakDamage")]

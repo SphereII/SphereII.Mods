@@ -1,0 +1,23 @@
+<configs>
+
+<!--	// Roland's Clean UI // Compass Styles -->
+
+		<remove xpath="/styles/style[@name='compass.window']" />
+
+        <append xpath="/styles">
+            <style name="compass.window" type="window">
+                <style_entry name="pos" value="-190,-9" />
+                <style_entry name="size" value="380,43" />
+            </style>
+
+            <style name="compass.window.bar" type="texture">
+                <style_entry name="depth" value="12" />
+                <style_entry name="pos" value="40,-7" />
+                <style_entry name="size" value="300,23" />
+                <style_entry name="texture" value="@modfolder:Textures/roland_compass_letters.png" />
+                <style_entry name="color" value="[iconColor]" />
+                <style_entry name="tooltip" value="CHARACTER" />
+            </style>
+		</append>
+
+</configs>

@@ -35,13 +35,13 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+      <HintPath>C:\7D2D\Alpha17\the_fun_pimps\latest_stable\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="DMT">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\DMT.dll</HintPath>
+      <HintPath>C:\7D2D\Alpha17\the_fun_pimps\latest_stable\7DaysToDie_Data\Managed\DMT.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -70,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSDX\Scripts\MecanimSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionPlayerLevelSDX.cs" />
+    <Compile Include="SphereII_ModLoader\Harmony\ModLoader.cs" />
+    <Compile Include="SphereII_ZeroExp\Harmony\Progression.cs" />
     <Compile Include="AntiNerdPole\Harmony\PlaceBlock.cs" />
     <Compile Include="ClearUI\Harmony\ClearUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,8 +136,18 @@
     <Content Include="AnimationSDX\Config\entityclasses.xml" />
     <Content Include="AnimationSDX\mod.xml" />
     <Content Include="AnimationSDX\ModInfo.xml" />
+    <Content Include="RCUI\Config\XUi\styles.xml" />
+    <Content Include="RCUI\Config\XUi\windows.xml" />
+    <Content Include="RCUI\Config\XUi\xui.xml" />
+    <Content Include="RCUI\mod.xml" />
+    <Content Include="RCUI\ModInfo.xml" />
+    <Content Include="RCUI\Textures\roland_compass_letters.png" />
+    <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.dll" />
+    <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.pdb" />
+    <Content Include="SphereII_ModLoader\mod.xml" />
+    <Content Include="SphereII_ZeroExp\mod.xml" />
+    <Content Include="SphereII_ZeroExp\ReadMe.txt" />
     <Content Include="AntiNerdPole\Harmony\Harmony-Anti Nerd Poling.dll" />
-    <Content Include="AntiNerdPole\Harmony\Harmony-Anti Nerd Poling.pdb" />
     <Content Include="AntiNerdPole\mod.xml" />
     <Content Include="AntiNerdPole\ReadMe.txt" />
     <Content Include="aXUi_Dialog\Config\dialogs.xml" />

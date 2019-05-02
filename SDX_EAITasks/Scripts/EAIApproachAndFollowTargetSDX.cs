@@ -16,7 +16,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     public EntityAliveSDX entityAliveSDX;
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
@@ -64,6 +64,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 return false;
             }
         }
+
+        DisplayLog(" ConfigureTargetEntity()");
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(30f, 20f, 30f));
         this.theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, this.NearbyEntities);
@@ -76,6 +78,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 // Check the entity against the incentives
                 if (entityAliveSDX.CheckIncentive(this.lstIncentives, x))
                 {
+                    DisplayLog(" Found my Target: " + x.EntityName);
                     this.entityTarget = x;
                     return true;
                 }
@@ -101,18 +104,14 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 DisplayLog(" CanExecute() Set Patrol Point? " + result);
             }
         }
-        if (!this.theEntity.Buffs.HasCustomVar("Leader"))
-        {
-            DisplayLog("CanExecute() No Leader");
-            result = false;
-        }
+    
         // Change the distance allowed each time. This will give it more of a variety in how close it can get to you.
         distanceToEntity = UnityEngine.Random.Range(2f, 5.0f);
 
         // If there is an entity in bounds, then let this AI Task roceed. Otherwise, don't do anything with it.
+        result = ConfigureTargetEntity();
         if (result)
         {
-            result = ConfigureTargetEntity();
             DisplayLog("CanExecute() Configure Target Result: " + result);
         }
 
@@ -156,14 +155,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         if (pathCounter == 0) // briefly pause if you are at the end of the path to let other tasks run
             result = false;
 
-        if (this.theEntity.Buffs.HasCustomVar("Leader"))
-            if ((int)this.theEntity.Buffs.GetCustomVar("Leader") == 0)
-                result = false;
-            else
-                result = false;
-
-        if (result)
-            result = ConfigureTargetEntity();
+        result = ConfigureTargetEntity();
 
         DisplayLog("Continue() End: " + result);
         return result;

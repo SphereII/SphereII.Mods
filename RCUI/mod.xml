@@ -1,0 +1,14 @@
+<mod>
+	<info>
+		<!-- Information about the Mod, the author and version information -->
+		<!-- These are displayed in the SDX Launcher -->
+		<author>Sirillion</author>
+		<name>Roland's Clean UI</name>
+		<description>Roland's Clean UI</description>
+		<mod_version>1.0.0.0</mod_version>
+		<game_version>17.2</game_version>
+		<launcher_version>0.0.0</launcher_version>
+	</info>
+	
+
+</mod>

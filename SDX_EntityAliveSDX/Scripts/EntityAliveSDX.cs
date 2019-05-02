@@ -68,7 +68,7 @@ public class EntityAliveSDX : EntityNPC
         bool result = false;
         foreach (String strIncentive in lstIncentives)
         {
-            //  DisplayLog(" Checking Incentive: " + strIncentive);
+            DisplayLog(" Checking Incentive: " + strIncentive);
             // Check if the entity that is looking at us has the right buff for us to follow.
             if (this.Buffs.HasBuff(strIncentive))
                 result = true;
@@ -82,7 +82,7 @@ public class EntityAliveSDX : EntityNPC
             }
 
             // Then we check if the control mechanism is an item being held.
-            if (inventory.holdingItem.Name == strIncentive)
+            if (entity.inventory.holdingItem.Name == strIncentive)
                 result = true;
 
             // if we are true here, it means we found a match to our entity.
@@ -645,54 +645,54 @@ public class EntityAliveSDX : EntityNPC
         DisplayLog(ToString());
     }
 
-    //public override string ToString()
-    //{
-    //    String FoodAmount = ((float)Mathf.RoundToInt(this.Stats.Stamina.ModifiedMax + this.Stats.Entity.Buffs.GetCustomVar("foodAmount"))).ToString();
-    //    String WaterAmount = ((float)Mathf.RoundToInt(this.Stats.Water.Value + this.Stats.Entity.Buffs.GetCustomVar("waterAmount"))).ToString();
-    //    String strSanitation = "Disabled.";
-    //    if (this.Buffs.HasCustomVar("solidWasteAmount"))
-    //        strSanitation = this.Buffs.GetCustomVar("solidWasteAmount").ToString();
+    public override string ToString()
+    {
+        String FoodAmount = ((float)Mathf.RoundToInt(this.Stats.Stamina.ModifiedMax + this.Stats.Entity.Buffs.GetCustomVar("foodAmount"))).ToString();
+        String WaterAmount = ((float)Mathf.RoundToInt(this.Stats.Water.Value + this.Stats.Entity.Buffs.GetCustomVar("waterAmount"))).ToString();
+        String strSanitation = "Disabled.";
+        if (this.Buffs.HasCustomVar("solidWasteAmount"))
+            strSanitation = this.Buffs.GetCustomVar("solidWasteAmount").ToString();
 
-    //    string strOutput = this.strMyName + " The " + this.entityName + " - ID: " + this.entityId + " Health: " + this.Stats.Health.Value;
-    //    strOutput += " Stamina: " + this.Stats.Stamina.Value + " Thirst: " + this.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
-    //    strOutput += " Sanitation: " + strSanitation;
+        string strOutput = this.strMyName + " The " + this.entityName + " - ID: " + this.entityId + " Health: " + this.Stats.Health.Value;
+        strOutput += " Stamina: " + this.Stats.Stamina.Value + " Thirst: " + this.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
+        strOutput += " Sanitation: " + strSanitation;
 
-    //    // Read the Food items configured.
-    //    String strFoodItems = this.GetStringValue("FoodItems");
-    //    if (strFoodItems == String.Empty)
-    //        strFoodItems = "All Food Items";
-    //    strOutput += "\n Food Items: " + strFoodItems;
+        // Read the Food items configured.
+        String strFoodItems = this.GetStringValue("FoodItems");
+        if (strFoodItems == String.Empty)
+            strFoodItems = "All Food Items";
+        strOutput += "\n Food Items: " + strFoodItems;
 
-    //    // Read the Water Items
-    //    String strWaterItems = this.GetStringValue("WaterItems");
-    //    if (strWaterItems == String.Empty)
-    //        strWaterItems = "All Water Items";
-    //    strOutput += "\n Water Items: " + strWaterItems;
+        // Read the Water Items
+        String strWaterItems = this.GetStringValue("WaterItems");
+        if (strWaterItems == String.Empty)
+            strWaterItems = "All Water Items";
+        strOutput += "\n Water Items: " + strWaterItems;
 
-    //    strOutput += "\n Food Bins: " + this.GetStringValue("FoodBins");
-    //    strOutput += "\n Water Bins: " + this.GetStringValue("WaterBins");
+        strOutput += "\n Food Bins: " + this.GetStringValue("FoodBins");
+        strOutput += "\n Water Bins: " + this.GetStringValue("WaterBins");
 
-    //    if (this.Buffs.HasCustomVar("CurrentOrder"))
-    //        strOutput += "\n Current Order: " + (Orders)(int)this.Buffs.GetCustomVar("CurrentOrder");
+        if (this.Buffs.HasCustomVar("CurrentOrder"))
+            strOutput += "\n Current Order: " + (Orders)(int)this.Buffs.GetCustomVar("CurrentOrder");
 
-    //    if (this.Buffs.HasCustomVar("Leader"))
-    //        strOutput += "\n Current Leader: " + (Orders)(int)this.Buffs.GetCustomVar("Leader");
+        if (this.Buffs.HasCustomVar("Leader"))
+            strOutput += "\n Current Leader: " + (Orders)(int)this.Buffs.GetCustomVar("Leader");
 
-    //    strOutput += "\n Active Buffs: ";
-    //    foreach (BuffValue buff in this.Buffs.ActiveBuffs)
-    //        strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " + buff.DurationInTicks + " )";
+        strOutput += "\n Active Buffs: ";
+        foreach (BuffValue buff in this.Buffs.ActiveBuffs)
+            strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " + buff.DurationInTicks + " )";
 
-    //    strOutput += "\n Active Quests: ";
-    //    foreach (Quest quest in this.QuestJournal.quests)
-    //        strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " + quest.CurrentPhase;
+        strOutput += "\n Active Quests: ";
+        foreach (Quest quest in this.QuestJournal.quests)
+            strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " + quest.CurrentPhase;
 
-    //    strOutput += "\n Patrol Points: ";
-    //    foreach (Vector3 vec in this.PatrolCoordinates)
-    //        strOutput += "\n\t" + vec.ToString();
+        strOutput += "\n Patrol Points: ";
+        foreach (Vector3 vec in this.PatrolCoordinates)
+            strOutput += "\n\t" + vec.ToString();
 
-    //    strOutput += "\n\nCurrency: " + this.HireCurrency + " Faction: " + this.factionId;
-    //    return strOutput;
-    //}
+        strOutput += "\n\nCurrency: " + this.HireCurrency + " Faction: " + this.factionId;
+        return strOutput;
+    }
 
     public void GiveQuest(String strQuest)
     {
