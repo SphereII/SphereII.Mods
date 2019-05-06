@@ -16,6 +16,8 @@ class EAIPatrolSDX : EAIApproachSpot
     // Controls the delay in between movements.
     private float PatrolSpeed = 2f;
 
+
+    private int taskTimeOut = 0;
     private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
@@ -100,8 +102,14 @@ class EAIPatrolSDX : EAIApproachSpot
 
     public override bool Continue()
     {
-        // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
-        bool result = false;
+
+        if(++this.taskTimeOut > 40)
+        {
+            this.taskTimeOut = 0;
+            return false;
+        }
+            // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
+            bool result = false;
         if (entityAliveSDX)
             result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.Patrol);
 

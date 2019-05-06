@@ -38,7 +38,8 @@ public class SphereII_ModLoader: IHarmony
                     try
                     {
                         Debug.Log(" Loading DLL: " + text);
-                        Assembly asm = Assembly.LoadFrom(text);
+                        //var asm = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(text));
+                       Assembly asm = Assembly.LoadFrom(text);
                         Debug.Log(" Asm: " + asm.ToString());
                         foreach(var r in asm.GetExportedTypes())
                         {

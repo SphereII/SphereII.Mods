@@ -268,14 +268,15 @@ class EAIMaslowLevel1SDX : EAIApproachSpot
         if (++this.investigateTicks > 40)
         {
             this.investigateTicks = 0;
-            if (!this.theEntity.HasInvestigatePosition)
-                return false; // no invesitgative position
+            return false;
+            //if (!this.theEntity.HasInvestigatePosition)
+            //    return false; // no invesitgative position
 
-            float sqrMagnitude = (this.investigatePos - this.theEntity.InvestigatePosition).sqrMagnitude;
-            if (sqrMagnitude >= 4f)
-            {
-                return false; // not close enough.
-            }
+            //float sqrMagnitude = (this.investigatePos - this.theEntity.InvestigatePosition).sqrMagnitude;
+            //if (sqrMagnitude >= 4f)
+            //{
+            //    return false; // not close enough.
+            //}
         }
 
         float sqrMagnitude2 = (this.seekPos - this.theEntity.position).sqrMagnitude;

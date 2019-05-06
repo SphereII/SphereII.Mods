@@ -16,8 +16,6 @@ public class ClearUI
         }
     }
 
-   
-
     // Sneak Damage pop up
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("NotifySneakDamage")]

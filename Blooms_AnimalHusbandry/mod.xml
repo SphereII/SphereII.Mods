@@ -3,12 +3,11 @@
 		<author>sphereii</author>
 		<name>Bloom's Animal Husbandry</name>
 		<description>Bloom's Animal Husbandry Kit (SDX Mod)</description>
-		<mod_version>1.0</mod_version>
+		<mod_version>1.0.0.0</mod_version>
 		<game_version>17</game_version>
 		<launcher_version></launcher_version>
 	</info>
-	
-	
+
 	<dependencies>
 		<dependency>Hal's DLL Fixes</dependency>
     <dependency>SDX_EAITasks</dependency>
