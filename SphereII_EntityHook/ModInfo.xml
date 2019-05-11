@@ -4,6 +4,6 @@
     <Name value="SphereII_EntityHook" />
     <Description value="Add in loading for the EntityFactory for custom classes" />
     <Author value="sphereii" />
-    <Version value="1.0.0.1" />
+    <Version value="1.0.0.2" />
   </ModInfo>
 </xml>

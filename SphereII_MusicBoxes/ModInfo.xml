@@ -4,7 +4,7 @@
     <Name value="SphereII Music Boxes" />
     <Description value="A simple modlet that can play music from asset bundles" />
     <Author value="sphereii" />
-    <Version value="1.0.0.1" />
+    <Version value="1.0.0.2" />
     <Website value="" />
   </ModInfo>
 </xml>
