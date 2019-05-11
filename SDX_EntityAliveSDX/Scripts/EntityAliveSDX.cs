@@ -735,17 +735,20 @@ public class EntityAliveSDX : EntityNPC
 
         if (this.GetAttackTarget() == null || this.GetRevengeTarget() == null)
         {
-            List<global::Entity> entitiesInBounds = global::GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 5f));
-            if (entitiesInBounds.Count > 0)
             {
-                for (int i = 0; i < entitiesInBounds.Count; i++)
+
+                List<global::Entity> entitiesInBounds = global::GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 5f));
+                if (entitiesInBounds.Count > 0)
                 {
-                    if (entitiesInBounds[i] is EntityPlayer)
+                    for (int i = 0; i < entitiesInBounds.Count; i++)
                     {
-                        this.emodel.avatarController.SetBool("IsBusy", true);
-                        this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                        this.RotateTo(entitiesInBounds[i], 30f, 30f);
-                        return;
+                        if (entitiesInBounds[i] is EntityPlayer)
+                        {
+                            this.emodel.avatarController.SetBool("IsBusy", true);
+                            this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
+                            this.RotateTo(entitiesInBounds[i], 30f, 30f);
+                            return;
+                        }
                     }
                 }
             }
@@ -754,9 +757,9 @@ public class EntityAliveSDX : EntityNPC
    
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
         bool isBusy = false;
-        this.emodel.avatarController.TryGetBool("IsBusy", out isBusy);
+//        this.emodel.avatarController.TryGetBool("IsBusy", out isBusy);
 
-        if (IsAlert)
+          if (IsAlert)
             isBusy = false;
 
         if (isBusy == false)
@@ -765,7 +768,7 @@ public class EntityAliveSDX : EntityNPC
             base.OnUpdateLive();
         }
 
-        CanExecuteTask(this.currentOrder);
+       // CanExecuteTask(this.currentOrder);
     }
 
     public bool IsInParty(int entityID)
@@ -862,8 +865,8 @@ public class EntityAliveSDX : EntityNPC
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
         // If the attacking entity is connected to a party, then don't accept the damage.
-        if (IsInParty(_damageSource.getEntityId()))
-            return 0;
+        //if (IsInParty(_damageSource.getEntityId()))
+        //    return 0;
 
         // If we are being attacked, let the state machine know it can fight back
         this.emodel.avatarController.SetBool("IsBusy", false);

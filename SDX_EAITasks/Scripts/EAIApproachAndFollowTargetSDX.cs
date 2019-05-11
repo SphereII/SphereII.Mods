@@ -16,7 +16,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     public EntityAliveSDX entityAliveSDX;
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
