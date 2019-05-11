@@ -1,14 +1,13 @@
 <mod>
-	<info>
-		<author>sphereii</author>
-		<name>SDX_SpawnFromEntityGroup</name>
-		<description>Allows you to spawn various entity from a single spawn.</description>
-		<mod_version>1.0</mod_version>
-		<game_version>17</game_version>
-		<launcher_version></launcher_version>
-	</info>
-
-
+  <info>
+    <author>sphereii</author>
+    <name>SDX_SpawnFromEntityGroup</name>
+    <description>Allows you to spawn various entity from a single spawn.</description>
+    <mod_version>1.0.0.1</mod_version>
+    <game_version>17</game_version>
+    <launcher_version>
+    </launcher_version>
+  </info>
   <dependencies>
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>

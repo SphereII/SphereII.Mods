@@ -1,15 +1,13 @@
 <mod>
-	<info>
-		<author>sphereii</author>
-		<name>SDX_Quests</name>
-		<description>A general purpose class that adds in new Quest Objectives, Rewards, etc</description>
-		<mod_version>1.0</mod_version>
-		<game_version>17.2</game_version>
-		<launcher_version/>
-	</info>
-
-	
-	<dependencies>
-		<dependency>Hal's DLL Fixes</dependency>
-	</dependencies>
+  <info>
+    <author>sphereii</author>
+    <name>SDX_Quests</name>
+    <description>A general purpose class that adds in new Quest Objectives, Rewards, etc</description>
+    <mod_version>1.0.0.1</mod_version>
+    <game_version>17.2</game_version>
+    <launcher_version />
+  </info>
+  <dependencies>
+    <dependency>Hal's DLL Fixes</dependency>
+  </dependencies>
 </mod>

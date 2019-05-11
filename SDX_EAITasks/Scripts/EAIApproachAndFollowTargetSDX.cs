@@ -132,6 +132,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     public override bool Continue()
     {
         DisplayLog("Continue() Start");
+
         bool result = false;
         if (entityAliveSDX)
         {
@@ -212,7 +213,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.entityTargetPos = position;
         this.theEntity.moveHelper.CalcIfUnreachablePos(position);
         // num is used to determine how close and comfortable the entity approaches you, so let's make sure they respect some personal space
-        if (distanceToEntity < 1)
+        if (distanceToEntity < 3)
             distanceToEntity = 3;
 
 

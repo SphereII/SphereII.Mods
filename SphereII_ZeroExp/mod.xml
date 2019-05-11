@@ -1,14 +1,12 @@
 <mod>
-	<info>
-		<!-- Information about the Mod, the author and version information -->
-		<!-- These are displayed in the SDX Launcher -->
-		<author>sphereii</author>
-		<name>SphereII_ZeroExp</name>
-		<description>Disables experience gaines from anything.</description>
-		<mod_version>1.0</mod_version>
-		<game_version>17.2</game_version>
-		<launcher_version>0.0.0</launcher_version>
-	</info>
-	
-
+  <info>
+    <!-- Information about the Mod, the author and version information -->
+    <!-- These are displayed in the SDX Launcher -->
+    <author>sphereii</author>
+    <name>SphereII_ZeroExp</name>
+    <description>Disables experience gaines from anything.</description>
+    <mod_version>1.0.0.1</mod_version>
+    <game_version>17.2</game_version>
+    <launcher_version>0.0.0</launcher_version>
+  </info>
 </mod>

@@ -16,7 +16,7 @@ class EAISetAsTargetIfHurtSDX : EAISetAsTargetIfHurt
         // If the Revenge Target is your leader, then forgive them?
         if (this.theEntity.GetRevengeTarget() != null)
         {
-            if (this.theEntity.Buffs.HasCustomVar("Leader") && (int)this.theEntity.Buffs.GetCustomVar("Leader") == this.theEntity.GetRevengeTarget().entityId)
+            if (this.theEntity.Buffs.HasCustomVar("Leader") &&  (int)this.theEntity.Buffs.GetCustomVar("Leader") == this.theEntity.GetRevengeTarget().entityId )
             {
                 DisplayLog(" My Revenge Target is my leader. Ignoring this for now...");
                 return false;

@@ -8,13 +8,13 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
     private List<Entity> NearbyEnemies = new List<Entity>();
 
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
             Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
     }
- 
+
     public override bool CanExecute()
     {
         return CheckSurroundingEntities();
@@ -24,6 +24,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
     public bool CheckFactionForEnemy(EntityAlive Entity)
     {
         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this.theEntity, Entity);
+        DisplayLog(" CheckFactionForEnemy: " + myRelationship.ToString());
         if (myRelationship == FactionManager.Relationship.Hate)
         {
             DisplayLog(" I hate this entity: " + Entity.ToString());
@@ -49,7 +50,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
         }
 
         float originalView = this.theEntity.GetMaxViewAngle();
-        this.theEntity.SetMaxViewAngle(180f);
+        this.theEntity.SetMaxViewAngle(250f);
 
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(this.theEntity.GetSeeDistance(), 20f, this.theEntity.GetSeeDistance()));
@@ -60,15 +61,19 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
             if (x != this.theEntity && x.IsAlive())
             {
-                if (x == leader )
+                if (x == leader)
                     continue;
 
-                if (!this.theEntity.CanSee(x.position))
+                if (x.CanSee(this.theEntity.position))
                 {
-                    DisplayLog(" I know an entity is there, but I can't see it: " + x.EntityName);
-                    continue;
-                }
+                    DisplayLog(" I can be seen by an enemy.");
+                    if (!this.theEntity.CanSee(x.position))
+                    {
+                        DisplayLog(" I know an entity is there, but I can't see it: " + x.EntityName);
+                        continue;
+                    }
 
+                }
                 DisplayLog("Nearby Entity: " + x.EntityName);
                 if (CheckFactionForEnemy(x))
                     NearbyEnemies.Add(x);
@@ -77,7 +82,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
 
         this.theEntity.SetMaxViewAngle(originalView);
         return NearestEnemy();
-        
+
     }
 
     public bool NearestEnemy()
@@ -102,7 +107,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
 
         if (closeEnemy != null)
         {
-            DisplayLog(" Closes Enemy: " + closeEnemy.ToString() );
+            DisplayLog(" Closes Enemy: " + closeEnemy.ToString());
             this.theEntity.SetRevengeTarget(closeEnemy);
             return true;
         }

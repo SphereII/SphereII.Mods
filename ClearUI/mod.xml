@@ -5,7 +5,7 @@
 		<author>sphereii</author>
 		<name>Clear UI</name>
 		<description>Completely removes all UI indicators on the in-game screen for a complete immersive experience</description>
-		<mod_version>1.0</mod_version>
+		<mod_version>1.0.0.0</mod_version>
 		<game_version>17.2</game_version>
 		<launcher_version>0.0.0</launcher_version>
 	</info>

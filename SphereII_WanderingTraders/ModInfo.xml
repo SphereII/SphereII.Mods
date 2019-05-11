@@ -4,6 +4,6 @@
     <Name value="SphereII Wandering Traders" />
     <Description value="Allows traders to wander about the world." />
     <Author value="sphereii" />
-    <Version value="2.0" />
+    <Version value="2.0.0.2" />
   </ModInfo>
 </xml>

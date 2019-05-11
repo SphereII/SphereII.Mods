@@ -338,7 +338,7 @@ public class EntityAliveSDX : EntityNPC
         this.moveSpeedAggroMax = vector.y;
 
     }
-  
+
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
@@ -431,7 +431,7 @@ public class EntityAliveSDX : EntityNPC
                 DisplayLog(" Loot List: " + this.lootContainer.lootListIndex);
 
                 DisplayLog(this.lootContainer.GetOpenTime().ToString());
-               // GameManager.Instance.lootContainerOpened((TileEntityLootContainer)this.lootContainer, uiforPlayer, player.entityId);
+                // GameManager.Instance.lootContainerOpened((TileEntityLootContainer)this.lootContainer, uiforPlayer, player.entityId);
 
                 break;
             case "Loot":
@@ -598,7 +598,7 @@ public class EntityAliveSDX : EntityNPC
         String strGuardPosition = _br.ReadString();
         this.GuardPosition = StringToVector3(strGuardPosition);
         this.factionId = _br.ReadByte();
-        this.GuardLookPosition = StringToVector3(_br.ReadString() );
+        this.GuardLookPosition = StringToVector3(_br.ReadString());
     }
 
     public Vector3 StringToVector3(string sVector)
@@ -627,7 +627,7 @@ public class EntityAliveSDX : EntityNPC
     {
         base.Write(_bw);
         _bw.Write(this.strMyName);
-        this.Buffs.Write(_bw, true);
+        this.Buffs.Write(_bw, false);
         this.QuestJournal.Write(_bw);
         String strPatrolCoordinates = "";
         foreach (Vector3 temp in this.PatrolCoordinates)
@@ -726,49 +726,45 @@ public class EntityAliveSDX : EntityNPC
         // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
         this.Stats.UpdateStatsOverTime(0.5f);
 
+        // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
+        bool isBusy = false;
+        this.emodel.avatarController.TryGetBool("IsBusy", out isBusy);
+        if (isBusy)
+        {
+            this.moveDirection = Vector3.zero;
+            this.moveHelper.Stop();
+        }
+
+        this.updateTime = Time.time - 2f;
+        base.OnUpdateLive();
+
         // Make the entity sensitive to the environment.
-        
-       // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
+
+        // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
+
 
         // Check if there's a player within 10 meters of us. If not, resume wandering.
         this.emodel.avatarController.SetBool("IsBusy", false);
 
         if (this.GetAttackTarget() == null || this.GetRevengeTarget() == null)
         {
+            List<global::Entity> entitiesInBounds = global::GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 5f));
+            if (entitiesInBounds.Count > 0)
             {
-
-                List<global::Entity> entitiesInBounds = global::GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 5f));
-                if (entitiesInBounds.Count > 0)
+                for (int i = 0; i < entitiesInBounds.Count; i++)
                 {
-                    for (int i = 0; i < entitiesInBounds.Count; i++)
+                    if (entitiesInBounds[i] is EntityPlayer)
                     {
-                        if (entitiesInBounds[i] is EntityPlayer)
-                        {
-                            this.emodel.avatarController.SetBool("IsBusy", true);
-                            this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                            this.RotateTo(entitiesInBounds[i], 30f, 30f);
-                            return;
-                        }
+                        this.emodel.avatarController.SetBool("IsBusy", true);
+                        this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
+                        this.RotateTo(entitiesInBounds[i], 30f, 30f);
+                        this.moveHelper.Stop();
+                        break;
+                        //  return;
                     }
                 }
             }
         }
-
-   
-        // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
-        bool isBusy = false;
-//        this.emodel.avatarController.TryGetBool("IsBusy", out isBusy);
-
-          if (IsAlert)
-            isBusy = false;
-
-        if (isBusy == false)
-        {
-            this.updateTime = Time.time - 2f;
-            base.OnUpdateLive();
-        }
-
-       // CanExecuteTask(this.currentOrder);
     }
 
     public bool IsInParty(int entityID)
