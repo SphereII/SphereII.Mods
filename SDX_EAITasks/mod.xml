@@ -3,11 +3,25 @@
     <author>sphereii</author>
     <name>SDX_EAITasks</name>
     <description>A general purpose class that adds in new EAI Tasks</description>
-    <mod_version>1.1.0.2</mod_version>
+    <mod_version>1.1.0.16</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
   <dependencies>
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>
+  <hashes>
+    <hash filename="README.md" hash="ffe3d3b9d499760249230a02f15052d2" />
+    <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="1fc7ace03cf87dee6151eb520d2d6e3d" />
+    <hash filename="Scripts\EAIGuardSDX.cs" hash="d34905c9a89bd8e2f1c7b00a293f10d9" />
+    <hash filename="Scripts\EAILootLocationSDX.cs" hash="9a8a1354122585830298ad0a32ad18f9" />
+    <hash filename="Scripts\EAIPatrolSDX.cs" hash="ac986f904d5245d25d591c1358fc460a" />
+    <hash filename="Scripts\EAIRunawayFromEntitySDX.cs" hash="48a9f90a5c91f760c06ee0f22afb836e" />
+    <hash filename="Scripts\EAISetAsTargetIfHurtSDX.cs" hash="b8f929e0abd15a663bcdf2795d6dabd9" />
+    <hash filename="Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="af01f35605534cbf0161461fca423e5c" />
+    <hash filename="Scripts\EAISetAsTargetNearestEnemySDX.cs" hash="70ec8291a282e866ae69dde0fcd975ca" />
+    <hash filename="Scripts\EAIWanderSDX.cs" hash="d83b63fe884e737fcd9d0c17f0fb9f39" />
+    <hash filename="Scripts\EAIApproachAndFollowTargetSDX.cs" hash="5c62665192ad9882ede54685cf0837e9" />
+    <hash filename="Scripts\EAIApproachAndAttackSDX.cs" hash="3bd9d071743be939b5b2ba106121069d" />
+  </hashes>
 </mod>

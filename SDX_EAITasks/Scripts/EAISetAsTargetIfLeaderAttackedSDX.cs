@@ -6,7 +6,7 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
 {
     private List<Entity> NearbyEntities = new List<Entity>();
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private EntityAlive targetEntity;
 
     public void DisplayLog(String strMessage)

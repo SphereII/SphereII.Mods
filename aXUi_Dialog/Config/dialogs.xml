@@ -4,8 +4,8 @@
     <!-- Generic Dialog with Quest options (if quests are available -->
     <dialog id="GenericNPCWithQuest" startstatementid="start">
       <statement id="start" text="dialog_trader_statement_start">
-        <response_entry id="FollowMe" />   
-        <response_entry id="jobshave" />
+        <response_entry id="FollowMe" />
+        <!--response_entry id="jobshave" /-->
         <response_entry id="ShowMe" />
         <response_entry id="StayHere" />
         <response_entry id="GuardHere" />
@@ -19,15 +19,18 @@
 
       <!-- Quest Lines Entries -->
       <statement id="currentjobs" text="Do any of these tasks sound like something you can do?">
+        <requirement type="HasQuestSDX, Mods" requirementtype="Hide" />
         <quest_entry id="test_NPCSDX" type="add" listindex="0" />
         <response_entry id="nevermind" />
       </statement>
 
       <response id="jobsnone" text="dialog_trader_response_jobsnone" nextstatementid="nojobs" >
+        <requirement type="HasQuestSDX, Mods" requirementtype="Hide" />
         <requirement type="QuestStatus" value="InProgress" requirementtype="Hide" />
       </response>
       
       <response id="jobshave" text="dialog_trader_response_jobshave" nextstatementid="currentjobs" >
+        <requirement type="HasQuestSDX, Mods" requirementtype="Hide" />
         <requirement type="QuestStatus" value="NotStarted" requirementtype="Hide" />
         <action type="AddJournalEntry" id="questTip" />
       </response>
@@ -42,6 +45,7 @@
       <!-- If the entity is hired, you can order the NPCs to do the following: -->
       <response id="FollowMe" text="Follow me" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide"/>
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="ApproachAndFollowTargetSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="FollowMe" />
       </response>
 
@@ -52,21 +56,25 @@
 
       <response id="StayHere" text="Stay here" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="GuardSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="StayHere" />
       </response>
 
        <response id="GuardHere" text="Guard here" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
-        <action type="ExecuteCommandSDX, Mods" id="GuardHere" />
+         <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="GuardSDX"/>
+         <action type="ExecuteCommandSDX, Mods" id="GuardHere" />
       </response>
       
       <response id="Wander" text="Wander around here" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="Wander"/>
         <action type="ExecuteCommandSDX, Mods" id="Wander" />
       </response>
 
       <response id="SetPatrol" text="Follow me for your patrol route." >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="PatrolSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="SetPatrol" />
       </response>
 
@@ -78,7 +86,8 @@
       -->
       
       <response id="Patrol" text="Patrol your route" >
-        <requirement type="PatrolSDX, Mods" requirementtype="Hide" />        
+        <requirement type="PatrolSDX, Mods" requirementtype="Hide" />
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="PatrolSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="Patrol" />
       </response>
     

@@ -3,6 +3,6 @@
     <entity name="Ammo Trader" prob="0.01" />
 	<entity name="Drug Trader" prob="0.01" />
 	<entity name="Heavy Trader" prob="0.01" />
+	<entity name="Food Trader" prob="0.01" />
   </append>
- 
 </configs>

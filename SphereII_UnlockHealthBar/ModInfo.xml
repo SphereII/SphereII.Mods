@@ -4,6 +4,6 @@
     <Name value="SphereII_UnlockHealthBar" />
     <Description value="Enables the health bar for zombies" />
     <Author value="sphereii" />
-    <Version value="1.0.0.2" />
+    <Version value="1.0.0.4" />
   </ModInfo>
 </xml>

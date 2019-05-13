@@ -3,8 +3,13 @@
     <author>sphereii</author>
     <name>Anti Nerd Poling</name>
     <description>Disables placing blocks when in the air.</description>
-    <mod_version>1.0.0.2</mod_version>
+    <mod_version>1.0.0.4</mod_version>
     <game_version>17.2</game_version>
     <launcher_version>0.0.0</launcher_version>
   </info>
+  <hashes>
+    <hash filename="ReadMe.txt" hash="d41d8cd98f00b204e9800998ecf8427e" />
+    <hash filename="Harmony\PlaceBlock.cs" hash="e99892467ef5118dd402557c88ed84d3" />
+    <hash filename="Harmony\Harmony-Anti Nerd Poling.dll" hash="ac2afd321cc9c411e985fdc20b21e915" />
+  </hashes>
 </mod>

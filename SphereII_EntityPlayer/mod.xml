@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII Entity Player</name>
     <description>Mod that changes the default player</description>
-    <mod_version>1.0.0.2</mod_version>
+    <mod_version>1.0.0.3</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -11,4 +11,10 @@
   <dependencies>
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>
+  <hashes>
+    <hash filename="ReadMe.md" hash="1a67dc847bffe7f8ad7e4ac030073139" />
+    <hash filename="Config\entityclasses.xml" hash="5bcc726cbf865a4e20d8891c1b18a2b4" />
+    <hash filename="Scripts\EntityPlayerLocal.cs" hash="3e246d61ef437df7b0d4dbc5ff1b7294" />
+    <hash filename="Scripts\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
+  </hashes>
 </mod>

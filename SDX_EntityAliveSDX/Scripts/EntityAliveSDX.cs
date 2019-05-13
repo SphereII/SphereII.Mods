@@ -112,22 +112,41 @@ public class EntityAliveSDX : EntityNPC
 
     public bool CanExecuteTask(Orders order)
     {
+        DisplayLog("CanExecuteTask():  Current Order:" + this.Buffs.GetCustomVar("CurrentOrder") + " : Order Request" + order.ToString());
+
         // If we don't match our current order, don't execute
         if (this.Buffs.HasCustomVar("CurrentOrder"))
         {
             if (this.Buffs.GetCustomVar("CurrentOrder") != (float)order)
+            {
+                DisplayLog("CanExecuteTask(): Current Order does not match this order: Current Order:" + this.Buffs.GetCustomVar("CurrentOrder") + " : Order Request: " + (float)order);
                 return false;
+            }
         }
 
         if (CheckIncentive(this.lstThirstyBuffs) || CheckIncentive(this.lstHungryBuffs))
+        {
+            DisplayLog("CanExecteTask(): Entity is thirsty or hungry. ");
             return false;
+        }
 
         // If we have an attack or revenge target, don't execute task
         if (this.GetAttackTarget() != null && this.GetAttackTarget().IsAlive())
+        {
+            DisplayLog("CanExecuteTask():  There is an attack target set. Not executing Order: " + order.ToString());
+            DisplayLog(" Attack Target: " + this.GetAttackTarget().ToString());
             return false;
+            
+            }
 
         if (this.GetRevengeTarget() != null && this.GetRevengeTarget().IsAlive())
+        {
+            DisplayLog("CanExecuteTask():  There is an Revenge target set. Not executing Order: " + order.ToString());
+            DisplayLog("Revenge Target: " + this.GetRevengeTarget().ToString());
             return false;
+
+        }
+
 
         if (this.sleepingOrWakingUp || this.bodyDamage.CurrentStun != EnumEntityStunType.None || this.Jumping)
             return false;
@@ -386,35 +405,35 @@ public class EntityAliveSDX : EntityNPC
                 break;
             case "FollowMe":
                 this.Buffs.SetCustomVar("Leader", player.entityId, true);
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Follow, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Follow, false);
                 this.moveSpeed = player.moveSpeed;
                 this.moveSpeedAggro = player.moveSpeedAggro;
 
                 break;
             case "StayHere":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Stay, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Stay, false);
                 this.GuardPosition = this.position;
                 this.moveHelper.Stop();
                 break;
             case "GuardHere":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Stay, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Stay, false);
                 this.SetLookPosition(player.GetLookVector());
                 this.GuardPosition = this.position;
                 this.moveHelper.Stop();
                 this.GuardLookPosition = player.GetLookVector();
                 break;
             case "Wander":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Wander, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Wander, false);
                 break;
             case "SetPatrol":
                 this.Buffs.SetCustomVar("Leader", player.entityId, true);
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.SetPatrolPoint, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.SetPatrolPoint, false);
                 this.moveSpeed = player.moveSpeed;
                 this.moveSpeedAggro = player.moveSpeedAggro;
                 this.PatrolCoordinates.Clear(); // Clear the existing point.
                 break;
             case "Patrol":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Patrol, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Patrol, false);
                 break;
             case "Hire":
                 bool result = this.Hire(player as EntityPlayerLocal);
@@ -431,11 +450,12 @@ public class EntityAliveSDX : EntityNPC
                 DisplayLog(" Loot List: " + this.lootContainer.lootListIndex);
 
                 DisplayLog(this.lootContainer.GetOpenTime().ToString());
-                // GameManager.Instance.lootContainerOpened((TileEntityLootContainer)this.lootContainer, uiforPlayer, player.entityId);
+                 lootContainerOpened((TileEntityLootContainer)this.lootContainer, uiforPlayer, player.entityId);
 
                 break;
             case "Loot":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Loot, true);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Loot, false);
+                this.Buffs.RemoveCustomVar("Leader");
                 break;
 
         }
@@ -448,6 +468,49 @@ public class EntityAliveSDX : EntityNPC
         return true;
 
     }
+
+    private void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI, int _entityIdThatOpenedIt)
+    {
+        if (_playerUI != null)
+        {
+            bool flag = true;
+            string lootContainerName = string.Empty;
+            if (_te.entityId != -1)
+            {
+                Entity entity = this.world.GetEntity(_te.entityId);
+                if (entity != null)
+                {
+                    lootContainerName = Localization.Get(EntityClass.list[entity.entityClass].entityClassName, "");
+                    if (entity is EntityVehicle)
+                    {
+                        flag = false;
+                    }
+                }
+            }
+            else
+            {
+                BlockValue block = this.world.GetBlock(_te.ToWorldPos());
+                lootContainerName = Localization.Get(Block.list[block.type].GetBlockName(), "");
+            }
+            if (flag)
+            {
+                ((XUiC_LootWindowGroup)((XUiWindowGroup)_playerUI.windowManager.GetWindow("looting")).Controller).SetTileEntityChest(lootContainerName, _te);
+                _playerUI.windowManager.Open("looting", true, false, true);
+            }
+            LootContainer lootContainer = LootContainer.lootList[_te.lootListIndex];
+            if (lootContainer != null && _playerUI.entityPlayer != null)
+            {
+                lootContainer.ExecuteBuffActions(_te.entityId, _playerUI.entityPlayer);
+            }
+        }
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt);
+            _te.bTouched = true;
+            _te.SetModified();
+        }
+    }
+
     public virtual bool isTame(EntityAlive _player)
     {
         if (this.Buffs.HasCustomVar("Leader") && this.Buffs.GetCustomVar("Leader") == (float)_player.entityId)
@@ -478,7 +541,6 @@ public class EntityAliveSDX : EntityNPC
         // Match the player's speed if its set to follow
         this.moveSpeed = player.moveSpeed;
         this.moveSpeedAggro = player.moveSpeedAggro;
-
         this.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
     }
 
@@ -559,7 +621,6 @@ public class EntityAliveSDX : EntityNPC
     List<Vector3> tempList = new List<Vector3>();
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
-
         // Center the x and z values of the passed in blocks for a unique check.
         Vector3 temp = position;
         temp.x = 0.5f + Utils.Fastfloor(position.x);
@@ -861,8 +922,8 @@ public class EntityAliveSDX : EntityNPC
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
         // If the attacking entity is connected to a party, then don't accept the damage.
-        //if (IsInParty(_damageSource.getEntityId()))
-        //    return 0;
+     //   if (IsInParty(_damageSource.getEntityId()))
+    //        return 0;
 
         // If we are being attacked, let the state machine know it can fight back
         this.emodel.avatarController.SetBool("IsBusy", false);

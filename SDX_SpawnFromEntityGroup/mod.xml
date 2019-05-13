@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_SpawnFromEntityGroup</name>
     <description>Allows you to spawn various entity from a single spawn.</description>
-    <mod_version>1.0.0.2</mod_version>
+    <mod_version>1.0.0.4</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -11,4 +11,8 @@
   <dependencies>
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>
+  <hashes>
+    <hash filename="ReadMe.md" hash="0298e8a628ec7a9ec270f737c3fd9849" />
+    <hash filename="Scripts\EntityAliveEventSpawnerSDX.cs" hash="2464fc25f2611d65faed924c2ab8958d" />
+  </hashes>
 </mod>

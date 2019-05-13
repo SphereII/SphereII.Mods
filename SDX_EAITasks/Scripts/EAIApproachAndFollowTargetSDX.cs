@@ -103,6 +103,9 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.SetPatrolPoint);
                 DisplayLog(" CanExecute() Set Patrol Point? " + result);
             }
+
+            if (result == false)
+                return false;
         }
     
         // Change the distance allowed each time. This will give it more of a variety in how close it can get to you.
@@ -142,12 +145,16 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 // Since SetPatrol also uses this method, we'll add an extra check.
                 result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.SetPatrolPoint);
             }
+
+            if (result == false)
+                return false;
         }
 
         if (this.theEntity.getMoveHelper().BlockedTime > 2)
         {
             DisplayLog(" Blocked Time: " + this.theEntity.getMoveHelper().BlockedTime);
 
+            DisplayLog("Entity is blocked. Resetting its move position");
             // If the npc seems lost, set a generate move to match the leader's position
             this.theEntity.getMoveHelper().SetMoveTo(this.entityTarget.position, false);
             return false;
@@ -163,22 +170,22 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     }
 
-    public float GetTargetXZDistanceSq(int estimatedTicks)
-    {
-        Vector3 vector = this.entityTarget.position;
-        vector += this.entityTargetVel * (float)estimatedTicks;
-        if (this.isTargetToEat)
-        {
-            EModelBase emodel = this.entityTarget.emodel;
-            if (emodel && emodel.bipedPelvisTransform)
-            {
-                vector = emodel.bipedPelvisTransform.position + Origin.position;
-            }
-        }
-        Vector3 vector2 = this.theEntity.position + this.theEntity.motion * (float)estimatedTicks - vector;
-        vector2.y = 0f;
-        return vector2.sqrMagnitude;
-    }
+    //public float GetTargetXZDistanceSq(int estimatedTicks)
+    //{
+    //    Vector3 vector = this.entityTarget.position;
+    //    vector += this.entityTargetVel * (float)estimatedTicks;
+    //    if (this.isTargetToEat)
+    //    {
+    //        EModelBase emodel = this.entityTarget.emodel;
+    //        if (emodel && emodel.bipedPelvisTransform)
+    //        {
+    //            vector = emodel.bipedPelvisTransform.position + Origin.position;
+    //        }
+    //    }
+    //    Vector3 vector2 = this.theEntity.position + this.theEntity.motion * (float)estimatedTicks - vector;
+    //    vector2.y = 0f;
+    //    return vector2.sqrMagnitude;
+    //}
 
     public override void Update()
     {
@@ -195,7 +202,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         // Find the location of the entity, and figure out where it's at.
         position = this.entityTarget.position;
-        targetXZDistanceSq = GetTargetXZDistanceSq(6);
+       // targetXZDistanceSq = GetTargetXZDistanceSq(6);
 
         if (entityAliveSDX)
         {

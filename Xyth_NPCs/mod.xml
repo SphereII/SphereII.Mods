@@ -1,14 +1,28 @@
 <mod>
-	<info>
-		<author>Xyth</author>
-		<name>Xyth NPCs</name>
-		<description>Xyth NPC Mod</description>
-		<mod_version>1.0</mod_version>
-		<game_version>17.0</game_version>
-		<launcher_version>0.7.3</launcher_version>
-	</info>
-	<dependencies>
-		<dependency>Hal's DLL Fixes</dependency>
-		<dependency>AnimationSDX</dependency>
-	</dependencies>
+  <info>
+    <author>Xyth/Sphereii</author>
+    <name>Xyth NPCs</name>
+    <description>Xyth NPC Mod</description>
+    <mod_version>1.21</mod_version>
+    <game_version>17.0</game_version>
+    <launcher_version>0.7.3</launcher_version>
+  </info>
+  <dependencies>
+    <dependency>AnimationSDX</dependency>
+    <dependency>SDX_EntityAliveSDX</dependency>
+    <dependency>aXUi_Dialog</dependency>
+    <dependency>Patch_Entity</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="Config\blocks.xml" hash="58c848905c1803e3f636630dd959f340" />
+    <hash filename="Config\buffs.xml" hash="e521e8f7e82d418b42c67d182f6aa701" />
+    <hash filename="Config\entityclasses.xml" hash="8abb2b6fb68b0c5a5415afbf6db260f7" />
+    <hash filename="Config\entitygroups.xml" hash="db8a3d259433256bb476bed2b66cff4a" />
+    <hash filename="Config\items.xml" hash="6aad5de4721313533b8dcb960489fcc5" />
+    <hash filename="Config\Localization.txt" hash="58f5d9e3a1418bda77b3c704c8f96a91" />
+    <hash filename="Config\sounds.xml" hash="db02dc46348489349697702e1c6c87a1" />
+    <hash filename="Resources\HarleySounds.unity3d" hash="1e018b649f3d8008cf2609e25dadb3ed" />
+    <hash filename="Resources\NPCs.unity3d" hash="5ee985a6411c87ca188ae1adfe588354" />
+    <hash filename="Resources\XythNPCAmmo.unity3d" hash="bd957668afe87a65da0c6b151f4cf2cc" />
+  </hashes>
 </mod>

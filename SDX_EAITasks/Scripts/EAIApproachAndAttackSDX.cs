@@ -5,28 +5,28 @@ using UnityEngine;
 // Disables the Eating animation
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
-    //private bool isTargetToEat = false;
-    //private Vector3 entityTargetPos;
+    private bool isTargetToEat = false;
+    private Vector3 entityTargetPos;
 
-    //private Vector3 entityTargetVel;
-    //private bool isGoingHome;
+    private Vector3 entityTargetVel;
+    private bool isGoingHome;
 
-    //private float homeTimeout;
-    //private bool hasHome;
-    //private bool isEating;
-    //private int pathCounter;
-    //private int attackTimeout;
-    //private int relocateTicks;
-    //private float maxChaseTime;
+    private float homeTimeout;
+    private bool hasHome;
+    private bool isEating;
+    private int pathCounter;
+    private int attackTimeout;
+    private int relocateTicks;
+    private float maxChaseTime;
 
-    //private bool blDisplayLog = false;
-    //private EntityAlive entityTarget;
+    private bool blDisplayLog = true;
+    private EntityAlive entityTarget;
 
-    //public void DisplayLog(String strMessage)
-    //{
-    //    if (blDisplayLog)
-    //        Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
-    //}
+    public void DisplayLog(String strMessage)
+    {
+        if (blDisplayLog)
+            Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
+    }
     //public override void Start()
     //{
     //    this.entityTarget = this.theEntity.GetAttackTarget();
@@ -39,21 +39,23 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     //    this.hasHome = (this.homeTimeout > 0f);
     //    this.isGoingHome = false;
     //    if (this.theEntity.ChaseReturnLocation == Vector3.zero)
-    //          this.theEntity.ChaseReturnLocation = ((!this.theEntity.IsSleeper) ? this.theEntity.position : this.theEntity.SleeperSpawnPosition);
+    //        this.theEntity.ChaseReturnLocation = ((!this.theEntity.IsSleeper) ? this.theEntity.position : this.theEntity.SleeperSpawnPosition);
 
     //    this.pathCounter = 0;
     //    this.relocateTicks = 0;
-  
+
     //    this.attackTimeout = 5;
     //}
 
     //public override bool CanExecute()
     //{
+    //    DisplayLog("CanExecute()");
     //    this.entityTarget = this.theEntity.GetAttackTarget();
-    //    if (this.entityTarget == null)
+    //    if (this.entityTarget == null )
     //    {
-    //        DisplayLog(" Entity Target is null ");
-    //        return false;
+    //        this.entityTarget = this.theEntity.GetRevengeTarget();
+    //        if ( this.entityTarget == null )
+    //            return false;
     //    }
     //    if (!this.entityTarget.IsAlive())
     //    {
@@ -78,7 +80,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     //    {
     //        return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
     //    }
-    //    return attackTarget && !(attackTarget != this.entityTarget) ;
+    //    return attackTarget && !(attackTarget != this.entityTarget);
     //}
 }
 

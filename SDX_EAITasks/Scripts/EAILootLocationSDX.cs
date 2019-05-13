@@ -20,7 +20,7 @@ class EAILootLocationSDX : EAIApproachSpot
 
     PrefabInstance prefab;
     List<TileEntityLootContainer> lstTileContainers = new List<TileEntityLootContainer>();
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private int pathRecalculateTicks;
 
     public void DisplayLog(String strMessage)

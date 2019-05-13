@@ -3,11 +3,23 @@
     <author>sphereii</author>
     <name>SDX_Quests</name>
     <description>A general purpose class that adds in new Quest Objectives, Rewards, etc</description>
-    <mod_version>1.0.0.2</mod_version>
+    <mod_version>1.0.0.3</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
   <dependencies>
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>
+  <hashes>
+    <hash filename="README.md" hash="5beb65ed5c0bc5754ed2d54247bdf097" />
+    <hash filename="Scripts\ObjectiveBuffSDX.cs" hash="60b565a9ae4ce51d996c4641bf8826ea" />
+    <hash filename="Scripts\ObjectiveGotoPOISDX.cs" hash="222f39ff130b78773dee1b8953d1eb37" />
+    <hash filename="Scripts\QuestActionGiveBuffSDX.cs" hash="ab9b3926ab99e542169b0e84e682e527" />
+    <hash filename="Scripts\QuestActionReplaceEntitySDX.cs" hash="720aac74e69eaba08cea29ac48d8e3db" />
+    <hash filename="Scripts\QuestActionSpawnEntitySDX.cs" hash="d062876c4f6a10a77b13da867c1db436" />
+    <hash filename="Scripts\RewardGiveNPCSDX.cs" hash="63215de7fc08e4471c1b996ce90f698f" />
+    <hash filename="Scripts\RewardItemSDX.cs" hash="9bb8d0d323e8dcbbdc61f2609aa75c47" />
+    <hash filename="Scripts\RewardQuestSDX.cs" hash="0b9b6d6ee0d79b5e75f344b67053b7d4" />
+    <hash filename="Scripts\RewardReassignNPCSDX.cs" hash="bbdefc06b3193251868592a89ceb3785" />
+  </hashes>
 </mod>

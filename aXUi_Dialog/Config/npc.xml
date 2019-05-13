@@ -8,7 +8,6 @@
     portrait="npc_joel"
     greeting_type="nearby"
     stance="Like" voice_set="trader"
-    trader_id="1" dialog_id="GenericNPCWithQuest"
-    quest_list="npcqest" />
+    trader_id="1" dialog_id="GenericNPCWithQuest" />
   </append>
 </configs>

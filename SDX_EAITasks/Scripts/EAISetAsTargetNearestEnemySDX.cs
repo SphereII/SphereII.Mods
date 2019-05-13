@@ -8,7 +8,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
     private List<Entity> NearbyEnemies = new List<Entity>();
 
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)

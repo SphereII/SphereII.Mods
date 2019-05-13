@@ -26,6 +26,7 @@ class MecanimSDX : AvatarController
     private Transform rightHandItemTransform;
     private Transform rightHand;
 
+    private string temp = "";
     // support variable for timing attacks.
     protected int specialAttackTicks;
     protected float timeSpecialAttackPlaying;

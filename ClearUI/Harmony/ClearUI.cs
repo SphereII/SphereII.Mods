@@ -16,6 +16,7 @@ public class ClearUI
         }
     }
 
+ 
     // Sneak Damage pop up
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("NotifySneakDamage")]
@@ -69,6 +70,15 @@ public class ClearUI
         }
     }
 
+    [HarmonyPatch(typeof(ItemActionDynamicMelee))]
+    [HarmonyPatch("canShowOverlay")]
+    public class SphereII_ClearUI_ItemActionDynamicMeLee
+    {
+        static bool Prefix()
+        {
+            return false;
+        }
+    }
     // Removes the overlays, like the damage, downground and upgrade indicators
     [HarmonyPatch(typeof(ItemActionAttack))]
     [HarmonyPatch("canShowOverlay")]

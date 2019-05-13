@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xml>
-  <ModInfo>
-    <Name value="Xyth NPCs" />
-    <Description value="Xyth NPCs Mod" />
-    <Author value="Xyth" />
-    <Version value="1.0" />
-    <Website value="http://sdxmods.com" />
-  </ModInfo>
+	<ModInfo>
+		<Name value="Xyth NPCs" />
+		<Description value="Xyth NPCs Mod" />
+		<Author value="Xyth/Sphereii" />
+		<Version value="1.21" />
+		<Website value="http://sdxmods.com" />
+	</ModInfo>
 </xml>

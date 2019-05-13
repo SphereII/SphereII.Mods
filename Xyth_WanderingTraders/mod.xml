@@ -1,15 +1,26 @@
 <mod>
-	<info>
-		<author>Xyth/SphereII/Mumpfy</author>
-		<name>Xyth Wandering Traders</name>
-		<description>Wandering Traders Mod</description>
-		<mod_version>1.1</mod_version>
-		<game_version>17.0</game_version>
-		<launcher_version>0.7.3</launcher_version>
-	</info>
-	<dependencies>
-		<dependency>Hal's DLL Fixes</dependency>
-		<dependency>AnimationSDX</dependency>
-		<dependency>SphereII Wandering Traders</dependency>
-	</dependencies>
+  <info>
+    <author>Xyth/SphereII/Mumpfy</author>
+    <name>Xyth Wandering Traders</name>
+    <description>Wandering Traders Mod</description>
+    <mod_version>1.34</mod_version>
+    <game_version>17.0</game_version>
+    <launcher_version>0.7.3</launcher_version>
+  </info>
+  <dependencies>
+    <dependency>Hal's DLL Fixes</dependency>
+    <dependency>AnimationSDX</dependency>
+    <dependency>SphereII Wandering Traders</dependency>
+    <dependency>Patch_Entity</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="Config\entityclasses.xml" hash="380b3e45a4f382ee5abeda7bed29418e" />
+    <hash filename="Config\entitygroups.xml" hash="08d99c6e8b3e1c54c350a5c20635f94f" />
+    <hash filename="Config\items.xml" hash="c39bbd16f45e04864e05568209202284" />
+    <hash filename="Config\Localization.txt" hash="9ccacb352240905b40ae184352f0f93a" />
+    <hash filename="Config\npc.xml" hash="5e5ff2fb1782982ffc1aee8d8e35a7ce" />
+    <hash filename="Config\traders.xml" hash="ba599b149b9ededdb56226fdf4126b77" />
+    <hash filename="Resources\Traders.unity3d" hash="b8fa7cdfe6b8c8a24c7c782dc5327cdc" />
+    <hash filename="Resources\XythAmmo.unity3d" hash="bd957668afe87a65da0c6b151f4cf2cc" />
+  </hashes>
 </mod>

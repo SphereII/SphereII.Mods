@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EntityAliveSDX</name>
     <description>Add new EntityAliveSDX Class</description>
-    <mod_version>1.0.1.6</mod_version>
+    <mod_version>1.0.1.26</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -15,4 +15,12 @@
     <dependency>SDX_Buffs</dependency>
     <dependency>SDX_Dialog</dependency>
   </dependencies>
+  <hashes>
+    <hash filename="ReadMe.md" hash="e2e6e174c38213e25ecabbd87fbcecdc" />
+    <hash filename="Harmony\EntityAlivePatcher.cs" hash="d21fbb2ef01dff64b57d1c813a1c3bce" />
+    <hash filename="Harmony\ItemActionPatcher.cs" hash="a3807f99652590c83171fd5728bf2404" />
+    <hash filename="Scripts\EntityAliveFarmingAnimalSDX.cs" hash="625b1a3f2646eee513eb9e405e64beb3" />
+    <hash filename="Harmony\Harmony-SDX_EntityAliveSDX.dll" hash="dfed333774a82765ce903faf54ab2af8" />
+    <hash filename="Scripts\EntityAliveSDX.cs" hash="20feb7e472cf30c85f35e5a98ee951b5" />
+  </hashes>
 </mod>

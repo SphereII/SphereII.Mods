@@ -37,7 +37,7 @@
 			</property>
 		</item>	
 		<item name="handAmmoRifle">
-			<property name="Extends" value="meleeHandZombie01"/>
+			<property name="Extends" value="meleeHandMaster"/>
 			<property name="CreativeMode" value="None"/>
 			<property class="Action0">
 				<property name="DamageEntity" value="50"/>
@@ -61,7 +61,6 @@
 				<property name="Sound_end" value=""/>
 				<property name="Sound_empty" value=""/>
 				<property name="Sound_reload" value=""/>
-<!--				<property name="Buff" value="buffShocked"/> -->
 			</property>
 			<effect_group name="Base Effects">
 				<passive_effect name="ModSlots" operation="base_set" value="0"/>

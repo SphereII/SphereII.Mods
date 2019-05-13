@@ -3,7 +3,6 @@
 		<!-- Melee Types -->
 		<entity_class name="NPCBaker" >
 			<property name='Class' value='EntityAliveSDX, Mods' />
-			<property name="IsChunkObserver" value="true"/>
 			<property name="NPCID" value="spheretest"/>
 			<property name="Faction" value="trader"/>
 			<property name="Tags" value="entity,npc"/>
@@ -36,27 +35,19 @@
 			<property name="CanClimbVertical" value="false"/>
 			<property name="SightRange" value="80"/> 
 			<property name="AttackIndexes" value="2" /> 
-			<property name="SpecialAttackIndexes" value="0" />
-			<property name="PainIndexes" value="0" /> 
-			<property name="DeathIndexes" value="0" /> 
-			<property name="RunIndexes" value="0" /> 
-			<property name="RandomIndexes" value="0" /> 
-			<property name="WalkIndexes" value="0" /> 
-			<property name="IdleIndexes" value="0" />  
-			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
-			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> <!-- param1 base class? -->
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> <!-- Param1 for what to follow -->
-			<property name="AITask-5" value="PatrolSDX, Mods"/> <!-- No params -->
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> <!-- Param1? -->
+			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-5" value="PatrolSDX, Mods"/> 
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
 			<property name="AITask-7" value="Look"/> 
-			<property name="AITask-8" value="WanderSDX, Mods"/> <!-- No Params  -->
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
 			<property name="AITask-9" value="" />
-			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  <!-- Params not Used?  -->
-			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> <!-- params not used? -->
-			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> <!-- Param1 used in base class?  -->
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
 <!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
  			<property name="SoundHurt" value="Player_Male/player1painlg"/>
@@ -80,6 +71,8 @@
 				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
 				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
 				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>
 			</effect_group>
 			<property name="DismemberMultiplierHead" value="1"/>
 			<property name="DismemberMultiplierArms" value="1"/>
@@ -106,7 +99,7 @@
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="CompassIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Bob,Mickey D" />		
-			<property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffSanitationStatusCheck" />
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
@@ -116,14 +109,14 @@
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
 			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
-			<property name="SanitationBuffs" value="buffStatusSanitation1,buffStatusSanitation2" />
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
 			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
-			<property name="SanitationBlock" value="terrDirt" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
 			<property name="Beds" value="mattressFlat" />
-			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
-			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
-			<property name="HomeBlocks" value="pressureplate"/>
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
 		</entity_class> 		
 		<entity_class name="NPCNurse" >
 			<property name='Class' value='EntityAliveSDX, Mods' />
@@ -159,29 +152,20 @@
 			<property name="CanClimbVertical" value="false"/>
 			<property name="SightRange" value="80"/> 
 			<property name="AttackIndexes" value="3" /> 
-			<property name="SpecialAttackIndexes" value="0" />
-			<property name="PainIndexes" value="0" /> 
-			<property name="DeathIndexes" value="0" /> 
-			<property name="RunIndexes" value="0" /> 
-			<property name="RandomIndexes" value="0" /> 
-			<property name="WalkIndexes" value="0" /> 
-			<property name="IdleIndexes" value="0" />  
-			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
-			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> <!-- param1 base class? -->
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> <!-- Param1 for what to follow -->
-			<property name="AITask-5" value="ApproachSpot"/>
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> <!-- Param1? -->
-			<property name="AITask-7" value="PatrolSDX, Mods"/> <!-- No params -->
-			<property name="AITask-8" value="Look"/> 
-			<property name="AITask-9" value="WanderSDX, Mods"/> <!-- No Params  -->
-			<property name="AITask-10" value="" />
-			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  <!-- Params not Used?  -->
-			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> <!-- params not used? -->
-			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> <!-- Param1 used in base class?  -->
-			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-5" value="PatrolSDX, Mods"/> 
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-7" value="Look"/> 
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
+			<property name="AITask-9" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
 			<property name="SoundHurt" value="Player_Female/player2painlg"/>
 			<property name="SoundHurtSmall" value="Player_Female/player2painsm"/>
@@ -204,6 +188,8 @@
 				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
 				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
 				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
 			</effect_group>
 			<property name="DismemberMultiplierHead" value="1"/>
 			<property name="DismemberMultiplierArms" value="1"/>
@@ -230,7 +216,7 @@
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="CompassIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Meg,Debbie,Gayle,Ratchet" />		
-			<property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffSanitationStatusCheck" />
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
@@ -240,14 +226,14 @@
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
 			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
-			<property name="SanitationBuffs" value="buffStatusSanitation1,buffStatusSanitation2" />
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
 			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
-			<property name="SanitationBlock" value="terrDirt" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
 			<property name="Beds" value="mattressFlat" />
-			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
-			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
-			<property name="HomeBlocks" value="pressureplate"/>
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
 		</entity_class> 			
 
 		<entity_class name="NPCFarmer" >
@@ -284,29 +270,20 @@
 			<property name="CanClimbVertical" value="false"/>
 			<property name="SightRange" value="80"/> 
 			<property name="AttackIndexes" value="2" /> 
-			<property name="SpecialAttackIndexes" value="0" />
-			<property name="PainIndexes" value="0" /> 
-			<property name="DeathIndexes" value="0" /> 
-			<property name="RunIndexes" value="0" /> 
-			<property name="RandomIndexes" value="0" /> 
-			<property name="WalkIndexes" value="0" /> 
-			<property name="IdleIndexes" value="0" />  
-			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".7, 1"/>
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
-			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> <!-- param1 base class? -->
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> <!-- Param1 for what to follow -->
-			<property name="AITask-5" value="ApproachSpot"/>
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> <!-- Param1? -->
-			<property name="AITask-7" value="PatrolSDX, Mods"/> <!-- No params -->
-			<property name="AITask-8" value="Look"/> 
-			<property name="AITask-9" value="WanderSDX, Mods"/> <!-- No Params  -->
-			<property name="AITask-10" value="" />
-			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  <!-- Params not Used?  -->
-			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> <!-- params not used? -->
-			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> <!-- Param1 used in base class?  -->
-			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-5" value="PatrolSDX, Mods"/> 
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-7" value="Look"/> 
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
+			<property name="AITask-9" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
@@ -329,6 +306,8 @@
 				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
 				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
 				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
 			</effect_group>
 			<property name="DismemberMultiplierHead" value="1"/>
 			<property name="DismemberMultiplierArms" value="1"/>
@@ -354,7 +333,7 @@
 			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Franky" />		
-			<property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffSanitationStatusCheck" />
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
@@ -364,14 +343,14 @@
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
 			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
-			<property name="SanitationBuffs" value="buffStatusSanitation1,buffStatusSanitation2" />
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
 			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
-			<property name="SanitationBlock" value="terrDirt" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
 			<property name="Beds" value="mattressFlat" />
-			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
-			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
-			<property name="HomeBlocks" value="pressureplate"/>
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
 		</entity_class> 			  
 		<entity_class name="NPCHarleyQuinn" >
 			<property name='Class' value='EntityAliveSDX, Mods' />
@@ -417,18 +396,17 @@
 			<property name="AIPathCostScale" value=".9, 1"/>
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
-			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> <!-- param1 base class? -->
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> <!-- Param1 for what to follow -->
-			<property name="AITask-5" value="ApproachSpot"/>
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> <!-- Param1? -->
-			<property name="AITask-7" value="PatrolSDX, Mods"/> <!-- No params -->
-			<property name="AITask-8" value="Look"/> 
-			<property name="AITask-9" value="WanderSDX, Mods"/> <!-- No Params  -->
-			<property name="AITask-10" value="" />
-			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  <!-- Params not Used?  -->
-			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> <!-- params not used? -->
-			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> <!-- Param1 used in base class?  -->
-			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-5" value="PatrolSDX, Mods"/> 
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-7" value="Look"/> 
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
+			<property name="AITask-9" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
   			<property name="SoundRandomTime" value="60.0"/> 
 			<property name="SoundRandom" value="HarleyRandom"/>
@@ -452,6 +430,8 @@
 				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
 				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
 				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
 			</effect_group>
 			<property name="DismemberMultiplierHead" value="1"/>
 			<property name="DismemberMultiplierArms" value="1"/>
@@ -477,7 +457,7 @@
 			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Harley" />		
-			  <property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffSanitationStatusCheck" />
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
@@ -487,14 +467,14 @@
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
 			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
-			<property name="SanitationBuffs" value="buffStatusSanitation1,buffStatusSanitation2" />
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
 			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
-			<property name="SanitationBlock" value="terrDirt" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
 			<property name="Beds" value="mattressFlat" />
-			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
-			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
-			<property name="HomeBlocks" value="pressureplate"/>
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
 		</entity_class> 
 			<!-- Ranged Types  -->
 		<entity_class name="NPCAmmo" >
@@ -532,25 +512,18 @@
 			<property name="SightRange" value="80"/> 
 			<property name="AttackIndexes" value="3" /> 
 			<property name="SpecialAttackIndexes" value="0" />
-			<property name="PainIndexes" value="0" /> 
-			<property name="DeathIndexes" value="0" /> 
-			<property name="RunIndexes" value="0" /> 
 			<property name="RandomIndexes" value="4" /> 
-			<property name="WalkIndexes" value="0" /> 
-			<property name="IdleIndexes" value="0" />  
-			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
 			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/> 
 			<property name="AITask-4" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
-			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> 
-			<property name="AITask-6" value="ApproachSpot"/>
+			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-6" value="PatrolSDX, Mods"/> 
 			<property name="AITask-7" value="MaslowLevel1SDX, Mods"/> 
-			<property name="AITask-8" value="PatrolSDX, Mods"/> 
-			<property name="AITask-9" value="GuardSDX, Mods"/> 
-			<property name="AITask-10" value="WanderSDX, Mods"/> 
-			<property name="AITask-11" value="" />
+			<property name="AITask-8" value="GuardSDX, Mods"/> 
+			<property name="AITask-9" value="WanderSDX, Mods"/> 
+			<property name="AITask-10" value="" />
 			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
 			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
 			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
@@ -575,8 +548,11 @@
 				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
 				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
 				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="HealthLoss" operation="perc_subtract" value="0.1"/>
 				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
 				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
 			</effect_group>
 			<property name="DismemberMultiplierHead" value="1"/>
 			<property name="DismemberMultiplierArms" value="1"/>
@@ -603,7 +579,7 @@
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 
 			<property name="Names" value="Bill,Mickey D" />		
-			<property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffSanitationStatusCheck" />
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
@@ -613,14 +589,14 @@
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
 			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
-			<property name="SanitationBuffs" value="buffStatusSanitation1,buffStatusSanitation2" />
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
 			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
-			<property name="SanitationBlock" value="terrDirt" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
 			<property name="Beds" value="mattressFlat" />
-			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
-			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
-			<property name="HomeBlocks" value="pressureplate"/>
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
 		</entity_class> 	
 		
 		<!-- Loot drop containers  -->

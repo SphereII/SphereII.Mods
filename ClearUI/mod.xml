@@ -1,14 +1,17 @@
 <mod>
-	<info>
-		<!-- Information about the Mod, the author and version information -->
-		<!-- These are displayed in the SDX Launcher -->
-		<author>sphereii</author>
-		<name>Clear UI</name>
-		<description>Completely removes all UI indicators on the in-game screen for a complete immersive experience</description>
-		<mod_version>1.0.0.0</mod_version>
-		<game_version>17.2</game_version>
-		<launcher_version>0.0.0</launcher_version>
-	</info>
-	
-
+  <info>
+    <!-- Information about the Mod, the author and version information -->
+    <!-- These are displayed in the SDX Launcher -->
+    <author>sphereii</author>
+    <name>Clear UI</name>
+    <description>Completely removes all UI indicators on the in-game screen for a complete immersive experience</description>
+    <mod_version>1.0.0.15</mod_version>
+    <game_version>17.2</game_version>
+    <launcher_version>0.0.0</launcher_version>
+  </info>
+  <hashes>
+    <hash filename="ReadMe.txt" hash="c3ca4769dc3d6408ffd7cff9211d8eef" />
+    <hash filename="Config\XUi\xui.xml" hash="d745f7f550ac94797563c5a12358c9d3" />
+    <hash filename="Harmony\ClearUI.cs" hash="9e777e5872896e3f2be01401798e8427" />
+  </hashes>
 </mod>
