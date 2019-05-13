@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="AnimationSDX\Scripts\MecanimSDX.cs" />
     <Compile Include="SDX_Buffs\Scripts\MinEventActionPlayerLevelSDX.cs" />
+    <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasTaskSDX.cs" />
     <Compile Include="SphereII_DMT_Tasks\PatchScripts\ManagerVersions.cs" />
     <Compile Include="SphereII_ModLoader\Harmony\ModLoader.cs" />
