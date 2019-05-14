@@ -47,7 +47,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog && !this.IsDead())
@@ -125,11 +125,11 @@ public class EntityAliveSDX : EntityNPC
             }
         }
 
-        if (CheckIncentive(this.lstThirstyBuffs) || CheckIncentive(this.lstHungryBuffs))
-        {
-            DisplayLog("CanExecteTask(): Entity is thirsty or hungry. ");
-            return false;
-        }
+        //if (CheckIncentive(this.lstThirstyBuffs) || CheckIncentive(this.lstHungryBuffs))
+        //{
+        //    DisplayLog("CanExecteTask(): Entity is thirsty or hungry. ");
+        //    return false;
+        //}
 
         // If we have an attack or revenge target, don't execute task
         if (this.GetAttackTarget() != null && this.GetAttackTarget().IsAlive())
@@ -424,7 +424,7 @@ public class EntityAliveSDX : EntityNPC
 
                 break;
             case "StayHere":
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.Stay, false);
+                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityAliveSDX.Orders.None, false);
                 this.GuardPosition = this.position;
                 this.moveHelper.Stop();
                 break;
@@ -805,7 +805,7 @@ public class EntityAliveSDX : EntityNPC
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
         bool isBusy = false;
         this.emodel.avatarController.TryGetBool("IsBusy", out isBusy);
-        if (isBusy)
+        if (isBusy || this.currentOrder == Orders.None)
         {
             this.moveDirection = Vector3.zero;
             this.moveHelper.Stop();

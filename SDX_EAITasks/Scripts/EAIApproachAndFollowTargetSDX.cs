@@ -80,6 +80,9 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 {
                     DisplayLog(" Found my Target: " + x.EntityName);
                     this.entityTarget = x;
+                    this.entityTargetPos = (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
+
+                    DisplayLog(" my Position: " + this.theEntity.position + " Target Position: " + this.entityTargetPos + " My Leader position: " + this.entityTarget.position);
                     return true;
                 }
             }
@@ -98,6 +101,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
             }
         }
+        DisplayLog(" No Entity To be Configured");
         this.entityTarget = null;
         return false;
     }
@@ -127,9 +131,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         // If there is an entity in bounds, then let this AI Task roceed. Otherwise, don't do anything with it.
         result = ConfigureTargetEntity();
         if (result)
-        {
             DisplayLog("CanExecute() Configure Target Result: " + result);
-        }
 
         DisplayLog("CanExecute() End: " + result);
         return result;
@@ -143,12 +145,26 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.isTargetToEat = false;
         this.theEntity.IsEating = false;
         this.pathCounter = 0;
-        SetCloseSpawnPoint();
+     //   SetCloseSpawnPoint();
     }
 
     public void SetCloseSpawnPoint()
     {
-        this.theEntity.world.GetRandomSpawnPositionMinMaxToPosition(this.entityTarget.position, 1, 3, 1, false, out this.theEntity.position, false);
+        Vector3 newPos = entityTarget.GetPosition();
+        newPos.y += 1f;
+        newPos.z += 1f;
+        ClientInfo clientInfo = ConsoleHelper.ParseParamIdOrName( this.entityTarget.EntityName, true, false);
+
+        NetPackageTeleportPlayer netPackageTeleportPlayer = new NetPackageTeleportPlayer(newPos, entityTarget.GetLookVector(), false);
+					if (clientInfo == null)
+					{
+						netPackageTeleportPlayer.ProcessPackage(GameManager.Instance.World, GameManager.Instance);
+					}
+					else
+					{
+						clientInfo.SendPackage(netPackageTeleportPlayer);
+					}
+       // this.theEntity.world.GetRandomSpawnPositionMinMaxToPosition(this.entityTarget.position, 1, 3, 1, false, out this.theEntity.position, true);
     }
     public override bool Continue()
     {
@@ -174,7 +190,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
             DisplayLog("Entity is blocked. Resetting its move position");
             // If the npc seems lost, set a generate move to match the leader's position
-            this.theEntity.getMoveHelper().SetMoveTo(this.entityTarget.position, false);
+            this.theEntity.getMoveHelper().SetMoveTo(this.entityTargetPos, false);
+            
             return false;
 
         }
@@ -183,52 +200,57 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         result = ConfigureTargetEntity();
 
-        float distance = this.theEntity.GetDistance(this.entityTarget);
-        if(distance < 3)
+
+        if(this.entityTarget == null)
         {
-            DisplayLog("I am too close, fleeing from the target");
-            if(this.FindFleeDirection(this.theEntity.position, 3))
+            if(this.theEntity.Buffs.HasCustomVar("Leader"))
             {
-                DisplayLog(" Setting position to flee");
-            }
-            else
-            {
-                DisplayLog(" I cannot fleed.");
+                DisplayLog(" Checking my Leader");
+                // Find out who the leader is.
+                int PlayerID = (int)this.theEntity.Buffs.GetCustomVar("Leader");
+                float distance = this.theEntity.GetDistance( this.theEntity.world.GetEntity( PlayerID ));
+                DisplayLog(" Distance: " + distance);
+                if(distance > this.theEntity.GetSeeDistance())
+                {
+                    DisplayLog("I am too far away from my leader. Teleporting....");
+                    SetCloseSpawnPoint();
+                    DisplayLog(" my Position: " + this.theEntity.position + " Target Position: " + this.entityTargetPos + " My Leader position: " + this.entityTarget.position);
+                }
+
             }
         }
-
         DisplayLog("Continue() End: " + result);
         return result;
 
     }
 
 
-    protected bool FindFleeDirection(Vector3 positionToRunFrom, int distanceToRun)
-    {
-        Vector3 vector = this.theEntity.position - positionToRunFrom;
-        Vector2 xzDirNormal = new Vector2(vector.x, vector.z);
-        xzDirNormal.Normalize();
-        Vector3 vector2 = RandomPositionGenerator.CalcPositionInDirection(this.theEntity.position, xzDirNormal, distanceToRun, 40f, this.theEntity.world);
-        if(vector2.Equals(Vector3.zero))
-        {
-            return false;
-        }
-        this.entityTargetPos = vector2;
-        this.pathCounter = 0;
-        return true;
-    }
+    //protected bool FindFleeDirection(Vector3 positionToRunFrom, int distanceToRun)
+    //{
+    //    Vector3 vector = this.theEntity.position - positionToRunFrom;
+    //    Vector2 xzDirNormal = new Vector2(vector.x, vector.z);
+    //    xzDirNormal.Normalize();
+    //    Vector3 vector2 = RandomPositionGenerator.CalcPositionInDirection(this.theEntity.position, xzDirNormal, distanceToRun, 40f, this.theEntity.world);
+    //    if(vector2.Equals(Vector3.zero))
+    //    {
+    //        return false;
+    //    }
+    //    this.entityTargetPos = vector2;
+    //    this.pathCounter = 0;
+    //    return true;
+    //}
 
-    protected bool FindRandomDirection(int distance)
-    {
-        Vector3 vector = RandomPositionGenerator.Calc(this.theEntity, distance, 0);
-        if(vector.Equals(Vector3.zero))
-        {
-            return false;
-        }
-        this.entityTargetPos = vector;
-        this.pathCounter = 0;
-        return true;
-    }
+    //protected bool FindRandomDirection(int distance)
+    //{
+    //    Vector3 vector = RandomPositionGenerator.Calc(this.theEntity, distance, 0);
+    //    if(vector.Equals(Vector3.zero))
+    //    {
+    //        return false;
+    //    }
+    //    this.entityTargetPos = vector;
+    //    this.pathCounter = 0;
+    //    return true;
+    //}
     //public float GetTargetXZDistanceSq(int estimatedTicks)
     //{
     //    Vector3 vector = this.entityTarget.position;
@@ -248,12 +270,15 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     public override void Update()
     {
-       // Vector3 position = Vector3.zero;
-       // float targetXZDistanceSq = 0f;
+        // Vector3 position = Vector3.zero;
+        // float targetXZDistanceSq = 0f;
 
         // No entity, so no need to do anything.
-        if (this.entityTarget == null || this.entityTargetPos == null )
+        if(this.entityTarget == null || this.entityTargetPos == null)
+        {
+            DisplayLog(" Entity Target or EntityTarget Position is null");
             return;
+        }
 
         // Let the entity keep looking at you, otherwise it may just sping around.
         this.theEntity.SetLookPosition(this.entityTargetPos);
@@ -275,13 +300,18 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         Vector3 a = this.theEntity.position - this.entityTargetPos;
         if(a.sqrMagnitude < 2f)
         {
+            DisplayLog("Entity is too close. Ending pathing.");
+            this.pathCounter = 0;
+            PathFinderThread.Instance.RemovePathsFor(this.theEntity.entityId);
             return;
+       //     DisplayLog("Entity POsition is too close to Entity Target Position");
+          //  return;
             this.entityTargetVel = this.entityTargetVel * 0.7f + a * 0.3f;
             
         }
         this.theEntity.moveHelper.CalcIfUnreachablePos(this.entityTargetPos);
         // num is used to determine how close and comfortable the entity approaches you, so let's make sure they respect some personal space
-        if (distanceToEntity < 3)
+        if(distanceToEntity < 3)
             distanceToEntity = 3;
 
 
@@ -295,6 +325,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         if (--this.pathCounter <= 0 && !PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
         {
+            DisplayLog(" Path Counter is 0: Finding new path to " + this.entityTargetPos);
             // If its still not calculating a path, find a new path to the leader
             this.pathCounter = 6 + this.theEntity.GetRandom().Next(10);
             PathFinderThread.Instance.FindPath(this.theEntity, this.entityTargetPos, this.theEntity.GetMoveSpeedAggro(), true, this);
@@ -304,7 +335,10 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
             return;
 
         // If there's no path, calculate one.
-        if (this.theEntity.navigator.noPathAndNotPlanningOne())
+        if(this.theEntity.navigator.noPathAndNotPlanningOne())
+        {
+            DisplayLog("No Path and Not Planning One. Searching for new path to : " + this.entityTargetPos);
             PathFinderThread.Instance.FindPath(this.theEntity, this.entityTargetPos, this.theEntity.GetMoveSpeedAggro(), true, this);
+        }
     }
 }
