@@ -183,7 +183,7 @@ public class EntityAliveSDX : EntityNPC
         EntityClass entityClass = EntityClass.list[this.entityClass];
 
         if(entityClass.Properties.Values.ContainsKey("EyeHeight"))
-            flEyeHeight = int.Parse(entityClass.Properties.Values["EyeHeight"]);
+            flEyeHeight = GetFloatValue("EyeHeight");
 
         // Read in a list of names then pick one at random.
         if (entityClass.Properties.Values.ContainsKey("Names"))
