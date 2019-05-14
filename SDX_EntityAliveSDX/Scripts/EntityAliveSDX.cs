@@ -35,6 +35,7 @@ public class EntityAliveSDX : EntityNPC
     String strSoundAccept = "";
     String strSoundReject = "";
 
+    private float flEyeHeight = -1f;
     private bool bWentThroughDoor = false;
 
     // Update Time for NPC's onUpdateLive(). If the time is greater than update time, it'll do a trader area check, opening and closing. Something we don't want.
@@ -46,7 +47,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog && !this.IsDead())
@@ -166,11 +167,23 @@ public class EntityAliveSDX : EntityNPC
         Loot = 7
     }
 
+
+    public override float GetEyeHeight()
+    {
+        if ( flEyeHeight == -1f )
+            return base.GetEyeHeight();
+
+        return this.flEyeHeight;
+    }
+
     // Over-ride for CopyProperties to allow it to read in StartingQuests.
     public override void CopyPropertiesFromEntityClass()
     {
         base.CopyPropertiesFromEntityClass();
         EntityClass entityClass = EntityClass.list[this.entityClass];
+
+        if(entityClass.Properties.Values.ContainsKey("EyeHeight"))
+            flEyeHeight = int.Parse(entityClass.Properties.Values["EyeHeight"]);
 
         // Read in a list of names then pick one at random.
         if (entityClass.Properties.Values.ContainsKey("Names"))
@@ -775,8 +788,10 @@ public class EntityAliveSDX : EntityNPC
         this.QuestJournal.AddQuest(NewQuest);
     }
 
+
     public override void OnUpdateLive()
     {
+ 
         if (this.lastDoorOpen != Vector3i.zero)
             OpenDoor();
 
@@ -800,7 +815,6 @@ public class EntityAliveSDX : EntityNPC
         base.OnUpdateLive();
 
         // Make the entity sensitive to the environment.
-
         // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
 
 
@@ -814,14 +828,13 @@ public class EntityAliveSDX : EntityNPC
             {
                 for (int i = 0; i < entitiesInBounds.Count; i++)
                 {
-                    if (entitiesInBounds[i] is EntityPlayer)
+                    if(entitiesInBounds[i] is EntityPlayer)
                     {
                         this.emodel.avatarController.SetBool("IsBusy", true);
                         this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
                         this.RotateTo(entitiesInBounds[i], 30f, 30f);
                         this.moveHelper.Stop();
                         break;
-                        //  return;
                     }
                 }
             }
