@@ -83,15 +83,15 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
 
     }
 
-    //// Cows were being stuck on the fence and trying to attack them. This is, I think, due to the entity move helper which makes
-    //// it attack blocks that get in its way, ala zombie.
-    //public override bool Attack(bool _bAttackReleased)
-    //{
-    //    if (this.attackTarget == null)
-    //        return false;
+    // Cows were being stuck on the fence and trying to attack them. This is, I think, due to the entity move helper which makes
+    // it attack blocks that get in its way, ala zombie.
+    public override bool Attack(bool _bAttackReleased)
+    {
+        if (this.attackTarget == null)
+            return false;
 
-    //    return base.Attack(_bAttackReleased);
-    //}
+        return base.Attack(_bAttackReleased);
+    }
 
     public void CheckAnimalEvent()
     {
@@ -102,18 +102,18 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
     // read in the cvar for sizeScale and adjust it based on the buff
     public void AdjustSizeForStage()
     {
-        float size = this.Buffs.GetCustomVar("$sizeScale");
-        if (size > 0.0f)
-        {
-            this.gameObject.transform.localScale = new Vector3(size, size, size);
-            //ConfigureBounaryBox( this.gameObject.transform.localScale);
-        }
+        //float size = this.Buffs.GetCustomVar("$sizeScale");
+        //if (size > 0.0f)
+        //{
+        //    this.gameObject.transform.localScale = new Vector3(size, size, size);
+        //    //ConfigureBounaryBox( this.gameObject.transform.localScale);
+        //}
     }
 
 
     public override void OnUpdateLive()
     {
-        AdjustSizeForStage();
+       // AdjustSizeForStage();
 
         if (this.Buffs.HasCustomVar("Herd") )
         {

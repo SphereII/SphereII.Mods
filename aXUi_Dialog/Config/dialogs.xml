@@ -56,7 +56,6 @@
 
       <response id="StayHere" text="Stay here" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
-        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="GuardSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="StayHere" />
       </response>
 

@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_Dialog</name>
     <description>Add new dialog class</description>
-    <mod_version>1.0.0.6</mod_version>
+    <mod_version>1.0.0.7</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -23,5 +23,6 @@
     <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="c53341fa67a0d0b10a9b1c0c5aeb1f41" />
     <hash filename="Scripts\DialogRequirementHasTaskSDX.cs" hash="509bc50ea6aa4b2890d0a9c1c87b1ff8" />
     <hash filename="Scripts\DialogRequirementHasQuestSDX.cs" hash="b76b7afb7b52e39468a76e84cb65d45e" />
+    <hash filename="PatchScripts\PatchScript.cs" hash="04a1fe5e698a49fba050387e62ea0a13" />
   </hashes>
 </mod>

@@ -8,15 +8,13 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 {
     List<String> lstIncentives = new List<String>();
     private List<Entity> NearbyEntities = new List<Entity>();
-    float distanceToEntity = UnityEngine.Random.Range(2f, 5.0f);
-
     private Vector3 entityTargetPos;
     private Vector3 entityTargetVel;
     private int pathCounter;
 
     public EntityAliveSDX entityAliveSDX;
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
@@ -80,8 +78,16 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 {
                     DisplayLog(" Found my Target: " + x.EntityName);
                     this.entityTarget = x;
-                    this.entityTargetPos = (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
 
+                    Vector3 tempPosition =  (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
+                    Vector3 a = this.theEntity.position - tempPosition;
+                    if (a.sqrMagnitude < 2f)
+                    {
+                        this.entityTarget = null;
+                        this.entityTargetPos = Vector3.zero;
+                        return false;
+                    }
+                    this.entityTargetPos = tempPosition;
                     DisplayLog(" my Position: " + this.theEntity.position + " Target Position: " + this.entityTargetPos + " My Leader position: " + this.entityTarget.position);
                     return true;
                 }
@@ -125,9 +131,6 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 return false;
         }
     
-        // Change the distance allowed each time. This will give it more of a variety in how close it can get to you.
-        distanceToEntity = UnityEngine.Random.Range(2f, 5.0f);
-
         // If there is an entity in bounds, then let this AI Task roceed. Otherwise, don't do anything with it.
         result = ConfigureTargetEntity();
         if (result)
@@ -145,7 +148,6 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.isTargetToEat = false;
         this.theEntity.IsEating = false;
         this.pathCounter = 0;
-     //   SetCloseSpawnPoint();
     }
 
     public void SetCloseSpawnPoint()
@@ -153,19 +155,12 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         Vector3 newPos = entityTarget.GetPosition();
         newPos.y += 1f;
         newPos.z += 1f;
-        ClientInfo clientInfo = ConsoleHelper.ParseParamIdOrName( this.entityTarget.EntityName, true, false);
 
-        NetPackageTeleportPlayer netPackageTeleportPlayer = new NetPackageTeleportPlayer(newPos, entityTarget.GetLookVector(), false);
-					if (clientInfo == null)
-					{
-						netPackageTeleportPlayer.ProcessPackage(GameManager.Instance.World, GameManager.Instance);
-					}
-					else
-					{
-						clientInfo.SendPackage(netPackageTeleportPlayer);
-					}
-       // this.theEntity.world.GetRandomSpawnPositionMinMaxToPosition(this.entityTarget.position, 1, 3, 1, false, out this.theEntity.position, true);
+        this.theEntity.SetPosition( newPos, true);
     }
+
+  
+
     public override bool Continue()
     {
         DisplayLog("Continue() Start");
@@ -224,55 +219,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     }
 
-
-    //protected bool FindFleeDirection(Vector3 positionToRunFrom, int distanceToRun)
-    //{
-    //    Vector3 vector = this.theEntity.position - positionToRunFrom;
-    //    Vector2 xzDirNormal = new Vector2(vector.x, vector.z);
-    //    xzDirNormal.Normalize();
-    //    Vector3 vector2 = RandomPositionGenerator.CalcPositionInDirection(this.theEntity.position, xzDirNormal, distanceToRun, 40f, this.theEntity.world);
-    //    if(vector2.Equals(Vector3.zero))
-    //    {
-    //        return false;
-    //    }
-    //    this.entityTargetPos = vector2;
-    //    this.pathCounter = 0;
-    //    return true;
-    //}
-
-    //protected bool FindRandomDirection(int distance)
-    //{
-    //    Vector3 vector = RandomPositionGenerator.Calc(this.theEntity, distance, 0);
-    //    if(vector.Equals(Vector3.zero))
-    //    {
-    //        return false;
-    //    }
-    //    this.entityTargetPos = vector;
-    //    this.pathCounter = 0;
-    //    return true;
-    //}
-    //public float GetTargetXZDistanceSq(int estimatedTicks)
-    //{
-    //    Vector3 vector = this.entityTarget.position;
-    //    vector += this.entityTargetVel * (float)estimatedTicks;
-    //    if (this.isTargetToEat)
-    //    {
-    //        EModelBase emodel = this.entityTarget.emodel;
-    //        if (emodel && emodel.bipedPelvisTransform)
-    //        {
-    //            vector = emodel.bipedPelvisTransform.position + Origin.position;
-    //        }
-    //    }
-    //    Vector3 vector2 = this.theEntity.position + this.theEntity.motion * (float)estimatedTicks - vector;
-    //    vector2.y = 0f;
-    //    return vector2.sqrMagnitude;
-    //}
-
     public override void Update()
     {
-        // Vector3 position = Vector3.zero;
-        // float targetXZDistanceSq = 0f;
-
         // No entity, so no need to do anything.
         if(this.entityTarget == null || this.entityTargetPos == null)
         {
@@ -284,36 +232,22 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.SetLookPosition(this.entityTargetPos);
         this.theEntity.RotateTo(this.entityTargetPos.x, this.entityTargetPos.y + 2, this.entityTargetPos.z, 30f, 30f);
 
-        // Find the location of the entity, and figure out where it's at.
-        //position = this.entityTargetPos;
-       // targetXZDistanceSq = GetTargetXZDistanceSq(6);
-
         if (entityAliveSDX)
         {
             if (entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.SetPatrolPoint))
             {
                 // Make them a lot closer to you when they are following you.
-                this.distanceToEntity = 1f;
                 entityAliveSDX.UpdatePatrolPoints(this.theEntity.world.FindSupportingBlockPos(this.entityTarget.position));
             }
         }
         Vector3 a = this.theEntity.position - this.entityTargetPos;
-        if(a.sqrMagnitude < 2f)
+        if (a.sqrMagnitude < 2f)
         {
             DisplayLog("Entity is too close. Ending pathing.");
             this.pathCounter = 0;
-            PathFinderThread.Instance.RemovePathsFor(this.theEntity.entityId);
             return;
-       //     DisplayLog("Entity POsition is too close to Entity Target Position");
-          //  return;
-            this.entityTargetVel = this.entityTargetVel * 0.7f + a * 0.3f;
-            
         }
         this.theEntity.moveHelper.CalcIfUnreachablePos(this.entityTargetPos);
-        // num is used to determine how close and comfortable the entity approaches you, so let's make sure they respect some personal space
-        if(distanceToEntity < 3)
-            distanceToEntity = 3;
-
 
         // if the entity is not calculating a path, check how many nodes are left, and reset the path counter if its too low.
         if (!PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))

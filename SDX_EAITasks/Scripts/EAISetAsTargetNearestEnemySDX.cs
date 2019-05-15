@@ -53,7 +53,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
         this.theEntity.SetMaxViewAngle(250f);
 
         // Search in the bounds are to try to find the most appealing entity to follow.
-        Bounds bb = new Bounds(this.theEntity.position, new Vector3(this.theEntity.GetSeeDistance(), 20f, this.theEntity.GetSeeDistance()));
+        Bounds bb = new Bounds(this.theEntity.position, new Vector3(20f, 20f, 20f));
         this.theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, this.NearbyEntities);
         DisplayLog(" Nearby Entities: " + this.NearbyEntities.Count);
         for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)

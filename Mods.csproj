@@ -35,16 +35,13 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\7D2D\Alpha17\the_fun_pimps\latest_stable\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="DMT">
-      <HintPath>C:\7D2D\Alpha17\the_fun_pimps\latest_stable\7DaysToDie_Data\Managed\DMT.dll</HintPath>
-    </Reference>
-    <Reference Include="SphereII_ManageVersions">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\SphereII_ManageVersions.dll</HintPath>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\DMT.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,6 +73,7 @@
     <Compile Include="SDX_Buffs\Scripts\MinEventActionPlayerLevelSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasTaskSDX.cs" />
+    <Compile Include="SDX_EntityAliveSDX\Harmony\EntityMoveHelper.cs" />
     <Compile Include="SphereII_DMT_Tasks\PatchScripts\ManagerVersions.cs" />
     <Compile Include="SphereII_ModLoader\Harmony\ModLoader.cs" />
     <Compile Include="SphereII_ZeroExp\Harmony\Progression.cs" />
@@ -148,7 +146,6 @@
     <Content Include="RCUI\mod.xml" />
     <Content Include="RCUI\ModInfo.xml" />
     <Content Include="RCUI\Textures\roland_compass_letters.png" />
-    <Content Include="SphereII_DMT_Tasks\mod.xml" />
     <Content Include="SphereII_DMT_Tasks\ReadMe.txt" />
     <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.dll" />
     <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.pdb" />
