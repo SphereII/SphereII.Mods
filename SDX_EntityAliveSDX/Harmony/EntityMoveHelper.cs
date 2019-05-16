@@ -22,25 +22,27 @@ public class SphereII__EntityMoveHelper
     // Loops around the instructions and removes the return condition.
     [HarmonyPatch(typeof(EntityMoveHelper))]
     [HarmonyPatch("CheckBlocked")]
-    static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions)
+    public class SphereII_EntityMoveHelperCheckBlock
     {
-        MethodAttributes Myattributes = original.Attributes;
-              PrintAttributes(typeof(MethodAttributes), (int)Myattributes);
-        Debug.Log(" I am an NPC");
+
+        static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions)
+        {
+                        
+            Debug.Log(" I am an NPC");
             int startIndex = -1;
             // Grab all the instructions
-            var codes = new List<CodeInstruction>(instructions);
-
+            //var codes = new List<CodeInstruction>(instructions);
+            var codes = original.GetMethodBody().GetILAsByteArray();
             int intTargetSecondIteration = 0;
 
 
-            for(int i = 0; i < codes.Count; i++)
+            for (int i = 0; i < codes.Length; i++)
             {
-                  Debug.Log(" OpCode: " + codes[i].opcode.ToString());
-                if((codes[i].opcode == OpCodes.Ret))
+                Debug.Log(" OpCode: " + codes[i].opcode.ToString());
+                if ((codes[i].opcode == OpCodes.Ret))
                 {
                     intTargetSecondIteration++;
-                    if(intTargetSecondIteration == 2)
+                    if (intTargetSecondIteration == 2)
                     {
                         startIndex = i;
                         break;
@@ -48,28 +50,29 @@ public class SphereII__EntityMoveHelper
                 }
             }
 
-            if(startIndex > -1)
+            if (startIndex > -1)
                 codes.RemoveAt(startIndex);
 
             return codes.AsEnumerable();
-   
-       // return instructions;
-    }
-    public static void PrintAttributes(Type attribType, int iAttribValue)
-    {
-        if(!attribType.IsEnum)
-        {
-           // Console.WriteLine("This type is not an enum.");
-            return;
-        }
 
-        FieldInfo[] fields = attribType.GetFields(BindingFlags.Public | BindingFlags.Static);
-        for(int i = 0; i < fields.Length; i++)
+            // return instructions;
+        }
+        public static void PrintAttributes(Type attribType, int iAttribValue)
         {
-            int fieldvalue = (Int32)fields[i].GetValue(null);
-            if((fieldvalue & iAttribValue) == fieldvalue)
+            if (!attribType.IsEnum)
             {
-               Debug.Log(fields[i].Name);
+                // Console.WriteLine("This type is not an enum.");
+                return;
+            }
+
+            FieldInfo[] fields = attribType.GetFields(BindingFlags.Public | BindingFlags.Static);
+            for (int i = 0; i < fields.Length; i++)
+            {
+                int fieldvalue = (Int32)fields[i].GetValue(null);
+                if ((fieldvalue & iAttribValue) == fieldvalue)
+                {
+                    Debug.Log(fields[i].Name);
+                }
             }
         }
     }

@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EntityAliveSDX</name>
     <description>Add new EntityAliveSDX Class</description>
-    <mod_version>1.0.1.53</mod_version>
+    <mod_version>1.0.1.57</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -25,7 +25,7 @@
     <hash filename="Scripts\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
     <hash filename="Scripts\EntityAliveFarmingAnimalSDX.cs" hash="8285545365532d5011686278396b7dd6" />
     <hash filename="Scripts\EntityMoveHelperSDX.cs" hash="43ec76fa660f7570a091945ff5387899" />
-    <hash filename="Scripts\EntityAliveSDX.cs" hash="280d1e2fef37248d886370f385a9d85a" />
-    <hash filename="Harmony\EntityMoveHelper.cs" hash="085f62c04f6269067bd93e899897e253" />
+    <hash filename="Scripts\EntityAliveSDX.cs" hash="ae621e9850a0bbdba70846aef50cb057" />
+    <hash filename="Harmony\EntityMoveHelper.cs" hash="34bc499f2704ad4923770656f62bb455" />
   </hashes>
 </mod>
