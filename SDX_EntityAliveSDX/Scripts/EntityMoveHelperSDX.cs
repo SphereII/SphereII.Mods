@@ -21,6 +21,7 @@ class EntityMoveHelperSDX : EntityMoveHelper
             Debug.Log(this.GetType() + ": " + strMessage);
     }
 
+    
     public EntityMoveHelperSDX(EntityAlive _entity) : base(_entity)
     {
         DisplayLog("Initializing");

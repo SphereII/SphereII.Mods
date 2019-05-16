@@ -1000,6 +1000,7 @@ public class EntityAliveSDX : EntityNPC
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
+
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 

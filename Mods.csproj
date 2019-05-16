@@ -74,6 +74,7 @@
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasTaskSDX.cs" />
     <Compile Include="SDX_EntityAliveSDX\Harmony\EntityMoveHelper.cs" />
+    <Compile Include="SDX_EntityAliveSDX\Scripts\EntityMoveHelperSDX.cs" />
     <Compile Include="SphereII_DMT_Tasks\PatchScripts\ManagerVersions.cs" />
     <Compile Include="SphereII_ModLoader\Harmony\ModLoader.cs" />
     <Compile Include="SphereII_ZeroExp\Harmony\Progression.cs" />
