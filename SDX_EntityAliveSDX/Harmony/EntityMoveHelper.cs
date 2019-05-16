@@ -9,15 +9,15 @@ using UnityEngine;
 
 public class SphereII__EntityMoveHelper
 {
-    public class SphereII_EntityMNoveHelperTweaks : IHarmony
-    {
-        public void Start()
-        {
-            Debug.Log(" Loading Patch: " + GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
-    }
+    //public class SphereII_EntityMNoveHelperTweaks : IHarmony
+    //{
+    //    public void Start()
+    //    {
+    //        Debug.Log(" Loading Patch: " + GetType().ToString());
+    //        var harmony = HarmonyInstance.Create(GetType().ToString());
+    //        harmony.PatchAll(Assembly.GetExecutingAssembly());
+    //    }
+    //}
 
     // Loops around the instructions and removes the return condition.
     [HarmonyPatch(typeof(EntityMoveHelper))]
@@ -27,16 +27,16 @@ public class SphereII__EntityMoveHelper
 
         static IEnumerable<CodeInstruction> Transpiler(MethodBase original, IEnumerable<CodeInstruction> instructions)
         {
-                        
+            Debug.Log(" Stacktrace: " + Environment.StackTrace);
             Debug.Log(" I am an NPC");
             int startIndex = -1;
             // Grab all the instructions
-            //var codes = new List<CodeInstruction>(instructions);
-            var codes = original.GetMethodBody().GetILAsByteArray();
+            var codes = new List<CodeInstruction>(instructions);
+            //var codes = original.GetMethodBody().GetILAsByteArray();
             int intTargetSecondIteration = 0;
 
 
-            for (int i = 0; i < codes.Length; i++)
+            for (int i = 0; i < codes.Count; i++)
             {
                 Debug.Log(" OpCode: " + codes[i].opcode.ToString());
                 if ((codes[i].opcode == OpCodes.Ret))

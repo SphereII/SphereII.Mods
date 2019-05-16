@@ -8,15 +8,15 @@ using UnityEngine;
 
 public class SphereII__ItemActionPatcher
 {
-    public class SphereII_ItemActionFriendlyFire : IHarmony
-    {
-        public void Start()
-        {
-            Debug.Log(" Loading Patch: " + GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-        }
-    }
+    //public class SphereII_ItemActionFriendlyFire : IHarmony
+    //{
+    //    public void Start()
+    //    {
+    //        Debug.Log(" Loading Patch: " + GetType().ToString());
+    //        var harmony = HarmonyInstance.Create(GetType().ToString());
+    //        harmony.PatchAll(Assembly.GetExecutingAssembly());
+    //    }
+    //}
     
     [HarmonyPatch(typeof(ItemActionAttack))]
     [HarmonyPatch("Hit")]
