@@ -17,10 +17,10 @@ class EAILootLocationSDX : EAIApproachSpot
     private bool hadPath;
     private int investigateTicks;
     private EntityAliveSDX entityAliveSDX;
-
+    
     PrefabInstance prefab;
     List<TileEntityLootContainer> lstTileContainers = new List<TileEntityLootContainer>();
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     private int pathRecalculateTicks;
 
     public void DisplayLog(String strMessage)
@@ -29,7 +29,7 @@ class EAILootLocationSDX : EAIApproachSpot
             Debug.Log(this.GetType() + " :" + this.theEntity.EntityName + ": " + strMessage);
     }
 
-
+ 
     public override void Init(EntityAlive _theEntity)
     {
         base.Init(_theEntity);
@@ -37,7 +37,7 @@ class EAILootLocationSDX : EAIApproachSpot
     }
     public override bool CanExecute()
     {
-        return false;
+      //  return false;
         DisplayLog("CanExecute()");
         bool result = false;
         if (entityAliveSDX)
@@ -72,7 +72,29 @@ class EAILootLocationSDX : EAIApproachSpot
             if (result == false)
                 return false;
         }
-        
+
+        if (++this.taskTimeOut > 40)
+        {
+            this.taskTimeOut = 0;
+            return false;
+        }
+        if (this.theEntity.Buffs.HasCustomVar("Owner"))
+            {
+                DisplayLog(" Checking my Leader");
+                // Find out who the leader is.
+                int PlayerID = (int)this.theEntity.Buffs.GetCustomVar("Owner");
+            Entity myLeader = this.theEntity.world.GetEntity(PlayerID);
+            float distance = this.theEntity.GetDistance(myLeader);
+                DisplayLog(" Distance: " + distance);
+                if (distance > this.theEntity.GetSeeDistance())
+                {
+                    DisplayLog("I am too far away from my leader. Teleporting....");
+                this.theEntity.SetPosition(myLeader.position, true);
+                this.entityAliveSDX.ExecuteCMD("FollowMe", myLeader as EntityPlayer);
+                }
+
+            }
+      
         PathNavigate navigator = this.theEntity.navigator;
         PathEntity path = navigator.getPath();
         if (this.hadPath && path == null)
@@ -96,20 +118,18 @@ class EAILootLocationSDX : EAIApproachSpot
 
         float sqrMagnitude2 = (this.seekPos - this.theEntity.position).sqrMagnitude;
         DisplayLog(" Seek Position: " + this.seekPos + " My Location: " + this.theEntity.position + " Magnitude: " + sqrMagnitude2 );
-        if (sqrMagnitude2 < 4f )
+        if (sqrMagnitude2 < 4f)
         {
-            DisplayLog("I'm at the loot container: " + sqrMagnitude2 );
-            CheckContainer(); 
-            result= FindNearestContainer();
+            DisplayLog("I'm at the loot container: " + sqrMagnitude2);
+            CheckContainer();
+            result = FindNearestContainer();
         }
         else if (path != null && path.isFinished())
-            result = FindNearestContainer();
-
-        DisplayLog(" Blocked Time: " + this.theEntity.getMoveHelper().BlockedTime);
-        if (this.theEntity.getMoveHelper().BlockedTime > 2)
         {
-            
+
+            result = FindNearestContainer();
         }
+
         DisplayLog("Continue() End: " + result);
         return result;
     }
@@ -143,18 +163,6 @@ class EAILootLocationSDX : EAIApproachSpot
 
         }
 
-        
-        //Debug.Log(" Starting: " + "IsLooting");
-        //this.theEntity.emodel.avatarController.SetBool("IsLooting", true);
-        //CoroutineJobTasks job = new CoroutineJobTasks();
-        //job.Start();
-        //Debug.Log(" Ending " + "IsLooting");
-        //this.theEntity.emodel.avatarController.SetBool("IsLooting", false);
-
-
-        //job.ConfigureRoutine(this.theEntity, "IsLooting", 5f);
-        //job.StartCoroutine("Start");
-
         GetItemFromContainer(tileEntityLootContainer);
         if (tileEntityLootContainer.IsEmpty())
         {
@@ -182,20 +190,27 @@ class EAILootLocationSDX : EAIApproachSpot
 
     private Dictionary<int, PrefabInstance> prefabsAroundFar = new Dictionary<int, PrefabInstance>();
     private Dictionary<int, PrefabInstance> prefabsAroundNear = new Dictionary<int, PrefabInstance>();
+    private int pathCounter;
+    private int taskTimeOut;
+
     public PrefabInstance FindPrefabsNear()
     {
         var pos = this.theEntity.position;
 
         EntityPlayer player = null;
-        if (this.theEntity.Buffs.HasCustomVar("Leader"))
-            player = theEntity.world.GetEntity((int)this.theEntity.Buffs.GetCustomVar("Leader")) as EntityPlayerLocal;
+        if (this.theEntity.Buffs.HasCustomVar("Owner"))
+                player = theEntity.world.GetEntity((int)this.theEntity.Buffs.GetCustomVar("Owner")) as EntityPlayerLocal;
         else
+        {
+            DisplayLog("I do not have a leader.");
             return null;
-        if (theEntity)
+        }
+        if (player)
         {
             DynamicPrefabDecorator dynamicPrefabDecorator = GameManager.Instance.World.ChunkCache.ChunkProvider.GetDynamicPrefabDecorator();
             if (dynamicPrefabDecorator == null)
             {
+                DisplayLog("FindPrefabsNear(): No Prefab Decorator found");
                 return null;
             }
             Vector3 position = player.position;
@@ -203,11 +218,18 @@ class EAILootLocationSDX : EAIApproachSpot
             num = (num - 1) * 16;
             if (!player.isEntityRemote)
             {
+                this.prefabsAroundFar.Clear();
+                this.prefabsAroundNear.Clear();
+                DisplayLog(" Entity is not remote. Grabbing prefab lists.");
                 dynamicPrefabDecorator.GetPrefabsAround(position, (float)num, (float)1000f, this.prefabsAroundFar, this.prefabsAroundNear, true);
                 GameManager.Instance.prefabLODManager.UpdatePrefabsAround(this.prefabsAroundFar, this.prefabsAroundNear);
             }
+
+            DisplayLog(" Checking Boundary Box");
             return this.prefabsAroundNear.Values.FirstOrDefault(d => pos.x >= d.boundingBoxPosition.x && pos.x < d.boundingBoxPosition.x + d.boundingBoxSize.x && pos.z >= d.boundingBoxPosition.z && pos.z < d.boundingBoxPosition.z + d.boundingBoxSize.z);
         }
+
+        DisplayLog(" No Prefabs");
         return null;
     }
     public bool FindBoundsOfPrefab()
@@ -313,7 +335,7 @@ class EAILootLocationSDX : EAIApproachSpot
         tileLootContainer.bTouched = true;
         tileLootContainer.bWasTouched = true;
 
-        DisplayLog("Checking Loot Container");
+        DisplayLog("Checking Loot Container: " + tileLootContainer.ToString());
         if (tileLootContainer.items != null)
         {
             BlockValue block = this.theEntity.world.GetBlock(blockPos);
@@ -324,8 +346,11 @@ class EAILootLocationSDX : EAIApproachSpot
             DisplayLog(" Loot Container has this many Slots: " + tileLootContainer.items.Length);
 
             EntityPlayer player = null;
-            if (this.theEntity.Buffs.HasCustomVar("Leader"))
-                player = theEntity.world.GetEntity((int)this.theEntity.Buffs.GetCustomVar("Leader")) as EntityPlayerLocal;
+            if (this.theEntity.Buffs.HasCustomVar("Owner"))
+                player = theEntity.world.GetEntity((int)this.theEntity.Buffs.GetCustomVar("Owner")) as EntityPlayerLocal;
+
+            if (!player)
+                return;
 
             theEntity.MinEventContext.TileEntity = tileLootContainer;
             theEntity.FireEvent(MinEventTypes.onSelfOpenLootContainer);
@@ -344,7 +369,7 @@ class EAILootLocationSDX : EAIApproachSpot
                     DisplayLog(" Could Not add Item to NPC inventory. " + tileLootContainer.items[i].itemValue.ToString());
                     if (theEntity is EntityAliveSDX)
                     {
-                        (theEntity as EntityAliveSDX).ExecuteCMD("Follow", player);
+                        (theEntity as EntityAliveSDX).ExecuteCMD("FollowMe", player);
                         return;
                     }
 
@@ -366,6 +391,10 @@ class EAILootLocationSDX : EAIApproachSpot
         Vector3 currentPos = this.theEntity.position;
         foreach (TileEntityLootContainer block in this.lstTileContainers)
         {
+            if ( Vector3.Distance( block.ToWorldPos().ToVector3(), this.seekPos ) < 2 )
+            {
+                continue;
+            }
             float dist = Vector3.Distance(block.ToWorldPos().ToVector3(), currentPos);
             DisplayLog(" FindNearestContainer(): " + this.theEntity.world.GetBlock(block.ToWorldPos()).Block.GetBlockName() + " Distance: " + dist );
             if (dist < minDist)
@@ -447,20 +476,20 @@ class EAILootLocationSDX : EAIApproachSpot
     // Token: 0x06002E3B RID: 11835 RVA: 0x001422B4 File Offset: 0x001404B4
     private new void updatePath()
     {
-        if (this.theEntity.IsScoutZombie)
+        if (!PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
         {
-            global::AstarManager.Instance.AddLocationLine(this.theEntity.position, this.seekPos, 32);
+            PathEntity path = this.theEntity.navigator.getPath();
+            if (path != null && path.NodeCountRemaining() <= 2)
+            {
+                this.pathCounter = 0;
+            }
         }
-        if (GamePath.PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
+        if (--this.pathCounter <= 0 && !PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
         {
-            return;
+            this.pathCounter = 6 + this.theEntity.GetRandom().Next(10);
+            PathFinderThread.Instance.FindPath(this.theEntity, this.seekPos, this.theEntity.GetMoveSpeedAggro(), true, this);
         }
-        this.pathRecalculateTicks = 40 + this.theEntity.GetRandom().Next(20);
-
-        DisplayLog(" Finding a path to " + this.seekPos);
-        Vector3 moveToLocation = this.GetMoveToLocation(0f);
-        this.seekPos = moveToLocation;
-        GamePath.PathFinderThread.Instance.FindPath(this.theEntity, moveToLocation, this.theEntity.GetMoveSpeedAggro(), false, this);
+  
     }
 }
 

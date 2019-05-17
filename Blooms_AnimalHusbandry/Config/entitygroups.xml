@@ -26,4 +26,12 @@
     <entity name="animalFarmCow" />
     <entity name="animalFarmCowMale" prob="0.3"/>
   </append>
+
+  <append xpath="/entitygroups/entitygroup[@name='AnimalsAll']">
+    <entity name="invisibleCowHerdSpawner" prob="0.1"/>
+    <entity name="invisibleChickenHerdSpawner" prob="0.1"/>
+    <entity name="invisibleGoatHerdSpawner" prob="0.1"/>
+    <entity name="invisiblePigsHerdSpawner" prob="0.1"/>
+  </append>
+  
 </configs>

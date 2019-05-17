@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>Bloom's Animal Husbandry</name>
     <description>Bloom's Animal Husbandry Kit (SDX Mod)</description>
-    <mod_version>1.0.0.5</mod_version>
+    <mod_version>1.0.0.6</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -23,7 +23,6 @@
     <hash filename="Config\buffs.xml" hash="0c926ff7f2614f3a879b8d0b547a493c" />
     <hash filename="Config\dialogs.xml" hash="b1b6e238ef888830bccce674af52d40d" />
     <hash filename="Config\entityclasses.xml" hash="e01367da1df9b6c921648686f7c578d7" />
-    <hash filename="Config\entitygroups.xml" hash="f86743b8a439dc9cfd80c9d633c44b08" />
     <hash filename="Config\items.xml" hash="a389d8bcd3b9ee9314217de426339393" />
     <hash filename="Config\Localization.txt" hash="83eb4f334a45c10c18fd0f751cc9d443" />
     <hash filename="Config\npc.xml" hash="9e01cb2de57f31a61f7d366db521f2c9" />
@@ -31,5 +30,6 @@
     <hash filename="Resources\BloomsFarmAnimals.unity3d" hash="6e7561213a9b7207c30825ce7d35265d" />
     <hash filename="Resources\Cows.unity3d" hash="3ee29b470b82464a00f3e9a5cf728af3" />
     <hash filename="Resources\FarmAnimalController.unitypackage" hash="7b9899e1d955c8a44bbb1e470811aace" />
+    <hash filename="Config\entitygroups.xml" hash="b37a731c058015c7ca4e046fff3069fe" />
   </hashes>
 </mod>

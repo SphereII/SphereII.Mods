@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>aXUi_Dialog</name>
     <description>Add new dialog windows for NPCs. Early loading for over-ride</description>
-    <mod_version>1.0.0.8</mod_version>
+    <mod_version>1.0.0.11</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -22,6 +22,6 @@
     <hash filename="Textures\trader\smx_player_bg.png" hash="67ae03d5af777b9184d21dea40ee1c85" />
     <hash filename="Textures\trader\smx_trader_bg.png" hash="0d35d48e5c28a85fad10ac5d0df16527" />
     <hash filename="Config\npc.xml" hash="7d46df0e0a49bf4b920c41888a773be5" />
-    <hash filename="Config\dialogs.xml" hash="9542199b2502ea579583b3737a0e8b84" />
+    <hash filename="Config\dialogs.xml" hash="c26bd183683c44b0af406ec47f9a7db3" />
   </hashes>
 </mod>

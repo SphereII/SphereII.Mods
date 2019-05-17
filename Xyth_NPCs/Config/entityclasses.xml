@@ -41,14 +41,14 @@
 			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
 			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
 			<property name="AITask-5" value="PatrolSDX, Mods"/> 
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
-			<property name="AITask-7" value="Look"/> 
-			<property name="AITask-8" value="WanderSDX, Mods"/> 
-			<property name="AITask-9" value="" />
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/>
+      <property name="AITask-7" value="LootLocationSDX, Mods" />
+      <property name="AITask-8" value="Look"/> 
+			<property name="AITask-9" value="WanderSDX, Mods"/> 
+			<property name="AITask-10" value="" />
 			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
 			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
 			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
-<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
  			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
