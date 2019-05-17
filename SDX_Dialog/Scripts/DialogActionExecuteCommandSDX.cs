@@ -11,15 +11,14 @@ public class DialogActionExecuteCommandSDX : DialogActionAddBuff
 
     public override void PerformAction(EntityPlayer player)
     {
-        int entityID = 0;
+        int entityID = -1;
         if(player.Buffs.HasCustomVar("CurrentNPC"))
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
-        if(entityID == 0)
+        if(entityID == -1)
             return;
-        EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if(myEntity != null)
-                myEntity.ExecuteCMD(base.ID, player);
+
+        EntityUtilities.ExecuteCMD(entityID, base.ID, player );
     }
 
     private string name = string.Empty;

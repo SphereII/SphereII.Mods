@@ -15,9 +15,9 @@ public class DialogRequirementHiredSDX : BaseDialogRequirement
         {
             bool isTame = false;
             if(base.Value.EqualsCaseInsensitive("not"))
-                isTame = !myEntity.isTame(player);
+                isTame = !EntityUtilities.isTame(entityID, player);
             else
-                isTame = myEntity.isTame(player);
+                isTame = EntityUtilities.isTame(entityID, player);
             return isTame;
         }
         return false;

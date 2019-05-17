@@ -22,7 +22,7 @@ public class XUiC_DialogRespondentNameSDX : XUiC_DialogRespondentName
                 EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
                 if(myEntity)
                 {
-                    if(myEntity.GetHireCost() <= 0)
+                    if(EntityUtilities.GetHireCost( entityID) <= 0)
                         value = myEntity.EntityName;
                     else
                         value = myEntity.EntityName;// + " ( Hire for " + myEntity.GetHireCost() + " " + myEntity.GetHireCurrency().ItemClass.Name + " )";

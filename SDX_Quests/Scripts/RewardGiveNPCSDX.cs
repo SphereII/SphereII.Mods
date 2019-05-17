@@ -10,7 +10,7 @@ class RewardGiveNPCSDX : BaseReward
             EntityAliveSDX questNPC = GameManager.Instance.World.Entities.dict[base.OwnerQuest.QuestGiverID] as EntityAliveSDX;
             if (questNPC)
             {
-                questNPC.SetOwner(player as EntityPlayerLocal);
+                EntityUtilities.SetOwner(questNPC.entityId, player.entityId);
             }
             else
             {

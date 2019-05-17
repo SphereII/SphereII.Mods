@@ -21,8 +21,8 @@ class EAIGuardSDX : EAILook
     }
     public bool FetchOrders( )
     {
-        if (this.theEntity.Buffs.HasCustomVar("CurrentOrder") && (this.theEntity.Buffs.GetCustomVar("CurrentOrder") != (float)EntityAliveSDX.Orders.Stay))
-                return false;
+        if(EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
+            return false;
 
         if ( this.theEntity is EntityAliveSDX )
         {

@@ -62,7 +62,7 @@ class EAIPatrolSDX : EAIApproachSpot
         bool result = false;
         if (entityAliveSDX)
         {
-            result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.Patrol);
+            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Patrol);
             DisplayLog("CanExecute() Follow Task? " + result);
             if (result == false)
                 return false;
@@ -111,7 +111,7 @@ class EAIPatrolSDX : EAIApproachSpot
             // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
             bool result = false;
         if (entityAliveSDX)
-            result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.Patrol);
+            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Patrol);
 
         if (this.lstPatrolPoints.Count <= 0)
         {

@@ -27,7 +27,7 @@ class XUiC_HireInformationPopupSDX : XUiController
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if(myEntity != null)
-            hireInformationLabel.Text = "Hire " + myEntity.EntityName + " for " + myEntity.GetHireCost() + " " + myEntity.GetHireCurrency().ItemClass.GetLocalizedItemName() + "?";
+            hireInformationLabel.Text = "Hire " + myEntity.EntityName + " for " + EntityUtilities.GetHireCost( entityID ) + " " + EntityUtilities.GetHireCurrency(entityID).ItemClass.GetLocalizedItemName() + "?";
 
         base.OnOpen();
 
@@ -46,7 +46,7 @@ class XUiC_HireInformationPopupSDX : XUiController
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if(myEntity != null)
-            myEntity.Hire(player as EntityPlayerLocal);
+            EntityUtilities.Hire(entityID, player as EntityPlayerLocal);
 
         base.xui.playerUI.windowManager.Close(windowGroup.ID);
     }

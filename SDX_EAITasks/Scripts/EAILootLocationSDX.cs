@@ -42,7 +42,7 @@ class EAILootLocationSDX : EAIApproachSpot
         bool result = false;
         if (entityAliveSDX)
         {
-            result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.Loot);
+            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Loot);
             DisplayLog("CanExecute() Loot Task? " + result);
             if (result == false)
                 return false;
@@ -67,7 +67,7 @@ class EAILootLocationSDX : EAIApproachSpot
         bool result = false;
         if (entityAliveSDX)
         {
-            result = entityAliveSDX.CanExecuteTask(EntityAliveSDX.Orders.Loot);
+            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Loot);
             DisplayLog("CanContinue() Loot Task? " + result);
             if (result == false)
                 return false;
@@ -90,7 +90,7 @@ class EAILootLocationSDX : EAIApproachSpot
                 {
                     DisplayLog("I am too far away from my leader. Teleporting....");
                 this.theEntity.SetPosition(myLeader.position, true);
-                this.entityAliveSDX.ExecuteCMD("FollowMe", myLeader as EntityPlayer);
+                EntityUtilities.ExecuteCMD(this.theEntity.entityId, "FollowMe", myLeader as EntityPlayer);
                 }
 
             }
@@ -369,7 +369,7 @@ class EAILootLocationSDX : EAIApproachSpot
                     DisplayLog(" Could Not add Item to NPC inventory. " + tileLootContainer.items[i].itemValue.ToString());
                     if (theEntity is EntityAliveSDX)
                     {
-                        (theEntity as EntityAliveSDX).ExecuteCMD("FollowMe", player);
+                        EntityUtilities.ExecuteCMD(this.theEntity.entityId, "FollowMe", player);
                         return;
                     }
 

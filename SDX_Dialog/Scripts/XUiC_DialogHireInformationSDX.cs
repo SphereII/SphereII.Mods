@@ -16,7 +16,7 @@ public class XUiC_DialogHireInformationSDX : XUiC_DialogRespondentName
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if(myEntity != null)
         {
-            if(myEntity.isTame(base.xui.playerUI.entityPlayer))
+            if(EntityUtilities.isTame(entityID, base.xui.playerUI.entityPlayer))
                 return;
         }
         base.OnOpen();

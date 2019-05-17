@@ -54,9 +54,8 @@ class XUiC_JoinInformationPopupSDX : XUiController
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if(myEntity != null)
-        {
-            myEntity.SetOwner(player as EntityPlayerLocal);
-        }
+            EntityUtilities.SetOwner(entityID, player.entityId);
+
         base.xui.playerUI.windowManager.Close(this.windowGroup.ID);
     }
 

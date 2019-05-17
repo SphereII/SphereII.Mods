@@ -18,29 +18,24 @@ class EAIWanderSDX : EAIWander
     public override bool CanExecute()
     {
         DisplayLog("CanExecute() ");
-
-        if (this.theEntity.Buffs.HasCustomVar("CurrentOrder") && (this.theEntity.Buffs.GetCustomVar("CurrentOrder") != (float)EntityAliveSDX.Orders.Wander))
-        {
-            DisplayLog("CanExecuteTask(): Current Order does not match this order: Current Order:" + this.theEntity.Buffs.GetCustomVar("CurrentOrder") + " : Order Request: Wander");
+        bool result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Wander);
+        if(result == false)
             return false;
-        }
         else
-        {
             DisplayLog("CanExecuteTask(): Order is set for Wander");
-        }
         return base.CanExecute();
     }
 
     public override bool Continue()
     {
-        if (this.theEntity.Buffs.HasCustomVar("CurrentOrder") && (this.theEntity.Buffs.GetCustomVar("CurrentOrder") != (float)EntityAliveSDX.Orders.Wander))
-        {
-            DisplayLog("Continue(): Current Order does not match this order: Current Order:" + this.theEntity.Buffs.GetCustomVar("CurrentOrder") + " : Order Request: Wander");
+        bool result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Wander);
+        if(result == false)
             return false;
-        }
+        else
+            DisplayLog("CanExecuteTask(): Order is set for Wander");
 
         // if an entity gets 'stuck' on a block, it just starts attacking it. Kind of aggressive.
-        if (this.theEntity.moveHelper.BlockedTime <= 1f)
+        if(this.theEntity.moveHelper.BlockedTime <= 1f)
         {
             DisplayLog("Continue(): I am stuck for more than 1f");
             this.theEntity.navigator.clearPath();

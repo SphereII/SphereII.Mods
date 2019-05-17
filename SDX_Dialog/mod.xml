@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_Dialog</name>
     <description>Add new dialog class</description>
-    <mod_version>1.0.0.7</mod_version>
+    <mod_version>1.0.0.8</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -13,16 +13,16 @@
   </dependencies>
   <hashes>
     <hash filename="ReadMe.md" hash="b66aa09e34c0217a0567285ca764686f" />
-    <hash filename="Scripts\DialogActionExecuteCommandSDX.cs" hash="8493f016ca4e9a34c5c248a63c3106fb" />
     <hash filename="Scripts\DialogActionOpenDialogSDX.cs" hash="e70c8ac2b51f6bc5ed7f145bf14137e9" />
-    <hash filename="Scripts\DialogRequirementHiredSDX.cs" hash="34edcbf8a512f84ed2900bb8a4909445" />
-    <hash filename="Scripts\DialogRequirementPatrolSDX.cs" hash="6effc2789b8c4a5b211ec0034920020e" />
-    <hash filename="Scripts\XUiC_DialogHireInformationSDX.cs" hash="68e43f4a3b534fd7c1e2cf307c39393b" />
-    <hash filename="Scripts\XUiC_DialogRespondentNameSDX.cs" hash="26e5dc66b68ab5546e56a11fc4a7dd94" />
-    <hash filename="Scripts\XUiC_HireInformationPopupSDX.cs" hash="6f349cae5a96ce1907fad0c8e93e9a84" />
-    <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="c53341fa67a0d0b10a9b1c0c5aeb1f41" />
     <hash filename="Scripts\DialogRequirementHasTaskSDX.cs" hash="509bc50ea6aa4b2890d0a9c1c87b1ff8" />
     <hash filename="Scripts\DialogRequirementHasQuestSDX.cs" hash="b76b7afb7b52e39468a76e84cb65d45e" />
     <hash filename="PatchScripts\PatchScript.cs" hash="04a1fe5e698a49fba050387e62ea0a13" />
+    <hash filename="Scripts\DialogActionExecuteCommandSDX.cs" hash="2cceaacc0e1dcc25c5be17bfd08e5515" />
+    <hash filename="Scripts\DialogRequirementHiredSDX.cs" hash="3c3e1a3b3d7711affc3a75096f394743" />
+    <hash filename="Scripts\DialogRequirementPatrolSDX.cs" hash="ca6afaf644bfe2d889c3078c3cdaf960" />
+    <hash filename="Scripts\XUiC_DialogHireInformationSDX.cs" hash="9429bc12040717b9a92b5fc4cefb3162" />
+    <hash filename="Scripts\XUiC_DialogRespondentNameSDX.cs" hash="d42786b1e53d91b543c3908a8ae33d3d" />
+    <hash filename="Scripts\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
+    <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
   </hashes>
 </mod>

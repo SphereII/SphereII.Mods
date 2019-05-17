@@ -43,7 +43,7 @@ class RewardReassignNPCSDX : RewardExp
             {
                 if (x.Buffs.HasCustomVar("Leader") && x.Buffs.GetCustomVar("Leader") == (float)questNPC.entityId)
                 {
-                    x.SetOwner(player as EntityPlayerLocal);
+                    EntityUtilities.SetOwner( x.entityId, player.entityId);
                 }
             }
         }
