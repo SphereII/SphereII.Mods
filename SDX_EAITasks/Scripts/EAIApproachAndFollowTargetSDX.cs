@@ -12,9 +12,9 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     private Vector3 entityTargetVel;
     private int pathCounter;
 
-    public EntityAliveSDX entityAliveSDX;
+  //  public EntityAliveSDX entityAliveSDX;
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
@@ -27,7 +27,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     public override void Init(EntityAlive _theEntity)
     {
         base.Init(_theEntity);
-        entityAliveSDX = (_theEntity as EntityAliveSDX);
+       // entityAliveSDX = (_theEntity as EntityAliveSDX);
     }
 
     // Allow params to be a comma-delimited list of various incentives, such as item name, buff, or cvar.
@@ -52,17 +52,17 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         this.NearbyEntities.Clear();
 
-        if (this.entityAliveSDX == null)
-        {
-            if (this.theEntity is EntityAliveSDX)
-                this.entityAliveSDX = (this.theEntity as EntityAliveSDX);
-            else
-            {
-                DisplayLog(" Not an EntityAliveSDX");
-                return false;
-            }
-        }
-
+        //if (this.entityAliveSDX == null)
+        //{
+        //    if (this.theEntity is EntityAliveSDX)
+        //        this.entityAliveSDX = (this.theEntity as EntityAliveSDX);
+        //    else
+        //    {
+        //        DisplayLog(" Not an EntityAliveSDX");
+        //        return false;
+        //    }
+        //}
+  
         DisplayLog(" ConfigureTargetEntity()");
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(30f, 20f, 30f));
@@ -80,7 +80,9 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                     this.entityTarget = x;
 
                     Vector3 tempPosition =  (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
+                    
                     Vector3 a = this.theEntity.position - tempPosition;
+                    DisplayLog(" Distance: " + a);
                     if (a.sqrMagnitude < 2f)
                     {
                         this.entityTarget = null;
@@ -117,7 +119,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     {
         DisplayLog("CanExecute() Start");
         bool result = false;
-        if (entityAliveSDX)
+    //    if (entityAliveSDX)
         {
             result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Follow);
             DisplayLog("CanExecute() Follow Task? " + result);
@@ -167,7 +169,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         DisplayLog("Continue() Start");
 
         bool result = false;
-        if (entityAliveSDX)
+     //   if (entityAliveSDX)
         {
             result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Follow);
             if (result == false)
@@ -233,12 +235,12 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.SetLookPosition(this.entityTargetPos);
         this.theEntity.RotateTo(this.entityTargetPos.x, this.entityTargetPos.y + 2, this.entityTargetPos.z, 30f, 30f);
 
-        if (entityAliveSDX)
+     //   if (entityAliveSDX)
         {
             if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.SetPatrolPoint))
             {
                 // Make them a lot closer to you when they are following you.
-                entityAliveSDX.UpdatePatrolPoints(this.theEntity.world.FindSupportingBlockPos(this.entityTarget.position));
+                (this.theEntity as EntityAliveSDX).UpdatePatrolPoints(this.theEntity.world.FindSupportingBlockPos(this.entityTarget.position));
             }
         }
         Vector3 a = this.theEntity.position - this.entityTargetPos;

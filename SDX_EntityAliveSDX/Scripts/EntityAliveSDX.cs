@@ -324,6 +324,8 @@ public class EntityAliveSDX : EntityNPC
             if(lootList != 0)
                 lootContainer.SetContainerSize(LootContainer.lootList[lootList].size, true);
         }
+
+        Debug.Log(ToString());
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
@@ -367,6 +369,7 @@ public class EntityAliveSDX : EntityNPC
         GuardPosition = ModGeneralUtilities.StringToVector3(strGuardPosition);
         factionId = _br.ReadByte();
         GuardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+
     }
 
  
@@ -386,7 +389,6 @@ public class EntityAliveSDX : EntityNPC
         _bw.Write(GuardPosition.ToString());
         _bw.Write(factionId);
         _bw.Write(GuardLookPosition.ToString());
-
     }
 
     public void DisplayStats()

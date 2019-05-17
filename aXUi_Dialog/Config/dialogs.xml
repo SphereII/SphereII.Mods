@@ -4,6 +4,7 @@
     <!-- Generic Dialog with Quest options (if quests are available -->
     <dialog id="GenericNPCWithQuest" startstatementid="start">
       <statement id="start" text="dialog_trader_statement_start">
+        <response_entry id="TellMe" />
         <response_entry id="FollowMe" />
         <!--response_entry id="jobshave" /-->
         <response_entry id="ShowMe" />
@@ -49,6 +50,10 @@
         <action type="ExecuteCommandSDX, Mods" id="FollowMe" />
       </response>
 
+      <response id="TellMe" text="Tell me about yourself" >
+        <requirement type="HiredSDX, Mods" requirementtype="Hide"/>
+        <action type="ExecuteCommandSDX, Mods" id="TellMe" />
+      </response>
       <response id="ShowMe" text="Show Me your inventory" >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />
         <action type="ExecuteCommandSDX, Mods" id="OpenInventory" />

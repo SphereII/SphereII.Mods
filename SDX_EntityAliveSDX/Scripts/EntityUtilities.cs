@@ -131,10 +131,8 @@ public static class EntityUtilities
 
         Entity theirLeader = GetLeaderOrOwner(AttackingID);
         if ( (myLeader && theirLeader)  && (myLeader.entityId == theirLeader.entityId))
-        {
-            UnityEngine.Debug.Log("My Leader is the same as their leader. My ID: " + EntityID + " Their ID: " + AttackingID);
             result = true;
-        }
+
         return result;
     }
 
@@ -153,8 +151,11 @@ public static class EntityUtilities
     public static void SetCurrentOrder(int EntityID, Orders order)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if(myEntity)
-            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, false);
+        if (myEntity)
+        {
+            DisplayLog(" Setting Current Order: " + order.ToString());
+            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, true);
+        }
     }
 
     public static Orders GetCurrentOrder( int EntityID )
@@ -163,8 +164,12 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
-            if(myEntity.Buffs.HasCustomVar("CurrentOrder"))
+            DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
+            if (myEntity.Buffs.HasCustomVar("CurrentOrder"))
+            {
+                DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
                 currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
+            }
         }
         return currentOrder;
     }
@@ -185,7 +190,7 @@ public static class EntityUtilities
 
         switch(strCommand)
         {
-            case "ShowMe":
+            case "TellMe":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
                 break;
             case "ShowAffection":
@@ -193,35 +198,35 @@ public static class EntityUtilities
                 break;
             case "FollowMe":
                 myEntity.Buffs.SetCustomVar("Leader", player.entityId, true);
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Follow, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Follow, true);
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
 
                 break;
             case "StayHere":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.None, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.None, true);
                 myEntity.GuardPosition = position;
                 myEntity.moveHelper.Stop();
                 break;
             case "GuardHere":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Stay, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Stay, true);
                 myEntity.SetLookPosition(player.GetLookVector());
                 myEntity.GuardPosition = position;
                 myEntity.moveHelper.Stop();
                 myEntity.GuardLookPosition = player.GetLookVector();
                 break;
             case "Wander":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Wander, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Wander, true);
                 break;
             case "SetPatrol":
                 myEntity.Buffs.SetCustomVar("Leader", player.entityId, true);
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.SetPatrolPoint, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.SetPatrolPoint, true);
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
                 myEntity.PatrolCoordinates.Clear(); // Clear the existing point.
                 break;
             case "Patrol":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Patrol, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Patrol, true);
                 break;
             case "Hire":
                 bool result = Hire(EntityID, player as EntityPlayerLocal);
@@ -242,7 +247,7 @@ public static class EntityUtilities
 
                 break;
             case "Loot":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Loot, false);
+                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Loot, true);
                 myEntity.Buffs.RemoveCustomVar("Leader");
                 break;
 
@@ -258,11 +263,15 @@ public static class EntityUtilities
     }
     public static bool CanExecuteTask(int EntityID, EntityUtilities.Orders order)
     {
+        DisplayLog("CanExecuteTask(): " + order.ToString() );
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
-            if(GetCurrentOrder(EntityID) != order)
+            if (GetCurrentOrder(EntityID) != order)
+            {
+                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
                 return false;
+            }
 
             EntityPlayerLocal leader = EntityUtilities.GetLeader(EntityID) as EntityPlayerLocal;
             float Distance = 0f;
@@ -273,31 +282,28 @@ public static class EntityUtilities
             if(myEntity.GetAttackTarget() != null && myEntity.GetAttackTarget().IsAlive())
             {
                 // If we have a leader and they are far away, abandon the fight and go after your leader.
-                DisplayLog("CanExecuteTask(): I have an attack target and a leader. My leader is this far away: " + Distance);
                 if(Distance > 20)
                 {
-                    DisplayLog("CanExecuteTask(): Leaving my attack target.");
+                    DisplayLog("CanExecuteTask(): I have an Attack Target but my Leader is too far away.");
                     myEntity.SetAttackTarget(null, 0);
                     return true;
                 }
-                DisplayLog("CanExecuteTask():  There is an attack target set. Not executing Order: " + order.ToString());
-                DisplayLog(" Attack Target: " + myEntity.GetAttackTarget().ToString());
+
+                // I have an attack target, so don't keep doing your current task
+                DisplayLog("CanExecuteTask(): I have an Attack Target: " + myEntity.GetAttackTarget().ToString() );
                 return false;
 
             }
 
             if(myEntity.GetRevengeTarget() != null && myEntity.GetRevengeTarget().IsAlive())
             {
-                DisplayLog("CanExecuteTask(): I have an Revenge target and a leader. My leader is this far away: " + Distance);
                 if(Distance > 20)
                 {
-                    DisplayLog("CanExecuteTask(): Leaving my Revenge target.");
+                    DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
                     myEntity.SetRevengeTarget(null);
                     return true;
                 }
-
-                DisplayLog("CanExecuteTask():  There is an Revenge target set. Not executing Order: " + order.ToString());
-                DisplayLog("Revenge Target: " + myEntity.GetRevengeTarget().ToString());
+                DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
                 return false;
 
             }
@@ -332,7 +338,8 @@ public static class EntityUtilities
         if(myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
-            result = ItemClass.GetItem(entityClass.Properties.Values[ strProperty], false);
+            if (entityClass.Properties.Values.ContainsKey(strProperty))
+                result = ItemClass.GetItem(entityClass.Properties.Values[ strProperty], false);
             if(result.IsEmpty())
                 result = ItemClass.GetItem("casinoCoin");
         }
@@ -463,7 +470,6 @@ public static class EntityUtilities
 
         foreach(String strIncentive in lstIncentives)
         {
-            DisplayLog(" Checking Incentive: " + strIncentive);
             // Check if the entity that is looking at us has the right buff for us to follow.
             if(myEntity.Buffs.HasBuff(strIncentive))
                 result = true;
