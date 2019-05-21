@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class EntityUtilities
 {
-    static bool blDisplayLog = false;
+    static bool blDisplayLog = true;
 
     public static void DisplayLog(string strMessage)
     {
@@ -46,28 +46,35 @@ public static class EntityUtilities
     }
     public static bool Hire(int EntityID, EntityPlayerLocal _player)
     {
+        DisplayLog("Hire()");
         bool result = false;
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity == null)
             return result;
+
+        DisplayLog("Hire(): I have an entity");
         
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_player as EntityPlayerLocal);
-        if(null != uiforPlayer)
+        if(uiforPlayer)
         {
-            if(uiforPlayer.xui.PlayerInventory.GetItemCount(myEntity.HireCurrency) >= myEntity.HireCost)
+            DisplayLog("Hire(): I have a player.");
+            DisplayLog(" The Player wants to hire me for " + GetHireCost(EntityID) + " " + GetHireCurrency(EntityID));
+            if(uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)) >= GetHireCost(EntityID))
             {
+                DisplayLog(" The Player has enough currency: " + uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)));
                 // Create the stack of currency
-                ItemStack stack = new ItemStack(myEntity.HireCurrency, myEntity.HireCost);
+                ItemStack stack = new ItemStack( GetHireCurrency( EntityID ), GetHireCost(EntityID ));
+                DisplayLog(" Removing Item: " + stack.ToString());
                 uiforPlayer.xui.PlayerInventory.RemoveItems(new ItemStack[] { stack }, 1);
 
                 // Add the stack of currency to the NPC, and set its orders.
-                myEntity.bag.AddItem(stack);
+                //myEntity.bag.AddItem(stack);
                 SetLeaderAndOwner(EntityID, _player.entityId);
                 return true;
             }
             else
             {
-                GameManager.ShowTooltipWithAlert(_player, "You cannot afford me. I want " + myEntity.HireCost + " " + myEntity.HireCurrency, "ui_denied");
+                GameManager.ShowTooltipWithAlert(_player, "You cannot afford me. I want " +GetHireCost(EntityID) + " " + GetHireCurrency(EntityID), "ui_denied");
             }
         }
         return false;
@@ -215,6 +222,7 @@ public static class EntityUtilities
             case "TellMe":
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
+                player.SetModelLayer(24, true);
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
@@ -380,6 +388,9 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
             result = GetItemValue(EntityID, "HireCurrency");
+
+        if(result.IsEmpty())
+            result = ItemClass.GetItem("casinoCoin", true);
         return result;
     }
 
@@ -598,7 +609,7 @@ public static class EntityUtilities
         foreach(Vector3 vec in myEntity.PatrolCoordinates)
             strOutput += "\n\t" + vec.ToString();
 
-        strOutput += "\n\nCurrency: " + myEntity.HireCurrency + " Faction: " + myEntity.factionId;
+        strOutput += "\n\nCurrency: " + GetHireCurrency( EntityID) + " Faction: " + myEntity.factionId;
 
         DisplayLog(strOutput);
         Debug.Log(strOutput);

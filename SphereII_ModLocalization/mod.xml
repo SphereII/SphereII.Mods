@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII Mod Localization Hook</name>
     <description>A modlet that will read ModLocalization.txt and ModLocalization - Quests.txt, and merge into the main localization at run time.</description>
-    <mod_version>1.0.0.3</mod_version>
+    <mod_version>1.0.0.4</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -11,6 +11,6 @@
   <hashes>
     <hash filename="ReadMe.txt" hash="8a98fa029eaf33a3ed96111bef616c22" />
     <hash filename="Config\blocks.xml" hash="e179126e9e6e68c6d0a71d2d95cec071" />
-    <hash filename="Scripts\LocalizationBlock.cs" hash="b46d854445f20a440405711122796a14" />
+    <hash filename="Scripts\LocalizationBlock.cs" hash="d241e4e66436a0a6b47a0abae0799453" />
   </hashes>
 </mod>

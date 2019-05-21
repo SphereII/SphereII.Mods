@@ -24,18 +24,14 @@ public class EntityAliveSDX : EntityNPC
     List<String> lstHungryBuffs = new List<String>();
     List<String> lstThirstyBuffs = new List<String>();
 
-   // public EntityUtilities.Orders currentOrder = EntityUtilities.Orders.Wander;
+    // public EntityUtilities.Orders currentOrder = EntityUtilities.Orders.Wander;
 
     public List<Vector3> PatrolCoordinates = new List<Vector3>();
-    public int HireCost = 1000;
 
-    public ItemValue HireCurrency = ItemClass.GetItem("casinoCoin", false);
     int DefaultTraderID = 0;
 
     public Vector3 GuardPosition = Vector3.zero;
     public Vector3 GuardLookPosition = Vector3.zero;
-    String strSoundAccept = "";
-    String strSoundReject = "";
 
     public float flEyeHeight = -1f;
     public bool bWentThroughDoor = false;
@@ -58,7 +54,7 @@ public class EntityAliveSDX : EntityNPC
 
     public override string ToString()
     {
-        return EntityUtilities.DisplayEntityStats(this.entityId);
+        return EntityUtilities.DisplayEntityStats(entityId);
     }
 
 
@@ -77,14 +73,12 @@ public class EntityAliveSDX : EntityNPC
         base.CopyPropertiesFromEntityClass();
         EntityClass entityClass = EntityClass.list[this.entityClass];
 
-        flEyeHeight = EntityUtilities.GetFloatValue(this.entityId, "EyeHeight");
-        HireCost = EntityUtilities.GetIntValue(this.entityId, "HireCost");
-        HireCurrency = EntityUtilities.GetItemValue(this.entityId, "HireCurrency");
+        flEyeHeight = EntityUtilities.GetFloatValue(entityId, "EyeHeight");
 
-        lstHungryBuffs = EntityUtilities.ConfigureEntityClass(this.entityId, "HungryBuffs");
-        lstThirstyBuffs = EntityUtilities.ConfigureEntityClass(this.entityId, "ThirstyBuffs");
+        lstHungryBuffs = EntityUtilities.ConfigureEntityClass(entityId, "HungryBuffs");
+        lstThirstyBuffs = EntityUtilities.ConfigureEntityClass(entityId, "ThirstyBuffs");
 
-        
+
         // Read in a list of names then pick one at random.
         if(entityClass.Properties.Values.ContainsKey("Names"))
         {
@@ -101,7 +95,7 @@ public class EntityAliveSDX : EntityNPC
             int index = random.Next(0, Names.Length);
             strTitle = Names[index];
         }
-        
+
 
         if(entityClass.Properties.Classes.ContainsKey("Boundary"))
         {
@@ -158,7 +152,7 @@ public class EntityAliveSDX : EntityNPC
     }
 
 
- 
+
     Vector3i lastDoorOpen;
     private float nextCheck = 0;
     public float CheckDelay = 5f;
@@ -224,7 +218,7 @@ public class EntityAliveSDX : EntityNPC
     public void RestoreSpeed()
     {
         // Reset the movement speed when an attack target is set
-        moveSpeed = EntityUtilities.GetFloatValue(this.entityId, "MoveSpeed");
+        moveSpeed = EntityUtilities.GetFloatValue(entityId, "MoveSpeed");
 
         Vector2 vector;
         vector.x = moveSpeed;
@@ -252,7 +246,7 @@ public class EntityAliveSDX : EntityNPC
 
     public override bool Attack(bool _bAttackReleased)
     {
-        if(this.attackTarget == null)
+        if(attackTarget == null)
         {
             OpenDoor();
             return false;
@@ -326,7 +320,7 @@ public class EntityAliveSDX : EntityNPC
                 lootContainer.SetContainerSize(LootContainer.lootList[lootList].size, true);
         }
 
-        this.Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
+        Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
@@ -373,10 +367,10 @@ public class EntityAliveSDX : EntityNPC
         factionId = _br.ReadByte();
         GuardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
 
-        
+
 
     }
- 
+
     // Saves the buff and quest information
     public override void Write(BinaryWriter _bw)
     {
@@ -399,7 +393,7 @@ public class EntityAliveSDX : EntityNPC
         DisplayLog(ToString());
     }
 
-  
+
 
     public void GiveQuest(String strQuest)
     {
@@ -427,7 +421,7 @@ public class EntityAliveSDX : EntityNPC
         bool isBusy = false;
         emodel.avatarController.TryGetBool("IsBusy", out isBusy);
         if(isBusy)
-            return;   
+            return;
 
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
@@ -437,21 +431,17 @@ public class EntityAliveSDX : EntityNPC
         if(lastDoorOpen != Vector3i.zero)
             OpenDoor();
 
-        this.Buffs.RemoveBuff("buffnewbiecoat", false);
-        this.Stats.Health.MaxModifier = this.Stats.Health.Max;
-        //if(--this.waitTicks <= 0)
-        //{
+        Buffs.RemoveBuff("buffnewbiecoat", false);
+        Stats.Health.MaxModifier = Stats.Health.Max;
 
-        //    this.waitTicks = 1;
-            // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
-            Stats.Water.Tick(0.5f, 0, false);
+        // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
+        Stats.Water.Tick(0.5f, 0, false);
 
-            // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
-            Stats.UpdateStatsOverTime(0.5f);
+        // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
+        Stats.UpdateStatsOverTime(0.5f);
 
 
-            updateTime = Time.time - 2f;
-       // }
+        updateTime = Time.time - 2f;
         base.OnUpdateLive();
 
         // Make the entity sensitive to the environment.
@@ -470,7 +460,7 @@ public class EntityAliveSDX : EntityNPC
                 {
                     if(entitiesInBounds[i] is EntityPlayer)
                     {
-                        if(this.GetDistance(entitiesInBounds[i]) > 1)
+                        if(GetDistance(entitiesInBounds[i]) > 1)
                         {
 
                             emodel.avatarController.SetBool("IsBusy", true);
@@ -481,7 +471,7 @@ public class EntityAliveSDX : EntityNPC
                         }
                         else
                         {
-                            this.getMoveHelper().SetMoveTo((entitiesInBounds[i] as EntityPlayer).GetLookVector(), false);
+                            getMoveHelper().SetMoveTo((entitiesInBounds[i] as EntityPlayer).GetLookVector(), false);
                         }
                     }
                 }
@@ -489,7 +479,7 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
-   
+
     public void ToggleTraderID(bool Restore)
     {
         if(NPCInfo == null)
@@ -504,7 +494,7 @@ public class EntityAliveSDX : EntityNPC
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
 
-        if(EntityUtilities.IsAnAlly(this.entityId, _damageSource.getEntityId()))
+        if(EntityUtilities.IsAnAlly(entityId, _damageSource.getEntityId()))
             return 0;
 
         // If we are being attacked, let the state machine know it can fight back
@@ -520,18 +510,17 @@ public class EntityAliveSDX : EntityNPC
 
     public override void SetRevengeTarget(EntityAlive _other)
     {
-        EntityAlive myLeeader = EntityUtilities.GetLeaderOrOwner(this.entityId) as EntityAlive;
+        // Forgive friendly fire, even from explosions.
+        EntityAlive myLeeader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if(myLeeader.entityId == _other.entityId)
             return;
 
-        
+
         base.SetRevengeTarget(_other);
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
-
-
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 
