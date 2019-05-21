@@ -40,14 +40,8 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
         this.NearbyEntities.Clear();
         NearbyEnemies.Clear();
 
-        EntityAlive leader = null;
-        if (this.theEntity.Buffs.HasCustomVar("Leader"))
-        {
-            DisplayLog(" leader Detected.");
-            int EntityID = (int)this.theEntity.Buffs.GetCustomVar("Leader");
-            leader = this.theEntity.world.GetEntity(EntityID) as EntityAlive;
-
-        }
+        EntityAlive leader = EntityUtilities.GetLeaderOrOwner(this.theEntity.entityId) as EntityAlive;
+  
 
         float originalView = this.theEntity.GetMaxViewAngle();
         this.theEntity.SetMaxViewAngle(250f);
@@ -61,7 +55,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
             if (x != this.theEntity && x.IsAlive())
             {
-                if (x == leader)
+                if (leader != null && x == leader)
                     continue;
 
                 if (x.CanSee(this.theEntity.position))

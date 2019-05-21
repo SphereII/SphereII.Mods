@@ -24,7 +24,7 @@ public class EntityAliveSDX : EntityNPC
     List<String> lstHungryBuffs = new List<String>();
     List<String> lstThirstyBuffs = new List<String>();
 
-    public EntityUtilities.Orders currentOrder = EntityUtilities.Orders.Wander;
+   // public EntityUtilities.Orders currentOrder = EntityUtilities.Orders.Wander;
 
     public List<Vector3> PatrolCoordinates = new List<Vector3>();
     public int HireCost = 1000;
@@ -84,6 +84,7 @@ public class EntityAliveSDX : EntityNPC
         lstHungryBuffs = EntityUtilities.ConfigureEntityClass(this.entityId, "HungryBuffs");
         lstThirstyBuffs = EntityUtilities.ConfigureEntityClass(this.entityId, "ThirstyBuffs");
 
+        
         // Read in a list of names then pick one at random.
         if(entityClass.Properties.Values.ContainsKey("Names"))
         {
@@ -157,6 +158,7 @@ public class EntityAliveSDX : EntityNPC
     }
 
 
+ 
     Vector3i lastDoorOpen;
     private float nextCheck = 0;
     public float CheckDelay = 5f;
@@ -263,7 +265,6 @@ public class EntityAliveSDX : EntityNPC
     {
         // set the IsBusy flag, so it won't wander away when you are talking to it.
         emodel.avatarController.SetBool("IsBusy", true);
-
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
 
@@ -325,13 +326,15 @@ public class EntityAliveSDX : EntityNPC
                 lootContainer.SetContainerSize(LootContainer.lootList[lootList].size, true);
         }
 
-        Debug.Log(ToString());
+        this.Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
     // vector we are storing is on a new block, and not just  10.2 and 10.4. This helps smooth out the entity's walk. However, we do want accurate patrol points,
     // so we store the accurate patrol positions for the entity.
     List<Vector3> tempList = new List<Vector3>();
+    private int waitTicks;
+
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
         // Center the x and z values of the passed in blocks for a unique check.
@@ -370,10 +373,10 @@ public class EntityAliveSDX : EntityNPC
         factionId = _br.ReadByte();
         GuardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
 
+        
+
     }
-
  
-
     // Saves the buff and quest information
     public override void Write(BinaryWriter _bw)
     {
@@ -418,30 +421,37 @@ public class EntityAliveSDX : EntityNPC
         QuestJournal.AddQuest(NewQuest);
     }
 
+    public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute)
+    {
+        // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
+        bool isBusy = false;
+        emodel.avatarController.TryGetBool("IsBusy", out isBusy);
+        if(isBusy)
+            return;   
 
+        base.MoveEntityHeaded(_direction, _isDirAbsolute);
+    }
     public override void OnUpdateLive()
     {
 
         if(lastDoorOpen != Vector3i.zero)
             OpenDoor();
 
+        this.Buffs.RemoveBuff("buffnewbiecoat", false);
+        this.Stats.Health.MaxModifier = this.Stats.Health.Max;
+        //if(--this.waitTicks <= 0)
+        //{
 
-        // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
-        Stats.Water.Tick(0.5f, 0, false);
+        //    this.waitTicks = 1;
+            // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
+            Stats.Water.Tick(0.5f, 0, false);
 
-        // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
-        Stats.UpdateStatsOverTime(0.5f);
+            // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
+            Stats.UpdateStatsOverTime(0.5f);
 
-        // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
-        bool isBusy = false;
-        emodel.avatarController.TryGetBool("IsBusy", out isBusy);
-        if(isBusy || currentOrder == EntityUtilities.Orders.None)
-        {
-            moveDirection = Vector3.zero;
-            moveHelper.Stop();
-        }
 
-        updateTime = Time.time - 2f;
+            updateTime = Time.time - 2f;
+       // }
         base.OnUpdateLive();
 
         // Make the entity sensitive to the environment.
@@ -460,17 +470,26 @@ public class EntityAliveSDX : EntityNPC
                 {
                     if(entitiesInBounds[i] is EntityPlayer)
                     {
-                        emodel.avatarController.SetBool("IsBusy", true);
-                        SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                        RotateTo(entitiesInBounds[i], 30f, 30f);
-                        moveHelper.Stop();
-                        break;
+                        if(this.GetDistance(entitiesInBounds[i]) > 1)
+                        {
+
+                            emodel.avatarController.SetBool("IsBusy", true);
+                            SetLookPosition(entitiesInBounds[i].getHeadPosition());
+                            RotateTo(entitiesInBounds[i], 30f, 30f);
+                            moveHelper.Stop();
+                            break;
+                        }
+                        else
+                        {
+                            this.getMoveHelper().SetMoveTo((entitiesInBounds[i] as EntityPlayer).GetLookVector(), false);
+                        }
                     }
                 }
             }
         }
     }
 
+   
     public void ToggleTraderID(bool Restore)
     {
         if(NPCInfo == null)
@@ -484,6 +503,7 @@ public class EntityAliveSDX : EntityNPC
     }
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
+
         if(EntityUtilities.IsAnAlly(this.entityId, _damageSource.getEntityId()))
             return 0;
 
@@ -497,11 +517,21 @@ public class EntityAliveSDX : EntityNPC
         return Damage;
     }
 
- 
 
+    public override void SetRevengeTarget(EntityAlive _other)
+    {
+        EntityAlive myLeeader = EntityUtilities.GetLeaderOrOwner(this.entityId) as EntityAlive;
+        if(myLeeader.entityId == _other.entityId)
+            return;
+
+        
+        base.SetRevengeTarget(_other);
+    }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
+
+
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 

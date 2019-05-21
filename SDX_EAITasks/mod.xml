@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EAITasks</name>
     <description>A general purpose class that adds in new EAI Tasks</description>
-    <mod_version>1.1.0.54</mod_version>
+    <mod_version>1.1.0.70</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
@@ -12,7 +12,6 @@
   </dependencies>
   <hashes>
     <hash filename="README.md" hash="ffe3d3b9d499760249230a02f15052d2" />
-    <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="1fc7ace03cf87dee6151eb520d2d6e3d" />
     <hash filename="Scripts\EAIRunawayFromEntitySDX.cs" hash="48a9f90a5c91f760c06ee0f22afb836e" />
     <hash filename="Scripts\EAISetAsTargetIfHurtSDX.cs" hash="b8f929e0abd15a663bcdf2795d6dabd9" />
     <hash filename="Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="af01f35605534cbf0161461fca423e5c" />
@@ -23,6 +22,7 @@
     <hash filename="Scripts\EAIPatrolSDX.cs" hash="5059f26ef0092b40ddc8add53fad7b23" />
     <hash filename="Scripts\EAIWanderSDX.cs" hash="1234cfe99739bc57c99fa3d3edc41d0d" />
     <hash filename="Scripts\EAILootLocationSDX.cs" hash="4b637f921a5cb1ed4c15453c7d822a1a" />
-    <hash filename="Scripts\EAIApproachAndFollowTargetSDX.cs" hash="7cfd90eb39f1d52cfcd538b2aacd25f7" />
+    <hash filename="Scripts\EAIApproachAndFollowTargetSDX.cs" hash="0cc4c2f44e902fb3c139dd127417e7b5" />
+    <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="1fc7ace03cf87dee6151eb520d2d6e3d" />
   </hashes>
 </mod>

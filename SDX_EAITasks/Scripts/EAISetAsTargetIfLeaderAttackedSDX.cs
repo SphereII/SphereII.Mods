@@ -30,20 +30,9 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
     public bool CheckSurroundingEntities()
     {
         this.NearbyEntities.Clear();
-        EntityAlive leader = null;
-        if (this.theEntity.Buffs.HasCustomVar("Leader"))
-        {
-            DisplayLog(" leader Detected.");
-            int EntityID = (int)this.theEntity.Buffs.GetCustomVar("Leader");
-            leader = this.theEntity.world.GetEntity(EntityID) as EntityAlive;
-
-        }
-
-        if (leader == null)
-        {
-            DisplayLog(" No leader detected.");
+        EntityAlive leader = EntityUtilities.GetLeaderOrOwner( this.theEntity.entityId ) as EntityAlive;
+        if(!leader)
             return false;
-        }
 
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(this.theEntity.GetSeeDistance(), 20f, this.theEntity.GetSeeDistance()));

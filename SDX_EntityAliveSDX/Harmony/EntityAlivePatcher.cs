@@ -63,4 +63,26 @@ public class SphereII__EntityAlivePatcher
             return true;
         }
     }
+
+
+    // NPCs cause an exception if they have the bleeding buff. Since the entity is dying and not respawning, let's just avoid removing the buffs
+    [HarmonyPatch(typeof(EntityBuffs))]
+    [HarmonyPatch("RemoveBuff")]
+    public class SphereII_EntityBuffs_RemoveBuffs
+    {
+        static bool Prefix(EntityBuffs __instance)
+        {
+            if(__instance == null || __instance.parent == null)
+                return false;
+
+            if(__instance.parent is EntityAliveSDX)
+                if ( __instance.parent.IsDead())
+                    return false;
+
+            return true;
+         
+        }
+    }
+
+    
 }

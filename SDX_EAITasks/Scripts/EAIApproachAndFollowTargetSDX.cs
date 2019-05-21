@@ -14,7 +14,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
   //  public EntityAliveSDX entityAliveSDX;
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
@@ -156,10 +156,12 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     public void SetCloseSpawnPoint()
     {
         Vector3 newPos = entityTarget.GetPosition();
-        newPos.y += 1f;
-        newPos.z += 1f;
-
-        this.theEntity.SetPosition( newPos, true);
+        newPos.x += 2f;
+        newPos.z += 2f;
+        int x, y, z;
+        this.theEntity.world.FindRandomSpawnPointNearPositionUnderground(entityTarget.position, 15, out x, out y, out z, new Vector3(2,2,2));
+        //  this.theEntity.SetPosition( newPos, true);
+        this.theEntity.SetPosition(new Vector3(x, y, z), true);
     }
 
   

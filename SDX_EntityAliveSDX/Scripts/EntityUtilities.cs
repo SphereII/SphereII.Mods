@@ -7,10 +7,12 @@ using UnityEngine;
 
 public static class EntityUtilities
 {
+    static bool blDisplayLog = false;
 
     public static void DisplayLog(string strMessage)
     {
-        UnityEngine.Debug.Log(strMessage);
+        if ( blDisplayLog )
+            UnityEngine.Debug.Log(strMessage);
     }
     // These are the orders, used in cvars for the EAI Tasks. They are casted as floats.
     public enum Orders
@@ -25,6 +27,23 @@ public static class EntityUtilities
         Loot = 7
     }
 
+    public static void ProcessConsumables(int EntityID)
+    {
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity == null)
+            return;
+
+        float foodAmount = GetCVarValue(EntityID, "$foodAmountAdd");
+        if(foodAmount > 0.5f)
+        {
+            myEntity.Health += Utils.Fastfloor( foodAmount);
+            foodAmount -= 0.5f;
+        }
+        if(myEntity.Health > myEntity.GetMaxHealth())
+            myEntity.Health = myEntity.GetMaxHealth();
+
+
+    }
     public static bool Hire(int EntityID, EntityPlayerLocal _player)
     {
         bool result = false;
@@ -43,7 +62,7 @@ public static class EntityUtilities
 
                 // Add the stack of currency to the NPC, and set its orders.
                 myEntity.bag.AddItem(stack);
-                SetOwner(EntityID, _player.entityId);
+                SetLeaderAndOwner(EntityID, _player.entityId);
                 return true;
             }
             else
@@ -101,22 +120,25 @@ public static class EntityUtilities
             myEntity.moveSpeed = LeaderEntity.moveSpeed;
             myEntity.moveSpeedAggro = LeaderEntity.moveSpeedAggro;
             myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+            
+            SetCurrentOrder(EntityID, Orders.Follow);
+
         }
 
     }
 
     public static void SetOwner(int EntityID, int LeaderID)
     {
-        EntityAliveSDX currentEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if(currentEntity)
-            currentEntity.Buffs.SetCustomVar("Owner", (float)LeaderID, false);
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive LeaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
+        if(myEntity && LeaderEntity)
+            myEntity.Buffs.SetCustomVar("Owner", (float)LeaderID, false);
     }
 
     public static void SetLeaderAndOwner(int EntityID, int LeaderID)
     {
         SetLeader(EntityID, LeaderID);
         SetOwner(EntityID, LeaderID);
-        SetCurrentOrder(EntityID, Orders.Follow);
     }
 
     public static bool IsAnAlly(int EntityID, int AttackingID)
@@ -154,13 +176,13 @@ public static class EntityUtilities
         if (myEntity)
         {
             DisplayLog(" Setting Current Order: " + order.ToString());
-            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, true);
+            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, false);
         }
     }
 
     public static Orders GetCurrentOrder( int EntityID )
     {
-        Orders currentOrder = Orders.None;
+        Orders currentOrder = Orders.Wander;
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
@@ -191,42 +213,43 @@ public static class EntityUtilities
         switch(strCommand)
         {
             case "TellMe":
+                //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
                 break;
             case "FollowMe":
-                myEntity.Buffs.SetCustomVar("Leader", player.entityId, true);
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Follow, true);
+                SetLeader(EntityID, player.entityId);
+                SetCurrentOrder(EntityID, Orders.Follow);
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
 
                 break;
             case "StayHere":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.None, true);
+                SetCurrentOrder(EntityID, Orders.Stay);
                 myEntity.GuardPosition = position;
                 myEntity.moveHelper.Stop();
                 break;
             case "GuardHere":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Stay, true);
+                SetCurrentOrder(EntityID, Orders.Stay);
                 myEntity.SetLookPosition(player.GetLookVector());
                 myEntity.GuardPosition = position;
                 myEntity.moveHelper.Stop();
                 myEntity.GuardLookPosition = player.GetLookVector();
                 break;
             case "Wander":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Wander, true);
+                SetCurrentOrder(EntityID, Orders.Wander);
                 break;
             case "SetPatrol":
-                myEntity.Buffs.SetCustomVar("Leader", player.entityId, true);
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.SetPatrolPoint, true);
+                SetLeader(EntityID, player.entityId);
+                SetCurrentOrder(EntityID, Orders.SetPatrolPoint);
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
                 myEntity.PatrolCoordinates.Clear(); // Clear the existing point.
                 break;
             case "Patrol":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Patrol, true);
+                SetCurrentOrder(EntityID, Orders.Patrol);
                 break;
             case "Hire":
                 bool result = Hire(EntityID, player as EntityPlayerLocal);
@@ -247,17 +270,17 @@ public static class EntityUtilities
 
                 break;
             case "Loot":
-                myEntity.Buffs.SetCustomVar("CurrentOrder", (float)Orders.Loot, true);
+                SetCurrentOrder(EntityID, Orders.Loot);
                 myEntity.Buffs.RemoveCustomVar("Leader");
+                break;
+            case "Dismiss":
+                SetCurrentOrder(EntityID, Orders.Wander);
+                myEntity.Buffs.RemoveCustomVar("Leader");
+                myEntity.Buffs.RemoveCustomVar("Owner");
                 break;
 
         }
 
-        if(myEntity.Buffs.HasCustomVar("CurrentOrder"))
-        {
-            myEntity.currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
-            DisplayLog(" Setting Current Order: " + myEntity.currentOrder);
-        }
         return true;
 
     }
@@ -273,7 +296,7 @@ public static class EntityUtilities
                 return false;
             }
 
-            EntityPlayerLocal leader = EntityUtilities.GetLeader(EntityID) as EntityPlayerLocal;
+            Entity leader = EntityUtilities.GetLeader(EntityID);
             float Distance = 0f;
             if(leader)
                 Distance = myEntity.GetDistance(leader);
@@ -308,23 +331,52 @@ public static class EntityUtilities
 
             }
 
+            if(GetCurrentOrder(EntityID) == Orders.Follow)
+            {
+                if(Distance < 2)
+                {
+                    myEntity.getMoveHelper().Stop();
+                    Debug.Log(" Too Close to leader. Moving to Look Vector");
+                    myEntity.getMoveHelper().SetMoveTo((leader as EntityAlive).GetLookVector(), false);
+                    return false;
+
+                }
+
+            }
+      
             return true;
         }
         return true;
     }
 
+    public static Vector3 SetCloseSpawnPoint(int EntityID, Vector3 centralPosition )
+    {
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+            int x, y, z;
+            GameManager.Instance.World.FindRandomSpawnPointNearPositionUnderground(centralPosition, 15, out x, out y, out z, new Vector3(3, 3, 3));
+            return new Vector3(x, y, z);
+
+        }
+        return Vector3.zero;
+    
+    }
     public static int GetHireCost(int EntityID)
     {
         int result = -1;
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
             result = GetIntValue(EntityID, "HireCost");
+
+        if(result == -1)
+            result = 1000;
         return result;
     }
 
     public static ItemValue GetHireCurrency(int EntityID)
     {
-        ItemValue result = ItemClass.GetItem("casinoCoin");
+        ItemValue result = ItemClass.GetItem("casinoCoin", false);
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
             result = GetItemValue(EntityID, "HireCurrency");
@@ -333,7 +385,7 @@ public static class EntityUtilities
 
     public static ItemValue GetItemValue(int EntityID, String strProperty)
     {
-        ItemValue result = ItemClass.GetItem("casinoCoin");
+        ItemValue result = ItemClass.GetItem("casinoCoin", false);
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
@@ -341,7 +393,7 @@ public static class EntityUtilities
             if (entityClass.Properties.Values.ContainsKey(strProperty))
                 result = ItemClass.GetItem(entityClass.Properties.Values[ strProperty], false);
             if(result.IsEmpty())
-                result = ItemClass.GetItem("casinoCoin");
+                result = ItemClass.GetItem("casinoCoin", false);
         }
         return result;
     }
@@ -367,7 +419,7 @@ public static class EntityUtilities
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
             if(entityClass.Properties.Values.ContainsKey(strProperty))
-                result  = StringParsers.ParseFloat(entityClass.Properties.Values[strProperty]);
+                result  = StringParsers.ParseFloat(entityClass.Properties.Values[strProperty], 0, -1, NumberStyles.Any);
         }
         return result;
     }
@@ -504,7 +556,8 @@ public static class EntityUtilities
         String FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue( EntityID, "foodAmount")).ToString();
         String WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue( EntityID, "waterAmount")).ToString();
 
-        string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Stats.Health.Value;
+        // string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Stats.Health.Value;
+        string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Health + "/" + myEntity.GetMaxHealth();
         strOutput += " Stamina: " + myEntity.Stats.Stamina.Value + " Thirst: " + myEntity.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
         strOutput += " Sanitation: " + GetCVarValue( EntityID, "solidWasteAmount");
 
@@ -533,6 +586,10 @@ public static class EntityUtilities
         foreach(BuffValue buff in myEntity.Buffs.ActiveBuffs)
             strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " + buff.DurationInTicks + " )";
 
+        strOutput += "\n Active CVars: ";
+        foreach(KeyValuePair<string, float> myCvar in myEntity.Buffs.CVars)
+            strOutput += "\n\t" + myCvar.Key + " : " + myCvar.Value;
+                
         strOutput += "\n Active Quests: ";
         foreach(Quest quest in myEntity.QuestJournal.quests)
             strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " + quest.CurrentPhase;
@@ -542,6 +599,9 @@ public static class EntityUtilities
             strOutput += "\n\t" + vec.ToString();
 
         strOutput += "\n\nCurrency: " + myEntity.HireCurrency + " Faction: " + myEntity.factionId;
+
+        DisplayLog(strOutput);
+        Debug.Log(strOutput);
         return strOutput;
     }
 }

@@ -13,8 +13,9 @@
         <response_entry id="Wander" />
         <response_entry id="SetPatrol" />
         <response_entry id="Patrol" />
-        <response_entry id="Loot" />
+        <!--response_entry id="Loot" /-->
         <response_entry id="Hire" />
+        <response_entry id="Dismiss" />
         <response_entry id="done" />
       </statement>
 
@@ -88,8 +89,12 @@
         <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="LootLocationSDX"/>
         <action type="ExecuteCommandSDX, Mods" id="Loot" />
       </response>
-      
-      
+
+      <response id="Dismiss" text="Dismiss" >
+        <requirement type="HiredSDX, Mods" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, Mods" id="Dismiss" />
+      </response>
+
       <response id="Patrol" text="Patrol your route" >
         <requirement type="PatrolSDX, Mods" requirementtype="Hide" />
         <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="PatrolSDX"/>

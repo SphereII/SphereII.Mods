@@ -426,7 +426,7 @@ class EAIMaslowLevel1SDX : EAIApproachSpot
             }
 
             // Check the back pack
-            else if (CheckContents(this.theEntity.lootContainer, this.lstWaterItems, "Food") != null)
+            else if (CheckContents(this.theEntity.lootContainer, this.lstFoodItems, "Food") != null)
             {
                 DisplayLog(" Found Food in the backpack");
                 item = GetItemFromContainer(this.theEntity.lootContainer, this.lstFoodItems, "Food");

@@ -101,10 +101,10 @@
 			<property name="Names" value="Bob,Mickey D" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+      <!--property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/-->
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
 			  <!-- what it can drink out of -->
-			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
+      <!--property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" /-->
 			  <!-- Default thirsty and hungry buffs -->
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
