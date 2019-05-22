@@ -53,6 +53,9 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
         for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)
         {
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
+            if(x is EntityVehicle)
+                continue;
+
             if (x != this.theEntity && x.IsAlive())
             {
                 if (leader != null && x == leader)

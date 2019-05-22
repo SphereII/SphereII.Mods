@@ -193,10 +193,10 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
-            DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
+            //DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
             if (myEntity.Buffs.HasCustomVar("CurrentOrder"))
             {
-                DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
+                //DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
                 currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
             }
         }
@@ -222,6 +222,8 @@ public static class EntityUtilities
             case "TellMe":
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
+                EntityPlayerLocal localPlayer = player as EntityPlayerLocal;
+                localPlayer.SwitchModelView(EnumEntityModelView.FirstPerson);
               break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
@@ -293,13 +295,12 @@ public static class EntityUtilities
     }
     public static bool CanExecuteTask(int EntityID, EntityUtilities.Orders order)
     {
-        DisplayLog("CanExecuteTask(): " + order.ToString() );
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
             if (GetCurrentOrder(EntityID) != order)
             {
-                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
+//                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
                 return false;
             }
 
@@ -314,13 +315,13 @@ public static class EntityUtilities
                 // If we have a leader and they are far away, abandon the fight and go after your leader.
                 if(Distance > 20)
                 {
-                    DisplayLog("CanExecuteTask(): I have an Attack Target but my Leader is too far away.");
+                    //DisplayLog("CanExecuteTask(): I have an Attack Target but my Leader is too far away.");
                     myEntity.SetAttackTarget(null, 0);
                     return true;
                 }
 
                 // I have an attack target, so don't keep doing your current task
-                DisplayLog("CanExecuteTask(): I have an Attack Target: " + myEntity.GetAttackTarget().ToString() );
+                //DisplayLog("CanExecuteTask(): I have an Attack Target: " + myEntity.GetAttackTarget().ToString() );
                 return false;
 
             }
@@ -329,11 +330,11 @@ public static class EntityUtilities
             {
                 if(Distance > 20)
                 {
-                    DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
+                 //   DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
                     myEntity.SetRevengeTarget(null);
                     return true;
                 }
-                DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
+               // DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
                 return false;
 
             }
@@ -343,7 +344,7 @@ public static class EntityUtilities
                 if(Distance < 2)
                 {
                     myEntity.getMoveHelper().Stop();
-                    Debug.Log(" Too Close to leader. Moving to Look Vector");
+                 //   DisplayLog(" Too Close to leader. Moving to Look Vector");
                     myEntity.getMoveHelper().SetMoveTo((leader as EntityAlive).GetLookVector(), false);
                     return false;
 
