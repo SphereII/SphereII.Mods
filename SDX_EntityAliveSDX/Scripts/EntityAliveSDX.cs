@@ -417,7 +417,8 @@ public class EntityAliveSDX : EntityNPC
     {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
         bool isBusy = false;
-        emodel.avatarController.TryGetBool("IsBusy", out isBusy);
+        if ( emodel != null && emodel.avatarController != null )
+            emodel.avatarController.TryGetBool("IsBusy", out isBusy);
         if(isBusy)
             return;
 
