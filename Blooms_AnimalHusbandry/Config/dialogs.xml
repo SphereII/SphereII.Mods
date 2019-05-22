@@ -14,7 +14,7 @@
       </response>
       
       <response id="TellMe" text="Tell me about yourself" >
-        <action type="ExecuteCommandSDX, Mods" id="ShowMe" />
+        <action type="ExecuteCommandSDX, Mods" id="TellMe" />
       </response>
 
       <response id="done" text="dialog_trader_response_nevermind" />
