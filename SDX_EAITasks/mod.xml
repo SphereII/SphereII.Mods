@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EAITasks</name>
     <description>A general purpose class that adds in new EAI Tasks</description>
-    <mod_version>1.1.0.71</mod_version>
+    <mod_version>1.1.0.72</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
@@ -23,6 +23,6 @@
     <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="91f7539459d16bdecb2210374084abc4" />
     <hash filename="Scripts\EAISetAsTargetIfHurtSDX.cs" hash="0cfd42af2262741631f8bb20fecca215" />
     <hash filename="Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="c7bcfea130d515f0e092ee36d1b2853c" />
-    <hash filename="Scripts\EAISetAsTargetNearestEnemySDX.cs" hash="3318fb0b0595e64a7ed3c1d4e9ffc38e" />
+    <hash filename="Scripts\EAISetAsTargetNearestEnemySDX.cs" hash="72e0eda6315bbfe2bdc023864723248e" />
   </hashes>
 </mod>
