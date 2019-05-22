@@ -24,8 +24,6 @@ public class EntityAliveSDX : EntityNPC
     List<String> lstHungryBuffs = new List<String>();
     List<String> lstThirstyBuffs = new List<String>();
 
-    // public EntityUtilities.Orders currentOrder = EntityUtilities.Orders.Wander;
-
     public List<Vector3> PatrolCoordinates = new List<Vector3>();
 
     int DefaultTraderID = 0;
