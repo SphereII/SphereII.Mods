@@ -517,8 +517,9 @@ public class EntityAliveSDX : EntityNPC
                 return;
 
 
-            base.SetRevengeTarget(_other);
+            
         }
+        base.SetRevengeTarget(_other);
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
