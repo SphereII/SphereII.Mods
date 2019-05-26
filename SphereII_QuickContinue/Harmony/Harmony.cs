@@ -1,5 +1,6 @@
 ﻿using DMT;
 using Harmony;
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -17,7 +18,8 @@ public class SphereII_QuickLoad : IHarmony
     {
         static void Postfix(XUiC_MainMenu __instance)
         {
-            if(SphereIIToggleCapsLock.GetNumLock())
+            if(SphereIIToggleCapsLock.GetScrollLock())
+
             {
                 XUiC_NewContinueGame.SetIsContinueGame(__instance.xui, true);
                 ProfileSDF profileSDF = new ProfileSDF();
@@ -43,7 +45,7 @@ public class SphereII_QuickLoad : IHarmony
         {
             static void Postfix(XUiC_NewContinueGame __instance)
             {
-                if(SphereIIToggleCapsLock.GetNumLock())
+                if(SphereIIToggleCapsLock.GetScrollLock())
                 {
                     __instance.xui.playerUI.windowManager.Close("newContinueGame");
                     GamePrefs.SetPersistent(EnumGamePrefs.GameMode, true);
@@ -59,6 +61,17 @@ public class SphereII_QuickLoad : IHarmony
             }
         }
 
+        //BtnExit_OnPressed(XUiController _sender, OnPressEventArgs _e)
+        [HarmonyPatch(typeof(XUiC_InGameMenuWindow))]
+        [HarmonyPatch("BtnExit_OnPressed")]
+        public class SphereII_XUIC_InGameMenuWindow
+        {
+            static void Postfix()
+            {
+                    if(SphereIIToggleCapsLock.GetScrollLock())
+                        Application.Quit();
+            }
+        }
     }
 }
 

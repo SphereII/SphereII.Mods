@@ -44,6 +44,38 @@ public static class EntityUtilities
 
 
     }
+
+    public static bool HasTask(int EntityID, String strTask)
+    {
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity != null)
+        {
+            string text2;
+
+            EntityClass entityClass = EntityClass.list[myEntity.entityClass];
+            for(int x = 1; x < 20; x++)
+            {
+                string text = EntityClass.PropAITask + x;
+
+                if(entityClass.Properties.Values.ContainsKey(text))
+                {
+                    if(entityClass.Properties.Values.TryGetString(text, out text2) || text2.Length > 0)
+                    {
+                        if(text2.Contains(strTask))
+                            return true;
+
+                        continue;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
     public static bool Hire(int EntityID, EntityPlayerLocal _player)
     {
         DisplayLog("Hire()");
@@ -94,15 +126,104 @@ public static class EntityUtilities
         return leader;
     }
 
+    public static bool isEntityHungry(int EntityID)
+    {
+        bool result = false;
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+            List<String> lstBuffs = ConfigureEntityClass(EntityID, "HungryBuffs");
+            if(lstBuffs.Count == 0)
+                lstBuffs.AddRange(new string[] { "buffStatusHungry2", "buffStatusHungry1" });
+
+            result = CheckIncentive(EntityID, lstBuffs, null);
+        }
+
+        if ( result)
+            DisplayLog(" Is Entity hungry? " + result);
+        return result;
+    }
+
+    public static bool isEntityHurt(int EntityID)
+    {
+        bool result = false;
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+
+            List<String> lstBuffs = new List<string>();
+            lstBuffs.Add("buffStatusWounded");
+            lstBuffs.Add("buffInjuryBleeding");
+
+
+            result = CheckIncentive(EntityID, lstBuffs, null);
+
+            if(result == false)
+            {
+                if(myEntity.Health < myEntity.GetMaxHealth())
+                    result = true;
+            }
+        }
+
+        if ( result )
+            DisplayLog(" Is Entity Hurt? ");
+        return result;
+    }
+
+    // This will search for a mother entity to see it can satisfy its thirst from its mother, rather than a traditional water block.
+    public static float GetEntityWater(int EntityID)
+    {
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+            if(myEntity.Buffs.HasCustomVar("Mother"))
+            {
+                float MotherID = myEntity.Buffs.GetCustomVar("Mother");
+                EntityAliveSDX MotherEntity = myEntity.world.GetEntity((int)MotherID) as EntityAliveSDX;
+                if(MotherEntity)
+                {
+                    DisplayLog(" My Mother is: " + MotherEntity.EntityName);
+                    if(MotherEntity.Buffs.HasCustomVar("MilkLevel"))
+                    {
+                        DisplayLog("Heading to mommy");
+                        float MilkLevel = MotherEntity.Buffs.GetCustomVar("MilkLevel");
+                        myEntity.SetInvestigatePosition(myEntity.world.GetEntity((int)MotherID).position, 60);
+                        return MilkLevel;
+                    }
+                }
+
+            }
+        }
+        return 0f;
+    }
+    public static bool isEntityThirsty(int EntityID)
+    {
+        bool result = false;
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+            List<String> lstBuffs = ConfigureEntityClass(EntityID, "ThirstyBuffs");
+            if(lstBuffs.Count == 0)
+                lstBuffs.AddRange(new string[] { "buffStatusThirsty2", "buffStatusThirsty1" });
+
+            result = CheckIncentive(EntityID, lstBuffs, null);
+        }
+
+        if ( result )  // Really spammy if its false
+            DisplayLog(" Is Entity Thirsty? " + result);
+        return result;
+
+    }
+
     // Owner can be different than the current leader
     public static Entity GetOwner(int EntityID)
     {
         Entity leader = null;
-        EntityAliveSDX currentEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if(currentEntity)
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
         {
-            if(leader == null && currentEntity.Buffs.HasCustomVar("Owner"))
-                leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Owner"));
+            if(leader == null && myEntity.Buffs.HasCustomVar("Owner"))
+                leader = GameManager.Instance.World.GetEntity((int)myEntity.Buffs.GetCustomVar("Owner"));
         }
 
         return leader;
@@ -522,6 +643,18 @@ public static class EntityUtilities
         }
     }
 
+    public static bool CheckForBuff(int EntityID, String strBuff)
+    {
+
+        bool result = false;
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity == null)
+            return result;
+        if(myEntity.Buffs.HasBuff(strBuff))
+            result = true;
+
+        return result;
+    }
     public static bool CheckIncentive(int EntityID, List<String> lstIncentives, EntityAlive entity)
     {
         bool result = false;
@@ -610,7 +743,7 @@ public static class EntityUtilities
         strOutput += "\n\nCurrency: " + GetHireCurrency( EntityID) + " Faction: " + myEntity.factionId;
 
         DisplayLog(strOutput);
-        Debug.Log(strOutput);
+       
         return strOutput;
     }
 }

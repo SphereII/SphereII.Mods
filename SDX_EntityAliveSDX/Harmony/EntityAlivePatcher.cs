@@ -50,6 +50,21 @@ public class SphereII__EntityAlivePatcher
         }
     }
 
+
+    // Disables the friendly fire of allies
+    [HarmonyPatch(typeof(EntityAlive))]
+    [HarmonyPatch("DamageEntity")]
+    public class SphereII_EntityAlive_DamageEntity
+    {
+        static bool Prefix(EntityAlive __instance, DamageSource _damageSource)
+        {
+            if(EntityUtilities.IsAnAlly(__instance.entityId, _damageSource.getEntityId()))
+                return false;
+
+            return true;
+        }
+    }
+
     [HarmonyPatch(typeof(EntityAlive))]
     [HarmonyPatch("SetAttackTarget")]
     public class SphereII_EntityAlive_SetAttackTarget

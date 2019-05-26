@@ -41,7 +41,7 @@
 			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
 			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
 			<property name="AITask-5" value="PatrolSDX, Mods"/> 
-			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/>
+			<property name="AITask-6" value="MaslowLevel1SDX_v2, Mods"/>
       <property name="AITask-7" value="LootLocationSDX, Mods" />
       <property name="AITask-8" value="Look"/> 
 			<property name="AITask-9" value="WanderSDX, Mods"/> 
@@ -486,7 +486,7 @@
 			<property name="UseModderUpdate" value="true" />
 			<property name="Mesh" value="#@modfolder:Resources/NPCs.unity3d?NPCAmmo_X" />
 			<property name="AvatarController" value="MecanimSDX, Mods" />
-			<property name="RootMotion" value="false" />
+      <property name="RootMotion" value="false" />
 			<property name="HasRagdoll" value="false" />
 			<property name="ModelType" value="Standard"/>
 			<property name="EntityType" value="Player"/>

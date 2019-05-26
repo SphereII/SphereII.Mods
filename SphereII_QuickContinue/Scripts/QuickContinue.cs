@@ -15,6 +15,8 @@ public class SphereIIToggleCapsLock: MonoBehaviour
     private static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
 
     private const byte VK_NUMLOCK = 0x90;
+    private const byte VK_SCROLLLOCK = 0x91;
+
     private const byte VK_CAPSLOCK = 0x14;
     private const uint KEYEVENTF_EXTENDEDKEY = 1;
     private const int KEYEVENTF_KEYUP = 0x2;
@@ -43,6 +45,14 @@ public class SphereIIToggleCapsLock: MonoBehaviour
         }
     }
 
+    public static void SetScrollLock(bool bState)
+    {
+        if(GetScrollLock() != bState)
+        {
+            keybd_event(VK_SCROLLLOCK, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYDOWN, 0);
+            keybd_event(VK_SCROLLLOCK, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+        }
+    }
     public static void SetCapsLock(bool bState)
     {
         if(GetCapsLock() != bState)

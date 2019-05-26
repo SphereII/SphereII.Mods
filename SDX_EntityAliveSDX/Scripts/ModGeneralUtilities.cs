@@ -6,7 +6,7 @@ using UnityEngine;
 public static class ModGeneralUtilities
 {
 
-    static bool blDisplayLog = false;
+    static bool blDisplayLog = true;
 
     public static void DisplayLog(string strMessage)
     {
@@ -57,12 +57,15 @@ public static class ModGeneralUtilities
         return TempList;
 
     }
+
     public static bool CheckForBin(int EntityID, String StatType)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(!myEntity)
             return false;
 
+
+        DisplayLog(myEntity.entityId + " CheckForBin() " + StatType);
         // There is too many values that we need to read in from the entity, so we'll read them directly from the entityclass
         EntityClass entityClass = EntityClass.list[myEntity.entityClass];
 
@@ -72,14 +75,25 @@ public static class ModGeneralUtilities
         switch( StatType )
         {
             case "Food":
+                // If it isn't hungry, don't look for food.
+                if(!EntityUtilities.isEntityHungry(EntityID))
+                    return false;
+
                 lstContainers = ConfigureEntityClass("FoodBins", entityClass);
                 lstItems = ConfigureEntityClass("FoodItems", entityClass);
                 break;
             case "Water":
+
+                if(!EntityUtilities.isEntityThirsty(EntityID))
+                    return false;
+
                 lstContainers = ConfigureEntityClass("WaterBins", entityClass);
                 lstItems = ConfigureEntityClass("WaterItems", entityClass);
                 break;
             case "Health":
+                if(!EntityUtilities.isEntityHurt(EntityID))
+                    return false;
+
                 DisplayLog("CheckForBin(): Health Items not implemented");
                 return false;
             default:
@@ -88,41 +102,78 @@ public static class ModGeneralUtilities
 
         };
 
-        ItemClass original = myEntity.inventory.holdingItem;
+        // Checks the Entity's backpack to see if it can meet its needs there.
         ItemValue item = CheckContents(myEntity.lootContainer, lstItems, StatType);
-        if(item != null)
+        bool result = ConsumeProduct(EntityID, item);
+        if(result)
+            return false;  // If we found something to consume, don't bother looking further.
+
+        // If the entity already has an investigative position, check to see if we are close enough for it.
+        if(myEntity.HasInvestigatePosition)
         {
-            DisplayLog(" Found " + StatType + " in the backpack: " + item.ItemClass.GetItemName());
-            // Hold the food item.
-            myEntity.inventory.SetBareHandItem(item);
-            ItemAction itemAction = myEntity.inventory.holdingItem.Actions[0];
-            if(itemAction != null)
+            DisplayLog(" CheckForBin(): Has Investigative position. Checking distance to bin");
+            float sqrMagnitude2 = (myEntity.InvestigatePosition - myEntity.position).sqrMagnitude;
+            if(sqrMagnitude2 <= 4f )
             {
-                DisplayLog("CheckForBin(): Hold Item has Action0. Executing..");
-                itemAction.ExecuteAction(myEntity.inventory.holdingItemData.actionData[0], true);
-
-                //// We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
-                ///
-                DisplayLog("CheckForBin(): Trigger Events");
-                myEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
-                myEntity.FireEvent(MinEventTypes.onSelfHealedSelf);
+                DisplayLog(" CheckForBin(): I am close to a bin.");
+                Vector3i blockLocation = new Vector3i(myEntity.InvestigatePosition.x, myEntity.InvestigatePosition.y, myEntity.InvestigatePosition.z);
+                BlockValue checkBlock = myEntity.world.GetBlock(blockLocation);
+                DisplayLog(" CheckForBin(): Target Block is: " + checkBlock);
+                TileEntityLootContainer myTile = myEntity.world.GetTileEntity(0, blockLocation) as TileEntityLootContainer;
+                if(myTile != null )
+                {
+                    item = CheckContents(myTile, lstItems, StatType);
+                    if(item != null)
+                        DisplayLog("CheckForBin() I retrieved: " + item.ItemClass.GetItemName());
+                    result = ConsumeProduct(EntityID, item);
+                    DisplayLog(" Did I consume? " + result);
+                    return result;
+                }
+                
             }
-
-            DisplayLog(" CheckForBin(): Restoring hand item");
-            myEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name, false));
-
         }
 
-     
-        DisplayLog(" Checking For " + StatType );
+        DisplayLog(" Scanning For " + StatType);
         Vector3 TargetBlock = ScanForBlockInList(myEntity.position, lstContainers, Utils.Fastfloor(myEntity.GetSeeDistance()));
         if(TargetBlock == Vector3.zero)
             return false;
-
         myEntity.SetInvestigatePosition(TargetBlock, 120);
         return true;
     }
 
+   
+    public static bool ConsumeProduct(int EntityID, ItemValue item)
+    {
+        bool result = false;
+
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(!myEntity)
+            return false;
+
+        // No Item, no consumption
+        if(item == null)
+            return false;
+
+        ItemClass original = myEntity.inventory.holdingItem;
+        myEntity.inventory.SetBareHandItem(item);
+        ItemAction itemAction = myEntity.inventory.holdingItem.Actions[0];
+        if(itemAction != null)
+        {
+            DisplayLog("ConsumeProduct(): Hold Item has Action0. Executing..");
+            itemAction.ExecuteAction(myEntity.inventory.holdingItemData.actionData[0], true);
+
+            //// We want to consume the food, but the consumption of food isn't supported on the non-players, so just fire off the buff 
+            ///
+            DisplayLog("ConsumeProduct(): Trigger Events");
+            myEntity.FireEvent(MinEventTypes.onSelfPrimaryActionEnd);
+            myEntity.FireEvent(MinEventTypes.onSelfHealedSelf);
+        }
+
+        DisplayLog(" ConsumeProduct(): Restoring hand item");
+        myEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name, false));
+
+        return result;
+    }
     // This will check if the food item actually exists in the container, before making the trip to it.
     public static ItemValue CheckContents(TileEntityLootContainer tileLootContainer, List<String> lstContents, String strSearchType)
     {

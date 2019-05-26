@@ -21,10 +21,7 @@ public class EntityAliveSDX : EntityNPC
     public QuestJournal QuestJournal = new QuestJournal();
     public List<String> lstQuests = new List<String>();
 
-    List<String> lstHungryBuffs = new List<String>();
-    List<String> lstThirstyBuffs = new List<String>();
-
-    public List<Vector3> PatrolCoordinates = new List<Vector3>();
+     public List<Vector3> PatrolCoordinates = new List<Vector3>();
 
     int DefaultTraderID = 0;
 
@@ -72,10 +69,6 @@ public class EntityAliveSDX : EntityNPC
         EntityClass entityClass = EntityClass.list[this.entityClass];
 
         flEyeHeight = EntityUtilities.GetFloatValue(entityId, "EyeHeight");
-
-        lstHungryBuffs = EntityUtilities.ConfigureEntityClass(entityId, "HungryBuffs");
-        lstThirstyBuffs = EntityUtilities.ConfigureEntityClass(entityId, "ThirstyBuffs");
-
 
         // Read in a list of names then pick one at random.
         if(entityClass.Properties.Values.ContainsKey("Names"))
@@ -272,8 +265,11 @@ public class EntityAliveSDX : EntityNPC
         {
             if(strMyName == "Bob")
                 return entityName;
-            else
+            
+            if ( String.IsNullOrEmpty( strTitle ))
                 return strMyName + " the " + base.EntityName;
+            else
+                return strMyName + " the " + this.strTitle;
         }
         set
         {
@@ -385,12 +381,6 @@ public class EntityAliveSDX : EntityNPC
         _bw.Write(factionId);
         _bw.Write(GuardLookPosition.ToString());
     }
-
-    public void DisplayStats()
-    {
-        DisplayLog(ToString());
-    }
-
 
 
     public void GiveQuest(String strQuest)
@@ -516,9 +506,8 @@ public class EntityAliveSDX : EntityNPC
             if ( myLeader )
                 if (myLeader.entityId == _other.entityId)
                 return;
-
-
-            
+            if(EntityUtilities.IsAnAlly(this.entityId, _other.entityId))
+                return;
         }
         base.SetRevengeTarget(_other);
     }

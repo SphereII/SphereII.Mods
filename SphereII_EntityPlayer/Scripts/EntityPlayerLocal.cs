@@ -78,6 +78,7 @@ class EntityPlayerSDXLocal : EntityPlayerLocal
         return true;
     }
 
+  
     public override void PlayStepSound()
     {
         base.PlayStepSound();
