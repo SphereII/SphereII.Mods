@@ -22,7 +22,7 @@
     <hash filename="Resources\HarleySounds.unity3d" hash="1e018b649f3d8008cf2609e25dadb3ed" />
     <hash filename="Resources\NPCs.unity3d" hash="5ee985a6411c87ca188ae1adfe588354" />
     <hash filename="Resources\XythNPCAmmo.unity3d" hash="bd957668afe87a65da0c6b151f4cf2cc" />
-    <hash filename="Config\buffs.xml" hash="e521e8f7e82d418b42c67d182f6aa701" />
-    <hash filename="Config\entityclasses.xml" hash="6da48ee8cf96b976f7cc7e827333648b" />
+    <hash filename="Config\entityclasses.xml" hash="b37453723d7612599828922eca25b518" />
+    <hash filename="Config\buffs.xml" hash="eb2a24a06ee511be16fc60b4859658ff" />
   </hashes>
 </mod>

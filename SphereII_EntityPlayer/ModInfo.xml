@@ -4,6 +4,6 @@
     <Name value="SphereII Entity Player" />
     <Description value="Changes the base player's entity class, allowing for more flexibility in changes." />
     <Author value="sphereii" />
-    <Version value="1.0.0.3" />
+    <Version value="1.0.0.4" />
   </ModInfo>
 </xml>

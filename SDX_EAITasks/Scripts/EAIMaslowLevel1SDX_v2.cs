@@ -127,14 +127,16 @@ class EAIMaslowLevel1SDX_v2 : EAIApproachSpot
     
         if(!theEntity.HasInvestigatePosition)
         {
-            
-              if (ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Food"))
+            if ( EntityUtilities.isEntityHungry( this.theEntity.entityId) &&
+               ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Food"))
                 result = true;
 
-             if (ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Water"))
+            if (EntityUtilities.isEntityThirsty(this.theEntity.entityId) &&
+               ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Water"))
                 result = true;
 
-            if(ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Health"))
+            if (EntityUtilities.isEntityHurt(this.theEntity.entityId) &&
+                ModGeneralUtilities.CheckForBin(this.theEntity.entityId, "Health"))
                 result = true;
         
             else if(CheckForProductionBuff())
@@ -223,14 +225,18 @@ class EAIMaslowLevel1SDX_v2 : EAIApproachSpot
 
     public bool CanContinue()
     {
+
+        if (theEntity.Buffs.HasBuff("buffMaslowCoolDown"))
+            return false;
+        
         if(EntityUtilities.isEntityThirsty(this.theEntity.entityId))
             return true;
 
         if(EntityUtilities.isEntityHungry(this.theEntity.entityId))
             return true;
 
-        if(EntityUtilities.CheckIncentive(theEntity.entityId, lstSanitationBuffs, null))
-            return true;
+        //if(EntityUtilities.CheckIncentive(theEntity.entityId, lstSanitationBuffs, null))
+        //    return true;
 
         if(EntityUtilities.CheckIncentive(theEntity.entityId, lstProductionBuffs, null))
             return true;
@@ -239,7 +245,7 @@ class EAIMaslowLevel1SDX_v2 : EAIApproachSpot
         if(theEntity.Buffs.HasBuff("buffhealwatermax") || theEntity.Buffs.HasBuff("buffhealstaminamax"))
             return false;
 
-        return true;
+        return false;
     }
     public override bool Continue()
     {

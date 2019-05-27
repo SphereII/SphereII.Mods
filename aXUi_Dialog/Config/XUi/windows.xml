@@ -94,5 +94,14 @@
         </rect>
       </panel>
     </window>
+
+ 
+      <window name="windowEntityInformationPanel" depth="0" pos="0,-15" width="1000" height="200" controller="EntityInformationPanelSDX, Mods">
+        <rect name="content" depth="1" >
+          <label name="header.name" pos="0,-10" size="1000,200" style="SMX.general.panel.title" text="{statement}" color="[white]" pivot="center" />
+        </rect>
+      
+    </window>
+
   </append>
 </configs>

@@ -14,8 +14,8 @@
 
       <!-- This allows the npc to use stamina and water over time, regardless of what they are doing. -->
       <effect_group name="Regular stamina change">
-        <passive_effect name="StaminaMaxModifierOT" operation="base_subtract" value="0.01"/>
-        <passive_effect name="WaterChangeOT" operation="base_subtract" value="0.01"/>
+        <passive_effect name="StaminaMaxModifierOT" operation="base_subtract" value="0.05"/>
+        <passive_effect name="WaterChangeOT" operation="base_subtract" value="0.05"/>
       </effect_group>
 
       <!-- The onFirstSpawn isn't working for the zombies, so handle it this way, so that all new entities at least have buffAnimalBaby -->

@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>aXUi_Dialog</name>
     <description>Add new dialog windows for NPCs. Early loading for over-ride</description>
-    <mod_version>1.0.0.15</mod_version>
+    <mod_version>1.0.0.26</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -16,12 +16,12 @@
     <hash filename="Config\quests.xml" hash="fec6ba272439e68532f1db6296034a46" />
     <hash filename="Config\XUi\controls.xml" hash="708ad40ab1d06a1bda3ec3903f609de4" />
     <hash filename="Config\XUi\styles.xml" hash="f181a9ff0c65457787c02a29fea09ddf" />
-    <hash filename="Config\XUi\windows.xml" hash="29dc5bafdc64e8768c7931f3ee5be63c" />
-    <hash filename="Config\XUi\xui.xml" hash="8d9888cf785faa67ea6a744bdf022095" />
     <hash filename="ItemIcons\smx_bulletpoint_icon.png" hash="065bf78f199fc313a0203c01c1be7b31" />
     <hash filename="Textures\trader\smx_player_bg.png" hash="67ae03d5af777b9184d21dea40ee1c85" />
     <hash filename="Textures\trader\smx_trader_bg.png" hash="0d35d48e5c28a85fad10ac5d0df16527" />
     <hash filename="Config\npc.xml" hash="7d46df0e0a49bf4b920c41888a773be5" />
     <hash filename="Config\dialogs.xml" hash="0aca8dbd0b22d7c6fb20c5fbc3524371" />
+    <hash filename="Config\XUi\xui.xml" hash="a7b166b96c74058b9ce1034ec00c66a5" />
+    <hash filename="Config\XUi\windows.xml" hash="b54e093e0faf25bc54856fe6da2daf16" />
   </hashes>
 </mod>

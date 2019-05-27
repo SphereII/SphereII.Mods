@@ -133,8 +133,8 @@ public static class EntityUtilities
         if(myEntity)
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "HungryBuffs");
-            if(lstBuffs.Count == 0)
-                lstBuffs.AddRange(new string[] { "buffStatusHungry2", "buffStatusHungry1" });
+            if (lstBuffs.Count == 0)
+                lstBuffs.AddRange(new string[] { "buffStatusHungry2" });//, "buffStatusHungry1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -160,8 +160,11 @@ public static class EntityUtilities
 
             if(result == false)
             {
-                if(myEntity.Health < myEntity.GetMaxHealth())
+                if (myEntity.Health < (myEntity.GetMaxHealth() * 0.75))
+                {
+                    DisplayLog(" Entity's Health is less than 35%");
                     result = true;
+                }
             }
         }
 
@@ -203,8 +206,8 @@ public static class EntityUtilities
         if(myEntity)
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "ThirstyBuffs");
-            if(lstBuffs.Count == 0)
-                lstBuffs.AddRange(new string[] { "buffStatusThirsty2", "buffStatusThirsty1" });
+            if (lstBuffs.Count == 0)
+                lstBuffs.AddRange(new string[] { "buffStatusThirsty2" });//, "buffStatusThirsty1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -343,7 +346,10 @@ public static class EntityUtilities
             case "TellMe":
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
-              break;
+                uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
+                
+
+                break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
                 break;

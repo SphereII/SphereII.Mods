@@ -12,5 +12,9 @@
     <window_group name="JoinInformation" >
       <window name="windowJoinInformationPopup" anchor="CenterTop"/>
     </window_group>
+
+    <window_group name="EntityInformation" >
+      <window name="windowEntityInformationPanel" anchor="CenterTop"/>
+    </window_group>
   </append>
 </configs>
