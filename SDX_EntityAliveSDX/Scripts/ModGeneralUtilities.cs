@@ -165,6 +165,7 @@ public static class ModGeneralUtilities
         ItemAction itemAction = myEntity.inventory.holdingItem.Actions[0];
         if(itemAction != null)
         {
+            myEntity.Attack(true);
             DisplayLog("ConsumeProduct(): Hold Item has Action0. Executing..");
             itemAction.ExecuteAction(myEntity.inventory.holdingItemData.actionData[0], true);
 
@@ -176,7 +177,6 @@ public static class ModGeneralUtilities
 
 
             myEntity.SetInvestigatePosition(Vector3.zero, 0);
-            myEntity.Buffs.AddBuff("buffMaslowCoolDown", -1, true);
         }
 
         DisplayLog(" ConsumeProduct(): Restoring hand item");

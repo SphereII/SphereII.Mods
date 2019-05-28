@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EntityAliveSDX</name>
     <description>Add new EntityAliveSDX Class</description>
-    <mod_version>1.0.1.211</mod_version>
+    <mod_version>1.0.1.217</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -28,7 +28,7 @@
     <hash filename="Harmony\ItemActionPatcher.cs" hash="6daa24dca8d600795281897bf0acf711" />
     <hash filename="Harmony\EntityAlivePatcher.cs" hash="e0f930def9091cf2da62023d1b3ae004" />
     <hash filename="Scripts\EntityAliveSDX.cs" hash="ffb5bbd52888d86b45b24b2a9e120251" />
-    <hash filename="Scripts\ModGeneralUtilities.cs" hash="1c1a4cff6e879005292d6f078459d7b7" />
-    <hash filename="Scripts\EntityUtilities.cs" hash="4764162daa07704f38530eef888ca98c" />
+    <hash filename="Scripts\EntityUtilities.cs" hash="8ad4c9ff443e3d595992c17cf38202f9" />
+    <hash filename="Scripts\ModGeneralUtilities.cs" hash="f11f027cfd5a9d59b7e7ec9624f34631" />
   </hashes>
 </mod>
