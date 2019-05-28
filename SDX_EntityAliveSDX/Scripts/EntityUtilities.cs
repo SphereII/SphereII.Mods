@@ -112,6 +112,7 @@ public static class EntityUtilities
         return false;
     }
 
+    
     // Returns the leader of the passed in entity ID.
     public static Entity GetLeader(int EntityID)
     {

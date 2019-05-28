@@ -523,6 +523,21 @@ public class EntityAliveSDX : EntityNPC
         ToggleTraderID(true);
     }
 
+    public override void MarkToUnload()
+    {
+        // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
+        if ( this.traderArea == null )
+            this.traderArea = this.world.GetTraderAreaAt(new Vector3i(this.position));
+
+        if(this.traderArea != null)
+        {
+            this.IsDespawned = false;
+            return;
+        }
+
+        
+        base.MarkToUnload();
+    }
     protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
     {
         if(isEntityRemote && _partialTicks > 1f)
