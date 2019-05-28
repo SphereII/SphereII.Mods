@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_Dialog</name>
     <description>Add new dialog class</description>
-    <mod_version>1.0.0.13</mod_version>
+    <mod_version>1.0.0.17</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -25,5 +25,6 @@
     <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
     <hash filename="Scripts\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="Scripts\XUiC_EntityInformationPanelSDX.cs" hash="0e0d956a1013d9757ac625be9c6ecf18" />
+    <hash filename="Scripts\XUiC_CharacterFrameWindowSDX.cs" hash="e83b1856a4e8f655db8f85c219de5154" />
   </hashes>
 </mod>

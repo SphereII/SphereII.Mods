@@ -225,11 +225,12 @@ class EAIMaslowLevel1SDX_v2 : EAIApproachSpot
 
     public bool CanContinue()
     {
-
-        if (theEntity.Buffs.HasBuff("buffMaslowCoolDown"))
+        // if they are already healing for their water or health, don't try to add anymore.
+        if (theEntity.Buffs.HasBuff("buffhealwatermax") || theEntity.Buffs.HasBuff("buffhealstaminamax"))
             return false;
-        
-        if(EntityUtilities.isEntityThirsty(this.theEntity.entityId))
+
+
+        if (EntityUtilities.isEntityThirsty(this.theEntity.entityId))
             return true;
 
         if(EntityUtilities.isEntityHungry(this.theEntity.entityId))
@@ -241,10 +242,7 @@ class EAIMaslowLevel1SDX_v2 : EAIApproachSpot
         if(EntityUtilities.CheckIncentive(theEntity.entityId, lstProductionBuffs, null))
             return true;
 
-        // if they are already healing for their water or health, don't try to add anymore.
-        if(theEntity.Buffs.HasBuff("buffhealwatermax") || theEntity.Buffs.HasBuff("buffhealstaminamax"))
-            return false;
-
+     
         return false;
     }
     public override bool Continue()

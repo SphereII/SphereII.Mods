@@ -95,12 +95,297 @@
       </panel>
     </window>
 
- 
-      <window name="windowEntityInformationPanel" depth="0" pos="0,-15" width="1000" height="200" controller="EntityInformationPanelSDX, Mods">
-        <rect name="content" depth="1" >
-          <label name="header.name" pos="0,-10" size="1000,200" style="SMX.general.panel.title" text="{statement}" color="[white]" pivot="center" />
+    <window name="NPCCharacterFrameWindow" width="327" height="704" panel="Left" controller="CharacterFrameWindowSDX, Mods" defaultcolor="[white]" hoveredcolor="[selectedColor]" cursor_area="true" >
+      <!--#$-IGS END.-$#-->
+      <panel name="header" height="43" depth="1" backgroundspritename="ui_game_panel_header">
+        <sprite depth="2" name="windowIcon" style="icon32px" pos="5,-5" sprite="ui_game_symbol_character"/>
+        <label depth="2" name="characterName" pos="42,-6" width="150" height="32" text="" font_size="32"/>
+        <sprite depth="2" name="windowIcon" width="26" height="26" pos="200,-8" sprite="ui_game_symbol_trophy" color="[mediumGrey]"/>
+        <label depth="2" name="levelNumber" pos="240,-10" width="80" height="28" text="" color="[lightGrey]"/>
+      </panel>
+
+      <rect visible="{showstats}" depth="0" pos="0,-86" width="327">
+        <rect pos="0,0" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{npchealthtitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{npchealth}/{npcmaxhealth}" justify="right" color="[selectedColor]" />
         </rect>
-      
+        <rect pos="0,-30" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstaminatitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstamina}/{playermaxstamina}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-60" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerfoodtitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playermodifiedcurrentfood}/{playerfoodmax}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-90" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerwatertitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playermodifiedcurrentwater}/{playerwatermax}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-120" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playercoretemptitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playercoretemp}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-150" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerzombiekillstitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerzombiekills}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-180" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerpvpkillstitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerpvpkills}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-210" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerdeathstitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerdeaths}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-240" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playertravelledtitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playertravelled}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-270" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playeritemscraftedtitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playeritemscrafted}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-300" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerlongestlifetitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerlongestlife}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-330" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playercurrentlifetitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playercurrentlife}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-360" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerxptonextleveltitle|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerxptonextlevel}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-390" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-420" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-450" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-480" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-510" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-540" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-570" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-600" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-630" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-660" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="" justify="right" color="[selectedColor]" />
+        </rect>
+      </rect>
+
+      <rect visible="{showcore}" depth="0" pos="0,-86" width="327">
+        <rect pos="0,0" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle1|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat1}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-30" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle2|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat2}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-60" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle3|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat3}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-90" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle4|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat4}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-120" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle5|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat5}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-150" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle6|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat6}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-180" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle7|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat7}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-210" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle8|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat8}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-240" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle9|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat9}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-270" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle10|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat10}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-300" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle11|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat11}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-330" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle12|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat12}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-360" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle13|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat13}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-390" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle14|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat14}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-420" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle15|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat15}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-450" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle16|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat16}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-480" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle17|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat17}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-510" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle18|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat18}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-540" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle19|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat19}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-570" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle20|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat20}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-600" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle21|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat21}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-630" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33"  color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkGrey]" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle22|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat22}" justify="right" color="[selectedColor]" />
+        </rect>
+        <rect pos="0,-660" height="33">
+          <sprite depth="8" sprite="menu_empty3px" height="33" color="[black]" type="sliced" fillcenter="false" />
+          <sprite depth="1" color="[darkestGrey]" pos="0,-1" height="31" type="sliced" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstattitle23|once}" justify="left" color="[white]" />
+          <label depth="3" pos="15,-3" width="290" font_size="26" text="{playerstat23}" justify="right" color="[selectedColor]" />
+        </rect>
+      </rect>
+
     </window>
 
   </append>

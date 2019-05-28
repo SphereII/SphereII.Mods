@@ -135,7 +135,7 @@ public static class EntityUtilities
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "HungryBuffs");
             if (lstBuffs.Count == 0)
-                lstBuffs.AddRange(new string[] { "buffStatusHungry2" });//, "buffStatusHungry1" });
+                lstBuffs.AddRange(new string[] { "buffStatusHungry2" , "buffStatusHungry1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -208,7 +208,7 @@ public static class EntityUtilities
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "ThirstyBuffs");
             if (lstBuffs.Count == 0)
-                lstBuffs.AddRange(new string[] { "buffStatusThirsty2" });//, "buffStatusThirsty1" });
+                lstBuffs.AddRange(new string[] { "buffStatusThirsty2", "buffStatusThirsty1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -347,7 +347,7 @@ public static class EntityUtilities
             case "TellMe":
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
-                uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
+               // uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
                 
 
                 break;
