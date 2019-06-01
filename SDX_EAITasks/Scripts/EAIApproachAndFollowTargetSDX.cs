@@ -130,8 +130,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 DisplayLog(" CanExecute() Set Patrol Point? " + result);
             }
 
-            if (result == false)
-                return false;
+            //if (result == false)
+            //    return false;
         }
     
         // If there is an entity in bounds, then let this AI Task roceed. Otherwise, don't do anything with it.
