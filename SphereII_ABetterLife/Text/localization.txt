@@ -1,0 +1,6 @@
+Key,Source,Context,Changes,English,French,German,Klingon,Spanish
+Raw Fish,items,Item Food,KgNone,Raw Fish,,,,
+rawFishDesc,items,Item Food,KgNone,"Fish can be eaten raw but is better when charred, grilled, boiled or made into stews at a campfire. Can attract zombies if carried.",,,,
+Grilled Fish,items,Item Food,KgNone,Grilled Fish,,,,
+Boiled Fish,items,Item Food,KgNone,Boiled Fish,,,,
+Charred Fish,items,Item Food,KgNone,Charred Fish,,,,

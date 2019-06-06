@@ -1,0 +1,143 @@
+<configs>
+	<append xpath="/entity_classes">
+		<entity_class name="PassiveFlight" extends="animalChicken">
+
+			<!-- Default class and animation class -->
+			<!--property name="Class" value="EntityFlyingBaseSDX, Mods" /-->
+			<property name="Class" value="EntityZombieFlyingSDX, Mods" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+
+			<!-- Flying creatures will inheirit what the vultures body does, since it can fly -->
+			<property name="ModelType" value="Standard" />
+			<property name="HasRagdoll" value="false" />
+			<property name="PhysicsBody" value="vulture" />
+			<property name="RootMotion" value="false" />
+			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
+			<property name="EntityType" value="Animal"/>
+
+			<!-- Harmless birds will just fly around and not attack you -->
+			<property name="IsEnemyEntity" value="false"/>
+
+
+			<!-- Controls how big the flock size is, how high they can fly, etc -->
+			<property name="FlockSize" value="0" />
+			<property name="MaxHeight" value="90" />
+			<property name="IsAgressive" value="False" />
+			<property name="FollowPlayer" value="False" />
+
+			<!-- Disables default sounds, so undefined sounds in inherited birds don't sound like chickens -->
+			<property name="SoundRandom" value=""/>
+			<property name="SoundAlert" value="" />
+			<property name="SoundAttack" value="" />
+			<property name="SoundHurt" value="" />
+			<property name="SoundDeath" value="" />
+			<property name="SoundSense" value="" />
+
+			<!-- Default speeds for the birds -->
+			<property name="WanderSpeed" value="0.4" />
+			<property name="ApproachSpeed" value="0.8" />
+			<property name="NightWanderSpeed" value="0.4" />
+			<property name="NightApproachSpeed" value="0.9" />
+			<property name="PanicSpeed" value="1.1" />
+
+
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="SightRange" value="500"/>
+			<property name="SightScale" value="-5,270"/>
+			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxHealth" value="25" />
+			<property name="ExperienceGain" value="1" />
+			<property name="DeadBodyHitPoints" value="1" />
+			<drop event="Harvest" name="feather" tool_category="Butcher" count="2" />
+
+			<property name="AITask-1" value="Swim" />
+			<property name="AITask-2" value="RunawayWhenHurt" />
+			<property name="AITask-3" value="RunawayFromEntity" param1="EntityPlayer" />
+			<property name="AITask-4" value="RunawayFromEntity" param1="EntityZombie" />
+			<property name="AITask-5" value="Wander" />
+
+		</entity_class>
+
+		<!-- We want to  create a master passive fish class that will allow us to spawn in friendly fish -->
+		<!-- with the option to be more aggressive later -->
+		<entity_class name="PassiveFish" >
+
+			<property name="Mesh" value="Animals/Stag/STAG" />
+			<property name="Parent" value="Animals" />
+
+			<!-- The swiming class is an extended flying class-->
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="MaxHealth" value="25" />
+			<property name="Prefab" value="NPC" />
+			<property name="Weight" value="70" />
+			<property name="RotateToGround" value="true" />
+			<property name="IsEntityAnimal" value="true" />
+			<property name="Faction" value="animals" />
+			<property name="CanClimbLadders" value="false" />
+
+
+			<!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
+			<property name="ModelType" value="Standard" />
+			<property name="HasRagdoll" value="false" />
+			<property name="PhysicsBody" value="chicken" />
+			<property name="RootMotion" value="false" />
+			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
+			<property name="EntityType" value="Animal"/>
+
+			<property name="AITask-1" value="Swim" />
+
+			<property name="AITask-2" value="RunawayWhenHurt" />
+			<property name="AITask-3" value="RunawayFromEntity" param1="EntityPlayer" />
+			<property name="AITask-4" value="RunawayFromEntity" param1="EntityZombie" />
+			<property name="AITask-5" value="Wander" />
+
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="IsAgressive" value="false" />
+
+			<!-- Since fish are actually birds, we can access some of those features, including flocking -->
+			<property name="FlockSize" value="0" />
+			<property name="MaxHeight" value="90" />
+			<property name="IsAgressive" value="False" />
+			<property name="FollowPlayer" value="False" />
+
+			<property name="SoundRandom" value=""/>
+			<property name="SoundAlert" value="" />
+			<property name="SoundAttack" value="" />
+			<property name="SoundHurt" value="" />
+			<property name="SoundDeath" value="" />
+			<property name="SoundSense" value="" />
+
+			<property name="WanderSpeed" value="0.4" />
+			<property name="ApproachSpeed" value="0.8" />
+			<property name="NightWanderSpeed" value="0.4" />
+			<property name="NightApproachSpeed" value="0.9" />
+			<property name="PanicSpeed" value="1.0" />
+
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="SightRange" value="500"/>
+			<property name="SightScale" value="-5,270"/>
+			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxHealth" value="25" />
+			<property name="ExperienceGain" value="1" />
+			<property name="DeadBodyHitPoints" value="1" />
+
+			<!-- we'll default drop raw fish items 
+			<drop event="Harvest" name="Raw Fish" tool_category="Butcher" count="1" />
+      -->
+		</entity_class>
+
+    <entity_class name="aBarracuda" extends="PassiveFish" >
+      <property name="Class" value="EntitySwimingSDX, Mods" />
+      <property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
+      <property name="AttackAnimations" value="Attack0" />
+      <property name="FlockSize" value="2" />
+    </entity_class>
+
+
+  </append>
+
+</configs>
+
+
+

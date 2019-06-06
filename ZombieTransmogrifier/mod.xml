@@ -1,0 +1,15 @@
+<mod>
+	<info>
+		<author>sphereii</author>
+		<name>Zombie Transmogrifier</name>
+		<description>SDX mod that re-writes the rules of what you know about zombies, and adds more randomized elements by changing walk types and speeds</description>
+		<mod_version>1.0</mod_version>
+		<game_version>17</game_version>
+		<launcher_version></launcher_version>
+	</info>
+	
+	
+	<dependencies>
+		<dependency>Hal's DLL Fixes</dependency>
+	</dependencies>
+</mod>

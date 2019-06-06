@@ -1,0 +1,17 @@
+<configs>
+
+  <!-- Turn on head shots, and random speeds for entities-->
+  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieTemplateMale')]" >
+    <property name="HeadShots" value="true" />
+    <property name="RandomSpeeds" value="true" />
+    <property name="RandomSize" value="true" />
+  </append>
+
+  <!-- turn off headshots for the zombie Cops -->
+  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieFatCop')]" >
+    <property name="HeadShots" value="true" />
+    <property name="RandomSpeeds" value="true" />
+  </append>
+
+
+</configs>

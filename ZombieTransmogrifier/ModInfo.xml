@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xml>
+	<ModInfo>
+		<Name value="Zombie Transmogrifier" />
+		<Description value="Zombie Transmogrifier shakes up the zombies by changing their speeds and walk types" />
+		<Author value="sphereii" />
+		<Version value="1" />
+		<Website value="http://sdxmods.com" />
+	</ModInfo>
+</xml>
