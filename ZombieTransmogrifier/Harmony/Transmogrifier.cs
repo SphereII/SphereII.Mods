@@ -21,10 +21,10 @@ public class SphereII_Transmogrifier
     [HarmonyPatch("GetWalkType")]
     public class SphereII_EntityAlive_GetWalkType
     {
-        public static int Postfix(int __result, EntityAlive __instance )
+        public static int Postfix(int __result, EntityAlive __instance)
         {
             // Don't adjust crawlers and non-Zombies.
-            if ((__result != 4) && __instance is EntityZombie )
+            if ((__result != 4) && __instance is EntityZombie)
             {
                 // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution. The 9 in the default int[9] indicates how many walk types you've specified.
                 int[] numbers = new int[9] { 1, 2, 2, 3, 4, 5, 6, 7, 8 };
@@ -35,8 +35,8 @@ public class SphereII_Transmogrifier
                 int randomNumber = random.Next(0, numbers.Length);
 
                 // return the randomly selected walk type
-                __result =  numbers[randomNumber];
-               
+                __result = numbers[randomNumber];
+
             }
 
             return __result;
@@ -52,11 +52,11 @@ public class SphereII_Transmogrifier
         public static void Postfix(EntityAlive __instance)
         {
             EntityClass entityClass = EntityClass.list[__instance.entityClass];
-            if(entityClass.Properties.Values.ContainsKey("RandomSize"))
+            if (entityClass.Properties.Values.ContainsKey("RandomSize"))
             {
-                bool blRandomSize  = false;
+                bool blRandomSize = false;
                 bool.TryParse(entityClass.Properties.Values["RandomSize"], out blRandomSize);
-                if(blRandomSize)
+                if (blRandomSize)
                 {
                     // This is the distributed random heigh multiplier. Add or adjust values as you see fit. By default, it's just a small adjustment.
                     float[] numbers = new float[9] { 0.7f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f };
@@ -80,8 +80,16 @@ public class SphereII_Transmogrifier
     {
         public static void Postfix(EntityAlive __instance, BinaryReader _br)
         {
-            float flScale = _br.ReadSingle();
-            __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
+            try
+            {
+
+                float flScale = _br.ReadSingle();
+                __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
     }
@@ -93,8 +101,17 @@ public class SphereII_Transmogrifier
     {
         public static void Postfix(EntityAlive __instance, BinaryWriter _bw)
         {
-            float flScale = __instance.gameObject.transform.localScale.x;
-            _bw.Write(flScale);
+            try
+            {
+
+                float flScale = __instance.gameObject.transform.localScale.x;
+                _bw.Write(flScale);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
     }
@@ -103,19 +120,19 @@ public class SphereII_Transmogrifier
     [HarmonyPatch("DamageEntity")]
     public class SphereII_EntityAlive_DamageEntity
     {
-        public static bool Prefix(EntityAlive __instance, ref  DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
+        public static bool Prefix(EntityAlive __instance, ref DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
         {
             // Apply a damage boost if there'sa  head shot.
-            if(__instance is EntityZombie)
+            if (__instance is EntityZombie)
             {
                 bool blHeadShotsMatter = false;
                 EntityClass entityClass = EntityClass.list[__instance.entityClass];
                 bool.TryParse(entityClass.Properties.Values["HeadShots"], out blHeadShotsMatter);
 
-                if(blHeadShotsMatter)
+                if (blHeadShotsMatter)
                 {
                     EnumBodyPartHit bodyPart = _damageSource.GetEntityDamageBodyPart(__instance);
-                    if(bodyPart == EnumBodyPartHit.Head)
+                    if (bodyPart == EnumBodyPartHit.Head)
                     {
                         // Apply a damage multiplier for the head shot, and bump the dismember bonus for the head shot
                         // This will allow the heads to go explode off, which according to legend, if the only want to truly kill a zombie.
@@ -124,7 +141,7 @@ public class SphereII_Transmogrifier
                         _damageSource.DismemberChance = 0.08f;
                     }
                     // Reducing the damage to the torso will prevent the entity from being killed by torso shots, while also maintaining de-limbing.
-                    else if(bodyPart == EnumBodyPartHit.Torso)
+                    else if (bodyPart == EnumBodyPartHit.Torso)
                     {
                         _damageSource.DamageMultiplier = 0.1f;
                     }
@@ -135,6 +152,6 @@ public class SphereII_Transmogrifier
         }
     }
 
- 
+
 
 }
