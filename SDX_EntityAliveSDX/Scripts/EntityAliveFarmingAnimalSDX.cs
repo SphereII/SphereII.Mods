@@ -23,7 +23,8 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
         base.Awake();
 
         // So they don't step over each other.
-       // this.stepHeight = 0.005f;
+        this.stepHeight = 0f;
+       // ConfigureBounaryBox(new Vector3(1f, 1.8f, 1f));
 
     }
 
@@ -103,7 +104,7 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
 
     public override void OnUpdateLive()
     {
-       // AdjustSizeForStage();
+        // AdjustSizeForStage();
 
         if (this.Buffs.HasCustomVar("Herd") )
         {
@@ -116,6 +117,7 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
             }
         }
         base.OnUpdateLive();
+
     }
 
     public override string ToString()

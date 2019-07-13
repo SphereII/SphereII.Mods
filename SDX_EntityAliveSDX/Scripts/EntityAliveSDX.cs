@@ -40,7 +40,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     public void DisplayLog(String strMessage)
     {
         if(blDisplayLog && !IsDead())
@@ -417,7 +417,7 @@ public class EntityAliveSDX : EntityNPC
     public override void OnUpdateLive()
     {
 
-        if(lastDoorOpen != Vector3i.zero)
+        if(lastDoorOpen != Vector3i.zero )
             OpenDoor();
 
         Buffs.RemoveBuff("buffnewbiecoat", false);
@@ -440,8 +440,11 @@ public class EntityAliveSDX : EntityNPC
         // Check if there's a player within 10 meters of us. If not, resume wandering.
         emodel.avatarController.SetBool("IsBusy", false);
 
-        if(GetAttackTarget() == null || GetRevengeTarget() == null)
+        if(GetAttackTarget() == null || GetRevengeTarget() == null) 
         {
+            if (this is EntityAliveFarmingAnimalSDX)
+                return;
+
             List<global::Entity> entitiesInBounds = global::GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
             if(entitiesInBounds.Count > 0)
             {

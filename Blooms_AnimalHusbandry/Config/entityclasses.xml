@@ -98,8 +98,8 @@
       <property name="faction" value="farmCows" />
       <!-- Custom boundary box so they don't go half into blocks -->
       <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
       <property name="Names" value="Rose,Dahlia,Flower,Minnie,Daisy,Darla,Margie,Maggie,Esmeralda,Shelly,Meg,Lois,Jasmine,Bella,Candie,Bessie,Emma,Penelope,Bella,Molly,Clarabelle,Henrietta,Nettie,Annabelle,Gertie,Betty Sue, Ella, Anna,Dorothy,Annie,Honebun,Sweetie,LovaBull,Cupcake,Baby,Cookie,Sunny,SunShine,Cocoa,Muffin,Pinky,Blue,Sugar,Booboo,Princess,Big Mac,Madonna,Bertha,Waffles,Moscow,MooMoo,Mud Pie,Shrimp,Cowlick,Ineda Bunn,Waffles,Hamburger,Brown Cow,Humphry,Heifer,Mickey D" />
       </entity_class>
@@ -109,18 +109,18 @@
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Cattle_male_prefab"/>
       <property name="IsMale" value="true"/>
       <property name="Names" value="Bully,Duke,Hydro,Homer,Earl,Disel,Horns,Armor,Bob,Sampson,Tank,Kristof,Angus,Midnight,Nitrous,Red Bull,Moogan Freeman,Meatloaf,T-Bone,Mooshu,Leonardo DiCowprio,Cheeseburger,LovaBull,Hugh Heifer,Moossolini,Grassyella,Moo Rock,Rick Raws The Sause Bause,SteakHouse" />
-          <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+      <property class="Boundary" >
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
     </entity_class>
 
  
     <entity_class name="zombieFarmCow" extends="animalBear">
       <property name="Mesh" value="#@modfolder:Resources/Cows.unity3d?Cattle_prefab"/>
-          <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+      <property class="Boundary" >
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
     </entity_class>
 
@@ -201,8 +201,8 @@
 
       <property name="faction" value="farmGoat" />
       <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
       <!-- Random name property. If none are listed, it's called Bob -->
       <property name="Names" value="Nanny,Lambert,Wooly,Bo Peep,Butter,Baaa-rbra Anne,Baaachus,Snowy,Snow White,Daisy,Snowflake,Cloud,Milky,Cream,Snowball,Smokey,Stormy,Latte,Mocha,Sandy,Amber,Curly,Cuddles,Fluffy,Fuzzy,Fluffers,Faun,Doom Bringer Of the Apocalypse" />
@@ -225,8 +225,8 @@
       <drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
       <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
       <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
       <property name="faction" value="farmPigs" />
 
@@ -237,9 +237,9 @@
     <entity_class name="animalFarmPigMale" extends="animalFarmPigFemale">
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Iron_age_pig_v2_prefab"/>
       <property name="IsMale" value="true"/>
-            <property class="Boundary" >
-        <property name="BoundaryBox" value="2.5,1.8,2" />
-        <property name="Center" value="0,0.9,0"/>
+      <property class="Boundary" >
+        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="Center" value="0.3,0.3,0,3"/>
       </property>
       <property name="Names" value="Brutus,Goliath,Frankie,Albert,Otis,Mugsy,Bart,Oliver,Bubba,Norman,Gus,Ralph,Mortimer,Clyde,Chester,Babe,Sooey,Hamlet,Bacon,Oinker,Corn Chips,Stinker,Spam,Curly,Bratwurst,Short Rib,HammerTime,Harry Porker,Hickory,Sam The Ham,Porkchop,Pork N Beans,Mesquite" />
     </entity_class>
