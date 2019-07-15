@@ -23,7 +23,7 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
         base.Awake();
 
         // So they don't step over each other.
-        this.stepHeight = 0f;
+       // this.stepHeight = 0f;
        // ConfigureBounaryBox(new Vector3(1f, 1.8f, 1f));
 
     }

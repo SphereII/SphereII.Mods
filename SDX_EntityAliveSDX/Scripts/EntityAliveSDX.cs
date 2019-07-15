@@ -256,6 +256,8 @@ public class EntityAliveSDX : EntityNPC
         _entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId, true);
         base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
 
+        this.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+
         return true;
     }
 
@@ -315,6 +317,7 @@ public class EntityAliveSDX : EntityNPC
         }
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
+
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
@@ -471,6 +474,7 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
+    
 
     public void ToggleTraderID(bool Restore)
     {

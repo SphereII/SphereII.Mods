@@ -1,11 +1,11 @@
 <configs>
-	<append xpath="/entity_classes">
-		<entity_class name="animalFarm" extends="animalStag">
-			<property name="Tags" value="animal,Farmanimal"/>
-			<property name="Class" value="EntityAliveFarmingAnimalSDX, Mods" />
-			<property name="AvatarController" value="MecanimSDX, Mods" />
-			<property name="RootMotion" value="false" />
-			<property name="Mass" value="90"/>
+  <append xpath="/entity_classes">
+    <entity_class name="animalFarm" extends="animalStag">
+      <property name="Tags" value="animal,Farmanimal"/>
+      <property name="Class" value="EntityAliveFarmingAnimalSDX, Mods" />
+      <property name="AvatarController" value="MecanimSDX, Mods" />
+      <property name="RootMotion" value="false" />
+      <property name="Mass" value="90"/>
 
       <property name="NPCID" value="animalFarm"/>
 
@@ -47,10 +47,10 @@
       <property name="MoveSpeed" value="0.3"/>
       <property name="MoveSpeedAggro" value="1.4,1.4"/>
       <property name="MoveSpeedPanic" value="1.4"/>
-      
+
       <effect_group name="Base Effects">
-				<passive_effect name="HealthMax" operation="base_set" value="110"/>
-				<passive_effect name="StaminaMax" operation="base_set" value="110"/>
+        <passive_effect name="HealthMax" operation="base_set" value="110"/>
+        <passive_effect name="StaminaMax" operation="base_set" value="110"/>
         <passive_effect name="WaterMax" operation="base_set" value="100" />
 
         <passive_effect name="WaterLossPerHealthPointGained" operation="base_set" value="0.06"/>
@@ -58,15 +58,15 @@
         <passive_effect name="HealthLossMaxMult" operation="base_set" value="0.144"/>
         <passive_effect name="StaminaLossMaxMult" operation="base_set" value="0.0068"/>
         <passive_effect name="HealthChangeOT" operation="base_set" value="0.017" />
-				<passive_effect name="HealthMaxModifierOT" operation="base_add" value=".00028"/>
-				<passive_effect name="Mobility" operation="base_set" value="1"/>
-				<passive_effect name="Mobility" operation="perc_add"  value="-.3" tags="swimming"/>
-				<passive_effect name="JumpStrength" operation="base_set" value="0.16"/>
-				<passive_effect name="JumpStrength" operation="base_set" value="0.08" tags="crouching"/>
+        <passive_effect name="HealthMaxModifierOT" operation="base_add" value=".00028"/>
+        <passive_effect name="Mobility" operation="base_set" value="1"/>
+        <passive_effect name="Mobility" operation="perc_add"  value="-.3" tags="swimming"/>
+        <passive_effect name="JumpStrength" operation="base_set" value="0.16"/>
+        <passive_effect name="JumpStrength" operation="base_set" value="0.08" tags="crouching"/>
         <passive_effect name="StaminaChangeOT" operation="base_set" value="10" />
-				<passive_effect name="StaminaChangeOT" operation="perc_subtract" value="1.5" tags="running"/>
+        <passive_effect name="StaminaChangeOT" operation="perc_subtract" value="1.5" tags="running"/>
         <passive_effect name="StaminaLoss" operation="base_set" value="20" tags="jumping"/>
-				<passive_effect name="StaminaLoss" operation="base_set" value="40" tags="swimming"/>
+        <passive_effect name="StaminaLoss" operation="base_set" value="40" tags="swimming"/>
       </effect_group>
 
       <!-- Hand item allows them to eat and drink from water sources, much like a player -->
@@ -81,28 +81,28 @@
       <property name="AITask-6" value="RunAwayFromEntitySDX, Mods" />
       <property name="AITask-7" value="Look"/>
       <property name="AITask-8" value="" />
-      <property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/> 
+      <property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>
       <property name="AITarget-2" value="" />
     </entity_class>
 
-		<entity_class name="animalFarmCow" extends="animalFarm">
+    <entity_class name="animalFarmCow" extends="animalFarm">
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Cattle_prefab"/>
-      
-			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="20"/>
-			<drop event="Harvest" name="resourceLeather" tag="butcherHarvest" count="6"/>
-			<drop event="Harvest" name="resourceAnimalFat" tag="butcherHarvest" count="3"/>
-			<drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
-			<drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
+
+      <drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+      <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="20"/>
+      <drop event="Harvest" name="resourceLeather" tag="butcherHarvest" count="6"/>
+      <drop event="Harvest" name="resourceAnimalFat" tag="butcherHarvest" count="3"/>
+      <drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
+      <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
 
       <property name="faction" value="farmCows" />
       <!-- Custom boundary box so they don't go half into blocks -->
       <property class="Boundary" >
-        <property name="BoundaryBox" value="1,1.8,1.8" />
-        <property name="Center" value="0.3,0.3,0,3"/>
+        <property name="BoundaryBox" value="1,1.8,2.2" />
+        <property name="Center" value="0.5,0.3,0.5"/>
       </property>
       <property name="Names" value="Rose,Dahlia,Flower,Minnie,Daisy,Darla,Margie,Maggie,Esmeralda,Shelly,Meg,Lois,Jasmine,Bella,Candie,Bessie,Emma,Penelope,Bella,Molly,Clarabelle,Henrietta,Nettie,Annabelle,Gertie,Betty Sue, Ella, Anna,Dorothy,Annie,Honebun,Sweetie,LovaBull,Cupcake,Baby,Cookie,Sunny,SunShine,Cocoa,Muffin,Pinky,Blue,Sugar,Booboo,Princess,Big Mac,Madonna,Bertha,Waffles,Moscow,MooMoo,Mud Pie,Shrimp,Cowlick,Ineda Bunn,Waffles,Hamburger,Brown Cow,Humphry,Heifer,Mickey D" />
-      </entity_class>
+    </entity_class>
 
     <!-- Male version This has an effect through the Buffs.xml to control fertilify -->
     <entity_class name="animalFarmCowMale" extends="animalFarmCow">
@@ -110,76 +110,78 @@
       <property name="IsMale" value="true"/>
       <property name="Names" value="Bully,Duke,Hydro,Homer,Earl,Disel,Horns,Armor,Bob,Sampson,Tank,Kristof,Angus,Midnight,Nitrous,Red Bull,Moogan Freeman,Meatloaf,T-Bone,Mooshu,Leonardo DiCowprio,Cheeseburger,LovaBull,Hugh Heifer,Moossolini,Grassyella,Moo Rock,Rick Raws The Sause Bause,SteakHouse" />
       <property class="Boundary" >
-        <property name="BoundaryBox" value="1,1.8,1.8" />
+        <property name="BoundaryBox" value="1,1.8,2.2" />
         <property name="Center" value="0.3,0.3,0,3"/>
       </property>
     </entity_class>
 
- 
+
     <entity_class name="zombieFarmCow" extends="animalBear">
       <property name="Mesh" value="#@modfolder:Resources/Cows.unity3d?Cattle_prefab"/>
       <property class="Boundary" >
-        <property name="BoundaryBox" value="1,1.8,1.8" />
-        <property name="Center" value="0.3,0.3,0,3"/>
+        <property name="BoundaryBox" value="1,1.8,2.2" />
+        <property name="Center" value="0.5,0.3,0.5"/>
       </property>
     </entity_class>
 
     <!-- Sample Chicken -->
-  <entity_class name="animalFarmChickenFemale" extends="animalFarm">
-    <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Chicken_prefab"/>
-    <property name="PhysicsBody" value="chicken"/>
-    <property name="Mass" value="15"/>
-    <property name="Weight" value="10"/>
-    <property name="SoundHurt" value="Animals/Chicken/chickenpain"/>
-    <property name="SoundDeath" value="Animals/Chicken/chickendeath"/>
-    <property name="SwimOffset" value="2"/>
-    <property name="HasRagdoll" value="false"/>
-    <property name="HasDeathAnim" value="false"/>
+    <entity_class name="animalFarmChickenFemale" extends="animalFarm">
+      <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Chicken_prefab"/>
+      <property name="PhysicsBody" value="chicken"/>
+      <property name="Mass" value="15"/>
+      <property name="Weight" value="10"/>
+      <property name="SoundHurt" value="Animals/Chicken/chickenpain"/>
+      <property name="SoundDeath" value="Animals/Chicken/chickendeath"/>
+      <property name="SwimOffset" value="2"/>
+      <property name="HasRagdoll" value="false"/>
+      <property name="HasDeathAnim" value="false"/>
 
-    <!-- Gameplay -->
-    <property name="MoveSpeedPanic" value="1"/>
-    <property name="ExperienceGain" value="173"/>
-    <property name="DeadBodyHitPoints" value="175"/>
-    <drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-    <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
-    
-    <drop event="Harvest" name="resourceFeather" tag="butcherHarvest" count="23"/>
-    <effect_group name="Base Effects">
-      <passive_effect name="HealthMax" operation="base_set" value="10"/>
-      <passive_effect name="HealthMax" operation="perc_add" value="0"/>
-    </effect_group>
+      <!-- Gameplay -->
+      <property name="MoveSpeedPanic" value="1"/>
+      <property name="ExperienceGain" value="173"/>
+      <property name="DeadBodyHitPoints" value="175"/>
+      <drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+      <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 
-    <property name="faction" value="farmChickens" />
+      <drop event="Harvest" name="resourceFeather" tag="butcherHarvest" count="23"/>
+      <effect_group name="Base Effects">
+        <passive_effect name="HealthMax" operation="base_set" value="10"/>
+        <passive_effect name="HealthMax" operation="perc_add" value="0"/>
+      </effect_group>
 
-    <!-- This AI task is tied to a cvar, which is being used to record entity ID that we want to follow -->
-    <!-- Param1 can be:  cvar, Buff or the current hand item, such as a block or item name -->
-    <!--  param1="Mother,Leader,buffBeastMaster,hayBaleBlock,foodCornOnTheCob" -->
-    <property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Mother,Leader,foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
+      <property name="faction" value="farmChickens" />
 
-    <!-- Random name property. If none are listed, it's called Bob -->
-    <property name="Names" value="Albert Eggstein,Amelia Egghart,Attila the Hen,Big Bird,Chicken Little,Cluck Rogers,Chick Norris,Dixie Chick,Egghead,Foghorn Leghorn,Gandalf the Gray,Goldie Hen,Hen Solo,Henneth Paltrow,Princess Lay-a,Woodstock,Yolko Ono,Beaker,Buck Beak,Griffin,Hedwig,Henrietta,Henny Penny,Iago,Mordecai,Mother Clucker,Pigwidgeon,Pox,Phoenix,Robot Chicken,Zazu,Anastasia,Annie,Arabella,Beatrice,Bessie,Betsy,Edna,Charlotte,Clarabelle,Daisy,Daphne,Dorothy,Dottie,Estelle,Eloise,Felicity,Florence,Francis,Genevieve,Georgia,Geraldine,Gladys,Gloria,Harriet,Holly,Iris,June,Loretta,Maude,Minnie,Matilda,Myrtle,Opal,Pearl,Penelope,Polly,Stella,Sadie,Tillie,Benedict,BBQ,Bon Bon,Buffalo,Burrito,Cacciatore,Cashew,Colonel Sanders,Cordon Bleu,Curry,Custard,Divan,Dumpling,Drumstick,Frenchie,Frittata,Jubilee,Kabob,Kiev,Noodle,Nugget,Omelette,Pattie,Piccata,Pollo,Ranchero,Roast,Schnitzel,Scramble,Sesame,Stu,Taco,Tandoori,Teriyaki" />
+      <!-- This AI task is tied to a cvar, which is being used to record entity ID that we want to follow -->
+      <!-- Param1 can be:  cvar, Buff or the current hand item, such as a block or item name -->
+      <!--  param1="Mother,Leader,buffBeastMaster,hayBaleBlock,foodCornOnTheCob" -->
+      <property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Mother,Leader,foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
 
-    <!-- The starting buffs. Semi-colon delimited! -->
-    <property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffAnimalBaby;buffAnimalChicken" />
+      <!-- Random name property. If none are listed, it's called Bob -->
+      <property name="Names" value="Albert Eggstein,Amelia Egghart,Attila the Hen,Big Bird,Chicken Little,Cluck Rogers,Chick Norris,Dixie Chick,Egghead,Foghorn Leghorn,Gandalf the Gray,Goldie Hen,Hen Solo,Henneth Paltrow,Princess Lay-a,Woodstock,Yolko Ono,Beaker,Buck Beak,Griffin,Hedwig,Henrietta,Henny Penny,Iago,Mordecai,Mother Clucker,Pigwidgeon,Pox,Phoenix,Robot Chicken,Zazu,Anastasia,Annie,Arabella,Beatrice,Bessie,Betsy,Edna,Charlotte,Clarabelle,Daisy,Daphne,Dorothy,Dottie,Estelle,Eloise,Felicity,Florence,Francis,Genevieve,Georgia,Geraldine,Gladys,Gloria,Harriet,Holly,Iris,June,Loretta,Maude,Minnie,Matilda,Myrtle,Opal,Pearl,Penelope,Polly,Stella,Sadie,Tillie,Benedict,BBQ,Bon Bon,Buffalo,Burrito,Cacciatore,Cashew,Colonel Sanders,Cordon Bleu,Curry,Custard,Divan,Dumpling,Drumstick,Frenchie,Frittata,Jubilee,Kabob,Kiev,Noodle,Nugget,Omelette,Pattie,Piccata,Pollo,Ranchero,Roast,Schnitzel,Scramble,Sesame,Stu,Taco,Tandoori,Teriyaki" />
 
-    <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-    <property name="FoodItems" value="foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
+      <!-- The starting buffs. Semi-colon delimited! -->
+      <property name="Buffs" value="buffAnimalStatusCheck;buffStatusCheck;buffAnimalBaby;buffAnimalChicken" />
 
-    <!-- Chicken specific. Where the chicken will place its items. -->
-    <property name="Beds" value="cntBirdnest" />  <!-- this is where the chicken will go to 'bed' at, or rather, lay an egg -->
-    <property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />  <!-- Which buff is on the entity when its produced something -->
+      <!-- Food items and bins that this entity will eat, if using the right AI Task -->
+      <property name="FoodItems" value="foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
 
-    <property class="ProductionItems">
-      <property name="foodEgg" value="1" param1="$EggValue" /> 
-      <property name="resourceFeather" value="5"/>
-    </property>
-  </entity_class>
-    
+      <!-- Chicken specific. Where the chicken will place its items. -->
+      <property name="Beds" value="cntBirdnest" />
+      <!-- this is where the chicken will go to 'bed' at, or rather, lay an egg -->
+      <property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />
+      <!-- Which buff is on the entity when its produced something -->
+
+      <property class="ProductionItems">
+        <property name="foodEgg" value="1" param1="$EggValue" />
+        <property name="resourceFeather" value="5"/>
+      </property>
+    </entity_class>
+
     <entity_class name="animalFarmChickenFemale2" extends="animalFarmChickenFemale">
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Chicken_v2_prefab"/>
       <property name="Names" value="Albert Eggstein,Amelia Egghart,Attila the Hen,Big Bird,Chicken Little,Cluck Rogers,Chick Norris,Dixie Chick,Egghead,Foghorn Leghorn,Gandalf the Gray,Goldie Hen,Hen Solo,Henneth Paltrow,Princess Lay-a,Woodstock,Yolko Ono,Beaker,Buck Beak,Griffin,Hedwig,Henrietta,Henny Penny,Iago,Mordecai,Mother Clucker,Pigwidgeon,Pox,Phoenix,Robot Chicken,Zazu,Anastasia,Annie,Arabella,Beatrice,Bessie,Betsy,Edna,Charlotte,Clarabelle,Daisy,Daphne,Dorothy,Dottie,Estelle,Eloise,Felicity,Florence,Francis,Genevieve,Georgia,Geraldine,Gladys,Gloria,Harriet,Holly,Iris,June,Loretta,Maude,Minnie,Matilda,Myrtle,Opal,Pearl,Penelope,Polly,Stella,Sadie,Tillie,Benedict,BBQ,Bon Bon,Buffalo,Burrito,Cacciatore,Cashew,Colonel Sanders,Cordon Bleu,Curry,Custard,Divan,Dumpling,Drumstick,Frenchie,Frittata,Jubilee,Kabob,Kiev,Noodle,Nugget,Omelette,Pattie,Piccata,Pollo,Ranchero,Roast,Schnitzel,Scramble,Sesame,Stu,Taco,Tandoori,Teriyaki" />
     </entity_class>
-    
+
     <entity_class name="animalFarmChickenMale" extends="animalFarmChickenFemale">
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Chicken_v3_prefab"/>
       <property name="IsMale" value="true"/>
@@ -201,8 +203,8 @@
 
       <property name="faction" value="farmGoat" />
       <property class="Boundary" >
-        <property name="BoundaryBox" value="1,1.8,1.8" />
-        <property name="Center" value="0.3,0.3,0,3"/>
+        <property name="BoundaryBox" value="1,1.8,2.2" />
+        <property name="Center" value="0.5,0.3,0.5"/>
       </property>
       <!-- Random name property. If none are listed, it's called Bob -->
       <property name="Names" value="Nanny,Lambert,Wooly,Bo Peep,Butter,Baaa-rbra Anne,Baaachus,Snowy,Snow White,Daisy,Snowflake,Cloud,Milky,Cream,Snowball,Smokey,Stormy,Latte,Mocha,Sandy,Amber,Curly,Cuddles,Fluffy,Fuzzy,Fluffers,Faun,Doom Bringer Of the Apocalypse" />
@@ -226,7 +228,7 @@
       <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
       <property class="Boundary" >
         <property name="BoundaryBox" value="1,1.8,1.8" />
-        <property name="Center" value="0.3,0.3,0,3"/>
+        <property name="Center" value="0.5,0.3,0.5"/>
       </property>
       <property name="faction" value="farmPigs" />
 
@@ -238,8 +240,8 @@
       <property name="Mesh" value="#@modfolder:Resources/BloomsFarmAnimals.unity3d?Iron_age_pig_v2_prefab"/>
       <property name="IsMale" value="true"/>
       <property class="Boundary" >
-        <property name="BoundaryBox" value="1,1.8,1.8" />
-        <property name="Center" value="0.3,0.3,0,3"/>
+        <property name="BoundaryBox" value="1,1.8,2.2" />
+        <property name="Center" value="0.5,0.3,0.5"/>
       </property>
       <property name="Names" value="Brutus,Goliath,Frankie,Albert,Otis,Mugsy,Bart,Oliver,Bubba,Norman,Gus,Ralph,Mortimer,Clyde,Chester,Babe,Sooey,Hamlet,Bacon,Oinker,Corn Chips,Stinker,Spam,Curly,Bratwurst,Short Rib,HammerTime,Harry Porker,Hickory,Sam The Ham,Porkchop,Pork N Beans,Mesquite" />
     </entity_class>
@@ -269,7 +271,8 @@
       <property name="Prefab" value="Backpack"/>
       <property class="SpawnSettings" >
         <property name="Leader" value="animalFarmCowMale" />
-        <property name="Followers" value="farmAnimalsCow" param1="2,3"/> <!-- spawns in entity groups -->
+        <property name="Followers" value="farmAnimalsCow" param1="2,3"/>
+        <!-- spawns in entity groups -->
       </property>
     </entity_class>
 
@@ -280,7 +283,7 @@
         <property name="Followers" value="farmAnimalsChicken" param1="2,3"/>
       </property>
     </entity_class>
-    
+
     <entity_class name="invisibleGoatHerdSpawner" extends="invisibleHerdSpawnerStub">
       <property name="Prefab" value="Backpack"/>
       <property class="SpawnSettings" >

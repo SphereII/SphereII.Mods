@@ -63,13 +63,7 @@ public static class EntityUtilities
                     {
                         if(text2.Contains(strTask))
                             return true;
-
-                        continue;
                     }
-                }
-                else
-                {
-                    return false;
                 }
             }
         }
@@ -348,8 +342,6 @@ public static class EntityUtilities
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
                // uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
-                
-
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
@@ -673,25 +665,22 @@ public static class EntityUtilities
         {
             // Check if the entity that is looking at us has the right buff for us to follow.
             if(myEntity.Buffs.HasBuff(strIncentive))
-                result = true;
+                return true;
 
             // Check if there's a cvar for that incentive, such as $Mother or $Leader.
             if(myEntity.Buffs.HasCustomVar(strIncentive))
             {
                 // DisplayLog(" Incentive: " + strIncentive + " Value: " + this.Buffs.GetCustomVar(strIncentive));
                 if((int)myEntity.Buffs.GetCustomVar(strIncentive) == entity.entityId)
-                    result = true;
+                    return true;
             }
 
             if(entity)
             {
                 // Then we check if the control mechanism is an item being held.
                 if(entity.inventory.holdingItem.Name == strIncentive)
-                    result = true;
+                     return true;
             }
-            // if we are true here, it means we found a match to our entity.
-            if(result)
-                break;
         }
         return result;
     }

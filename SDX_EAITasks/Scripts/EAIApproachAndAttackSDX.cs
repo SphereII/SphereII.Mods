@@ -19,8 +19,8 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     private int relocateTicks;
     private float maxChaseTime;
 
-    private bool blDisplayLog = true;
-    private EntityAlive entityTarget;
+    private bool blDisplayLog = false;
+   // private EntityAlive entityTarget;
 
     public void DisplayLog(String strMessage)
     {
@@ -31,11 +31,16 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     public override bool CanExecute()
     {
         bool result = base.CanExecute();
-        if(result)
+        if(result && this.entityTarget != null )
         {
+            DisplayLog(" Has Task: " + EntityUtilities.HasTask(this.theEntity.entityId, "Ranged"));
+            DisplayLog(" Is In Range: " + InRange());
             // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
-            if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") && !InRange() )
+            if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") && !InRange())
+            {
+                DisplayLog(" Has Ranged Attack. Not Moving forward.");
                 result = false;
+            }
         }
 
         return result;
