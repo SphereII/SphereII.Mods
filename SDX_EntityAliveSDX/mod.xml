@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EntityAliveSDX</name>
     <description>Add new EntityAliveSDX Class</description>
-    <mod_version>1.0.1.220</mod_version>
+    <mod_version>1.0.1.221</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -23,12 +23,12 @@
     <hash filename="Scripts\EntityBanditSDX.cs" hash="8f65b249b9979b181d006badbfa2ba74" />
     <hash filename="Scripts\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
     <hash filename="Scripts\EntityMoveHelperSDX.cs" hash="ecd712eb86cba66edc4dce7b358ed981" />
-    <hash filename="Harmony\EntityMoveHelper.cs" hash="14ec6d019be9e6af94d00b21ee19e38d" />
-    <hash filename="Scripts\EntityAliveFarmingAnimalSDX.cs" hash="00dba836ddd1b195ee855fc823c01aa0" />
     <hash filename="Harmony\ItemActionPatcher.cs" hash="6daa24dca8d600795281897bf0acf711" />
     <hash filename="Harmony\EntityAlivePatcher.cs" hash="e0f930def9091cf2da62023d1b3ae004" />
     <hash filename="Scripts\ModGeneralUtilities.cs" hash="f11f027cfd5a9d59b7e7ec9624f34631" />
-    <hash filename="Scripts\EntityUtilities.cs" hash="546b9eca39ef9f008295ad9680bbf906" />
-    <hash filename="Scripts\EntityAliveSDX.cs" hash="34d57c7bcf8b0529c36b25ebfde8fb91" />
+    <hash filename="Harmony\EntityMoveHelper.cs" hash="2f1aff2810909eb4f786cc905a3ae582" />
+    <hash filename="Scripts\EntityAliveFarmingAnimalSDX.cs" hash="ad9ce3efc495644caab867023d0c5409" />
+    <hash filename="Scripts\EntityAliveSDX.cs" hash="da40f5e614a637acaec7806177fe3841" />
+    <hash filename="Scripts\EntityUtilities.cs" hash="1f7307ee7510d882939a88f7da1ad95d" />
   </hashes>
 </mod>

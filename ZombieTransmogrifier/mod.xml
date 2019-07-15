@@ -12,8 +12,6 @@
     <dependency>Hal's DLL Fixes</dependency>
   </dependencies>
   <hashes>
-    <hash filename="ReadMe.md" hash="7e4d09440bed513a9131c0972f8140e9" />
-    <hash filename="Config\EntityClasses.xml" hash="c55064ecb947439a81da86650bc84f0d" />
     <hash filename="Harmony\Transmogrifier.cs" hash="e0a1c8f018dedc2e3c94e7a0815c2efa" />
     <hash filename="Resources\FrostShieldParticle.unity3d" hash="bcf91167ec9f2cb5185b1ef4339ce174" />
     <hash filename="Scripts\EntityFlyingBaseSDX.cs" hash="7d2153a1919f15908432933ee4f5810e" />
@@ -22,5 +20,7 @@
     <hash filename="Scripts\EntityZombieCrawlSDX.cs" hash="86d9d3d17d5a09d4e5c978ebd528b049" />
     <hash filename="Scripts\EntityZombieFlockSDX.cs" hash="d743675edd2496be0f98272181eae750" />
     <hash filename="Scripts\EntityZombieFlyingSDX.cs" hash="d7cde325308810cb2f664d998b291613" />
+    <hash filename="ReadMe.md" hash="493d615d13c1edf09813fffc58e1dd96" />
+    <hash filename="Config\EntityClasses.xml" hash="2af171bb83b45365b8908508632b8f8f" />
   </hashes>
 </mod>

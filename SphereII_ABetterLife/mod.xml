@@ -15,20 +15,63 @@
   Permission is granted for re-use 
   -->
 <mod>
-	<info>
-		<author>sphereii</author>
-		<name>SphereII A Better Life</name>
-		<description>A general purpose modlet that gives more life to the skies and water</description>
-		<mod_version>1.0</mod_version>
-		<game_version>16.4</game_version>
-		<launcher_version/>
-	</info>
-
-	
-	<dependencies>
-		<dependency>AnimationSDX</dependency>
-		<dependency>Zombie Transmogrifier</dependency>
-		<dependency>Hal's DLL Fixes</dependency>
-
-	</dependencies>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII A Better Life</name>
+    <description>A general purpose modlet that gives more life to the skies and water</description>
+    <mod_version>1.0</mod_version>
+    <game_version>16.4</game_version>
+    <launcher_version />
+  </info>
+  <dependencies>
+    <dependency>AnimationSDX</dependency>
+    <dependency>Zombie Transmogrifier</dependency>
+    <dependency>Hal's DLL Fixes</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="README.md" hash="617f9fd47ce0f67b725914c285a6d975" />
+    <hash filename="Config\entityclasses.xml" hash="e1245fd58fbdbb50eccf7a02e47ed0e1" />
+    <hash filename="ItemIcons\Boiled Fish.png" hash="ba11d4566cd8196a9b2b5016218b15d8" />
+    <hash filename="ItemIcons\Charred Fish.png" hash="0cb1b49efa3baabcf944235459a44763" />
+    <hash filename="ItemIcons\Grilled Fish.png" hash="f971ad599209db23f846a3fce5a3ff5d" />
+    <hash filename="ItemIcons\Raw Fish.png" hash="06695f7c1c45bc07ae1961bf7ca2105b" />
+    <hash filename="Resources\Alcatraz.unity3d" hash="6572ff1697dd6c14da1af75285db698a" />
+    <hash filename="Resources\Barracuda.unity3d" hash="29b8f3f778c44bde5f6cca2ca762c68e" />
+    <hash filename="Resources\BirdBundle.unity3d" hash="3644c93704c11dbb15947b3de113a808" />
+    <hash filename="Resources\BubblesParticle.unity3d" hash="b5a857d94880ce26719635f8ed4b3d0a" />
+    <hash filename="Resources\Butterflies.unity3d" hash="f8c8d3ac1d4881b25bc42888f5ad7ceb" />
+    <hash filename="Resources\Cattails.unity3d" hash="0debfbcfc8db8bd1ba915bc013426605" />
+    <hash filename="Resources\Clownfish.unity3d" hash="4de7cb413ee09d9c23612f59e1b84805" />
+    <hash filename="Resources\Eagle.unity3d" hash="5408e12b6db69d67e85fa0d6a3f2dde8" />
+    <hash filename="Resources\Falcon.unity3d" hash="7768f6297ae2cf07e88eb8c644a161cc" />
+    <hash filename="Resources\FalconSounds.unity3d" hash="1b10a7702c22ba9e8d0bdb188022b2c7" />
+    <hash filename="Resources\Fanplant.unity3d" hash="cc58005564491a16a1a9a10c3058afd3" />
+    <hash filename="Resources\Fish.unity3d" hash="c1128a69cdcc5a963c961a6032916e85" />
+    <hash filename="Resources\FishParticles.unity3d" hash="7e6df816ffffb66e6373486776e7a20d" />
+    <hash filename="Resources\Goose.unity3d" hash="70b01ae8b7f8fb9300319f81bc0988f4" />
+    <hash filename="Resources\Halophila.unity3d" hash="224ba21b87e8627f02076487b002e627" />
+    <hash filename="Resources\Magpie.unity3d" hash="f9ad0cac33aab7325a6867293e7e1583" />
+    <hash filename="Resources\Mud.unity3d" hash="40d8a75de250caec388cdf691d80743c" />
+    <hash filename="Resources\Pavonica.unity3d" hash="3b28088440605dae49536704ab36180b" />
+    <hash filename="Resources\Pike.unity3d" hash="668c9bcfa79bff5a14e23a052112e8db" />
+    <hash filename="Resources\Robin.unity3d" hash="dc27c3ed03c7b39381d0634c313c55a6" />
+    <hash filename="Resources\RobinSounds.unity3d" hash="7482696fa415b20eb807d1433e9f0dff" />
+    <hash filename="Resources\RustyBucket.unity3d" hash="5cadc2815eb00459f51ef109cddc7b01" />
+    <hash filename="Resources\RustyCar01.unity3d" hash="f22ec677b02aa62fbdf337e35930d94c" />
+    <hash filename="Resources\Sardine.unity3d" hash="881f61c71f7ed2a9f7781f4d019a0b18" />
+    <hash filename="Resources\Seagull.unity3d" hash="38d7c87e2be492c0eae3dd1e54ced3d3" />
+    <hash filename="Resources\SeaShell.unity3d" hash="7f5cac71256a3ec55ecae818033e605c" />
+    <hash filename="Resources\SeaWeed.unity3d" hash="157db33c475e9b4983f0834b1c80a77e" />
+    <hash filename="Resources\Stingray.unity3d" hash="01475c5c92c32e800ef1e9210dffc260" />
+    <hash filename="Resources\Stipa.unity3d" hash="0527b646e92d18cf9064f91d7bb4ee8e" />
+    <hash filename="Resources\Swimmers.unity3d" hash="98812a05aecc606656409931dd868719" />
+    <hash filename="Resources\Syringodium.unity3d" hash="455f87babe3b2ba78fb001ec6e927277" />
+    <hash filename="Resources\Thalassia.unity3d" hash="cb63babddf4564e6dc05375d49af5f7d" />
+    <hash filename="Resources\Turtle.unity3d" hash="d06c7d494fdacb19cc60595823b20444" />
+    <hash filename="Resources\WaterPlant.unity3d" hash="33d3170ff378927be151122d747fa449" />
+    <hash filename="Resources\WellWalker.unity3d" hash="ea638071226568d79a9a558e68a48597" />
+    <hash filename="Scripts\BlockMortSpawner.cs" hash="7d2392af3f3ab2f45f707cfa7ae31eab" />
+    <hash filename="Scripts\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
+    <hash filename="Text\localization.txt" hash="358fa45176f809efacf4ddda3557ca72" />
+  </hashes>
 </mod>
