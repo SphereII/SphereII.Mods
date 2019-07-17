@@ -38,6 +38,8 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
             // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
             if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") && !InRange())
             {
+                this.theEntity.SetLookPosition(this.entityTarget.getHeadPosition());
+                this.theEntity.RotateTo(this.entityTarget, 30f, 30f);
                 DisplayLog(" Has Ranged Attack. Not Moving forward.");
                 result = false;
             }
