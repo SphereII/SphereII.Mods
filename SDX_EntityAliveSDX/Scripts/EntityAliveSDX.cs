@@ -439,7 +439,6 @@ public class EntityAliveSDX : EntityNPC
         // Make the entity sensitive to the environment.
         // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
 
-
         // Check if there's a player within 10 meters of us. If not, resume wandering.
         emodel.avatarController.SetBool("IsBusy", false);
 
@@ -515,8 +514,15 @@ public class EntityAliveSDX : EntityNPC
                 return;
             if(EntityUtilities.IsAnAlly(this.entityId, _other.entityId))
                 return;
+
+            // Syncs up the Revenge and Attack Targets to the leader, to allow propagation
+            float flLeader =  EntityUtilities.GetCVarValue( this.entityId, "Herd"))
+            myLeader = EntityUtilities.GetLeaderOrOwner( (int)flLeader) as EntityAlive;
+            if(myLeader && EntityUtilities.GetAttackOrReventTarget(myLeader.entityId ))
+                myLeader.SetRevengeTarget(_other);
         }
-        base.SetRevengeTarget(_other);
+
+            base.SetRevengeTarget(_other);
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)

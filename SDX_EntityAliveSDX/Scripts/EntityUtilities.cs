@@ -111,11 +111,19 @@ public static class EntityUtilities
     public static Entity GetLeader(int EntityID)
     {
         Entity leader = null;
-        EntityAliveSDX currentEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive currentEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(currentEntity)
         {
+            
             if(currentEntity.Buffs.HasCustomVar("Leader"))
                 leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
+
+            // Something happened to our leader.
+            if(leader == null)
+            {
+                currentEntity.Buffs.RemoveCustomVar("Leader");
+                leader = currentEntity; 
+            }
         }
 
         return leader;
@@ -266,7 +274,7 @@ public static class EntityUtilities
         SetLeader(EntityID, LeaderID);
         SetOwner(EntityID, LeaderID);
     }
-
+    
     public static bool IsAnAlly(int EntityID, int AttackingID)
     {
         bool result = false;
@@ -284,6 +292,18 @@ public static class EntityUtilities
         return result;
     }
 
+    public static Entity GetAttackOrReventTarget(int EntityID)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if(myEntity)
+        {
+            if(myEntity.GetAttackTarget() != null)
+                return myEntity.GetAttackTarget();
+            if(myEntity.GetRevengeTarget() == null)
+                return myEntity.GetRevengeTarget();
+        }
+        return null;
+    }
     public static bool isTame(int EntityID, EntityAlive _player)
     {
         Entity myLeader = GetLeaderOrOwner(EntityID);
@@ -694,48 +714,53 @@ public static class EntityUtilities
         String FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue( EntityID, "foodAmount")).ToString();
         String WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue( EntityID, "waterAmount")).ToString();
 
+        Debug.Log("1");
         // string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Stats.Health.Value;
         string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Health + "/" + myEntity.GetMaxHealth();
         strOutput += " Stamina: " + myEntity.Stats.Stamina.Value + " Thirst: " + myEntity.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
         strOutput += " Sanitation: " + GetCVarValue( EntityID, "solidWasteAmount");
-
+        Debug.Log("2");
         // Read the Food items configured.
         String strFoodItems = GetStringValue(EntityID, "FoodItems");
         if(strFoodItems == String.Empty)
             strFoodItems = "All Food Items";
         strOutput += "\n Food Items: " + strFoodItems;
-
+        Debug.Log("3");
         // Read the Water Items
         String strWaterItems = GetStringValue(EntityID, "WaterItems");
         if(strWaterItems == String.Empty)
             strWaterItems = "All Water Items";
         strOutput += "\n Water Items: " + strWaterItems;
-
+        Debug.Log("4");
         strOutput += "\n Food Bins: " + GetStringValue(EntityID, "FoodBins");
         strOutput += "\n Water Bins: " + GetStringValue(EntityID, "WaterBins");
-
+        Debug.Log("5");
         if(myEntity.Buffs.HasCustomVar("CurrentOrder"))
             strOutput += "\n Current Order: " + GetCurrentOrder(EntityID).ToString();
-
+        Debug.Log("6");
         if(myEntity.Buffs.HasCustomVar("Leader"))
-            strOutput += "\n Current Leader: " + GetLeader(EntityID).ToString();
-
+        {
+            Entity leader = GetLeader(EntityID);
+            if ( leader )
+                strOutput += "\n Current Leader: " + leader.entityId ;
+        }
+        Debug.Log("7");
         strOutput += "\n Active Buffs: ";
         foreach(BuffValue buff in myEntity.Buffs.ActiveBuffs)
             strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " + buff.DurationInTicks + " )";
-
+        Debug.Log("8");
         strOutput += "\n Active CVars: ";
         foreach(KeyValuePair<string, float> myCvar in myEntity.Buffs.CVars)
             strOutput += "\n\t" + myCvar.Key + " : " + myCvar.Value;
-                
+        Debug.Log("9");
         strOutput += "\n Active Quests: ";
         foreach(Quest quest in myEntity.QuestJournal.quests)
             strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " + quest.CurrentPhase;
-
+        Debug.Log("10");
         strOutput += "\n Patrol Points: ";
         foreach(Vector3 vec in myEntity.PatrolCoordinates)
             strOutput += "\n\t" + vec.ToString();
-
+        Debug.Log("11");
         strOutput += "\n\nCurrency: " + GetHireCurrency( EntityID) + " Faction: " + myEntity.factionId;
 
         DisplayLog(strOutput);
