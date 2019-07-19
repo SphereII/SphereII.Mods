@@ -516,7 +516,7 @@ public class EntityAliveSDX : EntityNPC
                 return;
 
             // Syncs up the Revenge and Attack Targets to the leader, to allow propagation
-            float flLeader =  EntityUtilities.GetCVarValue( this.entityId, "Herd"))
+            float flLeader =  EntityUtilities.GetCVarValue( this.entityId, "Herd");
             myLeader = EntityUtilities.GetLeaderOrOwner( (int)flLeader) as EntityAlive;
             if(myLeader && EntityUtilities.GetAttackOrReventTarget(myLeader.entityId ))
                 myLeader.SetRevengeTarget(_other);
