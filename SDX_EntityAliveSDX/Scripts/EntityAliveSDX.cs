@@ -40,7 +40,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if(blDisplayLog && !IsDead())
@@ -515,16 +515,20 @@ public class EntityAliveSDX : EntityNPC
             if(EntityUtilities.IsAnAlly(this.entityId, _other.entityId))
                 return;
 
-            // Syncs up the Revenge and Attack Targets to the leader, to allow propagation
-            float flLeader =  EntityUtilities.GetCVarValue( this.entityId, "Herd");
-            myLeader = EntityUtilities.GetLeaderOrOwner( (int)flLeader) as EntityAlive;
-            if(myLeader && EntityUtilities.GetAttackOrReventTarget(myLeader.entityId ))
-                myLeader.SetRevengeTarget(_other);
         }
 
             base.SetRevengeTarget(_other);
+        Debug.Log("Adding Buff for RevengeTarget() ");
+        this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
+
     }
 
+    public override void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
+    {
+        base.SetAttackTarget(_attackTarget, _attackTargetTime);
+        Debug.Log("Adding Buff for Attack Target() ");
+        this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
+    }
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
         // If we are being attacked, let the state machine know it can fight back

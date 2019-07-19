@@ -32,7 +32,7 @@ class EAIMaslowLevel1SDX : EAIApproachSpot
     // List<Vector3> lstWaterBlocks = new List<Vector3>();
 
     public bool hadPath;
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     private Vector3 investigatePos;
     private Vector3 seekPos;
     private int pathRecalculateTicks;

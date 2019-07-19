@@ -14,7 +14,7 @@ class EntityMoveHelperSDX : EntityMoveHelper
     private int moveToFailCnt;
     private float moveToDistance;
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if(blDisplayLog )

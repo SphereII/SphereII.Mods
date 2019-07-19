@@ -6,7 +6,7 @@ using UnityEngine;
 public static class ModGeneralUtilities
 {
 
-    static bool blDisplayLog = true;
+    static bool blDisplayLog = false;
 
     public static void DisplayLog(string strMessage)
     {

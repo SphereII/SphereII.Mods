@@ -597,8 +597,15 @@
 			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
 			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
-		</entity_class> 	
-		
+		</entity_class>
+
+    <entity_class name="invisibleNPCHerdSpawner" extends="invisibleHerdSpawnerStub">
+      <property name="Prefab" value="Backpack"/>
+      <property class="SpawnSettings" >
+        <property name="Leader" value="NPCHarleyQuinn" />
+        <property name="Followers" value="NPCAmmo,NPCFarmer,NPCNurse" param1="2,3"/>
+      </property>
+    </entity_class>
 		<!-- Loot drop containers  -->
 		<entity_class name="EntityLootContainerNPC"> <!-- 71.72 -->
 			<property name="Mesh" value="LootContainers/zpackPrefab"/>

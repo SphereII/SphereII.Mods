@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_Buffs</name>
     <description>A general purpose class that adds in new Buff hooks</description>
-    <mod_version>1.0.0.3</mod_version>
+    <mod_version>1.0.0.16</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
@@ -26,5 +26,7 @@
     <hash filename="Scripts\RequirementEveryXHourSDX.cs" hash="09ca8502e267d480d2929a3fa7f8acee" />
     <hash filename="Scripts\RequirementOnSpecificBiomeSDX.cs" hash="cc8b09646c973c9931f9f3d80041236d" />
     <hash filename="Scripts\RequirementSameFactionSDX.cs" hash="eb60d68086012cd1836d6a35c5491943" />
+    <hash filename="Config\buffs.xml" hash="6ccbb55c6830477a4df896c058c91d03" />
+    <hash filename="Scripts\MinEventActionNotifyTeam.cs" hash="5afc3f4e703c373989f455a61ad6a143" />
   </hashes>
 </mod>

@@ -32,7 +32,7 @@
       <effect_group name="Is Entity Eating">
         <requirement name="CVarCompare" target="self" cvar="$foodAmountAdd" operation="GT" value="0"/>
         <passive_effect name="StaminaMaxModifierOT" operation="base_add" value="@$foodAmountAdd"/>
-        <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Adding Food"/>
+        <!--triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Adding Food"/-->
         <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" target="self" cvar="$foodAmountAdd" operation="set" value="0"/>
       </effect_group>
 

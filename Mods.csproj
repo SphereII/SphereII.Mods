@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimationSDX\Scripts\MecanimSDX.cs" />
+    <Compile Include="SDX_Buffs\Scripts\MinEventActionNotifyTeam.cs" />
     <Compile Include="SDX_Buffs\Scripts\MinEventActionPlayerLevelSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="SDX_Dialog\Scripts\DialogRequirementHasTaskSDX.cs" />
@@ -77,8 +78,12 @@
     <Compile Include="SDX_EntityAliveSDX\Scripts\EntityMoveHelperSDX.cs" />
     <Compile Include="SDX_EntityAliveSDX\Scripts\EntityUtilities.cs" />
     <Compile Include="SDX_EntityAliveSDX\Scripts\ModGeneralUtilities.cs" />
+    <Compile Include="SphereII_ABetterLife\Scripts\BlockMortSpawner.cs" />
+    <Compile Include="SphereII_ABetterLife\Scripts\EntitySwimingSDX.cs" />
     <Compile Include="SphereII_DMT_Tasks\PatchScripts\ManagerVersions.cs" />
     <Compile Include="SphereII_ModLoader\Harmony\ModLoader.cs" />
+    <Compile Include="SphereII_QuickContinue\Harmony\Harmony.cs" />
+    <Compile Include="SphereII_QuickContinue\Scripts\QuickContinue.cs" />
     <Compile Include="SphereII_ZeroExp\Harmony\Progression.cs" />
     <Compile Include="AntiNerdPole\Harmony\PlaceBlock.cs" />
     <Compile Include="ClearUI\Harmony\ClearUI.cs" />
@@ -138,6 +143,13 @@
     <Compile Include="SphereII_UnlockHealthBar\Harmony\UnlockHealthBar.cs" />
     <Compile Include="SphereII_WanderingTraders\Scripts\EntityWanderingTrader.cs" />
     <Compile Include="SphereII_XPBarRemoval\Harmony\XPIconRemove.cs" />
+    <Compile Include="ZombieTransmogrifier\Harmony\Transmogrifier.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityFlyingBaseSDX.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityGenericSDX.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityZombieCopSDX.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityZombieCrawlSDX.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityZombieFlockSDX.cs" />
+    <Compile Include="ZombieTransmogrifier\Scripts\EntityZombieFlyingSDX.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AnimationSDX\Config\entityclasses.xml" />
@@ -149,10 +161,22 @@
     <Content Include="RCUI\mod.xml" />
     <Content Include="RCUI\ModInfo.xml" />
     <Content Include="RCUI\Textures\roland_compass_letters.png" />
+    <Content Include="SDX_Buffs\Config\buffs.xml" />
+    <Content Include="SphereII_ABetterLife\Config\entityclasses.xml" />
+    <Content Include="SphereII_ABetterLife\ItemIcons\Boiled Fish.png" />
+    <Content Include="SphereII_ABetterLife\ItemIcons\Charred Fish.png" />
+    <Content Include="SphereII_ABetterLife\ItemIcons\Grilled Fish.png" />
+    <Content Include="SphereII_ABetterLife\ItemIcons\Raw Fish.png" />
+    <Content Include="SphereII_ABetterLife\mod.xml" />
+    <Content Include="SphereII_ABetterLife\Text\localization.txt" />
     <Content Include="SphereII_DMT_Tasks\ReadMe.txt" />
     <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.dll" />
     <Content Include="SphereII_ModLoader\Harmony\Harmony-SphereII_ModLoader.pdb" />
     <Content Include="SphereII_ModLoader\mod.xml" />
+    <Content Include="SphereII_QuickContinue\Harmony\Harmony-SphereII_QuickContinue.dll" />
+    <Content Include="SphereII_QuickContinue\Harmony\Harmony-SphereII_QuickContinue.pdb" />
+    <Content Include="SphereII_QuickContinue\mod.xml" />
+    <Content Include="SphereII_QuickContinue\ModInfo.xml" />
     <Content Include="SphereII_ZeroExp\mod.xml" />
     <Content Include="SphereII_ZeroExp\ReadMe.txt" />
     <Content Include="AntiNerdPole\Harmony\Harmony-Anti Nerd Poling.dll" />
@@ -254,6 +278,11 @@
     <Content Include="Xyth_WanderingTraders\Config\traders.xml" />
     <Content Include="Xyth_WanderingTraders\mod.xml" />
     <Content Include="Xyth_WanderingTraders\ModInfo.xml" />
+    <Content Include="ZombieTransmogrifier\Config\EntityClasses.xml" />
+    <Content Include="ZombieTransmogrifier\Harmony\Harmony-Zombie Transmogrifier.dll" />
+    <Content Include="ZombieTransmogrifier\Harmony\Harmony-Zombie Transmogrifier.pdb" />
+    <Content Include="ZombieTransmogrifier\mod.xml" />
+    <Content Include="ZombieTransmogrifier\ModInfo.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="SDX_EAITasks\Config\" />
@@ -271,6 +300,42 @@
     <None Include="SDX_EntityAliveSDX\ReadMe.md" />
     <None Include="SDX_Quests\README.md" />
     <None Include="SDX_SpawnFromEntityGroup\ReadMe.md" />
+    <None Include="SphereII_ABetterLife\README.md" />
+    <None Include="SphereII_ABetterLife\Resources\Alcatraz.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Barracuda.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\BirdBundle.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\BubblesParticle.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Butterflies.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Cattails.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Clownfish.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Eagle.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Falcon.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\FalconSounds.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Fanplant.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Fish.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\FishParticles.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Goose.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Halophila.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Magpie.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Mud.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Pavonica.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Pike.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Robin.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\RobinSounds.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\RustyBucket.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\RustyCar01.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Sardine.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Seagull.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\SeaShell.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\SeaWeed.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Stingray.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Stipa.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Swimmers.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Syringodium.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Thalassia.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\Turtle.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\WaterPlant.unity3d" />
+    <None Include="SphereII_ABetterLife\Resources\WellWalker.unity3d" />
     <None Include="SphereII_EntityHook\ReadMe.md" />
     <None Include="SphereII_EntityPlayer\ReadMe.md" />
     <None Include="SphereII_MusicBoxes\README.md" />
@@ -280,6 +345,7 @@
     <None Include="SphereII_MusicBoxes\Resources\VideoPlayers.unity3d" />
     <None Include="SphereII_MusicBoxes\Resources\Videos.unity3d" />
     <None Include="SphereII_MusicBoxes\Resources\XmasCarousel.unity3d" />
+    <None Include="SphereII_QuickContinue\ReadMe.md" />
     <None Include="SphereII_TakeAndReplace\README.md" />
     <None Include="SphereII_UnlockHealthBar\ReadMe.md" />
     <None Include="SphereII_WanderingTraders\ReadMe.md" />
@@ -295,6 +361,8 @@
     <None Include="Xyth_NPCs\Resources\XythNPCAmmo.unity3d" />
     <None Include="Xyth_WanderingTraders\Resources\Traders.unity3d" />
     <None Include="Xyth_WanderingTraders\Resources\XythAmmo.unity3d" />
+    <None Include="ZombieTransmogrifier\ReadMe.md" />
+    <None Include="ZombieTransmogrifier\Resources\FrostShieldParticle.unity3d" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

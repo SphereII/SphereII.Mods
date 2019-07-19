@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SDX_EAITasks</name>
     <description>A general purpose class that adds in new EAI Tasks</description>
-    <mod_version>1.1.0.86</mod_version>
+    <mod_version>1.1.0.89</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
@@ -20,11 +20,11 @@
     <hash filename="Scripts\EAILootLocationSDX.cs" hash="4b637f921a5cb1ed4c15453c7d822a1a" />
     <hash filename="Scripts\EAIMaslowLevel1SDX_v2.cs" hash="4097da1221b9eddfd432d370d9c13b1b" />
     <hash filename="Scripts\EAIApproachAndFollowTargetSDX.cs" hash="edb61617cf9d9b22166d7ec879af44f8" />
-    <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="e6d023118f73ecdb7d334d69199442bd" />
-    <hash filename="Scripts\OldEAIMaslowLevel1SDX.cs" hash="ef3694f7452aef5ce7d07945bc22b9e4" />
     <hash filename="Scripts\EAIApproachAndAttackSDX.cs" hash="7ec20ab8885f5fe1101381d57c87593c" />
-    <hash filename="Scripts\EAISetAsTargetIfHurtSDX.cs" hash="209ad1b13e527e833a1d5ffbcb1f92d8" />
-    <hash filename="Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="f9aac23d8d9df25c42ba99e2cd8885f0" />
-    <hash filename="Scripts\EAISetAsTargetNearestEnemySDX.cs" hash="f8cde709fe3362a72158a4192d89ffec" />
+    <hash filename="Scripts\EAISetAsTargetIfHurtSDX.cs" hash="0cfd42af2262741631f8bb20fecca215" />
+    <hash filename="Scripts\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="c7bcfea130d515f0e092ee36d1b2853c" />
+    <hash filename="Scripts\EAISetAsTargetNearestEnemySDX.cs" hash="72e0eda6315bbfe2bdc023864723248e" />
+    <hash filename="Scripts\EAIMaslowLevel1SDX.cs" hash="494c35c1ea9e3dcd25671eb6983118e6" />
+    <hash filename="Scripts\OldEAIMaslowLevel1SDX.cs" hash="91f7539459d16bdecb2210374084abc4" />
   </hashes>
 </mod>
