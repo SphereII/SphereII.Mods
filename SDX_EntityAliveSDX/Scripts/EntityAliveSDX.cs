@@ -75,7 +75,8 @@ public class EntityAliveSDX : EntityNPC
         {
             string text = entityClass.Properties.Values["Names"];
             string[] Names = text.Split(',');
-            int index = random.Next(0, Names.Length);
+           
+            int index = UnityEngine.Random.Range(0, Names.Length);
             strMyName = Names[index];
         }
 
@@ -83,7 +84,7 @@ public class EntityAliveSDX : EntityNPC
         {
             string text = entityClass.Properties.Values["Titles"];
             string[] Names = text.Split(',');
-            int index = random.Next(0, Names.Length);
+            int index = UnityEngine.Random.Range(0, Names.Length);
             strTitle = Names[index];
         }
 
