@@ -250,7 +250,7 @@ public static class EntityUtilities
         EntityAlive LeaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if(myEntity && LeaderEntity)
         {
-            myEntity.Buffs.SetCustomVar("Leader", (float)LeaderID, false);
+            myEntity.Buffs.SetCustomVar("Leader", (float)LeaderID, true);
             myEntity.moveSpeed = LeaderEntity.moveSpeed;
             myEntity.moveSpeedAggro = LeaderEntity.moveSpeedAggro;
             myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
@@ -266,7 +266,7 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         EntityAlive LeaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if(myEntity && LeaderEntity)
-            myEntity.Buffs.SetCustomVar("Owner", (float)LeaderID, false);
+            myEntity.Buffs.SetCustomVar("Owner", (float)LeaderID, true);
     }
 
     public static void SetLeaderAndOwner(int EntityID, int LeaderID)
@@ -322,7 +322,7 @@ public static class EntityUtilities
         if (myEntity)
         {
             DisplayLog(" Setting Current Order: " + order.ToString());
-            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, false);
+            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, true);
         }
     }
 
