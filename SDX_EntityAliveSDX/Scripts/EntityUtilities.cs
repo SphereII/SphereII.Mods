@@ -318,7 +318,7 @@ public static class EntityUtilities
 
     public static void SetCurrentOrder(int EntityID, Orders order)
     {
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
             DisplayLog(" Setting Current Order: " + order.ToString());
