@@ -1,0 +1,7 @@
+<configs>
+   <append xpath="/lootcontainers/lootgroup[@name='tools']">
+     <!--item name="candyCane" prob="0.05" /-->
+		<item name="snowShovel" prob="0.05" />
+   </append>
+ 
+</configs> 

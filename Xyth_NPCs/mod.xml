@@ -14,15 +14,17 @@
     <dependency>Patch_Entity</dependency>
   </dependencies>
   <hashes>
-    <hash filename="Config\blocks.xml" hash="58c848905c1803e3f636630dd959f340" />
-    <hash filename="Config\entitygroups.xml" hash="db8a3d259433256bb476bed2b66cff4a" />
-    <hash filename="Config\items.xml" hash="6aad5de4721313533b8dcb960489fcc5" />
+    <hash filename="Config\blocks.xml" hash="9483e91c13b711efe737cca6d84247dd" />
+    <hash filename="Config\buffs.xml" hash="e521e8f7e82d418b42c67d182f6aa701" />
+    <hash filename="Config\entityclasses.xml" hash="8861462c9c6315afd3137ea5b07b6f11" />
+    <hash filename="Config\entitygroups.xml" hash="98a978b6b50ef83acf7927ca264007f5" />
+    <hash filename="Config\items.xml" hash="dd4dc04e175e978a7369c6e48f2772c1" />
     <hash filename="Config\Localization.txt" hash="58f5d9e3a1418bda77b3c704c8f96a91" />
+    <hash filename="Config\npc.xml" hash="9c0eeb211e75d3a0ba32ea6a38a76a76" />
     <hash filename="Config\sounds.xml" hash="db02dc46348489349697702e1c6c87a1" />
+    <hash filename="Resources\DarkThings.unity3d" hash="d56e298ee4c2253f2a5c2b2e928d59c4" />
     <hash filename="Resources\HarleySounds.unity3d" hash="1e018b649f3d8008cf2609e25dadb3ed" />
     <hash filename="Resources\NPCs.unity3d" hash="5ee985a6411c87ca188ae1adfe588354" />
-    <hash filename="Resources\XythNPCAmmo.unity3d" hash="bd957668afe87a65da0c6b151f4cf2cc" />
-    <hash filename="Config\entityclasses.xml" hash="9fc7dc9a197532a2864b5fd2ef25e7ba" />
-    <hash filename="Config\buffs.xml" hash="a21791ea16e3a1f5f265d61849d9c44e" />
+    <hash filename="Resources\XythNPCAmmo.unity3d" hash="5071296ed8aa11f4eece2b1277092304" />
   </hashes>
 </mod>

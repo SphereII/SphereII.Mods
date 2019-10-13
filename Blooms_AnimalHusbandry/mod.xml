@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>Bloom's Animal Husbandry</name>
     <description>Bloom's Animal Husbandry Kit (SDX Mod)</description>
-    <mod_version>1.0.0.11</mod_version>
+    <mod_version>1.0.0.15</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -19,7 +19,6 @@
   </dependencies>
   <hashes>
     <hash filename="ReadMe.md" hash="6e15d450d0ad7182c78238f5d7e7e62f" />
-    <hash filename="Config\blocks.xml" hash="c45aca855006f3d8a780c5c31560f0e0" />
     <hash filename="Config\buffs.xml" hash="0c926ff7f2614f3a879b8d0b547a493c" />
     <hash filename="Config\items.xml" hash="a389d8bcd3b9ee9314217de426339393" />
     <hash filename="Config\Localization.txt" hash="83eb4f334a45c10c18fd0f751cc9d443" />
@@ -30,6 +29,7 @@
     <hash filename="Resources\FarmAnimalController.unitypackage" hash="7b9899e1d955c8a44bbb1e470811aace" />
     <hash filename="Config\dialogs.xml" hash="c593d12bb5c73aa206d8105213fe0f9c" />
     <hash filename="Config\entitygroups.xml" hash="e9bc50f4d92d140478ee1483fc7913cd" />
-    <hash filename="Config\entityclasses.xml" hash="4e27e03bdf14eea4c4e5a808d7166939" />
+    <hash filename="Config\blocks.xml" hash="2c7ddd1e434d8635cb15009c66200d73" />
+    <hash filename="Config\entityclasses.xml" hash="93efeca091330453d5d0f000665f780b" />
   </hashes>
 </mod>

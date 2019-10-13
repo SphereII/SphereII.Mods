@@ -1,0 +1,8 @@
+﻿<configs>
+  <append xpath="/blocks">
+    <block name="workbenchPowered">
+      <property name="Extends" value="workbench"/>
+      <property name="Class" value="PoweredWorkstationSDX, Mods"/>
+    </block>
+  </append>
+</configs>

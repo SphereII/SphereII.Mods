@@ -1,0 +1,15 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII Tile Entities</name>
+    <description>Tile Entities Tweaks and changes</description>
+    <mod_version>1.0.0.4</mod_version>
+  </info>
+  <hashes>
+    <hash filename="Harmony\PatchAll.cs" hash="b52cd930a62eb621a57e532ab156bc96" />
+    <hash filename="Harmony\EntityAlive.cs" hash="6ca4a573294372f5b1b4909cdf74fb5d" />
+  </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
+</mod>

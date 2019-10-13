@@ -1,0 +1,6 @@
+﻿<configs>
+  <!-- Populate the trader with some items for them to sell -->
+  <append xpath="/traders/trader_item_groups/trader_item_group[@name='weaponsMelee']">
+    <item name="snowShovel" prob="0.5"/>
+  </append>
+</configs>

@@ -1,0 +1,5 @@
+Key,Source,Context,Changes,English,French,German,Klingon,Spanish,Polish
+buffsmallBed,items,Medical,KgNone,Small bed,,,,,
+buffsmallBedDesc,items,Medical,New,A small bed will help you rest up.,,,,,
+snowShovel,items,Tool,KgNone,An sturdy shovel,,,,,
+snowShovelDesc,items,Tool,KgNone,"A sturdy snow shovel, for all our winter shovelling needs.",,,,,

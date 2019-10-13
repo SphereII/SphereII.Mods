@@ -1,0 +1,9 @@
+<configs>
+
+	<append xpath="/windows/window[@name='windowBackpack']/panel[@name='header']">
+		<button depth="3" name="btnStashFillStacks" style="icon32px, press, hover" pivot="center" pos="281,-21" sprite="ui_game_symbol_drop" tooltip_key="lblStashFillStacks" sound="[paging_click]" visible="{lootingorvehiclestorage}" />
+		<button depth="3" name="btnStashSmart" style="icon32px, press, hover" pivot="center" pos="317,-21" sprite="ui_game_symbol_drop" tooltip_key="lblStashSmart" sound="[paging_click]" visible="{lootingorvehiclestorage}" />
+		<button depth="3" name="btnStashAll" style="icon32px, press, hover" pivot="center" pos="353,-21" sprite="ui_game_symbol_drop" tooltip_key="lblStashAll" sound="[paging_click]" visible="{lootingorvehiclestorage}" />
+		<combobox name="cbxLockedSlots" type="ComboBoxInt" pos="374, -6" width="140" height="30" value_min="0" value_max="45" value_wrap="true" value_increment="1" tooltip_key="xuiStashLockedSlots" visible="{lootingorvehiclestorage}" />
+	</append>
+</configs>

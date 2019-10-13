@@ -5,12 +5,12 @@
     <author>sphereii</author>
     <name>SphereII_ModLoader</name>
     <description>Enables loading DLLs from the Mods folder.</description>
-    <mod_version>1.0.0.4</mod_version>
+    <mod_version>1.0.0.5</mod_version>
     <game_version>17.2</game_version>
     <launcher_version>0.0.0</launcher_version>
   </info>
   <hashes>
-    <hash filename="Harmony\ModLoader.cs" hash="35a6be851121eb00acc2eb8b6ef28f37" />
     <hash filename="Harmony\Harmony-SphereII_ModLoader.dll" hash="84957404bf5f27e20748ee837f19f8fe" />
+    <hash filename="Harmony\ModLoader.cs" hash="8b4fdb4c1b8cf8c47884dbce66b99f26" />
   </hashes>
 </mod>

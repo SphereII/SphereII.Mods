@@ -7,6 +7,9 @@
     <game_version>17</game_version>
     <launcher_version>0.5.5</launcher_version>
   </info>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
   <hashes>
     <hash filename="ReadMe.md" hash="a38bf507d8efa447c0d9ff24e09f8af7" />
     <hash filename="Config\entityclasses.xml" hash="80cf9e029c7aff2678175fe881947293" />

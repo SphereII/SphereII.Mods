@@ -14,12 +14,12 @@
     <dependency>Patch_Entity</dependency>
   </dependencies>
   <hashes>
-    <hash filename="Config\entityclasses.xml" hash="380b3e45a4f382ee5abeda7bed29418e" />
+    <hash filename="Config\entityclasses.xml" hash="23b932b451bfe0047b8a4bbc554fbe5d" />
     <hash filename="Config\entitygroups.xml" hash="08d99c6e8b3e1c54c350a5c20635f94f" />
     <hash filename="Config\items.xml" hash="c39bbd16f45e04864e05568209202284" />
     <hash filename="Config\Localization.txt" hash="9ccacb352240905b40ae184352f0f93a" />
-    <hash filename="Config\npc.xml" hash="5e5ff2fb1782982ffc1aee8d8e35a7ce" />
-    <hash filename="Config\traders.xml" hash="ba599b149b9ededdb56226fdf4126b77" />
+    <hash filename="Config\npc.xml" hash="2762737da4f6b5fcd7b145a7a8cda9f8" />
+    <hash filename="Config\traders.xml" hash="0669401339c3e136ffe27805d650d77f" />
     <hash filename="Resources\Traders.unity3d" hash="b8fa7cdfe6b8c8a24c7c782dc5327cdc" />
     <hash filename="Resources\XythAmmo.unity3d" hash="bd957668afe87a65da0c6b151f4cf2cc" />
   </hashes>

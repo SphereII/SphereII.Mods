@@ -43,18 +43,20 @@
 			<property name="IdleIndexes" value="0" />  
 			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
+<!--			<property name="AINoiseSeekDist" value="8"/>		-->	
 			<property name="AITask-1" value="Swim"/>
-			<property name="AITask-2" value="BreakBlock"/>
-			<property name="AITask-3" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
+			<property name="AITask-2" value="RangedAttackTarget" data="itemType=1;cooldown=3;duration=5;minRange=5;maxRange=50"/>
+			<property name="AITask-3" value="ApproachAndAttackTarget" data="class=EntityZombie,0,EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/>
 			<property name="AITask-4" value="ApproachSpot"/>  
 			<property name="AITask-5" value="Look"/> 
-			<property name="AITask-6" value="Wander"/> 
-			<property name="AITask-7" value="Leap"/> 
-			<property name="AITask-8" value=""/>	
-			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITask-6" value="Wander"/>
+			<property name="AITask-7" value="BreakBlock"/> 
+			<property name="AITask-8" value="Leap"/> 
+			<property name="AITask-9" value=""/>	
+			<property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityAlive"/>
 			<property name="AITarget-2" value="BlockingTargetTask"/> 
-			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
-			<property name="AITarget-4" value=""/> 	
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" data="class=EntityZombie,0,0,EntityEnemyAnimal,0,0"/>
+			<property name="AITarget-4" value=""/> 			
 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
 			<property name="SoundDeath" value="Player_Male/player1death"/>
@@ -145,18 +147,19 @@
 			<property name="IdleIndexes" value="0" />  
 			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
+<!--			<property name="AINoiseSeekDist" value="8"/>		-->		
 			<property name="AITask-1" value="Swim"/>
-			<property name="AITask-2" value="BreakBlock"/>
-			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
-			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
-			<property name="AITask-5" value="ApproachSpot"/>  
-			<property name="AITask-6" value="Look"/> 
-			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-2" value="RangedAttackTarget" data="itemType=1;cooldown=3;duration=5;minRange=5;maxRange=50"/>
+			<property name="AITask-3" value="ApproachAndAttackTarget" data="class=EntityZombie,0,EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/>
+			<property name="AITask-4" value="ApproachSpot"/>  
+			<property name="AITask-5" value="Look"/> 
+			<property name="AITask-6" value="Wander"/>
+			<property name="AITask-7" value="BreakBlock"/> 
 			<property name="AITask-8" value="Leap"/> 
 			<property name="AITask-9" value=""/>	
-			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityAlive"/>
 			<property name="AITarget-2" value="BlockingTargetTask"/> 
-			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" data="class=EntityZombie,0,0,EntityEnemyAnimal,0,0"/>
 			<property name="AITarget-4" value=""/> 		
 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
@@ -247,18 +250,19 @@
 			<property name="IdleIndexes" value="0" />  
 			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/> 
+<!--			<property name="AINoiseSeekDist" value="8"/>		-->				
 			<property name="AITask-1" value="Swim"/>
-			<property name="AITask-2" value="BreakBlock"/>
-			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
-			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
-			<property name="AITask-5" value="ApproachSpot"/>  
-			<property name="AITask-6" value="Look"/> 
-			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-2" value="RangedAttackTarget" data="itemType=1;cooldown=3;duration=5;minRange=5;maxRange=50"/>
+			<property name="AITask-3" value="ApproachAndAttackTarget" data="class=EntityZombie,0,EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/>
+			<property name="AITask-4" value="ApproachSpot"/>  
+			<property name="AITask-5" value="Look"/> 
+			<property name="AITask-6" value="Wander"/>
+			<property name="AITask-7" value="BreakBlock"/> 
 			<property name="AITask-8" value="Leap"/> 
 			<property name="AITask-9" value=""/>	
-			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityAlive"/>
 			<property name="AITarget-2" value="BlockingTargetTask"/> 
-			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" data="class=EntityZombie,0,0,EntityEnemyAnimal,0,0"/>
 			<property name="AITarget-4" value=""/> 		
 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
@@ -349,19 +353,20 @@
 			<property name="IdleIndexes" value="0" />  
 			<property name="AttackIdleIndexes" value="0" /> 
 			<property name="AIPathCostScale" value=".9, 1"/>
+<!--			<property name="AINoiseSeekDist" value="8"/>		-->	
 			<property name="AITask-1" value="Swim"/>
-			<property name="AITask-2" value="BreakBlock"/>
-			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/>
-			<property name="AITask-4" value="ApproachAndAttackTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityPlayer,0,EntityBandit,0"/>
-			<property name="AITask-5" value="ApproachSpot"/>  
-			<property name="AITask-6" value="Look"/> 
-			<property name="AITask-7" value="Wander"/> 
+			<property name="AITask-2" value="RangedAttackTarget" data="itemType=1;cooldown=3;duration=5;minRange=5;maxRange=50"/>
+			<property name="AITask-3" value="ApproachAndAttackTarget" data="class=EntityZombie,0,EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/>
+			<property name="AITask-4" value="ApproachSpot"/>  
+			<property name="AITask-5" value="Look"/> 
+			<property name="AITask-6" value="Wander"/>
+			<property name="AITask-7" value="BreakBlock"/> 
 			<property name="AITask-8" value="Leap"/> 
 			<property name="AITask-9" value=""/>	
-			<property name="AITarget-1" value="SetAsTargetIfHurt" /> 
+			<property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityAlive"/>
 			<property name="AITarget-2" value="BlockingTargetTask"/> 
-			<property name="AITarget-3" value="SetNearestEntityAsTarget" param1="EntityZombie,0,EntityEnemyAnimal,0,EntityBandit,0"/> 
-			<property name="AITarget-4" value=""/> 	
+			<property name="AITarget-3" value="SetNearestEntityAsTarget" data="class=EntityZombie,0,0,EntityEnemyAnimal,0,0"/>
+			<property name="AITarget-4" value=""/> 		
 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
 			<property name="SoundDeath" value="Player_Male/player1death"/>

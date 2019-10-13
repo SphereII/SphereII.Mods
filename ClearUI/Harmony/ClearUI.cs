@@ -173,5 +173,28 @@ public class ClearUI
         }
     }
 
+    // Removes the timer
+    [HarmonyPatch(typeof(XUiC_Timer))]
+    [HarmonyPatch("OnOpen")]
+    public class SphereII_ClearUI_XUiC_Timer_OnOpen
+    {
+        static bool Prefix()
+        {
+            return false;
+        }
+      
+    }
+
+    // removes cross hair
+    [HarmonyPatch(typeof(ItemClass))]
+    [HarmonyPatch("GetCrosshairType")]
+    public class SphereII_ClearUI_ItemClass_Crosshair
+    {
+        static ItemClass.EnumCrosshairType Postfix(ItemClass.EnumCrosshairType __result)
+        {
+            return ItemClass.EnumCrosshairType.None;
+        }
+    }
+
 }
 

@@ -1,0 +1,29 @@
+﻿<configs>
+  <remove xpath="/quests/quest[@id='quest_BasicSurvival1']" />
+  <insertBefore xpath="/quests/quest[@id='quest_BasicSurvival2']">
+    <quest id="quest_BasicSurvival1">
+      <property name="group_name_key" value="quest_WhiteRiverCitizen" />
+      <property name="name_key" value="quest_WhiteRiverCitizen1" />
+      <property name="subtitle_key" value="quest_WhiteRiverCitizen1_subtitle" />
+      <property name="description_key" value="quest_WhiteRiverCitizen1_description" />
+      <property name="icon" value="ui_game_symbol_map_trader" />
+      <property name="category_key" value="quest" />
+      <property name="difficulty" value="medium" />
+      <property name="shareable" value="false" />
+
+      <action type="ShowTip" value="quest_WhiteRiverCitizen1_description">
+        <property name="delay" value="3" />
+      </action>
+      <objective type="Goto" id="trader" value="5" phase="1" />
+
+      <objective type="InteractWithNPC">
+        <property name="phase" value="2" />
+      </objective>
+
+      <reward type="Exp" value="1000" />
+      <reward type="SkillPoints" value="4"  />
+
+    </quest>
+  </insertBefore>
+  
+</configs>

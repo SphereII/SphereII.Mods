@@ -6,14 +6,14 @@
 			reset_interval="3" open_time="4:05" close_time="21:50"> <!-- weapons/ammo specialty trader -->
 			
 			<trader_items count="all">
-				<item group="weaponsGunsCommon" count="1,2"/>
+				<item group="weaponsGunsT2" prob="1,2"/>
 				<item group="ammo" count="2,4"/>
 				<item group="modAllT1SecretStash" count="1"/>
 			</trader_items>
 
 			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
 				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
-				<item group="weaponsGunsCommon" count="1,2"/>
+				<item group="weaponsGunsT2" prob="1,2"/>
 				<item group="ammo" count="2,4"/>
 				<item group="modMeleeT1" />
 				<item group="modAllT2SecretStash" count="0,1"/>
@@ -36,7 +36,7 @@
 
 			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
 				<item group="weaponsGunsMixed" count="2,3"/>
-				<item group="weaponsGunsMilitary" count="1,2"/>
+				<item group="weaponsGunsT3" prob="1,2"/>
 				<item group="ammo" count="5,8"/>
 				<item group="stashOnlyItemsHigh" count="3,4"/>
 				<item group="modAllT5SecretStash" count="1,2"/>
@@ -57,7 +57,7 @@
 				<item group="medicine" count="2,4" />
 				<item group="commonBooks" count="1,2"/>
 				<item group="rareBooks" count="1"/>
-				<item group="perkMagazines" prob="1"/>
+				<item group="perkBooks" count="1"/>
 				<item group="tools" count="1" quality="4"/>
 				<item group="modAllT2SecretStash" count="1,2"/>
 			</tier_items>
@@ -70,7 +70,7 @@
 				<item group="rareTools" count="1" quality="5"/>
 				<item group="commonBooks" count="2,3"/>
 				<item group="rareBooks" count="1,2"/>
-				<item group="perkMagazines" prob="1,2"/>
+				<item group="perkBooks" count="1,2"/>
 				<item group="stashOnlyItemsLow" count="1,2"/>
 				<item group="modAllT3SecretStash" count="1,2"/>
 			</tier_items>
@@ -82,7 +82,7 @@
 				<item group="rareTools" count="1,2" quality="6"/>
 				<item group="commonBooks" count="3,4"/>
 				<item group="rareBooks" count="2"/>
-				<item group="perkMagazines" prob="2"/>
+				<item group="perkBooks" count="2"/>
 				<item group="stashOnlyItemsHigh" count="2,3"/>
 				<item group="modAllT4SecretStash" count="1,2"/>
 			</tier_items>
@@ -94,8 +94,8 @@
 				<item group="rareTools" count="3,4" quality="6"/>
 				<item group="commonBooks" count="4,5"/>
 				<item group="rareBooks" count="2,3"/>
-				<item group="perkMagazines" prob="2,3"/>
-				<item name="nightvisionGoggles" count="1"/>
+				<item group="perkBooks" count="2,3"/>
+				<item name="apparelNightvisionGoggles" count="1"/>
 				<item name="plantedHop1" count="1,8"/>
 				<item name="solarbank" count="1"/>
 				<item name="solarCell" count="1,3" quality="3,6"/>
@@ -115,15 +115,15 @@
 				<item group="constructionSupplies" count="2,5"/>
 				<item group="decorativeBlocks" count="2,3"/>
 				<item group="clothes" count="1,4"/>
-				<item group="lightArmor" count="1,3"/>
-				<item group="heavyArmor" count="1,3"/>
+				<item group="groupArmorCloth" count="1,3"/>
+				<item group="groupHeavyArmor" count="1,3"/>
 				<item group="modAllT1SecretStash" count="1,2"/>
 			</trader_items>
 
 			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
 				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
-				<item group="lightArmor" count="1"/>
-				<item group="heavyArmor" count="1"/>
+				<item group="groupArmorCloth" count="1"/>
+				<item group="groupHeavyArmor" count="1"/>
 				<item group="modAllT2SecretStash" count="1,2"/>
 			</tier_items>
 
@@ -131,9 +131,9 @@
 				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
 				<item name="cntVendingMachine" count="2" />
 				<item group="steelArmor" count="1,2"/>
-				<item group="heavyArmor" count="1,2"/>
-				<item group="militaryArmor" count="1,2"/>
-				<item group="lightArmor" count="1,2"/>
+				<item group="groupHeavyArmor" count="1,2"/>
+				<item group="groupMilitaryArmor" count="1,2"/>
+				<item group="groupArmorCloth" count="1,2"/>
 				<item group="stashOnlyItemsLow" count="1,2"/>
 				<item group="modAllT3SecretStash" count="1,2"/>
 			</tier_items>
@@ -141,9 +141,9 @@
 			<tier_items level="4000,4999" count="all"> <!-- requires Perk 4 -->
 				<item name="cntVendingMachine" count="3" />
 				<item group="steelArmor" count="1,2"/>
-				<item group="militaryArmor" count="1,2"/>
+				<item group="groupMilitaryArmor" count="1,2"/>
 				<item name="armorMiningHelmet"/>
-				<item group="minibikeParts" count="1,2"/>
+				<item group="vehicleParts" count="1"/>
 				<item group="stashOnlyItemsHigh" count="2,3"/>
 				<item group="modAllT4SecretStash" count="1,2"/>
 			</tier_items>
@@ -151,9 +151,9 @@
 			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
 				<item name="cntVendingMachine" count="3" />
 				<item group="steelArmor" count="2,3"/>
-				<item group="militaryArmor" count="2,3"/>
+				<item group="groupMilitaryArmor" count="2,3"/>
 				<item name="armorMiningHelmet"/>
-				<item group="minibikeParts" count="2,3"/>
+				<item group="vehicleParts" count="1,2"/>
 				<item group="stashOnlyItemsHigh" count="3,4"/>
 				<item group="modAllT5SecretStash" count="1,2"/>
 			</tier_items>

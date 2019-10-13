@@ -1,0 +1,16 @@
+<mod>
+  <info>
+    <!-- Information about the Mod, the author and version information -->
+    <!-- These are displayed in the SDX Launcher -->
+    <author>sphereii</author>
+    <name>SphereII Back Stash Buttons</name>
+    <description>Enables Vanilla Stash Buttons for containers</description>
+    <mod_version>1.0.0.2</mod_version>
+  </info>
+  <hashes>
+    <hash filename="Config\XUi\windows.xml" hash="2302750e0b6e0c93054b2e5629a162c6" />
+  </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
+</mod>

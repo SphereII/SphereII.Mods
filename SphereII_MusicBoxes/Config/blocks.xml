@@ -1,8 +1,8 @@
 <configs>
-   <!-- The polution stopped, so let's make the snow super white all around -->
-  <set xpath="/blocks/block[@name='terrSnow']/property[@name='Texture']/@value">6</set>
+
+ 
   <append xpath="/blocks">
- 		<block name="Carousel">
+    <block name="Carousel">
 		  <property name="Class" value="MusicBox, Mods"/> <!-- Music Box Class -->
 		  <!-- SoundDataNode reference -->
 		  <property name="SoundDataNode" value="christmasmusic01" />

@@ -2,7 +2,6 @@
 using Harmony;
 using System;
 using System.IO;
-using System.Reflection;
 using UnityEngine;
 
 public class SphereII_Transmogrifier
@@ -45,6 +44,7 @@ public class SphereII_Transmogrifier
 
     }
 
+ 
     [HarmonyPatch(typeof(EntityAlive))]
     [HarmonyPatch("CopyPropertiesFromEntityClass")]
     public class SphereII_EntityAlive_CopyPropertiesFromEntityClass
@@ -86,7 +86,7 @@ public class SphereII_Transmogrifier
                 float flScale = _br.ReadSingle();
                 __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -107,7 +107,7 @@ public class SphereII_Transmogrifier
                 float flScale = __instance.gameObject.transform.localScale.x;
                 _bw.Write(flScale);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }
@@ -151,7 +151,6 @@ public class SphereII_Transmogrifier
             return true;
         }
     }
-
 
 
 }

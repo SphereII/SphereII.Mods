@@ -24,9 +24,7 @@
     <launcher_version />
   </info>
   <dependencies>
-    <dependency>AnimationSDX</dependency>
-    <dependency>Zombie Transmogrifier</dependency>
-    <dependency>Hal's DLL Fixes</dependency>
+    <dependency>SphereIICore</dependency>
   </dependencies>
   <hashes>
     <hash filename="README.md" hash="617f9fd47ce0f67b725914c285a6d975" />
@@ -70,8 +68,8 @@
     <hash filename="Resources\Turtle.unity3d" hash="d06c7d494fdacb19cc60595823b20444" />
     <hash filename="Resources\WaterPlant.unity3d" hash="33d3170ff378927be151122d747fa449" />
     <hash filename="Resources\WellWalker.unity3d" hash="ea638071226568d79a9a558e68a48597" />
-    <hash filename="Scripts\BlockMortSpawner.cs" hash="7d2392af3f3ab2f45f707cfa7ae31eab" />
     <hash filename="Scripts\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
     <hash filename="Text\localization.txt" hash="358fa45176f809efacf4ddda3557ca72" />
+    <hash filename="Scripts\BlockMortSpawner.cs" hash="834d1cb2c2a94606ab1bf068f0fea778" />
   </hashes>
 </mod>

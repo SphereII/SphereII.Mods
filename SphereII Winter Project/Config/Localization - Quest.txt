@@ -1,0 +1,2 @@
+Key,Source,Context,Changes,English,French,German,Klingon,Spanish
+tutorialTipQuest01,,Quest Info,KeyCon KgNone,"Welcome to the Winter Project\nExplore and try to survive in the frozen landscape of the Winter Project.\n\n-sphereii and xyth",,,,

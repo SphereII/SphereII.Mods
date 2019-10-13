@@ -72,7 +72,7 @@
 			</effect_group>
 		</item>
 		<item name="ammoProjectileAmmoPlasma">
-			<property name="Meshfile" value="#@modfolder:Resources/XythNPCAmmo.unity3d?GreenEnergyAmmoLg_X" />
+			<property name="Meshfile" value="#@modfolder:Resources/XythNPCAmmo.unity3d?NPCEnergyAmmoLg_X" />
 			<property name="Material" value="Morganic"/>
 			<property name="CreativeMode" value="None"/>
 			<property class="Action1">

@@ -8,9 +8,7 @@
     <launcher_version>
     </launcher_version>
   </info>
-  <dependencies>
-    <dependency>Hal's DLL Fixes</dependency>
-  </dependencies>
+ 
   <hashes>
     <hash filename="ReadMe.md" hash="e318200da5e1f1cdfce93ad883d5b947" />
     <hash filename="Harmony\XPIconRemove.cs" hash="a4e91b1dacfd818eb9bcd2928c61e6c9" />

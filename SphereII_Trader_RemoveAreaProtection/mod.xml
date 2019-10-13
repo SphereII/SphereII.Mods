@@ -1,0 +1,15 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII_Trader_RemoveAreaProtection</name>
+    <description>Removes trader protection, allowing the damage and harvesting inside the trader area</description>
+    <mod_version>1.0.0.2</mod_version>
+    <game_version>17</game_version>
+  </info>
+  <hashes>
+    <hash filename="Harmony\PrefabInstance.cs" hash="a2def2b4037022968b6a4e91143cda50" />
+  </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
+</mod>

@@ -1,0 +1,5 @@
+﻿<configs>
+	<!-- lower the level where water spawns naturally on the surface -->
+	<set xpath="//terrain_generator/@water_level">-19</set>
+
+</configs>

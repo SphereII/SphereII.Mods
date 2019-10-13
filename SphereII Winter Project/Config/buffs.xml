@@ -1,0 +1,19 @@
+﻿<configs>
+  <append xpath="/buffs">
+
+    <buff name="buffsmallBed" name_key="buffsmallBed" description_key="buffsmallBedDesc" tags="drug" >
+      <stack_type value="replace"/>
+      <duration value="3"/>
+      <effect_group>
+        <passive_effect name="HypothermalResist" operation="base_add" value="5"/>
+        <passive_effect name="HealthChangeOT" operation="base_add" value="0.5"/>
+        <passive_effect name="StaminaChangeOT" operation="base_add" value="2"/>
+        <passive_effect name="StaminaMaxModifierOT" operation="base_add" value="0.5" />
+        <passive_effect name="HealthMaxModifierOT" operation="base_add" value="0.5" />
+        <passive_effect name="WaterChangeOT" operation="base_subtract" value="0.5"/>
+        <passive_effect name="FoodChangeOT" operation="base_subtract" value="0.5"/>
+      </effect_group>
+    </buff>
+  </append>
+  
+</configs>

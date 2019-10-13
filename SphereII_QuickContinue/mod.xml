@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII_QuickContinue</name>
     <description>Loads the last game.</description>
-    <mod_version>1.0.0.43</mod_version>
+    <mod_version>1.0.0.44</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -11,6 +11,9 @@
   <hashes>
     <hash filename="ReadMe.md" hash="d41d8cd98f00b204e9800998ecf8427e" />
     <hash filename="Scripts\QuickContinue.cs" hash="591a7c6a61e49906cccb933cf3a7007a" />
-    <hash filename="Harmony\Harmony.cs" hash="78437fe41484ab5f20e52cf5aa98043a" />
+    <hash filename="Harmony\Harmony.cs" hash="aff73c4ef866c67f81204bbba8fb0acf" />
   </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
 </mod>

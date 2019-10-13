@@ -23,21 +23,21 @@ public class SphereII__BlockDamage
     }
 
     // Don't let the NPCs blind collider with things. This causes them to stand on each other.
-    [HarmonyPatch(typeof(Entity))]
-    [HarmonyPatch("OnCollidedWithEntity")]
-    public class SphereII_entity_OnCollidedWithEntity
-    {
-        static bool Prefix(Entity _entity)
-        {
-            EntityAliveSDX myEntity = (_entity as EntityAliveSDX);
-            if(myEntity)
-            {
-                  Debug.Log("Colliding with: " + _entity.ToString());
-                return false;
-            }
-            return true;
+    //[HarmonyPatch(typeof(Entity))]
+    //[HarmonyPatch("OnCollidedWithEntity")]
+    //public class SphereII_entity_OnCollidedWithEntity
+    //{
+    //    static bool Prefix(Entity _entity)
+    //    {
+    //        EntityAliveSDX myEntity = (_entity as EntityAliveSDX);
+    //        if(myEntity)
+    //        {
+    //              Debug.Log("Colliding with: " + _entity.ToString());
+    //            return false;
+    //        }
+    //        return true;
 
-        }
-    }
+    //    }
+    //}
 
 }

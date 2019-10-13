@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+    <Name value="SphereII Backpack Stash Buttons" />
+    <Description value="Enables Vanilla Stash Buttons for containers" />
+    <Author value="sphereii" />
+    <Version value="1.0.0.2" />
+    <Website value="" />
+  </ModInfo>
+</xml>

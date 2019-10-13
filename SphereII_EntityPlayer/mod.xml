@@ -9,7 +9,7 @@
     </launcher_version>
   </info>
   <dependencies>
-    <dependency>Hal's DLL Fixes</dependency>
+    <dependency>SphereIICore</dependency>
   </dependencies>
   <hashes>
     <hash filename="ReadMe.md" hash="1a67dc847bffe7f8ad7e4ac030073139" />

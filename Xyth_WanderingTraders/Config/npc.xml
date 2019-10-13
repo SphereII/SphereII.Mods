@@ -4,7 +4,7 @@
 		<npc_info
 			id="traderammo"
 			name="Ammo Trader"
-			name_key="npcTraderAmmo"
+			name_key="npc_TraderAmmo"
 			faction="whiteriver"
 			portrait="npc_joel"
 			greeting_type="nearby"
@@ -14,7 +14,7 @@
 		<npc_info
 			id="traderdrug"
 			name="Drug Trader"
-			name_key="npctraderDrug"
+			name_key="npc_traderDrug"
 			faction="whiteriver"
 			portrait="npc_joel"
 			greeting_type="nearby"
@@ -24,7 +24,7 @@
 		<npc_info
 			id="traderheavy"
 			name="Heavy Trader"
-			name_key="npctraderHeavy"
+			name_key="npc_traderHeavy"
 			faction="whiteriver"
 			portrait="npc_joel"
 			greeting_type="nearby"
@@ -34,7 +34,7 @@
 		<npc_info
 			id="traderfood"
 			name="Food Trader"
-			name_key="npcTraderFood"
+			name_key="npc_TraderFood"
 			faction="whiteriver"
 			portrait="npc_joel"
 			greeting_type="nearby"

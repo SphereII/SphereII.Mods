@@ -15,4 +15,7 @@
     <hash filename="Config\Localization.txt" hash="3e2a4086c094735c03ed68f8dbb8a0f9" />
     <hash filename="Scripts\PickUpAndReplace.cs" hash="3395ecac5a77b72a4893a06dfb18b77f" />
   </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
 </mod>

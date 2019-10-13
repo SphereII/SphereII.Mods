@@ -49,8 +49,9 @@ public class SphereII_QuickLoad : IHarmony
                 {
                     __instance.xui.playerUI.windowManager.Close("newContinueGame");
                     GamePrefs.SetPersistent(EnumGamePrefs.GameMode, true);
-                    NetworkConnectionError networkConnectionError = Steam.Network.StartServers(GamePrefs.GetString(EnumGamePrefs.ServerPassword));
-                    if(networkConnectionError != NetworkConnectionError.NoError)
+                    NetworkConnectionError networkConnectionError = SingletonMonoBehaviour<ConnectionManager>.Instance.StartServers(GamePrefs.GetString(EnumGamePrefs.ServerPassword));
+
+                    if (networkConnectionError != NetworkConnectionError.NoError)
                     {
                         XUiWindowGroup xuiWindowGroup = (XUiWindowGroup)__instance.xui.playerUI.windowManager.GetWindow(XUiC_MessageBoxWindowGroup.ID);
                         ((XUiC_MessageBoxWindowGroup)xuiWindowGroup.Controller).ShowNetworkError(networkConnectionError);

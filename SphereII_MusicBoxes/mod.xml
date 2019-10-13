@@ -3,14 +3,13 @@
     <author>sphereii</author>
     <name>SphereII Music Boxes</name>
     <description>A general purpose music box</description>
-    <mod_version>1.0.0.3</mod_version>
+    <mod_version>1.0.0.12</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
   </info>
   <hashes>
     <hash filename="README.md" hash="432a46bfe66d5927a66f209980231ea2" />
-    <hash filename="Config\blocks.xml" hash="d89f3d16e50b4acbbdaec01db30043fb" />
     <hash filename="Config\items.xml" hash="92da57fb5af6fd8eab297ca81d0e3537" />
     <hash filename="Config\Localization - Quest.txt" hash="ba61054578a97b748cd036f8a59220f5" />
     <hash filename="Config\Localization.txt" hash="a67893cd1538737ff841680b1b443834" />
@@ -29,5 +28,9 @@
     <hash filename="Resources\XmasCarousel.unity3d" hash="439fa22703b16a8b9cbb7a1553d1464c" />
     <hash filename="Scripts\MusicBox.cs" hash="467b01b0e1b6d198fa8f9dff7229e795" />
     <hash filename="Scripts\MusicBoxScript.cs" hash="88d79abb72e09a8a2085275db6f3b2de" />
+    <hash filename="Config\blocks.xml" hash="49bb4da3edf70a93cb1a9dadb4adf190" />
   </hashes>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
 </mod>

@@ -3,17 +3,17 @@
     <author>sphereii</author>
     <name>SphereII_EntityHook</name>
     <description>Add in loading for the EntityFactory for custom classes</description>
-    <mod_version>1.0.0.4</mod_version>
+    <mod_version>1.0.0.6</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
   </info>
   <dependencies>
-    <dependency>Hal's DLL Fixes</dependency>
+    <dependency>SphereIICore</dependency>
   </dependencies>
   <hashes>
     <hash filename="ReadMe.md" hash="d41d8cd98f00b204e9800998ecf8427e" />
-    <hash filename="Harmony\Harmony.cs" hash="70979754ccc2cfa6ffe4368f34f50006" />
     <hash filename="Harmony\Harmony-SphereII_EntityHook.dll" hash="303073949919bf01d0fad6fc8f38be49" />
+    <hash filename="Harmony\Harmony.cs" hash="8130a76738131bf6056bf083ddb28da2" />
   </hashes>
 </mod>

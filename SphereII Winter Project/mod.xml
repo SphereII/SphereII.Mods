@@ -1,0 +1,33 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII Winter Project</name>
+    <description>A Winter Project by sphereii and xyth</description>
+    <mod_version>1.0.0.27</mod_version>
+    <game_version>17</game_version>
+  </info>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="Config\buffs.xml" hash="a1e5dbadb5425aa3285ec21aa01f2122" />
+    <hash filename="Config\Items.xml" hash="b26696f4e863babc058b4dc575969d78" />
+    <hash filename="Config\Localization - Quest.txt" hash="2ea412775f1e3e112c3d82a806f18aff" />
+    <hash filename="Config\Localization.txt" hash="d1d15958b13e971fceddae06a0e1754e" />
+    <hash filename="Config\quests.xml" hash="79cc49f08cec6baab5c56ba4932a6df3" />
+    <hash filename="Config\recipes.xml" hash="36c2943f695469e27854037ed703d85a" />
+    <hash filename="Config\traders.xml" hash="d5081e3b8fa9e18ddc8c99f20aa29cad" />
+    <hash filename="Harmony\PrefabInstance.cs" hash="6b4565deafa7dc891798d6ffa6c97592" />
+    <hash filename="ItemIcons\snowShovel.png" hash="0d228069342e9bffd5fa5c670254b8c3" />
+    <hash filename="Resources\SnowFog.unity3d" hash="8a97aa2ee63e95a2f7956f21e3cee162" />
+    <hash filename="Resources\snowShovel.unity3d" hash="e75af7c3b8ef2e5160b0b0f13e696931" />
+    <hash filename="Resources\WinterTrees.unity3d" hash="2b2e9872c31077314707d7d9844acb91" />
+    <hash filename="Config\entityclasses.xml" hash="be20b23f1459a7b76e613eb708505ac0" />
+    <hash filename="Config\loot.xml" hash="9ccda3e519676166845409015a096740" />
+    <hash filename="Scripts\WinterModPrefab.cs" hash="a19d180bc9a4ef5f4316277e8a3f8b3c" />
+    <hash filename="UIAtlases\ItemIcons\snowShovel.png" hash="0d228069342e9bffd5fa5c670254b8c3" />
+    <hash filename="Config\rwgmixer.xml" hash="d09d5ae96f40730d4c0685b093100986" />
+    <hash filename="Config\biomes.xml" hash="ecf62b2d5bf1b212822c2dc80486f773" />
+    <hash filename="Config\blocks.xml" hash="0845a01c681dc46a8c960083c78cb051" />
+  </hashes>
+</mod>

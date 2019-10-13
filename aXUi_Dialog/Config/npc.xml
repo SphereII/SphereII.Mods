@@ -1,4 +1,5 @@
 ﻿<configs>
+<!--
   <append xpath="/npc">
     <npc_info
     id="spheretest"
@@ -10,4 +11,5 @@
     stance="Like" voice_set="trader"
     trader_id="1" dialog_id="GenericNPCWithQuest" />
   </append>
+  -->
 </configs>

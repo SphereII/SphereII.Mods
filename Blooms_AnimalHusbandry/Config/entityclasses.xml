@@ -1,11 +1,12 @@
 <configs>
   <append xpath="/entity_classes">
-    <entity_class name="animalFarm" extends="animalStag">
+    <entity_class name="animalFarm" extends="animalTemplateTimid">
       <property name="Tags" value="animal,Farmanimal"/>
       <property name="Class" value="EntityAliveFarmingAnimalSDX, Mods" />
       <property name="AvatarController" value="MecanimSDX, Mods" />
       <property name="RootMotion" value="false" />
       <property name="Mass" value="90"/>
+      <property name="Prefab" value="NPC"/>
 
       <property name="NPCID" value="animalFarm"/>
 
@@ -75,7 +76,7 @@
       <!-- Territorial hangs out around the home block -->
       <property name="AITask-1" value="Territorial"/>
       <property name="AITask-2" value="WanderSDX, Mods" />
-      <property name="AITask-3" value="ApproachAndFollowTargetSDX, Mods" param1="Mother,Leader,hayBaleBlock,foodCornOnTheCob"/>
+      <property name="AITask-3" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Mother,Leader,hayBaleBlock,foodCornOnTheCob"/>
       <property name="AITask-4" value="MaslowLevel1SDX, Mods"/>
       <property name="AITask-5" value="RunawayWhenHurt"/>
       <property name="AITask-6" value="RunAwayFromEntitySDX, Mods" />
@@ -154,7 +155,7 @@
       <!-- This AI task is tied to a cvar, which is being used to record entity ID that we want to follow -->
       <!-- Param1 can be:  cvar, Buff or the current hand item, such as a block or item name -->
       <!--  param1="Mother,Leader,buffBeastMaster,hayBaleBlock,foodCornOnTheCob" -->
-      <property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Mother,Leader,foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
+      <property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods"  data="incentives=Mother,Leader,foodCornBread,foodCornOnTheCob,foodCornMeal,foodCropCorn,foodCropGraceCorn"/>
 
       <!-- Random name property. If none are listed, it's called Bob -->
       <property name="Names" value="Albert Eggstein,Amelia Egghart,Attila the Hen,Big Bird,Chicken Little,Cluck Rogers,Chick Norris,Dixie Chick,Egghead,Foghorn Leghorn,Gandalf the Gray,Goldie Hen,Hen Solo,Henneth Paltrow,Princess Lay-a,Woodstock,Yolko Ono,Beaker,Buck Beak,Griffin,Hedwig,Henrietta,Henny Penny,Iago,Mordecai,Mother Clucker,Pigwidgeon,Pox,Phoenix,Robot Chicken,Zazu,Anastasia,Annie,Arabella,Beatrice,Bessie,Betsy,Edna,Charlotte,Clarabelle,Daisy,Daphne,Dorothy,Dottie,Estelle,Eloise,Felicity,Florence,Francis,Genevieve,Georgia,Geraldine,Gladys,Gloria,Harriet,Holly,Iris,June,Loretta,Maude,Minnie,Matilda,Myrtle,Opal,Pearl,Penelope,Polly,Stella,Sadie,Tillie,Benedict,BBQ,Bon Bon,Buffalo,Burrito,Cacciatore,Cashew,Colonel Sanders,Cordon Bleu,Curry,Custard,Divan,Dumpling,Drumstick,Frenchie,Frittata,Jubilee,Kabob,Kiev,Noodle,Nugget,Omelette,Pattie,Piccata,Pollo,Ranchero,Roast,Schnitzel,Scramble,Sesame,Stu,Taco,Tandoori,Teriyaki" />

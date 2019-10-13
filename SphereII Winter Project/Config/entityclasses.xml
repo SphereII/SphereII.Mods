@@ -1,0 +1,3 @@
+﻿<configs>
+  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">,snowShovel,apparelCoatPufferCoat,apparelWornBoots</append>
+</configs>

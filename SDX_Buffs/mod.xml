@@ -3,12 +3,12 @@
     <author>sphereii</author>
     <name>SDX_Buffs</name>
     <description>A general purpose class that adds in new Buff hooks</description>
-    <mod_version>1.0.0.16</mod_version>
+    <mod_version>1.0.0.18</mod_version>
     <game_version>17.2</game_version>
     <launcher_version />
   </info>
   <dependencies>
-    <dependency>Hal's DLL Fixes</dependency>
+    <dependency>SphereIICore</dependency>
   </dependencies>
   <hashes>
     <hash filename="README.md" hash="e8a3188b3c66cc210e9531f0c9342697" />
@@ -20,13 +20,13 @@
     <hash filename="Scripts\MinEventActionPlayerLevelSDX.cs" hash="4f7ca2b1272068ba2f8fb986851ad294" />
     <hash filename="Scripts\MinEventActionPumpQuestSDX.cs" hash="5ab0f4c2a0928bcb8bfa944b541919ab" />
     <hash filename="Scripts\MinEventActionSkillPointSDX.cs" hash="a63a845d7a6337ef9e3106beeb168189" />
-    <hash filename="Scripts\MinEventActionSpawnBabySDX.cs" hash="ddba37036aa80098d36babf34b19e8d5" />
     <hash filename="Scripts\RequirementEveryDawn.cs" hash="b389eb851296af4702966c254e80a6ab" />
     <hash filename="Scripts\RequirementEveryXDaySDX.cs" hash="f35b3a51f53c9d76bc0cebbebd28bcdf" />
     <hash filename="Scripts\RequirementEveryXHourSDX.cs" hash="09ca8502e267d480d2929a3fa7f8acee" />
     <hash filename="Scripts\RequirementOnSpecificBiomeSDX.cs" hash="cc8b09646c973c9931f9f3d80041236d" />
     <hash filename="Scripts\RequirementSameFactionSDX.cs" hash="eb60d68086012cd1836d6a35c5491943" />
-    <hash filename="Config\buffs.xml" hash="6ccbb55c6830477a4df896c058c91d03" />
-    <hash filename="Scripts\MinEventActionNotifyTeam.cs" hash="5afc3f4e703c373989f455a61ad6a143" />
+    <hash filename="Config\buffs.xml" hash="b2b6a0a501a212c55aa6477151212d9d" />
+    <hash filename="Scripts\MinEventActionNotifyTeam.cs" hash="6da7ee7b309b6943ffcdd6342e782cd4" />
+    <hash filename="Scripts\MinEventActionSpawnBabySDX.cs" hash="6402d344acc3dbc0fb2afa0d0fafee23" />
   </hashes>
 </mod>

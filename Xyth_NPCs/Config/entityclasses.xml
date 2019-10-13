@@ -2,6 +2,7 @@
 	<append xpath="/entity_classes">
 		<!-- Melee Types -->
 		<entity_class name="NPCBaker" >
+			<property name="IsChunkObserver" value="true"/>
 			<property name='Class' value='EntityAliveSDX, Mods' />
 			<property name="NPCID" value="spheretest"/>
 			<property name="Faction" value="trader"/>
@@ -39,16 +40,16 @@
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
 			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/> 
 			<property name="AITask-5" value="PatrolSDX, Mods"/> 
-			<property name="AITask-6" value="MaslowLevel1SDX_v2, Mods"/>
-      <property name="AITask-7" value="LootLocationSDX, Mods" />
-      <property name="AITask-8" value="Look"/> 
-			<property name="AITask-9" value="WanderSDX, Mods"/> 
-			<property name="AITask-10" value="" />
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-7" value="Look"/> 
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
+			<property name="AITask-9" value="" />
 			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
 			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
 			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />
  			<property name="SoundHurt" value="Player_Male/player1painlg"/>
 			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
@@ -97,14 +98,13 @@
 			<property name="LootDropProb" value="1.0"/> 
 			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
-			<property name="CompassIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Bob,Mickey D" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-      <!--property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/-->
+<!--		<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/> -->
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
 			  <!-- what it can drink out of -->
-      <!--property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" /-->
+			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
 			  <!-- Default thirsty and hungry buffs -->
 			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
 			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
@@ -156,7 +156,7 @@
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
 			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/> 
 			<property name="AITask-5" value="PatrolSDX, Mods"/> 
 			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
 			<property name="AITask-7" value="Look"/> 
@@ -214,11 +214,10 @@
 			<property name="LootDropProb" value="1.0"/> 
 			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
-			<property name="CompassIcon" value="ui_game_symbol_bullet_point"/>
 			<property name="Names" value="Meg,Debbie,Gayle,Ratchet" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+<!--		<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/> -->
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
 			  <!-- what it can drink out of -->
 			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
@@ -274,7 +273,7 @@
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
 			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/> 
 			<property name="AITask-5" value="PatrolSDX, Mods"/> 
 			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
 			<property name="AITask-7" value="Look"/> 
@@ -335,7 +334,7 @@
 			<property name="Names" value="Franky" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+<!--		<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/> -->
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
 			  <!-- what it can drink out of -->
 			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
@@ -459,7 +458,7 @@
 			<property name="Names" value="Harley" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
-			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+<!--		<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/> -->
 			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
 			  <!-- what it can drink out of -->
 			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
@@ -486,12 +485,12 @@
 			<property name="UseModderUpdate" value="true" />
 			<property name="Mesh" value="#@modfolder:Resources/NPCs.unity3d?NPCAmmo_X" />
 			<property name="AvatarController" value="MecanimSDX, Mods" />
-      <property name="RootMotion" value="false" />
+			<property name="RootMotion" value="false" />
 			<property name="HasRagdoll" value="false" />
 			<property name="ModelType" value="Standard"/>
 			<property name="EntityType" value="Player"/>
 			<property name="PhysicsBody" value="zombieStandard"/>
-			<property name="Parent" value="Players"/>
+			<property name="Parent" value="Players"/> 
 			<property name="Mass" value="170"/>
 			<property name="Weight" value="70"/>
 			<property name="Prefab" value="NPC"/>
@@ -517,8 +516,141 @@
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
 			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/> 
+			<property name="AITask-4" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  />
+			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>  
+			<property name="AITask-6" value="PatrolSDX, Mods"/> 
+			<property name="AITask-7" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-8" value="GuardSDX, Mods"/> 
+			<property name="AITask-9" value="WanderSDX, Mods"/> 
+			<property name="AITask-10" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITarget-4" value="" />
+			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="2.0, 3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="800"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
+			<property name="Names" value="Bill,Mickey D" />		
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
+			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
+<!--		<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/> -->
+			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
+			  <!-- what it can drink out of -->
+			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
+			  <!-- Default thirsty and hungry buffs -->
+			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
+			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
+			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
+			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="Beds" value="mattressFlat" />
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
+			  <!-- This is the block it'll call home -->
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
+		</entity_class> 	
+		<!-- Loot drop containers  -->
+		<entity_class name="EntityLootContainerNPC"> <!-- 71.72 -->
+			<property name="Mesh" value="#Entities/LootContainers?zpackPrefab.prefab"/>
+			<property name="ModelType" value="Custom"/>
+			<property name="Prefab" value="Backpack"/>
+			<property name="Class" value="EntityLootContainer"/>
+			<property name="Parent" value="Backpack"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="TimeStayAfterDeath" value="300"/>
+			<property name="LootListOnDeath" value="74"/>
+			<property name="Faction" value="none"/>
+		</entity_class>
+		
+		
+		<entity_class name="Hunter" >
+			<property name='Class' value='EntityAliveSDX, Mods' />
+			<property name="NPCID" value="spheretest"/>
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/DarkThings.unity3d?HunterDark" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="170"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="HandItem" value="handAmmoRifle"/>  
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.3"/> 
+			<property name="MoveSpeedAggro" value="1.0,1.0"/> 
+			<property name="MoveSpeedPanic" value="1.0"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="270"/>
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="80"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="SpecialAttackIndexes" value="0" />
+			<property name="RandomIndexes" value="4" /> 
+			<property name="AIPathCostScale" value=".9, 1"/>
+			<property name="AITask-1" value="BreakBlock"/>
+			<property name="AITask-2" value="Territorial"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/> 
 			<property name="AITask-4" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
-			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" param1="Leader"/> 
+			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>  
 			<property name="AITask-6" value="PatrolSDX, Mods"/> 
 			<property name="AITask-7" value="MaslowLevel1SDX, Mods"/> 
 			<property name="AITask-8" value="GuardSDX, Mods"/> 
@@ -578,7 +710,7 @@
 			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
 			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
 
-			<property name="Names" value="Bill,Mickey D" />		
+			<property name="Names" value="Bill,Bob,John" />		
 			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
 			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
 			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
@@ -597,26 +729,367 @@
 			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
 			  <!-- This is the block it'll call home -->
 			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
-		</entity_class>
-
-    <entity_class name="invisibleNPCHerdSpawner" extends="invisibleHerdSpawnerStub">
-      <property name="Prefab" value="Backpack"/>
-      <property class="SpawnSettings" >
-        <property name="Leader" value="NPCHarleyQuinn" />
-        <property name="Followers" value="NPCAmmo,NPCFarmer,NPCNurse" param1="2,3"/>
-      </property>
-    </entity_class>
-		<!-- Loot drop containers  -->
-		<entity_class name="EntityLootContainerNPC"> <!-- 71.72 -->
-			<property name="Mesh" value="LootContainers/zpackPrefab"/>
-			<property name="ModelType" value="Custom"/>
-			<property name="Prefab" value="Backpack"/>
-			<property name="Class" value="EntityLootContainer"/>
-			<property name="Parent" value="Backpack"/>
+		</entity_class> 	
+		<entity_class name="Pest" >
+			<property name='Class' value='EntityAliveSDX, Mods' />
+			<property name="NPCID" value="spheretest"/>
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/DarkThings.unity3d?PestDark" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="130"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/> 
+			<property name="HandItem" value="handChefKnife"/> 
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.3"/> 
+			<property name="MoveSpeedAggro" value="1.4,1.4"/> 
+			<property name="MoveSpeedPanic" value="1.4"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="220"/>
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="80"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="AIPathCostScale" value=".9, 1"/>
+			<property name="AITask-1" value="BreakBlock"/>
+			<property name="AITask-2" value="Territorial"/>
+			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>  
+			<property name="AITask-5" value="PatrolSDX, Mods"/> 
+			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-7" value="Look"/> 
+			<property name="AITask-8" value="WanderSDX, Mods"/> 
+			<property name="AITask-9" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITarget-4" value="" />
+ 			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="3.0, 4.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="800"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
+			<property name="CompassIcon" value="ui_game_symbol_bullet_point"/>
+			<property name="Names" value="Toadie,Slake,Johnny" />		
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
+			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
+			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
+			  <!-- what it can drink out of -->
+			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
+			  <!-- Default thirsty and hungry buffs -->
+			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
+			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
+			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
+			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="Beds" value="mattressFlat" />
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
+			  <!-- This is the block it'll call home -->
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
+		</entity_class> 	
+			<entity_class name="Ghost" >
+			<property name='Class' value='EntityAliveSDX, Mods' />
+			<property name="NPCID" value="spheretest"/>
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/DarkThings.unity3d?GhostDark" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="170"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
 			<property name="IsEnemyEntity" value="false"/>
-			<property name="TimeStayAfterDeath" value="300"/>
-			<property name="LootListOnDeath" value="74"/>
-			<property name="Faction" value="none"/>
-		</entity_class>
+			<property name="HandItem" value="handBanditMP7"/>  
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.3"/> 
+			<property name="MoveSpeedAggro" value="1.0,1.0"/> 
+			<property name="MoveSpeedPanic" value="1.0"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="270"/>
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="80"/> 
+			<property name="AttackIndexes" value="3" /> 
+			<property name="SpecialAttackIndexes" value="0" />
+			<property name="RandomIndexes" value="4" /> 
+			<property name="AIPathCostScale" value=".9, 1"/>
+			<property name="AITask-1" value="BreakBlock"/>
+			<property name="AITask-2" value="Territorial"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/> 
+			<property name="AITask-4" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>  
+			<property name="AITask-6" value="PatrolSDX, Mods"/> 
+			<property name="AITask-7" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-8" value="GuardSDX, Mods"/> 
+			<property name="AITask-9" value="WanderSDX, Mods"/> 
+			<property name="AITask-10" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITarget-4" value="" />
+			
+			<property name="SoundHurt" value="Player_Female/player2painlg"/>
+			<property name="SoundHurtSmall" value="Player_Female/player2painsm"/>
+			<property name="SoundDeath" value="Player_Female/player2death"/>
+			<property name="SoundStamina" value="Player_Female/player2stamina"/>
+			<property name="SoundDrownPain" value="Player_Female/player2drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Female/player2drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Female/player2drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player2Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player2LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player2LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="2.0, 3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="800"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="HealthLoss" operation="perc_subtract" value="0.1"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
+
+			<property name="Names" value="Grace,Riley,Cassandra" />		
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
+			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
+			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
+			  <!-- what it can drink out of -->
+			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
+			  <!-- Default thirsty and hungry buffs -->
+			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
+			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
+			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
+			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="Beds" value="mattressFlat" />
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
+			  <!-- This is the block it'll call home -->
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
+		</entity_class> 
+		<entity_class name="Sargent" >
+			<property name='Class' value='EntityAliveSDX, Mods' />
+			<property name="NPCID" value="spheretest"/>
+			<property name="Faction" value="trader"/>
+			<property name="Tags" value="entity,npc"/>
+			<property name="LootListAlive" value="62"/>
+			<property name="UseModderUpdate" value="true" />
+			<property name="Mesh" value="#@modfolder:Resources/DarkThings.unity3d?ArmyDark" />
+			<property name="AvatarController" value="MecanimSDX, Mods" />
+			<property name="RootMotion" value="false" />
+			<property name="HasRagdoll" value="false" />
+			<property name="ModelType" value="Standard"/>
+			<property name="EntityType" value="Player"/>
+			<property name="PhysicsBody" value="zombieStandard"/>
+			<property name="Parent" value="Players"/>
+			<property name="Mass" value="170"/>
+			<property name="Weight" value="70"/>
+			<property name="Prefab" value="NPC"/>
+			<property name="IsEnemyEntity" value="false"/>
+			<property name="HandItem" value="handBanditMP7"/>  
+			
+			<property name="RightHandJointName" value="Muzzle" />
+			<property name="SwimOffset" value="-2"/>
+			<property name="MoveSpeed" value="0.3"/> 
+			<property name="MoveSpeedAggro" value="1.0,1.0"/> 
+			<property name="MoveSpeedPanic" value="1.0"/>
+			<property name="PainResistPerHit" value=".70"/>
+			<property name="MaxViewAngle" value="270"/>
+			<property name="MaxTurnSpeed" value="180"/>
+			<property name="AttackTimeoutDay" value="1.0"/> 
+			<property name="AttackTimeoutNight" value="1.0"/>
+			<property name="CanClimbLadders" value="true"/>
+			<property name="CanClimbVertical" value="false"/>
+			<property name="SightRange" value="80"/> 
+			<property name="AttackIndexes" value="2" /> 
+			<property name="SpecialAttackIndexes" value="0" />
+			<property name="RandomIndexes" value="4" /> 
+			<property name="AIPathCostScale" value=".9, 1"/>
+			<property name="AITask-1" value="BreakBlock"/>
+			<property name="AITask-2" value="Territorial"/>
+			<property name="AITask-3" value="RangedAttackTarget" param1="1,1,4"/> 
+			<property name="AITask-4" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> 
+			<property name="AITask-5" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>  
+			<property name="AITask-6" value="PatrolSDX, Mods"/> 
+			<property name="AITask-7" value="MaslowLevel1SDX, Mods"/> 
+			<property name="AITask-8" value="GuardSDX, Mods"/> 
+			<property name="AITask-9" value="WanderSDX, Mods"/> 
+			<property name="AITask-10" value="" />
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> 
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> 
+			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
+			<property name="AITarget-4" value="" />
+			<property name="SoundHurt" value="Player_Male/player1painlg"/>
+			<property name="SoundHurtSmall" value="Player_Male/player1painsm"/>
+			<property name="SoundDeath" value="Player_Male/player1death"/>
+			<property name="SoundStamina" value="Player_Male/player1stamina"/>
+			<property name="SoundDrownPain" value="Player_Male/player1drownpain"/>
+			<property name="SoundWaterSurface" value="Player_Male/player1drownsurface"/>
+			<property name="SoundDrownDeath" value="Player_Male/player1drowndeath"/>
+			<property name="SoundJump" value="Player_Male/player1Jump"/>
+			<property name="SoundLandSoft" value="Player_Male/player1LandSoft"/>
+			<property name="SoundLandHard" value="Player_Male/player1LandHard"/>
+			<property name="SoundPlayerLandThump" value="PlayerLandThump"/>
+			<property name="TimeStayAfterDeath" value="5"/>
+			<property name="DeadBodyHitPoints" value="1000"/>
+			<property name="JumpMaxDistance" value="2.0, 3.0"/>
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="800"/>
+				<passive_effect name="HealthMax" operation="perc_set" value="1"/>
+				<passive_effect name="StaminaMax" operation="base_set" value="500"/>
+				<passive_effect name="HealthChangeOT" operation="base_set" value="1.2"/>
+				<passive_effect name="HealthLoss" operation="perc_subtract" value="0.1"/>
+				<passive_effect name="PhysicalDamageResist" operation="base_set" value="20" /> 
+				<passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+				<passive_effect name="HypothermalResist" operation="base_add" value="65"/>
+				<passive_effect name="HyperthermalResist" operation="base_add" value="65"/>				
+			</effect_group>
+			<property name="DismemberMultiplierHead" value="1"/>
+			<property name="DismemberMultiplierArms" value="1"/>
+			<property name="DismemberMultiplierLegs" value="1"/>
+			<property name="LegCrawlerThreshold" value="0"/> 
+			<property name="LegCrippleThreshold" value="0.01"/>
+			<property name="KnockdownProneDamageThreshold" value="0.5"/>
+			<property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+			<property name="KnockdownKneelDamageThreshold" value="0.4"/>
+			<property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+			<property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+			<property name="LegsExplosionDamageMultiplier" value="1"/>
+			<property name="ArmsExplosionDamageMultiplier" value="1"/>
+			<property name="HeadExplosionDamageMultiplier" value="1"/>
+			<property name="ChestExplosionDamageMultiplier" value="1"/>
+			<property name="HasDeathAnim" value="true"/>
+			<property name="ParticleOnDeath" value="blood_death"/>
+			<property name="SurfaceCategory" value="organic"/> 
+			<property name="WalkType" value="7"/>
+			<property name="ExperienceGain" value="1550"/> 
+			<property name="LootDropProb" value="1.0"/> 
+			<property name="LootDropEntityClass" value="EntityLootContainerNPC"/>	
+			<property name="MapIcon" value="ui_game_symbol_bullet_point"/>
+
+			<property name="Names" value="Tex,Franklin,Barney" />		
+			<property name="Buffs" value="buffNPCStatusCheck;buffStatusCheck;buffNPCSanitationStatusCheck" />
+			  <!-- Food items and bins that this entity will eat, if using the right AI Task -->
+			<property name="FoodItems" value="foodCornBread,foodCornOnTheCob"/>
+			<property name="FoodBins" value="cntSecureStorageChest,cntStorageChest" />
+			  <!-- what it can drink out of -->
+			<property name="WaterBins" value="water,waterMoving,waterStaticBucket,waterMovingBucket,terrWaterPOI" />
+			  <!-- Default thirsty and hungry buffs -->
+			<property name="ThirstyBuffs" value="buffStatusThirsty1,buffStatusThirsty2" />
+			<property name="HungryBuffs" value="buffStatusHungry1,buffStatusHungry2" />
+			  <!-- Sanitation Buff: Aka, make 'em poop part. Add in  buffSanitationStatusCheck in the Buffs entry here to enable. -->
+			<property name="SanitationBuffs" value="buffStatusNPCSanitation1,buffStatusNPCSanitation2" />
+			<property name="ToiletBlocks" value="cntToilet01,cntToilet02,cntToilet03" />
+			<property name="SanitationBlock" value="NPCPoop" /> <!-- Poop block. If ToiletBlocks is configured, it'll use those rather than generate this block. -->
+			<property name="Beds" value="mattressFlat" />
+<!--			<property name="BedTimeBuffs" value="buffAnimalChickenEgg" />
+			<property name="ProductionFinishedBuff" value="buffAnimalChickenEgg" />   Which buff is on the entity when its produced something -->
+			  <!-- This is the block it'll call home -->
+			<property name="HomeBlocks" value="cntNPCHomeBlock"/>
+		</entity_class> 	
 	</append>
 </configs>

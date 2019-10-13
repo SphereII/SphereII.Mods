@@ -1,0 +1,25 @@
+﻿<configs>
+  <append xpath="/blocks/block[@name='cntCoolerClosed']">
+    <property name="PreserveBonus" value="2" /> <!-- removes this amount of UsedTimes (durability) per calculation -->
+  </append>
+
+  <append xpath="/blocks/block[@name='cntRetroFridgeVer1Closed']">
+    <property name="PreserveBonus" value="1" />     <!-- removes this amount of UsedTimes (durability) per calculation -->
+  </append>
+
+  <append xpath="/blocks/block[@name='cntBeerCooler']">
+    <property name="PreserveBonus" value="1.5" />    <!-- removes this amount of UsedTimes (durability) per calculation -->
+  </append>
+
+  <append xpath="/blocks">
+    <block name="ConfigSpoilageBlock">
+      <property name="Extends" value="terrDesertGround"/>
+      <property name="Toolbelt" value="6" />    <!-- Penalty of 3 points per spoilage tick -->
+      <property name="Backpack" value="5" />  <!-- Penalty of 5 points per spoilage tick -->
+      <property name="Container" value="4" />  <!-- Penalty of 2 points per spoilage tick -->
+      <property name="MinimumSpoilage" value="0.1" /> <!-- absolute minimum spoilage per tick -->
+      <property name="TickPerLoss" value="10" /> <!-- Global Setting Example value=10   10 ticks per Spoilage increase. -->
+      <property name="SpoiledItem" value="foodRottingFlesh" /> <!-- When spoiled, this item will turn into this item.-->
+    </block>
+  </append>
+</configs>
