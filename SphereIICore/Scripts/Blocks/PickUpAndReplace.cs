@@ -27,30 +27,40 @@ public class BlockTakeAndReplace : Block
     }
 
     // Take logic to replace it with the Downgrade block, matching rotations.
-    private void TakeTarget(object obj)
+    private void TakeTarget(TimerEventData timerData)
     {
+        Debug.Log("1");
         World world = GameManager.Instance.World;
-        object[] array = (object[]) obj;
+        object[] array = (object[])timerData.Data;
+        Debug.Log("2");
         int clrIdx = (int) array[0];
+        Debug.Log("3");
         BlockValue _blockValue = (BlockValue) array[1];
+        Debug.Log("4");
         Vector3i vector3i = (Vector3i) array[2];
+        Debug.Log("5");
         BlockValue block = world.GetBlock(vector3i);
+        Debug.Log("6");
         EntityPlayerLocal entityPlayerLocal = array[3] as EntityPlayerLocal;
-
+        Debug.Log("7");
         // Find the block value for the pick up value, and add it to the inventory
         BlockValue pickUpBlock = Block.GetBlockValue(this.PickedUpItemValue, true);
+        Debug.Log("8");
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
+        Debug.Log("9");
         ItemStack itemStack = new ItemStack(pickUpBlock.ToItemValue(), 1);
+        Debug.Log("10");
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
         {
+            Debug.Log("10.1");
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
         }
-
+        Debug.Log("11");
         entityPlayerLocal.PlayOneShot("Sounds/DestroyBlock/wooddestroy1");
-        
+        Debug.Log("12");
         // Damage the block for its full health 
         this.DamageBlock(world, clrIdx, vector3i, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId, false);
-
+        Debug.Log("13");
     }
 
 
