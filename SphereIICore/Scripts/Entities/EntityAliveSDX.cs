@@ -519,7 +519,7 @@ public class EntityAliveSDX : EntityNPC
         }
 
             base.SetRevengeTarget(_other);
-        Debug.Log("Adding Buff for RevengeTarget() ");
+      //  Debug.Log("Adding Buff for RevengeTarget() ");
         this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
 
     }
@@ -527,7 +527,7 @@ public class EntityAliveSDX : EntityNPC
     public override void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         base.SetAttackTarget(_attackTarget, _attackTargetTime);
-        Debug.Log("Adding Buff for Attack Target() ");
+       // Debug.Log("Adding Buff for Attack Target() ");
         this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
     }
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)

@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>1.0.0.12</mod_version>
+    <mod_version>1.0.0.13</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -82,7 +82,6 @@
     <hash filename="Scripts\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
     <hash filename="Scripts\Animation\MecanimSDX.cs" hash="44d8af947a7417a4a0eacaf5c7208f72" />
-    <hash filename="Scripts\Blocks\PickUpAndReplace.cs" hash="3395ecac5a77b72a4893a06dfb18b77f" />
     <hash filename="Scripts\Buffs\RequirementEveryDawn.cs" hash="b389eb851296af4702966c254e80a6ab" />
     <hash filename="Scripts\Buffs\RequirementEveryXDaySDX.cs" hash="f35b3a51f53c9d76bc0cebbebd28bcdf" />
     <hash filename="Scripts\Buffs\RequirementEveryXHourSDX.cs" hash="09ca8502e267d480d2929a3fa7f8acee" />
@@ -107,12 +106,10 @@
     <hash filename="Scripts\EAI\OldEAIMaslowLevel1SDX.cs" hash="03629331350136ddc9227c07c1716b65" />
     <hash filename="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" hash="7bc1d5abfe6ff7a6e10efd19f147bcc8" />
     <hash filename="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" hash="ad9ce3efc495644caab867023d0c5409" />
-    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="797397ad1c6488b03194b6c1bf83ed67" />
     <hash filename="Scripts\Entities\EntityBanditSDX.cs" hash="8f65b249b9979b181d006badbfa2ba74" />
     <hash filename="Scripts\Entities\EntityFlyingBaseSDX.cs" hash="2067a63c1ad3695cf2a987bdde1b3584" />
     <hash filename="Scripts\Entities\EntityGenericSDX.cs" hash="8c309ad0a23afa96002a07d40080c1e3" />
     <hash filename="Scripts\Entities\EntityMoveHelperSDX.cs" hash="b20fe0e217a382369b8e21d6b0aca05f" />
-    <hash filename="Scripts\Entities\EntityPlayerLocal.cs" hash="59466f3a0ac6f9b4f07c218bacabe0ab" />
     <hash filename="Scripts\Entities\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
     <hash filename="Scripts\Entities\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
     <hash filename="Scripts\Entities\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
@@ -158,5 +155,8 @@
     <hash filename="Scripts\Blocks\BlockPoweredWorkstation.cs" hash="1e349a5c66461824556924562a6a7d48" />
     <hash filename="Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="6fff47e047b0e7d4fa64cb19efc65da1" />
     <hash filename="Scripts\Blocks\BlockMortSpawner.cs" hash="b705bdd4af89fb626b65c20ad7631e10" />
+    <hash filename="Scripts\Blocks\PickUpAndReplace.cs" hash="fcb2d47b499ebc09e35a2dc7fa499b4f" />
+    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="21860eb66d6b7fc1657c8d694e3539ef" />
+    <hash filename="Scripts\Entities\EntityPlayerLocal.cs" hash="70af8608379bc7bb37dcec87dea1c66a" />
   </hashes>
 </mod>
