@@ -1,0 +1,10 @@
+﻿<configs>
+  <append xpath="/archetypes">
+    <archetype name="Random" male="false" hair_color="90,35,23" eye_color="70,80,70" skin_color="164,164,164" type="Zombie" stance="Like" voice_set="trader">
+      <base_mesh_parts />
+     <preview_mesh_parts />
+      <expression blink="false" blink_duration="0.15" blink_min_delay="5" blink_max_delay="15" saccades="true" />
+      <dna />
+    </archetype>
+  </append>
+</configs>

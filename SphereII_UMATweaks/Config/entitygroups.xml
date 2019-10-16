@@ -1,0 +1,5 @@
+﻿<configs>
+    <append xpath="/entitygroups/entitygroup[ @name='HospitalGroup' or (contains(@name, 'ombies')) or (contains(@name, 'HordeStage')) ]">
+      <entity name="aRandomUMA"/>
+    </append>
+</configs>

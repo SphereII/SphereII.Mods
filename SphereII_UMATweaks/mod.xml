@@ -1,0 +1,17 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII UMA Tweaks</name>
+    <description>UMA Tweaks</description>
+    <mod_version>1.0.0.13</mod_version>
+  </info>
+  <dependencies>
+    <dependency>SphereIICore</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="Config\archetypes.xml" hash="59153ec87881f843ebe224d4ae7b8601" />
+    <hash filename="Config\entitygroups.xml" hash="2fde4322c474fa31f2b8d5e0d71eb4fa" />
+    <hash filename="Config\entityclasses.xml" hash="93980da001bc4657830033ceef723dec" />
+    <hash filename="Harmony\UMATweaks.cs" hash="c24d3eb9ad79d4b198048986d20db382" />
+  </hashes>
+</mod>
