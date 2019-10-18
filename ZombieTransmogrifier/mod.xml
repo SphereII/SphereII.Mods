@@ -22,6 +22,6 @@
     <hash filename="Scripts\EntityFlyingBaseSDX.cs" hash="2067a63c1ad3695cf2a987bdde1b3584" />
     <hash filename="Scripts\EntityZombieFlyingSDX.cs" hash="83c8eeb8eb03cdf66a8172df72b813ef" />
     <hash filename="Config\entityclasses.xml" hash="c55064ecb947439a81da86650bc84f0d" />
-    <hash filename="Harmony\Transmogrifier.cs" hash="bb49d763f5bb7a4a6a021cc354a3247a" />
+    <hash filename="Harmony\Transmogrifier.cs" hash="e914b6e0170ea0819871c4aa516d3a7f" />
   </hashes>
 </mod>
