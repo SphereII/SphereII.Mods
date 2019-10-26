@@ -1,0 +1,5 @@
+﻿<configs>
+  <!-- Enables the disable XP notification, but disable the unlock enemy health bar. -->
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedUI']/property[@name='DisableXPIconNotification']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedUI']/property[@name='UnlockEnemyHealthBar']/@value">false</set>
+</configs>

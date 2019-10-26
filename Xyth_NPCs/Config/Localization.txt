@@ -1,2 +1,0 @@
-Key,Source,Context,Changes,English,French,German,Klingon,Spanish,Polish
-npcHarley,entityclasses,Entity,New,HarleyQuinn,,,,,

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SphereII_Trader_RemoveAreaProtection" />
-    <Description value="Removes trader protection, allowing the damage and harvesting inside the trader area" />
-    <Author value="sphereii" />
-    <Version value="1.0.0.2" />
-  </ModInfo>
-</xml>

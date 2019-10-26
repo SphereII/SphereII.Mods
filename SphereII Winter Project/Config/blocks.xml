@@ -1,6 +1,12 @@
 ﻿<configs>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FoodSpoilage']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='OneBlockCrouch']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedNPCFeatures']/property[@name='MakeTraderVulnerable']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableTraderProtection']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedWorldGen']/property[@name='DisableSplatMap']/@value">true</set>
 
-    <append xpath="/blocks/block[@name='bed01']">
+
+  <append xpath="/blocks/block[@name='bed01']">
 		<property name="BuffsWhenWalkedOn" value="buffsmallBed"/>
 	  </append>
 	  <append xpath="/blocks/block[@name='bed02']">
@@ -12,7 +18,7 @@
 
   <!-- The polution stopped, so let's make the snow super white all around -->
   <set xpath="/blocks/block[@name='terrSnow']/property[@name='Texture']/@value">6</set>
-
+  
   <!-- This replaces all the blocks that start with tree, then we'll further adjust them later 
   <set xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='Model']/@value">#@modfolder:Resources/WinterTrees.unity3d?Birch2_X</set>
   <remove xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='MultiBlockDim']" />

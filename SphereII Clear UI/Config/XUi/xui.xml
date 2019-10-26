@@ -1,0 +1,30 @@
+<configs>
+
+<!--	// Roland's Clean UI // No HUD Elements -->
+
+		<remove xpath="/xui/ruleset[@name='default']/window_group[@name='toolbelt']/window[@name='windowToolbelt']" />
+		<remove xpath="/xui/ruleset[@name='default']/window_group[@name='toolbelt']/window[@name='HUDLeftStatBars']" />
+		<remove xpath="/xui/ruleset[@name='default']/window_group[@name='toolbelt']/window[@name='windowQuestTracker']" />
+		<remove xpath="/xui/ruleset[@name='default']/window_group[@name='toolbelt']/window[@name='windowGroupBars']" />
+
+
+  <!--	// Roland's Clean UI // Add anchor value to Compass -->
+
+		<setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='compass']/window[@name='windowCompass']" name="anchor">CenterTop</setattribute>
+
+
+<!--	// Roland's Clean UI // Move HUD Elements to Compass -->
+
+		<append xpath="/xui/ruleset[@name='default']/window_group[@name='compass']">
+            <window name="HUDLeftStatBars" anchor="CenterTop" />
+      <!--window name="windowQuestTracker" anchor="RightTop" /-->
+		</append>
+
+
+<!--	// Roland's Clean UI // Move Toolbelt to Backpack -->
+
+		<append xpath="/xui/ruleset[@name='default']/window_group[@name='backpack']">
+			<window name="windowToolbelt" anchor="CenterBottom" />
+		</append>
+
+</configs>

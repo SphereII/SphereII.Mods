@@ -1,10 +1,9 @@
 ﻿<configs>
   <!-- filluptorg doesn't have a depth, so we'll only target the top level, which has a depth -->
-  <set xpath="/worldgeneration/biomes/biome//layers/layer[@depth][1]/@depth">1</set>
+  <set xpath="/worldgeneration/biomes/biome//layers/layer[@depth][1]/@depth">8</set>
   <set xpath="/worldgeneration/biomes/biome//layers/layer[@depth][1]/@blockname">terrSnow</set>
 
-  <set xpath="//@topsoil_block">terrSnow</set>
-
+  <!--set xpath="//@topsoil_block">terrSnow</set-->
   <append xpath="/worldgeneration/biomes/biome//layers/layer[@depth][1]">
     <resource blockname="terrIce" prob="0.6500" rwgGenerationType="all" cluster="0"/>
   </append>

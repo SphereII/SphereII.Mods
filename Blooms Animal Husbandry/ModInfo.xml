@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <ModInfo>
+    <Name value="Blooms Animal Husbandry" />
+    <Description value="Adds in new farm animatals into the world." />
+    <Author value="sphereii" />
+    <Version value="1.0.0.15" />
+  </ModInfo>
+</xml>

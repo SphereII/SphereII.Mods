@@ -1,0 +1,28 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII NPC Dialog Windows</name>
+    <description>Add new dialog windows for NPCs. Early loading for over-ride</description>
+    <mod_version>1.0.0.37</mod_version>
+    <game_version>17</game_version>
+    <launcher_version>
+    </launcher_version>
+  </info>
+  <dependencies>
+    <dependency>0-SphereIICore</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="Config\quests.xml" hash="fec6ba272439e68532f1db6296034a46" />
+    <hash filename="Config\XUi\controls.xml" hash="708ad40ab1d06a1bda3ec3903f609de4" />
+    <hash filename="Config\XUi\styles.xml" hash="f181a9ff0c65457787c02a29fea09ddf" />
+    <hash filename="ItemIcons\smx_bulletpoint_icon.png" hash="065bf78f199fc313a0203c01c1be7b31" />
+    <hash filename="Textures\trader\smx_player_bg.png" hash="67ae03d5af777b9184d21dea40ee1c85" />
+    <hash filename="Textures\trader\smx_trader_bg.png" hash="0d35d48e5c28a85fad10ac5d0df16527" />
+    <hash filename="Config\dialogs.xml" hash="0aca8dbd0b22d7c6fb20c5fbc3524371" />
+    <hash filename="Config\XUi\windows.xml" hash="741298609a551c6541d5f9d9c1012107" />
+    <hash filename="Config\XUi\xui.xml" hash="02df9f742ef4b4ffe931e73086f196d6" />
+    <hash filename="Config\npc.xml" hash="81145456155666c12a53f7639d505ae6" />
+    <hash filename="ReadMe.md" hash="af07ea5cd1887d715d79014cb45b52a7" />
+    <hash filename="UIAtlases\ItemIconAtlas\smx_bulletpoint_icon.png" hash="065bf78f199fc313a0203c01c1be7b31" />
+  </hashes>
+</mod>

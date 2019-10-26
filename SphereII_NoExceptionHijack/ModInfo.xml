@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SphereII No Exception Hijack" />
-    <Description value="TormentedEmu's No Exception Hijack ported to Harmony" />
-    <Author value="sphereii" />
-    <Version value="1.0.0.1" />
-  </ModInfo>
-</xml>

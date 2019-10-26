@@ -37,7 +37,7 @@ public class SphereII_WinterProject
         public static bool PrefabInstance_Prefix(ref Vector3i _position, ref Prefab _bad)
         {
             // Only apply these changes to navezgane world
-            if(GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Navezgane")
+         //   if(GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Navezgane")
             {
                 _position.y -= 8;
                 if(_bad != null)
@@ -52,7 +52,8 @@ public class SphereII_WinterProject
             return true;
         }
     }
-       
+
+
     [HarmonyPatch(typeof(Prefab))]
     [HarmonyPatch("LoadXMLData")]
     [HarmonyPatch(new Type[] { typeof(string), typeof(string) })]

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SphereII_EntityHook" />
-    <Description value="Add in loading for the EntityFactory for custom classes" />
-    <Author value="sphereii" />
-    <Version value="1.0.0.6" />
-  </ModInfo>
-</xml>

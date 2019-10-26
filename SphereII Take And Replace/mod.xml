@@ -1,0 +1,21 @@
+<mod>
+  <info>
+    <!-- Information about the Mod, the author and version information -->
+    <!-- These are displayed in the SDX Launcher -->
+    <author>sphereii</author>
+    <name>SphereII Take And Replace</name>
+    <description>A Take And Replace mod, designed to allow people to downgrade boarded windows into air.</description>
+    <mod_version>1.1.0.3</mod_version>
+    <game_version>17.2</game_version>
+    <launcher_version>0.0.0</launcher_version>
+  </info>
+  <hashes>
+    <hash filename="README.md" hash="0330dd732eb1e3456d23cab46e495d83" />
+    <hash filename="Config\blocks.xml" hash="53957de2bc62625b821551eb7a895363" />
+    <hash filename="Config\Localization.txt" hash="3e2a4086c094735c03ed68f8dbb8a0f9" />
+    <hash filename="Scripts\PickUpAndReplace.cs" hash="3395ecac5a77b72a4893a06dfb18b77f" />
+  </hashes>
+  <dependencies>
+    <dependency>0-SphereIICore</dependency>
+  </dependencies>
+</mod>

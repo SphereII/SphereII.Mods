@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <ModInfo>
+    <Name value="SphereII NPC Dialog Windows" />
+    <Description value="Add new dialog windows for NPCs. Early loading for over-ride" />
+    <Author value="sphereii" />
+    <Version value="1.0.0.37" />
+  </ModInfo>
+</xml>

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SphereII_QuickContinue" />
-    <Description value="Loads the last game" />
-    <Author value="sphereii" />
-    <Version value="1.0.0.44" />
-  </ModInfo>
-</xml>

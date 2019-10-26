@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+    <Name value="SphereII Food Spoilage" />
+    <Description value="Food Spoilage example XML" />
+    <Author value="sphereii" />
+    <Version value="1.0.0.4" />
+    <Website value="" />
+  </ModInfo>
+</xml>

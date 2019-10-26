@@ -1,0 +1,32 @@
+﻿<configs>
+  <append xpath="/items">
+    <item name="foodSpoilageTest">
+      <property name="Extends" value="foodShamSandwich"/>
+      <property name="DisplayType" value="melee"/>
+      <property name="Tags" value="perkMasterChef"/>  <!-- tags must match the tags in the effect_group -->
+
+      <property name="Spoilable" value="true" />
+      <property name="SpoiledItem" value="foodRottingFlesh" />    <!-- Optional to over-ride ConfigBlockSpoilage globa. When spoiled, this item will turn into this item.-->
+      <property name="TickPerLoss" value="10" /> <!-- Optional to over-ride ConfigBlockSpoilage global. Example value=10   10 ticks per Spoilage increase. -->
+ 
+      <property name="ShowQuality" value="false"/>
+
+      <property name="SpoilageMax" value="1000" />
+      <property name="SpoilagePerTick" value="10" />
+    </item>
+
+  </append>
+  
+  <!-- Append Template -->
+  <append xpath="/items/item[starts-with(@name, 'food') and not(contains(@name, 'foodCan'))]">
+    <property name="Spoilable" value="true" />
+    <property name="ShowQuality" value="false"/>
+    <property name="SpoiledItem" value="foodRottingFlesh" />
+    <property name="TickPerLoss" value="10" />
+    <property name="SpoilageMax" value="1000" />
+    <property name="SpoilagePerTick" value="10" />
+    
+  </append>
+  <append xpath="/items/item[starts-with(@name, 'food') and not(contains(@name, 'foodCan'))]/property[@name='Tags']/@value">,perkMasterChef</append>
+
+</configs>

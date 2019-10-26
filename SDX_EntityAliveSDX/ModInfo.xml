@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SDX_EntityAliveSDX" />
-    <Description value="Add new EntityAliveSDX Class" />
-    <Author value="sphereii" />
-    <Version value="1.0.1.240" />
-  </ModInfo>
-</xml>

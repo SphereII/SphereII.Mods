@@ -1,0 +1,23 @@
+﻿<configs>
+  <append xpath="/entity_classes">
+
+    <!-- Generates a random UMA based on all entries in the archetypes.xml -->
+    <entity_class name="aRandomUMA" extends="zombieTemplateMale">
+      <property name="ModelType" value="ZombieUMA"/>
+      <property name="Archetype" value="Random" />
+      <property name="AvatarController" value="AvatarZombieUMAController"/>
+      <property name="PhysicsBody" value="zombieUMA"/>
+      <property name="HasDeathAnim" value="true"/>
+      <property name="HasRagdoll" value="true"/>
+      <property name="Tags" value="entity,zombie"/>
+      <property name="TimeStayAfterDeath" value="5"/>
+      <property name="DeadBodyHitPoints" value="1"/>
+      <property name="WalkType" value="2"/>
+  
+
+      <!-- Start the UMA zombie with these equiped -->
+      <!-- Non-equipable equiment is placed in the hand, however, they can't seem to use it. -->
+      <!--<property name="Equipment" value="armorClothHat,armorLeatherBoots" /-->
+    </entity_class>
+  </append>
+</configs>
