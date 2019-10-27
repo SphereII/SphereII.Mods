@@ -1,20 +1,10 @@
 
-===============================================================================
-Download:  
-	Git Clone:  https://github.com/SphereII/SphereII.Mods/
-	Zip Download: https://github.com/SphereII/SphereII.Mods/archive/master.zip
-	
-Required Tool:
-	DMT: https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool
-	
-Compatible Mods:
-	https://7daystodie.com/forums/showthread.php?116102-NPCs-DMT-Mod
-	https://7daystodie.com/forums/showthread.php?108266-Wandering-Traders-DMT-Mod
-===============================================================================
+This mod is not EAC-safe, and EAC must be turned off. Compatible with A18.
 
-This mod is not EAC-safe, and EAC must be turned off.
+This is still a work in progress; Each feature is available, however may not be completely refined yet. Balancing and suggestions are welcomed.
 
-	
+0-SphereIICore is a new concept that provides all the functionality and scripts I provide, which can be turned on and off through a central block. This central block can be manipulated in your own modlets to turn on and off features, and change settings. This mod is named as it is so that it is loaded first, allowing all subsequent mods to make changes to it.
+
 0-SphereIICore
 ==============
 
@@ -23,24 +13,25 @@ A new mod pack called 0-SphereIICore is now available for use, either in standal
 This pack contains a large variety of Scripts, PatchScripts, and Harmony scripts that adds to and enhances vanilla features. 
 
 Key Features:
-	- AnimationSDX: Provides animation hooks for custom entities
-	- Food Spoilage System: Allow food to expire at a global rate, or fine tune individual foods to spoil at different rates. 
-	- Enhanced Item Repair: Allow more complicated repair recipes
-	- Item Damage / Durability:  The amount of damage an item can do is reduced as durability goes down. Repair often!
-	- Anti-Nerd Pole: Disables the ability to nerd pole, or jump-and-place a blocks/block
-	- Soft Hands: Your hands are soft! Player takes damage when punching things with bare hands.
-	- One Block Crouch: Enhance your Agility character by allowing you to crawl through one block openings.
-	- Transmogrifier: Allow random walk types and sizes for zombies to break up the monotony
-	- UMA Tweaks: Small tweaks to UMA system, drastically reducing the high resolution UMAs into something more manageable.
-	- Head Shot Only: Take off their heads to truly kill them.
-	- Zero XP: Don't like getting experience? Turns off the ability to get a new kind of experience.
-	- Disable XP Pop up:  Disables the XP icon pop up
-	- No Exception Hijack: Prevents the console from popping down with Red error. Useful for when you are testing...
-	- Disable Trader Protection: Turn off the invulnerability of the trader compound.
-	- Quick Continue: Keep your Scroll Lock button on to automatically load up the last game you played. 
-	- Custom Buffs, AI Tasks, Items, Blocks, Entity classes, and XUiC components are already active. Make the right calls in your XML to enable the functionality.
-	
-This is still a work in progress; Each feature is available, however may not be completely refined yet. Balancing and suggestions are welcomed.
+[LIST]
+[*]	- AnimationSDX: Provides animation hooks for custom entities
+[*]	- Food Spoilage System: Allow food to expire at a global rate, or fine tune individual foods to spoil at different rates. 
+[*]	- Enhanced Item Repair: Allow more complicated repair recipes
+[*]	- Item Damage / Durability:  The amount of damage an item can do is reduced as durability goes down. Repair often!
+[*]	- Anti-Nerd Pole: Disables the ability to nerd pole, or jump-and-place a blocks/block
+[*]	- Soft Hands: Your hands are soft! Player takes damage when punching things with bare hands.
+[*]	- One Block Crouch: Enhance your Agility character by allowing you to crawl through one block openings.
+[*]	- Transmogrifier: Allow random walk types and sizes for zombies to break up the monotony
+[*]	- UMA Tweaks: Small tweaks to UMA system, drastically reducing the high resolution UMAs into something more manageable.
+[*]	- Head Shot Only: Take off their heads to truly kill them.
+[*]	- Zero XP: Don't like getting experience? Turns off the ability to get a new kind of experience.
+[*]	- Disable XP Pop up:  Disables the XP icon pop up
+[*]	- No Exception Hijack: Prevents the console from popping down with Red error. Useful for when you are testing...
+[*]	- Disable Trader Protection: Turn off the invulnerability of the trader compound.
+[*]	- Quick Continue: Keep your Scroll Lock button on to automatically load up the last game you played. 
+[*]	- Custom Buffs, AI Tasks, Items, Blocks, Entity classes, and XUiC components are already active. Make the right calls in your XML to enable the functionality.
+[/LIST]	
+
 
 Features can be turned on and off by adding xpath set from another modlet and changing the included "ConfigFeatureBlock" in Config/blocks.xml
 
@@ -104,3 +95,19 @@ SyX Security Bots
 In the fight against the degradation of society, SyX Security has produced a series of counter-measures against the so-called "zombie apocalypse". Deployed in infected hot spots around the world, these counter-measures have been designed to reduce and ultimately send the zombie apocalypse into remission. 
 
 Warning: These hot spots are extremely dangerous for the non-infected, and any survivors are strongly recommended to be evacuated before they are deployed.
+
+
+===============================================================================
+Download:  
+[INDENT]Git Clone:  https://github.com/SphereII/SphereII.Mods/ [/INDENT]
+[INDENT]Zip Download: https://github.com/SphereII/SphereII.Mods/archive/master.zip [/INDENT]
+	
+Required Tool:
+[INDENT]DMT: https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool [/INDENT]
+	
+Compatible Mods:
+[INDENT]https://7daystodie.com/forums/showthread.php?116102-NPCs-DMT-Mod [/INDENT]
+[INDENT]https://7daystodie.com/forums/showthread.php?108266-Wandering-Traders-DMT-Mod [/INDENT]
+[INDENT]https://7daystodie.com/forums/showthread.php?108770-Xyth-s-DMT-Bandits-Mod [/INDENT]
+
+===============================================================================
