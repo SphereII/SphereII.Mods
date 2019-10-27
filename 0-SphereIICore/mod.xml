@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>1.0.0.122</mod_version>
+    <mod_version>1.0.0.123</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -265,6 +265,7 @@
     <hash filename="Documentation\Examples\entityclasses.xml" hash="d853b3aca1fb2f648dcbf2f0db07905e" />
     <hash filename="Harmony\ZombieFeatures\RandomSize.cs" hash="6d52d9d24da243308099bd87519d00e0" />
     <hash filename="Harmony\ItemFeatures\DurabilityAffectsDamage.cs" hash="856003d4b5faef8d5e9220504adff047" />
-    <hash filename="Config\blocks.xml" hash="78bbcf1df479359a5a36288bca673f0b" />
+    <hash filename="Config\blocks.xml" hash="a0e47c9a4aa9f4b1a0a8a171e99e5b02" />
+    <hash filename="Harmony\NPCFeatures\EntityNPCFixSpeed.cs" hash="5d51ac9e5b3ebbb5e61a969ad7e3f3bf" />
   </hashes>
 </mod>

@@ -62,8 +62,10 @@
         <property name="Logging" value="false"/>
         <property name="EnhancedFeatures" value="false" />   <!-- Allow NPCs to open doors, etc-->
         <property name="MakeTraderVulnerable" value="false" /> <!-- allow the Trader NPCs to die. -->
-      </property>
+        <property name="NPCSpeedFix" value="true" />        <!-- allow the Trader NPCs to move at a reasonable speed -->
 
+      </property>
+      
       <property class="AdvancedPrefabFeatures" >
         <property name="Logging" value="false"/>
         <property name="DisableTraderProtection" value="false" />  <!-- Disables Trader Protection in their prefabs -->
