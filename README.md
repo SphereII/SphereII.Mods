@@ -6,6 +6,10 @@ Download:
 	
 Required Tool:
 	DMT: https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool
+	
+Compatible Mods:
+	https://7daystodie.com/forums/showthread.php?116102-NPCs-DMT-Mod
+	https://7daystodie.com/forums/showthread.php?108266-Wandering-Traders-DMT-Mod
 ===============================================================================
 
 This mod is not EAC-safe, and EAC must be turned off.
