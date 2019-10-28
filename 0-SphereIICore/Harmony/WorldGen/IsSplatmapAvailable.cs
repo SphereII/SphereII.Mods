@@ -18,10 +18,10 @@ class IsSplatmapAvailable
         public static bool Prefix(bool __result)
         {
 
-           StackTrace stackTrace = new StackTrace();
-            UnityEngine.Debug.Log("--------------------------");
-            UnityEngine.Debug.Log(stackTrace.GetFrames().ToString());
-            UnityEngine.Debug.Log("--------------------------");
+           //StackTrace stackTrace = new StackTrace();
+           // UnityEngine.Debug.Log("--------------------------");
+           // UnityEngine.Debug.Log(stackTrace.GetFrames().ToString());
+           // UnityEngine.Debug.Log("--------------------------");
             // Check if this feature is enabled.
             if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                 return true;
