@@ -20,10 +20,10 @@ class EntityNPCGreetingFix
                 return true;
 
             // Create a new on-the-fly trader area
-            if (__instance.traderArea == null)
+            if (__instance.traderArea == null  )
             {
                 Vector3i size = new Vector3i(2f, 2f, 2f);
-                __instance.traderArea = new TraderArea(new Vector3i(__instance.GetPosition()), size, size, size, size);
+                __instance.traderArea = new TraderArea(new Vector3i(__instance.position), size, size, size, size);
             }
             return true;
         }

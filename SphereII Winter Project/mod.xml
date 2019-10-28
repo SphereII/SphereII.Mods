@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII Winter Project</name>
     <description>A Winter Project by sphereii and xyth</description>
-    <mod_version>1.0.0.62</mod_version>
+    <mod_version>1.0.0.66</mod_version>
     <game_version>17</game_version>
   </info>
   <dependencies>
@@ -24,12 +24,46 @@
     <hash filename="Config\entityclasses.xml" hash="be20b23f1459a7b76e613eb708505ac0" />
     <hash filename="Config\loot.xml" hash="9ccda3e519676166845409015a096740" />
     <hash filename="UIAtlases\ItemIcons\snowShovel.png" hash="0d228069342e9bffd5fa5c670254b8c3" />
-    <hash filename="Scripts\WinterModPrefab.cs" hash="9fc4398345055cfbd2779ff95dd53c75" />
     <hash filename="UIAtlases\ItemIconAtlas\snowShovel.png" hash="0d228069342e9bffd5fa5c670254b8c3" />
     <hash filename="Config\rwgmixer.xml" hash="905593c2141af58e9993546e36c5e4e6" />
     <hash filename="README.md" hash="145e95e191ddac27fe5d3d84d9d38c36" />
     <hash filename="Harmony\PrefabInstance.cs" hash="397af78c07b3d759b13ed5552d59a37c" />
     <hash filename="Config\biomes.xml" hash="1c266412d70579dbbec2bb054937427b" />
-    <hash filename="Config\blocks.xml" hash="6caf67aeda7760507d1ffb4bf8332e2f" />
+    <hash filename="Scripts\WinterModPrefab.cs" hash="dfe078613640096589fa7e9f46a192a1" />
+    <hash filename="Worlds\WinterProjectPreGen01\biomes.png" hash="b14d92c3315a5b7d0c5c8df808f0b654" />
+    <hash filename="Worlds\WinterProjectPreGen01\dtm.raw" hash="252179d303608bf84105719ad0ed1615" />
+    <hash filename="Worlds\WinterProjectPreGen01\genHM.png" hash="639179eafe65e21dc49518c080c2fb32" />
+    <hash filename="Worlds\WinterProjectPreGen01\main.ttw" hash="7a7a2ad25cf273e9b42f6d26a4971b0a" />
+    <hash filename="Worlds\WinterProjectPreGen01\map_info.xml" hash="d18b745820f8b913fabb2c47d6db9d8d" />
+    <hash filename="Worlds\WinterProjectPreGen01\prefabs.xml" hash="f91bdaba5ce32c4cc878ff2d02d9bc3b" />
+    <hash filename="Worlds\WinterProjectPreGen01\previewMap.png" hash="1c4d2a67d6bfb73a15af465f50d46e9a" />
+    <hash filename="Worlds\WinterProjectPreGen01\radiation.png" hash="a3e3033db1a86def5d1d4954c32e421c" />
+    <hash filename="Worlds\WinterProjectPreGen01\spawnpoints.xml" hash="1f26987360044ef747be1e28f8a4245f" />
+    <hash filename="Worlds\WinterProjectPreGen01\splat3.png" hash="7841967d44194187396dd0dbbc2f8157" />
+    <hash filename="Worlds\WinterProjectPreGen01\water_info.xml" hash="7ebf8390cedc40e62d36bd8b4b7caf83" />
+    <hash filename="Worlds\WinterProjectPreGen02\biomes.png" hash="c11e12abdc10c51e0d224dab46eee48b" />
+    <hash filename="Worlds\WinterProjectPreGen02\dtm.raw" hash="cbd1bac9fc2e054988c2cbcdcb0aae1e" />
+    <hash filename="Worlds\WinterProjectPreGen02\genHM.png" hash="e8134c3ab1e05f1586d6b61c0883b027" />
+    <hash filename="Worlds\WinterProjectPreGen02\main.ttw" hash="7a7a2ad25cf273e9b42f6d26a4971b0a" />
+    <hash filename="Worlds\WinterProjectPreGen02\map_info.xml" hash="319bc412298cb97a7521e01de9baec60" />
+    <hash filename="Worlds\WinterProjectPreGen02\prefabs.xml" hash="ff5428b653a56c49aa7b42164a2c389e" />
+    <hash filename="Worlds\WinterProjectPreGen02\previewMap.png" hash="cb21fc96a492e2a9dda42c8b7c7ecbe3" />
+    <hash filename="Worlds\WinterProjectPreGen02\radiation.png" hash="719ea6985268076c1fed4cca994cec7e" />
+    <hash filename="Worlds\WinterProjectPreGen02\spawnpoints.xml" hash="72287d671835e8c14419275b5aa7c64d" />
+    <hash filename="Worlds\WinterProjectPreGen02\splat3.png" hash="2a70b04ff35f09146c4eb2da0cc8ebeb" />
+    <hash filename="Worlds\WinterProjectPreGen02\water_info.xml" hash="7ebf8390cedc40e62d36bd8b4b7caf83" />
+    <hash filename="Worlds\WinterProjectPreGen03\biomes.png" hash="b14d92c3315a5b7d0c5c8df808f0b654" />
+    <hash filename="Worlds\WinterProjectPreGen03\dtm.raw" hash="3a7606e32bbd552c7f03171f5be3e83a" />
+    <hash filename="Worlds\WinterProjectPreGen03\genHM.png" hash="b677310d18e80b3b259d0927c09352d6" />
+    <hash filename="Worlds\WinterProjectPreGen03\main.ttw" hash="7a7a2ad25cf273e9b42f6d26a4971b0a" />
+    <hash filename="Worlds\WinterProjectPreGen03\map_info.xml" hash="d18b745820f8b913fabb2c47d6db9d8d" />
+    <hash filename="Worlds\WinterProjectPreGen03\prefabs.xml" hash="cabde3a64ea3164e7f0364ffc4822712" />
+    <hash filename="Worlds\WinterProjectPreGen03\previewMap.png" hash="cf24ede0f389040ede02a21e37a665a4" />
+    <hash filename="Worlds\WinterProjectPreGen03\radiation.png" hash="a3e3033db1a86def5d1d4954c32e421c" />
+    <hash filename="Worlds\WinterProjectPreGen03\spawnpoints.xml" hash="fe5fabc7945ebb52ba736b21aa5aefa8" />
+    <hash filename="Worlds\WinterProjectPreGen03\splat3.png" hash="0b34e07f8f8b7fd417a97e4077caafb1" />
+    <hash filename="Worlds\WinterProjectPreGen03\water_info.xml" hash="7ebf8390cedc40e62d36bd8b4b7caf83" />
+    <hash filename="Harmony\IsSplatmapAvailable.cs" hash="cdaef341148f0d477b4da8238563d7ad" />
+    <hash filename="Config\blocks.xml" hash="daf884dd15cedd506aa1bec40c2deae9" />
   </hashes>
 </mod>

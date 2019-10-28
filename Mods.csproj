@@ -88,6 +88,9 @@
     <Compile Include="0-SphereIICore\Harmony\ItemFeatures\AdvancedItemRepair.cs" />
     <Compile Include="0-SphereIICore\Harmony\ItemFeatures\DurabilityAffectsDamage.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAlive.cs" />
+    <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCFixSpeed.cs" />
+    <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCGreetingFix.cs" />
+    <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\AntiNerdPole.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\OneBlockCrouch.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\SoftHands.cs" />
@@ -285,9 +288,36 @@
     <Content Include="SphereII Winter Project\UIAtlases\ItemIconAtlas\snowShovel.png" />
     <Content Include="SphereII Winter Project\mod.xml" />
     <Content Include="SphereII Winter Project\ModInfo.xml" />
-    <Content Include="SphereII_Container_Stash\Config\XUi\windows.xml" />
-    <Content Include="SphereII_Container_Stash\mod.xml" />
-    <Content Include="SphereII_Container_Stash\ModInfo.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\biomes.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\dtm.raw" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\genHM.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\map_info.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\prefabs.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\previewMap.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\radiation.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\spawnpoints.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\splat3.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\water_info.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\biomes.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\dtm.raw" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\genHM.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\map_info.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\prefabs.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\previewMap.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\radiation.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\spawnpoints.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\splat3.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\water_info.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\biomes.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\dtm.raw" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\genHM.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\map_info.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\prefabs.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\previewMap.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\radiation.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\spawnpoints.xml" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\splat3.png" />
+    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\water_info.xml" />
     <Content Include="SyX Security Bots\Config\entityclasses.xml" />
     <Content Include="SyX Security Bots\Config\entitygroups.xml" />
     <Content Include="SyX Security Bots\Config\items.xml" />
@@ -297,12 +327,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blooms Animal Husbandry\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\Resources\BloomsFarmAnimals.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\Cows.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\FarmAnimalController.unitypackage" />
+    <None Include="README-Old.md" />
+    <None Include="README.md" />
     <None Include="SphereII A Better Life\README.md" />
     <None Include="SphereII A Better Life\Resources\Alcatraz.unity3d" />
     <None Include="SphereII A Better Life\Resources\Barracuda.unity3d" />
@@ -352,6 +385,9 @@
     <None Include="SphereII Winter Project\Resources\SnowFog.unity3d" />
     <None Include="SphereII Winter Project\Resources\snowShovel.unity3d" />
     <None Include="SphereII Winter Project\Resources\WinterTrees.unity3d" />
+    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\main.ttw" />
+    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\main.ttw" />
+    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\main.ttw" />
     <None Include="SyX Security Bots\ReadMe.md" />
     <None Include="SyX Security Bots\Resources\DroneSounds.unity3d" />
     <None Include="SyX Security Bots\Resources\MecBee.unity3d" />

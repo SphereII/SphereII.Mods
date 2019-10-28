@@ -3,7 +3,7 @@
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='OneBlockCrouch']/@value">true</set>
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedNPCFeatures']/property[@name='MakeTraderVulnerable']/@value">true</set>
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableTraderProtection']/@value">true</set>
-  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedWorldGen']/property[@name='DisableSplatMap']/@value">true</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedWorldGen']/property[@name='DisableSplatMap']/@value">false</set>
 
 
   <append xpath="/blocks/block[@name='bed01']">

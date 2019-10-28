@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>1.0.0.123</mod_version>
+    <mod_version>1.0.0.129</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -190,7 +190,6 @@
     <hash filename="Config\XUi\xui.xml" hash="dd1b6c7fb0e7e9d27ed0b343290fc23d" />
     <hash filename="Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="Harmony\PrefabFeatures\DisableTraderProtection.cs" hash="47b079e710a37163510d7bf759319339" />
-    <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="fd841cfca7813926876fb8efe50d4516" />
     <hash filename="Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="754a34fb5adc1e477a3d1330f1dba9dc" />
     <hash filename="Scripts\Features\Configuration.cs" hash="e3f08803e58196fd15f969c3b78a2b80" />
     <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="67659b8a149958e96771d3413d67c82d" />
@@ -266,6 +265,7 @@
     <hash filename="Harmony\ZombieFeatures\RandomSize.cs" hash="6d52d9d24da243308099bd87519d00e0" />
     <hash filename="Harmony\ItemFeatures\DurabilityAffectsDamage.cs" hash="856003d4b5faef8d5e9220504adff047" />
     <hash filename="Config\blocks.xml" hash="a0e47c9a4aa9f4b1a0a8a171e99e5b02" />
-    <hash filename="Harmony\NPCFeatures\EntityNPCFixSpeed.cs" hash="5d51ac9e5b3ebbb5e61a969ad7e3f3bf" />
+    <hash filename="Harmony\NPCFeatures\EntityNPCFixSpeed.cs" hash="5acb93fc3c34371d123670d0a579424b" />
+    <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="49ecb1c14e7974ad916e61fb525941b4" />
   </hashes>
 </mod>
