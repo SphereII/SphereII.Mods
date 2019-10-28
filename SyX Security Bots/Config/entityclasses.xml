@@ -23,17 +23,17 @@
 			<property name="Tags" value="entity,npc"/>	
 			<property name="AITask-1" value="BreakBlock"/>
 			<property name="AITask-2" value="Territorial"/>
-			<property name="AITask-3" value="ApproachAndAttackSDX, Mods" param1="Entity,0" param2=""  /> <!-- param1 base class? -->
-			<property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" param1="Leader,foodCornOnTheCob"/> <!-- Param1 for what to follow -->
-			<property name="AITask-5" value="ApproachSpot"/>
+      <property name="AITask-3" value="ApproachAndAttackSDX, Mods" data="class=Entity,0"   />
+      <property name="AITask-4" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Leader"/>
+      <property name="AITask-5" value="ApproachSpot"/>
 			<property name="AITask-6" value="MaslowLevel1SDX, Mods"/> <!-- Param1? -->
 			<property name="AITask-7" value="PatrolSDX, Mods"/> <!-- No params -->
 			<property name="AITask-8" value="Look"/> 
 			<property name="AITask-9" value="WanderSDX, Mods"/> <!-- No Params  -->
 			<property name="AITask-10" value="" />
-			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" param1="Entity"/>  <!-- Params not Used?  -->
-			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" param1="Entity"/> <!-- params not used? -->
-			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" param1="Entity,80"/> <!-- Param1 used in base class?  -->
+			<property name="AITarget-1" value="SetAsTargetIfHurtSDX, Mods" data="class=Entity"/>  <!-- Params not Used?  -->
+			<property name="AITarget-2" value="SetAsTargetIfLeaderAttackedSDX, Mods" data="class=Entity"/> <!-- params not used? -->
+			<property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" data="class=Entity,80"/> <!-- Param1 used in base class?  -->
 			<!--			<property name="AITarget-4" value="LootLocationSDX, Mods" /> -->
 			<property name="AITarget-4" value="" />	  
 			<property name="MaxTurnSpeed" value="280"/>
