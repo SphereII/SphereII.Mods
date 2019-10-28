@@ -11,7 +11,7 @@ public static class EntityUtilities
 
     public static void DisplayLog(string strMessage)
     {
-        if ( blDisplayLog )
+        if(blDisplayLog)
             UnityEngine.Debug.Log(strMessage);
     }
     // These are the orders, used in cvars for the EAI Tasks. They are casted as floats.
@@ -27,6 +27,22 @@ public static class EntityUtilities
         Loot = 7
     }
 
+    public static bool CheckProperty(int EntityID, string Property)
+    {
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity == null)
+            return false;
+
+        EntityClass entityClass = EntityClass.list[myEntity.entityClass];
+        if(entityClass.Properties.Values.ContainsKey(Property))
+            return true;
+        if(entityClass.Properties.Classes.ContainsKey(Property))
+            return true;
+
+        return false;
+    }
+
+
     public static void ProcessConsumables(int EntityID)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
@@ -36,7 +52,7 @@ public static class EntityUtilities
         float foodAmount = GetCVarValue(EntityID, "$foodAmountAdd");
         if(foodAmount > 0.5f)
         {
-            myEntity.Health += Utils.Fastfloor( foodAmount);
+            myEntity.Health += Utils.Fastfloor(foodAmount);
             foodAmount -= 0.5f;
         }
         if(myEntity.Health > myEntity.GetMaxHealth())
@@ -79,7 +95,7 @@ public static class EntityUtilities
             return result;
 
         DisplayLog("Hire(): I have an entity");
-        
+
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_player as EntityPlayerLocal);
         if(uiforPlayer)
         {
@@ -89,7 +105,7 @@ public static class EntityUtilities
             {
                 DisplayLog(" The Player has enough currency: " + uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)));
                 // Create the stack of currency
-                ItemStack stack = new ItemStack( GetHireCurrency( EntityID ), GetHireCost(EntityID ));
+                ItemStack stack = new ItemStack(GetHireCurrency(EntityID), GetHireCost(EntityID));
                 DisplayLog(" Removing Item: " + stack.ToString());
                 uiforPlayer.xui.PlayerInventory.RemoveItems(new ItemStack[] { stack }, 1);
 
@@ -100,13 +116,13 @@ public static class EntityUtilities
             }
             else
             {
-                GameManager.ShowTooltipWithAlert(_player, "You cannot afford me. I want " +GetHireCost(EntityID) + " " + GetHireCurrency(EntityID), "ui_denied");
+                GameManager.ShowTooltipWithAlert(_player, "You cannot afford me. I want " + GetHireCost(EntityID) + " " + GetHireCurrency(EntityID), "ui_denied");
             }
         }
         return false;
     }
 
-    
+
     // Returns the leader of the passed in entity ID.
     public static Entity GetLeader(int EntityID)
     {
@@ -114,7 +130,7 @@ public static class EntityUtilities
         EntityAlive currentEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(currentEntity)
         {
-            
+
             if(currentEntity.Buffs.HasCustomVar("Leader"))
                 leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
 
@@ -122,7 +138,7 @@ public static class EntityUtilities
             if(leader == null)
             {
                 currentEntity.Buffs.RemoveCustomVar("Leader");
-                leader = currentEntity; 
+                leader = currentEntity;
             }
         }
 
@@ -136,13 +152,13 @@ public static class EntityUtilities
         if(myEntity)
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "HungryBuffs");
-            if (lstBuffs.Count == 0)
-                lstBuffs.AddRange(new string[] { "buffStatusHungry2" , "buffStatusHungry1" });
+            if(lstBuffs.Count == 0)
+                lstBuffs.AddRange(new string[] { "buffStatusHungry2", "buffStatusHungry1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
 
-        if ( result)
+        if(result)
             DisplayLog(" Is Entity hungry? " + result);
         return result;
     }
@@ -163,7 +179,7 @@ public static class EntityUtilities
 
             if(result == false)
             {
-                if (myEntity.Health < (myEntity.GetMaxHealth() * 0.75))
+                if(myEntity.Health < (myEntity.GetMaxHealth() * 0.75))
                 {
                     DisplayLog(" Entity's Health is less than 35%");
                     result = true;
@@ -171,7 +187,7 @@ public static class EntityUtilities
             }
         }
 
-        if ( result )
+        if(result)
             DisplayLog(" Is Entity Hurt? ");
         return result;
     }
@@ -209,13 +225,13 @@ public static class EntityUtilities
         if(myEntity)
         {
             List<String> lstBuffs = ConfigureEntityClass(EntityID, "ThirstyBuffs");
-            if (lstBuffs.Count == 0)
+            if(lstBuffs.Count == 0)
                 lstBuffs.AddRange(new string[] { "buffStatusThirsty2", "buffStatusThirsty1" });
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
 
-        if ( result )  // Really spammy if its false
+        if(result)  // Really spammy if its false
             DisplayLog(" Is Entity Thirsty? " + result);
         return result;
 
@@ -250,11 +266,11 @@ public static class EntityUtilities
         EntityAlive LeaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if(myEntity && LeaderEntity)
         {
-            myEntity.Buffs.SetCustomVar("Leader", (float)LeaderID, true);
+            myEntity.Buffs.SetCustomVar("Leader", LeaderID, true);
             myEntity.moveSpeed = LeaderEntity.moveSpeed;
             myEntity.moveSpeedAggro = LeaderEntity.moveSpeedAggro;
             myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-            
+
             SetCurrentOrder(EntityID, Orders.Follow);
 
         }
@@ -266,7 +282,7 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         EntityAlive LeaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if(myEntity && LeaderEntity)
-            myEntity.Buffs.SetCustomVar("Owner", (float)LeaderID, true);
+            myEntity.Buffs.SetCustomVar("Owner", LeaderID, true);
     }
 
     public static void SetLeaderAndOwner(int EntityID, int LeaderID)
@@ -274,7 +290,7 @@ public static class EntityUtilities
         SetLeader(EntityID, LeaderID);
         SetOwner(EntityID, LeaderID);
     }
-    
+
     public static bool IsAnAlly(int EntityID, int AttackingID)
     {
         bool result = false;
@@ -286,7 +302,7 @@ public static class EntityUtilities
                 return true;
 
         Entity theirLeader = GetLeaderOrOwner(AttackingID);
-        if ( (myLeader && theirLeader)  && (myLeader.entityId == theirLeader.entityId))
+        if((myLeader && theirLeader) && (myLeader.entityId == theirLeader.entityId))
             result = true;
 
         return result;
@@ -311,7 +327,7 @@ public static class EntityUtilities
         {
             if(myLeader.entityId == _player.entityId)
                 return true;
-                 
+
         }
         return false;
     }
@@ -319,21 +335,21 @@ public static class EntityUtilities
     public static void SetCurrentOrder(int EntityID, Orders order)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity)
+        if(myEntity)
         {
             DisplayLog(" Setting Current Order: " + order.ToString());
             myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, true);
         }
     }
 
-    public static Orders GetCurrentOrder( int EntityID )
+    public static Orders GetCurrentOrder(int EntityID)
     {
         Orders currentOrder = Orders.Wander;
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
             //DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
-            if (myEntity.Buffs.HasCustomVar("CurrentOrder"))
+            if(myEntity.Buffs.HasCustomVar("CurrentOrder"))
             {
                 //DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
                 currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
@@ -346,7 +362,7 @@ public static class EntityUtilities
     {
         DisplayLog("ExecuteCMD: " + strCommand);
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if(myEntity == null )
+        if(myEntity == null)
             return false;
 
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
@@ -361,7 +377,7 @@ public static class EntityUtilities
             case "TellMe":
                 //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
-               // uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
+                // uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
@@ -438,9 +454,9 @@ public static class EntityUtilities
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
-            if (GetCurrentOrder(EntityID) != order)
+            if(GetCurrentOrder(EntityID) != order)
             {
-//                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
+                //                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
                 return false;
             }
 
@@ -470,11 +486,11 @@ public static class EntityUtilities
             {
                 if(Distance > 20)
                 {
-                 //   DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
+                    //   DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
                     myEntity.SetRevengeTarget(null);
                     return true;
                 }
-               // DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
+                // DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
                 return false;
 
             }
@@ -484,20 +500,20 @@ public static class EntityUtilities
                 if(Distance < 2)
                 {
                     myEntity.moveHelper.Stop();
-                 //   DisplayLog(" Too Close to leader. Moving to Look Vector");
+                    //   DisplayLog(" Too Close to leader. Moving to Look Vector");
                     myEntity.moveHelper.SetMoveTo((leader as EntityAlive).GetLookVector(), false);
                     return false;
 
                 }
 
             }
-      
+
             return true;
         }
         return true;
     }
 
-    public static Vector3 SetCloseSpawnPoint(int EntityID, Vector3 centralPosition )
+    public static Vector3 SetCloseSpawnPoint(int EntityID, Vector3 centralPosition)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
@@ -508,7 +524,7 @@ public static class EntityUtilities
 
         }
         return Vector3.zero;
-    
+
     }
     public static int GetHireCost(int EntityID)
     {
@@ -541,8 +557,8 @@ public static class EntityUtilities
         if(myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
-            if (entityClass.Properties.Values.ContainsKey(strProperty))
-                result = ItemClass.GetItem(entityClass.Properties.Values[ strProperty], false);
+            if(entityClass.Properties.Values.ContainsKey(strProperty))
+                result = ItemClass.GetItem(entityClass.Properties.Values[strProperty], false);
             if(result.IsEmpty())
                 result = ItemClass.GetItem("casinoCoin", false);
         }
@@ -551,16 +567,31 @@ public static class EntityUtilities
     public static int GetIntValue(int EntityID, String strProperty)
     {
         int result = -1;
-        
+
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
             if(entityClass.Properties.Values.ContainsKey(strProperty))
-                result = int.Parse(entityClass.Properties.Values[ strProperty ]);
+                result = int.Parse(entityClass.Properties.Values[strProperty]);
         }
         return result;
     }
+
+    public static bool GetBoolValue(int EntityID, String strProperty)
+    {
+        bool result = false;
+
+        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if(myEntity)
+        {
+            EntityClass entityClass = EntityClass.list[myEntity.entityClass];
+            if(entityClass.Properties.Values.ContainsKey(strProperty))
+                result = bool.Parse(entityClass.Properties.Values[strProperty]);
+        }
+        return result;
+    }
+
     public static float GetFloatValue(int EntityID, String strProperty)
     {
         float result = -1;
@@ -570,11 +601,11 @@ public static class EntityUtilities
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
             if(entityClass.Properties.Values.ContainsKey(strProperty))
-                result  = StringParsers.ParseFloat(entityClass.Properties.Values[strProperty], 0, -1, NumberStyles.Any);
+                result = StringParsers.ParseFloat(entityClass.Properties.Values[strProperty], 0, -1, NumberStyles.Any);
         }
         return result;
     }
-    public static String GetStringValue( int EntityID, String strProperty)
+    public static String GetStringValue(int EntityID, String strProperty)
     {
         string result = String.Empty;
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
@@ -700,25 +731,25 @@ public static class EntityUtilities
                 }
                 // Then we check if the control mechanism is an item being held.
                 if(entity.inventory.holdingItem.Name == strIncentive)
-                     return true;
+                    return true;
             }
         }
         return result;
     }
 
-    public static string DisplayEntityStats(int EntityID )
+    public static string DisplayEntityStats(int EntityID)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity == null)
             return "";
 
-        String FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue( EntityID, "foodAmount")).ToString();
-        String WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue( EntityID, "waterAmount")).ToString();
+        String FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue(EntityID, "foodAmount")).ToString();
+        String WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue(EntityID, "waterAmount")).ToString();
 
         // string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Stats.Health.Value;
         string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Health + "/" + myEntity.GetMaxHealth();
         strOutput += " Stamina: " + myEntity.Stats.Stamina.Value + " Thirst: " + myEntity.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
-        strOutput += " Sanitation: " + GetCVarValue( EntityID, "solidWasteAmount");
+        strOutput += " Sanitation: " + GetCVarValue(EntityID, "solidWasteAmount");
         // Read the Food items configured.
         String strFoodItems = GetStringValue(EntityID, "FoodItems");
         if(strFoodItems == String.Empty)
@@ -736,8 +767,8 @@ public static class EntityUtilities
         if(myEntity.Buffs.HasCustomVar("Leader"))
         {
             Entity leader = GetLeader(EntityID);
-            if ( leader )
-                strOutput += "\n Current Leader: " + leader.entityId ;
+            if(leader)
+                strOutput += "\n Current Leader: " + leader.entityId;
         }
         strOutput += "\n Active Buffs: ";
         foreach(BuffValue buff in myEntity.Buffs.ActiveBuffs)
@@ -751,10 +782,10 @@ public static class EntityUtilities
         strOutput += "\n Patrol Points: ";
         foreach(Vector3 vec in myEntity.PatrolCoordinates)
             strOutput += "\n\t" + vec.ToString();
-        strOutput += "\n\nCurrency: " + GetHireCurrency( EntityID) + " Faction: " + myEntity.factionId;
+        strOutput += "\n\nCurrency: " + GetHireCurrency(EntityID) + " Faction: " + myEntity.factionId;
 
         DisplayLog(strOutput);
-       
+
         return strOutput;
     }
 }

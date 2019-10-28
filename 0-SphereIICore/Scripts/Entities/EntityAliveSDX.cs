@@ -493,6 +493,12 @@ public class EntityAliveSDX : EntityNPC
         if(EntityUtilities.IsAnAlly(entityId, _damageSource.getEntityId()))
             return 0;
 
+        if(EntityUtilities.GetBoolValue( entityId, "Invulnerable"))
+            return 0;
+
+        if(this.Buffs.HasBuff("buffInvulnerable"))
+            return 0;
+
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 
@@ -532,6 +538,12 @@ public class EntityAliveSDX : EntityNPC
     }
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
+        if(EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
+            return;
+
+        if(this.Buffs.HasBuff("buffInvulnerable"))
+            return;
+
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 
