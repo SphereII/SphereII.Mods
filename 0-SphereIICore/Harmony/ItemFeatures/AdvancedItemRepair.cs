@@ -269,6 +269,9 @@ public class SphereII__AdvancedItems
             }
             else if(forId.RepairTools == null || forId.RepairTools.Length <= 0)
             {
+                if (CraftingManager.GetRecipe(forId.GetItemName() )== null)
+                    return true;
+
                 // If there's a recipe, reduce it
                 Recipe recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);
                 ItemsUtilities.Scrap(recipe.ingredients, itemStack, __instance.ItemController);

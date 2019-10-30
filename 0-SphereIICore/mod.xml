@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>1.0.0.129</mod_version>
+    <mod_version>1.0.0.145</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -146,7 +146,6 @@
     <hash filename="Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="6fff47e047b0e7d4fa64cb19efc65da1" />
     <hash filename="Scripts\Blocks\BlockMortSpawner.cs" hash="b705bdd4af89fb626b65c20ad7631e10" />
     <hash filename="Scripts\Blocks\PickUpAndReplace.cs" hash="fcb2d47b499ebc09e35a2dc7fa499b4f" />
-    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="21860eb66d6b7fc1657c8d694e3539ef" />
     <hash filename="Scripts\Entities\EntityPlayerLocal.cs" hash="b7bc87a2ba12b978f4be9bc528fe8456" />
     <hash filename="blocks.xml" hash="2a0065bc7f937dbe4f89f170bc0672db" />
     <hash filename="Config\buffs.xml" hash="b2b6a0a501a212c55aa6477151212d9d" />
@@ -162,7 +161,6 @@
     <hash filename="Harmony\EntityAliveEnhancedFeatures.cs" hash="dc7ccdda418e00ee37919bed47ad1767" />
     <hash filename="Harmony\EntityPlayerLocal.cs" hash="431c77241a9f3842156b40b21a146e89" />
     <hash filename="Harmony\Transmogrifier.cs" hash="491edb63f7c112207adb5dc4afa18c88" />
-    <hash filename="Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="d0024668a1d2265161389f786bf817bd" />
     <hash filename="Harmony\NPCFeatures\EntityAlive.cs" hash="dc7ccdda418e00ee37919bed47ad1767" />
     <hash filename="Harmony\PlayerFeatures\AntiNerdPole.cs" hash="49aa2d8818aa202d7bb81b0acc3032c8" />
     <hash filename="Harmony\PlayerFeatures\OneBlockCrouch.cs" hash="ecde9315388b8a89ea583c75aae4fa63" />
@@ -177,7 +175,6 @@
     <hash filename="Scripts\EAI\EAILootLocationSDX.cs" hash="53a75acde883b52f77201fab00b896ed" />
     <hash filename="Scripts\EAI\EAIMaslowLevel1SDX.cs" hash="6dfac3ca3ff792ef8d0947319b3c95c2" />
     <hash filename="Scripts\EAI\OldEAIMaslowLevel1SDX.cs" hash="cc018a32c563c7e5f25d353833745a27" />
-    <hash filename="Scripts\Entities\EntityUtilities.cs" hash="ac4cc74a705ae8f0b86a923bbcacf81d" />
     <hash filename="Scripts\Features\AdvLogging.cs" hash="a4a4901f83c1fd13c771b87f83555010" />
     <hash filename="Scripts\Items\ItemActionEntryResharpenSDX.cs" hash="8e106bc16d5e701c47df73a5e2e84ba6" />
     <hash filename="Scripts\MusicBoxes\MusicBox.cs" hash="08742174e0ae0fa7bec0a9f3a969a80b" />
@@ -191,7 +188,6 @@
     <hash filename="Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="Harmony\PrefabFeatures\DisableTraderProtection.cs" hash="47b079e710a37163510d7bf759319339" />
     <hash filename="Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="754a34fb5adc1e477a3d1330f1dba9dc" />
-    <hash filename="Scripts\Features\Configuration.cs" hash="e3f08803e58196fd15f969c3b78a2b80" />
     <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="67659b8a149958e96771d3413d67c82d" />
     <hash filename="ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="FoodSpoilage\FoodSpoilage.cs" hash="f89222eb5ce5ce59ea39d0fa0f42bdaf" />
@@ -256,7 +252,6 @@
     <hash filename="Harmony\UnlockEnemyHealthBar.cs" hash="67659b8a149958e96771d3413d67c82d" />
     <hash filename="Harmony\ZeroXP.cs" hash="5902cf35acae9996e8b4d68f1748b782" />
     <hash filename="Harmony\FoodSpoilage\FoodSpoilage.cs" hash="e521405d6e87e24173780abf78adee6a" />
-    <hash filename="Harmony\NPCFeatures\EntityNPCGreetingFix.cs" hash="8519ad2f8cbdb39915129788657eadde" />
     <hash filename="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" hash="7f3447df77a5bf24d49bdcdf091e4fca" />
     <hash filename="Harmony\Standard\QuickContinue.cs" hash="764754dbbba64aa74368a895a883ccd4" />
     <hash filename="Harmony\ZombieFeatures\HeadshotOnly.cs" hash="d6d1862f795975c27a4f9a04be80dbb9" />
@@ -264,8 +259,14 @@
     <hash filename="Documentation\Examples\entityclasses.xml" hash="d853b3aca1fb2f648dcbf2f0db07905e" />
     <hash filename="Harmony\ZombieFeatures\RandomSize.cs" hash="6d52d9d24da243308099bd87519d00e0" />
     <hash filename="Harmony\ItemFeatures\DurabilityAffectsDamage.cs" hash="856003d4b5faef8d5e9220504adff047" />
-    <hash filename="Config\blocks.xml" hash="a0e47c9a4aa9f4b1a0a8a171e99e5b02" />
     <hash filename="Harmony\NPCFeatures\EntityNPCFixSpeed.cs" hash="5acb93fc3c34371d123670d0a579424b" />
-    <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="49ecb1c14e7974ad916e61fb525941b4" />
+    <hash filename="Harmony\NPCFeatures\EntityNPCGreetingFix.cs" hash="8cc2276699fc2bab6a8a7599e278aa2d" />
+    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="8f8b7ef265bd057685f0b8d65e0c9471" />
+    <hash filename="Scripts\Entities\EntityUtilities.cs" hash="2b02e8c2ae053ae444d79de4e55e9d35" />
+    <hash filename="Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="eee9626594a7200567076063b470c27c" />
+    <hash filename="Scripts\Features\Configuration.cs" hash="536f99656f0d19ab034b0420faa18fbe" />
+    <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="567ff18fbc0350425ec08d18a00922c5" />
+    <hash filename="Harmony\PlayerFeatures\CrossHair.cs" hash="aff547b1699b2901bcc5305375760d0a" />
+    <hash filename="Config\blocks.xml" hash="961701f769d91bf1ebd4f401b3176074" />
   </hashes>
 </mod>

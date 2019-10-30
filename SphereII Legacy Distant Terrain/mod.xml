@@ -1,0 +1,16 @@
+<mod>
+  <info>
+    <!-- Information about the Mod, the author and version information -->
+    <!-- These are displayed in the SDX Launcher -->
+    <author>sphereii</author>
+    <name>SphereII Legacy Distant Terrain</name>
+    <description>Re-enables Legacy Distant Terrain</description>
+    <mod_version>1.0.0.78</mod_version>
+    <game_version>17.2</game_version>
+    <launcher_version>0.0.0</launcher_version>
+  </info>
+  <hashes>
+    <hash filename="Harmony\SplatMap.cs" hash="a406234cc1093c16e8e8c4320d43aea3" />
+    <hash filename="Harmony\LegacyDistantTerrain.cs" hash="2709079dec496aa6c1d4a18750b955af" />
+  </hashes>
+</mod>

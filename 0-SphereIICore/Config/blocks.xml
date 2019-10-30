@@ -17,7 +17,7 @@
       
       <property class="AdvancedItemFeatures" >
         <property name="Logging" value="true"/>
-        <property name="AdvancedItemRepair" value="false" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
+        <property name="AdvancedItemRepair" value="true" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
         <property name="DurabilityAffectsDamage" value="false" />  <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
       </property>
 
@@ -35,6 +35,7 @@
         <property name="RandomWalk" value="true" />   <!-- Give them random walks. -->
         <property name="UMATweaks"  value="true" />     <!-- Improvements on reducing load times of UMA Zombies -->
         <property name="LowerResolutionUMA" value="true" />    <!-- Lower resolution on UMAs drastically -->
+
       </property>
 
       <property class="AdvancedProgression">
@@ -55,7 +56,8 @@
 
       <property class="AdvancedWorldGen">
         <property name="Logging" value="false"/>
-        <property name="DisableSplatMap" value="false" />   <!-- Disable the splat map: Also disables distant terrain -->
+        <!--property name="DisableSplatMap" value="false" /-->   <!-- Disable the splat map: Also disables distant terrain -->
+        <!-- Mod moved to SphereII Legacy Distant Terrain -->
       </property>
       
       <property class="AdvancedNPCFeatures" >
