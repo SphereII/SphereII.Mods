@@ -28,6 +28,49 @@ class SphereII_LegacyDistantTerrain
         }
     }
 
+    [HarmonyPatch(typeof(WorldEnvironment))]
+    [HarmonyPatch("Cleanup")]
+    public class SphereII_WorldEnvironment_Cleanup
+    {
+
+        public static void Postfix(WorldEnvironment __instance, ChunkCluster.OnChunkVisibleDelegate ___chunkClusterVisibleDelegate)
+        {
+            if (DistantTerrain.Instance != null && !GameManager.IsSplatMapAvailable())
+            {
+                GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= ___chunkClusterVisibleDelegate;
+                DistantTerrain.Instance.Cleanup();
+                DistantTerrain.Instance = null;
+            }
+        }
+    }
+    //Missing Code from A17.4, brought forward for A18.
+
+    [HarmonyPatch(typeof(WorldEnvironment))]
+    [HarmonyPatch("OnChunkDisplayed")]
+    public class SphereII_WorldEnvironment_OnChunkDisplayed
+    {
+
+        public static bool Prefix(long _key, bool _bDisplayed)
+        {
+            if (DistantTerrain.Instance == null)
+                return true;
+
+            ChunkCluster chunkCluster = GameManager.Instance.World.ChunkClusters[0];
+            if (chunkCluster == null)
+                return true;
+
+            if (!GameManager.IsSplatMapAvailable())
+            {
+                Chunk chunkSync = chunkCluster.GetChunkSync(_key);
+                if (_bDisplayed && chunkSync != null && chunkSync.NeedsOnlyCollisionMesh)
+                    return true;
+
+                DistantTerrain.Instance.ActivateChunk(WorldChunkCache.extractX(_key), WorldChunkCache.extractZ(_key), !_bDisplayed);
+                return false;
+            }
+            return true;
+        }
+    }
     // Missing Code from A17.4, brought forward for A18. 
     [HarmonyPatch(typeof(WorldEnvironment))]
     [HarmonyPatch("Update")]
