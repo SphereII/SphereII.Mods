@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>Blooms Animal Husbandry</name>
     <description>Adds in new farm animatals into the world.</description>
-    <mod_version>1.0.0.15</mod_version>
+    <mod_version>18.1.0.1</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -11,7 +11,6 @@
   <dependencies>
     <dependency>0-SphereIICore</dependency>
   </dependencies>
-
   <hashes>
     <hash filename="ReadMe.md" hash="6e15d450d0ad7182c78238f5d7e7e62f" />
     <hash filename="Config\buffs.xml" hash="0c926ff7f2614f3a879b8d0b547a493c" />

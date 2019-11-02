@@ -101,7 +101,6 @@
     <Compile Include="0-SphereIICore\Harmony\Standard\QuickContinue.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\DisableXPIconNotification.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\UnlockEnemyHealthBar.cs" />
-    <Compile Include="0-SphereIICore\Harmony\WorldGen\IsSplatmapAvailable.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\HeadshotOnly.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\LowerResolutionUMA.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\RandomSize.cs" />
@@ -190,10 +189,13 @@
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
     <Compile Include="SphereII Clear UI\Harmony\ClearUI.cs" />
+    <Compile Include="SphereII Legacy Distant Terrain\Harmony\LegacyDistantTerrain.cs" />
     <Compile Include="SphereII Winter Project\Harmony\PrefabInstance.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="0-SphereIICore\Config\blocks.xml" />
+    <Content Include="0-SphereIICore\Config\blocks.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="0-SphereIICore\Config\buffs.xml" />
     <Content Include="0-SphereIICore\Config\XUi\xui.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\blocks.xml" />
@@ -237,6 +239,7 @@
     <Content Include="SphereII Container Stash Buttons\Config\XUi\windows.xml" />
     <Content Include="SphereII Container Stash Buttons\mod.xml" />
     <Content Include="SphereII Container Stash Buttons\ModInfo.xml" />
+    <Content Include="SphereII Legacy Distant Terrain\ModInfo.xml" />
     <Content Include="SphereII Music Boxes\Config\blocks.xml" />
     <Content Include="SphereII Music Boxes\Config\items.xml" />
     <Content Include="SphereII Music Boxes\Config\Localization - Quest.txt" />
@@ -262,6 +265,7 @@
     <Content Include="SphereII NPC Dialog Windows\Textures\trader\smx_player_bg.png" />
     <Content Include="SphereII NPC Dialog Windows\Textures\trader\smx_trader_bg.png" />
     <Content Include="SphereII NPC Dialog Windows\UIAtlases\ItemIconAtlas\smx_bulletpoint_icon.png" />
+    <Content Include="SphereII Legacy Distant Terrain\mod.xml" />
     <Content Include="SphereII Take And Replace\Config\blocks.xml" />
     <Content Include="SphereII Take And Replace\Config\Localization.txt" />
     <Content Include="SphereII Take And Replace\mod.xml" />
@@ -326,6 +330,7 @@
     <Content Include="SyX Security Bots\ModInfo.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
     <Folder Include="Properties\" />
     <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
   </ItemGroup>

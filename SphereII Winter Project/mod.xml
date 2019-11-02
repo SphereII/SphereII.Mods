@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII Winter Project</name>
     <description>A Winter Project by sphereii and xyth</description>
-    <mod_version>1.0.0.66</mod_version>
+    <mod_version>18.1.0.1</mod_version>
     <game_version>17</game_version>
   </info>
   <dependencies>
@@ -27,7 +27,6 @@
     <hash filename="UIAtlases\ItemIconAtlas\snowShovel.png" hash="0d228069342e9bffd5fa5c670254b8c3" />
     <hash filename="Config\rwgmixer.xml" hash="905593c2141af58e9993546e36c5e4e6" />
     <hash filename="README.md" hash="145e95e191ddac27fe5d3d84d9d38c36" />
-    <hash filename="Harmony\PrefabInstance.cs" hash="397af78c07b3d759b13ed5552d59a37c" />
     <hash filename="Config\biomes.xml" hash="1c266412d70579dbbec2bb054937427b" />
     <hash filename="Scripts\WinterModPrefab.cs" hash="dfe078613640096589fa7e9f46a192a1" />
     <hash filename="Worlds\WinterProjectPreGen01\biomes.png" hash="b14d92c3315a5b7d0c5c8df808f0b654" />
@@ -65,5 +64,6 @@
     <hash filename="Worlds\WinterProjectPreGen03\water_info.xml" hash="7ebf8390cedc40e62d36bd8b4b7caf83" />
     <hash filename="Harmony\IsSplatmapAvailable.cs" hash="cdaef341148f0d477b4da8238563d7ad" />
     <hash filename="Config\blocks.xml" hash="daf884dd15cedd506aa1bec40c2deae9" />
+    <hash filename="Harmony\PrefabInstance.cs" hash="61529224d3d1f58ec94237481eef3edd" />
   </hashes>
 </mod>

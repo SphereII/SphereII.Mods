@@ -20,6 +20,7 @@ public static class Configuration
         return result;
     }
 
+    
     public static bool CheckFeatureStatus(string strClass, string strFeature)
     {
         BlockValue ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");

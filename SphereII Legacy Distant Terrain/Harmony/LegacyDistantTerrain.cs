@@ -119,6 +119,10 @@ class SphereII_LegacyDistantTerrain
             {
                 return poiheightOverride - 0.5f;
             }
+
+            if (GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator() == null)
+                return poiheightOverride;
+
             return GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt((int)x, (int)z);
         }
 

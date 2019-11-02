@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>1.0.0.145</mod_version>
+    <mod_version>18.1.0.1</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -267,6 +267,6 @@
     <hash filename="Scripts\Features\Configuration.cs" hash="536f99656f0d19ab034b0420faa18fbe" />
     <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="567ff18fbc0350425ec08d18a00922c5" />
     <hash filename="Harmony\PlayerFeatures\CrossHair.cs" hash="aff547b1699b2901bcc5305375760d0a" />
-    <hash filename="Config\blocks.xml" hash="961701f769d91bf1ebd4f401b3176074" />
+    <hash filename="Config\blocks.xml" hash="42feb54518490934cb958b45163bc6bf" />
   </hashes>
 </mod>

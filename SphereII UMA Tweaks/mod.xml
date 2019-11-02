@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>SphereII UMA Tweaks</name>
     <description>Adds a generic random UMA that can spawn from any of your UMA zombies.</description>
-    <mod_version>1.0.0.14</mod_version>
+    <mod_version>18.1.0.1</mod_version>
   </info>
   <dependencies>
     <dependency>0-SphereIICore</dependency>
