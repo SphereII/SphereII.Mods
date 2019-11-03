@@ -51,7 +51,7 @@
       <property class="AdvancedUI">
         <property name="Logging" value="false"/>
         <property name="DisableXPIconNotification" value="false" />   <!-- Don't like the UI element for XP? Set to true to disable. -->
-        <property name="UnlockEnemyHealthBar" value="false" /> <!-- Unlocks the enemy health bar-->
+        <property name="UnlockEnemyHealthBar" value="true" /> <!-- Unlocks the enemy health bar-->
       </property>
 
       <property class="AdvancedWorldGen">

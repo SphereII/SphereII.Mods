@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.0.1.2</mod_version>
+    <mod_version>18.0.1.4</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -188,7 +188,6 @@
     <hash filename="Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="Harmony\PrefabFeatures\DisableTraderProtection.cs" hash="47b079e710a37163510d7bf759319339" />
     <hash filename="Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="754a34fb5adc1e477a3d1330f1dba9dc" />
-    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="67659b8a149958e96771d3413d67c82d" />
     <hash filename="ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="FoodSpoilage\FoodSpoilage.cs" hash="f89222eb5ce5ce59ea39d0fa0f42bdaf" />
     <hash filename="ItemFeatures\AdvancedItemRepair.cs" hash="d0024668a1d2265161389f786bf817bd" />
@@ -267,6 +266,7 @@
     <hash filename="Scripts\Features\Configuration.cs" hash="536f99656f0d19ab034b0420faa18fbe" />
     <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="567ff18fbc0350425ec08d18a00922c5" />
     <hash filename="Harmony\PlayerFeatures\CrossHair.cs" hash="aff547b1699b2901bcc5305375760d0a" />
-    <hash filename="Config\blocks.xml" hash="53158089ca784387cde4a9fbd131edac" />
+    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="b0f696bb374ca959c26c04ab809b7efe" />
+    <hash filename="Config\blocks.xml" hash="cf22860ea256b65171fcc4e3d7632681" />
   </hashes>
 </mod>
