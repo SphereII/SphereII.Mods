@@ -23,9 +23,9 @@
 
       <property class="AdvancedPlayerFeatures" >
         <property name="Logging" value="false"/>
-        <property name="AntiNerdPole" value="true" /> <!-- Player cannot jump and place a block under neath them-->
-        <property name="OneBlockCrouch" value="true" />  <!-- Allow you to fit through one block spaces -->
-        <property name="SoftHands" value="true" />    <!-- Damages the player if they hit something with their bare hands. -->
+        <property name="AntiNerdPole" value="false" /> <!-- Player cannot jump and place a block under neath them-->
+        <property name="OneBlockCrouch" value="false" />  <!-- Allow you to fit through one block spaces -->
+        <property name="SoftHands" value="false" />    <!-- Damages the player if they hit something with their bare hands. -->
       </property>
 
       <property class="AdvancedZombieFeatures">
