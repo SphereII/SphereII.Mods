@@ -1,20 +1,21 @@
-﻿class TileEntityPoweredWorkstationSDX : TileEntityPowered
+﻿public class TileEntityPoweredWorkstationSDX : TileEntityWorkstation
 {
-    TileEntityWorkstation workstation;
+
+    public TileEntityPoweredBlock powered;
 
     public TileEntityPoweredWorkstationSDX(Chunk _chunk) : base(_chunk)
     {
-        workstation = new TileEntityWorkstation(_chunk);
+        powered = new TileEntityPoweredBlock(_chunk);
     }
     public override void UpdateTick(World world)
     {
         base.UpdateTick(world);
-        workstation.UpdateTick(world);
+        powered.UpdateTick(world);
     }
 
     public override TileEntityType GetTileEntityType()
     {
-        return TileEntityType.Workstation;
+        return TileEntityType.PoweredWorkstationSDX;
     }
 
   

@@ -42,8 +42,6 @@ public class SphereII_XuiC_TargetBar
 
             return codes.AsEnumerable();
         }
-
-
     }
 
     [HarmonyPatch(typeof(XUiC_TargetBar))]

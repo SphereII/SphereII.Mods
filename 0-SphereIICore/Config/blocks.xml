@@ -74,5 +74,56 @@
       </property>
 
     </block>
+
+    <block name="poweredWorkstationTest">
+      <property name="Class" value="WorkstationPoweredSDX, Mods"/>
+      <property name="Material" value="MstoneNoGlue"/>
+      <property name="CustomIcon" value="forge"/>
+
+      <property name="MaxDamage" value="100"/>
+      <property name="StabilitySupport" value="false"/>
+      <!-- build restriction -->
+      <property name="Shape" value="ModelEntity"/>
+      <property name="Model" value="Entities/Crafting/campfirePrefab"/>
+      <property name="ImposterDontBlock" value="true"/>
+      <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+      <property name="IsTerrainDecoration" value="true"/>
+      <property name="ParticleName" value="campfire"/>
+      <property name="ParticleOffset" value="0.5,0,0.5"/>
+      <property name="Stacknumber" value="1"/>
+      <property name="HeatMapStrength" value="3"/>
+      <property name="HeatMapTime" value="600"/>
+      <property name="HeatMapFrequency" value="60"/>
+      <property name="BuffsWhenWalkedOn" value="buffBurningEnvironment"/>
+      <property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
+
+      <property class="Workstation">
+        <property name="Modules" value="tools,output,fuel,input"/>
+        <property name="Collide" value="melee,bullet,arrow,rocket"/>
+      </property>
+      <property name="WorkstationIcon" value="ui_game_symbol_campfire"/>
+      <property name="CraftActionName" value="lblContextActionCook"/>
+      <property name="CraftIcon" value="ui_game_symbol_spatula"/>
+      <property name="OpenSound" value="campfire_open"/>
+      <property name="CloseSound" value="campfire_close"/>
+      <property name="CraftSound" value="campfire_cook_click"/>
+      <property name="CraftCompleteSound" value="campfire_complete_item"/>
+      <property name="WorkstationJournalTip" value="campfireTip"/>
+
+      <property class="RepairItems">
+        <property name="resourceRockSmall" value="8"/>
+      </property>
+      <drop event="Harvest" name="terrStone" count="0" tool_category="Disassemble"/>
+      <drop event="Harvest" name="" count="0" tag="salvageHarvest"/>
+      <drop event="Destroy" count="0"/>
+      <drop event="Fall" name="terrDestroyedStone" count="1" prob="0.75" stick_chance="1"/>
+      <property name="Group" value="Basics,Food/Cooking,Building,advBuilding"/>
+      <property name="DescriptionKey" value="campfireDesc"/>
+      <property name="EconomicValue" value="5"/>
+      <property name="EconomicBundleSize" value="1"/>
+      <property name="SellableToTrader" value="false"/>
+      <property name="FilterTags" value="fdecor,fother,ffurniture"/>
+      <property name="SortOrder1" value="70i0"/>      
+    </block>
   </append>
 </configs>

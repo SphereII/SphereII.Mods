@@ -1,0 +1,110 @@
+﻿<configs>
+  <!-- Add in the sounds -->
+
+  <append xpath="/Sounds">
+    <SoundDataNode name="robinSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/RobinSounds.unity3d?Robin"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="falconSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/FalconSounds.unity3d?Falcon"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+
+    <SoundDataNode name="AlcatrazSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?AlcatrazSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="BennuSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?AlcatrazSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+
+    <SoundDataNode name="EagleSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?EagleSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="eFalconSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?FalconSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="MagpieSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?MagpieSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="RavenSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?RavenSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+    <SoundDataNode name="SeagullSounds">
+      <AudioSource name="Sounds/AudioSource_Creatures"/>
+      <AudioClip ClipName="#@modfolder:Resources/BirdBundle.unity3d?SeagullSound"/>
+      <Channel name="Mouth"/>
+      <Priority name="3"/>
+      <LocalCrouchVolumeScale name="1.0"/>
+      <CrouchNoiseScale name="0.5"/>
+      <NoiseScale name="1"/>
+      <MaxVoices name="10"/>
+      <MaxRepeatRate name="5"/>
+    </SoundDataNode>
+  </append>
+
+</configs>
+
+
