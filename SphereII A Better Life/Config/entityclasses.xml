@@ -1,67 +1,113 @@
 <configs>
-	<append xpath="/entity_classes">
+		<append xpath="/entity_classes">
 		<entity_class name="PassiveFlight" extends="animalChicken">
-
 			<!-- Default class and animation class -->
 			<!--property name="Class" value="EntityFlyingBaseSDX, Mods" /-->
 			<property name="Class" value="EntityZombieFlyingSDX, Mods" />
 			<property name="AvatarController" value="MecanimSDX, Mods" />
-
 			<!-- Flying creatures will inheirit what the vultures body does, since it can fly -->
 			<property name="ModelType" value="Standard" />
 			<property name="HasRagdoll" value="false" />
 			<property name="PhysicsBody" value="vulture" />
 			<property name="RootMotion" value="false" />
-			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
-			<property name="EntityType" value="Animal"/>
-
+<!--				<property name="Immunity" value="sickness;disease;bleeding;wellness" /> -->
+			<property name="EntityType" value="Animal" />
 			<!-- Harmless birds will just fly around and not attack you -->
-			<property name="IsEnemyEntity" value="false"/>
-
-
+			<property name="IsEnemyEntity" value="false" />
 			<!-- Controls how big the flock size is, how high they can fly, etc -->
 			<property name="FlockSize" value="0" />
 			<property name="MaxHeight" value="90" />
 			<property name="IsAgressive" value="False" />
 			<property name="FollowPlayer" value="False" />
-
 			<!-- Disables default sounds, so undefined sounds in inherited birds don't sound like chickens -->
-			<property name="SoundRandom" value=""/>
+			<property name="SoundRandom" value="" />
 			<property name="SoundAlert" value="" />
 			<property name="SoundAttack" value="" />
 			<property name="SoundHurt" value="" />
 			<property name="SoundDeath" value="" />
 			<property name="SoundSense" value="" />
-
 			<!-- Default speeds for the birds -->
 			<property name="WanderSpeed" value="0.4" />
 			<property name="ApproachSpeed" value="0.8" />
 			<property name="NightWanderSpeed" value="0.4" />
 			<property name="NightApproachSpeed" value="0.9" />
 			<property name="PanicSpeed" value="1.1" />
-
-
-			<property name="MaxTurnSpeed" value="180"/>
-			<property name="SightRange" value="500"/>
-			<property name="SightScale" value="-5,270"/>
-			<property name="MaxViewAngle" value="180"/>
+			<property name="MaxTurnSpeed" value="180" />
+			<property name="SightRange" value="500" />
+			<property name="SightScale" value="-5,270" />
+			<property name="MaxViewAngle" value="360" />
 			<property name="MaxHealth" value="25" />
 			<property name="ExperienceGain" value="1" />
 			<property name="DeadBodyHitPoints" value="1" />
 			<drop event="Harvest" name="feather" tool_category="Butcher" count="2" />
-
-			<property name="AITask-1" value="Swim" />
-			<property name="AITask-2" value="RunawayWhenHurt" />
-			<property name="AITask-3" value="RunawayFromEntity" param1="EntityPlayer" />
-			<property name="AITask-4" value="RunawayFromEntity" param1="EntityZombie" />
-			<property name="AITask-5" value="Wander" />
-
+			<property name="AIPathCostScale" value="100, 100"/>
+			<property name="AITask-1" value="Swim"/>
+			<property name="AITask-2" value="RunawayWhenHurt"/>
+			<property name="AITask-3" value="RunawayFromEntity" data="class=EntityPlayer,EntityZombie,EntityEnemyAnimal"/>
+			<property name="AITask-4" value="Look"/>
+			<property name="AITask-5" value="Wander"/>
 		</entity_class>
-
-		<!-- We want to  create a master passive fish class that will allow us to spawn in friendly fish -->
-		<!-- with the option to be more aggressive later -->
+		
+		<entity_class name="birdRobin" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Robin_X" />
+			<property name="SoundRandom" value="robinSounds" />
+		</entity_class>
+		
+		<entity_class name="birdFalcon" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Falcon_X" />
+			<property name="SoundRandom" value="falconSounds" />
+		</entity_class>
+		<entity_class name="birdEagle" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Eagle_X" />
+			<property name="SoundRandom" value="falconSounds" />
+			<property name="WalkIndexes" value="2" />
+		</entity_class>
+		<!-- Alcatraz - mecanim-->
+		<entity_class name="birdAlcatraz" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Alcatraz_X" />
+			<property name="WalkIndexes" value="2" />
+			<property name="SoundRandom" value="AlcatrazSounds" />
+		</entity_class>
+		<!-- Magpie - mecanim-->
+		<entity_class name="birdMagpie" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Magpie_X" />
+			<property name="WalkIndexes" value="2" />
+			<property name="SoundRandom" value="MagpieSounds" />
+		</entity_class>
+		<!-- Seagul - mecanim-->
+		<entity_class name="birdSeagull" extends="PassiveFlight">
+			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Seagull_X" />
+			<property name="WalkIndexes" value="2" />
+			<property name="SoundRandom" value="SeagullSounds" />
+		</entity_class>		
+		<entity_class name="animalWyvern_X" extends="animalZombieVulture">
+				<property name="Class" value="EntityZombieFlyingSDX, Mods" />
+				<property name="AvatarController" value="MecanimSDX, Mods" />
+				<property name="ModelType" value="Standard" />
+				<property name="HasRagdoll" value="false" />
+				<property name="PhysicsBody" value="vulture" />
+				<property name="Mesh" value="#@modfolder:Resources/Wyvern.unity3d?Wyvern_X" /> 
+				<!-- Free Model by Clint Bellanger, Skins by Justin Nichol  -->
+				<property name="AttackIndexes" value="2" />
+				<property name="HandItem" value="handWyvern" />
+				<property name="SoundRandom" value="WyvernRandom" />
+				<property name="SoundRandomTime" value="10.0"/>
+				<property name="SoundAlert" value="WyvernRandom"/>
+				<property name="SoundHurt" value="WyvernRandom"/>
+				<property name="SoundDeath" value="WyvernRandom"/>
+				<property name="SoundAttack" value="WyvernRandom"/>
+				<property name="SoundSense" value="WyvernRandom"/>
+				<property name="SoundGiveUp" value="WyvernRandom"/>
+				<property name="ExperienceGain" value="1500" />
+				<property name="DeadBodyHitPoints" value="50" />
+				<property name="IsAgressive" value="True" />
+				<effect_group name="Base Effects">
+					<passive_effect name="HealthMax" operation="base_set" value="100"/>
+				</effect_group>
+		</entity_class> 
+	</append>
+	<append xpath="/entity_classes">
 		<entity_class name="PassiveFish" >
-
 			<property name="Mesh" value="Animals/Stag/STAG" />
 			<property name="Parent" value="Animals" />
 
@@ -75,69 +121,101 @@
 			<property name="IsEntityAnimal" value="true" />
 			<property name="Faction" value="animals" />
 			<property name="CanClimbLadders" value="false" />
-
+			
 
 			<!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
 			<property name="ModelType" value="Standard" />
 			<property name="HasRagdoll" value="false" />
 			<property name="PhysicsBody" value="chicken" />
 			<property name="RootMotion" value="false" />
-			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
+			<property name="Immunity" value="sickness;disease;bleeding;wellness" /> 
 			<property name="EntityType" value="Animal"/>
-
-			<property name="AITask-1" value="Swim" />
-
-			<property name="AITask-2" value="RunawayWhenHurt" />
-			<property name="AITask-3" value="RunawayFromEntity" param1="EntityPlayer" />
-			<property name="AITask-4" value="RunawayFromEntity" param1="EntityZombie" />
-			<property name="AITask-5" value="Wander" />
-
+			<property name="AIPathCostScale" value="100, 100"/>
+			<property name="AITask-1" value="Swim"/>
+			<property name="AITask-2" value="RunawayWhenHurt"/>
+			<property name="AITask-3" value="RunawayFromEntity" data="class=EntityPlayer,EntityZombie,EntityEnemyAnimal"/>
+			<property name="AITask-4" value="Look"/>
+			<property name="AITask-5" value="Wander"/>
 			<property name="IsEnemyEntity" value="false"/>
-			<property name="IsAgressive" value="false" />
-
-			<!-- Since fish are actually birds, we can access some of those features, including flocking -->
+<!--				<property name="IsAgressive" value="false" />
 			<property name="FlockSize" value="0" />
 			<property name="MaxHeight" value="90" />
-			<property name="IsAgressive" value="False" />
-			<property name="FollowPlayer" value="False" />
-
+			<property name="FollowPlayer" value="False" /> -->
 			<property name="SoundRandom" value=""/>
 			<property name="SoundAlert" value="" />
 			<property name="SoundAttack" value="" />
 			<property name="SoundHurt" value="" />
 			<property name="SoundDeath" value="" />
 			<property name="SoundSense" value="" />
+		
+			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="1" />
+			<!-- we'll default drop raw fish items -->
+<!--			<drop event="Harvest" name="Raw Fish" tool_category="Butcher" count="1" /> -->
+			<property name="MaxViewAngle" value="210"/>
+			<property name="SightRange" value="30"/> <!-- distance in m -->
+			<property name="SightLightThreshold" value="-2,150"/>
 
-			<property name="WanderSpeed" value="0.4" />
-			<property name="ApproachSpeed" value="0.8" />
-			<property name="NightWanderSpeed" value="0.4" />
-			<property name="NightApproachSpeed" value="0.9" />
-			<property name="PanicSpeed" value="1.0" />
+			<property name="SleeperWakeupSightDetectionMin" value="-40,5"/> <!-- Indiv.Random. sight capability - "I see you" light value at point blank -->
+			<property name="SleeperWakeupSightDetectionMax" value="340,480"/> <!-- Indiv.Random. "I see you" light value at "SightRange" -->
+			<property name="SleeperSenseSightDetectionMin" value="-10,0"/> <!-- same for groaning, not waking -->
+			<property name="SleeperSenseSightDetectionMax" value="200,300"/>
 
-			<property name="MaxTurnSpeed" value="180"/>
-			<property name="SightRange" value="500"/>
-			<property name="SightScale" value="-5,270"/>
-			<property name="MaxViewAngle" value="180"/>
-			<property name="MaxHealth" value="25" />
-			<property name="ExperienceGain" value="1" />
-			<property name="DeadBodyHitPoints" value="1" />
+			<property name="SleeperNoiseSenseThreshold" value="3,8"/> <!-- Indiv.Random. hearing capability - "I hear something" noise value -->
+			<property name="SleeperNoiseWakeThreshold" value="9,12"/>
 
-			<!-- we'll default drop raw fish items 
-			<drop event="Harvest" name="Raw Fish" tool_category="Butcher" count="1" />
-      -->
+			<property name="SleeperSmellSenseThreshold" value="20,50"/> <!-- Indiv.Random. smell capability - "I smell something" player smell value -->
+			<property name="SoundSleeperSenseChance" value=".5"/> <!-- the chance to play "SoundSleeperSense" when "SleeperSmellSenseThreshold" is triggered -->
+
+			<!-- Gameplay -->
+			<property name="MaxTurnSpeed" value="420"/>
+			<property name="MoveSpeed" value="0.7"/>
+			<property name="MoveSpeedPanic" value="1.6"/>
+			<property name="CanClimbLadders" value="false"/>
+
+			<property name="ExperienceGain" value="245"/>
+			<!-- <property name="CorpseBlock" value="goreBlockAnimal"/><property name="CorpseBlockChance" value="0"/> -->
+			<property name="TimeStayAfterDeath" value="300"/>
+			<property name="DeadBodyHitPoints" value="350"/>
+
+			<effect_group name="Base Effects">
+				<passive_effect name="HealthMax" operation="base_set" value="50"/>
+				<passive_effect name="HealthMax" operation="perc_add" value="0"/> <!-- Animal HP scale -->
+			</effect_group>
+		</entity_class>
+		
+		<entity_class name="fishStingRay" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
+			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="3" />
 		</entity_class>
 
-    <entity_class name="aBarracuda" extends="PassiveFish" >
-      <property name="Class" value="EntitySwimingSDX, Mods" />
-      <property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
-      <property name="AttackAnimations" value="Attack0" />
-      <property name="FlockSize" value="2" />
-    </entity_class>
+		<entity_class name="fishTurtle" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="4" />
+		</entity_class>
 
+		<entity_class name="fishBarracuda" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="2" />
+		</entity_class>
 
-  </append>
+		<entity_class name="fishSardine" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
+		</entity_class>
 
-</configs>
+		<entity_class name="fishClownfish" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, Mods" />
+			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
+			<property name="AttackAnimations" value="Attack0" />
+		</entity_class>
+	</append>
+	
+</configs>		
 
 
 
