@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.0.1.4</mod_version>
+    <mod_version>18.0.1.29</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -142,7 +142,6 @@
     <hash filename="PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
     <hash filename="PatchScripts\EntityAlivePatcher.cs" hash="6514c21529e13e1222ab9c582d60c757" />
     <hash filename="Scripts\Entities\ModGeneralUtilities.cs" hash="0225874d7d53ee5f7f7c82a37dacc5a5" />
-    <hash filename="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" hash="5b87965a478bdd1f1a497b666b90bb3d" />
     <hash filename="Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="6fff47e047b0e7d4fa64cb19efc65da1" />
     <hash filename="Scripts\Blocks\BlockMortSpawner.cs" hash="b705bdd4af89fb626b65c20ad7631e10" />
     <hash filename="Scripts\Blocks\PickUpAndReplace.cs" hash="fcb2d47b499ebc09e35a2dc7fa499b4f" />
@@ -170,7 +169,6 @@
     <hash filename="Harmony\Standard\StompyNZCore.cs" hash="a8a220f8248a49751c9e60dfc8aa4a54" />
     <hash filename="Harmony\UI\DisableXPIconNotification.cs" hash="17bdf3ef4775e690e1f25fc3ec2031dd" />
     <hash filename="Harmony\ZombieFeatures\RandomWalk.cs" hash="df76b207f79be7e7554ec6a37c45e72c" />
-    <hash filename="Scripts\Blocks\BlockPoweredWorkstation.cs" hash="159d0268990936b19698ea1f11b4de7d" />
     <hash filename="Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="11aa0a63777fb8a1139da24e2915f435" />
     <hash filename="Scripts\EAI\EAILootLocationSDX.cs" hash="53a75acde883b52f77201fab00b896ed" />
     <hash filename="Scripts\EAI\EAIMaslowLevel1SDX.cs" hash="6dfac3ca3ff792ef8d0947319b3c95c2" />
@@ -184,7 +182,6 @@
     <hash filename="Scripts\CombineGridSDX.cs" hash="31c8f4cccea001c063b248f2866d0ed7" />
     <hash filename="Scripts\Features\QuickContinue.cs" hash="e20af3f89dd03b2c48e5b7ee2abc724b" />
     <hash filename="Scripts\WorldGen\WinterModPrefab.cs" hash="dfe078613640096589fa7e9f46a192a1" />
-    <hash filename="Config\XUi\xui.xml" hash="dd1b6c7fb0e7e9d27ed0b343290fc23d" />
     <hash filename="Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="Harmony\PrefabFeatures\DisableTraderProtection.cs" hash="47b079e710a37163510d7bf759319339" />
     <hash filename="Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="754a34fb5adc1e477a3d1330f1dba9dc" />
@@ -266,7 +263,14 @@
     <hash filename="Scripts\Features\Configuration.cs" hash="536f99656f0d19ab034b0420faa18fbe" />
     <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="567ff18fbc0350425ec08d18a00922c5" />
     <hash filename="Harmony\PlayerFeatures\CrossHair.cs" hash="aff547b1699b2901bcc5305375760d0a" />
-    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="b0f696bb374ca959c26c04ab809b7efe" />
-    <hash filename="Config\blocks.xml" hash="cf22860ea256b65171fcc4e3d7632681" />
+    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="c2db00a31135c222bbe973d331fe1c22" />
+    <hash filename="PatchScripts\TileEntityPatches.cs" hash="32ac7694c4a7a8a185202ea5f979449f" />
+    <hash filename="Config\blocks.xml" hash="10ee6695915fc63292958781fa9a283d" />
+    <hash filename="Harmony\TileEntities\CustomTileEntities.cs" hash="0a769315a973a2fea19c839b31b7e8c0" />
+    <hash filename="Scripts\Blocks\BlockPoweredWorkstation.cs" hash="ec443713677db2d0d2240d5491f99948" />
+    <hash filename="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" hash="a72a7c8a7f076e12be967d64e9870e34" />
+    <hash filename="Scripts\TileEntities\XUiC_WorkstationPoweredWindowGroup.cs" hash="dacb8b6327ae515758fcd503d4c868d9" />
+    <hash filename="Scripts\TileEntities\XUiM_WorkstationPowered.cs" hash="78eb746944eb48377137a6e262a5d93f" />
+    <hash filename="Config\XUi\xui.xml" hash="dc2cfa338ea0030c4087d489b8a661a7" />
   </hashes>
 </mod>

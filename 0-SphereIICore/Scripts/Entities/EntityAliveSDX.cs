@@ -437,11 +437,14 @@ public class EntityAliveSDX : EntityNPC
         updateTime = Time.time - 2f;
         base.OnUpdateLive();
 
-        // Make the entity sensitive to the environment.
-        // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
+        if(!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+            return;
+        
+            // Make the entity sensitive to the environment.
+            // this.Stats.UpdateWeatherStats(0.5f, this.world.worldTime, false);
 
-        // Check if there's a player within 10 meters of us. If not, resume wandering.
-        emodel.avatarController.SetBool("IsBusy", false);
+            // Check if there's a player within 10 meters of us. If not, resume wandering.
+            emodel.avatarController.SetBool("IsBusy", false);
 
         if(GetAttackTarget() == null || GetRevengeTarget() == null) 
         {
