@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.0.1.29</mod_version>
+    <mod_version>18.0.1.30</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -81,7 +81,6 @@
     <hash filename="Scripts\XUiC_EntityInformationPanelSDX.cs" hash="0e0d956a1013d9757ac625be9c6ecf18" />
     <hash filename="Scripts\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="Scripts\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
-    <hash filename="Scripts\Animation\MecanimSDX.cs" hash="44d8af947a7417a4a0eacaf5c7208f72" />
     <hash filename="Scripts\Buffs\RequirementEveryDawn.cs" hash="b389eb851296af4702966c254e80a6ab" />
     <hash filename="Scripts\Buffs\RequirementEveryXDaySDX.cs" hash="f35b3a51f53c9d76bc0cebbebd28bcdf" />
     <hash filename="Scripts\Buffs\RequirementEveryXHourSDX.cs" hash="09ca8502e267d480d2929a3fa7f8acee" />
@@ -108,12 +107,10 @@
     <hash filename="Scripts\Entities\EntityMoveHelperSDX.cs" hash="b20fe0e217a382369b8e21d6b0aca05f" />
     <hash filename="Scripts\Entities\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
     <hash filename="Scripts\Entities\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
-    <hash filename="Scripts\Entities\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
     <hash filename="Scripts\Entities\EntityWanderingTrader.cs" hash="96ca470d2474555d4da519af822b18bc" />
     <hash filename="Scripts\Entities\EntityZombieCopSDX.cs" hash="f4176b3a642270e9d6197ddd7207b72b" />
     <hash filename="Scripts\Entities\EntityZombieCrawlSDX.cs" hash="86d9d3d17d5a09d4e5c978ebd528b049" />
     <hash filename="Scripts\Entities\EntityZombieFlockSDX.cs" hash="5f603fde3e3dd5bbaad2d27a0dd8aade" />
-    <hash filename="Scripts\Entities\EntityZombieFlyingSDX.cs" hash="83c8eeb8eb03cdf66a8172df72b813ef" />
     <hash filename="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" hash="a806eeca9e5b3999b1dc97fa1c86cb12" />
     <hash filename="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" hash="d198deefad50679503007190b674036d" />
     <hash filename="Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="599fce3a80838d224d783a8c95b1b2a6" />
@@ -143,7 +140,6 @@
     <hash filename="PatchScripts\EntityAlivePatcher.cs" hash="6514c21529e13e1222ab9c582d60c757" />
     <hash filename="Scripts\Entities\ModGeneralUtilities.cs" hash="0225874d7d53ee5f7f7c82a37dacc5a5" />
     <hash filename="Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="6fff47e047b0e7d4fa64cb19efc65da1" />
-    <hash filename="Scripts\Blocks\BlockMortSpawner.cs" hash="b705bdd4af89fb626b65c20ad7631e10" />
     <hash filename="Scripts\Blocks\PickUpAndReplace.cs" hash="fcb2d47b499ebc09e35a2dc7fa499b4f" />
     <hash filename="Scripts\Entities\EntityPlayerLocal.cs" hash="b7bc87a2ba12b978f4be9bc528fe8456" />
     <hash filename="blocks.xml" hash="2a0065bc7f937dbe4f89f170bc0672db" />
@@ -257,20 +253,24 @@
     <hash filename="Harmony\ItemFeatures\DurabilityAffectsDamage.cs" hash="856003d4b5faef8d5e9220504adff047" />
     <hash filename="Harmony\NPCFeatures\EntityNPCFixSpeed.cs" hash="5acb93fc3c34371d123670d0a579424b" />
     <hash filename="Harmony\NPCFeatures\EntityNPCGreetingFix.cs" hash="8cc2276699fc2bab6a8a7599e278aa2d" />
-    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="8f8b7ef265bd057685f0b8d65e0c9471" />
-    <hash filename="Scripts\Entities\EntityUtilities.cs" hash="2b02e8c2ae053ae444d79de4e55e9d35" />
     <hash filename="Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="eee9626594a7200567076063b470c27c" />
     <hash filename="Scripts\Features\Configuration.cs" hash="536f99656f0d19ab034b0420faa18fbe" />
     <hash filename="Harmony\WorldGen\IsSplatmapAvailable.cs" hash="567ff18fbc0350425ec08d18a00922c5" />
     <hash filename="Harmony\PlayerFeatures\CrossHair.cs" hash="aff547b1699b2901bcc5305375760d0a" />
-    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="c2db00a31135c222bbe973d331fe1c22" />
     <hash filename="PatchScripts\TileEntityPatches.cs" hash="32ac7694c4a7a8a185202ea5f979449f" />
-    <hash filename="Config\blocks.xml" hash="10ee6695915fc63292958781fa9a283d" />
     <hash filename="Harmony\TileEntities\CustomTileEntities.cs" hash="0a769315a973a2fea19c839b31b7e8c0" />
-    <hash filename="Scripts\Blocks\BlockPoweredWorkstation.cs" hash="ec443713677db2d0d2240d5491f99948" />
-    <hash filename="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" hash="a72a7c8a7f076e12be967d64e9870e34" />
     <hash filename="Scripts\TileEntities\XUiC_WorkstationPoweredWindowGroup.cs" hash="dacb8b6327ae515758fcd503d4c868d9" />
     <hash filename="Scripts\TileEntities\XUiM_WorkstationPowered.cs" hash="78eb746944eb48377137a6e262a5d93f" />
-    <hash filename="Config\XUi\xui.xml" hash="dc2cfa338ea0030c4087d489b8a661a7" />
+    <hash filename="Config\blocks.xml" hash="cf22860ea256b65171fcc4e3d7632681" />
+    <hash filename="Config\XUi\xui.xml" hash="dd1b6c7fb0e7e9d27ed0b343290fc23d" />
+    <hash filename="Harmony\UI\UnlockEnemyHealthBar.cs" hash="3d57ebf994b682373c334f931434e695" />
+    <hash filename="Scripts\Animation\MecanimSDX.cs" hash="1a15f0e64b41dbed36ac68ede35a824a" />
+    <hash filename="Scripts\Blocks\BlockMortSpawner.cs" hash="851e3cc89006384eb03e51bdab011cbe" />
+    <hash filename="Scripts\Blocks\BlockPoweredWorkstation.cs" hash="159d0268990936b19698ea1f11b4de7d" />
+    <hash filename="Scripts\Entities\EntityAliveSDX.cs" hash="a55cc7a5ce3bd5f5e0a308036b0569cb" />
+    <hash filename="Scripts\Entities\EntitySwimingSDX.cs" hash="29fe24d7b16b94d8c60b4e185b5948d3" />
+    <hash filename="Scripts\Entities\EntityUtilities.cs" hash="ed6fa9b4387e1007a687d04f0af27956" />
+    <hash filename="Scripts\Entities\EntityZombieFlyingSDX.cs" hash="6e232d5c8594aeb3c36b0304d5cf2c3e" />
+    <hash filename="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" hash="5b87965a478bdd1f1a497b666b90bb3d" />
   </hashes>
 </mod>

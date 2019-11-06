@@ -1,0 +1,8 @@
+﻿<configs>
+  <!-- We want to add a new biome spawning group for water, so the game will automatically spawn water entities in there -->
+  <append xpath="/spawning">
+    <biome name="water">
+      <spawn maxcount="20"  time="Any" entitygroup="AnimalSwiming" />
+    </biome>
+  </append>
+</configs>

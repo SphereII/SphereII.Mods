@@ -19,7 +19,7 @@
     <author>sphereii</author>
     <name>SphereII A Better Life</name>
     <description>Introduces birds, fish, and other small animals into the world.</description>
-    <mod_version>18.1.0.1</mod_version>
+    <mod_version>18.0.1.8</mod_version>
     <game_version>18</game_version>
     <launcher_version />
   </info>
@@ -27,7 +27,6 @@
     <dependency>0-SphereIICore</dependency>
   </dependencies>
   <hashes>
-    <hash filename="Config\entityclasses.xml" hash="e1245fd58fbdbb50eccf7a02e47ed0e1" />
     <hash filename="ItemIcons\Boiled Fish.png" hash="ba11d4566cd8196a9b2b5016218b15d8" />
     <hash filename="ItemIcons\Charred Fish.png" hash="0cb1b49efa3baabcf944235459a44763" />
     <hash filename="ItemIcons\Grilled Fish.png" hash="f971ad599209db23f846a3fce5a3ff5d" />
@@ -41,7 +40,6 @@
     <hash filename="Resources\Clownfish.unity3d" hash="4de7cb413ee09d9c23612f59e1b84805" />
     <hash filename="Resources\Eagle.unity3d" hash="5408e12b6db69d67e85fa0d6a3f2dde8" />
     <hash filename="Resources\Falcon.unity3d" hash="7768f6297ae2cf07e88eb8c644a161cc" />
-    <hash filename="Resources\FalconSounds.unity3d" hash="1b10a7702c22ba9e8d0bdb188022b2c7" />
     <hash filename="Resources\Fanplant.unity3d" hash="cc58005564491a16a1a9a10c3058afd3" />
     <hash filename="Resources\Fish.unity3d" hash="c1128a69cdcc5a963c961a6032916e85" />
     <hash filename="Resources\FishParticles.unity3d" hash="7e6df816ffffb66e6373486776e7a20d" />
@@ -52,7 +50,6 @@
     <hash filename="Resources\Pavonica.unity3d" hash="3b28088440605dae49536704ab36180b" />
     <hash filename="Resources\Pike.unity3d" hash="668c9bcfa79bff5a14e23a052112e8db" />
     <hash filename="Resources\Robin.unity3d" hash="dc27c3ed03c7b39381d0634c313c55a6" />
-    <hash filename="Resources\RobinSounds.unity3d" hash="7482696fa415b20eb807d1433e9f0dff" />
     <hash filename="Resources\RustyBucket.unity3d" hash="5cadc2815eb00459f51ef109cddc7b01" />
     <hash filename="Resources\RustyCar01.unity3d" hash="f22ec677b02aa62fbdf337e35930d94c" />
     <hash filename="Resources\Sardine.unity3d" hash="881f61c71f7ed2a9f7781f4d019a0b18" />
@@ -61,7 +58,6 @@
     <hash filename="Resources\SeaWeed.unity3d" hash="157db33c475e9b4983f0834b1c80a77e" />
     <hash filename="Resources\Stingray.unity3d" hash="01475c5c92c32e800ef1e9210dffc260" />
     <hash filename="Resources\Stipa.unity3d" hash="0527b646e92d18cf9064f91d7bb4ee8e" />
-    <hash filename="Resources\Swimmers.unity3d" hash="98812a05aecc606656409931dd868719" />
     <hash filename="Resources\Syringodium.unity3d" hash="455f87babe3b2ba78fb001ec6e927277" />
     <hash filename="Resources\Thalassia.unity3d" hash="cb63babddf4564e6dc05375d49af5f7d" />
     <hash filename="Resources\Turtle.unity3d" hash="d06c7d494fdacb19cc60595823b20444" />
@@ -76,5 +72,19 @@
     <hash filename="UIAtlases\ItemIconAtlas\Charred Fish.png" hash="0cb1b49efa3baabcf944235459a44763" />
     <hash filename="UIAtlases\ItemIconAtlas\Grilled Fish.png" hash="f971ad599209db23f846a3fce5a3ff5d" />
     <hash filename="UIAtlases\ItemIconAtlas\Raw Fish.png" hash="06695f7c1c45bc07ae1961bf7ca2105b" />
+    <hash filename="Resources\BatSounds.unity3d" hash="004fedda5dc6a2e95560f8d32bdef2d9" />
+    <hash filename="Resources\CrowSounds.unity3d" hash="e48a4442a55bafa0605f24e8fcac71e3" />
+    <hash filename="Resources\FalconSounds.unity3d" hash="623c299580e437249a072c26a9ebba07" />
+    <hash filename="Resources\FlyingBirds.unity3d" hash="85c9019f472d11127c0d23e67462e47d" />
+    <hash filename="Resources\RobinSounds.unity3d" hash="0ab5b30aa7bd61f4e5c7535ce2c4b532" />
+    <hash filename="Resources\Swimmers.unity3d" hash="f61c7f7fa0b155f9b4060d16b3708bf2" />
+    <hash filename="Resources\Wyvern.unity3d" hash="d168edde0e91a98408fd266faebbe6fd" />
+    <hash filename="Resources\WyvernSounds.unity3d" hash="545288ecd4c59e3d95f23c2d9fd52dea" />
+    <hash filename="Config\entityclasses.xml" hash="b29d9abec05edac5e147661999ca3803" />
+    <hash filename="Config\spawning.xml" hash="303ad10b9c36cbb6382714bdc77ad972" />
+    <hash filename="Config\biomes.xml" hash="ac8c1643a58413c1ec786a46500d9eaf" />
+    <hash filename="Config\entitygroups.xml" hash="5f6ad579e9c93f068f8357b306c20f89" />
+    <hash filename="Config\items.xml" hash="54a4808ee09b492f0695b83f687aed4c" />
+    <hash filename="Config\blocks.xml" hash="30f98908fb392d1f229f05650a617397" />
   </hashes>
 </mod>

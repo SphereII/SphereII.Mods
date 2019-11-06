@@ -1,0 +1,25 @@
+﻿<configs>
+ 
+  <!-- Under water scenes look boring and bleak with sand -->
+  <set xpath="/worldgeneration/biomes/biome[@name='water']/@topsoil_block">terrClay</set>
+
+  <set xpath="/worldgeneration/biomes/biome[@name='water']/subbiome/layers/layer[@blockname='terrSand']/@blockname">terrClay</set>
+  <set xpath="/worldgeneration/biomes/biome[@name='water']/layers/layer[@blockname='terrSand']/@blockname">terrClay</set>
+
+  <!-- We want to set down terrain decovrations as resources for the water. In order to pull this off, we need to change -->
+  <!-- the layer to 1, and spawn the blocks up -->
+  <set xpath="/worldgeneration/biomes/biome[@name='water']/subbiome/layers//layer[1]/@depth">1</set>
+
+  <!-- main biome layer for water has a fillupto for it's first layer, so we need to go with layer 2 to get it.-->
+  <set xpath="/worldgeneration/biomes/biome[@name='water']/layers/layer[2]/@depth">1</set>
+
+  <append xpath="/worldgeneration/biomes/biome[@name='water']//layers/layer[@depth][1]">
+    <resource blockname="terrGravel" prob="0.6500" rwgGenerationType="all" cluster="0"/>
+  </append>
+
+  <append xpath="/worldgeneration/biomes/biome[@name='water']//decorations" >
+    <decoration type="block" blockname="terrWaterSpawner" prob="0.8" rotatemax="4" />
+  </append>
+  </configs>
+
+

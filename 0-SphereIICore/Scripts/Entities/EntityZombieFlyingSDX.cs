@@ -94,9 +94,11 @@ internal class EntityZombieFlyingSDX : EntityFlying
     {
         base.Init(_entityClass);
         this.emodel.SetVisible(true, true);
-        base.getNavigator().setCanDrown(true);
-        base.getNavigator().setInWater(false);
-
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            base.getNavigator().setCanDrown(true);
+            base.getNavigator().setInWater(false);
+        }
         // Sets the hand value, so we can give our entities ranged weapons.
         inventory.SetSlots(new[]
         {
@@ -305,9 +307,10 @@ internal class EntityZombieFlyingSDX : EntityFlying
     {
         var entityClass = EntityClass.list[this.entityClass];
         base.CopyPropertiesFromEntityClass();
-
-        this.aiManager.CopyPropertiesFromEntityClass(entityClass);
-
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            this.aiManager.CopyPropertiesFromEntityClass(entityClass);
+        }
         return;
     }
     //    var num = 1;

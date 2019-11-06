@@ -1,0 +1,44 @@
+﻿<configs>
+  <append xpath="/blocks">
+    <block name="terrClay">
+      <property name="CreativeMode" value="None"/>
+      <property name="Material" value="MresourceClayLump"/>
+      <property name="LPHardnessScale" value="2"/>
+      <property name="Shape" value="Terrain"/>
+      <property name="Mesh" value="terrain"/>
+      <property name="Texture" value="301,570,570,570,570,570"/>
+      <property name="ImposterExclude" value="true"/>
+      <property class="RepairItems">
+        <property name="resourceClayLump" value="30"/>
+      </property>
+      <drop event="Harvest" name="resourceClayLump" count="30" tag="oreWoodHarvest"/>
+      <drop event="Destroy" name="resourceYuccaFibers" count="1"/>
+      <drop event="Fall" name="resourceClayLump" count="30" prob="0.5" stick_chance="0"/>
+      <property name="CanMobsSpawnOn" value="true"/>
+      <property name="Map.Color" value="107,78,57"/>
+      <property name="EconomicValue" value="5"/>
+      <property name="EconomicBundleSize" value="1"/>
+      <property name="SellableToTrader" value="false"/>
+      <property name="FilterTags" value="fterrain"/>
+      <property name="SortOrder1" value="d0l0"/>
+      <property name="SortOrder2" value="0050"/>
+      <property name="DisplayType" value="blockTerrain"/>
+    </block>
+
+    <block name="terrWaterSpawner">
+        <property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
+        <property name="CustomIcon" value="metalTrussingRampOld"/>
+        <property name="CreativeMode" value="Dev"/>
+        <property name="Class" value="SpawnEntity"/>
+        <property name="StabilitySupport" value="false"/>
+        <property name="Shape" value="ModelEntity"/>
+        <property name="Mesh" value="models"/>
+        <property name="Model" value="Entities/Electrical/battery_bankPrefab"/>
+        <property name="HandleFace" value="Bottom"/>
+        <property name="SpawnClass" value="fishStingRay,fishTurtle,fishBarracuda,fishSardine,fishClownfish"/>
+        <property name="FilterTags" value="fdesign"/>
+        <property name="Collide" value="sight"/>
+    </block>
+  </append>
+
+</configs>

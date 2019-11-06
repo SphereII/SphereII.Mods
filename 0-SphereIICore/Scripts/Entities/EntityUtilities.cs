@@ -8,6 +8,7 @@ using UnityEngine;
 public static class EntityUtilities
 {
     static bool blDisplayLog = false;
+    private static string AdvFeatureClass = "AdvancedNPCFeatures";
 
     public static void DisplayLog(string strMessage)
     {
@@ -360,7 +361,9 @@ public static class EntityUtilities
 
     public static bool ExecuteCMD(int EntityID, String strCommand, EntityPlayer player)
     {
-        DisplayLog("ExecuteCMD: " + strCommand);
+        String strDisplay = "ExecuteCMD( " + strCommand + " ) to " + EntityID + " From " + player.DebugName;
+        AdvLogging.DisplayLog(AdvFeatureClass, strDisplay);
+
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if(myEntity == null)
             return false;
@@ -375,62 +378,95 @@ public static class EntityUtilities
         switch(strCommand)
         {
             case "TellMe":
-                //XUiC_TipWindow.ShowTip(myEntity.ToString(), XUiM_Player.GetPlayer() as EntityPlayerLocal,null);
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
-                // uiforPlayer.windowManager.Open("EntityInformation", true, false, true);
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
                 break;
             case "FollowMe":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Leader");
                 SetLeader(EntityID, player.entityId);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Follow);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Adjusting Speeds");
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
-
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
                 break;
             case "StayHere":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Stay);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Position");
                 myEntity.GuardPosition = position;
-                myEntity.moveHelper.Stop();
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
+                if ( myEntity.moveHelper != null) // No move helper on the client when on Dedi
+                    myEntity.moveHelper.Stop();
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
+
                 break;
             case "GuardHere":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Stay);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Look Direction");
+
                 myEntity.SetLookPosition(player.GetLookVector());
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Position");
+
                 myEntity.GuardPosition = position;
-                myEntity.moveHelper.Stop();
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
+
+                if (myEntity.moveHelper != null) // No move helper on the client when on Dedi
+                    myEntity.moveHelper.Stop();
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Guard Look");
                 myEntity.GuardLookPosition = player.GetLookVector();
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
+
                 break;
             case "Wander":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Wander);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
+
                 break;
             case "SetPatrol":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetLeader(EntityID, player.entityId);
                 SetCurrentOrder(EntityID, Orders.SetPatrolPoint);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Move Speed");
                 myEntity.moveSpeed = player.moveSpeed;
                 myEntity.moveSpeedAggro = player.moveSpeedAggro;
-                myEntity.PatrolCoordinates.Clear(); // Clear the existing point.
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Resetting Patrol Points");
+
+                myEntity.PatrolCoordinates.Clear(); // Clear the existing point
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
+
                 break;
             case "Patrol":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order");
                 SetCurrentOrder(EntityID, Orders.Patrol);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
+
                 break;
             case "Hire":
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Hire ");
                 bool result = Hire(EntityID, player as EntityPlayerLocal);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Hire");
+
                 break;
             case "OpenInventory":
-                GameManager.Instance.TELockServer(0, myEntity.GetBlockPosition(), EntityID, player.entityId);
-                uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+                AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order Open Inventory");
+
+          //      GameManager.Instance.TELockServer(0, myEntity.GetBlockPosition(), EntityID, player.entityId);
+         //       uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
                 if(myEntity.lootContainer == null)
-                    DisplayLog(" Loot Container is null");
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container is null");
+
                 else
                 {
-
-                    DisplayLog(" Get Open Time");
-                    DisplayLog("Loot Container: " + myEntity.lootContainer.ToString());
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + myEntity.lootContainer.ToString() );
                     myEntity.lootContainer.lootListIndex = 62;
-                    DisplayLog(" Loot List: " + myEntity.lootContainer.lootListIndex);
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Loot Container");
 
-                    DisplayLog(myEntity.lootContainer.GetOpenTime().ToString());
                     lootContainerOpened(myEntity.lootContainer, uiforPlayer, player.entityId);
                 }
                 break;
