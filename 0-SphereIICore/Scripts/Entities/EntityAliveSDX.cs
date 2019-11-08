@@ -62,6 +62,10 @@ public class EntityAliveSDX : EntityNPC
         return flEyeHeight;
     }
 
+    public override void SetModelLayer(int _layerId, bool _force = false)
+    {
+        //Utils.SetLayerRecursively(this.emodel.GetModelTransform().gameObject, _layerId);
+    }
     // Over-ride for CopyProperties to allow it to read in StartingQuests.
     public override void CopyPropertiesFromEntityClass()
     {

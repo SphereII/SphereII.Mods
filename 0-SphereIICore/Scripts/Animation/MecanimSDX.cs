@@ -154,6 +154,11 @@ class MecanimSDX : AvatarController
             timeAttackAnimationPlaying -= Time.deltaTime;
         }
 
+        if(!this.m_bVisible && (this.entity == null || !this.entity.RootMotion || this.entity.isEntityRemote))
+        {
+            return;
+        }
+
         // No need to proceed if the model isn't initialized.
         if(bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy)
         {
