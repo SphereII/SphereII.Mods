@@ -5,10 +5,10 @@ using UnityEngine;
 // Disables the Eating animation
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
-    private bool isTargetToEat = false;
-    private Vector3 entityTargetPos;
-    public EntityAlive entityTarget;
-    private Vector3 entityTargetVel;
+  //  private bool isTargetToEat = false;
+   // private Vector3 entityTargetPos;
+   // public EntityAlive entityTarget;
+  //  private Vector3 entityTargetVel;
     private bool isGoingHome;
 
     private float homeTimeout;
@@ -19,7 +19,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     private int relocateTicks;
     private float maxChaseTime;
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
    // private EntityAlive entityTarget;
 
     public void DisplayLog(String strMessage)
@@ -93,23 +93,23 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     //    }
     //    return true;// base.CanExecute();
     //}
-    //public override bool Continue()
-    //{
-    //    if (this.theEntity.sleepingOrWakingUp || this.theEntity.bodyDamage.CurrentStun != global::EnumEntityStunType.None)
-    //    {
-    //        return false;
-    //    }
-    //    EntityAlive attackTarget = this.theEntity.GetAttackTarget();
+    public override bool Continue()
+    {
+        if(this.theEntity.sleepingOrWakingUp || this.theEntity.bodyDamage.CurrentStun != global::EnumEntityStunType.None)
+        {
+            return false;
+        }
+        EntityAlive attackTarget = this.theEntity.GetAttackTarget();
 
-    //    if (attackTarget)
-    //        if (!attackTarget.IsAlive())
-    //            return false;
+        if(attackTarget)
+            if(!attackTarget.IsAlive())
+                return false;
 
-    //    if (this.isGoingHome)
-    //    {
-    //        return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
-    //    }
-    //    return attackTarget && !(attackTarget != this.entityTarget);
-    //}
+        if(this.isGoingHome)
+        {
+            return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
+        }
+        return attackTarget && !(attackTarget != this.entityTarget);
+    }
 }
 
