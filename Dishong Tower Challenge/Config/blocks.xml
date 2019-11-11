@@ -1,0 +1,25 @@
+﻿<configs>
+  <append xpath="/blocks/block[starts-with(@name, 'spotlight')]">
+    <drop event="Harvest" name="resourceHeadlight" count="1" tag="salvageHarvest"/>
+    <drop event="Harvest" name="carBattery" count="1" prob="0.25" tag="salvageHarvest"/>
+  </append>
+
+  <append xpath="/blocks/block[@name='airConditioner']">
+    <drop event="Harvest" name="smallEngine" count="1" tag="salvageHarvest"/>
+  </append>
+
+
+  <append xpath="/blocks/block[@name='workLightPOI']">
+    <drop event="Harvest" name="resourceHeadlight" count="1" prob="0.25" tag="salvageHarvest"/>
+    <drop event="Harvest" name="carBattery" count="1" prob="0.10" tag="salvageHarvest"/>
+  </append>
+  
+  <append xpath="/blocks/block[@name='treeMaster']">
+    <drop event="Harvest" name="resourceYuccaFibers" count="30" tag="oreWoodHarvest"/>
+  </append>
+
+  <append xpath="/blocks/block[@name='treePlant02']">
+    <drop event="Harvest" name="resourceYuccaFibers" count="3" tag="oreWoodHarvest"/>
+    <drop event="Harvest" name="resourceClayLump" count="3" tag="oreWoodHarvest"/>
+  </append>
+</configs>

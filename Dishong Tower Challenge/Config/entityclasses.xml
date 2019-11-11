@@ -1,0 +1,24 @@
+﻿<configs>
+  <set xpath="//entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">drinkJarBoiledWater,foodCanChili,medicalFirstAidBandage,meleeToolTorch,meleeToolStoneAxe,armorMiningHelmet,modArmorHelmetLight</set>
+
+  <append xpath="//entity_class[starts-with(@name, 'zombieFemaleFat')]">
+    <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
+    <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
+    <property name="DeadBodyHitPoints" value="100"/>
+
+  </append>
+
+  <append xpath="//entity_class[starts-with(@name, 'zombieFatHawaiian')]">
+    <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
+    <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
+    <property name="DeadBodyHitPoints" value="100"/>
+
+  </append>
+
+  <append xpath="//entity_class[starts-with(@name, 'zombieMoe')]">
+    <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
+    <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
+    <property name="DeadBodyHitPoints" value="100"/>
+
+  </append>
+</configs>

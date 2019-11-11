@@ -1,0 +1,6 @@
+Key,Source,Context,Changes,English
+tutorialTipQuest01,,Journal,EnChanged,"Welcome to the Dishong Tower Challenge.\n\nFight your way up the top of the tower, looting and crafting everything you need to craft a gyrocopter to make your escape from the top. \nFailure is not an option. You have one life. Make it count."
+tutorialTipQuest01_title,,Journal,KeyTrunk FrNone GrNone KgNone SpNone,Started The Dishong Tower Challenge
+quest_DishongTower,,Quest Info,Reordered,Starting the Dishong Tower Challenge
+quest_DishongTower_description,,Quest Info,Reordered,"Fight and loot your way to the top of the Dishong Tower, crafting and looting your way to a gyrocopter."
+quest_DishongTower_subtitle,,Quest Info,Reordered,Complete the Dishong Tower Challenge

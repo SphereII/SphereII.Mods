@@ -1,0 +1,14 @@
+﻿<configs>
+  <append xpath="/recipes">
+    <recipe name="resourceCoal" count="1" craft_area="campfire" craft_time="40" >
+      <ingredient name="resourceWood" count="5"/>
+    </recipe>
+  </append>
+
+  <!-- reduce requirements for some scarced resources -->
+  <set xpath="/recipes/recipe[@name='resourceGlue' and @craft_area='campfire']/ingredient[@name='resourceBone']/@count">4</set>
+  <set xpath="/recipes/recipe[@name='resourceGlue' and @craft_area='chemistryStation']/ingredient[@name='resourceBone']/@count">2</set>
+  <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='foodRottingFlesh']/@count">5</set>
+  <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='resourcePotassiumNitratePowder']/@count">5</set>
+
+</configs>
