@@ -1,0 +1,4 @@
+Key,Source,Context,Changes,English
+quest_curseSamaraMorgan,,Quest Info,Reordered,"You weren't supposed to help her."
+quest_curseSamaraMorgan_description,,Quest Info,Reordered,"Here we go, the world is spinning. When it stops, it's just beginning. Sun comes up, we all laugh. Sun goes down, we all die..."
+quest_curseSamaraMorgan_subtitle,,Quest Info,Reordered,"7 Days"

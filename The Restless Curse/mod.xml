@@ -1,0 +1,15 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>The Restless Curse</name>
+    <description>Ancient Spirits are active in the apocalypse. Beware their Curse.</description>
+    <mod_version>18.1.0.1</mod_version>
+    <game_version>17</game_version>
+    <launcher_version>
+    </launcher_version>
+  </info>
+  <dependencies>
+    <dependency>0-SphereIICore</dependency>
+  </dependencies>
+ 
+</mod>

@@ -1,0 +1,21 @@
+﻿<configs>
+  <append xpath="/items">
+    <item name="curseSamaraMorgan">
+        <property name="Extends" value="schematicMaster" />
+        <property name="CreativeMode" value="Player" />
+        <property name="CustomIcon" value="meleeClubIron" />
+      <property class="Action0">
+        <property name="Class" value="Quest" />
+        <property name="QuestGiven" value="quest_curseSamaraMorgan" />
+        <property name="Delay" value="0.5" />
+        <property name="UseAnimation" value="false" />
+        <property name="Use_time" value="..." />
+      </property>
+        <effect_group tiered="false">
+          <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffcurseSamaraMorgan_Start"/>
+        </effect_group>
+      </item>
+    
+
+  </append>
+</configs>

@@ -1,0 +1,17 @@
+﻿<configs>
+  <append xpath="/buffs">
+    <buff name="buffcurseSamaraMorgan_Start" >
+      <damage_type value="Dehydration"/>
+      <stack_type value="ignore"/>
+      <duration value="60" />
+      <effect_group name="Exit Buffs">
+        <triggered_effect trigger="onSelfBuffFinish" action="AddBuff" target="self" buff="buffcurseSamaraMorgan_End" />
+      </effect_group>
+    </buff>
+    <buff name="buffcurseSamaraMorgan_End" >
+      <damage_type value="Dehydration"/>
+      <stack_type value="ignore"/>
+      <duration value="0" />
+    </buff>
+  </append>
+</configs>
