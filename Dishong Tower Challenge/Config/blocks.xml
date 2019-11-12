@@ -18,8 +18,10 @@
     <drop event="Harvest" name="resourceYuccaFibers" count="30" tag="oreWoodHarvest"/>
   </append>
 
-  <append xpath="/blocks/block[@name='treePlant02']">
+  <append xpath="/blocks/block[@name='treePlant02']">  <!-- Potted Plant -->
     <drop event="Harvest" name="resourceYuccaFibers" count="3" tag="oreWoodHarvest"/>
     <drop event="Harvest" name="resourceClayLump" count="3" tag="oreWoodHarvest"/>
+    <drop event="Harvest" name="treePlantedOak1m" count="1" prob="0.1" tag="allHarvest"/>
+
   </append>
 </configs>
