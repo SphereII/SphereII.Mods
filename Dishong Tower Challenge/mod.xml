@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>Dishong Tower Challenge</name>
     <description>Tweaks by MidngithDesigner to make the Dishong Tower Challenge Possible</description>
-    <mod_version>18.1.1.2</mod_version>
+    <mod_version>18.1.1.4</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -52,6 +52,6 @@
     <hash filename="D:\Github\SphereII.Mods/Dishong Tower Challenge/Worlds\Dishong Tower Challenge\splat3_processed.tga" hash="cba234346b9e3bc8b9623df8a63f228a" />
     <hash filename="D:\Github\SphereII.Mods/Dishong Tower Challenge/Worlds\Dishong Tower Challenge\splat4_processed.tga" hash="d5dde3d0bc589ac385f05dcba4a7a511" />
     <hash filename="D:\Github\SphereII.Mods/Dishong Tower Challenge/Worlds\Dishong Tower Challenge\water_info.xml" hash="518854bc0cc638532a03a896067c251b" />
-    <hash filename="D:\Github\SphereII.Mods/Dishong Tower Challenge/Config\recipes.xml" hash="e4fc3d8c121787e880a7c6c9fe9e25fc" />
+    <hash filename="D:\Github\SphereII.Mods/Dishong Tower Challenge/Config\recipes.xml" hash="42ee33dde55557d2623bae339a50183d" />
   </hashes>
 </mod>
