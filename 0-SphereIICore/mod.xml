@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.1.1.2</mod_version>
+    <mod_version>18.1.1.6</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -385,10 +385,10 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\SoundDataNodeIndexer.cs" hash="83173c3c3d5c9e5cd7d6f92d0157865c" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="279f57f3e23785d05b647b139642aa66" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="f1dcf04e740cc14b5b66e7bab9a39037" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MusicBoxes\MusicBox.cs" hash="08742174e0ae0fa7bec0a9f3a969a80b" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="6858872aed2929812599d250c125c0c5" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\SoundData\SoundDataNodeClass.cs" hash="e9b36dc431f4096c6e6a8e61ff4073ab" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="90b4d828e30cdf96bf744668b07e0e8b" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="446c2c1e611105e41c0ae74510676aca" />
   </hashes>
 </mod>

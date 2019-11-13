@@ -7,7 +7,7 @@ using UnityEngine;
 public class SphereII_GiveBuffOrQuestBySound
 {
     private static string AdvFeatureClass = "AdvancedSoundFeatures";
-    public static void CheckForBuffOrQuest(Audio.Manager __instance, string soundGroupName, Vector3 position)
+    public static void CheckForBuffOrQuest( string soundGroupName, Vector3 position)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "Searching for " + soundGroupName);
 
@@ -25,21 +25,20 @@ public class SphereII_GiveBuffOrQuestBySound
 
             if(data.Buff != null)
             {
-                AdvLogging.DisplayLog(AdvFeatureClass, ": Found Buff for Sound Node: " + data.Buff.Name);
-                EntityUtilities.AddBuffToRadius(data.Buff.Name, position, Radius);
+                AdvLogging.DisplayLog(AdvFeatureClass, ": Found Buff for Sound Node: " + data.Buff);
+                EntityUtilities.AddBuffToRadius(data.Buff, position, Radius);
             }
             AdvLogging.DisplayLog(AdvFeatureClass, "Scanning for quest");
             if(data.Quest != null)
             {
-                AdvLogging.DisplayLog(AdvFeatureClass, "Adding Quest " + data.Quest.ID + " to surrounding entities");
-                EntityUtilities.AddQuestToRadius(data.Quest.ID, position, Radius);
+                AdvLogging.DisplayLog(AdvFeatureClass, "Adding Quest " + data.Quest + " to surrounding entities");
+                EntityUtilities.AddQuestToRadius(data.Quest, position, Radius);
             }
         }
         return ;
     }
 }
 
-// This class populates a static variable that will help us link Sound Data with Buff / Quests.
 [HarmonyPatch(typeof(Audio.Manager))]
 [HarmonyPatch("Play")]
 [HarmonyPatch(new Type[] { typeof(Vector3), typeof(string), typeof(int) })]
@@ -52,14 +51,13 @@ public class SphereII_Audio_Manager_Play
             return true;
 
         if(xmlData.Update())
-            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(__instance, soundGroupName,position);
+            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGroupName,position);
         return true;
     }
 }
 
 
 
-// This class populates a static variable that will help us link Sound Data with Buff / Quests.
 [HarmonyPatch(typeof(Audio.Manager))]
 [HarmonyPatch("Play")]
 [HarmonyPatch(new Type[] { typeof(Entity), typeof(string), typeof(float), typeof(bool) })]
@@ -75,26 +73,46 @@ public class SphereII_Audio_Server_Play
             return true;
 
         if(xmlData.Update())
-            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(__instance, soundGroupName, entity.position);
+            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest( soundGroupName, entity.position);
         return true;
     }
 }
 
-//// This class populates a static variable that will help us link Sound Data with Buff / Quests.
-//[HarmonyPatch(typeof(Audio.Manager))]
-//[HarmonyPatch("Play")]
-//[HarmonyPatch(new Type[] { typeof(Vector3), typeof(string), typeof(int) })]
-//public class SphereII_GiveBuffOrQuestBySound_Play2
-//{
-//    private static string AdvFeatureClass = "AdvancedSoundFeatures";
+[HarmonyPatch(typeof(Audio.Client))]
+[HarmonyPatch("Play")]
+[HarmonyPatch(new Type[] { typeof(int), typeof(string), typeof(float) })]
+public class SphereII_Audio_Client_Play_1
+{
+    static bool Prefix(int playOnEntityId, string soundGoupName, float _occlusion)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(playOnEntityId) as EntityAlive;
+        if (myEntity == null)
+            return true;
 
-//    static bool Prefix(Audio.Manager __instance, Entity ___localPlayer, Vector3 position, string soundGroupName, int entityId = -1)
-//    {
-//        // Sound system may not be initialized yet
-//        if(___localPlayer == null)
-//            return true;
-//        SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(__instance, soundGroupName, ___localPlayer as EntityPlayerLocal);
+        XmlData xmlData;
+        if (!Manager.audioData.TryGetValue(soundGoupName, out xmlData))
+            return true;
 
-//        return true;
-//    }
-//}
+        if (xmlData.Update())
+            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGoupName, myEntity.position);
+        return true;
+    }
+}
+
+
+[HarmonyPatch(typeof(Audio.Client))]
+[HarmonyPatch("Play")]
+[HarmonyPatch(new Type[] { typeof(Vector3), typeof(string), typeof(float), typeof(int) })]
+public class SphereII_Audio_Client_Play_2
+{
+    static bool Prefix( Vector3 position, string soundGoupName)
+    {
+        XmlData xmlData;
+        if (!Manager.audioData.TryGetValue(soundGoupName, out xmlData))
+            return true;
+
+        if (xmlData.Update())
+            SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGoupName, position);
+        return true;
+    }
+}
