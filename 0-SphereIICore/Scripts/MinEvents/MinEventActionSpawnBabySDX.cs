@@ -2,11 +2,19 @@
 using System.Xml;
 using UnityEngine;
 
-//         <triggered_effect trigger = "onSelfBuffFinish" action="SpawnBabySDX, Mods" target="self" SpawnGroup="farmAnimalsCow" />
+//         <triggered_effect trigger = "onSelfBuffFinish" action="SpawnBabySDX, Mods" target="self" SpawnGroup="farmAnimalsCow" Cvar="Mother" />
+//         <triggered_effect trigger = "onSelfBuffFinish" action="SpawnEntitySDX, Mods" target="self" SpawnGroup="farmAnimalsCow" Cvar="Mother" />
 
-public class MinEventActionSpawnBabySDX : MinEventActionRemoveBuff
+    // Dummy class to preserve backwards compatibility
+public class MinEventActionSpawnBabySDX : MinEventActionSpawnEntitySDX
+{
+
+}
+public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
 {
     string strSpawnGroup = "";
+    string strCvar = "Mother";
+
     public override void Execute(MinEventParams _params)
     {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -14,9 +22,11 @@ public class MinEventActionSpawnBabySDX : MinEventActionRemoveBuff
 
         for (int j = 0; j < this.targets.Count; j++)
         {
-            EntityAliveSDX entity = this.targets[j] as EntityAliveSDX;
+            Debug.Log("SpawnBabySDX()");
+            EntityAlive entity = this.targets[j] as EntityAlive;
             if (entity)
             {
+                Debug.Log("SpawnBabySDX(): Is an EntityAlive");
                 int EntityID = entity.entityClass;
 
                 // If the group is set, then use it.
@@ -28,24 +38,26 @@ public class MinEventActionSpawnBabySDX : MinEventActionRemoveBuff
                 Vector3 transformPos;
                 entity.world.GetRandomSpawnPositionMinMaxToPosition(entity.position, 2, 6, 2, true, out transformPos, false);
 
-                Entity NewEntity = EntityFactory.CreateEntity(EntityID, transformPos, entity.rotation);
+                Entity NewEntity = EntityFactory.CreateEntity(EntityID, transformPos, entity.rotation) as Entity;
                 if (NewEntity)
                 {
                     NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
                     GameManager.Instance.World.SpawnEntityInWorld(NewEntity);
                     Debug.Log("An entity was created: " + NewEntity.ToString());
-                    if (NewEntity is EntityAliveSDX)
+                    if (NewEntity is EntityAlive)
                     {
-                        Debug.Log("Setting Mother ID to Baby: " + entity.entityId + " for " + NewEntity.entityId);
-                        (NewEntity as EntityAliveSDX).Buffs.SetCustomVar("Mother", entity.entityId, true);
+                        Debug.Log("Setting " + this.strCvar + " ID to: " + entity.entityId + " for " + NewEntity.entityId);
+                        ( NewEntity as EntityAlive).Buffs.SetCustomVar( strCvar, entity.entityId, true);
                     }
                 }
                 else
                 {
-                    Debug.Log(" Could not Spawn baby for: " + entity.EntityName + " : " + entity.entityId);
+                    Debug.Log(" Could not Spawn baby for: " + entity.name + " : " + entity.entityId);
                 }
 
             }
+            else
+                Debug.Log("SpawnBabySDX(): Not an EntityAlive");
 
         }
     }
@@ -63,6 +75,13 @@ public class MinEventActionSpawnBabySDX : MinEventActionRemoveBuff
                     this.strSpawnGroup = _attribute.Value;
                     return true;
                 }
+
+                if (name == "Cvar")
+                {
+                    this.strCvar = _attribute.Value;
+                    return true;
+                }
+
             }
         }
         return flag;

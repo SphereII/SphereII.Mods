@@ -1,6 +1,6 @@
 <configs>
   <append xpath="/entity_classes">
-    <entity_class name="Samara Morgan" extends="zombieLab">
+    <entity_class name="SamaraMorgan" extends="zombieLab">
       <property name="Tags" value="entity,zombie,walker,feral"/>
       <property name="Mesh" value="Zombies/zombieStandardLabRagdoll"/>
       <property name="ReplaceMaterial1" value="entities/zombies/materials/feral_eye"/>

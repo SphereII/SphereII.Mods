@@ -3,7 +3,7 @@ using UnityEngine;
 class ObjectiveBuffSDX : BaseObjective
 {
     String strBuff = "";
-    
+
     // method to clone the Objective
     public override BaseObjective Clone()
     {
@@ -33,6 +33,11 @@ class ObjectiveBuffSDX : BaseObjective
     }
 
 
+    public override void SetupDisplay()
+    {
+        base.Description = string.Format("{0} {1}:", this.keyword, this.strBuff);
+    }
+
     public override void Refresh()
     {
         if (string.IsNullOrEmpty(this.strBuff))
@@ -52,9 +57,11 @@ class ObjectiveBuffSDX : BaseObjective
         }
 
         // If the entity is *something*, check to see if it has the objective buff, and pass to completion.
-        if (myEntity != null) 
+        if (myEntity != null)
         {
             // Check if it has the desired buff.
+            Debug.Log(" Checking if Entity has Buff: " + this.strBuff);
+            Debug.Log(" Buffs: " + myEntity.Buffs.ActiveBuffs.ToArray().ToString());
             base.Complete = myEntity.Buffs.HasBuff(this.strBuff);
             if (base.Complete)
             {
@@ -64,19 +71,19 @@ class ObjectiveBuffSDX : BaseObjective
         }
     }
 
-public override void ParseProperties(DynamicProperties properties)
-{
-    base.ParseProperties(properties);
-
-    if (properties.Values.ContainsKey("buff"))
-        this.strBuff = properties.Values["buff"];
-}
-
-protected override bool useUpdateLoop
-{
-    get
+    public override void ParseProperties(DynamicProperties properties)
     {
-        return true;
+        base.ParseProperties(properties);
+
+        if (properties.Values.ContainsKey("buff"))
+            this.strBuff = properties.Values["buff"];
     }
-}
+
+    protected override bool useUpdateLoop
+    {
+        get
+        {
+            return true;
+        }
+    }
 }

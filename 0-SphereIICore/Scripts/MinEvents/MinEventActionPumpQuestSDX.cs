@@ -17,6 +17,19 @@ public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
                         entity.QuestJournal.quests[k].Objectives[l].Refresh();
                     }
                 }
+                continue;
+            }
+
+            EntityPlayerLocal entityPlayer = this.targets[j] as EntityPlayerLocal;
+            if (entityPlayer != null)
+            {
+                for (int k = 0; k < entityPlayer.QuestJournal.quests.Count; k++)
+                {
+                    for (int l = 0; l < entityPlayer.QuestJournal.quests[k].Objectives.Count; l++)
+                    {
+                        entityPlayer.QuestJournal.quests[k].Objectives[l].Refresh();
+                    }
+                }
             }
         }
     }

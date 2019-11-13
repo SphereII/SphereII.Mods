@@ -15,7 +15,42 @@
           <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffcurseSamaraMorgan_Start"/>
         </effect_group>
       </item>
-    
 
+    <!-- Audio CD examples. It references a SoundDataNode in sounds.xml -->
+    <item name="samaraMorgan_NeverSleeps">
+      <property name="Extends" value="casinoCoin"/>
+      <property name="DescriptionKey" value="audioCD00Desc"/>
+      <property name="Meshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?CDCase00_X" />
+      <property name="HandMeshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?CDCase00_X"/>
+      <property name="HoldType" value="21"/>
+      <property name="CustomIcon" value="CD" />
+      <property name="Material" value="Mplastics"/>
+      <property name="Stacknumber" value="1"/>
+      <property name="SoundDataNode" value="samaraMorgan_NeverSleeps" />
+    </item>
+    <item name="samaraMorgan_NeverSleeps">
+      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
+      <property name="SoundDataNode" value="samaraMorgan_Stop" />
+    </item>
+    <item name="samaraMorgan_WhatdoYouWant">
+      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
+      <property name="SoundDataNode" value="samaraMorgan_WhatdoYouWant" />
+    </item>
+    <item name="samaraMorgan_PhoneCall">
+      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
+      <property name="SoundDataNode" value="samaraMorgan_PhoneCall" />
+    </item>
+
+    <item name="samaraMorgan_dvd">
+      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
+      <property name="Meshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?DVDCase01_X" />
+      <property name="HandMeshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?DVDCase01_X"/>
+      <property name="HoldType" value="21"/>
+      <property name="CustomIcon" value="DVD" />
+      <property name="Material" value="Mplastics"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- In the MyVideos.unity3d bundle, it expects  Sample320.mp4 -->
+      <property name="VideoSource" value="#@modfolder:Resources/SamaraMorgan.unity3d?TheRing" />
+    </item>
   </append>
 </configs>

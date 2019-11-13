@@ -1,10 +1,4 @@
-﻿Key,Source,Context,Changes,English,French,German,Klingon,Spanish,Polish
-entitycommand_Pet,entities,Radial,New,Pet,,,,,
-entitycommand_Milk,entities,Radial,New,Milk,,,,,
-entitycommand_FollowMe,entities,Radial,New,Follow me.,,,,,
-entitycommand_StayHere,entities,Radial,New,Stay here.,,,,,
-entitycommand_TellMe,entities,Radial,New,Tell me about yourself.,,,,,
-entitycommand_HangOut,entities,Radial,New,Hangout around here.,,,,,
-entitycommand_SetPatrol,entities,Radial,New,Set Starting Patrol Point,,,,,
-entitycommand_Patrol,entities,Radial,New,Please Patrol this area.,,,,,
-entitycommand_Hire,entities,Radial,New,Please Join me (Hire),,,,,
+﻿Key,Source,Context,Changes,English
+SamaraMorgan,entityclasses,Entity,KgNone,"Samara Morgan"
+samaraMorgan_NeverSleeps,items,Tool,KgNone,An audioCD
+samaraMorgan_NeverSleepsDesc,items,Tool,KgNone,"A strange audio cd with no label. It glints in the light."

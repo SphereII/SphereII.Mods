@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 public static class ItemsUtilities
@@ -159,6 +160,39 @@ public static class ItemsUtilities
         }
 
         return result;
+    }
+
+    public static List<BlockRadiusEffect> GetRadiusEffect(String strItemClass)
+    {
+        ItemClass itemClass = ItemClass.GetItemClass(strItemClass, false);
+        List<BlockRadiusEffect> list2 = new List<BlockRadiusEffect>();
+
+        if (itemClass.Properties.Values.ContainsKey("ActivatedBuff"))
+        {
+            String strBuff = itemClass.Properties.Values["ActivatedBuff"];
+            string[] array5 = strBuff.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Grab the current radius effects
+            foreach (string text4 in array5)
+            {
+                int num12 = text4.IndexOf('(');
+                int num13 = text4.IndexOf(')');
+                BlockRadiusEffect item = default(BlockRadiusEffect);
+                if (num12 != -1 && num13 != -1 && num13 > num12 + 1)
+                {
+                    item.radius = StringParsers.ParseFloat(text4.Substring(num12 + 1, num13 - num12 - 1), 0, -1, NumberStyles.Any);
+                    item.variable = text4.Substring(0, num12);
+                }
+                else
+                {
+                    item.radius = 1f;
+                    item.variable = text4;
+                }
+                    list2.Add(item);
+            }
+        }
+        return list2;
+
     }
 
 }

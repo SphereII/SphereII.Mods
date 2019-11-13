@@ -213,6 +213,26 @@
     <Content Include="Blooms Animal Husbandry\Config\quests.xml" />
     <Content Include="Blooms Animal Husbandry\mod.xml" />
     <Content Include="Blooms Animal Husbandry\ModInfo.xml" />
+    <Content Include="Dishong Tower Challenge\Config\biomes.xml" />
+    <Content Include="Dishong Tower Challenge\Config\blocks.xml" />
+    <Content Include="Dishong Tower Challenge\Config\entityclasses.xml" />
+    <Content Include="Dishong Tower Challenge\Config\Localization - Quest.txt" />
+    <Content Include="Dishong Tower Challenge\Config\loot.xml" />
+    <Content Include="Dishong Tower Challenge\Config\quests.xml" />
+    <Content Include="Dishong Tower Challenge\Config\recipes.xml" />
+    <Content Include="Dishong Tower Challenge\mod.xml" />
+    <Content Include="Dishong Tower Challenge\ModInfo.xml" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\biomes.png" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\dtm.raw" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\dtm_processed.raw" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\genHM.png" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\map_info.xml" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\prefabs.xml" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\previewMap.png" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\radiation.png" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\spawnpoints.xml" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat3.png" />
+    <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\water_info.xml" />
     <Content Include="SphereII A Better Life\Config\entityclasses.xml" />
     <Content Include="SphereII A Better Life\Config\Localization.txt" />
     <Content Include="SphereII A Better Life\mod.xml" />
@@ -328,6 +348,13 @@
     <Content Include="SyX Security Bots\Config\sounds.xml" />
     <Content Include="SyX Security Bots\mod.xml" />
     <Content Include="SyX Security Bots\ModInfo.xml" />
+    <Content Include="The Restless Curse\Config\buffs.xml" />
+    <Content Include="The Restless Curse\Config\entityclasses.xml" />
+    <Content Include="The Restless Curse\Config\items.xml" />
+    <Content Include="The Restless Curse\Config\Localization - Quest.txt" />
+    <Content Include="The Restless Curse\Config\Localization.txt" />
+    <Content Include="The Restless Curse\Config\quests.xml" />
+    <Content Include="The Restless Curse\mod.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
@@ -339,6 +366,10 @@
     <None Include="Blooms Animal Husbandry\Resources\BloomsFarmAnimals.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\Cows.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\FarmAnimalController.unitypackage" />
+    <None Include="Dishong Tower Challenge\ReadMe.md" />
+    <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\main.ttw" />
+    <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat3_processed.tga" />
+    <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat4_processed.tga" />
     <None Include="README-Old.md" />
     <None Include="README.md" />
     <None Include="SphereII A Better Life\README.md" />

@@ -16,12 +16,29 @@
         <property name="phase" value="1" />
         <property name="buff" value="buffcurseSamaraMorgan_Start" />
       </objective>
-      
+    
+
       <objective type="BuffSDX, Mods">
-        <property name="phase" value="2" />
+        <property name="phase" value="3" />
+        <property name="buff" value="buffcurseSamaraMorgan_01" />
+      </objective>
+      <action type="PlaySoundSDX, Mods" id="samaraMorgan_NeverSleeps" value="1" phase="4"/>
+
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="5" />
+        <property name="buff" value="buffcurseSamaraMorgan_02" />
+      </objective>
+      <action type="PlaySoundSDX, Mods" id="samaraMorgan_WhatdoYouWant" value="1" phase="6"/>
+
+      <objective type="BuffSDX, Mods">
+        <property name="phase" value="7" />
         <property name="buff" value="buffcurseSamaraMorgan_End" />
       </objective>
-      <action type="SpawnEnemy" id="SamaraMorgan" value="1" phase="3"/>
+      <action type="PlaySoundSDX, Mods" id="samaraMorgan_PhoneCall" value="1" phase="8"/>
+
+      <action type="SpawnEnemy" id="SamaraMorgan" value="1" phase="5"/>
+      <objective type="ZombieKill" id="SamaraMorgan" value="1" phase="5"/>
+
       <reward type="Exp" value="500"/>
       <reward type="ItemSDX, Mods" id="casinoCoin" value="1" />
 
