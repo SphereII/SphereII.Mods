@@ -11,4 +11,5 @@
   <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='foodRottingFlesh']/@count">5</set>
   <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='resourcePotassiumNitratePowder']/@count">5</set>
 
+  <removeattribute xpath="/recipes/recipe[@name='plantedPotato1']/@tags" />
 </configs>
