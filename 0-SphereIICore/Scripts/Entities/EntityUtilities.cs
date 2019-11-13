@@ -28,6 +28,51 @@ public static class EntityUtilities
         Loot = 7
     }
 
+    public static void AddBuffToRadius(String strBuff, Vector3 position, int Radius)
+    {
+        // If there's no radius, pick 30 blocks.
+        if(Radius <= 0  )
+            Radius = 30;
+
+        World world = GameManager.Instance.World;
+        List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
+        if(entitiesInBounds.Count > 0)
+        {
+            for(int i = 0; i < entitiesInBounds.Count; i++)
+            {
+                EntityAlive entity = entitiesInBounds[i] as EntityAlive;
+                if(entity != null)
+                {
+                    if(!entity.Buffs.HasBuff(strBuff))
+                        entity.Buffs.AddBuff(strBuff);
+                }
+            }
+        }
+
+    }
+    public static void AddQuestToRadius(String strQuest, Vector3 position, int Radius)
+    {
+        // If there's no radius, pick 30 blocks.
+        if(Radius <= 0)
+            Radius = 30;
+
+        World world = GameManager.Instance.World;
+        List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
+        if(entitiesInBounds.Count > 0)
+        {
+            for(int i = 0; i < entitiesInBounds.Count; i++)
+            {
+                EntityAliveSDX entity = entitiesInBounds[i] as EntityAliveSDX;
+                if(entity != null)
+                    entity.QuestJournal.AddQuest(QuestClass.CreateQuest(strQuest));
+
+                EntityPlayerLocal player = entitiesInBounds[i] as EntityPlayerLocal;
+                if(player != null)
+                    player.QuestJournal.AddQuest(QuestClass.CreateQuest(strQuest));
+            }
+        }
+
+    }
     public static bool CheckProperty(int EntityID, string Property)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;

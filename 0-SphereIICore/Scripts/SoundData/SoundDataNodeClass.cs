@@ -14,6 +14,7 @@ public static class SoundDataNodeClassSDX
         public Quest Quest;
     }
 
+    // Use this value to hold a reference for each SoundData group that can contain special buffs or quests.
     public static Dictionary<string, SoundDataSDX> SoundDataSDXInfo = new Dictionary<string, SoundDataSDX>();
 
     public static void AddSoundData(XmlNode node)
@@ -26,21 +27,23 @@ public static class SoundDataNodeClassSDX
             if (xmlNode.Name.EqualsCaseInsensitive("Buff"))
             {
                 string text = xmlNode.Attributes[0].Value;
-                AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Buff: " + text);
+                AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Trigger Buff: " + text);
 
                 newSoundData.Buff = BuffManager.GetBuff(text);
             }
             if (xmlNode.Name.EqualsCaseInsensitive("Quest"))
             {
                 string text = xmlNode.Attributes[0].Value;
-                AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Quest: " + text);
+                AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Trigger Quest: " + text);
                 newSoundData.Quest = QuestClass.CreateQuest(text);
-
             }
-
         }
-        if (!SoundDataSDXInfo.ContainsKey(SoundGroupName))
-            SoundDataSDXInfo.Add(SoundGroupName, newSoundData);
+        // If it has a buff or a quest, add it to the monitored sound.
+        if(newSoundData.Buff != null || newSoundData.Quest != null)
+        {
+            if(!SoundDataSDXInfo.ContainsKey(SoundGroupName))
+                SoundDataSDXInfo.Add(SoundGroupName, newSoundData);
+        }
 
 
     }

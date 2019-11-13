@@ -44,8 +44,8 @@
       <NoiseScale value="1" />
       <MaxVoices value="10" />
       <MaxRepeatRate value="0.001" />
-      <Buff value="buffcurseSamaraMorgan_Start" />
-      <Quest value="quest_curseSamaraMorgan" />
+      <Buff value="buffcurseSamaraMorgan_Start" /> <!-- distribute this buff in the radius of the sound -->
+      <Quest value="quest_curseSamaraMorgan" /> <!-- distribute this quest to all in the radius of the sound-->
     </SoundDataNode>
      </append>
 
