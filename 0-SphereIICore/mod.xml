@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.0.1.1</mod_version>
+    <mod_version>18.1.1.2</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -273,7 +273,6 @@
     <hash filename="Scripts\MinEvents\MinEventActionPumpQuestSDX.cs" hash="b0f41de48687e108802b088ea76ff51d" />
     <hash filename="Scripts\MinEvents\MinEventActionSpawnBabySDX.cs" hash="542e036b2f440d78367d1feed0af3759" />
     <hash filename="Scripts\Quests\QuestActionPlaySound.cs" hash="3b974af85ad0657302172c5026d4bb28" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="90b4d828e30cdf96bf744668b07e0e8b" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\buffs.xml" hash="b2b6a0a501a212c55aa6477151212d9d" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\XUi\xui.xml" hash="dd1b6c7fb0e7e9d27ed0b343290fc23d" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Documentation\Examples\blocks.xml" hash="7d40c4539d32a7502b6dcafc99beef11" />
@@ -345,7 +344,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="ed6fa9b4387e1007a687d04f0af27956" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityWanderingTrader.cs" hash="96ca470d2474555d4da519af822b18bc" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCopSDX.cs" hash="f4176b3a642270e9d6197ddd7207b72b" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCrawlSDX.cs" hash="86d9d3d17d5a09d4e5c978ebd528b049" />
@@ -367,7 +365,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionPumpQuestSDX.cs" hash="b0f41de48687e108802b088ea76ff51d" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionSkillPointSDX.cs" hash="a63a845d7a6337ef9e3106beeb168189" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionSpawnBabySDX.cs" hash="542e036b2f440d78367d1feed0af3759" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MusicBoxes\MusicBox.cs" hash="8f099202f640505cd03d2f856f0d2a2f" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MusicBoxes\MusicBoxScript.cs" hash="88d79abb72e09a8a2085275db6f3b2de" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveBuffSDX.cs" hash="31170b60971d2045efeba0e7f7898dd2" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveGotoPOISDX.cs" hash="2f0db43b0f58db65307287b59e872abf" />
@@ -388,7 +385,10 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\SoundDataNodeIndexer.cs" hash="83173c3c3d5c9e5cd7d6f92d0157865c" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="fb9e1be308de17289299e3e8867d3b9b" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\SoundData\SoundDataNodeClass.cs" hash="e77f43e22fea2d46b63530d51686262c" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="279f57f3e23785d05b647b139642aa66" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="f1dcf04e740cc14b5b66e7bab9a39037" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MusicBoxes\MusicBox.cs" hash="08742174e0ae0fa7bec0a9f3a969a80b" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="6858872aed2929812599d250c125c0c5" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\SoundData\SoundDataNodeClass.cs" hash="e9b36dc431f4096c6e6a8e61ff4073ab" />
   </hashes>
 </mod>
