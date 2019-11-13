@@ -85,8 +85,10 @@
   <ItemGroup>
     <Compile Include="0-SphereIICore\Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="0-SphereIICore\Harmony\FoodSpoilage\FoodSpoilage.cs" />
+    <Compile Include="0-SphereIICore\Harmony\HarmonyInit.cs" />
     <Compile Include="0-SphereIICore\Harmony\ItemFeatures\AdvancedItemRepair.cs" />
     <Compile Include="0-SphereIICore\Harmony\ItemFeatures\DurabilityAffectsDamage.cs" />
+    <Compile Include="0-SphereIICore\Harmony\ItemFeatures\ItemRadiusBuffEffects.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAlive.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCFixSpeed.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCGreetingFix.cs" />
@@ -96,6 +98,8 @@
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\SoftHands.cs" />
     <Compile Include="0-SphereIICore\Harmony\PrefabFeatures\DisableTraderProtection.cs" />
     <Compile Include="0-SphereIICore\Harmony\Progression\ZeroXP.cs" />
+    <Compile Include="0-SphereIICore\Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" />
+    <Compile Include="0-SphereIICore\Harmony\SoundFeatures\SoundDataNodeIndexer.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\EntityFactory.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\HarmonyInit.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\QuickContinue.cs" />
@@ -112,6 +116,7 @@
     <Compile Include="0-SphereIICore\Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\BlockMortSpawner.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Blocks\BlockUtilitiesSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\PickUpAndReplace.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementEveryXDaySDX.cs" />
@@ -174,12 +179,14 @@
     <Compile Include="0-SphereIICore\Scripts\Quests\ObjectiveBuffSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\QuestActionGiveBuffSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Quests\QuestActionPlaySound.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\QuestActionReplaceEntitySDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\QuestActionSpawnEntitySDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\RewardGiveNPCSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\RewardItemSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\RewardQuestSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Quests\RewardReassignNPCSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="0-SphereIICore\Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
     <Compile Include="0-SphereIICore\Scripts\WorldGen\WinterModPrefab.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
@@ -350,16 +357,25 @@
     <Content Include="SyX Security Bots\ModInfo.xml" />
     <Content Include="The Restless Curse\Config\buffs.xml" />
     <Content Include="The Restless Curse\Config\entityclasses.xml" />
+    <Content Include="The Restless Curse\Config\entitygroups.xml" />
     <Content Include="The Restless Curse\Config\items.xml" />
     <Content Include="The Restless Curse\Config\Localization - Quest.txt" />
     <Content Include="The Restless Curse\Config\Localization.txt" />
     <Content Include="The Restless Curse\Config\quests.xml" />
+    <Content Include="The Restless Curse\Config\sounds.xml" />
     <Content Include="The Restless Curse\mod.xml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="0-SphereIICore\Harmony\TileEntities\" />
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
     <Folder Include="Properties\" />
     <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
+    <Folder Include="Xyth_Bandits\Config\" />
+    <Folder Include="Xyth_Bandits\Resources\" />
+    <Folder Include="Xyth_NPCs\Config\" />
+    <Folder Include="Xyth_NPCs\Resources\" />
+    <Folder Include="Xyth_WanderingTraders\Config\" />
+    <Folder Include="Xyth_WanderingTraders\Resources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Blooms Animal Husbandry\ReadMe.md" />
@@ -430,6 +446,7 @@
     <None Include="SyX Security Bots\Resources\Mechs.unity3d" />
     <None Include="SyX Security Bots\Resources\RobotSounds.unity3d" />
     <None Include="SyX Security Bots\Resources\Spheres.unity3d" />
+    <None Include="The Restless Curse\Resources\SamaraMorgan.unity3d" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
