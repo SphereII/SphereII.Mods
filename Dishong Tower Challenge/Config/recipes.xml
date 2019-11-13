@@ -11,5 +11,11 @@
   <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='foodRottingFlesh']/@count">5</set>
   <set xpath="/recipes/recipe[@name='farmPlotBlockPlayer']/ingredient[@name='resourcePotassiumNitratePowder']/@count">5</set>
 
+  <!-- allow some food to crafted into seeds -->
   <removeattribute xpath="/recipes/recipe[@name='plantedPotato1']/@tags" />
+  <removeattribute xpath="/recipes/recipe[@name='plantedCorn1']/@tags" />
+  <removeattribute xpath="/recipes/recipe[@name='plantedBlueberry1']/@tags" />
+  <removeattribute xpath="/recipes/recipe[@name='plantedMushroom1']/@tags" />
+  <removeattribute xpath="/recipes/recipe[@name='plantedYucca1']/@tags" />
+
 </configs>
