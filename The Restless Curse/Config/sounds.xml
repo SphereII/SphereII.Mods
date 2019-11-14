@@ -35,7 +35,7 @@
       <MaxRepeatRate value="0.001" />
     </SoundDataNode>
 
-    <SoundDataNode name="samaraMorgan_PhoneCall">
+    <SoundDataNode name="samaraMorgan_phonecall">
       <AudioSource name="Sounds/AudioSource_Player"/>
       <Noise ID="2" range="7" volume="15" time="3" muffled_when_crouched="0.5" />
       <AudioClip ClipName="#@modfolder:Resources/SamaraMorgan.unity3d?PhoneCalls.mp4" Loop="false" />

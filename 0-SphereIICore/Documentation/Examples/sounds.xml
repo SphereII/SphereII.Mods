@@ -1,0 +1,27 @@
+<configs>
+
+  <append xpath="/Sounds">
+ 
+    <SoundDataNode name="testing_soundnode">
+
+      <!-- AudioSource.  -->
+      <AudioSource name="#@modfolder:Resources/XmasCarousel.unity3d?CarouselNoMesh_X" />
+      <Noise ID="2" range="7" volume="15" time="3" muffled_when_crouched="0.5" />
+      <!-- Audio Clips available from https://www.singing-bell.com/our-free-songs/list-of-free-christmas-carols-mp3/ -->
+      <AudioClip ClipName="#@modfolder:Resources/singing-bell-com.unity3d?09_Jingle-Bells-Singing-Bell" />
+      <LocalCrouchVolumeScale value="0.5" />
+      <CrouchNoiseScale value="1" />
+      <NoiseScale value="1" />
+      <MaxVoices value="10" />
+      <MaxRepeatRate value="0.001" />
+      
+      <!-- Add in the Buff or Quest line for this sound to activate either, other both -->
+      <Buff value="buffcurseSamaraMorgan_Start" />   <!-- distribute this buff in the radius of the sound -->
+      <Quest value="quest_curseSamaraMorgan" />     <!-- distribute this quest to all in the radius of the sound-->
+      
+      
+    </SoundDataNode>
+  </append>
+
+
+</configs>

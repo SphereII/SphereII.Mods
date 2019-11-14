@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.1.1.6</mod_version>
+    <mod_version>18.1.1.19</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -389,6 +389,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MusicBoxes\MusicBox.cs" hash="08742174e0ae0fa7bec0a9f3a969a80b" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\SoundData\SoundDataNodeClass.cs" hash="e9b36dc431f4096c6e6a8e61ff4073ab" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="90b4d828e30cdf96bf744668b07e0e8b" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="446c2c1e611105e41c0ae74510676aca" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="a1a149534d4510bc96bbd8941e1e9d1b" />
   </hashes>
 </mod>
