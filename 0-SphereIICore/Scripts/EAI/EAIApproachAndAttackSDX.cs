@@ -19,7 +19,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     private int relocateTicks;
     private float maxChaseTime;
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
    // private EntityAlive entityTarget;
 
     public void DisplayLog(String strMessage)

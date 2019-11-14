@@ -3,6 +3,14 @@
     <recipe name="resourceCoal" count="1" craft_area="campfire" craft_time="40" >
       <ingredient name="resourceWood" count="5"/>
     </recipe>
+
+    <recipe name="casinoCoin" count="1"  >
+      <ingredient name="oldCash" count="1"/>
+    </recipe>
+
+    <recipe name="resourceFeather" count="1"  >
+      <ingredient name="ammoArrowStone" count="1"/>
+    </recipe>
   </append>
 
   <!-- reduce requirements for some scarced resources -->
