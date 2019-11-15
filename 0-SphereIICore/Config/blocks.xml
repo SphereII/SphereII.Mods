@@ -1,4 +1,6 @@
 ﻿<configs>
+
+ 
   <append xpath="/blocks">
   
     <block name="ConfigFeatureBlock">
@@ -69,6 +71,11 @@
         <property name="MakeTraderVulnerable" value="false" /> <!-- allow the Trader NPCs to die. -->
         <property name="NPCSpeedFix" value="true" />        <!-- allow the Trader NPCs to move at a reasonable speed -->
 
+      </property>
+
+      <property class="AdvancedWorkstationFeatures" >
+        <property name="Logging" value="false"/>
+        <property name="EnablePoweredWorkstations" value="false" />
       </property>
       
       <property class="AdvancedPrefabFeatures" >

@@ -11,5 +11,9 @@
     <property name="PreserveBonus" value="1.5" />    <!-- removes this amount of UsedTimes (durability) per calculation -->
   </append>
 
- 
+  <!-- Forces a workstation to require a power source within a radius: 20 blocks-->
+  <append xpath="/blocks/block[@name='campfire']">
+    <property name="RequirePower" value="true" />
+  </append>
+  
 </configs>
