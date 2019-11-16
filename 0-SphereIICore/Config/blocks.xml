@@ -77,6 +77,12 @@
         <property name="Logging" value="false"/>
         <property name="EnablePoweredWorkstations" value="false" />
       </property>
+
+
+      <property class="AdvancedTroubleshootingFeatures" >
+        <property name="Logging" value="false"/>
+        <property name="VerboseXMLParser" value="false" />
+      </property>
       
       <property class="AdvancedPrefabFeatures" >
         <property name="Logging" value="false"/>
