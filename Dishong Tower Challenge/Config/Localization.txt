@@ -1,0 +1,3 @@
+Key,Source,Context,Changes,English
+resourcePaper,items,Item,KgNone,"Chinese Takeout Menu"
+resourcePaperDesc,items,Item,EnChanged,"'Chicken' Fried 'Rice'\n'Fresh' 'Egg' Rolls\nGeneral MD's Chicken\nDeep-fried wontons with hot cream cheese and crab\n\n$2 Tuesday Buffet!\n*Zombies Eat Free on Tuesdays"
