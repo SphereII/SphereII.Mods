@@ -34,6 +34,8 @@
 
   <removeattribute xpath="/recipes/recipe[@name='plantedYucca1']/@tags" />
   <set xpath="/recipes/recipe[@name='plantedYucca1']/ingredient/@count">1</set>
-
+  
+  <removeattribute xpath="/recipes/recipe[@name='plantedPumpkin1']/@tags" />
+  <set xpath="/recipes/recipe[@name='plantedPumpkin1']/ingredient/@count">1</set>
 
 </configs>
