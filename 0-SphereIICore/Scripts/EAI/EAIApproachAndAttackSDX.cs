@@ -5,7 +5,7 @@ using UnityEngine;
 // Disables the Eating animation
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
-  //  private bool isTargetToEat = false;
+    private bool isTargetToEat = false;
    // private Vector3 entityTargetPos;
    // public EntityAlive entityTarget;
   //  private Vector3 entityTargetVel;
@@ -31,6 +31,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     public override bool CanExecute()
     {
         bool result = base.CanExecute();
+        
         if(result && this.entityTarget != null )
         {
             this.theEntity.SetLookPosition(this.entityTarget.getHeadPosition());

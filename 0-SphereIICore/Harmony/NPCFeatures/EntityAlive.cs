@@ -67,6 +67,29 @@ public class SphereII__EntityAlivePatcher
         }
     }
 
+
+    [HarmonyPatch(typeof(ItemActionAttack))]
+    [HarmonyPatch("Hit")]
+    public class SphereII_ItemActionAttack_Hit
+    {
+        static bool Prefix(ItemActionAttack __instance, WorldRayHitInfo hitInfo, int _attackerEntityId)
+        {
+            if (hitInfo == null || hitInfo.tag == null)
+                return false;
+
+            string text3;
+            Entity entity = ItemActionAttack.FindHitEntityNoTagCheck(hitInfo, out text3);
+            if (entity != null)
+            {
+                if (EntityUtilities.IsAnAlly(entity.entityId, _attackerEntityId))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
     [HarmonyPatch(typeof(EntityAlive))]
     [HarmonyPatch("SetAttackTarget")]
     public class SphereII_EntityAlive_SetAttackTarget

@@ -1,5 +1,6 @@
 ﻿using Harmony;
 using System;
+using System.Collections;
 using System.Xml;
 using UnityEngine;
 
@@ -15,12 +16,11 @@ public class SphereII_XmlPatcher_SinglePatch
         if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
             return true;
 
-        String strDisplay = "Attempting to Patch: " + _patchElement.GetAttribute("xpath");
+        String strDisplay = _patchName + ": Attempting to Patch: " + _patchElement.GetAttribute("xpath");
         AdvLogging.DisplayLog(AdvFeatureClass,  strDisplay);
 
         return true;
     }
 }
-
 
 

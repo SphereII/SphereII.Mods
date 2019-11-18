@@ -1,6 +1,11 @@
 ﻿<configs>
   <append xpath="/buffs">
 
+    <buff name="buffcurseSamaraMorgan" >
+      <damage_type value="Dehydration"/>
+      <stack_type value="ignore"/>
+      <duration value="0" />
+    </buff>
 
     <buff name="buffcurseSamaraMorgan_Start" >
       <damage_type value="Dehydration"/>

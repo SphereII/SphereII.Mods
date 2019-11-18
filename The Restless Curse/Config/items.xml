@@ -1,46 +1,6 @@
 ﻿<configs>
   <append xpath="/items">
-    <item name="curseSamaraMorgan">
-        <property name="Extends" value="schematicMaster" />
-        <property name="CreativeMode" value="Player" />
-        <property name="CustomIcon" value="meleeClubIron" />
-      <property class="Action0">
-        <property name="Class" value="Quest" />
-        <property name="QuestGiven" value="quest_curseSamaraMorgan" />
-        <property name="Delay" value="0.5" />
-        <property name="UseAnimation" value="false" />
-        <property name="Use_time" value="..." />
-      </property>
-        <effect_group tiered="false">
-          <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffcurseSamaraMorgan_Start"/>
-        </effect_group>
-      </item>
-
-    <!-- Audio CD examples. It references a SoundDataNode in sounds.xml -->
-    <item name="samaraMorgan_NeverSleeps">
-      <property name="Extends" value="casinoCoin"/>
-      <property name="DescriptionKey" value="audioCD00Desc"/>
-      <property name="Meshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?CDCase00_X" />
-      <property name="HandMeshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?CDCase00_X"/>
-      <property name="HoldType" value="21"/>
-      <property name="CustomIcon" value="CD" />
-      <property name="Material" value="Mplastics"/>
-      <property name="Stacknumber" value="1"/>
-      <property name="SoundDataNode" value="samaraMorgan_NeverSleeps" />
-    </item>
-    <item name="samaraMorgan_NeverSleeps">
-      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
-      <property name="SoundDataNode" value="samaraMorgan_Stop" />
-    </item>
-    <item name="samaraMorgan_WhatdoYouWant">
-      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
-      <property name="SoundDataNode" value="samaraMorgan_WhatdoYouWant" />
-    </item>
-    <item name="samaraMorgan_PhoneCall">
-      <property name="Extends" value="samaraMorgan_NeverSleeps"/>
-      <property name="SoundDataNode" value="samaraMorgan_PhoneCall" />
-    </item>
-
+    <!--
     <item name="samaraMorgan_dvd">
       <property name="Extends" value="samaraMorgan_NeverSleeps"/>
       <property name="Meshfile" value="#@modfolder(SphereII Music Boxes):Resources/MediaCases.unity3d?DVDCase01_X" />
@@ -49,8 +9,18 @@
       <property name="CustomIcon" value="DVD" />
       <property name="Material" value="Mplastics"/>
       <property name="Stacknumber" value="1"/>
-      <!-- In the MyVideos.unity3d bundle, it expects  Sample320.mp4 -->
+      <property name="SoundDataNode" value="samaraMorgan_phonecall" />
       <property name="VideoSource" value="#@modfolder:Resources/SamaraMorgan.unity3d?TheRing" />
     </item>
+
+    <item name="resourceToyHorse">
+      <property name="HoldType" value="45"/>
+      <property name="Meshfile" value="#Other/Items?Misc/sackPrefab.prefab"/>
+      <property name="DropMeshfile" value="#Other/Items?Misc/sack_droppedPrefab.prefab"/>
+      <property name="Material" value="MresourceToyHorse"/>
+      <property name="Stacknumber" value="1"/>
+      <property name="Group" value="Resources"/>
+    </item>
+    -->
   </append>
 </configs>

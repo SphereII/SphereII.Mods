@@ -12,35 +12,60 @@
       <property name="offer_key" value="quest_curseSamaraMorgan_description"/>
      
       <action type="TrackQuest"/>
-      <objective type="BuffSDX, Mods">
-        <property name="phase" value="1" />
-        <property name="buff" value="buffcurseSamaraMorgan_Start" />
+
+      <!-- Find a local trader -->
+      <objective type="GotoPOISDX, Mods" value="5" phase="1">
+        <property name="completion_distance" value="50" />
+        <property name="PrefabNames" value="settlement_trader_02,settlement_trader_03,settlement_trader_04,settlement_trader_05" /> <!-- Don't go to Rekt-->
       </objective>
-    
 
-      <objective type="BuffSDX, Mods">
-        <property name="phase" value="3" />
-        <property name="buff" value="buffcurseSamaraMorgan_01" />
+      <!-- Talk to the trader about the curse -->
+      <objective type="InteractWithNPC">
+        <property name="phase" value="2" />
       </objective>
-      <action type="PlaySoundSDX, Mods" id="samaraMorgan_NeverSleeps" value="1" phase="4"/>
-
-      <objective type="BuffSDX, Mods">
-        <property name="phase" value="5" />
-        <property name="buff" value="buffcurseSamaraMorgan_02" />
-      </objective>
-      <action type="PlaySoundSDX, Mods" id="samaraMorgan_WhatdoYouWant" value="1" phase="6"/>
-
-      <objective type="BuffSDX, Mods">
-        <property name="phase" value="7" />
-        <property name="buff" value="buffcurseSamaraMorgan_End" />
-      </objective>
-      <action type="PlaySoundSDX, Mods" id="samaraMorgan_PhoneCall" value="1" phase="8"/>
-
-      <action type="SpawnEnemy" id="SamaraMorgan" value="1" phase="5"/>
-      <objective type="ZombieKill" id="SamaraMorgan" value="1" phase="5"/>
-
+      
+      <!-- Fetch more information -->
+      
+      <!-- Return to Trader -->
+      
+      <!-- Progress to next quest -->
       <reward type="Exp" value="500"/>
-      <reward type="ItemSDX, Mods" id="casinoCoin" value="1" />
+      <reward type="Quest" id="quest_curseSamaraMorgan_02"/>
+
+    </quest>
+
+    <quest id="quest_curseSamaraMorgan_02">
+      <property name="group_name_key" value="quest_curseSamaraMorgan_02"/>
+      <property name="name_key" value="quest_curseSamaraMorgan_02"/>
+      <property name="subtitle_key" value="quest_curseSamaraMorgan_02_subtitle"/>
+      <property name="description_key" value="quest_curseSamaraMorgan_02_description"/>
+      <property name="icon" value="ui_game_symbol_map_bed"/>
+      <property name="category_key" value="quest"/>
+      <property name="difficulty" value="veryeasy"/>
+      <property name="shareable" value="false"/>
+      <property name="offer_key" value="quest_curseSamaraMorgan_02_description"/>
+
+      <action type="TrackQuest"/>
+
+      <!-- Find a local trader -->
+      <objective type="GotoPOISDX, Mods" value="5" phase="1">
+        <property name="completion_distance" value="50" />
+        <property name="PrefabNames" value="settlement_trader_02,settlement_trader_03,settlement_trader_04,settlement_trader_05" />
+        <!-- Don't go to Rekt-->
+      </objective>
+
+      <!-- Talk to the trader about the curse -->
+      <objective type="InteractWithNPC">
+        <property name="phase" value="2" />
+      </objective>
+
+      <!-- Fetch more information -->
+
+      <!-- Return to Trader -->
+
+      <!-- Progress to next quest -->
+      <reward type="Exp" value="500"/>
+      <reward type="Quest" id="quest_curseSamaraMorgan_02"/>
 
     </quest>
   </append>

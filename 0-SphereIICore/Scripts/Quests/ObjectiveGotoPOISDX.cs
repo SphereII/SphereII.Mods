@@ -10,7 +10,7 @@ using UnityEngine;
 */
 class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
 {
-    String strPOIname = "";
+    public String strPOIname = "";
 
     public override BaseObjective Clone()
     {
@@ -96,6 +96,26 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
     {
         if (properties.Values.ContainsKey("PrefabName"))
             this.strPOIname = properties.Values["PrefabName"];
+        if (properties.Values.ContainsKey("PrefabNames"))
+        {
+            List<String> TempList = new List<string>();
+            string strTemp = properties.Values["PrefabNames"].ToString();
+
+            string[] array = strTemp.Split(new char[] {',' });
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (TempList.Contains(array[i].ToString()))
+                    continue;
+                TempList.Add(array[i].ToString());
+            }
+            var random = new System.Random();
+            int index = random.Next(TempList.Count);
+
+            if (TempList.Count == 0)
+                Debug.Log(" ObjectiveGoToPOISDX PrefabNames Contains no prefabs.");
+            else
+                this.strPOIname = TempList[index];
+        }
         base.ParseProperties(properties);
 
     }
