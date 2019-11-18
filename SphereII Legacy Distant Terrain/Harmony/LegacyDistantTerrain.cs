@@ -119,15 +119,16 @@ class SphereII_LegacyDistantTerrain
             {
                 return poiheightOverride - 0.5f;
             }
-
             if (GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator() == null)
                 return poiheightOverride;
-
             return GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt((int)x, (int)z);
         }
 
         public static void Postfix(WorldEnvironment __instance, World ___m_World)
         {
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" )
+                return;
+
             if (!GameManager.IsDedicatedServer && !GameManager.IsSplatMapAvailable())
             {
                 Debug.Log("Creating Legacy Distant Terrain");
