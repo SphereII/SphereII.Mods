@@ -6,30 +6,30 @@
   <append xpath="/dialogs/dialog[@id='trader']">
 
     <!-- Each response_entry needs a statement and a response. Response checks to see if its allowed to show or not.-->
-    <response id="curses" text="dialog_trader_response_curse_Samara_01" nextstatementid="curses" />
-    
+    <response id="curses" text="You alright?" nextstatementid="curses" >
+      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" />
+    </response>
 
-    <statement id="curses" text="dialog_trader_response_curse_Samara_01">
-      <response_entry id="SamaraMorgan" />
+    <statement id="curses">
+      <response_entry id="SamaraMorgan" text="I saw this really strange video.###" >
+        <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" />
+
+      </response_entry>
+
       <response_entry id="Freddy" />
       <response_entry id="Jason" />
       <response_entry id="nevermind" />
     </statement>
 
-    <response id="SamaraMorgan" text="dialog_trader_response_curse_Samara_01" >
-      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" />
-    </response>
-
-    <statement id="SamaraMorgan" text="dialog_trader_response_curse_Samara_01" >
-       <response_entry id="curse_Samara_01" />
-       <response_entry id="curse_Samara_02" />
+    <statement id="SamaraMorgan"  >
+      <response_entry id="curse_Samara_01" text="YYYYYY" >
+        <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" />
+      </response_entry>
+      <response_entry id="curse_Samara_02" text="ZZZZZZZ"/>
       <response_entry id="nevermind" />
     </statement>
-
-    <statement id="curse_Samara_01" text="dialog_trader_response_curse_Samara_01" nextstatementid="curse_Samara" />
-    <statement id="curse_Samara_02" text="dialog_trader_response_curse_Samara_02" nextstatementid="curse_Samara">
-      <quest_entry id="quest_curseSamaraMorgan_02" type="add" listindex="0" />
-    </statement>
+    <statement id="Freddy" text="Freddy Place holder" nextstatementid="curses" />
+    <statement id="Jason" text="Jason Place holder" nextstatementid="curses" />
     
   </append>
 </configs>

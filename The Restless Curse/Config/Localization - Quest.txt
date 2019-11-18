@@ -3,8 +3,8 @@ quest_curseSamaraMorgan,,Quest Info,Reordered,"You weren't supposed to help her.
 quest_curseSamaraMorgan_description,,Quest Info,Reordered,"Here we go, the world is spinning. When it stops, it's just beginning. Sun comes up, we all laugh. Sun goes down, we all die..."
 quest_curseSamaraMorgan_subtitle,,Quest Info,Reordered,"7 Days"
 
-dialog_trader_response_curse_Samara_01,,Dialogs,New,"You don't look so well"
-dialog_trader_response_curse_Samara_02,,Dialogs,New,"You look troubled. Why don't you tell me what's bothering?"
+dialog_trader_response_curses,,Dialogs,New,"You don't look so well"
+dialog_trader_response_curses_02,,Dialogs,New,"You look troubled. Why don't you tell me what's bothering?"
 
 dialog_trader_response_curse_SamaraMorgan_01,,Dialogs,New,"What is wrong with me?"
 dialog_trader_response_curse_SamaraMorgan_01_statement,,Dialogs,New,"From what you've told me, it sounds like it's Samara Morgan's Curse."

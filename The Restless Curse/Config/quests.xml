@@ -13,7 +13,6 @@
      
       <action type="TrackQuest"/>
 
-      <!-- Find a local trader -->
       <objective type="GotoPOISDX, Mods" value="5" phase="1">
         <property name="completion_distance" value="50" />
         <property name="PrefabNames" value="settlement_trader_02,settlement_trader_03,settlement_trader_04,settlement_trader_05" /> <!-- Don't go to Rekt-->

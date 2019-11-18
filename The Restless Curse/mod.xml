@@ -3,7 +3,7 @@
     <author>sphereii</author>
     <name>The Restless Curse</name>
     <description>Ancient Spirits are active in the apocalypse. Beware their Curse.</description>
-    <mod_version>18.0.1.1</mod_version>
+    <mod_version>18.0.1.8</mod_version>
     <game_version>17</game_version>
     <launcher_version>
     </launcher_version>
@@ -44,5 +44,16 @@
     <hash filename="D:\Github\SphereII.Mods/The Restless Curse/Resources\BiggerToolbelt (1).cs" hash="ad40984e6602a9455c3a893e66114f6d" />
     <hash filename="D:\Github\SphereII.Mods/The Restless Curse/Resources\CreatePlayerActionPatcher.cs" hash="22d66ac70a066392dd0c9d341bd3ecf1" />
     <hash filename="D:\Github\SphereII.Mods/The Restless Curse/Config\sounds.xml" hash="d836c6d9b6e7cf829fd8b82454b29fb8" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\buffs.xml" hash="06f833c46824733ffdae9a4d45b951bc" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\entityclasses.xml" hash="dd55091ccfe07633cf9a1884bbde16e1" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\entitygroups.xml" hash="112c9dc1dd099ec1a1b165a36a4b4910" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\items.xml" hash="9887e722dceda80043d1f234ff56e5fb" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\Localization - Quest.txt" hash="92833c5c7d5cbe546692cddf98770a0e" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\Localization.txt" hash="cc4bd7841e61d9137106847c1d451c85" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\materials.xml" hash="c5b918db3470fc986a62533a4db787d7" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\sounds.xml" hash="8f8752809a210d0b08b3a6d654583ee2" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Resources\SamaraMorgan.unity3d" hash="84a5bfc702afcd91ab41898fea30123e" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\quests.xml" hash="73b0010fa7e822f113af50a2425b4f83" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/The Restless Curse/Config\dialogs.xml" hash="abfff44d0f7bc30c66d6faac268c240b" />
   </hashes>
 </mod>
