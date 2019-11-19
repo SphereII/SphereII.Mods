@@ -93,8 +93,8 @@
       <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="20"/>
       <drop event="Harvest" name="resourceLeather" tag="butcherHarvest" count="6"/>
       <drop event="Harvest" name="resourceAnimalFat" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
+      <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="3"/>
+      <drop event="Harvest" name="resourceBone" tag="allToolsHarvest" count="1"/>
 
       <property name="faction" value="farmCows" />
       <!-- Custom boundary box so they don't go half into blocks -->
@@ -199,8 +199,8 @@
       <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="15"/>
       <drop event="Harvest" name="resourceLeather" tag="butcherHarvest" count="3"/>
       <drop event="Harvest" name="resourceAnimalFat" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
+      <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="3"/>
+      <drop event="Harvest" name="resourceBone" tag="allToolsHarvest" count="1"/>
 
       <property name="faction" value="farmGoat" />
       <property class="Boundary" >
@@ -225,8 +225,8 @@
       <drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="15"/>
       <drop event="Harvest" name="resourceLeather" tag="butcherHarvest" count="3"/>
       <drop event="Harvest" name="resourceAnimalFat" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="butcherHarvest" count="3"/>
-      <drop event="Harvest" name="resourceFemur" tag="allToolsHarvest" count="1"/>
+      <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="3"/>
+      <drop event="Harvest" name="resourceBone" tag="allToolsHarvest" count="1"/>
       <property class="Boundary" >
         <property name="BoundaryBox" value="1,1.8,1.8" />
         <property name="Center" value="0.5,0.3,0.5"/>
