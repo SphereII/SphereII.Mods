@@ -23,6 +23,9 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
 
     public bool CheckFactionForEnemy(EntityAlive Entity)
     {
+        if(this.theEntity.factionId == Entity.factionId)
+            return false;
+
         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this.theEntity, Entity);
         DisplayLog(" CheckFactionForEnemy: " + myRelationship.ToString());
         if (myRelationship == FactionManager.Relationship.Hate)
