@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.1.1.39</mod_version>
+    <mod_version>18.1.1.50</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -313,7 +313,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" hash="cc8b09646c973c9931f9f3d80041236d" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Buffs\RequirementSameFactionSDX.cs" hash="eb60d68086012cd1836d6a35c5491943" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" hash="2cceaacc0e1dcc25c5be17bfd08e5515" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionOpenDialogSDX.cs" hash="e70c8ac2b51f6bc5ed7f145bf14137e9" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" hash="b76b7afb7b52e39468a76e84cb65d45e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasTaskSDX.cs" hash="509bc50ea6aa4b2890d0a9c1c87b1ff8" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHiredSDX.cs" hash="3c3e1a3b3d7711affc3a75096f394743" />
@@ -353,7 +352,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Items\ItemsUtilities.cs" hash="0e824dfe47e9c8074d4ab7395425ac84" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" hash="a806eeca9e5b3999b1dc97fa1c86cb12" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionAnimatorSDX.cs" hash="d198deefad50679503007190b674036d" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="599fce3a80838d224d783a8c95b1b2a6" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionGiveQuestSDX.cs" hash="373e3fc42c2ebf07edf36a32f224395e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionModifySkillSDX.cs" hash="0f1eaa4189fe547b629a950eb0f63db1" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionNotifyTeam.cs" hash="6da7ee7b309b6943ffcdd6342e782cd4" />
@@ -388,15 +386,11 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Documentation\Examples\sounds.xml" hash="90c25671ba88ca3872b6f8640529aa6e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\SphereII_PoweredWorkstations.cs" hash="110b50d8e0696390f2eb8d914c73b68f" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="39553a71e00e798f7f3c16e0c35d6744" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/PatchScripts\DialogPatches.cs" hash="adb8420d07483f8c8b671acdf8b966ad" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Standard\XMLDebugger.cs" hash="4d6eb014a6046d03f32586fd1adacc6b" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="1570417b42c9c66e4d74e6ecd189dbda" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\PartyFeatures\AddNonPlayerToParty.cs" hash="3eec26bf0ebe454b54d215e292ad7ac3" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="ba9cd126e8b973624f3adb9107b957ba" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="2bef60cfc75114f0d3116951144d0e46" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasCVar.cs" hash="8ac43243ac19da32086bd9da209267b1" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveGotoPOISDX.cs" hash="92adb1c2ff7b562eb7da6d4de1e688e3" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="104d292c71f7066d5292ac183afef05a" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="dbea96203c78c35881b453920a005971" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Config\buffs.xml" hash="b2b6a0a501a212c55aa6477151212d9d" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Config\XUi\xui.xml" hash="dd1b6c7fb0e7e9d27ed0b343290fc23d" />
@@ -519,5 +513,15 @@
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" hash="06142236299159899c6d8711ad1a95b5" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="f45afd99618f348a2a5c908a8199ed53" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="dbea96203c78c35881b453920a005971" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/PatchScripts\DialogPatches.cs" hash="04a1fe5e698a49fba050387e62ea0a13" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="6a28f647d6408f201e6a07419ba62132" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionShowToolTipSDX.cs" hash="7ff8d8fb9eaf7033ec65f8afb54b8cd2" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionOpenDialogSDX.cs" hash="de1ea4f5102f6e63042ce90e0a7a6644" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" hash="e5149beb57bd4e5a8ed80ffed0c3a74e" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasCVar.cs" hash="16c4351a6934f2083db6088719c6cdd8" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Quests\DialogFromXML.cs" hash="04decf97bc409b6e4b6e1060d292d00a" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="938215facbd932af3d88ce59a83c4975" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasItemSDX.cs" hash="6244022c7aebb12ed08456323b3f393f" />
   </hashes>
 </mod>

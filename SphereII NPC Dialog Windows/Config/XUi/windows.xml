@@ -4,10 +4,10 @@
   <remove xpath="/windows/window[@name='windowRespondentName']" />
 
   <append xpath="/windows">
-    <window name="windowRespondentName" depth="0" pos="0,-15" width="1000" height="80" controller="DialogRespondentNameSDX, Mods">
-      <texture name="SMXskillListBG" pos="0,-75"    size="1000,80" style="SMX.conversation.trader.background" pivot="center" />
+    <window name="windowRespondentName" depth="0" pos="0,-15" width="1000" height="200" controller="DialogRespondentNameSDX, Mods">
+      <texture name="SMXskillListBG" pos="0,-50" size="1000,200" style="SMX.conversation.player.background" pivot="top" />
       <rect name="content" depth="1" >
-        <label name="header.name" pos="0,-10" size="1000,80" style="SMX.general.panel.title" text="{respondentname}" color="[white]" pivot="center" />
+        <label name="header.name" pos="0,-10" size="1000,200" style="SMX.general.panel.title" text="{respondentname}" color="[white]" pivot="center" />
       </rect>
     </window>
   </append>
@@ -15,11 +15,12 @@
 
   <remove xpath="/windows/window[@name='windowStatement']" />
   <append xpath="/windows">
-    <window name="windowStatement" depth="1" pos="0,-100" width="1000" height="150" controller="DialogStatementWindow">
-      <rect name="content" depth="1">
-        <label name="statementLabel" depth="3" pos="0,11" size="800,40" text="{statement}" font_size="30" justify="left" pivot="center" />
+    <window name="windowStatement" depth="1" pos="0,-100" width="1000" height="200" controller="DialogStatementWindow">
+      <rect name="content" depth="1" >
+        <label name="statementLabel" depth="3" pos="0,11" size="800,200" text="{statement}" font_size="30" justify="left" pivot="top" overflow="resizeheight" />
       </rect>
     </window>
+
   </append>
   <!--    // SMX // Conversation Player Window - NOT CLEANED -->
 

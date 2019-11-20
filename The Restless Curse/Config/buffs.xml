@@ -5,6 +5,30 @@
       <damage_type value="Dehydration"/>
       <stack_type value="ignore"/>
       <duration value="0" />
+      <effect_group>
+      <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="cursesamaramorgan" operation="set" value="1" />
+      </effect_group>
+
+    </buff>
+
+    <buff name="buffcurseSamaraMorgan2" >
+      <damage_type value="Dehydration"/>
+      <stack_type value="ignore"/>
+      <duration value="0" />
+      <effect_group>
+        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="cursesamaramorgan" operation="set" value="2" />
+      </effect_group>
+
+    </buff>
+
+    <buff name="buffcurseSamaraMorgan3" >
+      <damage_type value="Dehydration"/>
+      <stack_type value="ignore"/>
+      <duration value="0" />
+      <effect_group>
+        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="cursesamaramorgan" operation="set" value="3" />
+      </effect_group>
+
     </buff>
 
     <buff name="buffcurseSamaraMorgan_Start" >

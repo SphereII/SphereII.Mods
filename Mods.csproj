@@ -98,11 +98,13 @@
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\SoftHands.cs" />
     <Compile Include="0-SphereIICore\Harmony\PrefabFeatures\DisableTraderProtection.cs" />
     <Compile Include="0-SphereIICore\Harmony\Progression\ZeroXP.cs" />
+    <Compile Include="0-SphereIICore\Harmony\Quests\DialogFromXML.cs" />
     <Compile Include="0-SphereIICore\Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" />
     <Compile Include="0-SphereIICore\Harmony\SoundFeatures\SoundDataNodeIndexer.cs" />
+    <Compile Include="0-SphereIICore\Harmony\Standard\XMLDebugger.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\EntityFactory.cs" />
-    <Compile Include="0-SphereIICore\Harmony\Standard\HarmonyInit.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\QuickContinue.cs" />
+    <Compile Include="0-SphereIICore\Harmony\TileEntities\SphereII_PoweredWorkstations.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\DisableXPIconNotification.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\UnlockEnemyHealthBar.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\HeadshotOnly.cs" />
@@ -124,11 +126,16 @@
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionShowToolTipSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionOpenDialogSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasItemSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasCVar.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasTaskSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementPatrolSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\EAI\EAIApproachAndAttackSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\EAI\EAIGuardSDX.cs" />
@@ -195,6 +202,9 @@
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_EntityInformationPanelSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
+    <Compile Include="10SlotToolbelt\Harmony\BiggerToolbelt.cs" />
+    <Compile Include="10SlotToolbelt\PatchScripts\CreatePlayerActionPatcher.cs" />
+    <Compile Include="10SlotToolbelt\Scripts\ToolbeltSDX.cs" />
     <Compile Include="SphereII Clear UI\Harmony\ClearUI.cs" />
     <Compile Include="SphereII Legacy Distant Terrain\Harmony\LegacyDistantTerrain.cs" />
     <Compile Include="SphereII Winter Project\Harmony\PrefabInstance.cs" />
@@ -206,13 +216,22 @@
     <Content Include="0-SphereIICore\Config\buffs.xml" />
     <Content Include="0-SphereIICore\Config\XUi\xui.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\blocks.xml" />
+    <Content Include="0-SphereIICore\Documentation\Examples\entityclasses.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\items.xml" />
+    <Content Include="0-SphereIICore\Documentation\Examples\sounds.xml" />
     <Content Include="0-SphereIICore\mod.xml" />
     <Content Include="0-SphereIICore\ModInfo.xml" />
+    <Content Include="10SlotToolbelt\Config\XUi\windows.xml" />
+    <Content Include="10SlotToolbelt\Config\XUi\xui.xml" />
+    <Content Include="10SlotToolbelt\Harmony\Harmony-10 Slot Toolbelt.dll" />
+    <Content Include="10SlotToolbelt\Harmony\Harmony-10 Slot Toolbelt.pdb" />
+    <Content Include="10SlotToolbelt\mod.xml" />
     <Content Include="Blooms Animal Husbandry\Config\blocks.xml" />
     <Content Include="Blooms Animal Husbandry\Config\buffs.xml" />
     <Content Include="Blooms Animal Husbandry\Config\dialogs.xml" />
-    <Content Include="Blooms Animal Husbandry\Config\entityclasses.xml" />
+    <Content Include="Blooms Animal Husbandry\Config\entityclasses.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Blooms Animal Husbandry\Config\entitygroups.xml" />
     <Content Include="Blooms Animal Husbandry\Config\items.xml" />
     <Content Include="Blooms Animal Husbandry\Config\Localization.txt" />
@@ -224,6 +243,7 @@
     <Content Include="Dishong Tower Challenge\Config\blocks.xml" />
     <Content Include="Dishong Tower Challenge\Config\entityclasses.xml" />
     <Content Include="Dishong Tower Challenge\Config\Localization - Quest.txt" />
+    <Content Include="Dishong Tower Challenge\Config\Localization.txt" />
     <Content Include="Dishong Tower Challenge\Config\loot.xml" />
     <Content Include="Dishong Tower Challenge\Config\quests.xml" />
     <Content Include="Dishong Tower Challenge\Config\recipes.xml" />
@@ -285,7 +305,9 @@
     <Content Include="SphereII NPC Dialog Windows\Config\quests.xml" />
     <Content Include="SphereII NPC Dialog Windows\Config\XUi\controls.xml" />
     <Content Include="SphereII NPC Dialog Windows\Config\XUi\styles.xml" />
-    <Content Include="SphereII NPC Dialog Windows\Config\XUi\windows.xml" />
+    <Content Include="SphereII NPC Dialog Windows\Config\XUi\windows.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SphereII NPC Dialog Windows\Config\XUi\xui.xml" />
     <Content Include="SphereII NPC Dialog Windows\mod.xml" />
     <Content Include="SphereII NPC Dialog Windows\ModInfo.xml" />
@@ -355,18 +377,27 @@
     <Content Include="SyX Security Bots\Config\sounds.xml" />
     <Content Include="SyX Security Bots\mod.xml" />
     <Content Include="SyX Security Bots\ModInfo.xml" />
-    <Content Include="The Restless Curse\Config\buffs.xml" />
-    <Content Include="The Restless Curse\Config\entityclasses.xml" />
+    <Content Include="The Restless Curse\Config\buffs.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="The Restless Curse\Config\dialogs.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="The Restless Curse\Config\entityclasses.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="The Restless Curse\Config\entitygroups.xml" />
     <Content Include="The Restless Curse\Config\items.xml" />
     <Content Include="The Restless Curse\Config\Localization - Quest.txt" />
     <Content Include="The Restless Curse\Config\Localization.txt" />
-    <Content Include="The Restless Curse\Config\quests.xml" />
+    <Content Include="The Restless Curse\Config\materials.xml" />
+    <Content Include="The Restless Curse\Config\quests.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="The Restless Curse\Config\sounds.xml" />
     <Content Include="The Restless Curse\mod.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="0-SphereIICore\Harmony\TileEntities\" />
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
     <Folder Include="Properties\" />
     <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
