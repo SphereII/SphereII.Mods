@@ -18,11 +18,27 @@
       SamaraMorgan_L01_02 - Statement 2
     SamraMorgan_L02:  Dialog Chain at cvar level 2
     
-    This is available too
-  <requirement type="HasItemSDX, Mods" requirementtype="Hide" id="meleeToolKnifeBone" value="2" />    
+
+  Supported Requirements:
+  
+    <requirement type="HasItemSDX, Mods" requirementtype="Hide" id="meleeToolKnifeBone" value="2" />    
+      Needs two meleeToolKnifeBone to show response    
+      If value isn't specified, it's 1.
+      
+     <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" />
+        Needs this buff to show the response
+     
+     <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" /> 
+        Needs one of these buffs to show the response    
+        
+     <requirement type="HasCVarSDX, Mods" requirementtype="Hide" id="cursesamaramorgan" operator="gte" value="1" />
+        Needs to have a Cvar in the id, and has to have a great than or equal to 1 value.
+    
+        Supported Operators:   gte, lte, lt, gt, eq
+        
+      <requirement type="HasCVarSDX, Mods" requirementtype="Hide" id="cursesamaramorgan" />
+        HasCVarSDX does not need to have operatior or value. Without specifyng those, just having a cvar passes the check, regardless of its value.
   -->
-
-
 
     <insertBefore xpath="/dialogs/dialog[@id='trader']/statement[@id='start']/response_entry[@id='done']">
     <response_entry id="cursed" />

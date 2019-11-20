@@ -8,7 +8,7 @@ public class DialogRequirementHasItemSDX : BaseDialogRequirement
         if (string.IsNullOrEmpty(Value))
             Value = "1";
 
-        float flValue = 0f;
+        float flValue = 1f;
         float.TryParse(Value, out flValue);
 
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
