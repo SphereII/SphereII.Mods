@@ -10,6 +10,7 @@
     text: What you say to the trader
     nextstatementid: which group of statements to say after you select this option.
     
+    text can be straight text, or a localization - quests.txt reference
     
     
     SamraMorgan : Main Dialog Chain
