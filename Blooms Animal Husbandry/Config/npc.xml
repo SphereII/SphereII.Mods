@@ -9,7 +9,6 @@
 			faction="whiteriver"
 			portrait="npc_joel"
 			greeting_type="nearby"
-			stance="Like" voice_set="trader"
 			trader_id="1" dialog_id="animalFarm"/>
   </append>
 
