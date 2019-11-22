@@ -24,4 +24,9 @@
     <drop event="Harvest" name="treePlantedOak1m" count="1" prob="0.1" tag="allHarvest"/>
 
   </append>
+  
+    <append xpath="/blocks/block[@name='terrDestroyedStone']">  <!-- Destroyed Stone -->
+    <drop event="Harvest" name="resourceClayLump" count="8" tag="oreWoodHarvest"/>
+ 
+  </append>
 </configs>
