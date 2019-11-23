@@ -1,28 +1,127 @@
 <configs>
   <append xpath="/entity_classes">
-    <entity_class name="SamaraMorgan" extends="zombieLab">
-      <property name="Tags" value="entity,zombie,walker,feral"/>
-      <property name="Mesh" value="Zombies/zombieStandardLabRagdoll"/>
-      <property name="ReplaceMaterial1" value="entities/zombies/materials/feral_eye"/>
-      <property name="DismemberMultiplierHead" value=".7"/>
-      <property name="DismemberMultiplierArms" value=".7"/>
-      <property name="DismemberMultiplierLegs" value=".7"/>
-      <!-- Feral -->
-      <property name="PainResistPerHit" value=".25"/>
-      <!-- Feral -->
-      <property name="HandItem" value="meleeHandZombieFeral"/>
-      <property name="MoveSpeedAggro" value=".5, 1.35"/>
-      <property name="ExperienceGain" value="750"/>
-      <!-- XP grunt feral -->
-      <property name="LootDropProb" value=".03"/>
-      <!-- Feral -->
+    <entity_class name="Samara">
+      <property name="UseModderUpdate" value="true" />
+      <property name="Class" value="EntityBandit"/>
+      <property name="Mesh" value="#@modfolder:Resources/Samara.unity3d?Samara_X" />
+      <property name="Faction" value="bandits"/>
+      <property name="Tags" value="bandits"/>
+      <property name="IsEnemyEntity" value="true"/>
+      <property name="RootMotion" value="false" />
+      <property name="HasRagdoll" value="true" />
+      <property name="AvatarController" value="MecanimSDX, Mods" />
+      <property name="ModelType" value="Standard"/>
+      <property name="EntityType" value="Player"/>
+      <property name="PhysicsBody" value="zombieStandard"/>
+      <property name="Parent" value="Enemies"/>
+      <property name="Mass" value="170"/>
+      <property name="Weight" value="70"/>
+      <property name="Prefab" value="NPC"/>
+      <property name="HandItem" value="handSamara"/>
+      <property name="RightHandJointName" value="Muzzle" />
+      <property name="SwimOffset" value="-2"/>
+      <property name="MoveSpeed" value="0.25"/>
+      <property name="MoveSpeedAggro" value=".8, .8"/>
+      <property name="MoveSpeedPanic" value="1.1"/>
+      <property name="AttackTimeoutDay" value="3.0"/>
+      <property name="AttackTimeoutNight" value="3.0"/>
+      <property name="PainResistPerHit" value=".85"/>
+      <property name="MaxViewAngle" value="220"/>
+      <property name="MaxTurnSpeed" value="360"/>
+      <property name="AttackTimeoutDay" value="1.0"/>
+      <property name="AttackTimeoutNight" value="1.0"/>
+      <property name="CanClimbLadders" value="true"/>
+      <property name="CanClimbVertical" value="true"/>
+      <property name="SightRange" value="80"/>
+      <property name="AITask-1" value="Look"/>
+      <property name="AITask-2" value="RangedAttackTarget" data="itemType=1;cooldown=3;duration=4;minRange=3;maxRange=30"/>
+      <property name="AITask-3" value="ApproachAndAttackTarget" data="class=EntityZombie,0,EntityNPC,0,EntityEnemyAnimal,0,EntityPlayer,0"/>
+      <property name="AITask-4" value="ApproachSpot"/>
+      <property name="AITask-5" value="Swim"/>
+      <property name="AITask-6" value="Wander"/>
+      <property name="AITask-7" value="BreakBlock"/>
+      <property name="AITask-8" value="Leap"/>
+      <property name="AITask-9" value=""/>
+      <property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityZombie,EntityNPC,EntityEnemyAnimal,EntityPlayer"/>
+      <property name="AITarget-2" value="BlockingTargetTask"/>
+      <property name="AITarget-3" value="SetAsTargetNearestEnemySDX, Mods" data="class=Entity,80"/>
+      <property name="AITarget-4" value=""/>
+      <property name="AttackIndexes" value="0" />
+      <property name="SpecialAttackIndexes" value="0" />
+      <property name="PainIndexes" value="0" />
+      <property name="DeathIndexes" value="0" />
+      <property name="RunIndexes" value="0" />
+      <property name="RandomIndexes" value="0" />
+      <property name="WalkIndexes" value="0" />
+      <property name="IdleIndexes" value="3" />
+      <property name="AttackIdleIndexes" value="0" />
+      <property name="SoundRandom" value="Enemies/Base_Zombie_Female/zombiefemaleroam"/>
+      <property name="SoundAlert" value="Enemies/Base_Zombie_Female/zombiefemalealert"/>
+      <property name="SoundAttack" value="Enemies/Base_Zombie_Female/zombiefemaleattack"/>
+      <property name="SoundHurt" value="Enemies/Base_Zombie_Female/zombiefemalepain"/>
+      <property name="SoundDeath" value="Enemies/Base_Zombie_Female/zombiefemaledeath"/>
+      <property name="SoundSense" value="Enemies/Base_Zombie_Female/zombiefemalesense"/>
+      <property name="JumpMaxDistance" value="5.0"/>
       <effect_group name="Base Effects">
-        <passive_effect name="HealthMax" operation="base_set" value="237"/>
+        <passive_effect name="HealthMax" operation="base_set" value="500"/>
         <passive_effect name="HealthMax" operation="perc_set" value="1"/>
-        <!-- Zombie HP scale -->
+        <passive_effect name="StaminaMax" operation="base_set" value="100"/>
+        <passive_effect name="PhysicalDamageResist" operation="base_set" value="10" />
+        <passive_effect name="DistractionResistance" operation="base_set" value="0,0"/>
+        <passive_effect name="BuffResistance" operation="base_add" value="1" tags="buffInjuryBleeding"/>
       </effect_group>
-      <property name="AITask-1" value="ApproachAndFollowTargetSDX, Mods" data="incentives=Cursed"/>
-      <property name="AITask-2" value="" />
+      <property name="SightLightThreshold" value="-2,150"/>
+      <!-- how well lit you have to be for the zombie to see you at min,max range -->
+      <property name="SleeperWakeupSightDetectionMin" value="-40,5"/>
+      <!-- Indiv.Random. sight capability - "I see you" light value at point blank -->
+      <property name="SleeperWakeupSightDetectionMax" value="340,480"/>
+      <!-- Indiv.Random. "I see you" light value at "SightRange" -->
+      <property name="SleeperSenseSightDetectionMin" value="-10,0"/>
+      <!-- same for groaning, not waking -->
+      <property name="SleeperSenseSightDetectionMax" value="200,300"/>
+      <property name="SleeperNoiseSenseThreshold" value="3,8"/>
+      <!-- Indiv.Random. hearing capability - "I hear something" noise value -->
+      <property name="SleeperNoiseWakeThreshold" value="9,12"/>
+      <property name="SleeperSmellSenseThreshold" value="20,50"/>
+      <!-- Indiv.Random. smell capability - "I smell something" player smell value -->
+      <property name="SoundSleeperSenseChance" value=".5"/>
+      <!-- the chance to play "SoundSleeperSense" when "SleeperSmellSenseThreshold" is triggered -->
+      <property name="SleeperSmellWakeThreshold" value="40,100"/>
+      <property name="NoiseAlertThreshold" value="30"/>
+      <!-- DEPRECATED; an awake zombie triggers instantly if touched by the sound range/volume -->
+      <property name="SmellAlertThreshold" value="40"/>
+      <!-- for awake zombies -->
+      <property name="DismemberMultiplierHead" value="1"/>
+      <property name="DismemberMultiplierArms" value="1"/>
+      <property name="DismemberMultiplierLegs" value="1"/>
+      <property name="LegCrawlerThreshold" value="0"/>
+      <!-- at like .175 nearly every zombie knocked down from a leg hit turns into a crawler -->
+      <property name="LegCrippleThreshold" value="0.01"/>
+      <property name="KnockdownProneDamageThreshold" value="0.5"/>
+      <property name="KnockdownProneStunDuration" value="0.5,1.8"/>
+      <property name="KnockdownProneRefillRate" value="0.045,0.045"/>
+      <property name="KnockdownKneelDamageThreshold" value="0.4"/>
+      <property name="KnockdownKneelStunDuration" value="0.5,1.8"/>
+      <property name="KnockdownKneelRefillRate" value="0.045,0.045"/>
+      <property name="LegsExplosionDamageMultiplier" value="1"/>
+      <property name="ArmsExplosionDamageMultiplier" value="1"/>
+      <property name="HeadExplosionDamageMultiplier" value="1"/>
+      <property name="ChestExplosionDamageMultiplier" value="1"/>
+      <property name="HasDeathAnim" value="true"/>
+      <property name="SurfaceCategory" value="organic"/>
+      <property name="WalkType" value="7"/>
+      <property name="ExperienceGain" value="1550"/>
+      <property name="DeadBodyHitPoints" value="1000"/>
+      <property name="TimeStayAfterDeath" value="5"/>
+      <property name="LootDropProb" value="0.02"/>
+      <!-- Whether it drops a loot bag on death or not. -->
+      <property name="LootDropEntityClass" value="EntityLootContainerRegular"/>
+      <property name="CompassIcon" value="ui_game_symbol_enemy_dot" />
+      <property name="CompassUpIcon" value="ui_game_symbol_enemy_dot_up" />
+      <property name="CompassDownIcon" value="ui_game_symbol_enemy_dot_down" />
+      <property name="TrackerIcon" value="ui_game_symbol_run"/>
+      <property name="AINoiseSeekDist" value="8"/>
+      <property name="AIPathCostScale" value=".9, .9"/>
     </entity_class>
   </append>
 
