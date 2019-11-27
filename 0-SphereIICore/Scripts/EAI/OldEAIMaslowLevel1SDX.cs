@@ -6,6 +6,9 @@ using UnityEngine;
 class EAIMaslowLevel1SDX : EAIApproachSpot
 {
 
+    private static string AdvFeatureClass = "AdvancedNPCFeatures";
+    
+
     List<String> lstFoodItems = new List<String>();
     List<String> lstFoodBins = new List<String>();
 
@@ -127,6 +130,19 @@ class EAIMaslowLevel1SDX : EAIApproachSpot
     // Determines if this AI task can even start. This is based on the thirsty and hunger buffs
     public override bool CanExecute()
     {
+        // Disable maslow for animals.
+        if(this.theEntity is EntityAliveFarmingAnimalSDX)
+        {
+            if(!Configuration.CheckFeatureStatus(AdvFeatureClass, "AnimalMaslow"))
+                return false;
+        }
+        // disable maslow for NPCs
+
+        else if(this.theEntity is EntityAliveSDX)
+        {
+            if(!Configuration.CheckFeatureStatus(AdvFeatureClass, "NPCMaslow"))
+                return false;
+        }
         bool result = false;
 
         if (this.theEntity.IsSleeping)

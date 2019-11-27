@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.1.1.51</mod_version>
+    <mod_version>18.1.1.54</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -520,11 +520,13 @@
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\Quests\DialogFromXML.cs" hash="04decf97bc409b6e4b6e1060d292d00a" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionOpenDialogSDX.cs" hash="de1ea4f5102f6e63042ce90e0a7a6644" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogActionShowToolTipSDX.cs" hash="7ff8d8fb9eaf7033ec65f8afb54b8cd2" />
-    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="938215facbd932af3d88ce59a83c4975" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasCVar.cs" hash="16c4351a6934f2083db6088719c6cdd8" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasItemSDX.cs" hash="1e15cfdfcb64b0fe913cb0b183607933" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="fd30074c011b044450c9f105ae693b35" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\EAI\OldEAIMaslowLevel1SDX.cs" hash="9885587666f20c5a49064c24dace06cd" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="6a28f647d6408f201e6a07419ba62132" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="4fc17722eeb8d150fa91780ec1a75563" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\AlwaysActive.cs" hash="67133ce78863a96a9614fe80842dd016" />
+    <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="9a2a1691def70f01a8c591aeb0b5b5ec" />
   </hashes>
 </mod>

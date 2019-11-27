@@ -70,6 +70,9 @@
         <property name="EnhancedFeatures" value="false" />   <!-- Allow NPCs to open doors, etc-->
         <property name="MakeTraderVulnerable" value="false" /> <!-- allow the Trader NPCs to die. -->
         <property name="NPCSpeedFix" value="true" />        <!-- allow the Trader NPCs to move at a reasonable speed -->
+        <property name="NPCMaslow" value="true" />    <!-- Turn on or off Maslow for NPCs -->
+        <property name="AnimalMaslow" value="true" /> <!-- Turn on or off maslow for animals. -->
+        
 
       </property>
 

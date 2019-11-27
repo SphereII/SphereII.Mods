@@ -18,6 +18,12 @@ public class SphereII_DialogFromXML
                 if (e.HasAttribute("operator"))
                     (__result as DialogRequirementHasCVarSDX).strOperator = e.GetAttribute("operator");
             }
+
+            if(__result is DialogRequirementHasBuffSDX)
+            {
+                if(e.HasAttribute("match"))
+                    (__result as DialogRequirementHasBuffSDX).strMatch = e.GetAttribute("match");
+            }
         }
     }
 
