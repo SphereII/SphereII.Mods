@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Xml;
 using UnityEngine;
 
-public class SphereII_DialogFromXML
+public class SphereII_DialogFromXML_Extensions
 {
     [HarmonyPatch(typeof(DialogFromXml))]
     [HarmonyPatch("ParseRequirement")]
