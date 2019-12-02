@@ -128,6 +128,7 @@ public static class ItemsUtilities
                 if(ingredient.count >= Reduction)
                 {
                     int repairCount = ingredient.count / Reduction;
+                    ingredient.count = repairCount;
                     ingredients.Add(ingredient);
                 }
             }

@@ -272,6 +272,10 @@ public class SphereII__AdvancedItems
                 if (CraftingManager.GetRecipe(forId.GetItemName() )== null)
                     return true;
 
+                // if the recipe has a tag of usevanillascrap, fall back to default.
+                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags.Parse("usevanillascrap")))
+                    return true;
+
                 // If there's a recipe, reduce it
                 Recipe recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);
                 ItemsUtilities.Scrap(recipe.ingredients, itemStack, __instance.ItemController);
