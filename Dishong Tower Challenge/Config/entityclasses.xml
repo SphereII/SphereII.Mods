@@ -5,13 +5,15 @@
     <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
     <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
     <property name="DeadBodyHitPoints" value="100"/>
-
+	<property name="TimeStayAfterDeath" value="60"/>
+	
   </append>
 
   <append xpath="//entity_class[starts-with(@name, 'zombieFatHawaiian')]">
     <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
     <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
 
@@ -19,13 +21,25 @@
     <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
     <drop event="Harvest" name="foodRottingFlesh" tag="butcherHarvest" count="3"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
   
   <append xpath="//entity_class[starts-with(@name, 'zombieNurse')]">
     <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
     <drop event="Harvest" name="resourcePotassiumNitratePowder" tag="butcherHarvest" count="5"/>
+	<drop event="Harvest" name="drugAntibiotics" tag="butcherHarvest" count="1" prob="0.1"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
+
+  </append>
+
+  <append xpath="//entity_class[starts-with(@name, 'zombieLab')]">
+    <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
+    <drop event="Harvest" name="resourcePotassiumNitratePowder" tag="butcherHarvest" count="5"/>
+	<drop event="Harvest" name="toolBeaker" tag="butcherHarvest" count="1" prob="0.1"/>
+    <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
   
@@ -33,18 +47,21 @@
     <drop event="Harvest" name="resourceBone" tag="butcherHarvest" count="4"/>
     <drop event="Harvest" name="resourcePotassiumNitratePowder" tag="butcherHarvest" count="5"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
   
     <append xpath="//entity_class[starts-with(@name, 'zombieSnow')]">
     <drop event="Harvest" name="resourceSnowBall" tag="butcherHarvest" count="2"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
   
     <append xpath="//entity_class[starts-with(@name, 'zombieBiker')]">
     <drop event="Harvest" name="resourceOil" tag="butcherHarvest" count="1,4"/>
     <property name="DeadBodyHitPoints" value="100"/>
+	<property name="TimeStayAfterDeath" value="60"/>
 
   </append>
 </configs>
