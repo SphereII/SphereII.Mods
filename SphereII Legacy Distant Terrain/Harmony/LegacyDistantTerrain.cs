@@ -126,7 +126,7 @@ class SphereII_LegacyDistantTerrain
 
         public static void Postfix(WorldEnvironment __instance, World ___m_World)
         {
-            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" )
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")
                 return;
 
             if (!GameManager.IsDedicatedServer && !GameManager.IsSplatMapAvailable())
