@@ -10,10 +10,8 @@ public class RequirementEveryXHourSDX : RequirementBase
     {
         int hour = GameUtils.WorldTimeToHours(GameManager.Instance.World.GetWorldTime());
         if (hour == this.value)
-        {
-            Debug.Log("Requirement hour match: " + hour);
             return true;
-        }
+
         return false;
     }
 }
