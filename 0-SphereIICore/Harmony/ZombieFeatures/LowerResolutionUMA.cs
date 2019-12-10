@@ -25,6 +25,8 @@ public class SphereII_LowerResolutionUMA
             if(!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                 return true;
 
+            if (___umaData.ArchetypeIsPlayer)
+                return true;
             ___umaData.AtlasSize = 512;
 
             // Changing the Atlas size down  for all UMAs
