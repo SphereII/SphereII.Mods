@@ -184,7 +184,8 @@ public class BlockMortSpawner : BlockLoot
       return 0;
     }
 
-    if (!OnBlockDestroyedBy(_world, _clrIdx, _blockPos, _blockValue, _entityIdThatDamaged, _bUseHarvestTool)) return max;
+    if (OnBlockDestroyedBy(_world, _clrIdx, _blockPos, _blockValue, _entityIdThatDamaged, _bUseHarvestTool) == DestroyedResult.Remove)
+            return max;
 
     SpawnDestroyParticleEffect(_world, _blockValue, _blockPos, _world.GetLightBrightness(_blockPos + new Vector3i(0, 1, 0)), GetColorForSide(_blockValue, BlockFace.Top), _entityIdThatDamaged);
 
