@@ -20,7 +20,7 @@ public class EntityAliveSDX : EntityNPC
 {
     public QuestJournal QuestJournal = new QuestJournal();
     public List<String> lstQuests = new List<String>();
-
+    public bool isAlwaysAwake = false;
     public List<Vector3> PatrolCoordinates = new List<Vector3>();
 
     int DefaultTraderID = 0;
@@ -84,6 +84,10 @@ public class EntityAliveSDX : EntityNPC
             strMyName = Names[index];
         }
 
+        if (entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
+        {
+            isAlwaysAwake = true;
+        }
         if (entityClass.Properties.Values.ContainsKey("Titles"))
         {
             string text = entityClass.Properties.Values["Titles"];
@@ -123,6 +127,13 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
+    public override void SetSleeper()
+    {
+        // if configured as a sleeper, this should wake them up
+        if (isAlwaysAwake)
+            return;
+        base.SetSleeper();
+    }
     public void ConfigureBounaryBox(Vector3 newSize, Vector3 center)
     {
         BoxCollider component = base.gameObject.GetComponent<BoxCollider>();
