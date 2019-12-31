@@ -6,7 +6,7 @@ using System.Globalization;
 public class BlockTakeAndReplace : Block
 {
     // By default, all blocks using this class will have a take delay of 15 seconds, unless over-ridden by the XML.
-    private float fTakeDelay = 15f;
+    private float fTakeDelay = 6f;
 
     public override void Init()
     {

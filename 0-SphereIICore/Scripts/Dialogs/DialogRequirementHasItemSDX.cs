@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 public class DialogRequirementHasItemSDX : BaseDialogRequirement
 {
+    private static string AdvFeatureClass = "AdvancedDialogDebugging";
+
     public override bool CheckRequirement(EntityPlayer player)
     {
         int count = 0;
@@ -18,9 +20,12 @@ public class DialogRequirementHasItemSDX : BaseDialogRequirement
         {
             count = playerInventory.Backpack.GetItemCount(item, -1, -1, false);
             count += playerInventory.Toolbelt.GetItemCount(item, false, -1, -1);
+            AdvLogging.DisplayLog(AdvFeatureClass, "HasItemSDX: " + item.ItemClass.GetItemName() + " Player has Count: " + count + " Needs: " + flValue);
             if (flValue <= count)
                 return true;
         }
+
+        AdvLogging.DisplayLog(AdvFeatureClass, "HasItemSDX: Player does not have enough " + item.ItemClass.GetItemName() + " Count: " + count + " Needs: " + flValue);
 
         return false;
     }

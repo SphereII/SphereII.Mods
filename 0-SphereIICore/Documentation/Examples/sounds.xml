@@ -16,7 +16,7 @@
       <MaxRepeatRate value="0.001" />
       
       <!-- Add in the Buff or Quest line for this sound to activate either, other both -->
-      <Buff value="buffcurseSamaraMorgan_Start" />   <!-- distribute this buff in the radius of the sound -->
+      <Buff value="buffCursed_Start" />   <!-- distribute this buff in the radius of the sound -->
       <Quest value="quest_curseSamaraMorgan" />     <!-- distribute this quest to all in the radius of the sound-->
       
       

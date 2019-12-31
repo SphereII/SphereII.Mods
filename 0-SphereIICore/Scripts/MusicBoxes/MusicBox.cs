@@ -29,7 +29,7 @@ using Audio;
 
 public class BlockMusicBox : BlockLoot
 {
-  
+
     // Video Source contains the asset bundle where the video is stored, if configured through the block.
     private String strVideoSource;
 
@@ -300,7 +300,7 @@ public class BlockMusicBox : BlockLoot
                 // List of Videos and Sound clips.
                 myMusicBoxScript.VideoGroups = myVideos;
                 myMusicBoxScript.SoundGroups = mySounds;
-             
+
                 myMusicBoxScript.myVideoClip = null;
                 myMusicBoxScript.enabled = bRuntimeSwitch;
 
@@ -312,4 +312,3 @@ public class BlockMusicBox : BlockLoot
         #endregion
     }
 }
-

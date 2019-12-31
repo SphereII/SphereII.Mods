@@ -22,11 +22,9 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
 
         for (int j = 0; j < this.targets.Count; j++)
         {
-            Debug.Log("SpawnBabySDX()");
             EntityAlive entity = this.targets[j] as EntityAlive;
             if (entity)
             {
-                Debug.Log("SpawnBabySDX(): Is an EntityAlive");
                 int EntityID = entity.entityClass;
 
                 // If the group is set, then use it.
@@ -43,7 +41,6 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
                 {
                     NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
                     GameManager.Instance.World.SpawnEntityInWorld(NewEntity);
-                    Debug.Log("An entity was created: " + NewEntity.ToString());
                     if (NewEntity is EntityAlive)
                     {
                         Debug.Log("Setting " + this.strCvar + " ID to: " + entity.entityId + " for " + NewEntity.entityId);

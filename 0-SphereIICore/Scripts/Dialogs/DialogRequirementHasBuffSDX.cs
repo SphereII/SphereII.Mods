@@ -2,17 +2,17 @@
 
 /*
  * Match at least one of these buffs, by default.
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" /> 
  * Match at least 2
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" match="2" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" match="2" /> 
  * Match at least 1
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" match="1" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" match="1" /> 
  * Do not have these buffs
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" match="not" /> 
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan" match="not" /> 
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" match="none" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" match="not" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed" match="not" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" match="none" /> 
  * Match All:
- *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffcursesamaramorgan,buffGodMode,buffImagination" match="all" /> 
+ *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" match="all" /> 
  */
 public class DialogRequirementHasBuffSDX : BaseDialogRequirement
 {
@@ -44,9 +44,13 @@ public class DialogRequirementHasBuffSDX : BaseDialogRequirement
                     return true;
 
             // If no operator, just check if we have it
-            if(player.Buffs.HasBuff(Value))
+            if (player.Buffs.HasBuff(Value))
                 return true;
+
         }
+
+        if (strMatch == "1")
+            return false;
 
         // Check to see if match is a special key word.
         switch(strMatch.ToLower())
