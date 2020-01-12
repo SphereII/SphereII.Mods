@@ -16,12 +16,15 @@ public class SphereII_RandomSize
             bool bRandomSize = false;
 
             if (entity is EntityZombie)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, " Random Size: Is A Zombie. Random size is true");
                 bRandomSize = true;
-
+            }
             EntityClass entityClass = EntityClass.list[entity.entityClass];
             if (entityClass.Properties.Values.ContainsKey("RandomSize"))
                 bRandomSize = StringParsers.ParseBool(entityClass.Properties.Values["RandomSize"], 0, -1, true);
 
+            AdvLogging.DisplayLog(AdvFeatureClass, "Entity: " + entity.DebugName + " Random Size:  " + bRandomSize);
             return bRandomSize;
         }
     }
@@ -44,8 +47,9 @@ public class SphereII_RandomSize
                     System.Random random = new System.Random();
                     int randomIndex = random.Next(0, numbers.Length);
                     float flScale = numbers[randomIndex];
-
+                    
                     AdvLogging.DisplayLog(AdvFeatureClass, " Random Size: " + flScale);
+                    __instance.Buffs.AddCustomVar("RandomSize", flScale);
                     // scale down the zombies, or upscale them
                     __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
                 }
@@ -54,59 +58,85 @@ public class SphereII_RandomSize
 
     }
 
-    // Read Helper to make sure the size of the zombies are distributed properly
     [HarmonyPatch(typeof(EntityAlive))]
-    [HarmonyPatch("Read")]
-    public class SphereII_EntityAlive_Read
+    [HarmonyPatch("Update")]
+    public class SphereII_EntityAlive_Update
     {
-        public static void Postfix(EntityAlive __instance, BinaryReader _br)
+        public static bool Prefix(EntityAlive __instance)
         {
-            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                return;
-
-            try
+            if (__instance.Buffs.HasCustomVar("RandomSize"))
             {
-                if (RandomSizeHelper.AllowedRandomSize(__instance))
-                {
+                AdvLogging.DisplayLog(AdvFeatureClass, " Update()");
 
-                    float flScale = _br.ReadSingle();
-                    __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
+                float scale = __instance.Buffs.GetCustomVar("RandomSize");
+                AdvLogging.DisplayLog(AdvFeatureClass, " Scale: " + scale + " Transform: " + __instance.gameObject.transform.localScale.x);
+
+               // if (__instance.gameObject.transform.localScale.x != scale)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, " Setting Scale:  " + scale);
+
+                    __instance.gameObject.transform.localScale = new Vector3(scale, scale, scale);
                 }
             }
-            catch (Exception)
-            {
-
-            }
-
-
-
+            return true;
         }
     }
-    // Write Helper to make sure the size of the zombies are distributed properly
-    [HarmonyPatch(typeof(EntityAlive))]
-    [HarmonyPatch("Write")]
-    public class SphereII_EntityAlive_Write
-    {
-        public static void Postfix(EntityAlive __instance, BinaryWriter _bw)
-        {
-            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                return;
-            try
-            {
-                if (RandomSizeHelper.AllowedRandomSize(__instance))
-                {
-                    float flScale = __instance.gameObject.transform.localScale.x;
-                    _bw.Write(flScale);
-                }
+        //// Read Helper to make sure the size of the zombies are distributed properly
+        //[HarmonyPatch(typeof(EntityAlive))]
+        //[HarmonyPatch("Read")]
+        //public class SphereII_EntityAlive_Read
+        //{
+        //    public static void Postfix(EntityAlive __instance, BinaryReader _br)
+        //    {
+        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //            return;
 
-            }
-            catch (Exception)
-            {
+        //        try
+        //        {
+        //            if (RandomSizeHelper.AllowedRandomSize(__instance))
+        //            {
 
-            }
+        //                float flScale = _br.ReadSingle();
+        //                AdvLogging.DisplayLog(AdvFeatureClass, " Read Size: " + flScale);
 
-        }
+        //                __instance.gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
 
+        //        }
+
+
+
+        //    }
+        //}
+        //// Write Helper to make sure the size of the zombies are distributed properly
+        //[HarmonyPatch(typeof(EntityAlive))]
+        //[HarmonyPatch("Write")]
+        //public class SphereII_EntityAlive_Write
+        //{
+        //    public static void Postfix(EntityAlive __instance, BinaryWriter _bw)
+        //    {
+        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //            return;
+        //        try
+        //        {
+        //            if (RandomSizeHelper.AllowedRandomSize(__instance))
+        //            {
+        //                float flScale = __instance.gameObject.transform.localScale.x;
+        //                AdvLogging.DisplayLog(AdvFeatureClass, " Write Size: " + flScale);
+        //                _bw.Write(flScale);
+        //            }
+
+        //        }
+        //        catch (Exception)
+        //        {
+
+        //        }
+
+        //    }
+
+        //}
     }
-}
 

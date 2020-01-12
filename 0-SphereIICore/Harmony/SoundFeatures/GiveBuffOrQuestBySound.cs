@@ -1,4 +1,4 @@
-using Audio;
+﻿using Audio;
 using Harmony;
 using System;
 using System.Collections.Generic;

@@ -7,16 +7,12 @@ public static class Configuration
     {
         BlockValue ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
         if (ConfigurationFeatureBlock.type == 0)
-        {
-            //AdvLogging.DisplayLog("Configuration", "Feature: " + strFeature + " No Configuration Block");
             return false;
-        }
 
         bool result = false;
         if(ConfigurationFeatureBlock.Block.Properties.Contains(strFeature))
             result = ConfigurationFeatureBlock.Block.Properties.GetBool(strFeature);
 
-       // AdvLogging.DisplayLog("Configuration", "Feature: " + strFeature + " Result: " + result);
         return result;
     }
 
@@ -25,13 +21,8 @@ public static class Configuration
     {
         BlockValue ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
         if (ConfigurationFeatureBlock.type == 0)
-        {
-           // AdvLogging.DisplayLog("Configuration", "Feature: " + strFeature + " No Configuration Block");
             return false;
-        }
 
-
-        
         bool result = false;
         if(ConfigurationFeatureBlock.Block.Properties.Classes.ContainsKey(strClass))
         {
@@ -41,8 +32,6 @@ public static class Configuration
                     result = StringParsers.ParseBool(dynamicProperties3.Values[keyValuePair.Key]);
         }
 
-      //  UnityEngine.Debug.Log(" Configuration:  " + strClass + " : " + strFeature + " : Result: " + result);
-        //ConsoleCmdAIDirectorDebug.("Configuration", "Feature: " + strFeature + " Result: " + result);
         return result;
     }
 
@@ -50,10 +39,7 @@ public static class Configuration
     {
         BlockValue ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
         if(ConfigurationFeatureBlock.type == 0)
-        {
-            // AdvLogging.DisplayLog("Configuration", "Feature: " + strFeature + " No Configuration Block");
             return string.Empty;
-        }
 
 
         string result = string.Empty;

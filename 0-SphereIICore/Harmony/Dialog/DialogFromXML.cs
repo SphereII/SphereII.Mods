@@ -19,13 +19,26 @@ public class SphereII_DialogFromXML_Extensions
                     (__result as DialogRequirementHasCVarSDX).strOperator = e.GetAttribute("operator");
             }
 
-            if(__result is DialogRequirementHasBuffSDX)
+            if (__result is DialogRequirementHasBuffSDX)
             {
                 if(e.HasAttribute("match"))
                     (__result as DialogRequirementHasBuffSDX).strMatch = e.GetAttribute("match");
             }
         }
     }
+    [HarmonyPatch(typeof(DialogFromXml))]
+    [HarmonyPatch("ParseAction")]
+    public class SphereII__DialogFromXML_ParseAction
+    {
+        static void Postfix(BaseDialogAction __result, XmlElement e)
+        {
+            if (__result is DialogActionAddCVar)
+            {
+                if (e.HasAttribute("operator"))
+                    (__result as DialogActionAddCVar).strOperator = e.GetAttribute("operator");
+            }
 
+        }
+    }
 
 }
