@@ -20,7 +20,7 @@ public class EntityAliveSDX : EntityNPC
 {
     public QuestJournal QuestJournal = new QuestJournal();
     public List<String> lstQuests = new List<String>();
-
+    public bool isAlwaysAwake = false;
     public List<Vector3> PatrolCoordinates = new List<Vector3>();
 
     int DefaultTraderID = 0;
@@ -84,6 +84,10 @@ public class EntityAliveSDX : EntityNPC
             strMyName = Names[index];
         }
 
+        if (entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
+        {
+            isAlwaysAwake = true;
+        }
         if (entityClass.Properties.Values.ContainsKey("Titles"))
         {
             string text = entityClass.Properties.Values["Titles"];
@@ -123,6 +127,34 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
+    public override void SetSleeper()
+    {
+        // if configured as a sleeper, this should wake them up
+        if (isAlwaysAwake)
+            return;
+        base.SetSleeper();
+    }
+    
+    /// <summary>
+    /// Overrides EntityAlive.OnAddedToWorld().
+    /// When entities are spawned into sleeper volumes, which happens in SleeperVolume.Spawn(),
+    /// several of their properties are set so they are spawned in a sleeping state.
+    /// If the NPC should always be awake, those properties can be reset here.
+    /// </summary>
+    public override void OnAddedToWorld()
+    {
+        if (isAlwaysAwake)
+        {
+            // Set the current order, defaults to "Wander"
+            EntityUtilities.SetCurrentOrder(entityId, EntityUtilities.GetCurrentOrder(entityId));
+
+            // Set in EntityAlive.TriggerSleeperPose() - resetting here
+            this.IsSleeping = false;
+        }
+
+        base.OnAddedToWorld();
+    }
+    
     public void ConfigureBounaryBox(Vector3 newSize, Vector3 center)
     {
         BoxCollider component = base.gameObject.GetComponent<BoxCollider>();

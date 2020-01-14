@@ -1,0 +1,19 @@
+﻿using UnityEngine;
+public class DialogRequirementHasCompletedQuestSDX : BaseDialogRequirement
+{
+    public override bool CheckRequirement(EntityPlayer player)
+    {
+        if (string.IsNullOrEmpty(Value))
+            return false;
+
+        Quest myQuest = player.QuestJournal.FindQuest(Value.ToLower());
+        if (myQuest == null)
+            return false;
+
+        if (myQuest.CurrentState == Quest.QuestState.Completed)
+            return true;
+        return false;
+    }
+}
+
+

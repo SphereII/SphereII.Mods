@@ -11,6 +11,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     private Vector3 entityTargetPos;
     private Vector3 entityTargetVel;
     private int pathCounter;
+    private bool DeathOnLeaderLoss = false;
 
   //  public EntityAliveSDX entityAliveSDX;
 
@@ -35,20 +36,29 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
     public override void SetData(DictionarySave<string, string> data)
     {
+        
         base.SetData(data);
         string text;
         if (data.TryGetValue("incentives", out text))
         {
+            DisplayLog("Text: " + text);
             string[] array = text.Split(new char[]
             {
                 ','
             });
             for (int i = 0; i < array.Length; i++)
             {
+                DisplayLog("\tIncentive: " + array[i].ToString());
                 if (this.lstIncentives.Contains(array[i].ToString()))
                     continue;
                 this.lstIncentives.Add(array[i].ToString());
             }
+        }
+
+        if (data.TryGetValue("Death", out text))
+        {
+            if (text.ToLower() == "true")
+                DeathOnLeaderLoss = true;
         }
     }
 
@@ -71,21 +81,30 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         //}
   
         DisplayLog(" ConfigureTargetEntity()");
+        
+        DisplayLog(" Incentivies: " + this.lstIncentives.ToArray().ToString());
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(30f, 20f, 30f));
         this.theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, this.NearbyEntities);
         for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)
         {
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
+            DisplayLog("Found entity: " + x.EntityName);
             if (x != this.theEntity)
             {
-
+                
                 // Check the entity against the incentives
                 if (EntityUtilities.CheckIncentive(this.theEntity.entityId, this.lstIncentives, x))
                 {
                     DisplayLog(" Found my Target: " + x.EntityName);
                     this.entityTarget = x;
 
+                    // Leader is dead
+                    if (!this.entityTarget.IsAlive())
+                    {
+                        this.theEntity.MarkToUnload();
+                        return false;
+                    }
                     Vector3 tempPosition =  (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
                     
                     Vector3 a = this.theEntity.position - tempPosition;
@@ -108,7 +127,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         if(this.theEntity.Buffs.HasCustomVar("Leader"))
         {
             EntityAlive entity = this.theEntity.world.GetEntity((int)(this.theEntity.Buffs.GetCustomVar("Leader"))) as EntityAlive;
-            if(entity)
+            if (entity)
             {
                 DisplayLog("My leader is out of sight. Teleporting to my leader");
                 this.entityTarget = entity;
@@ -248,13 +267,14 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.SetLookPosition(this.entityTargetPos);
         this.theEntity.RotateTo(this.entityTargetPos.x, this.entityTargetPos.y + 2, this.entityTargetPos.z, 30f, 30f);
 
-     //   if (entityAliveSDX)
+        if (this.theEntity is EntityAliveSDX)
         {
             if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.SetPatrolPoint))
             {
                 // Make them a lot closer to you when they are following you.
                 (this.theEntity as EntityAliveSDX).UpdatePatrolPoints(this.theEntity.world.FindSupportingBlockPos(this.entityTarget.position));
             }
+
         }
         Vector3 a = this.theEntity.position - this.entityTargetPos;
         if (a.sqrMagnitude < 2f)

@@ -9,6 +9,7 @@ public class DialogActionGiveQuestSDX : DialogActionAddBuff
 
         player.QuestJournal.RemoveQuest(NewQuest);
         player.QuestJournal.AddQuest(NewQuest);
+        
     }
 
     private string name = string.Empty;
