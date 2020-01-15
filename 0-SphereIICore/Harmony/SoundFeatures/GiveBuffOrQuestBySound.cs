@@ -52,7 +52,12 @@ public class SphereII_Audio_Manager_Play
     static bool Prefix(Audio.Manager __instance, Vector3 position, string soundGroupName)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "AudioManager.Play(): Vector3, String, int: " + soundGroupName);
+
+        if(String.IsNullOrEmpty(soundGroupName))
+            return true;
+
         AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGroupName.Split('/').Last());
+
 
         SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGroupName.Split('/').Last(), position);
         return true;
@@ -74,6 +79,10 @@ public class SphereII_Audio_Server_Play
         AdvLogging.DisplayLog(AdvFeatureClass, "AudioManager.Play(): Entity, String, float, bool: " + soundGroupName);
         if (entity == null)
             return true;
+
+        if(String.IsNullOrEmpty(soundGroupName))
+            return true;
+
         AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGroupName.Split('/').Last());
         SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGroupName.Split('/').Last(), entity.position);
         return true;
@@ -94,6 +103,9 @@ public class SphereII_Audio_Client_Play_1
         if (myEntity == null)
             return true;
 
+        if(String.IsNullOrEmpty(soundGoupName))
+            return true;
+
         AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGoupName.Split('/').Last());
         SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGoupName.Split('/').Last(), myEntity.position);
         return true;
@@ -111,6 +123,10 @@ public class SphereII_Audio_Client_Play_2
     static bool Prefix(Vector3 position, string soundGoupName)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGoupName);
+
+        if(String.IsNullOrEmpty(soundGoupName))
+            return true;
+
         AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGoupName.Split('/').Last());
         SphereII_GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGoupName.Split('/').Last(), position);
         return true;
