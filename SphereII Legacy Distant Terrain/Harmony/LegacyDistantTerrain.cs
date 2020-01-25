@@ -33,7 +33,6 @@ class SphereII_LegacyDistantTerrain
             return false;
         }
     }
-    }
 
     [HarmonyPatch(typeof(WorldEnvironment))]
     [HarmonyPatch("Cleanup")]
