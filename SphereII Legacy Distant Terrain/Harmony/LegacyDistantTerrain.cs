@@ -24,7 +24,6 @@ class SphereII_LegacyDistantTerrain
         public static bool Prefix(ref bool __result)
         {
             string @string = GamePrefs.GetString(EnumGamePrefs.GameWorld);
-            Debug.Log("World: " + @string);
             if ((@string == "Empty") || (@string == "Playtesting"))
             {
                 __result = true;
