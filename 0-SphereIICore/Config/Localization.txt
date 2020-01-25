@@ -1,0 +1,4 @@
+﻿Key,English
+takeandreplace,"Rip off "
+musicbox_turnOn,"Turn On"
+musicbox_turnOff,"Turn On"

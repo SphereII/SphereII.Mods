@@ -95,6 +95,7 @@ public class BlockTakeAndReplace : Block
 
     public override string GetActivationText(global::WorldBase _world, global::BlockValue _blockValue, int _clrIdx, global::Vector3i _blockPos, global::EntityAlive _entityFocusing)
     {
-        return "Press <E> to remove the wood from this block.";
+        return string.Format(Localization.Get("takeandreplace", string.Empty), Localization.Get(_blockValue.Block.GetBlockName(), string.Empty));
+    //    return "Press <E> to remove the wood from this block.";
     }
 }

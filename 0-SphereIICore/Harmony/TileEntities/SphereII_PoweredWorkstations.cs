@@ -25,7 +25,7 @@ public class SphereII_PoweredWorkstations
 
             // Doesn't need any power, so don't check.
             if(blNeedsPower == false)
-                return false;
+                return true;
 
             AdvLogging.DisplayLog(AdvFeatureClass, "Workstation requires power. Checking near by tile entities.");
 

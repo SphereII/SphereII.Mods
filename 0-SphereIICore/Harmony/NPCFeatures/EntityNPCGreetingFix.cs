@@ -15,16 +15,20 @@ class EntityNPCGreetingFix
     {
         public static bool Prefix(EntityNPC __instance)
         {
-            // Check if this feature is enabled.
-            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                return true;
 
-            // Create a new on-the-fly trader area
-            if (__instance.traderArea == null  )
-            {
-                Vector3i size = new Vector3i(2f, 2f, 2f);
-                __instance.traderArea = new TraderArea(new Vector3i(__instance.position), size, size, size, size);
-            }
+            // Check if this feature is enabled.
+            //if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+            //    return true;
+
+            //if (__instance is EntityNPC)
+            //{
+            //    // Create a new on-the-fly trader area
+            //    if (__instance.traderArea == null && __instance.position != null)
+            //    {
+            //        Vector3i size = new Vector3i(2f, 2f, 2f);
+            //        __instance.traderArea = new TraderArea(new Vector3i(__instance.position), size, size, size, size);
+            //    }
+            //}
             return true;
         }
     }

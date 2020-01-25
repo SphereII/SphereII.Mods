@@ -43,6 +43,13 @@ public class DialogRequirementHasBuffSDX : BaseDialogRequirement
                 if(!player.Buffs.HasBuff(Value))
                     return true;
 
+            // Reverse condition on the buff.
+            if (Value.StartsWith("!"))
+            {
+                string tempBuff = Value.Replace("!", "");
+                if (!player.Buffs.HasBuff(tempBuff))
+                    return true;
+            }
             // If no operator, just check if we have it
             if (player.Buffs.HasBuff(Value))
                 return true;
