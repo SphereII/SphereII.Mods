@@ -23,9 +23,17 @@ class SphereII_LegacyDistantTerrain
     {
         public static bool Prefix(ref bool __result)
         {
+            string @string = GamePrefs.GetString(EnumGamePrefs.GameWorld);
+            Debug.Log("World: " + @string);
+            if ((@string == "Empty") || (@string == "Playtesting"))
+            {
+                __result = true;
+                return false;
+            }
             __result = false;
             return false;
         }
+    }
     }
 
     [HarmonyPatch(typeof(WorldEnvironment))]
@@ -52,6 +60,7 @@ class SphereII_LegacyDistantTerrain
 
         public static bool Prefix(long _key, bool _bDisplayed)
         {
+ 
             if (DistantTerrain.Instance == null)
                 return true;
 
