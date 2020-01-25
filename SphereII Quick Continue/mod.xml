@@ -1,0 +1,12 @@
+<mod>
+  <info>
+    <author>sphereii</author>
+    <name>SphereII Quick Continue</name>
+    <description>Enables auto-loading in the last loaded game when Scroll Lock is on</description>
+    <mod_version>18.3.1.1</mod_version>
+  </info>
+  <hashes>
+    <hash filename="D:\Github\SphereII.Mods/SphereII Test Cases/README.md" hash="6e41ef76db3b71b92c0ad56250048785" />
+    <hash filename="D:\Github\SphereII.Mods/SphereII Test Cases/Config\quests.xml" hash="8562386419cb2b4aafa86f0e68444eee" />
+  </hashes>
+</mod>
