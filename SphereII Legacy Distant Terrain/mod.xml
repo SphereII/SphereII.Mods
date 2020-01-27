@@ -5,13 +5,13 @@
     <author>sphereii</author>
     <name>SphereII Legacy Distant Terrain</name>
     <description>Re-enables Legacy Distant Terrain</description>
-    <mod_version>18.1.1.5</mod_version>
+    <mod_version>18.3.1.10</mod_version>
     <game_version>17.2</game_version>
     <launcher_version>0.0.0</launcher_version>
   </info>
   <hashes>
     <hash filename="Harmony\SplatMap.cs" hash="a406234cc1093c16e8e8c4320d43aea3" />
     <hash filename="Harmony\LegacyDistantTerrain.cs" hash="e3df253cff9efeca9f6bf6dcf8b93ece" />
-    <hash filename="D:\Github\SphereII.Mods/SphereII Legacy Distant Terrain/Harmony\LegacyDistantTerrain.cs" hash="dbe71f2b682533fead8c3c2a6884906a" />
+    <hash filename="D:\Github\SphereII.Mods/SphereII Legacy Distant Terrain/Harmony\LegacyDistantTerrain.cs" hash="a79d45244041c4f864c989887fbacce2" />
   </hashes>
 </mod>

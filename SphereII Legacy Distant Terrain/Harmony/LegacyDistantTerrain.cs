@@ -23,12 +23,6 @@ class SphereII_LegacyDistantTerrain
     {
         public static bool Prefix(ref bool __result)
         {
-            string @string = GamePrefs.GetString(EnumGamePrefs.GameWorld);
-            if ((@string == "Empty") || (@string == "Playtesting"))
-            {
-                __result = true;
-                return false;
-            }
             __result = false;
             return false;
         }
@@ -133,9 +127,17 @@ class SphereII_LegacyDistantTerrain
 
         public static void Postfix(WorldEnvironment __instance, World ___m_World)
         {
-            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")
-                return;
+            Debug.Log("Game World: " + GamePrefs.GetString(EnumGamePrefs.GameWorld));
 
+            if(GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")
+            {
+                if(DistantTerrain.Instance != null)
+                {
+                    DistantTerrain.Instance.Cleanup();
+                    DistantTerrain.Instance = null;
+                }
+                return;
+            }
             if (!GameManager.IsDedicatedServer && !GameManager.IsSplatMapAvailable())
             {
                 Debug.Log("Creating Legacy Distant Terrain");
