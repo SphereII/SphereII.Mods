@@ -19,7 +19,7 @@
     <author>sphereii</author>
     <name>SphereII A Better Life</name>
     <description>Introduces birds, fish, and other small animals into the world.</description>
-    <mod_version>18.3.1.17</mod_version>
+    <mod_version>18.3.1.19</mod_version>
     <game_version>18</game_version>
     <launcher_version />
   </info>
@@ -123,6 +123,6 @@
     <hash filename="D:\Github\SphereII.Mods/SphereII A Better Life/Config\entitygroups.xml" hash="17ab890d1540648bb2866db17b51a9b3" />
     <hash filename="D:\Github\SphereII.Mods/SphereII A Better Life/Config\entityclasses.xml" hash="f49c79d872f19303e596de0572303571" />
     <hash filename="D:\Github\SphereII.Mods/SphereII A Better Life/Config\biomes.xml" hash="96f5e80650367b0c0aa7514ee28ace53" />
-    <hash filename="D:\Github\SphereII.Mods/SphereII A Better Life/Config\blocks.xml" hash="77569b1c0993cae42c0334448cf44db6" />
+    <hash filename="D:\Github\SphereII.Mods/SphereII A Better Life/Config\blocks.xml" hash="a122872ea1313a1030bacea53107cf4a" />
   </hashes>
 </mod>

@@ -26,19 +26,20 @@
     </block>
 
     <block name="terrWaterSpawner">
-        <property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
-        <property name="CustomIcon" value="metalTrussingRampOld"/>
-        <property name="CreativeMode" value="Dev"/>
-        <property name="Class" value="MortSpawner, Mods"/>
-        <property name="StabilitySupport" value="false"/>
-        <property name="Shape" value="ModelEntity"/>
-        <property name="Mesh" value="models"/>
+      <property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
+      <property name="CustomIcon" value="metalTrussingRampOld"/>
+      <property name="CreativeMode" value="Dev"/>
+      <property name="Class" value="MortSpawner, Mods"/>
+      <property name="StabilitySupport" value="false"/>
+      <property name="Shape" value="Ext3dModel" />
+
+      <property name="Mesh" value="models"/>
       <property name="Model" value="Plants/driftwood" param1="main_mesh" />
 
       <property name="HandleFace" value="Bottom"/>
-        <property name="EntityGroup" value="AnimalSwiming"/>
-        <property name="FilterTags" value="fdesign"/>
-        <property name="Collide" value="sight"/>
+      <property name="EntityGroup" value="AnimalSwiming"/>
+      <property name="FilterTags" value="fdesign"/>
+      <property name="Collide" value="sight"/>
       <property name="LootList" value="15"/>
 
       <property name="TickRate" value="10" />
