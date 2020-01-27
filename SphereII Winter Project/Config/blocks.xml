@@ -3,9 +3,49 @@
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='OneBlockCrouch']/@value">true</set>
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedNPCFeatures']/property[@name='MakeTraderVulnerable']/@value">true</set>
   <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableTraderProtection']/@value">true</set>
-  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedWorldGen']/property[@name='DisableSplatMap']/@value">false</set>
 
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='TickPerLoss']/@value">30</set>
+  <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='Logging']/@value">false</set>
 
+  <append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']" >
+      <property name="FullStackSpoil" value="true" />
+ </append>>
+  
+  <remove xpath="/blocks/block[@name='terrIce']" />
+  <insertAfter xpath="/blocks/block[@name='terrSnow']">
+    <block name="terrIce">
+      <property name="Material" value="Msnow"/>
+      <property name="Shape" value="Terrain"/>
+      <property name="Mesh" value="terrain"/>
+      <property name="Texture" value="178"/>
+      <property name="ImposterExclude" value="true"/>
+      <property name="CanMobsSpawnOn" value="true"/>
+      <property name="FilterTags" value="fterrain"/>
+      <property name="SortOrder1" value="d0k0"/>
+      <property name="SortOrder2" value="0050"/>
+      <property name="DisplayType" value="blockTerrainFertile"/>
+    </block>
+  </insertAfter>
+  <!--
+  <remove xpath="/blocks/block[@name='water']" />
+  <insertAfter xpath="/blocks/block[@name='waterMoving']">
+    <block name="water">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="terrWaterPOI"/>
+      <property name="Class" value="Liquidv2"/>
+      <property name="Count" value="3"/>
+      <property name="Shape" value="Water"/>
+      <property name="Mesh" value="water"/>
+      <property name="Model" value="water_full"/>
+      <property name="Texture" value="178"/>
+      <property name="Map.Color" value="20,20,120"/>
+      <property name="Map.Color" value="119,136,204"/>
+      <property name="Collide" value="melee,bullet,arrow,rocket"/>
+      <property name="FilterTags" value="fterrain"/>
+    </block>
+
+  </insertAfter>
+-->
   <append xpath="/blocks/block[@name='bed01']">
 		<property name="BuffsWhenWalkedOn" value="buffsmallBed"/>
 	  </append>

@@ -7,14 +7,707 @@
   <set xpath="/recipes/recipe[ starts-with(@name, 'ammoCrossbowBolt')]/ingredient[@name='resourceFeather']/@count">3</set>
 
   <append xpath="/recipes">
-  <recipe name="snowShovel" count="1" craft_area="workstation">
-    <ingredient name="resourceForgedIron" count="15" />
-    <ingredient name="resourceWood" count="10" />
-  </recipe>
+    
+    <recipe name="terrIce" count="5" >
+      <ingredient name="resourceSnowBall" count="100" />
+      <ingredient name="drinkJarRiverWater" count="1" />
+    </recipe>
+    <recipe name="terrSnow" count="1" >
+      <ingredient name="resourceSnowBall" count="20" />
+    </recipe>
+    
+    <recipe name="ammoArrowIron" count="1">
+      <ingredient name="resourceArrowHeadIron" count="1"/>
+      <ingredient name="resourceWood" count="1"/>
+      <ingredient name="resourceScrapPolymers" count="1"/>
+    </recipe>
 
+    <recipe name="ammoArrowStone" count="1">
+      <ingredient name="resourceRockSmall" count="1"/>
+      <ingredient name="resourceWood" count="1"/>
+      <ingredient name="resourceScrapPolymers" count="1"/>
+    </recipe>
+    
     <recipe name="clothbedroll" count="1">
       <ingredient name="resourceCloth" count="20"/>
     </recipe>
+
+    <recipe name="foodHoney" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodHoneyFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarRiverWater" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarRiverWaterFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarBoiledWater" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarBoiledWaterFrozen" count="1"/>
+    </recipe>
+
+    <recipe name="drinkJarPureMineralWater" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarPureMineralWaterFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarYuccaJuice" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarYuccaJuiceFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarGoldenRodTea" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarGoldenRodTeaFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarRedTea" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarRedTeaFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarYuccaCocktail" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarYuccaCocktailFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkYuccaJuiceSmoothie" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkYuccaJuiceSmoothieFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkCanMegaCrush" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkCanMegaCrushFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarCoffee" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarCoffeeFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarBlackStrapCoffee" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarBlackStrapCoffeeFrozen" count="1"/>
+    </recipe>
+    <recipe name="drinkJarBeer" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20">
+      <ingredient name="drinkJarBeerFrozen" count="1"/>
+    </recipe>
+
+  </append>
+
+
+
+  <append xpath="/recipes">
+    <recipe name="foodCanBeef" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanBeefFrozen" />
+    </recipe>
+    <recipe name="foodCanChicken" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanChickenFrozen" />
+    </recipe>
+    <recipe name="foodCanLamb"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanLambFrozen" />
+    </recipe>
+    <recipe name="foodCanCatfood"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanCatfoodFrozen" />
+    </recipe>
+    <recipe name="foodCanDogfood"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanDogfoodFrozen"/>
+    </recipe>
+    <recipe name="foodCanChili" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanChiliFrozen"/>
+    </recipe>
+    <recipe name="foodCanTuna"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanTunaFrozen" />
+    </recipe>
+    <recipe name="foodCanSham" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanShamFrozen" />
+    </recipe>
+    <recipe name="foodCanPasta" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanPastaFrozen"/>
+    </recipe>
+    <recipe name="foodCanSalmon" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanSalmonFrozen"/>
+    </recipe>
+    <recipe name="foodCanMiso"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanMisoFrozen"/>
+    </recipe>
+    <recipe name="foodCanPeas" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanPeasFrozen" />
+    </recipe>
+    <recipe name="foodCanPears" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanPearsFrozen"/>
+    </recipe>
+    <recipe name="foodCanSoup"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCanSoupFrozen"/>
+    </recipe>
+    <recipe name="foodCanStock" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCanStockFrozen"/>
+    </recipe>
+    <recipe name="foodCornOnTheCob" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCornOnTheCobFrozen" />
+    </recipe>
+    <recipe name="foodCornBread" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCornBreadFrozen"/>
+    </recipe>
+    <recipe name="foodMoldyBread" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodMoldyBreadFrozen"/>
+    </recipe>
+    <recipe name="foodShamSandwich" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodShamSandwichFrozen"/>
+    </recipe>
+    <recipe name="foodCharredMeat" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCharredMeatFrozen" />
+    </recipe>
+    <recipe name="foodGrilledMeat"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodGrilledMeatFrozen"/>
+    </recipe>
+    <recipe name="foodBoiledMeat" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodBoiledMeatFrozen" />
+    </recipe>
+    <recipe name="foodMeatStew"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodMeatStewFrozen"/>
+    </recipe>
+    <recipe name="foodSteakAndPotato" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodSteakAndPotatoFrozen"/>
+    </recipe>
+    <recipe name="foodShamChowder" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodShamChowderFrozen"/>
+    </recipe>
+    <recipe name="foodHoboStew"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodHoboStewFrozen"/>
+    </recipe>
+    <recipe name="foodFishTacos"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodFishTacosFrozen"/>
+    </recipe>
+    <recipe name="foodChiliDog"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodChiliDogFrozen" />
+    </recipe>
+    <recipe name="foodBakedPotato" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodBakedPotatoFrozen" />
+    </recipe>
+    <recipe name="foodBlueberryPie" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodBlueberryPieFrozen"/>
+    </recipe>
+    <recipe name="foodPumpkinPie" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodPumpkinPieFrozen"/>
+    </recipe>
+    <recipe name="foodPumpkinCheesecake"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodPumpkinCheesecakeFrozen" />
+    </recipe>
+    <recipe name="foodPumpkinBread"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodPumpkinBreadFrozen" />
+    </recipe>
+    <recipe name="foodEggBoiled"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodEggBoiledFrozen"/>
+    </recipe>
+    <recipe name="foodBaconAndEggs"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodBaconAndEggsFrozen"/>
+    </recipe>
+    <recipe name="foodVegetableStew" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodVegetableStewFrozen"/>
+    </recipe>
+    <recipe name="foodRawMeat" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodRawMeatFrozen"/>
+    </recipe>
+    <recipe name="foodRottingFlesh" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodRottingFleshFrozen" />
+    </recipe>
+    <recipe name="foodEgg"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodEggFrozen"/>
+    </recipe>
+    <recipe name="foodCornMeal"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCornMealFrozen"/>
+    </recipe>
+    <recipe name="foodCropBlueberries"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCropBlueberriesFrozen" />
+    </recipe>
+    <recipe name="foodCropCorn"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCropCornFrozen"/>
+    </recipe>
+    <recipe name="foodCropGraceCorn" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCropGraceCornFrozen"/>
+    </recipe>
+    <recipe name="foodCropPotato" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCropPotatoFrozen"/>
+    </recipe>
+    <recipe name="foodCropMushrooms" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCropMushroomsFrozen" />
+    </recipe>
+    <recipe name="foodCropYuccaFruit"  count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="foodCropYuccaFruitFrozen" />
+    </recipe>
+    <recipe name="foodCropPumpkin" count="1" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20"  >
+      <ingredient name="foodCropPumpkinFrozen" />
+    </recipe>
+  </append>
+
+
+  <append xpath="/recipes">
+    <recipe name="Berry Tea" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Berry TeaFrozen" count="1"   />
+    </recipe>
+    <recipe name="Iced Mixed Tea" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Iced Mixed TeaFrozen" count="1"   />
+    </recipe>
+    <recipe name="Iced Coffee" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Iced CoffeeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Yucca Chips" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Yucca ChipsFrozen" count="1"   />
+    </recipe>
+    <recipe name="Hashbrown" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="HashbrownFrozen" count="1"   />
+    </recipe>
+    <recipe name="Mashed Potato" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Mashed PotatoFrozen" count="1"   />
+    </recipe>
+    <recipe name="Corn Grits" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Corn GritsFrozen" count="1"   />
+    </recipe>
+    <recipe name="Blueberry Jam" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Blueberry JamFrozen" count="1"   />
+    </recipe>
+    <recipe name="Yucca Jam" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Yucca JamFrozen" count="1"   />
+    </recipe>
+    <recipe name="Egg Salad" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Egg SaladFrozen" count="1"   />
+    </recipe>
+    <recipe name="Fried Meat" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Fried MeatFrozen" count="1"   />
+    </recipe>
+    <recipe name="Corn Chips" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Corn ChipsFrozen" count="1"   />
+    </recipe>
+    <recipe name="Blueberry Jam Sandwich" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Blueberry Jam SandwichFrozen" count="1"   />
+    </recipe>
+    <recipe name="Yucca Jam Sandwich" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Yucca Jam SandwichFrozen" count="1"   />
+    </recipe>
+    <recipe name="Coffee Cake" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Coffee CakeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Mushroom Pie" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Mushroom PieFrozen" count="1"   />
+    </recipe>
+    <recipe name="Meat and Beer Pie" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Meat and Beer PieFrozen" count="1"   />
+    </recipe>
+    <recipe name="Fried Mushrooms" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Fried MushroomsFrozen" count="1"   />
+    </recipe>
+    <recipe name="Fried Egg" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Fried EggFrozen" count="1"   />
+    </recipe>
+    <recipe name="French Toast" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="French ToastFrozen" count="1"   />
+    </recipe>
+    <recipe name="Honey Glazed Meat" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Honey Glazed MeatFrozen" count="1"   />
+    </recipe>
+    <recipe name="Blueberry Soda" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Blueberry SodaFrozen" count="1"   />
+    </recipe>
+    <recipe name="Kvass Soda" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Kvass SodaFrozen" count="1"   />
+    </recipe>
+    <recipe name="Carbonated Water" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Carbonated WaterFrozen" count="1"   />
+    </recipe>
+    <recipe name="Distilled Vodka" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Distilled VodkaFrozen" count="1"   />
+    </recipe>
+    <recipe name="Snowberry Gin" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Snowberry GinFrozen" count="1"   />
+    </recipe>
+    <recipe name="Sugar Extract" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Sugar ExtractFrozen" count="1"   />
+    </recipe>
+    <recipe name="Rock Candy" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Rock CandyFrozen" count="1"   />
+    </recipe>
+    <recipe name="Blueberry Candy" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Blueberry CandyFrozen" count="1"   />
+    </recipe>
+    <recipe name="Snowberry Candy" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Snowberry CandyFrozen" count="1"   />
+    </recipe>
+    <recipe name="Plain Fudge" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Plain FudgeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Energy Tablet" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Energy TabletFrozen" count="1"   />
+    </recipe>
+    <recipe name="Sponge Cake" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Sponge CakeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Blueberry Sponge Cake" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Blueberry Sponge CakeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Yucca Sponge Cake" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Yucca Sponge CakeFrozen" count="1"   />
+    </recipe>
+    <recipe name="Custard Pie" craft_area="campfire" craft_tool="toolCookingPot"  craft_time="20" >
+      <ingredient name="Custard PieFrozen" count="1"   />
+    </recipe>
+
+    <recipe name="foodBaconAndEggs" count="1" craft_area="campfire" craft_tool="toolCookingPot" tags="perkMasterChef,learnable">
+      <ingredient name="foodRawMeatFoil" count="5"/>
+      <ingredient name="foodEgg" count="2"/>
+      <effect_group>
+        <passive_effect name="CraftingIngredientCount" level="2,5" operation="base_add" value="-1" tags="foodRawMeat"/>
+      </effect_group>
+    </recipe>
+  </append>
+  
+  <append xpath="/recipes">
+    <recipe name="foodHoneyThermos" craft_time="1" >
+      <ingredient name="foodHoney" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarRiverWaterThermos" craft_time="1" >
+      <ingredient name="drinkJarRiverWater" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarBoiledWaterThermos" craft_time="1">
+      <ingredient name="drinkJarBoiledWater" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarPureMineralWaterThermos" craft_time="1">
+      <ingredient name="drinkJarPureMineralWater" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarYuccaJuiceThermos" craft_time="1">
+      <ingredient name="drinkJarYuccaJuice" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarGoldenRodTeaThermos" craft_time="1">
+      <ingredient name="drinkJarGoldenRodTea" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarRedTeaThermos" craft_time="1">
+      <ingredient name="drinkJarRedTea" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarYuccaCocktailThermos" craft_time="1" >
+      <ingredient name="drinkJarYuccaCocktail" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkYuccaJuiceSmoothieThermos" craft_time="1" >
+      <ingredient name="drinkYuccaJuiceSmoothie" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkCanMegaCrushThermos"  craft_time="1">
+      <ingredient name="drinkCanMegaCrush" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarCoffeeThermos"  craft_time="1">
+      <ingredient name="drinkJarCoffee" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarBlackStrapCoffeeThermos" craft_time="1" >
+      <ingredient name="drinkJarBlackStrapCoffee" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="drinkJarBeerThermos" craft_time="1" >
+      <ingredient name="drinkJarBeer" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanBeefThermos" >
+      <ingredient name="foodCanBeef" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanChickenThermos"  craft_time="1">
+      <ingredient name="foodCanChicken" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanLambThermos" craft_time="1" >
+      <ingredient name="foodCanLamb" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanCatfoodThermos"  craft_time="1">
+      <ingredient name="foodCanCatfood" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanDogfoodThermos"  craft_time="1">
+      <ingredient name="foodCanDogfood" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanChiliThermos"  craft_time="1">
+      <ingredient name="foodCanChili" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanTunaThermos" craft_time="1" >
+      <ingredient name="foodCanTuna" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanShamThermos" craft_time="1" >
+      <ingredient name="foodCanSham" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanPastaThermos"  craft_time="1">
+      <ingredient name="foodCanPasta" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanSalmonThermos"  craft_time="1">
+      <ingredient name="foodCanSalmon" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanMisoThermos" craft_time="1" >
+      <ingredient name="foodCanMiso" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanPeasThermos" craft_time="1" >
+      <ingredient name="foodCanPeas" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanPearsThermos" craft_time="1" >
+      <ingredient name="foodCanPears" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanSoupThermos"  craft_time="1">
+      <ingredient name="foodCanSoup" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCanStockThermos" craft_time="1" >
+      <ingredient name="foodCanStock" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodCornOnTheCobFoil" craft_time="1" >
+      <ingredient name="foodCornOnTheCob" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCornBreadFoil"  craft_time="1">
+      <ingredient name="foodCornBread" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodMoldyBreadFoil"  craft_time="1">
+      <ingredient name="foodMoldyBread" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodShamSandwichFoil" craft_time="1" >
+      <ingredient name="foodShamSandwich" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCharredMeatFoil" craft_time="1" >
+      <ingredient name="foodCharredMeat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodGrilledMeatFoil"  craft_time="1">
+      <ingredient name="foodGrilledMeat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodBoiledMeatFoil"  craft_time="1">
+      <ingredient name="foodBoiledMeat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodMeatStewThermos" craft_time="1" >
+      <ingredient name="foodMeatStew" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+ 
+    <recipe name="foodSteakAndPotatoFoil" craft_time="1" >
+      <ingredient name="foodSteakAndPotato" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodShamChowderThermos" >
+      <ingredient name="foodShamChowder" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodHoboStewThermos" craft_time="1" >
+      <ingredient name="foodHoboStew" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodFishTacosFoil" craft_time="1" >
+      <ingredient name="foodFishTacos" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodChiliDogFoil" craft_time="1" >
+      <ingredient name="foodChiliDog" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodBakedPotatoFoil" craft_time="1" >
+      <ingredient name="foodBakedPotato" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodBlueberryPieFoil" craft_time="1" >
+      <ingredient name="foodBlueberryPie" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodPumpkinPieFoil"  craft_time="1">
+      <ingredient name="foodPumpkinPie" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodPumpkinCheesecakeFoil"  craft_time="1">
+      <ingredient name="foodPumpkinCheesecake" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodPumpkinBreadFoil"  craft_time="1">
+      <ingredient name="foodPumpkinBread" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodEggBoiledThermos"  craft_time="1">
+      <ingredient name="foodEggBoiled" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodEggBoiledFoil" craft_time="1" >
+      <ingredient name="foodEggBoiled" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodBaconAndEggsThermos" craft_time="1" >
+      <ingredient name="foodBaconAndEggs" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodBaconAndEggsFoil"  craft_time="1">
+      <ingredient name="foodBaconAndEggs" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodVegetableStewThermos" craft_time="1" >
+      <ingredient name="foodVegetableStew" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodRawMeatFoil"  craft_time="1">
+      <ingredient name="foodRawMeat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodRottingFleshFoil" craft_time="1" >
+      <ingredient name="foodRottingFlesh" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodEggThermos" craft_time="1" >
+      <ingredient name="foodEgg" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="foodEggFoil"  craft_time="1">
+      <ingredient name="foodEgg" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCornMealFoil" craft_time="1" >
+      <ingredient name="foodCornMeal" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCropCornFoil" craft_time="1" >
+      <ingredient name="foodCropCorn" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCropGraceCornFoil" craft_time="1" >
+      <ingredient name="foodCropGraceCorn" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="foodCropYuccaFruitFoil" craft_time="1" >
+      <ingredient name="foodCropYuccaFruit" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Berry TeaThermos" craft_time="1" >
+      <ingredient name="Berry Tea" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Iced Mixed TeaThermos" craft_time="1" >
+      <ingredient name="Iced Mixed Tea" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Iced CoffeeThermos" craft_time="1" >
+      <ingredient name="Iced Coffee" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Yucca ChipsThermos"  craft_time="1">
+      <ingredient name="Yucca Chips" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="HashbrownFoil" craft_time="1" >
+      <ingredient name="Hashbrown" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Mashed PotatoFoil"  craft_time="1">
+      <ingredient name="Mashed Potato" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Corn GritsFoil"  craft_time="1">
+      <ingredient name="Corn Grits" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Blueberry JamThermos"  craft_time="1">
+      <ingredient name="Blueberry Jam" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Yucca JamThermos" craft_time="1" >
+      <ingredient name="Yucca Jam" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Egg SaladThermos"  craft_time="1">
+      <ingredient name="Egg Salad" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Egg SaladFoil"  craft_time="1">
+      <ingredient name="Egg Salad" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Fried MeatFoil"  craft_time="1">
+      <ingredient name="Fried Meat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Corn ChipsFoil"  craft_time="1">
+      <ingredient name="Corn Chips" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Blueberry Jam SandwichFoil" craft_time="1" >
+      <ingredient name="Blueberry Jam Sandwich" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Yucca Jam SandwichFoil" craft_time="1" >
+      <ingredient name="Yucca Jam Sandwich" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Mushroom PieFoil"  craft_time="1">
+      <ingredient name="Mushroom Pie" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Meat and Beer PieFoil" craft_time="1" >
+      <ingredient name="Meat and Beer Pie" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Fried MushroomsThermos" craft_time="1" >
+      <ingredient name="Fried Mushrooms" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Fried MushroomsFoil"  craft_time="1">
+      <ingredient name="Fried Mushrooms" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Fried EggThermos"  craft_time="1">
+      <ingredient name="Fried Egg" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Fried EggFoil" craft_time="1">
+      <ingredient name="Fried Egg" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="French ToastThermos"  craft_time="1">
+      <ingredient name="French Toast" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="French ToastFoil"  craft_time="1">
+      <ingredient name="French Toast" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Honey Glazed MeatFoil" craft_time="1" >
+      <ingredient name="Honey Glazed Meat" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Blueberry SodaThermos" craft_time="1" >
+      <ingredient name="Blueberry Soda" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Kvass SodaThermos" craft_time="1" >
+      <ingredient name="Kvass Soda" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Carbonated WaterThermos"  craft_time="1">
+      <ingredient name="Carbonated Water" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Plain FudgeThermos" craft_time="1" >
+      <ingredient name="Plain Fudge" count="1" />
+      <ingredient name="drinkThermosEmpty" count="1" />
+    </recipe>
+    <recipe name="Sponge CakeFoil" >
+      <ingredient name="Sponge Cake" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Blueberry Sponge CakeFoil" craft_time="1" >
+      <ingredient name="Blueberry Sponge Cake" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Yucca Sponge CakeFoil" craft_time="1" >
+      <ingredient name="Yucca Sponge Cake" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+    <recipe name="Custard PieFoil" craft_time="1" >
+      <ingredient name="Custard Pie" count="1" />
+      <ingredient name="foodFrozenTinFoil" count="1" />
+    </recipe>
+
 
   </append>
 </configs>

@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.1.5</mod_version>
+    <mod_version>18.3.1.11</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -322,7 +322,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityPlayerLocal.cs" hash="b7bc87a2ba12b978f4be9bc528fe8456" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySwimingSDX.cs" hash="d60b91408a5ccb57db53025318665837" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityWanderingTrader.cs" hash="96ca470d2474555d4da519af822b18bc" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCopSDX.cs" hash="f4176b3a642270e9d6197ddd7207b72b" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCrawlSDX.cs" hash="86d9d3d17d5a09d4e5c978ebd528b049" />
@@ -504,13 +503,11 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\AnimatorMapper.cs" hash="dda144c18d8cc6ca70428a49d76583ad" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="ab816be2e3d6f4ad4d9d64f7262feb56" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\FoodSpoilage\FoodSpoilage.cs" hash="e5bec3f816a6cf927953977fbb0d7bd7" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="75e8f0e0550d8275e2f63f9862e57d5d" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityNPCGreetingFix.cs" hash="4068ab4d377bf507ec8f3893c3d1acd2" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\PlayerFeatures\PlayerMoveController.cs" hash="336ad8834b17ebdf59f7f7715fa0c8ad" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" hash="c2cbd8e5490bc8a1b055c6976bcf2b4c" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Standard\XMLDebugger.cs" hash="aa824fe3c9ccff5f5862df1db287fd5a" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\AlwaysActive.cs" hash="d420764b6c96b0cdc74162d0d450062a" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\UI\FilterGameWorld.cs" hash="22f687def1353105c68611f3d0165746" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\UI\UnlockEnemyHealthBar.cs" hash="5cbdb3877e1c4f3317c86c7c881b0ade" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\InertEntity.cs" hash="ff1d5a720c5f88da06fe76fc81f07404" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="e653c5c08406d6af1436492978b71509" />
@@ -549,5 +546,9 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" hash="cd08a2552c6d1852c5f8c1d9a8090da0" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\WorldGen\WinterModPrefab.cs" hash="8f54544ea7e6a457cd68e757f8df8dcb" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveGotoPOISDX.cs" hash="f17b6a7ef6beb939529f1f93de306017" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\UI\FilterGameWorld.cs" hash="c77c696258589bfe4be75ee6fc3a8081" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySwimingSDX.cs" hash="398adeecd645358492be519af7895677" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\AvatarController.cs" hash="a8bc96feecf34002db9cc1014030d1d2" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="67f6fc8234b6dd3fb5f667a39d681693" />
   </hashes>
 </mod>

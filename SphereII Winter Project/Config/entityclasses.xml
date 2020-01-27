@@ -1,3 +1,11 @@
 ﻿<configs>
-  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">,snowShovel,apparelCoatPufferCoat,apparelWornBoots</append>
+  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">,snowShovel</append>
+
+  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieTemplateMale')]" >
+    <property name="ParticleOnSpawn" value="#@modfolder:Resources/FrostShieldParticle.unity3d?p_FrostShield_X" param1="SetShapeToMesh0"/>
+  </append>
+
+  <append xpath="/entity_classes/entity_class[@name='npcTraderTemplate']/effect_group" >
+      <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" target="self" buff="buffRemoveDuplicateTrader"/>
+  </append>
 </configs>

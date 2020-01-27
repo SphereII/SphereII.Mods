@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
+/*
+ * <property name="RepairItems" value="resourceWood,10,resourceForgedIron,10" />
+ * 
+ * <property Class="RepairItems">
+ *      <property name="resourceFeather" value="2" />
+ * </property> 
+ * 
+ * * <property Class="ScrapItems">
+ *      <property name="resourceFeather" value="1" />
+ * </property> 
+ * 
+ */
 public class SphereII__AdvancedItems
 {
     private static string AdvFeatureClass = "AdvancedItemFeatures";

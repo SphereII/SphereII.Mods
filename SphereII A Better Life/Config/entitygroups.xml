@@ -1,6 +1,6 @@
 ﻿<configs>
 
-  <append xpath="/entitygroups/entitygroup[@name='ZombiesAll']">
+  <append xpath="/entitygroups/entitygroup[ starts-with(@name, 'FriendlyAnimals')]">
     <entity name="birdRobin" />
     <entity name="birdFalcon" />
     <entity name="birdEagle" />

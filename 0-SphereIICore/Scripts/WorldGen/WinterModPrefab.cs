@@ -31,7 +31,8 @@ public static class WinterModPrefab
         if (_questTag != QuestTags.none)
         {
             AlreadyFilled = true;
-            //Debug.Log("POI is resetting for a quest.");
+            prefab.yOffset -= 8;
+            position.y -= 8;
         }
         SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled, prefab.size.y);
     }
@@ -80,7 +81,6 @@ public static class WinterModPrefab
                 // If we are resetting for a quest, the terrain has already been moved up.
                 if (regen)
                 {
-                    Debug.Log("Regen: Yes");
                     tHeightWithSnow = tHeight;
                 }
 

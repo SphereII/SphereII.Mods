@@ -44,12 +44,14 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
     //    base.Init(_entityClass);
     public override void Init(int _entityClass)
     {
-        //Debug.Log("Fish Init");
+        Debug.Log("Fish Init");
         base.Init(_entityClass);
+        Debug.Log("Init 1");
         this.emodel.SetVisible(true, true);
+        Debug.Log("Init 2");
         base.getNavigator().setCanDrown(false);
         base.getNavigator().setInWater(true);
-       // Debug.Log("Init Done");
+        Debug.Log("Init Done");
     }
     //}
 
@@ -64,12 +66,7 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
     // While the fish are birds, we do want to adjust the way point settings, so they are not attracted to the air, but rather the water.
     public override void AdjustWayPoint()
     {
-       
-        //if (!this.IsInWater()) 
-        //{
-        //    Debug.Log("I am not in water. Despawning.");
-        //    this.MarkToUnload();
-        //}
+
         int num = 255;
         Vector3i localWaypoint = new Vector3i((Waypoint));
         // if waypoint is in the air, keep dropping it until it's out of the air, and into the water.

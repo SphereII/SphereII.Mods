@@ -1,6 +1,6 @@
 ﻿<configs>
   <!-- lower the level where water spawns naturally on the surface -->
-  <!--set xpath="//terrain_generator/@water_level">-19</set-->
+  <set xpath="//terrain_generator/@water_level">40</set>
   <remove xpath="//prefab_rule[@name='ruralGroup']/prefab[@rule='crop_Fields']" />
 <!--
   <remove xpath="//terrain_generators/terrain_generator/module[@name='Noise From Stamp Node19434']" />

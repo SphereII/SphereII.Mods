@@ -19,14 +19,14 @@
     </append>
   
   <set xpath="/worldgeneration/weather/property[@class='Rainy']/property[@name='Spectrum']/@value">snowy</set>
-  <set xpath="/worldgeneration//spectrum/@name">snow</set>
-  
+
+   
   <!-- Change the fill up to with ice, instead of water. I don't think this does anything though -->
   <set xpath="/worldgeneration/biomes/biome//layers/layer[@filluptorg]/@blockname">terrIce</set>
 
   <!-- Set all global temperatures to be the same range-->
-  <set xpath="/worldgeneration/biomes/biome/weather/Temperature/@min">-60</set>
-  <set xpath="/worldgeneration/biomes/biome/weather/Temperature/@max">-30</set>
+  <set xpath="/worldgeneration/biomes/biome/weather/Temperature/@min">-80</set>
+  <set xpath="/worldgeneration/biomes/biome/weather/Temperature/@max">-100</set>
        
   <!-- Remove all surface biome decorations -->
   <remove xpath="/worldgeneration/biomes/biome//decorations/decoration" />

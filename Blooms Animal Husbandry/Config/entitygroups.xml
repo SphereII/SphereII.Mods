@@ -28,10 +28,10 @@
   </append>
 
   <append xpath="/entitygroups/entitygroup[ starts-with(@name, 'FriendlyAnimals')]">
-    <entity name="invisibleCowHerdSpawner" prob="0.1"/>
-    <entity name="invisibleChickenHerdSpawner" prob="0.1"/>
-    <entity name="invisibleGoatHerdSpawner" prob="0.1"/>
-    <entity name="invisiblePigsHerdSpawner" prob="0.1"/>
+    <entity name="invisibleCowHerdSpawner" prob="0.001"/>
+    <entity name="invisibleChickenHerdSpawner" prob="000.1"/>
+    <entity name="invisibleGoatHerdSpawner" prob="0.001"/>
+    <entity name="invisiblePigsHerdSpawner" prob="0.001"/>
   </append>
   
 </configs>

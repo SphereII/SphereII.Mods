@@ -16,7 +16,7 @@
 			<property name="IsEnemyEntity" value="false" />
 			<!-- Controls how big the flock size is, how high they can fly, etc -->
 			<property name="FlockSize" value="0" />
-			<property name="MaxHeight" value="90" />
+			<property name="MaxHeight" value="200" />
 			<property name="IsAgressive" value="False" />
 			<property name="FollowPlayer" value="False" />
 			<!-- Disables default sounds, so undefined sounds in inherited birds don't sound like chickens -->
@@ -26,27 +26,29 @@
 			<property name="SoundHurt" value="" />
 			<property name="SoundDeath" value="" />
 			<property name="SoundSense" value="" />
-			<!-- Default speeds for the birds -->
-			<property name="WanderSpeed" value="0.4" />
-			<property name="ApproachSpeed" value="0.8" />
-			<property name="NightWanderSpeed" value="0.4" />
-			<property name="NightApproachSpeed" value="0.9" />
-			<property name="PanicSpeed" value="1.1" />
-			<property name="MaxTurnSpeed" value="180" />
+
+      <!-- Default speeds for the birds -->
+		
 			<property name="SightRange" value="500" />
 			<property name="SightScale" value="-5,270" />
 			<property name="MaxViewAngle" value="360" />
 			<property name="MaxHealth" value="25" />
-			<property name="ExperienceGain" value="1" />
+			<property name="ExperienceGain" value="10" />
 			<property name="DeadBodyHitPoints" value="1" />
-			<drop event="Harvest" name="feather" tool_category="Butcher" count="2" />
+			<drop event="Harvest" name="resourceFeather" tool_category="Butcher" count="10" />
 			<property name="AIPathCostScale" value="100, 100"/>
 			<property name="AITask-1" value="Swim"/>
 			<property name="AITask-2" value="RunawayWhenHurt"/>
 			<property name="AITask-3" value="RunawayFromEntity" data="class=EntityPlayer,EntityZombie,EntityEnemyAnimal;safeDistance=20"/>
 			<property name="AITask-4" value="Look"/>
 			<property name="AITask-5" value="Wander"/>
-		</entity_class>
+
+      <property name="MaxTurnSpeed" value="280" />
+      <property name="MoveSpeed" value=".3" />
+      <property name="MoveSpeedAggro" value="1.15, 1.2" />
+      <property name="MoveSpeedPanic" value="1.5" />
+
+    </entity_class>
 		
 		<entity_class name="birdRobin" extends="PassiveFlight">
 			<property name="Mesh" value="#@modfolder:Resources/FlyingBirds.unity3d?Robin_X" />
@@ -107,23 +109,20 @@
 		</entity_class> 
 	</append>
 	<append xpath="/entity_classes">
-		<entity_class name="PassiveFish" >
+		<entity_class name="PassiveFish"   extends="animalChicken">
 			<property name="Mesh" value="Animals/Stag/STAG" />
-			<property name="Parent" value="Animals" />
 
-			<!-- The swiming class is an extended flying class-->
+      <!-- The swiming class is an extended flying class-->
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="AvatarController" value="MecanimSDX, Mods" />
 			<property name="MaxHealth" value="25" />
-			<property name="Prefab" value="NPC" />
 			<property name="Weight" value="70" />
 			<property name="RotateToGround" value="true" />
-			<property name="IsEntityAnimal" value="true" />
-			<property name="Faction" value="animals" />
-			<property name="CanClimbLadders" value="false" />
-			
 
-			<!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
+      <property name="MapIcon" value="ui_game_symbol_bicycle" />
+      <property name="EntityType" value="Player"/>
+
+      <!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
 			<property name="ModelType" value="Standard" />
 			<property name="HasRagdoll" value="false" />
 			<property name="PhysicsBody" value="chicken" />
@@ -187,32 +186,34 @@
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
 			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="3" />
-		</entity_class>
+      <property name="Tags" value="entity,npc"/>
+
+    </entity_class>
 
 		<entity_class name="fishTurtle" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="4" />
-		</entity_class>
+    </entity_class>
 
 		<entity_class name="fishBarracuda" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="2" />
-		</entity_class>
+    </entity_class>
 
 		<entity_class name="fishSardine" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
-		</entity_class>
+    </entity_class>
 
 		<entity_class name="fishClownfish" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<property name="AttackAnimations" value="Attack0" />
-		</entity_class>
+    </entity_class>
 	</append>
 	
 </configs>		
