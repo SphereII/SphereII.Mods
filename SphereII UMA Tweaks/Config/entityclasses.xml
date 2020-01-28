@@ -8,7 +8,7 @@
       <property name="AvatarController" value="AvatarZombieUMAController"/>
       <property name="PhysicsBody" value="zombieUMA"/>
       <property name="HasDeathAnim" value="true"/>
-      <property name="HasRagdoll" value="true"/>
+      <property name="HasRagdoll" value="false"/>
       <property name="Tags" value="entity,zombie"/>
       <property name="TimeStayAfterDeath" value="5"/>
       <property name="DeadBodyHitPoints" value="1"/>

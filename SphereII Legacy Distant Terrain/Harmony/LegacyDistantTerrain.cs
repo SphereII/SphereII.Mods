@@ -127,8 +127,7 @@ class SphereII_LegacyDistantTerrain
 
         public static void Postfix(WorldEnvironment __instance, World ___m_World)
         {
-            Debug.Log("Game World: " + GamePrefs.GetString(EnumGamePrefs.GameWorld));
-
+            
             if(GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")
             {
                 if(DistantTerrain.Instance != null)
