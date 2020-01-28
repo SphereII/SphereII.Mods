@@ -109,7 +109,7 @@ public static class EntityUtilities
 
     public static bool HasTask(int EntityID, String strTask)
     {
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(myEntity != null)
         {
             string text2;
