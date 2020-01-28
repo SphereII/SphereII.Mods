@@ -17,19 +17,31 @@ public class SphereII_RandomDeathSpawn
             EntityClass entityClass = EntityClass.list[__instance.entityClass];
             if (entityClass.Properties.Values.ContainsKey("SpawnOnDeath"))
             {
+                // Spawn location
+                Vector3i blockPos = default(Vector3i);
+                blockPos.x = (int)__instance.position.x;
+                blockPos.y = (int)__instance.position.y;
+                blockPos.z = (int)__instance.position.z;
+
+
                 // <property name="SpawnOnDeath" value="EnemyAnimalsForest" />
                 strSpawnGroup = entityClass.Properties.Values["SpawnOnDeath"];
 
                 int classID = 0;
+                // try to spawn from a group
                 Entity entity = EntityFactory.CreateEntity(EntityGroups.GetRandomFromGroup(strSpawnGroup, ref classID), __instance.position);
                 if (entity != null)
                 {
-                    Vector3i blockPos = default(Vector3i);
-                    blockPos.x = (int)__instance.position.x;
-                    blockPos.y = (int)__instance.position.y;
-                    blockPos.z = (int)__instance.position.z;
                     __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
-                    entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+                    GameManager.Instance.World.SpawnEntityInWorld(entity);
+                    return;
+                }
+
+                // If no group, then assume its an entity
+                int entityID = EntityClass.FromString(strSpawnGroup);
+                entity = EntityFactory.CreateEntity(entityID, __instance.position);
+                if(entity != null)
+                {
                     GameManager.Instance.World.SpawnEntityInWorld(entity);
                 }
             }
