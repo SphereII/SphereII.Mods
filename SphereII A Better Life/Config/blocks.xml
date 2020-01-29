@@ -31,10 +31,10 @@
       <property name="CreativeMode" value="Dev"/>
       <property name="Class" value="MortSpawner, Mods"/>
       <property name="StabilitySupport" value="false"/>
-      <property name="Shape" value="Ext3dModel" />
-
-      <property name="Mesh" value="models"/>
-      <property name="Model" value="Plants/driftwood" param1="main_mesh" />
+      <property name="Shape" value="Ext3dModel"/>
+      <property name="Texture" value="293"/>
+      <property name="Model" value="#Entities/LootContainers?birdnestPrefab.prefab"/>
+      <property name="Shape" value="ModelEntity"/>
 
       <property name="HandleFace" value="Bottom"/>
       <property name="EntityGroup" value="AnimalSwiming"/>
