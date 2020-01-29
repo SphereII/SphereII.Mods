@@ -46,12 +46,12 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
     {
         Debug.Log("Fish Init");
         base.Init(_entityClass);
-        Debug.Log("Init 1");
         this.emodel.SetVisible(true, true);
-        Debug.Log("Init 2");
+        if (base.getNavigator() == null)
+            return;
+
         base.getNavigator().setCanDrown(false);
         base.getNavigator().setInWater(true);
-        Debug.Log("Init Done");
     }
     //}
 

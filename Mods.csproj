@@ -83,6 +83,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0-SphereIICore\Harmony\Animation\AnimatorMapper.cs" />
+    <Compile Include="0-SphereIICore\Harmony\Animation\AvatarController.cs" />
+    <Compile Include="0-SphereIICore\Harmony\Animation\EModelBase.cs" />
+    <Compile Include="0-SphereIICore\Harmony\Dialog\DialogFromXML.cs" />
+    <Compile Include="0-SphereIICore\Harmony\EAI\EAIApproachAndAttackTarget.cs" />
     <Compile Include="0-SphereIICore\Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="0-SphereIICore\Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="0-SphereIICore\Harmony\HarmonyInit.cs" />
@@ -91,10 +96,12 @@
     <Compile Include="0-SphereIICore\Harmony\ItemFeatures\ItemRadiusBuffEffects.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAlive.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCFixSpeed.cs" />
+    <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAttention.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCGreetingFix.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\AntiNerdPole.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\OneBlockCrouch.cs" />
+    <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\PlayerMoveController.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\SoftHands.cs" />
     <Compile Include="0-SphereIICore\Harmony\PrefabFeatures\DisableTraderProtection.cs" />
     <Compile Include="0-SphereIICore\Harmony\Progression\ZeroXP.cs" />
@@ -103,21 +110,28 @@
     <Compile Include="0-SphereIICore\Harmony\SoundFeatures\SoundDataNodeIndexer.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\XMLDebugger.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\EntityFactory.cs" />
-    <Compile Include="0-SphereIICore\Harmony\Standard\QuickContinue.cs" />
+    <Compile Include="SphereII Quick Continue\Harmony\HarmonyInit.cs" />
+    <Compile Include="SphereII Quick Continue\Harmony\QuickContinue.cs" />
+    <Compile Include="0-SphereIICore\Harmony\TileEntities\AlwaysActive.cs" />
     <Compile Include="0-SphereIICore\Harmony\TileEntities\SphereII_PoweredWorkstations.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\DisableXPIconNotification.cs" />
+    <Compile Include="0-SphereIICore\Harmony\UI\FilterGameWorld.cs" />
     <Compile Include="0-SphereIICore\Harmony\UI\UnlockEnemyHealthBar.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\HeadshotOnly.cs" />
+    <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\InertEntity.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\LowerResolutionUMA.cs" />
+    <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\RandomWalk.cs" />
     <Compile Include="0-SphereIICore\Harmony\ZombieFeatures\UMATweaks.cs" />
     <Compile Include="0-SphereIICore\PatchScripts\DialogPatches.cs" />
     <Compile Include="0-SphereIICore\PatchScripts\EAITaskPatches.cs" />
     <Compile Include="0-SphereIICore\PatchScripts\EntityAlivePatcher.cs" />
+    <Compile Include="0-SphereIICore\PatchScripts\FoodSpoilagePatch.cs" />
     <Compile Include="0-SphereIICore\Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\BlockMortSpawner.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Blocks\BlockTriggeredSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\BlockUtilitiesSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Blocks\PickUpAndReplace.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementEveryDawn.cs" />
@@ -125,9 +139,17 @@
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementEveryXHourSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Buffs\RequirementSameFactionSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionAddCVar.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionGetItemSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionGiveQuestSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionGiveToNPC.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionRemoveBuffSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionRewardSkillPoint.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionShowToolTipSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogActionOpenDialogSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasCompletedQuestSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasFailedQuestSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasItemSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasCVar.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" />
@@ -135,6 +157,9 @@
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHasTaskSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\Dialogs\DialogRequirementPatrolSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\MinEvents\MinEventActionShowToolTipSDX.cs" />
+    <Compile Include="0-SphereIICore\Scripts\MinEvents\MinEventActionToggleCamera.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\EAI\EAIApproachAndAttackSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" />
@@ -202,18 +227,28 @@
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_EntityInformationPanelSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" />
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
-    <Compile Include="10SlotToolbelt\Harmony\BiggerToolbelt.cs" />
-    <Compile Include="10SlotToolbelt\PatchScripts\CreatePlayerActionPatcher.cs" />
-    <Compile Include="10SlotToolbelt\Scripts\ToolbeltSDX.cs" />
     <Compile Include="SphereII Clear UI\Harmony\ClearUI.cs" />
     <Compile Include="SphereII Legacy Distant Terrain\Harmony\LegacyDistantTerrain.cs" />
     <Compile Include="SphereII Winter Project\Harmony\PrefabInstance.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="0-CreaturePack\Config\buffs.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="0-CreaturePack\Config\dialogs.xml" />
+    <Content Include="0-CreaturePack\Config\entityclasses.xml" />
+    <Content Include="0-CreaturePack\Config\entitygroups.xml" />
+    <Content Include="0-CreaturePack\Config\items.xml" />
+    <Content Include="0-CreaturePack\Config\Localization.txt" />
+    <Content Include="0-CreaturePack\Config\npc.xml" />
+    <Content Include="0-CreaturePack\Config\traders.xml" />
+    <Content Include="0-CreaturePack\mod.xml" />
+    <Content Include="0-CreaturePack\ModInfo.xml" />
     <Content Include="0-SphereIICore\Config\blocks.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="0-SphereIICore\Config\buffs.xml" />
+    <Content Include="0-SphereIICore\Config\Localization.txt" />
     <Content Include="0-SphereIICore\Config\XUi\xui.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\blocks.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\entityclasses.xml" />
@@ -221,11 +256,6 @@
     <Content Include="0-SphereIICore\Documentation\Examples\sounds.xml" />
     <Content Include="0-SphereIICore\mod.xml" />
     <Content Include="0-SphereIICore\ModInfo.xml" />
-    <Content Include="10SlotToolbelt\Config\XUi\windows.xml" />
-    <Content Include="10SlotToolbelt\Config\XUi\xui.xml" />
-    <Content Include="10SlotToolbelt\Harmony\Harmony-10 Slot Toolbelt.dll" />
-    <Content Include="10SlotToolbelt\Harmony\Harmony-10 Slot Toolbelt.pdb" />
-    <Content Include="10SlotToolbelt\mod.xml" />
     <Content Include="Blooms Animal Husbandry\Config\blocks.xml" />
     <Content Include="Blooms Animal Husbandry\Config\buffs.xml" />
     <Content Include="Blooms Animal Husbandry\Config\dialogs.xml" />
@@ -260,8 +290,13 @@
     <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\spawnpoints.xml" />
     <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat3.png" />
     <Content Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\water_info.xml" />
+    <Content Include="SphereII A Better Life\Config\biomes.xml" />
+    <Content Include="SphereII A Better Life\Config\blocks.xml" />
     <Content Include="SphereII A Better Life\Config\entityclasses.xml" />
+    <Content Include="SphereII A Better Life\Config\entitygroups.xml" />
+    <Content Include="SphereII A Better Life\Config\items.xml" />
     <Content Include="SphereII A Better Life\Config\Localization.txt" />
+    <Content Include="SphereII A Better Life\Config\spawning.xml" />
     <Content Include="SphereII A Better Life\mod.xml" />
     <Content Include="SphereII A Better Life\ModInfo.xml" />
     <Content Include="SphereII A Better Life\UIAtlases\ItemIconAtlas\Boiled Fish.png" />
@@ -289,7 +324,6 @@
     <Content Include="SphereII Legacy Distant Terrain\ModInfo.xml" />
     <Content Include="SphereII Music Boxes\Config\blocks.xml" />
     <Content Include="SphereII Music Boxes\Config\items.xml" />
-    <Content Include="SphereII Music Boxes\Config\Localization - Quest.txt" />
     <Content Include="SphereII Music Boxes\Config\Localization.txt" />
     <Content Include="SphereII Music Boxes\Config\loot.xml" />
     <Content Include="SphereII Music Boxes\Config\quests.xml" />
@@ -319,6 +353,11 @@
     <Content Include="SphereII Take And Replace\Config\Localization.txt" />
     <Content Include="SphereII Take And Replace\mod.xml" />
     <Content Include="SphereII Take And Replace\ModInfo.xml" />
+    <Content Include="SphereII Quick Continue\mod.xml" />
+    <Content Include="SphereII Quick Continue\ModInfo.xml" />
+    <Content Include="SphereII Test Cases\Config\quests.xml" />
+    <Content Include="SphereII Test Cases\mod.xml" />
+    <Content Include="SphereII Test Cases\ModInfo.xml" />
     <Content Include="SphereII UMA Tweaks\Config\archetypes.xml" />
     <Content Include="SphereII UMA Tweaks\Config\entityclasses.xml" />
     <Content Include="SphereII UMA Tweaks\Config\entitygroups.xml" />
@@ -401,14 +440,10 @@
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
     <Folder Include="Properties\" />
     <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
-    <Folder Include="Xyth_Bandits\Config\" />
-    <Folder Include="Xyth_Bandits\Resources\" />
-    <Folder Include="Xyth_NPCs\Config\" />
-    <Folder Include="Xyth_NPCs\Resources\" />
-    <Folder Include="Xyth_WanderingTraders\Config\" />
-    <Folder Include="Xyth_WanderingTraders\Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="0-CreaturePack\Resources\CharacterPack00.unity3d" />
+    <None Include="0-CreaturePack\Resources\XythBanditAmmo.unity3d" />
     <None Include="Blooms Animal Husbandry\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\Resources\BloomsFarmAnimals.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\Cows.unity3d" />
@@ -464,6 +499,8 @@
     <None Include="SphereII Music Boxes\Resources\XmasCarousel.unity3d" />
     <None Include="SphereII NPC Dialog Windows\ReadMe.md" />
     <None Include="SphereII Take And Replace\README.md" />
+    <None Include="SphereII Quick Continue\README.md" />
+    <None Include="SphereII Test Cases\README.md" />
     <None Include="SphereII UMA Tweaks\README.md" />
     <None Include="SphereII Winter Project\Resources\SnowFog.unity3d" />
     <None Include="SphereII Winter Project\Resources\snowShovel.unity3d" />
