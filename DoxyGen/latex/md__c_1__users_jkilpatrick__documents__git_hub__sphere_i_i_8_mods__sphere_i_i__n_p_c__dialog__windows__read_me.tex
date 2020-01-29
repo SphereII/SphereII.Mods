@@ -1,0 +1,62 @@
+The Sphere\+II N\+PC Dialog Windows provides a sample X\+UI from Sirillion to allow the N\+P\+Cs to have a different dialog display format, including a sample N\+PC dialog with a quest chain.
+
+This X\+ML defines the dialog options for an N\+PC.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{configs}>}
+\DoxyCodeLine{  <\textcolor{keywordtype}{append} \textcolor{keyword}{xpath}=\textcolor{stringliteral}{"/npc"}>}
+\DoxyCodeLine{    <\textcolor{keywordtype}{npc\_info}}
+\DoxyCodeLine{    \textcolor{keyword}{id}=\textcolor{stringliteral}{"spheretest"}}
+\DoxyCodeLine{    \textcolor{keyword}{name}=\textcolor{stringliteral}{"NPC"}}
+\DoxyCodeLine{    \textcolor{keyword}{name\_key}=\textcolor{stringliteral}{"npc\_traitorJoel"}}
+\DoxyCodeLine{    \textcolor{keyword}{faction}=\textcolor{stringliteral}{"whiteriver"}}
+\DoxyCodeLine{    \textcolor{keyword}{portrait}=\textcolor{stringliteral}{"npc\_joel"}}
+\DoxyCodeLine{    \textcolor{keyword}{greeting\_type}=\textcolor{stringliteral}{"nearby"}}
+\DoxyCodeLine{    \textcolor{keyword}{stance}=\textcolor{stringliteral}{"Like"} \textcolor{keyword}{voice\_set}=\textcolor{stringliteral}{"trader"}}
+\DoxyCodeLine{    \textcolor{keyword}{trader\_id}=\textcolor{stringliteral}{"1"} \textcolor{keyword}{dialog\_id}=\textcolor{stringliteral}{"GenericNPCWithQuest"}}
+\DoxyCodeLine{    \textcolor{keyword}{quest\_list}=\textcolor{stringliteral}{"npcqest"} />}
+\DoxyCodeLine{  </\textcolor{keywordtype}{append}>}
+\DoxyCodeLine{</\textcolor{keywordtype}{configs}>}
+\end{DoxyCode}
+
+
+The id=\char`\"{}spheretest\char`\"{} would be used as the N\+P\+C\+ID on the entity class, and links the entity class to its N\+PC hooks.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{property} \textcolor{keyword}{name}=\textcolor{stringliteral}{"NPCID"} \textcolor{keyword}{value}=\textcolor{stringliteral}{"spheretest"}/>}
+\end{DoxyCode}
+
+
+the dialog-\/id, \char`\"{}\+Generic\+N\+P\+C\char`\"{} makes a reference to the dialog.\+xml file, and brings up the chat and interaction window.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-- Generic Dialog with Quest options (if quests are available -->}}
+\DoxyCodeLine{ <\textcolor{keywordtype}{dialog} \textcolor{keyword}{id}=\textcolor{stringliteral}{"GenericNPCWithQuest"} \textcolor{keyword}{startstatementid}=\textcolor{stringliteral}{"start"}>}
+\DoxyCodeLine{   <\textcolor{keywordtype}{statement} \textcolor{keyword}{id}=\textcolor{stringliteral}{"start"} \textcolor{keyword}{text}=\textcolor{stringliteral}{"dialog\_trader\_statement\_start"}>}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"FollowMe"} />   }
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"jobshave"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"ShowMe"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"StayHere"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"GuardHere"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"Wander"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"SetPatrol"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"Patrol"} />}
+\DoxyCodeLine{     \textcolor{comment}{<!-- response\_entry id="Loot" / -->}}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"Hire"} />}
+\DoxyCodeLine{     <\textcolor{keywordtype}{response\_entry} \textcolor{keyword}{id}=\textcolor{stringliteral}{"done"} />}
+\DoxyCodeLine{   </\textcolor{keywordtype}{statement}>}
+\end{DoxyCode}
+
+
+If the N\+PC can give a quest or multiple quests, a quest\+\_\+list needs to be added to the quests.\+xml, along with whatever quests you want to provide it. For example, you may want to create a quest line that a single N\+PC gives you. Once you complete all the requirements, the N\+PC may join you as a follower.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{quest\_list} \textcolor{keyword}{id}=\textcolor{stringliteral}{"npcqest"}>}
+\DoxyCodeLine{  <\textcolor{keywordtype}{quest} \textcolor{keyword}{id}=\textcolor{stringliteral}{"test\_fetch"} />}
+\DoxyCodeLine{</\textcolor{keywordtype}{quest\_list}>}
+\end{DoxyCode}
+ 

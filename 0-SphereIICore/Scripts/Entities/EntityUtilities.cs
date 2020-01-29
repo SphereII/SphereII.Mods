@@ -28,6 +28,7 @@ public static class EntityUtilities
         Loot = 7
     }
 
+    
     public static void AddBuffToRadius(String strBuff, Vector3 position, int Radius)
     {
         // If there's no radius, pick 30 blocks.
@@ -287,7 +288,7 @@ public static class EntityUtilities
     public static Entity GetOwner(int EntityID)
     {
         Entity leader = null;
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(myEntity)
         {
             if(leader == null && myEntity.Buffs.HasCustomVar("Owner"))

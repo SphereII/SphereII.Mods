@@ -87,6 +87,7 @@
     <Compile Include="0-SphereIICore\Harmony\Animation\AvatarController.cs" />
     <Compile Include="0-SphereIICore\Harmony\Animation\EModelBase.cs" />
     <Compile Include="0-SphereIICore\Harmony\Dialog\DialogFromXML.cs" />
+    <Compile Include="0-SphereIICore\Harmony\EAI\EAISetAsTargetHurt.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAIApproachAndAttackTarget.cs" />
     <Compile Include="0-SphereIICore\Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="0-SphereIICore\Harmony\FoodSpoilage\FoodSpoilage.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAlive.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCFixSpeed.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAttention.cs" />
+    <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCGreetingFix.cs" />
     <Compile Include="0-SphereIICore\Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="0-SphereIICore\Harmony\PlayerFeatures\AntiNerdPole.cs" />
@@ -438,12 +440,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
+    <Folder Include="DoxyGen\" />
     <Folder Include="Properties\" />
     <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="0-CreaturePack\Resources\CharacterPack00.unity3d" />
     <None Include="0-CreaturePack\Resources\XythBanditAmmo.unity3d" />
+    <None Include="0-SphereIICore\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\Resources\BloomsFarmAnimals.unity3d" />
     <None Include="Blooms Animal Husbandry\Resources\Cows.unity3d" />
@@ -452,8 +456,7 @@
     <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\main.ttw" />
     <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat3_processed.tga" />
     <None Include="Dishong Tower Challenge\Worlds\Dishong Tower Challenge\splat4_processed.tga" />
-    <None Include="README-Old.md" />
-    <None Include="README.md" />
+    <None Include="Introduction.Main.md" />
     <None Include="SphereII A Better Life\README.md" />
     <None Include="SphereII A Better Life\Resources\Alcatraz.unity3d" />
     <None Include="SphereII A Better Life\Resources\Barracuda.unity3d" />
