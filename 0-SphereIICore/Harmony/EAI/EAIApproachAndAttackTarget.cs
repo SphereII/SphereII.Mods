@@ -55,7 +55,7 @@ class SphereII_EAIApproachAndAttackTarget
                     Debug.Log(" Ranged Entity: They are coming too close to me! I am backing away");
 
                     Vector3 dirV = __instance.theEntity.position - __instance.entityTarget.position;
-                    Vector3 vector = RandomPositionGenerator.CalcPositionInDirection(__instance.theEntity, __instance.theEntity.position, dirV, 10f, 80f);
+                    Vector3 vector = RandomPositionGenerator.CalcPositionInDirection(__instance.theEntity, __instance.theEntity.position, dirV, 40f, 80f);
                     __instance.theEntity.moveHelper.SetMoveTo(vector, false);
                     __instance.theEntity.SetLookPosition(__instance.entityTarget.position);
                     __instance.theEntity.RotateTo(__instance.entityTarget, 45, 45);

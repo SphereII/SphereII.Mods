@@ -120,6 +120,8 @@ var NAVTREEINDEX3 =
 "dc/dfc/md__c_1__users_jkilpatrick__documents__git_hub__sphere_i_i_8_mods__sphere_i_i__music__boxes__r_e_a_d_m_e.html":[4],
 "dd/d01/_entity_survivor_s_d_x_8cs.html":[12,0,0,3,5,9],
 "dd/d01/_entity_survivor_s_d_x_8cs_source.html":[12,0,0,3,5,9],
+"dd/d03/_animator_mapper_8cs.html":[12,0,0,1,0,0],
+"dd/d03/_animator_mapper_8cs_source.html":[12,0,0,1,0,0],
 "dd/d10/_entity_flying_base_s_d_x_8cs.html":[12,0,0,3,5,4],
 "dd/d10/_entity_flying_base_s_d_x_8cs_source.html":[12,0,0,3,5,4],
 "dd/d12/_reward_quest_s_d_x_8cs.html":[12,0,0,3,10,9],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "df/d87/_dialog_requirement_has_item_s_d_x_8cs.html":[12,0,0,3,3,13],
 "df/d87/_dialog_requirement_has_item_s_d_x_8cs_source.html":[12,0,0,3,3,13],
 "df/d8f/class_dialog_requirement_has_completed_quest_s_d_x.html":[11,0,17],
-"df/d8f/class_dialog_requirement_has_completed_quest_s_d_x.html#ad56a73dc295421e4c6ba3cdb0cccfa67":[11,0,17,0],
-"df/da0/class_reward_quest_s_d_x.html":[11,0,91],
-"df/da0/class_reward_quest_s_d_x.html#ae428dcf77db8c60a25f0b30aa9619c2a":[11,0,91,0]
+"df/d8f/class_dialog_requirement_has_completed_quest_s_d_x.html#ad56a73dc295421e4c6ba3cdb0cccfa67":[11,0,17,0]
 };

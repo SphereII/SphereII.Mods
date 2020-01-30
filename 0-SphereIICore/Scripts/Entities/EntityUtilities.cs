@@ -2,7 +2,6 @@
 // General Purpose Entity Utilities to centralize general checks.
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public static class EntityUtilities
     static bool blDisplayLog = false;
     private static string AdvFeatureClass = "AdvancedNPCFeatures";
 
-    
+
     public static void DisplayLog(string strMessage)
     {
         if(blDisplayLog)
@@ -33,14 +32,14 @@ public static class EntityUtilities
     public static bool IsHuman(int EntityID)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity == null)
+        if(myEntity == null)
             return false;
 
         // Read the ConfigBlock to detect what constitutes a human, or rather, what can think
         string[] Tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "HumanTags").Split(',');
-        foreach (String Tag in Tags)
+        foreach(String Tag in Tags)
         {
-            if (myEntity.HasAnyTags(FastTags.Parse(Tag)))
+            if(myEntity.HasAnyTags(FastTags.Parse(Tag)))
                 return true;
         }
 
@@ -50,7 +49,7 @@ public static class EntityUtilities
     public static void AddBuffToRadius(String strBuff, Vector3 position, int Radius)
     {
         // If there's no radius, pick 30 blocks.
-        if(Radius <= 0  )
+        if(Radius <= 0)
             Radius = 30;
 
         World world = GameManager.Instance.World;
@@ -129,11 +128,11 @@ public static class EntityUtilities
     public static bool HasTask(int EntityID, String strTask)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity != null)
+        if(myEntity != null)
         {
-            foreach (var task in myEntity.aiManager.GetTasks<EAIBase>())
+            foreach(var task in myEntity.aiManager.GetTasks<EAIBase>())
             {
-                if (task.GetTypeName().Contains(strTask))
+                if(task.GetTypeName().Contains(strTask))
                     return true;
             }
         }
@@ -452,7 +451,7 @@ public static class EntityUtilities
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Position");
                 myEntity.GuardPosition = position;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
-                if ( myEntity.moveHelper != null) // No move helper on the client when on Dedi
+                if(myEntity.moveHelper != null) // No move helper on the client when on Dedi
                     myEntity.moveHelper.Stop();
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Done with Order");
 
@@ -468,7 +467,7 @@ public static class EntityUtilities
                 myEntity.GuardPosition = position;
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Stopping Move Helper()");
 
-                if (myEntity.moveHelper != null) // No move helper on the client when on Dedi
+                if(myEntity.moveHelper != null) // No move helper on the client when on Dedi
                     myEntity.moveHelper.Stop();
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Guard Look");
                 myEntity.GuardLookPosition = player.GetLookVector();
@@ -509,14 +508,14 @@ public static class EntityUtilities
             case "OpenInventory":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Order Open Inventory");
 
-          //      GameManager.Instance.TELockServer(0, myEntity.GetBlockPosition(), EntityID, player.entityId);
-         //       uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+                //      GameManager.Instance.TELockServer(0, myEntity.GetBlockPosition(), EntityID, player.entityId);
+                //       uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
                 if(myEntity.lootContainer == null)
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container is null");
 
                 else
                 {
-                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + myEntity.lootContainer.ToString() );
+                    AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Loot Container: " + myEntity.lootContainer.ToString());
                     myEntity.lootContainer.lootListIndex = 62;
                     AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Opening Loot Container");
 
@@ -782,6 +781,32 @@ public static class EntityUtilities
             _te.bTouched = true;
             _te.SetModified();
         }
+    }
+
+    public static bool CheckFaction(int EntityID, EntityAlive entity)
+    {
+        bool result = false;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if(myEntity == null)
+            return result;
+
+        // same faction
+        if(myEntity.factionId == entity.factionId)
+            return true;
+
+        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(myEntity, entity);
+        DisplayLog(" CheckFactionForEnemy: " + myRelationship.ToString());
+        if(myRelationship == FactionManager.Relationship.Hate)
+        {
+            DisplayLog(" I hate this entity: " + entity.ToString());
+            return false;
+        }
+        else
+        {
+            DisplayLog(" My relationship with this " + entity.ToString() + " is: " + myRelationship.ToString());
+            result = true;
+        }
+        return false;
     }
 
     public static bool CheckForBuff(int EntityID, String strBuff)

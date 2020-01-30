@@ -1,10 +1,10 @@
 SphereII.Mods {#mainpage}
 ==============
 
- **This mod is not EAC-safe, and EAC must be turned off. Compatible with A18 and above**
+ <center><b>This mod is not EAC-safe, and EAC must be turned off. Compatible with A18 and above</b></center>
 
 
- **This is still a work in progress; Each feature is available, however may not be completely refined yet. Balancing and suggestions are welcomed.**
+ <center><b>This is still a work in progress; Each feature is available, however may not be completely refined yet. Balancing and suggestions are welcomed.**</b></center>
 
 These mods may be used, modified, and distributed by any person without restrictions. If you have made improvements or changes, it would be appreaciated to be pushed back into the main github for all.
 
@@ -14,20 +14,22 @@ This pack contains a large variety of Scripts, PatchScripts, and Harmony scripts
 Download And Install:  
 ==============
 
-~~~~~~~~~~~~~~
+In order to install these mods, you must use the DMT Build Tool to build and deploy the mods. This will need to be done to the client and the server, if you are running the mods on a server. For the git clone, you may use git, gitkracken, or Github Desktop to keep up to date.
+
+
 Download One of the Following:
 ----------
 
-	Git Clone:  [https://github.com/SphereII/SphereII.Mods/](https://github.com/SphereII/SphereII.Mods/)
+Git Clone:  [https://github.com/SphereII/SphereII.Mods/](https://github.com/SphereII/SphereII.Mods/)
 
-	Zip Download: [https://github.com/SphereII/SphereII.Mods/archive/master.zip](https://github.com/SphereII/SphereII.Mods/archive/master.zip)
+Zip Download: [https://github.com/SphereII/SphereII.Mods/archive/master.zip](https://github.com/SphereII/SphereII.Mods/archive/master.zip)
 
-~~~~~~~~~~~~~~~
 
 Build Tool:
 -----------
 
-   DMT: [https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool ](https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool )
+DMT: [https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool ](https://7daystodie.com/forums/showthread.php?117235-DMT-Modding-Tool)
+
 
 Build Steps:
 -------------
@@ -83,7 +85,7 @@ Inspired from The Walking Dad, re-worked through Harmony and UI adjustments by S
 SphereII Food Spoilage
 ======================
 
-This modlet enables the actual food spoilage system found in SphereII Core, with some preset global values for all non-can food items. Use this to get started with adding your own unique twist to spoilage.
+This modlet enables the food spoilage system found in SphereII Core, with some preset global values for all non-can food items. Use this to get started with adding your own unique twist to spoilage.
 
 -----------------------
 SphereII Music Box
@@ -102,12 +104,6 @@ SphereII Take And Replace
 =========================
 
 This modlet enables the Take And Replace, which allows you to pull off boards from windows and doors without brute force. Hold a hammer or a crowbar (not included) to make this go faster!
-
------------------------
-SphereII Winter Project
-=======================
-
-The Winter Project - Work In Progress
 
 -----------------------
 SyX Security Bots
