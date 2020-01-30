@@ -20,8 +20,9 @@
       <property class="AdvancedSoundFeatures" >
         <property name="Logging" value="false"/>
       </property>
+      
       <property class="AdvancedItemFeatures" >
-        <property name="Logging" value="true"/>
+        <property name="Logging" value="false"/>
         <property name="AdvancedItemRepair" value="true" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
         <property name="DurabilityAffectsDamage" value="false" />  <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
       </property>
@@ -38,8 +39,8 @@
         <property name="HeadshotOnly" value="false" />  <!-- Only way to kill them is through head shots -->
         <property name="RandomSize" value="true" />     <!-- Give them random sizes for more variety -->
         <property name="RandomWalk" value="true" />   <!-- Give them random walks. -->
-        <property name="UMATweaks"  value="true" />     <!-- Improvements on reducing load times of UMA Zombies -->
-        <property name="LowerResolutionUMA" value="true" />    <!-- Lower resolution on UMAs drastically -->
+        <property name="UMATweaks"  value="false" />     <!-- Improvements on reducing load times of UMA Zombies -->
+        <property name="LowerResolutionUMA" value="false" />    <!-- Lower resolution on UMAs drastically -->
 
       </property>
 
@@ -72,25 +73,33 @@
         <property name="NPCSpeedFix" value="true" />        <!-- allow the Trader NPCs to move at a reasonable speed -->
         <property name="NPCMaslow" value="true" />    <!-- Turn on or off Maslow for NPCs -->
         <property name="AnimalMaslow" value="true" /> <!-- Turn on or off maslow for animals. -->
-        
+        <property name="HumanTags"  value="human,bandit,survivor,npc,trader" /> <!-- Tags that translate that the entity is alive and has a brain -->
 
       </property>
 
       <property class="AdvancedWorkstationFeatures" >
         <property name="Logging" value="false"/>
-        <property name="EnablePoweredWorkstations" value="false" />
+        <property name="EnablePoweredWorkstations" value="true" />
       </property>
 
+      <property class="AdvancedDialogDebugging" >
+        <property name="Logging" value="false"/>
+      </property>
 
       <property class="AdvancedTroubleshootingFeatures" >
         <property name="Logging" value="false"/>
         <property name="VerboseXMLParser" value="false" />
+        <property name="AnimatorMapper" value="true" />
       </property>
       
       <property class="AdvancedPrefabFeatures" >
         <property name="Logging" value="false"/>
         <property name="DisableTraderProtection" value="false" />  <!-- Disables Trader Protection in their prefabs -->
       </property>
+
+        <property class="AdvancedTileEntities" >
+          <property name="Logging" value="false"/>
+        </property>
 
     </block>
   </append>

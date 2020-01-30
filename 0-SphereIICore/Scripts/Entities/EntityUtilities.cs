@@ -2,6 +2,7 @@
 // General Purpose Entity Utilities to centralize general checks.
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public static class EntityUtilities
     static bool blDisplayLog = false;
     private static string AdvFeatureClass = "AdvancedNPCFeatures";
 
+    
     public static void DisplayLog(string strMessage)
     {
         if(blDisplayLog)
@@ -28,7 +30,23 @@ public static class EntityUtilities
         Loot = 7
     }
 
-    
+    public static bool IsHuman(int EntityID)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return false;
+
+        // Read the ConfigBlock to detect what constitutes a human, or rather, what can think
+        string[] Tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "HumanTags").Split(',');
+        foreach (String Tag in Tags)
+        {
+            if (myEntity.HasAnyTags(FastTags.Parse(Tag)))
+                return true;
+        }
+
+        return false;
+    }
+
     public static void AddBuffToRadius(String strBuff, Vector3 position, int Radius)
     {
         // If there's no radius, pick 30 blocks.
@@ -111,23 +129,12 @@ public static class EntityUtilities
     public static bool HasTask(int EntityID, String strTask)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if(myEntity != null)
+        if (myEntity != null)
         {
-            string text2;
-
-            EntityClass entityClass = EntityClass.list[myEntity.entityClass];
-            for(int x = 1; x < 20; x++)
+            foreach (var task in myEntity.aiManager.GetTasks<EAIBase>())
             {
-                string text = EntityClass.PropAITask + x;
-
-                if(entityClass.Properties.Values.ContainsKey(text))
-                {
-                    if(entityClass.Properties.Values.TryGetString(text, out text2) || text2.Length > 0)
-                    {
-                        if(text2.Contains(strTask))
-                            return true;
-                    }
-                }
+                if (task.GetTypeName().Contains(strTask))
+                    return true;
             }
         }
 

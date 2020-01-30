@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.1.54</mod_version>
+    <mod_version>18.3.1.68</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -496,7 +496,6 @@
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="4fc17722eeb8d150fa91780ec1a75563" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\AlwaysActive.cs" hash="67133ce78863a96a9614fe80842dd016" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="9a2a1691def70f01a8c591aeb0b5b5ec" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="7303525a0d9bdc1798b9c66c64929ee8" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="03962625b5c3345d0a076850b3112e99" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Documentation\Examples\sounds.xml" hash="e352f8a394f5c8a288db7871fa0506a3" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\AnimatorMapper.cs" hash="dda144c18d8cc6ca70428a49d76583ad" />
@@ -546,12 +545,16 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="67f6fc8234b6dd3fb5f667a39d681693" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\AvatarController.cs" hash="494bf5853861d87e694b5604aa8af082" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\WorldGen\WinterModPrefab.cs" hash="deee8e6737b963258c4b5780a36c13b8" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="2bef60cfc75114f0d3116951144d0e46" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="a914cdc97e82059aaaf45f26bef15706" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="95bb9660c8bc43bcb616740a557f419b" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="e2e759e5690170468118b7b3a3ef161e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomDeathSpawn.cs" hash="2f69099360a17d434f37288479b7979f" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySwimingSDX.cs" hash="60b2280a32488b774865dde8cec1917e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\EModelBase.cs" hash="c4a12c5002edb88ed7c2cad17abc9ba2" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/ReadMe.md" hash="bdb7a10469c3bce6782d0bc563a63dc8" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="957b4b85a03aa73e2354b754010c6881" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" hash="925d884254129cdf5b5529aa32591517" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="7a268c808edc3f58479cafbaa3e515f6" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="3b260586997d75f8b0190adb876ec163" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="39f09b22a6d5ef7770c00dfc411b23c6" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="ea1d262a6c59490629574ba0f141c9f7" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="58c323f70a552c30a5ed495380eafe6b" />
   </hashes>
 </mod>
