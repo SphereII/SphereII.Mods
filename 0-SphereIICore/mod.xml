@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.1.68</mod_version>
+    <mod_version>18.3.1.70</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -549,12 +549,14 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySwimingSDX.cs" hash="60b2280a32488b774865dde8cec1917e" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\EModelBase.cs" hash="c4a12c5002edb88ed7c2cad17abc9ba2" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/ReadMe.md" hash="bdb7a10469c3bce6782d0bc563a63dc8" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="957b4b85a03aa73e2354b754010c6881" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" hash="925d884254129cdf5b5529aa32591517" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="7a268c808edc3f58479cafbaa3e515f6" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="3b260586997d75f8b0190adb876ec163" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="39f09b22a6d5ef7770c00dfc411b23c6" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="ea1d262a6c59490629574ba0f141c9f7" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="58c323f70a552c30a5ed495380eafe6b" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="d2839f689b4d21c21b4caedcc209e594" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="ee64aecd3046b94c976330626440b70d" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="49afcd221014d3fc2669fe1bf6fcbc0a" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\DMTEAIUtilities.cs" hash="a762aabfa4e0cfbbe992d960ab97faa8" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="2bef60cfc75114f0d3116951144d0e46" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="95a162c18a23aa663e130b33d37318d8" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" hash="cd4c2d3938e922da205ad2dd23ff5dcd" />
   </hashes>
 </mod>

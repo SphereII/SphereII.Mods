@@ -11,7 +11,7 @@ class SphereII_EntityAliveStartingEquipment_Equiment
     [HarmonyPatch("PostInit")]
     public class SphereII__EntityAliveStartingEquipment_PostInit
     {
-        public static void SetupStartingItems(EntityEnemy __instance, List<ItemStack> ___itemsOnEnterGame)
+        public static void SetupStartingItems(EntityAlive __instance, List<ItemStack> ___itemsOnEnterGame)
         {
             for(int i = 0; i < ___itemsOnEnterGame.Count; i++)
             {
@@ -29,8 +29,11 @@ class SphereII_EntityAliveStartingEquipment_Equiment
             }
         }
 
-        public static void Postfix(EntityEnemy __instance, List<ItemStack> ___itemsOnEnterGame)
+        public static void Postfix(EntityAlive __instance, List<ItemStack> ___itemsOnEnterGame)
         {
+            if (__instance is EntityPlayerLocal)
+                return;
+
             if(___itemsOnEnterGame.Count > 0)
             {
                 SetupStartingItems(__instance, ___itemsOnEnterGame);
