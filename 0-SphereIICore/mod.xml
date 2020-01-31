@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.1.70</mod_version>
+    <mod_version>18.3.1.81</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -360,7 +360,6 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\SoundData\SoundDataNodeClass.cs" hash="e9b36dc431f4096c6e6a8e61ff4073ab" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Documentation\Examples\blocks.xml" hash="da06261ad9c3468df9cc314dd15f7f86" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\SphereII_PoweredWorkstations.cs" hash="110b50d8e0696390f2eb8d914c73b68f" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="39553a71e00e798f7f3c16e0c35d6744" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\PartyFeatures\AddNonPlayerToParty.cs" hash="3eec26bf0ebe454b54d215e292ad7ac3" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="ba9cd126e8b973624f3adb9107b957ba" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Config\buffs.xml" hash="b2b6a0a501a212c55aa6477151212d9d" />
@@ -496,7 +495,6 @@
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" hash="4fc17722eeb8d150fa91780ec1a75563" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\TileEntities\AlwaysActive.cs" hash="67133ce78863a96a9614fe80842dd016" />
     <hash filename="C:\Users\jkilpatrick\Documents\GitHub\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="9a2a1691def70f01a8c591aeb0b5b5ec" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="03962625b5c3345d0a076850b3112e99" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Documentation\Examples\sounds.xml" hash="e352f8a394f5c8a288db7871fa0506a3" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Animation\AnimatorMapper.cs" hash="dda144c18d8cc6ca70428a49d76583ad" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="ab816be2e3d6f4ad4d9d64f7262feb56" />
@@ -551,12 +549,15 @@
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/ReadMe.md" hash="bdb7a10469c3bce6782d0bc563a63dc8" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="7a268c808edc3f58479cafbaa3e515f6" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="3b260586997d75f8b0190adb876ec163" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="d2839f689b4d21c21b4caedcc209e594" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="ee64aecd3046b94c976330626440b70d" />
-    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="49afcd221014d3fc2669fe1bf6fcbc0a" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\DMTEAIUtilities.cs" hash="a762aabfa4e0cfbbe992d960ab97faa8" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="2bef60cfc75114f0d3116951144d0e46" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="95a162c18a23aa663e130b33d37318d8" />
     <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" hash="cd4c2d3938e922da205ad2dd23ff5dcd" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="476b126be70d3db5508fc0f56d04eccb" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="af42df4fab01b4826b589f8debc933be" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="c142dbdb97eef79ee8918088dffe394c" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="2302f93c49d6053ed3d06a08dff11ad2" />
+    <hash filename="D:\Github\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" hash="3c0abbfc0c43acd690c0242de0ff843e" />
   </hashes>
 </mod>

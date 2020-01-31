@@ -2,3 +2,12 @@
 takeandreplace,"Rip off "
 musicbox_turnOn,"Turn On"
 musicbox_turnOff,"Turn On"
+BanditFactionSchematic,"Master of disguse"
+UndeadFactionSchematic,"Master of disguse"
+DukeRiverFactionSchematic,"Master of disguse"
+WhiteRiverFactionSchematic,"Master of disguse"
+
+BanditFactionSchematicDesc,"Read this to switch over to the bandit faction!"
+UndeadFactionSchematicDesc,"Read this to switch over to the undead faction!"
+WhiteRiverFactionSchematicDesc,"Read this to switch over to the White River faction!"
+DukeRiverFactionSchematicDesc,"Read this to switch over to the Duke faction!"
