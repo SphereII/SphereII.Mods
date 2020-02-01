@@ -11,6 +11,9 @@ class SphereII_NPCFeatures_EntityAttention
 
         public static void Postfix(EntityAlive __instance)
         {
+            if (__instance is EntityPlayerLocal)
+                return;
+
             // If it's a zombie, don't do anything extra
             if(__instance.HasAnyTags(FastTags.CombineTags(FastTags.Parse("zombie"), FastTags.Parse("hostile"))))
                 return;
@@ -25,10 +28,10 @@ class SphereII_NPCFeatures_EntityAttention
             {
                 for(int i = 0; i < entitiesInBounds.Count; i++)
                 {
-                    if(entitiesInBounds[i] is EntityPlayer)
+                    if(entitiesInBounds[i] is EntityPlayerLocal)
                     {
                         // Check your faction relation. If you hate each other, don't stop and talk.
-                        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(__instance, entitiesInBounds[i] as EntityAlive);
+                        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(__instance, entitiesInBounds[i] as EntityPlayerLocal);
                         if(myRelationship == FactionManager.Relationship.Hate)
                             break;
 
@@ -36,7 +39,7 @@ class SphereII_NPCFeatures_EntityAttention
                         if(__instance.GetDistance(entitiesInBounds[i]) < 1)
                         {
                             // Give the NPC a chance to move into position before facing the player.
-                            __instance.moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayer).GetLookVector(), false);
+                            __instance.moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
 
