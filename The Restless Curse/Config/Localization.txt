@@ -1,4 +1,0 @@
-﻿Key,Source,Context,Changes,English
-SamaraMorgan,entityclasses,Entity,KgNone,"Samara Morgan"
-samaraMorgan_NeverSleeps,items,Tool,KgNone,An audioCD
-samaraMorgan_NeverSleepsDesc,items,Tool,KgNone,"A strange audio cd with no label. It glints in the light."
