@@ -347,6 +347,10 @@ public static class EntityUtilities
     public static bool IsAnAlly(int EntityID, int AttackingID)
     {
         bool result = false;
+        // Let you hurt yourself.
+        if (EntityID == AttackingID)
+            return false;
+
         Entity myLeader = GetLeaderOrOwner(EntityID);
 
         // If my attacker is my leader, forgive him.
