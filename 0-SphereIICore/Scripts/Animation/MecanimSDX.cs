@@ -154,13 +154,13 @@ class MecanimSDX : AvatarController
             timeAttackAnimationPlaying -= Time.deltaTime;
         }
 
-        if(!this.m_bVisible && (this.entity == null || !this.entity.RootMotion || this.entity.isEntityRemote))
+        if (!this.m_bVisible && (this.entity == null|| this.entity.isEntityRemote))
         {
             return;
         }
 
         // No need to proceed if the model isn't initialized.
-        if(bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy)
+        if (bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy)
         {
             return;
         }
@@ -504,7 +504,7 @@ class MecanimSDX : AvatarController
             }
             else
             {
-                Log("Right Hand Item Transform: Could not find Transofmr: " + RightHand);
+                Log("Right Hand Item Transform: Could not find Transform: " + RightHand);
             }
         }
         catch(Exception arg)
@@ -525,6 +525,7 @@ class MecanimSDX : AvatarController
             foreach(object obj in t)
             {
                 Transform t2 = (Transform)obj;
+                Log("\t Transform: " + t2.name);
                 Transform transform = FindTransform(root, t2, objectName);
                 if(transform != null)
                 {
@@ -637,6 +638,7 @@ class MecanimSDX : AvatarController
     {
         if(trans.gameObject.tag.Contains("Untagged"))
         {
+            Log("AddTagRecursively: " + trans.name);
             if(trans.name.ToLower().Contains("head"))
             {
                 trans.gameObject.tag = "E_BP_Head";
@@ -690,6 +692,7 @@ class MecanimSDX : AvatarController
         return Jumping || jumpTag == currentBaseState.tagHash;
     }
 
+  
     public override void StartEating()
     {
         if(!isEating)
