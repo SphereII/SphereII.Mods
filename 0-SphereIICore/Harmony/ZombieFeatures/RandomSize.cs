@@ -43,8 +43,8 @@ public class SphereII_RandomSize
                 {
                     // This is the distributed random heigh multiplier. Add or adjust values as you see fit. By default, it's just a small adjustment.
                     float[] numbers = new float[9] { 0.7f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f };
-
                     System.Random random = new System.Random();
+
                     int randomIndex = random.Next(0, numbers.Length);
                     float flScale = numbers[randomIndex];
                     
@@ -58,29 +58,29 @@ public class SphereII_RandomSize
 
     }
 
-    [HarmonyPatch(typeof(EntityAlive))]
-    [HarmonyPatch("Update")]
-    public class SphereII_EntityAlive_Update
-    {
-        public static bool Prefix(EntityAlive __instance)
-        {
-            if (__instance.Buffs.HasCustomVar("RandomSize"))
-            {
-                AdvLogging.DisplayLog(AdvFeatureClass, " Update()");
+    //[HarmonyPatch(typeof(EntityAlive))]
+    //[HarmonyPatch("Update")]
+    //public class SphereII_EntityAlive_Update
+    //{
+    //    public static bool Prefix(EntityAlive __instance)
+    //    {
+    //        if (__instance.Buffs.HasCustomVar("RandomSize"))
+    //        {
+    //            AdvLogging.DisplayLog(AdvFeatureClass, " Update()");
 
-                float scale = __instance.Buffs.GetCustomVar("RandomSize");
-                AdvLogging.DisplayLog(AdvFeatureClass, " Scale: " + scale + " Transform: " + __instance.gameObject.transform.localScale.x);
+    //            float scale = __instance.Buffs.GetCustomVar("RandomSize");
+    //            AdvLogging.DisplayLog(AdvFeatureClass, " Scale: " + scale + " Transform: " + __instance.gameObject.transform.localScale.x);
 
-               // if (__instance.gameObject.transform.localScale.x != scale)
-                {
-                    AdvLogging.DisplayLog(AdvFeatureClass, " Setting Scale:  " + scale);
+    //           // if (__instance.gameObject.transform.localScale.x != scale)
+    //            {
+    //                AdvLogging.DisplayLog(AdvFeatureClass, " Setting Scale:  " + scale);
 
-                    __instance.gameObject.transform.localScale = new Vector3(scale, scale, scale);
-                }
-            }
-            return true;
-        }
-    }
+    //                __instance.gameObject.transform.localScale = new Vector3(scale, scale, scale);
+    //            }
+    //        }
+    //        return true;
+    //    }
+    //}
         //// Read Helper to make sure the size of the zombies are distributed properly
         //[HarmonyPatch(typeof(EntityAlive))]
         //[HarmonyPatch("Read")]
