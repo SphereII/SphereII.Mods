@@ -19,7 +19,7 @@ public class XUiC_DialogRespondentNameSDX : XUiC_DialogRespondentName
         {
             if(fieldName == "respondentname")
             {
-                EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
+                EntityAlive myEntity = player.world.GetEntity(entityID) as EntityAlive;
                 if(myEntity)
                 {
                     if(EntityUtilities.GetHireCost( entityID) <= 0)

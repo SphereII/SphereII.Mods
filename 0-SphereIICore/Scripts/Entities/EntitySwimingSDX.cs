@@ -44,7 +44,6 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
     //    base.Init(_entityClass);
     public override void Init(int _entityClass)
     {
-        Debug.Log("Fish Init");
         base.Init(_entityClass);
         this.emodel.SetVisible(true, true);
         if (base.getNavigator() == null)
