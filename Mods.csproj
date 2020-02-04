@@ -89,6 +89,7 @@
     <Compile Include="0-SphereIICore\Harmony\Dialog\DialogFromXML.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAISetAsTargetHurt.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAIApproachAndAttackTarget.cs" />
+    <Compile Include="0-SphereIICore\Harmony\EAI\EAISetNearestEntityAsTarget.cs" />
     <Compile Include="0-SphereIICore\Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="0-SphereIICore\Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="0-SphereIICore\Harmony\HarmonyInit.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="0-SphereIICore\Harmony\SoundFeatures\SoundDataNodeIndexer.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\XMLDebugger.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\EntityFactory.cs" />
+    <Compile Include="0-SphereIICore\Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />
     <Compile Include="SphereII Quick Continue\Harmony\HarmonyInit.cs" />
     <Compile Include="SphereII Quick Continue\Harmony\QuickContinue.cs" />
     <Compile Include="0-SphereIICore\Harmony\TileEntities\AlwaysActive.cs" />
@@ -231,25 +233,27 @@
     <Compile Include="0-SphereIICore\Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
     <Compile Include="SphereII Clear UI\Harmony\ClearUI.cs" />
     <Compile Include="SphereII Legacy Distant Terrain\Harmony\LegacyDistantTerrain.cs" />
-    <Compile Include="SphereII Winter Project\Harmony\PrefabInstance.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="0-CreaturePack\Config\buffs.xml">
+    <Content Include="0-CreaturePackHumans\Config\buffs.xml" />
+    <Content Include="0-CreaturePackHumans\Config\dialogs.xml" />
+    <Content Include="0-CreaturePackHumans\Config\entityclasses.xml" />
+    <Content Include="0-CreaturePackHumans\Config\entitygroups.xml" />
+    <Content Include="0-CreaturePackHumans\Config\items.xml" />
+    <Content Include="0-CreaturePackHumans\Config\Localization.txt" />
+    <Content Include="0-CreaturePackHumans\Config\npc.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="0-CreaturePack\Config\dialogs.xml" />
-    <Content Include="0-CreaturePack\Config\entityclasses.xml" />
-    <Content Include="0-CreaturePack\Config\entitygroups.xml" />
-    <Content Include="0-CreaturePack\Config\items.xml" />
-    <Content Include="0-CreaturePack\Config\Localization.txt" />
-    <Content Include="0-CreaturePack\Config\npc.xml" />
-    <Content Include="0-CreaturePack\Config\traders.xml" />
-    <Content Include="0-CreaturePack\mod.xml" />
-    <Content Include="0-CreaturePack\ModInfo.xml" />
+    <Content Include="0-CreaturePackHumans\Config\physicsbodies.xml" />
+    <Content Include="0-CreaturePackHumans\Config\sounds.xml" />
+    <Content Include="0-CreaturePackHumans\Config\traders.xml" />
+    <Content Include="0-CreaturePackHumans\mod.xml" />
+    <Content Include="0-CreaturePackHumans\ModInfo.xml" />
     <Content Include="0-SphereIICore\Config\blocks.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="0-SphereIICore\Config\buffs.xml" />
+    <Content Include="0-SphereIICore\Config\items.xml" />
     <Content Include="0-SphereIICore\Config\Localization.txt" />
     <Content Include="0-SphereIICore\Config\XUi\xui.xml" />
     <Content Include="0-SphereIICore\Documentation\Examples\blocks.xml" />
@@ -365,88 +369,23 @@
     <Content Include="SphereII UMA Tweaks\Config\entitygroups.xml" />
     <Content Include="SphereII UMA Tweaks\mod.xml" />
     <Content Include="SphereII UMA Tweaks\ModInfo.xml" />
-    <Content Include="SphereII Winter Project\Config\biomes.xml" />
-    <Content Include="SphereII Winter Project\Config\blocks.xml" />
-    <Content Include="SphereII Winter Project\Config\buffs.xml" />
-    <Content Include="SphereII Winter Project\Config\entityclasses.xml" />
-    <Content Include="SphereII Winter Project\Config\Items.xml" />
-    <Content Include="SphereII Winter Project\Config\Localization - Quest.txt" />
-    <Content Include="SphereII Winter Project\Config\Localization.txt" />
-    <Content Include="SphereII Winter Project\Config\loot.xml" />
-    <Content Include="SphereII Winter Project\Config\quests.xml" />
-    <Content Include="SphereII Winter Project\Config\recipes.xml" />
-    <Content Include="SphereII Winter Project\Config\rwgmixer.xml" />
-    <Content Include="SphereII Winter Project\Config\traders.xml" />
-    <Content Include="SphereII Winter Project\Harmony\Harmony-SphereII Winter Project.dll" />
-    <Content Include="SphereII Winter Project\Harmony\Harmony-SphereII Winter Project.pdb" />
-    <Content Include="SphereII Winter Project\UIAtlases\ItemIconAtlas\snowShovel.png" />
-    <Content Include="SphereII Winter Project\mod.xml" />
-    <Content Include="SphereII Winter Project\ModInfo.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\biomes.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\dtm.raw" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\genHM.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\map_info.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\prefabs.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\previewMap.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\radiation.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\spawnpoints.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\splat3.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\water_info.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\biomes.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\dtm.raw" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\genHM.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\map_info.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\prefabs.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\previewMap.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\radiation.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\spawnpoints.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\splat3.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\water_info.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\biomes.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\dtm.raw" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\genHM.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\map_info.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\prefabs.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\previewMap.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\radiation.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\spawnpoints.xml" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\splat3.png" />
-    <Content Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\water_info.xml" />
-    <Content Include="SyX Security Bots\Config\entityclasses.xml" />
-    <Content Include="SyX Security Bots\Config\entitygroups.xml" />
-    <Content Include="SyX Security Bots\Config\items.xml" />
-    <Content Include="SyX Security Bots\Config\sounds.xml" />
-    <Content Include="SyX Security Bots\mod.xml" />
-    <Content Include="SyX Security Bots\ModInfo.xml" />
-    <Content Include="The Restless Curse\Config\buffs.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="The Restless Curse\Config\dialogs.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="The Restless Curse\Config\entityclasses.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="The Restless Curse\Config\entitygroups.xml" />
-    <Content Include="The Restless Curse\Config\items.xml" />
-    <Content Include="The Restless Curse\Config\Localization - Quest.txt" />
-    <Content Include="The Restless Curse\Config\Localization.txt" />
-    <Content Include="The Restless Curse\Config\materials.xml" />
-    <Content Include="The Restless Curse\Config\quests.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="The Restless Curse\Config\sounds.xml" />
-    <Content Include="The Restless Curse\mod.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0-SphereIICore\Harmony\WorldGen\" />
-    <Folder Include="DoxyGen\" />
     <Folder Include="Properties\" />
-    <Folder Include="SphereII Winter Project\GeneratedWorlds\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="0-CreaturePack\Resources\CharacterPack00.unity3d" />
-    <None Include="0-CreaturePack\Resources\XythBanditAmmo.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\ArcherArissa.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\Baker.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\Eve.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\FarmerFrankie.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\FatAsh.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\HarleySounds.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\HeavyGuy.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\Joel.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\NurseNancy.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\Rifleman.unity3d" />
+    <None Include="0-CreaturePackHumans\Resources\XythBanditAmmo.unity3d" />
     <None Include="0-SphereIICore\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\ReadMe.md" />
     <None Include="Blooms Animal Husbandry\Resources\BloomsFarmAnimals.unity3d" />
@@ -505,19 +444,6 @@
     <None Include="SphereII Quick Continue\README.md" />
     <None Include="SphereII Test Cases\README.md" />
     <None Include="SphereII UMA Tweaks\README.md" />
-    <None Include="SphereII Winter Project\Resources\SnowFog.unity3d" />
-    <None Include="SphereII Winter Project\Resources\snowShovel.unity3d" />
-    <None Include="SphereII Winter Project\Resources\WinterTrees.unity3d" />
-    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen01\main.ttw" />
-    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen02\main.ttw" />
-    <None Include="SphereII Winter Project\Worlds\WinterProjectPreGen03\main.ttw" />
-    <None Include="SyX Security Bots\ReadMe.md" />
-    <None Include="SyX Security Bots\Resources\DroneSounds.unity3d" />
-    <None Include="SyX Security Bots\Resources\MecBee.unity3d" />
-    <None Include="SyX Security Bots\Resources\Mechs.unity3d" />
-    <None Include="SyX Security Bots\Resources\RobotSounds.unity3d" />
-    <None Include="SyX Security Bots\Resources\Spheres.unity3d" />
-    <None Include="The Restless Curse\Resources\SamaraMorgan.unity3d" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
