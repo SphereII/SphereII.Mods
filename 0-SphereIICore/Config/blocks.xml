@@ -23,7 +23,7 @@
       
       <property class="AdvancedItemFeatures" >
         <property name="Logging" value="false"/>
-        <property name="AdvancedItemRepair" value="true" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
+        <property name="AdvancedItemRepair" value="false" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
         <property name="DurabilityAffectsDamage" value="false" />  <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
       </property>
 
@@ -101,6 +101,14 @@
           <property name="Logging" value="false"/>
         </property>
 
+    </block>
+
+    <block name="PathingCube">
+      <property name="Shape" value="ModelEntity" />
+      <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
+      <property name="Material" value="Mair"/>
+      <property name="CreativeMode" value="Player" />
+      <property name="ImposterExclude" value="true" />
     </block>
   </append>
 </configs>

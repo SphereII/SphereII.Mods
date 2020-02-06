@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.0.90</mod_version>
+    <mod_version>18.3.0.117</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -575,7 +575,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Animation\AnimatorMapper.cs" hash="dccdbffb2804abb3847d43157ca09ab0" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Animation\AvatarController.cs" hash="494bf5853861d87e694b5604aa8af082" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="ab816be2e3d6f4ad4d9d64f7262feb56" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="476b126be70d3db5508fc0f56d04eccb" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="ee64aecd3046b94c976330626440b70d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="af42df4fab01b4826b589f8debc933be" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
@@ -611,7 +610,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomWalk.cs" hash="df76b207f79be7e7554ec6a37c45e72c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\UMATweaks.cs" hash="c3140768b29a4e80b6150d5ae1e871e7" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="6514c21529e13e1222ab9c582d60c757" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\FoodSpoilagePatch.cs" hash="0a6b62b7bb1ae330eded6598ebab7f50" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Animation\MecanimSDX.cs" hash="6f84af232ee7c2376f66ec727934df25" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockPoweredWorkstation.cs" hash="159d0268990936b19698ea1f11b4de7d" />
@@ -664,13 +662,11 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityPlayerLocal.cs" hash="b7bc87a2ba12b978f4be9bc528fe8456" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityPlayerSDX.cs" hash="ea22e92f18e92a0db43545644559b5fa" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntitySurvivorSDX.cs" hash="bbbce0ea5e0c7881500936d0a970c82f" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="0571a2d615da3ffb156a8f93c4d36456" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityWanderingTrader.cs" hash="96ca470d2474555d4da519af822b18bc" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCopSDX.cs" hash="f4176b3a642270e9d6197ddd7207b72b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieCrawlSDX.cs" hash="86d9d3d17d5a09d4e5c978ebd528b049" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieFlockSDX.cs" hash="5f603fde3e3dd5bbaad2d27a0dd8aade" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityZombieFlyingSDX.cs" hash="6e232d5c8594aeb3c36b0304d5cf2c3e" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="0225874d7d53ee5f7f7c82a37dacc5a5" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\AdvLogging.cs" hash="a4a4901f83c1fd13c771b87f83555010" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\Configuration.cs" hash="156716daf16bdead4be25c2f8004bd11" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\QuickContinue.cs" hash="e20af3f89dd03b2c48e5b7ee2abc724b" />
@@ -717,7 +713,13 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" hash="005f7429200f2472eb4f9797c7c9f491" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogTweaks.cs" hash="43b9740ef0f26296c2b019b481c07cce" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\DialogPatches.cs" hash="fc80476b70f61df5848e4161ca5cdb07" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="dfe90068d5ca792c9158a6ed6ded3020" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="cc29a690854e5abb7aed91818197e219" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="edc134ae139021a40d343c821f02c642" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathingCube.unity3d" hash="6cec02ae195ddd9c289a3890afd09794" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="bbbd1812bc616a5970af55974348e04a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="7adce32ec9edf5f628af174ebdadf294" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="3e722f25cf7a546af2631f2cad12c6a8" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="0b0293e5edbac5137741138e6b3dbe19" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="9948f8317062a4b834fe80f711a34995" />
   </hashes>
 </mod>
