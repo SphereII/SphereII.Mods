@@ -18,6 +18,11 @@ class SphereII_EAISetNearestEntityAsTarget_Tweaks
 
         public static bool Postfix(bool __result, EAISetNearestEntityAsTarget __instance)
         {
+            // If it's a zombie, don't do anything extra
+            if (!EntityUtilities.IsHuman(__instance.theEntity.entityId))
+                return __result;
+
+
             // Check if we have any target in mind.
             EntityAlive targetEntity = __instance.targetEntity;
             if (targetEntity == null)
