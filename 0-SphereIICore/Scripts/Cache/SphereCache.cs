@@ -9,7 +9,7 @@ public static class SphereCache
     public static Dictionary<int, List<Vector3>> PathingCache = new Dictionary<int, List<Vector3>>();
     public static Dictionary<int, Vector3i> DoorCache = new Dictionary<int,Vector3i>();
 
-    public static System.Random random = new System.Random();
+    public static System.Random random = new System.Random(DateTime.Now.GetHashCode());
 
     public static void AddDoor(int EntityID, Vector3i doorPos)
     {
