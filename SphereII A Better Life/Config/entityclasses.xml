@@ -10,8 +10,8 @@
 			<property name="Weight" value="70" />
 			<property name="RotateToGround" value="true" />
 
-      <property name="MapIcon" value="ui_game_symbol_bicycle" />
-      <property name="EntityType" value="Player"/>
+			<property name="MapIcon" value="ui_game_symbol_bicycle" />
+			<property name="EntityType" value="Player"/>
 
       <!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
 			<property name="ModelType" value="Standard" />
@@ -37,10 +37,9 @@
 			<property name="SoundHurt" value="" />
 			<property name="SoundDeath" value="" />
 			<property name="SoundSense" value="" />
-		
-			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="1" />
-			<!-- we'll default drop raw fish items -->
-<!--			<drop event="Harvest" name="Raw Fish" tool_category="Butcher" count="1" /> -->
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
 			<property name="MaxViewAngle" value="210"/>
 			<property name="SightRange" value="30"/> <!-- distance in m -->
 			<property name="SightLightThreshold" value="-2,150"/>
@@ -76,38 +75,44 @@
 		<entity_class name="fishStingRay" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
-			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="3" />
-      <property name="Tags" value="entity,npc"/>
-
-    </entity_class>
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
+			<property name="Tags" value="entity,npc"/>
+		</entity_class>
 
 		<entity_class name="fishTurtle" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
 			<property name="AttackAnimations" value="Attack0" />
-			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="4" />
-    </entity_class>
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
+		</entity_class>
 
 		<entity_class name="fishBarracuda" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
 			<property name="AttackAnimations" value="Attack0" />
-			<drop event="Harvest" name="rawMeat" tool_category="Butcher" count="2" />
-    </entity_class>
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="5"/> 
+			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
+		</entity_class>
 
 		<entity_class name="fishSardine" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
-    </entity_class>
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/> 
+		</entity_class>
 
 		<entity_class name="fishClownfish" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, Mods" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<property name="AttackAnimations" value="Attack0" />
-    </entity_class>
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/> 	
+		</entity_class>
 	</append>
 	
-</configs>		
-
-
-
+</configs>
