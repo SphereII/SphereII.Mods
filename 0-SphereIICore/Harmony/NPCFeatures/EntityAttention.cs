@@ -34,12 +34,19 @@ class SphereII_NPCFeatures_EntityAttention
 
         public static void Postfix(EntityNPC __instance)
         {
+            if (__instance == null)
+                return;
+
             // If they are non-human, then don't do anything fancy
             if (!EntityUtilities.IsHuman(__instance.entityId))
                 return;
 
             // If they have attack targets, don't interrupt them.
             if (__instance.GetAttackTarget() != null || __instance.GetRevengeTarget() != null)
+                return;
+
+            // No NPC info, don't continue
+            if (__instance.NPCInfo == null)
                 return;
 
             // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.

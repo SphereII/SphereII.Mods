@@ -543,7 +543,7 @@ public static class EntityUtilities
     }
     public static bool CanExecuteTask(int EntityID, EntityUtilities.Orders order)
     {
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(myEntity)
         {
             if(GetCurrentOrder(EntityID) != order)
@@ -670,6 +670,33 @@ public static class EntityUtilities
         return result;
     }
 
+    public static void OpenDoor(int EntityID, Vector3i blockPos)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity)
+        {
+            BlockValue block = myEntity.world.GetBlock(blockPos);
+            if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
+            {
+                Chunk chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
+                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity);
+            }
+        }
+    }
+    public static void CloseDoor(int EntityID, Vector3i blockPos)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity)
+        {
+            BlockValue block = myEntity.world.GetBlock(blockPos);
+            if (Block.list[block.type].HasTag(BlockTags.Door) && BlockDoor.IsDoorOpen(block.meta))
+            {
+                Chunk chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
+                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity);
+            }
+        }
+    }
+
     public static bool GetBoolValue(int EntityID, String strProperty)
     {
         bool result = false;
@@ -700,7 +727,7 @@ public static class EntityUtilities
     public static String GetStringValue(int EntityID, String strProperty)
     {
         string result = String.Empty;
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
@@ -712,7 +739,7 @@ public static class EntityUtilities
     public static float GetCVarValue(int EntityID, string strCvarName)
     {
         float value = 0f;
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if(myEntity)
         {
             if(myEntity.Buffs.HasCustomVar(strCvarName))
@@ -724,8 +751,8 @@ public static class EntityUtilities
     public static List<String> ConfigureEntityClass(int EntityID, String strKey)
     {
         List<String> TempList = new List<String>();
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
-        if(myEntity == null)
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
             return TempList;
 
         EntityClass entityClass = EntityClass.list[myEntity.entityClass];
@@ -740,6 +767,7 @@ public static class EntityUtilities
             {
                 if(TempList.Contains(array[i].ToString()))
                     continue;
+
                 TempList.Add(array[i].ToString());
             }
 

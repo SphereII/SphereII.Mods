@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.0.120</mod_version>
+    <mod_version>18.3.0.194</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -712,14 +712,16 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" hash="005f7429200f2472eb4f9797c7c9f491" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogTweaks.cs" hash="43b9740ef0f26296c2b019b481c07cce" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\DialogPatches.cs" hash="fc80476b70f61df5848e4161ca5cdb07" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="cc29a690854e5abb7aed91818197e219" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="edc134ae139021a40d343c821f02c642" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathingCube.unity3d" hash="6cec02ae195ddd9c289a3890afd09794" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="bbbd1812bc616a5970af55974348e04a" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="9948f8317062a4b834fe80f711a34995" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="11805af8db5bfffc92a19c4052729c68" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="7152f6762414307ad60b422efe244a1c" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="eb8433997dc8fb9d8626794105f4bbe9" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="9586f14cb5f7fa42eb9d3da623d8c087" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="b4a6b2ad1585643505e0355ddf68f4a8" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="c909eeb1d1582e61dd1f2bf5ee134080" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="fbb7ab349516e083298a534c600aa455" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Cache\SphereCache.cs" hash="706984dbaab1b19cd65733bc4ffe66ac" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="75592002aa341f894e131ba8f455781a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="fccff67d85c61b041024cd2ae8deb142" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIBreakDoor.cs" hash="26f336971c443e9b4fc2448c3e437849" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="d10bde09ce08736df11f86a20d998984" />
   </hashes>
 </mod>
