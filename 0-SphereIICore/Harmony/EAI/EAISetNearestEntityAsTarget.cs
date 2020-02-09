@@ -8,7 +8,7 @@ class SphereII_EAISetNearestEntityAsTarget_Tweaks
     [HarmonyPatch("CanExecute")]
     public class SphereII_EAISetNearestEntityAsTarget_CanExecute
     {
-        public static bool blDisplayLog = true;
+        public static bool blDisplayLog = false;
         public static void DisplayLog(String strMessage, EntityAlive theEntity)
         {
             if (blDisplayLog)
