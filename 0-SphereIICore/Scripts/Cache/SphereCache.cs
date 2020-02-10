@@ -8,6 +8,7 @@ public static class SphereCache
 {
     public static Dictionary<int, List<Vector3>> PathingCache = new Dictionary<int, List<Vector3>>();
     public static Dictionary<int, Vector3i> DoorCache = new Dictionary<int,Vector3i>();
+    public static Dictionary<int, Vector3> LastBlock = new Dictionary<int, Vector3>();
 
     public static System.Random random = new System.Random(DateTime.Now.GetHashCode());
 
@@ -84,7 +85,7 @@ public static class SphereCache
         DisplayLog(EntityID, " Entity is not in the cache.");
     }
 
-    public static Vector3 GetRandomPath(int EntityID)
+    public static Vector3 GetRandomPath(int EntityID, Vector3 currentPosition)
     {
         if (PathingCache.ContainsKey(EntityID))
         {

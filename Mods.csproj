@@ -87,9 +87,11 @@
     <Compile Include="0-SphereIICore\Harmony\Animation\AvatarController.cs" />
     <Compile Include="0-SphereIICore\Harmony\Animation\EModelBase.cs" />
     <Compile Include="0-SphereIICore\Harmony\Dialog\DialogFromXML.cs" />
+    <Compile Include="0-SphereIICore\Harmony\EAI\EAIRangedAttackTarget2.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAISetAsTargetHurt.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAIApproachAndAttackTarget.cs" />
     <Compile Include="0-SphereIICore\Harmony\EAI\EAISetNearestEntityAsTarget.cs" />
+    <Compile Include="0-SphereIICore\Harmony\EAI\EAIWander.cs" />
     <Compile Include="0-SphereIICore\Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="0-SphereIICore\Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="0-SphereIICore\Harmony\HarmonyInit.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="0-SphereIICore\Harmony\SoundFeatures\SoundDataNodeIndexer.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\XMLDebugger.cs" />
     <Compile Include="0-SphereIICore\Harmony\Standard\EntityFactory.cs" />
+    <Compile Include="0-SphereIICore\Scripts\Cache\SphereCache.cs" />
     <Compile Include="0-SphereIICore\Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />
     <Compile Include="SphereII Quick Continue\Harmony\HarmonyInit.cs" />
     <Compile Include="SphereII Quick Continue\Harmony\QuickContinue.cs" />

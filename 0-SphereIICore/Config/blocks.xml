@@ -113,5 +113,16 @@
       <property name="CanPickup" value="true"/>
       <property name="TakeDelay" value="3" />
     </block>
+
+    <block name="PathingCube2">
+      <property name="Shape" value="ModelEntity" />
+      <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube2"/>
+      <property name="Material" value="Mair"/>
+      <property name="CreativeMode" value="Player" />
+      <property name="ImposterExclude" value="true" />
+      <property name="CanPlayersSpawnOn" value="true"/>
+      <property name="CanPickup" value="true"/>
+      <property name="TakeDelay" value="3" />
+    </block>
   </append>
 </configs>

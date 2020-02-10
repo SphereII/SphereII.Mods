@@ -371,13 +371,20 @@ public static class ModGeneralUtilities
     public static Vector3 FindNearestBlock(Vector3 fromPosition, List<Vector3> lstOfPositions)
     {
         if (lstOfPositions == null)
+        {
+            Debug.Log("Lst of Positions is empty");
             return Vector3.zero;
+        }
+
+        Debug.Log(" Positions: " + lstOfPositions.ToArray().ToString());
         // Finds the closet block we matched with.
         Vector3 tMin = new Vector3();
         tMin = Vector3.zero;
-        float minDist = 4f;
+        float minDist = 1f;
         foreach (Vector3 block in lstOfPositions)
         {
+            if (block == Vector3.zero)
+                continue;
             float dist = Vector3.Distance(block, fromPosition);
             if (dist < minDist)
             {
@@ -386,9 +393,11 @@ public static class ModGeneralUtilities
             }
         }
 
+        Debug.Log("tMin: " + tMin);
         if (tMin != Vector3.zero)
         {
 
+            
             return tMin;
 
         }
