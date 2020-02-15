@@ -182,7 +182,7 @@ public class EntityAliveSDX : EntityNPC
     // Reduce the block time threshold to see if the entity can jump or not.
     public override bool CanEntityJump()
     {
-        bool result =  base.CanEntityJump();
+        bool result = base.CanEntityJump();
         if (this.moveHelper.BlockedEntity)
             return false;
 
@@ -191,7 +191,7 @@ public class EntityAliveSDX : EntityNPC
 
         return result;
     }
- 
+
     public void RestoreSpeed()
     {
         // Reset the movement speed when an attack target is set
@@ -228,7 +228,7 @@ public class EntityAliveSDX : EntityNPC
             return false;
         }
 
- 
+
 
         return base.Attack(_bAttackReleased);
     }
@@ -449,11 +449,14 @@ public class EntityAliveSDX : EntityNPC
             }
         }
 
-        if (this.GetAttackTarget() != null || this.GetRevengeTarget() != null)
+        // Makes the NPC always face its attack or revent target.
+        EntityAlive target = EntityUtilities.GetAttackOrReventTarget(this.entityId) as EntityAlive;
+        if (target != null)
         {
             this.SetLookPosition(attackTarget.position);
             this.RotateTo(attackTarget, 45, 45);
         }
+
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
@@ -485,7 +488,7 @@ public class EntityAliveSDX : EntityNPC
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
 
- 
+
 
         if (GetAttackTarget() == null || GetRevengeTarget() == null)
         {
