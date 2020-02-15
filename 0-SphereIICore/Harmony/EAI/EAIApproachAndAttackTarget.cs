@@ -9,14 +9,14 @@ class SphereII_EAIApproachAndAttackTarget
     public class SphereII_EAIApproachAndAttackTarget_Helper
     {
 
-        public static bool blDisplayLog = false;
+        public static bool blDisplayLog = true;
         public static void DisplayLog(String strMessage, EntityAlive theEntity)
         {
             if (blDisplayLog)
                 Debug.Log(theEntity.EntityName + ": " + strMessage);
         }
 
-
+       
         public static bool CanContinue(EAIApproachAndAttackTarget __instance)
         {
             bool result = true;
@@ -26,7 +26,7 @@ class SphereII_EAIApproachAndAttackTarget
             // If it's a zombie, don't do anything extra
             if (!EntityUtilities.IsHuman(__instance.theEntity.entityId))
                 return result;
-    
+
 
             // Non zombies should continue to attack
             if(__instance.entityTarget.IsDead())
@@ -78,9 +78,12 @@ class SphereII_EAIApproachAndAttackTarget
 
             }
 
+
             return result;
         }
     }
+
+   
     // If the entity is dead, don't hover over it.
     [HarmonyPatch(typeof(EAIApproachAndAttackTarget))]
     [HarmonyPatch("Continue")]

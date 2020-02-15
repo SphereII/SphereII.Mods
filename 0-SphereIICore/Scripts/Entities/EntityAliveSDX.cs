@@ -228,6 +228,8 @@ public class EntityAliveSDX : EntityNPC
             return false;
         }
 
+ 
+
         return base.Attack(_bAttackReleased);
     }
 
@@ -418,7 +420,6 @@ public class EntityAliveSDX : EntityNPC
         //If blocked, check to see if its a door.
         if (moveHelper.IsBlocked)
         {
-            Debug.Log("I am blocked.");
             Vector3i blockPos = this.moveHelper.HitInfo.hit.blockPos;
             BlockValue block = this.world.GetBlock(blockPos);
             if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
@@ -429,11 +430,6 @@ public class EntityAliveSDX : EntityNPC
                 //      We were blocked, so let's clear it.
                 moveHelper.ClearBlocked();
             }
-            else
-            {
-                this.navigator.clearPath();
-            }
-
         }
 
         // Check to see if we've opened a door, and close it behind you.
@@ -453,6 +449,11 @@ public class EntityAliveSDX : EntityNPC
             }
         }
 
+        if (this.GetAttackTarget() != null || this.GetRevengeTarget() != null)
+        {
+            this.SetLookPosition(attackTarget.position);
+            this.RotateTo(attackTarget, 45, 45);
+        }
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 

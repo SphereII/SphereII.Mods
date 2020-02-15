@@ -22,7 +22,18 @@ public class SDXDialog : IPatcherMod
         // Dialog has an EntityNPC value for the respondant, and that's failing on some checks. We'll add a new entity that is more general.
         gm = module.Types.First(d => d.Name == "XUiM_Dialog");
         var myEntity = module.Types.First(d => d.Name == "EntityAlive");
+
         gm.Fields.Add(new FieldDefinition("otherEntitySDX", FieldAttributes.Public, myEntity));
+
+        // Changing Respondent to EntityAlive
+        //var field = gm.Fields.First(d => d.Name == "Respondent");
+        //field.FieldType = myEntity;
+
+
+        //gm = module.Types.First(d => d.Name == "Dialog");
+        //field = gm.Fields.First(d => d.Name == "CurrentOwner");
+        //field.FieldType = myEntity;
+
         return true;
     }
 

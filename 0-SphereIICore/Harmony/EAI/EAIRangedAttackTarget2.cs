@@ -12,6 +12,8 @@ class SphereII_EAIRangedAttackTarget2_tweaks
 
             return true;
         }
+
+
     }
 
 

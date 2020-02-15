@@ -4,6 +4,7 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class EntityAliveSDXPatcher : IPatcherMod
 {
@@ -24,6 +25,10 @@ public class EntityAliveSDXPatcher : IPatcherMod
         method = gm.Methods.First(d => d.Name == "Attack");
         SetMethodToPublic(method);
         SetMethodToVirtual(method);
+
+      
+
+     
 
         method = gm.Methods.First(d => d.Name == "SetAttackTarget");
         SetMethodToPublic(method);
@@ -60,6 +65,10 @@ public class EntityAliveSDXPatcher : IPatcherMod
     // Return true if successful
     public bool Link(ModuleDefinition gameModule, ModuleDefinition modModule)
     {
+        var recipeClass = gameModule.Types.First(d => d.Name == "EntityAlive");
+        Type listGenericType = typeof(List<>);
+        var stackListType = listGenericType.MakeGenericType(typeof(Vector3));
+        recipeClass.Fields.Add(new FieldDefinition("PatrolRoutes", FieldAttributes.Public, gameModule.Import(stackListType)));
         return true;
     }
 

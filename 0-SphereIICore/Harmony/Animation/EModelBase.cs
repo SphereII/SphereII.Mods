@@ -14,8 +14,9 @@ public class SphereII_EModelBase_InitCommon
     // switchandmodel.
     static bool Prefix(ref EModelBase __instance, Entity ___entity)
     {
+       
         EntityClass entityClass = EntityClass.list[___entity.entityClass];
-        if (entityClass.Properties.Values.ContainsKey(EntityClass.PropAvatarController) && GameManager.IsDedicatedServer)
+        if (entityClass.Properties.Values.ContainsKey(EntityClass.PropAvatarController))
         {
             if (entityClass.Properties.Values[EntityClass.PropAvatarController].Contains("MecanimSDX") && __instance.avatarController is AvatarControllerDummy)
             {
