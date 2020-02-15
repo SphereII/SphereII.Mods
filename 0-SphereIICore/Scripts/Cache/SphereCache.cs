@@ -44,7 +44,7 @@ public static class SphereCache
     }
 
     #region PathingCache
-    public static bool blDisplayLog = true;
+    public static bool blDisplayLog = false;
     public static void DisplayLog(int EntityID, String Message)
     {
         if (blDisplayLog)
@@ -85,7 +85,7 @@ public static class SphereCache
         DisplayLog(EntityID, " Entity is not in the cache.");
     }
 
-    public static Vector3 GetRandomPath(int EntityID, Vector3 currentPosition)
+    public static Vector3 GetRandomPath(int EntityID)
     {
         if (PathingCache.ContainsKey(EntityID))
         {
@@ -101,6 +101,9 @@ public static class SphereCache
         {
             DisplayLog(EntityID, " Pathing to " + vector + ". Removing from cache.");
             PathingCache[EntityID].Remove(vector);
+
+            if ( PathingCache[EntityID].Count == 0 )
+                PathingCache.Remove( EntityID );
             return;
         }
         DisplayLog(EntityID, " Pathing Vector not in Cache...");
