@@ -179,6 +179,7 @@ public class EntityAliveSDX : EntityNPC
 
     }
 
+    // Reduce the block time threshold to see if the entity can jump or not.
     public override bool CanEntityJump()
     {
         bool result =  base.CanEntityJump();
@@ -190,69 +191,7 @@ public class EntityAliveSDX : EntityNPC
 
         return result;
     }
-
-    Vector3i lastDoorOpen;
-    private float nextCheck = 0;
-    public float CheckDelay = 5f;
-
-    public bool OpenDoor()
-    {
-        if (nextCheck < Time.time)
-        {
-            nextCheck = Time.time + CheckDelay;
-            Vector3i blockPosition = GetBlockPosition();
-            Vector3i TargetBlockPosition = new Vector3i();
-
-            int MaxDistance = 2;
-            for (var x = blockPosition.x - MaxDistance; x <= blockPosition.x + MaxDistance; x++)
-            {
-                for (var z = blockPosition.z - MaxDistance; z <= blockPosition.z + MaxDistance; z++)
-                {
-                    TargetBlockPosition.x = x;
-                    TargetBlockPosition.y = Utils.Fastfloor(position.y);
-                    TargetBlockPosition.z = z;
-
-                    // DisplayLog(" Target Block: " + TargetBlockPosition + " Block: " + this.world.GetBlock(TargetBlockPosition).Block.GetBlockName() + " My Position: " + this.GetBlockPosition());
-                    BlockValue blockValue = world.GetBlock(TargetBlockPosition);
-                    if (Block.list[blockValue.type].HasTag(BlockTags.Door) && !Block.list[blockValue.type].HasTag(BlockTags.Window))
-                    {
-                        DisplayLog(" I found a door.");
-
-                        lastDoorOpen = TargetBlockPosition;
-                        BlockDoor targetDoor = (Block.list[blockValue.type] as BlockDoor);
-
-
-                        bool isDoorOpen = BlockDoor.IsDoorOpen(blockValue.meta);
-                        if (isDoorOpen)
-                            lastDoorOpen = Vector3i.zero;
-                        else
-                            lastDoorOpen = TargetBlockPosition;
-
-                        emodel.avatarController.SetTrigger("OpenDoor");
-                        DisplayLog(" Is Door Open? " + BlockDoor.IsDoorOpen(blockValue.meta));
-
-                        Chunk chunk = (Chunk)world.GetChunkFromWorldPos(TargetBlockPosition);
-                        TileEntitySecureDoor tileEntitySecureDoor = (TileEntitySecureDoor)world.GetTileEntity(0, TargetBlockPosition);
-                        if (tileEntitySecureDoor == null)
-                        {
-                            DisplayLog(" Not a door.");
-                            return false;
-                        }
-                        if (tileEntitySecureDoor.IsLocked())
-                        {
-                            DisplayLog(" The Door is locked.");
-                            return false;
-                        }
-                        targetDoor.OnBlockActivated(world, 0, TargetBlockPosition, blockValue, null);
-                        return true;
-
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
+ 
     public void RestoreSpeed()
     {
         // Reset the movement speed when an attack target is set
@@ -286,7 +225,6 @@ public class EntityAliveSDX : EntityNPC
     {
         if (attackTarget == null)
         {
-            OpenDoor();
             return false;
         }
 
@@ -374,6 +312,8 @@ public class EntityAliveSDX : EntityNPC
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
 
+        this.SetupStartingItems();
+        this.inventory.SetHoldingItemIdx(0);
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
@@ -475,9 +415,43 @@ public class EntityAliveSDX : EntityNPC
     }
     public override void OnUpdateLive()
     {
+        //If blocked, check to see if its a door.
+        if (moveHelper.IsBlocked)
+        {
+            Debug.Log("I am blocked.");
+            Vector3i blockPos = this.moveHelper.HitInfo.hit.blockPos;
+            BlockValue block = this.world.GetBlock(blockPos);
+            if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
+            {
+                DisplayLog("I am blocked by a door. Trying to open...");
+                SphereCache.AddDoor(this.entityId, blockPos);
+                EntityUtilities.OpenDoor(this.entityId, blockPos);
+                //      We were blocked, so let's clear it.
+                moveHelper.ClearBlocked();
+            }
+            else
+            {
+                this.navigator.clearPath();
+            }
 
-        if (lastDoorOpen != Vector3i.zero)
-            OpenDoor();
+        }
+
+        // Check to see if we've opened a door, and close it behind you.
+        Vector3i doorPos = SphereCache.GetDoor(this.entityId);
+        if (doorPos != Vector3i.zero)
+        {
+            DisplayLog("I've opened a door recently. I'll see if I can close it.");
+            BlockValue block = this.world.GetBlock(doorPos);
+            if (Block.list[block.type].HasTag(BlockTags.Door) && BlockDoor.IsDoorOpen(block.meta))
+            {
+                if ((this.GetDistanceSq(doorPos.ToVector3()) > 3f))
+                {
+                    DisplayLog("I am going to close the door now.");
+                    EntityUtilities.CloseDoor(this.entityId, doorPos);
+                    SphereCache.RemoveDoor(this.entityId, doorPos);
+                }
+            }
+        }
 
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
@@ -510,7 +484,7 @@ public class EntityAliveSDX : EntityNPC
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
 
-
+ 
 
         if (GetAttackTarget() == null || GetRevengeTarget() == null)
         {

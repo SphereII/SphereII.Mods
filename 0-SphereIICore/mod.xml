@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.0.268</mod_version>
+    <mod_version>18.3.0.293</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -722,11 +722,11 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAIConsiderationPatrolBlocks.cs" hash="94f37621831dac312d2ee440d5776478" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskLookDMT.cs" hash="4d79e09e52011891a2778241c1bdb946" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="bf9e46a6c23a04acc74df72cd5bbea42" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="b2bd4e5efe6f529995221315ba460797" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="8985e79f591971e2e8e83cf4de1e3763" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskAttackEntityDMT.cs" hash="6a96b8c7e3751eb87378b66c7b634855" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskPatrolDMT.cs" hash="a0c942435d7d0b0ed2cb6ce5f060dc18" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="1016c8b29e19862e4d6baff5e5969c3d" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="54f5b311fa0e1d86e75f2ceaeab73de6" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="1d97a1e0244cdb77c389e0f4215094df" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="593ba9c4b7588f426af04a034190517b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="03249c0cf2fbf9e4c16fee5c6c22ed72" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="eeba3c1fd8b2db53c518ee7ea28e69fa" />
   </hashes>
 </mod>
