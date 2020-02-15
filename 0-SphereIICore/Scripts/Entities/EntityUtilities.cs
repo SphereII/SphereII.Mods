@@ -670,6 +670,50 @@ public static class EntityUtilities
         return result;
     }
 
+    public static Vector3 GetNewPositon(int EntityID, int maxBlocks = 30)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return Vector3.zero;
+
+            Vector3 result = Vector3.zero;
+        List<Vector3> Paths = SphereCache.GetPaths(EntityID);
+        if (Paths == null || Paths.Count == 0)
+        {
+            //  Grab a list of blocks that are configured for this class.
+            //    <property name = "PathingBlocks" value="" />
+            List<string> Blocks = EntityUtilities.ConfigureEntityClass(EntityID, "PathingBlocks");
+            if (Blocks.Count == 0)
+            {
+                // DisplayLog("No Blocks configured. Setting Default", __instance.theEntity);
+                // Blocks.Add("PathingCube");
+                return result;
+            }
+
+            //Scan for the blocks in the area
+            List<Vector3> PathingVectors = ModGeneralUtilities.ScanForBlockInListHelper(myEntity.position, Blocks, maxBlocks);
+            if (PathingVectors.Count == 0)
+                return result;
+
+            //Add to the cache
+            SphereCache.AddPaths(EntityID, PathingVectors);
+        }
+
+        Vector3 newposition = SphereCache.GetRandomPath(EntityID);
+        if (newposition == Vector3.zero)
+            return result;
+
+        // Remove it from the cache.
+        SphereCache.RemovePath(EntityID, newposition);
+
+        result = GameManager.Instance.World.FindSupportingBlockPos(newposition);
+        //Debug.Log("Position: " + result);
+        // Center the pathing position.
+        result.x = (float)Utils.Fastfloor(result.x) + 0.5f;
+        result.y = (float)Utils.Fastfloor(result.y) + 0.5f;
+        result.z = (float)Utils.Fastfloor(result.z) + 0.5f;
+        return result;
+    }
     public static void OpenDoor(int EntityID, Vector3i blockPos)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;

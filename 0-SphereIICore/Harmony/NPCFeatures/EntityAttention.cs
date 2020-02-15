@@ -37,6 +37,9 @@ class SphereII_NPCFeatures_EntityAttention
             if (__instance == null)
                 return;
 
+            if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+                return;
+
             // If they are non-human, then don't do anything fancy
             if (!EntityUtilities.IsHuman(__instance.entityId))
                 return;
@@ -57,10 +60,6 @@ class SphereII_NPCFeatures_EntityAttention
                 __instance.TileEntityTrader.TraderData.TraderID = __instance.NPCInfo.TraderID;
             }
 
-            // Skip is running on the client.
-            if(!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-                return;
-
             // Scan the area around the Entity
             List<global::Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(__instance, new Bounds(__instance.position, Vector3.one * 4f));
             if (entitiesInBounds.Count > 0)
@@ -69,7 +68,6 @@ class SphereII_NPCFeatures_EntityAttention
                 {
                     if (entitiesInBounds[i] is EntityPlayerLocal)
                     {
-                       
                         // Check your faction relation. If you hate each other, don't stop and talk.
                         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(__instance, entitiesInBounds[i] as EntityPlayerLocal);
                         if (myRelationship == FactionManager.Relationship.Hate)
@@ -85,15 +83,11 @@ class SphereII_NPCFeatures_EntityAttention
                             break;
                         }
 
-
                         // Turn to face the player, and stop the movement.
                         __instance.SetLookPosition(entitiesInBounds[i].getHeadPosition());
                         __instance.RotateTo(entitiesInBounds[i], 30f, 30f);
-                        if ( __instance.navigator != null)
-                            __instance.navigator.clearPath();
-
-                        if ( __instance.moveHelper != null )
-                            __instance.moveHelper.Stop();
+                        __instance.navigator.clearPath();
+                        __instance.moveHelper.Stop();
                         break;
                     }
                 }

@@ -134,7 +134,7 @@ public class EntityAliveSDX : EntityNPC
             return;
         base.SetSleeper();
     }
-    
+
     /// <summary>
     /// Overrides EntityAlive.OnAddedToWorld().
     /// When entities are spawned into sleeper volumes, which happens in SleeperVolume.Spawn(),
@@ -154,7 +154,7 @@ public class EntityAliveSDX : EntityNPC
 
         base.OnAddedToWorld();
     }
-    
+
     public void ConfigureBounaryBox(Vector3 newSize, Vector3 center)
     {
         BoxCollider component = base.gameObject.GetComponent<BoxCollider>();
@@ -179,7 +179,17 @@ public class EntityAliveSDX : EntityNPC
 
     }
 
+    public override bool CanEntityJump()
+    {
+        bool result =  base.CanEntityJump();
+        if (this.moveHelper.BlockedEntity)
+            return false;
 
+        if (this.moveHelper.BlockedTime < 0.2)
+            return false;
+
+        return result;
+    }
 
     Vector3i lastDoorOpen;
     private float nextCheck = 0;
@@ -285,6 +295,15 @@ public class EntityAliveSDX : EntityNPC
 
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
+        // Don't allow interaction with a Hated entity
+        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
+        if (myRelationship == FactionManager.Relationship.Hate)
+            return false;
+
+        // If they have attack targets, don't interrupt them.
+        if (this.GetAttackTarget() != null || this.GetRevengeTarget() != null)
+            return false;
+
         // set the IsBusy flag, so it won't wander away when you are talking to it.
         emodel.avatarController.SetBool("IsBusy", true);
         // Look at the entity that is talking to you.
@@ -473,6 +492,18 @@ public class EntityAliveSDX : EntityNPC
         updateTime = Time.time - 2f;
         base.OnUpdateLive();
 
+        // No NPC info, don't continue
+        if (this.NPCInfo == null)
+            return;
+
+        // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
+        if (this.TileEntityTrader == null)
+        {
+            this.TileEntityTrader = new TileEntityTrader(null);
+            this.TileEntityTrader.entityId = this.entityId;
+            this.TileEntityTrader.TraderData.TraderID = this.NPCInfo.TraderID;
+        }
+
         // Check if there's a player within 10 meters of us. If not, resume wandering.
         emodel.avatarController.SetBool("IsBusy", false);
 
@@ -491,19 +522,26 @@ public class EntityAliveSDX : EntityNPC
             {
                 for (int i = 0; i < entitiesInBounds.Count; i++)
                 {
-                    if (entitiesInBounds[i] is EntityPlayer)
+                    if (entitiesInBounds[i] is EntityPlayerLocal)
                     {
-                        if (GetDistance(entitiesInBounds[i]) > 1)
+
+                        // Check your faction relation. If you hate each other, don't stop and talk.
+                        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this, entitiesInBounds[i] as EntityPlayerLocal);
+                        if (myRelationship == FactionManager.Relationship.Hate)
+                            break;
+
+                        if (GetDistance(entitiesInBounds[i]) < 1)
                         {
-                            emodel.avatarController.SetBool("IsBusy", true);
-                            SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                            RotateTo(entitiesInBounds[i], 30f, 30f);
+                            moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
-                        else
-                        {
-                            moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayer).GetLookVector(), false);
-                        }
+
+                        // Turn to face the player, and stop the movement.
+                        this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
+                        this.RotateTo(entitiesInBounds[i], 30f, 30f);
+                        this.navigator.clearPath();
+                        this.moveHelper.Stop();
+                        break;
                     }
                 }
             }
