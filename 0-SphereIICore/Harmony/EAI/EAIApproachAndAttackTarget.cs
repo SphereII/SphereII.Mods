@@ -9,7 +9,7 @@ class SphereII_EAIApproachAndAttackTarget
     public class SphereII_EAIApproachAndAttackTarget_Helper
     {
 
-        public static bool blDisplayLog = false;
+        public static bool blDisplayLog = true;
         public static void DisplayLog(String strMessage, EntityAlive theEntity)
         {
             if (blDisplayLog)
@@ -57,7 +57,7 @@ class SphereII_EAIApproachAndAttackTarget
                 }
 
                 // Back away!
-                if (distanceSq > 4 && distanceSq < 10)
+                if ( distanceSq < 10)
                 {
                     DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
                     EntityUtilities.BackupHelper(__instance.theEntity.entityId, __instance.entityTarget.position, 40f);

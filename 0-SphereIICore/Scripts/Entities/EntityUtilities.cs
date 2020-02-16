@@ -104,12 +104,12 @@ public static class EntityUtilities
 
         // If you are blocked, try to go to another side.
         //if (myEntity.moveHelper.BlockedTime > 0.3)
-        //    vector = RandomPositionGenerator.CalcAway(myEntity, 2, 2, 2, awayFrom);
+        vector = RandomPositionGenerator.CalcAway(myEntity, 20, 10,20, awayFrom);
         //else
-            vector = RandomPositionGenerator.CalcPositionInDirection(myEntity, myEntity.position, dirV, distance, 45f);
+        //    vector = RandomPositionGenerator.CalcPositionInDirection(myEntity, myEntity.position, dirV, distance, 45f);
 
         myEntity.moveHelper.SetMoveTo(vector, false);
-        myEntity.speedForward = -myEntity.GetMoveSpeedAggro();
+        myEntity.speedForward = -4;
         myEntity.SetLookPosition( awayFrom);
         myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 45f, 45f);
     }

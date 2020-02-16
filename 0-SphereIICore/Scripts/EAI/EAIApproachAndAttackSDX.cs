@@ -6,18 +6,18 @@ using UnityEngine;
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
     private bool isTargetToEat = false;
-   // private Vector3 entityTargetPos;
-   // public EntityAlive entityTarget;
-  //  private Vector3 entityTargetVel;
-    private bool isGoingHome;
+  // // private Vector3 entityTargetPos;
+  // // public EntityAlive entityTarget;
+  ////  private Vector3 entityTargetVel;
+  //  private bool isGoingHome;
 
-    private float homeTimeout;
-    private bool hasHome;
-    private bool isEating;
-    private int pathCounter;
-    private int attackTimeout;
-    private int relocateTicks;
-    private float maxChaseTime;
+  //  private float homeTimeout;
+  //  private bool hasHome;
+  //  private bool isEating;
+  //  private int pathCounter;
+  //  private int attackTimeout;
+  //  private int relocateTicks;
+  //  private float maxChaseTime;
 
     private bool blDisplayLog = false;
    // private EntityAlive entityTarget;
@@ -55,7 +55,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     private bool InRange()
     {
         float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
-        return distanceSq < 2f;
+        return distanceSq < 5f;
     }
     //public override void Start()
     //{
@@ -106,10 +106,10 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
             if(!attackTarget.IsAlive())
                 return false;
 
-        if(this.isGoingHome)
-        {
-            return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
-        }
+        //if(this.isGoingHome)
+        //{
+        //    return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
+        //}
         return attackTarget && !(attackTarget != this.entityTarget);
     }
 }
