@@ -55,7 +55,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
     private bool InRange()
     {
         float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
-        return distanceSq < 4f;
+        return distanceSq < 2f;
     }
     //public override void Start()
     //{

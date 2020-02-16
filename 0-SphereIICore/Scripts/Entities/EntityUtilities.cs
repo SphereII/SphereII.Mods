@@ -103,9 +103,9 @@ public static class EntityUtilities
         Vector3 vector = Vector3.zero;
 
         // If you are blocked, try to go to another side.
-        if (myEntity.moveHelper.BlockedTime > 0.3)
-            vector = RandomPositionGenerator.CalcAway(myEntity, 2, 2, 2, awayFrom);
-        else
+        //if (myEntity.moveHelper.BlockedTime > 0.3)
+        //    vector = RandomPositionGenerator.CalcAway(myEntity, 2, 2, 2, awayFrom);
+        //else
             vector = RandomPositionGenerator.CalcPositionInDirection(myEntity, myEntity.position, dirV, distance, 45f);
 
         myEntity.moveHelper.SetMoveTo(vector, false);

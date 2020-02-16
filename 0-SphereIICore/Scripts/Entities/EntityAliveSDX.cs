@@ -518,7 +518,7 @@ public class EntityAliveSDX : EntityNPC
 
                         if (GetDistance(entitiesInBounds[i]) < 1)
                         {
-                            DisplayLog("The entity is too close to me. Moving away.");
+                            DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
                             EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 2f);
                             //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
