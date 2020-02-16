@@ -191,6 +191,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.world.FindRandomSpawnPointNearPositionUnderground(entityTarget.position, 15, out x, out y, out z, new Vector3(2,2,2));
         //  this.theEntity.SetPosition( newPos, true);
         this.theEntity.SetPosition(new Vector3(x, y, z), true);
+        this.theEntity.SetAttackTarget(null, 10);
+        this.theEntity.SetRevengeTarget(null);
     }
 
   
@@ -229,8 +231,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         result = ConfigureTargetEntity();
 
-
-        if(this.entityTarget == null)
+        // Teleport to the player, even if you have an attack target
+      //  if(this.entityTarget == null)
         {
             if(this.theEntity.Buffs.HasCustomVar("Leader"))
             {
@@ -283,7 +285,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
             this.pathCounter = 0;
             return;
         }
-        this.theEntity.moveHelper.CalcIfUnreachablePos(this.entityTargetPos);
+
+                this.theEntity.moveHelper.CalcIfUnreachablePos(this.entityTargetPos);
 
         // if the entity is not calculating a path, check how many nodes are left, and reset the path counter if its too low.
         if (!PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))

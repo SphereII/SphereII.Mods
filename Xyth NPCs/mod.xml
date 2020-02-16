@@ -1,0 +1,22 @@
+<mod>
+  <info>
+    <author>Xyth/Sphereii/Darkstardragon</author>
+    <name>Xyth NPCs</name>
+    <description>Xyth NPC Mod</description>
+    <mod_version>18.3.0.1</mod_version>
+    <game_version>18.0</game_version>
+  </info>
+  <dependencies>
+    <dependency>0-SphereIICore</dependency>
+    <dependency>SphereII NPC Dialog Windows</dependency>
+    <dependency>0-CreaturePackHumans</dependency>
+  </dependencies>
+  <hashes>
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Config\blocks.xml" hash="401dac8dd596176ed35f31b34f5f2d6f" />
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Config\buffs.xml" hash="e521e8f7e82d418b42c67d182f6aa701" />
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Config\entityclasses.xml" hash="e0d2541921c988edfbe058ae2288749a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Config\entitygroups.xml" hash="813a21a843f13faa0ea9dfd0633341cf" />
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Config\items.xml" hash="345ef3fe72e054cc09d2fa5c856ed506" />
+    <hash filename="D:\Github\Working\SphereII.Mods/Xyth NPCs/Resources\DarkThings.unity3d" hash="d56e298ee4c2253f2a5c2b2e928d59c4" />
+  </hashes>
+</mod>

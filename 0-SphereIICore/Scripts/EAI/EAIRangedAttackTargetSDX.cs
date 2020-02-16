@@ -55,7 +55,19 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
         }
         if (distanceSq < 5)
         {
-            return true;
+            // Fight and hold your ground until its stunned, then run.
+            if (this.entityTarget.bodyDamage.CurrentStun == EnumEntityStunType.None)
+                return true;
+            else
+            {
+                Debug.Log("Its stunned!");
+                Vector3 dirV = this.theEntity.position - this.entityTarget.position;
+                Vector3 vector = RandomPositionGenerator.CalcPositionInDirection(this.theEntity, this.theEntity.position, dirV, 40f, 80f);
+                this.theEntity.moveHelper.SetMoveTo(vector, false);
+                this.theEntity.SetLookPosition(this.entityTarget.position);
+                this.theEntity.RotateTo(this.entityTarget, 45, 45);
+                return true;
+            }
         }
 
         return result;

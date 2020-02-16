@@ -183,6 +183,10 @@ public class EntityAliveSDX : EntityNPC
     public override bool CanEntityJump()
     {
         bool result = base.CanEntityJump();
+
+        if (EntityUtilities.GetAttackOrReventTarget(this.entityId) != null)
+            return false;
+
         if (this.moveHelper.BlockedEntity)
             return false;
 
@@ -225,6 +229,7 @@ public class EntityAliveSDX : EntityNPC
     {
         if (attackTarget == null)
         {
+    
             return false;
         }
 
@@ -239,6 +244,7 @@ public class EntityAliveSDX : EntityNPC
         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
         if (myRelationship == FactionManager.Relationship.Hate)
             return false;
+
 
         // If they have attack targets, don't interrupt them.
         if (this.GetAttackTarget() != null || this.GetRevengeTarget() != null)
@@ -457,11 +463,13 @@ public class EntityAliveSDX : EntityNPC
             this.RotateTo(attackTarget, 45, 45);
         }
 
+
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
-        // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
-        Stats.Water.Tick(0.5f, 0, false);
+ 
+            // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
+            Stats.Water.Tick(0.5f, 0, false);
 
         // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
         Stats.UpdateStatsOverTime(0.5f);
@@ -508,7 +516,7 @@ public class EntityAliveSDX : EntityNPC
                         if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if (GetDistance(entitiesInBounds[i]) < 1)
+                        if (GetDistance(entitiesInBounds[i]) < 2)
                         {
                             moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;

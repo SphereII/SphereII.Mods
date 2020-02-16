@@ -435,6 +435,10 @@ public static class EntityUtilities
         {
             case "TellMe":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
+                Debug.Log("\n\nBuffs:");
+                foreach (var Buff in myEntity.Buffs.ActiveBuffs)
+                    Debug.Log("\t" + Buff.BuffName);
+
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
