@@ -60,24 +60,10 @@ class SphereII_EAIApproachAndAttackTarget
                 if (distanceSq > 4 && distanceSq < 10)
                 {
                     DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
-
-                    Vector3 dirV = __instance.theEntity.position - __instance.entityTarget.position;
-                    Vector3 vector = RandomPositionGenerator.CalcAway(__instance.theEntity, 10, 20, 10, __instance.entityTarget.position);
-                    __instance.theEntity.moveHelper.SetMoveTo(vector, true);
+                    EntityUtilities.BackupHelper(__instance.theEntity.entityId, __instance.entityTarget.position, 40f);
                     return false;
                 }
             }
-
-
-            //if (distanceSq < 2)
-            //{
-            //    DisplayLog(" Entity is too close to me!", __instance.theEntity);
-            //    __instance.theEntity.moveHelper.Stop();
-            //    __instance.theEntity.navigator.clearPath();
-            //    //Vector3 vector = RandomPositionGenerator.CalcAway(__instance.theEntity, 3, 3, 3, __instance.entityTarget.position);
-            //    //__instance.theEntity.moveHelper.SetMoveTo(vector, true);
-            //    //  return true;
-            //}
 
             return result;
         }

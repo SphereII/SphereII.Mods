@@ -44,30 +44,18 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
         // Back away!
         if (distanceSq > 4 && distanceSq < 10)
         {
-            //                DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
-
-            Vector3 dirV = this.theEntity.position - this.entityTarget.position;
-            Vector3 vector = RandomPositionGenerator.CalcPositionInDirection(this.theEntity, this.theEntity.position, dirV, 40f, 80f);
-            this.theEntity.moveHelper.SetMoveTo(vector, false);
-            this.theEntity.SetLookPosition(this.entityTarget.position);
-            this.theEntity.RotateTo(this.entityTarget, 45, 45);
-            return false;
+            EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40f);
+            return true;
         }
         if (distanceSq < 5)
         {
             // Fight and hold your ground until its stunned, then run.
-            if (this.entityTarget.bodyDamage.CurrentStun == EnumEntityStunType.None)
-                return true;
-            else
+            if (this.entityTarget.bodyDamage.CurrentStun != EnumEntityStunType.None)
             {
-                Debug.Log("Its stunned!");
-                Vector3 dirV = this.theEntity.position - this.entityTarget.position;
-                Vector3 vector = RandomPositionGenerator.CalcPositionInDirection(this.theEntity, this.theEntity.position, dirV, 40f, 80f);
-                this.theEntity.moveHelper.SetMoveTo(vector, false);
-                this.theEntity.SetLookPosition(this.entityTarget.position);
-                this.theEntity.RotateTo(this.entityTarget, 45, 45);
+                EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40f);
                 return true;
             }
+
         }
 
         return result;

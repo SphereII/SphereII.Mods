@@ -91,6 +91,29 @@ public static class EntityUtilities
         }
 
     }
+
+    public static void BackupHelper(int EntityID, Vector3 awayFrom, float distance)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return;
+
+
+        Vector3 dirV = myEntity.position - awayFrom;
+        Vector3 vector = Vector3.zero;
+
+        // If you are blocked, try to go to another side.
+        if (myEntity.moveHelper.BlockedTime > 0.3)
+            vector = RandomPositionGenerator.CalcAway(myEntity, 2, 2, 2, awayFrom);
+        else
+            vector = RandomPositionGenerator.CalcPositionInDirection(myEntity, myEntity.position, dirV, distance, 45f);
+
+        myEntity.moveHelper.SetMoveTo(vector, false);
+        myEntity.speedForward = -myEntity.GetMoveSpeedAggro();
+        myEntity.SetLookPosition( awayFrom);
+        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 45f, 45f);
+    }
+
     public static bool CheckProperty(int EntityID, string Property)
     {
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;

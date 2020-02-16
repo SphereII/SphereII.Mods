@@ -40,7 +40,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = false;
+    private bool blDisplayLog = true;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog && !IsDead())
@@ -498,7 +498,7 @@ public class EntityAliveSDX : EntityNPC
 
 
 
-        if (GetAttackTarget() == null || GetRevengeTarget() == null)
+        if ( target == null)
         {
             if (this is EntityAliveFarmingAnimalSDX)
                 return;
@@ -516,15 +516,18 @@ public class EntityAliveSDX : EntityNPC
                         if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if (GetDistance(entitiesInBounds[i]) < 2)
+                        if (GetDistance(entitiesInBounds[i]) < 1)
                         {
-                            moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
+                            DisplayLog("The entity is too close to me. Moving away.");
+                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 2f);
+                            //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
 
+                       
                         // Turn to face the player, and stop the movement.
                         this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                        this.RotateTo(entitiesInBounds[i], 30f, 30f);
+                        this.RotateTo(entitiesInBounds[i], 45f, 45f);
                         this.navigator.clearPath();
                         this.moveHelper.Stop();
                         break;

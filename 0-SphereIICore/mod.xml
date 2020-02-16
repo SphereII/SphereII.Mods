@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.0.319</mod_version>
+    <mod_version>18.3.0.350</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -604,7 +604,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\InertEntity.cs" hash="ff1d5a720c5f88da06fe76fc81f07404" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="e653c5c08406d6af1436492978b71509" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomDeathSpawn.cs" hash="2f69099360a17d434f37288479b7979f" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomSize.cs" hash="9c8970a0a8d90e88c73290e5109c9630" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomWalk.cs" hash="df76b207f79be7e7554ec6a37c45e72c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\UMATweaks.cs" hash="c3140768b29a4e80b6150d5ae1e871e7" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
@@ -710,7 +709,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\DialogPatches.cs" hash="fc80476b70f61df5848e4161ca5cdb07" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="9948f8317062a4b834fe80f711a34995" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIBreakDoor.cs" hash="26f336971c443e9b4fc2448c3e437849" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="a487a454a67c797c41ebd0156a1d9138" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetNearestEntityAsTarget.cs" hash="65e2e13206a510d5896592dae8a8c8ea" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathingCube.unity3d" hash="4208148b48d91e8184ca8e13252c643f" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="166d8128d1ad0f0bca4fa4202cead9bd" />
@@ -723,11 +721,14 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="1d97a1e0244cdb77c389e0f4215094df" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="eeba3c1fd8b2db53c518ee7ea28e69fa" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="6cb66e894bca01f13decf60717ab8b16" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="899623a73e95b379da20d4a9f3aeee20" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIRangedAttackTarget2.cs" hash="e07fa16eda60c4b7b66ca6658a1a42e1" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="4905672aa0ec67ee5b0fd50ba05973f3" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="bac8bfcb2fd9cb7060cb4c4be96f6e54" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="ddb400b7240f8d9c565ab68604efc943" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="75d968b2974eed0f8671da98e6b7e27c" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomSize.cs" hash="206a523ceb681ce3c704eea23a71d765" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="df63d1cecb71685a0bdfa6a291819313" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="76312189ae5924b9dc9e297cfd35c39a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="a487a454a67c797c41ebd0156a1d9138" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDXv2.cs" hash="fef91be96c1fd56fe034c2a8068e10e6" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="12376c443bfa0da3e037357bd16224f2" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="3726b75efcb3cf52cccf86fb4a930b2f" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="63f13c73b2280a1ce24658ab69dedf78" />
   </hashes>
 </mod>
