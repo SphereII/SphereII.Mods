@@ -9,6 +9,8 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
 
     public override void Start()
     {
+        EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Melee);
+
         base.Start();
         if (this.entityTarget != null)
             this.theEntity.RotateTo(this.entityTarget, 45f, 45f);
@@ -22,13 +24,16 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
         {
             this.theEntity.IsEating = false;
             this.theEntity.SetAttackTarget(null, 0);
+            this.theEntity.SetRevengeTarget(null);
             return false;
         }
         float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
         // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
         if (distanceSq > 50 && distanceSq < 60)
+        {
+            EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Ranged);
             return result;
-
+        }
         // Hold your ground
         if (distanceSq > 10f && distanceSq < 60)
         {
@@ -37,6 +42,7 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
             this.theEntity.RotateTo(this.entityTarget, 45, 45);
             this.theEntity.navigator.clearPath();
             this.theEntity.moveHelper.Stop();
+            EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Ranged);
 
             return false;
         }
@@ -45,17 +51,14 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
         if (distanceSq > 4 && distanceSq < 10)
         {
             EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40f);
+            EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Ranged);
+
             return true;
         }
         if (distanceSq < 5)
         {
-            // Fight and hold your ground until its stunned, then run.
-            if (this.entityTarget.bodyDamage.CurrentStun != EnumEntityStunType.None)
-            {
-                EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40f);
-                return true;
-            }
-
+            EntityUtilities.ChangeHandholdItem( theEntity.entityId, EntityUtilities.Need.Melee);
+            return false;
         }
 
         return result;

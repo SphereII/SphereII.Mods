@@ -95,18 +95,23 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                         this.theEntity.MarkToUnload();
                         return false;
                     }
+
+
                     Vector3 tempPosition = (this.theEntity.position - this.entityTarget.position).normalized * 3 + this.entityTarget.position;
 
                     Vector3 a = this.theEntity.position - tempPosition;
+
+                    //Vector3 temp  = RandomPositionGenerator.CalcNear(this.theEntity, this.entityTarget.position, 4, 2);
+                    //Vector3 a = this.theEntity.position - this.entityTarget.position;
                     DisplayLog(" Distance: " + a);
                     if (a.sqrMagnitude < 4f)
-                    {
-                        this.entityTarget = null;
-                        this.entityTargetPos = Vector3.zero;
-                        return false;
-                    }
+                        if (a.sqrMagnitude < 3f)
+                        {
+                            this.entityTarget = null;
+                            this.entityTargetPos = Vector3.zero;
+                            return false;
+                        }
                     this.entityTargetPos = tempPosition;
-                    DisplayLog(" my Position: " + this.theEntity.position + " Target Position: " + this.entityTargetPos + " My Leader position: " + this.entityTarget.position);
                     return true;
                 }
             }

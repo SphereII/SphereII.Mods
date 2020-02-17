@@ -43,6 +43,9 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
             if (x != this.theEntity)
             {
+                if (x.IsDead())
+                    continue;
+                    
                 DisplayLog("Nearby Entity: " + x.EntityName);
                 if (x.GetAttackTarget() == leader)
                 {

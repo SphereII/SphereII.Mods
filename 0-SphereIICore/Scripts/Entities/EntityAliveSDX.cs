@@ -25,6 +25,7 @@ public class EntityAliveSDX : EntityNPC
 
     int DefaultTraderID = 0;
 
+    public ItemValue MeleeWeapon = ItemClass.GetItem("meleeClubIron");
     public Vector3 GuardPosition = Vector3.zero;
     public Vector3 GuardLookPosition = Vector3.zero;
 
@@ -40,7 +41,7 @@ public class EntityAliveSDX : EntityNPC
 
     public System.Random random = new System.Random();
 
-    private bool blDisplayLog = true;
+    private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog && !IsDead())
@@ -229,12 +230,10 @@ public class EntityAliveSDX : EntityNPC
     {
         if (attackTarget == null)
         {
-    
+            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
             return false;
         }
-
-
-
+        
         return base.Attack(_bAttackReleased);
     }
 
@@ -516,10 +515,10 @@ public class EntityAliveSDX : EntityNPC
                         if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if (GetDistance(entitiesInBounds[i]) < 1)
+                        if (GetDistance(entitiesInBounds[i]) < 2)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
-                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 2f);
+                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 3f);
                             //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
@@ -585,8 +584,11 @@ public class EntityAliveSDX : EntityNPC
             if (EntityUtilities.IsAnAlly(this.entityId, _other.entityId))
                 return;
 
+            if (_other.IsDead())
+                return;
         }
 
+        
         base.SetRevengeTarget(_other);
         //  Debug.Log("Adding Buff for RevengeTarget() ");
         this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
@@ -595,6 +597,9 @@ public class EntityAliveSDX : EntityNPC
 
     public override void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
+        if (_attackTarget != null)
+            if (_attackTarget.IsDead())
+                return;
         base.SetAttackTarget(_attackTarget, _attackTargetTime);
         // Debug.Log("Adding Buff for Attack Target() ");
         this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);

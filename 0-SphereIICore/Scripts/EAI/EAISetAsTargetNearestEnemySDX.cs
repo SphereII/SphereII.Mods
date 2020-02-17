@@ -47,7 +47,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
   
 
         float originalView = this.theEntity.GetMaxViewAngle();
-        this.theEntity.SetMaxViewAngle(250f);
+        this.theEntity.SetMaxViewAngle(360f);
 
         // Search in the bounds are to try to find the most appealing entity to follow.
         Bounds bb = new Bounds(this.theEntity.position, new Vector3(20f, 20f, 20f));
@@ -59,6 +59,8 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
             if(x is EntityVehicle)
                 continue;
 
+            if (x.IsDead())
+                continue;
             if (x != this.theEntity && x.IsAlive())
             {
                 if (leader != null && x == leader)

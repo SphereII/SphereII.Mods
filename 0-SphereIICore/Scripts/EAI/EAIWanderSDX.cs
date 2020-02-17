@@ -20,8 +20,10 @@ class EAIWanderSDX : EAIWander
     public override void Update()
     {
         this.time += 0.05f;
-
-        EntityMoveHelper moveHelper = this.theEntity.moveHelper;
+        if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
+           return;
+            
+            EntityMoveHelper moveHelper = this.theEntity.moveHelper;
 
         //If we are close, be done with it.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
@@ -66,9 +68,18 @@ class EAIWanderSDX : EAIWander
 
     public override void Start()
     {
+
+        Debug.Log("Wandering Start");
+        if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
+        {
+            Debug.Log("Finding position");
+            this.position = RandomPositionGenerator.CalcAway(this.theEntity, 10, 30, 10, this.theEntity.position);
+        }
+
         //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
         this.time = -90f;
 
+        Debug.Log("Path Finding");
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
         return;
@@ -76,6 +87,12 @@ class EAIWanderSDX : EAIWander
 
     public override bool CanExecute()
     {
+        if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
+        {
+            
+            return base.CanExecute();
+        }
+
         Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
         if (newPosition != Vector3.zero)
         {

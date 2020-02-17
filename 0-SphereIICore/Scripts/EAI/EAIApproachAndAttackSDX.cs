@@ -44,73 +44,21 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
             {
  
                 DisplayLog(" Has Ranged Attack. Not Moving forward.");
-                result = false;
+                // If the entity is dead, don't hover over it.
+               // this.theEntity.inventory.SetHoldingItemIdx(0);
             }
         }
 
         return result;
     }
 
+ 
     // If the entity is closer than 4 blocks, return true, allowing the approach and attack target to start.
     private bool InRange()
     {
         float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
         return distanceSq < 5f;
     }
-    //public override void Start()
-    //{
-    //    this.entityTarget = this.theEntity.GetAttackTarget();
-    //    this.entityTargetPos = this.entityTarget.position;
-    //    this.entityTargetVel = Vector3.zero;
-    //    this.isTargetToEat = false;
-    //    this.isEating = false;
-    //    this.theEntity.IsEating = false;
-    //    this.homeTimeout = ((!this.theEntity.IsSleeper) ? this.maxChaseTime : 90f);
-    //    this.hasHome = (this.homeTimeout > 0f);
-    //    this.isGoingHome = false;
-    //    if (this.theEntity.ChaseReturnLocation == Vector3.zero)
-    //        this.theEntity.ChaseReturnLocation = ((!this.theEntity.IsSleeper) ? this.theEntity.position : this.theEntity.SleeperSpawnPosition);
-
-    //    this.pathCounter = 0;
-    //    this.relocateTicks = 0;
-
-    //    this.attackTimeout = 5;
-    //}
-
-    //public override bool CanExecute()
-    //{
-    //    DisplayLog("CanExecute()");
-    //    this.entityTarget = this.theEntity.GetAttackTarget();
-    //    if (this.entityTarget == null )
-    //    {
-    //        this.entityTarget = this.theEntity.GetRevengeTarget();
-    //        if ( this.entityTarget == null )
-    //            return false;
-    //    }
-    //    if (!this.entityTarget.IsAlive())
-    //    {
-    //        DisplayLog(" My Target Entity is dead.");
-    //        return false;
-    //    }
-    //    return true;// base.CanExecute();
-    //}
-    public override bool Continue()
-    {
-        if(this.theEntity.sleepingOrWakingUp || this.theEntity.bodyDamage.CurrentStun != global::EnumEntityStunType.None)
-        {
-            return false;
-        }
-        EntityAlive attackTarget = this.theEntity.GetAttackTarget();
-
-        if(attackTarget)
-            if(!attackTarget.IsAlive())
-                return false;
-
-        //if(this.isGoingHome)
-        //{
-        //    return !attackTarget && this.theEntity.ChaseReturnLocation != Vector3.zero;
-        //}
-        return attackTarget && !(attackTarget != this.entityTarget);
-    }
+ 
 }
 

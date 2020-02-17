@@ -29,6 +29,16 @@ public static class EntityUtilities
         Loot = 7
     }
 
+    // Control the need of the entity to help equip weapons or items to use.
+    public enum Need
+    {
+        Ranged = 0,
+        Melee = 1,
+        Health = 2,
+        Hungry = 3,
+        Thirsty = 4
+    }
+
     public static bool IsHuman(int EntityID)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
@@ -92,40 +102,118 @@ public static class EntityUtilities
 
     }
 
+    public static int ChangeHandholdItem(int EntityID, Need myCurrentNeed, int Preferred = -1)
+    {
+        int index = 0;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return index;
+
+        Debug.Log("My Current Need: " + myCurrentNeed.ToString());
+        if (Preferred == -1)
+        {
+            int OriginalIndex = myEntity.inventory.holdingItemIdx;
+            switch (myCurrentNeed)
+            {
+                // Ranged
+                case Need.Ranged:
+                    index = FindItemWithAction(EntityID, typeof(ItemActionRanged));
+                    break;
+                // Ranged
+                case Need.Melee:
+                    index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
+                    break;
+                    // Ranged
+            }
+        }
+        else
+            index = Preferred;
+
+        // If there's no change, don't do anything.
+        if (myEntity.inventory.holdingItemIdx == index)
+            return index;
+
+        myEntity.inventory.SetHoldingItemIdx(index);
+        myEntity.inventory.ForceHoldingItemUpdate();
+        myEntity.emodel.avatarController.SetVisible(true);
+        myEntity.emodel.avatarController.ResetAnimations();
+        return index;
+
+    }
+
+    // Searches the entity, looking for a specific action
+    public static int FindItemWithAction(int EntityID, Type findAction)
+    {
+        int index = 0;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return index;
+
+        int counter = 0;
+        foreach (var stack in myEntity.inventory.GetSlots())
+        {
+            if (stack == ItemStack.Empty)
+                continue;
+            if (stack.itemValue == null)
+                continue;
+            if ( stack.itemValue.ItemClass == null )
+                continue;
+
+            if (stack.itemValue.ItemClass.Actions == null)
+                continue;
+            foreach (var action in stack.itemValue.ItemClass.Actions)
+            {
+                if (action == null)
+                    continue;
+                var checkType = action.GetType();
+                if (findAction == checkType || findAction.IsAssignableFrom(checkType))
+                    return counter;
+            }
+            counter++;
+        }
+        return index;
+    }
+
     public static void BackupHelper(int EntityID, Vector3 awayFrom, float distance)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return;
-
-
+        
         Vector3 dirV = myEntity.position - awayFrom;
         Vector3 vector = Vector3.zero;
 
         // If you are blocked, try to go to another side.
-        //if (myEntity.moveHelper.BlockedTime > 0.3)
-        vector = RandomPositionGenerator.CalcAway(myEntity, 20, 10,20, awayFrom);
-        //else
-        //    vector = RandomPositionGenerator.CalcPositionInDirection(myEntity, myEntity.position, dirV, distance, 45f);
-
+        vector = RandomPositionGenerator.CalcAway(myEntity, 20, 20,20, awayFrom);
         myEntity.moveHelper.SetMoveTo(vector, false);
+
+        // Move away at a hard coded speed of -4 to make them go backwards
         myEntity.speedForward = -4;
+
+        // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom);
         myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 45f, 45f);
     }
 
     public static bool CheckProperty(int EntityID, string Property)
     {
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return false;
 
         EntityClass entityClass = EntityClass.list[myEntity.entityClass];
         if (entityClass.Properties.Values.ContainsKey(Property))
+        {
+            Debug.Log("Has Property: " + Property);
             return true;
+        }
         if (entityClass.Properties.Classes.ContainsKey(Property))
-            return true;
+        {
+            Debug.Log("Has Property: " + Property);
 
+            return true;
+            
+            }
         return false;
     }
 
@@ -462,6 +550,8 @@ public static class EntityUtilities
                 foreach (var Buff in myEntity.Buffs.ActiveBuffs)
                     Debug.Log("\t" + Buff.BuffName);
 
+                ChangeHandholdItem(EntityID, Need.Ranged);
+                ChangeHandholdItem(EntityID, Need.Melee);
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
@@ -703,7 +793,10 @@ public static class EntityUtilities
         if (myEntity == null)
             return Vector3.zero;
 
-        Vector3 result = Vector3.zero;
+        if (!EntityUtilities.CheckProperty(EntityID, "PathingBlocks"))
+            return Vector3.zero;
+
+            Vector3 result = Vector3.zero;
         List<Vector3> Paths = SphereCache.GetPaths(EntityID);
         if (Paths == null || Paths.Count == 0)
         {
