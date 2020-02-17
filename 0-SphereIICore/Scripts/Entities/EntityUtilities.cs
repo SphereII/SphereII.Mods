@@ -109,7 +109,6 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
-        Debug.Log("My Current Need: " + myCurrentNeed.ToString());
         if (Preferred == -1)
         {
             int OriginalIndex = myEntity.inventory.holdingItemIdx;
