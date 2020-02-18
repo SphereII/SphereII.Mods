@@ -494,9 +494,7 @@ public class EntityAliveSDX : EntityNPC
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
-
-
-
+               
         if ( target == null)
         {
             if (this is EntityAliveFarmingAnimalSDX)
@@ -518,7 +516,7 @@ public class EntityAliveSDX : EntityNPC
                         if (GetDistance(entitiesInBounds[i]) < 2)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
-                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 3f);
+                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 3);
                             //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }

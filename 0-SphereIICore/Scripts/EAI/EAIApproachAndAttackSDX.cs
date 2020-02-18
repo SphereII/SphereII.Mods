@@ -45,10 +45,14 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
  
                 DisplayLog(" Has Ranged Attack. Not Moving forward.");
                 // If the entity is dead, don't hover over it.
-               // this.theEntity.inventory.SetHoldingItemIdx(0);
+                // this.theEntity.inventory.SetHoldingItemIdx(0);
+                return false;
             }
+
+            EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
         }
 
+        
         return result;
     }
 

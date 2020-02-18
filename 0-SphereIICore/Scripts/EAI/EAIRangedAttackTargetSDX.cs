@@ -50,7 +50,7 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
         // Back away!
         if (distanceSq > 4 && distanceSq < 10)
         {
-            EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40f);
+            EntityUtilities.BackupHelper(this.theEntity.entityId, this.entityTarget.position, 40);
             EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Ranged);
 
             return true;

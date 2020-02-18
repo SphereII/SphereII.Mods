@@ -109,9 +109,9 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
+      //  Debug.Log("My Current Need: " + myCurrentNeed.ToString() + " Preferred Item Slot: " + Preferred);
         if (Preferred == -1)
         {
-            int OriginalIndex = myEntity.inventory.holdingItemIdx;
             switch (myCurrentNeed)
             {
                 // Ranged
@@ -132,7 +132,10 @@ public static class EntityUtilities
         if (myEntity.inventory.holdingItemIdx == index)
             return index;
 
+        //Debug.Log("ChangeHoldItem: " + index);
+        
         myEntity.inventory.SetHoldingItemIdx(index);
+        //Debug.Log("Now holding: " + myEntity.inventory.holdingItem.GetItemName());
         myEntity.inventory.ForceHoldingItemUpdate();
         myEntity.emodel.avatarController.SetVisible(true);
         myEntity.emodel.avatarController.ResetAnimations();
@@ -151,6 +154,7 @@ public static class EntityUtilities
         int counter = 0;
         foreach (var stack in myEntity.inventory.GetSlots())
         {
+            
             if (stack == ItemStack.Empty)
                 continue;
             if (stack.itemValue == null)
@@ -160,20 +164,24 @@ public static class EntityUtilities
 
             if (stack.itemValue.ItemClass.Actions == null)
                 continue;
+            //Debug.Log("\tItem: " + stack.itemValue.ItemClass.GetItemName() + " Slot: " + counter);
             foreach (var action in stack.itemValue.ItemClass.Actions)
             {
                 if (action == null)
                     continue;
                 var checkType = action.GetType();
                 if (findAction == checkType || findAction.IsAssignableFrom(checkType))
+                {
+                 //   Debug.Log("Found Action: " + action.ToString() + " Slot: " + counter);
                     return counter;
+                }
             }
             counter++;
         }
         return index;
     }
 
-    public static void BackupHelper(int EntityID, Vector3 awayFrom, float distance)
+    public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
@@ -183,7 +191,7 @@ public static class EntityUtilities
         Vector3 vector = Vector3.zero;
 
         // If you are blocked, try to go to another side.
-        vector = RandomPositionGenerator.CalcAway(myEntity, 20, 20,20, awayFrom);
+        vector = RandomPositionGenerator.CalcAway(myEntity, distance, distance,distance, awayFrom);
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
@@ -800,7 +808,7 @@ public static class EntityUtilities
         if (Paths == null || Paths.Count == 0)
         {
             //  Grab a list of blocks that are configured for this class.
-            //    <property name = "PathingBlocks" value="" />
+            //    <property name="PathingBlocks" value="PathingCube" />
             List<string> Blocks = EntityUtilities.ConfigureEntityClass(EntityID, "PathingBlocks");
             if (Blocks.Count == 0)
             {

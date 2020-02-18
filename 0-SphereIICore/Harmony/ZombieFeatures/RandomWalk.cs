@@ -1,6 +1,7 @@
 ﻿using DMT;
 using Harmony;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -20,6 +21,7 @@ public class SphereII_Transmogrifier
             {
                 if ((___walkType != 4) && __instance is EntityZombie)
                 {
+
                     // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution. The 9 in the default int[9] indicates how many walk types you've specified.
                     int[] numbers = new int[9] { 1, 2, 2, 3, 4, 5, 6, 7, 8 };
 
@@ -31,6 +33,22 @@ public class SphereII_Transmogrifier
                     // return the randomly selected walk type
                     ___walkType = numbers[randomNumber];
                     AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
+
+                }
+
+                EntityClass entityClass = __instance.EntityClass;
+                if (entityClass.Properties.Values.ContainsKey("RandomWalkTypes"))
+                {
+                    List<int> Ranges = new List<int>();
+
+                    foreach (string text in entityClass.Properties.Values["RandomWalkTypes"].Split(new char[] { ',' }))
+                        Ranges.Add(StringParsers.ParseSInt32(text));
+
+                    System.Random random = new System.Random();
+                    int randomIndex = random.Next(0, Ranges.Count);
+                    ___walkType = Ranges[randomIndex];
+                    AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
+
 
                 }
 
