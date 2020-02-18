@@ -83,6 +83,7 @@ public class FoodSpoilage_Mod
                     if (__instance.ItemStack.itemValue.ItemClass.Properties.Contains("SpoilageMax"))
                         DegradationMax = __instance.ItemStack.itemValue.ItemClass.Properties.GetFloat("SpoilageMax");
 
+
                     __instance.durability.IsVisible = true;
                     __instance.durabilityBackground.IsVisible = true;
                     float PerCent = 1f - Mathf.Clamp01(__instance.ItemStack.itemValue.CurrentSpoilage / DegradationMax);
@@ -91,6 +92,10 @@ public class FoodSpoilage_Mod
                         TierColor = 0;
                     if (TierColor > 7)
                         TierColor = 7;
+
+                    // allow over-riding of the color.
+                    if(__instance.ItemStack.itemValue.ItemClass.Properties.Contains("QualityTierColor"))
+                        TierColor = __instance.ItemStack.itemValue.ItemClass.Properties.GetInt("QualityTierColor");
 
                     __instance.durability.Color = QualityInfo.GetQualityColor(TierColor);
                     __instance.durability.Fill = PerCent;
