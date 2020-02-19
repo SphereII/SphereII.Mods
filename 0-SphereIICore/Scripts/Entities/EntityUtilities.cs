@@ -136,9 +136,9 @@ public static class EntityUtilities
         
         myEntity.inventory.SetHoldingItemIdx(index);
         //Debug.Log("Now holding: " + myEntity.inventory.holdingItem.GetItemName());
-        myEntity.inventory.ForceHoldingItemUpdate();
-        myEntity.emodel.avatarController.SetVisible(true);
-        myEntity.emodel.avatarController.ResetAnimations();
+     //   myEntity.inventory.ForceHoldingItemUpdate();
+       // myEntity.emodel.avatarController.SetVisible(true);
+        //myEntity.emodel.avatarController.ResetAnimations();
         return index;
 
     }
