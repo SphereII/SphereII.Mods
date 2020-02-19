@@ -104,6 +104,7 @@ public static class EntityUtilities
 
     public static int ChangeHandholdItem(int EntityID, Need myCurrentNeed, int Preferred = -1)
     {
+        return 0;
         int index = 0;
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
