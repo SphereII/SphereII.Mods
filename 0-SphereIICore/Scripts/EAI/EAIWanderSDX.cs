@@ -10,7 +10,7 @@ class EAIWanderSDX : EAIWander
     public float time;
 
     private bool blDisplayLog = false;
-    private bool blShowPathFindingBlocks = false;
+    private bool blShowPathFindingBlocks = true;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
@@ -27,7 +27,7 @@ class EAIWanderSDX : EAIWander
 
         //If we are close, be done with it.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
-        if (dist < 1f)
+        if (dist < 0.1f)
         {
             DisplayLog("I am within 1f of the block: " + dist);
             BlockValue block = GameManager.Instance.World.GetBlock( new Vector3i(this.position));
@@ -68,18 +68,13 @@ class EAIWanderSDX : EAIWander
 
     public override void Start()
     {
-
-        Debug.Log("Wandering Start");
+        // if no pathing blocks, just randomly pick something.
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
-        {
-            Debug.Log("Finding position");
             this.position = RandomPositionGenerator.CalcAway(this.theEntity, 10, 30, 10, this.theEntity.position);
-        }
 
         //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
         this.time = -90f;
 
-        Debug.Log("Path Finding");
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
         return;
@@ -88,29 +83,35 @@ class EAIWanderSDX : EAIWander
     public override bool CanExecute()
     {
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
-        {
-            
             return base.CanExecute();
-        }
+
+        if (EntityUtilities.GetAttackOrReventTarget( this.theEntity.entityId) != null)
+            return false;
 
         Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
         if (newPosition != Vector3.zero)
         {
-            this.position = newPosition;
+             String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+            //String strParticleName = "forge";
+            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+            BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
             DisplayLog(" I have a new position I can path too.");
 
             //  For testing, change the target to this block, so we can see where the NPC intends to go.
             if (blShowPathFindingBlocks)
             {
-                DisplayLog(" I have highlighted where I am going.");
-                GameManager.Instance.World.SetBlock(0, new Vector3i(newPosition), new BlockValue((uint)Block.GetBlockByName("PathingCube2", false).blockID), true, false);
+                DisplayLog(" I have highlighted where I am going: " + newPosition);
+
+                Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(newPosition);
+                BlockUtilitiesSDX.addParticles(strParticleName, new Vector3i(supportBlock));
             }
             if (SphereCache.LastBlock.ContainsKey(this.theEntity.entityId))
             {
                 if (blShowPathFindingBlocks)
                 {
                     DisplayLog("I am changing the block back to the pathing block");
-                    GameManager.Instance.World.SetBlock(0, new Vector3i(SphereCache.LastBlock[this.theEntity.entityId]), new BlockValue((uint)Block.GetBlockByName("PathingCube", false).blockID), true, false);
+                    Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(this.position);
+                    BlockUtilitiesSDX.removeParticles( new Vector3i(supportBlock));
                 }
                 SphereCache.LastBlock[this.theEntity.entityId] = newPosition;
             }
@@ -119,6 +120,9 @@ class EAIWanderSDX : EAIWander
                 // Store the LastBlock position here, so we know what we can remove next time.
                 SphereCache.LastBlock.Add(this.theEntity.entityId, newPosition);
             }
+            this.position = newPosition;
+
+
             return true;
         }
         else

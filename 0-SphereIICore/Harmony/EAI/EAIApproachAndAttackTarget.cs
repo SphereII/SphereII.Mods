@@ -70,14 +70,14 @@ class SphereII_EAIApproachAndAttackTarget
                 }
 
                 // Back away!
-                if (distanceSq > 4 && distanceSq < 21)
+                if (distanceSq > 1 && distanceSq < 21)
                 {
                     DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
                     EntityUtilities.BackupHelper(__instance.theEntity.entityId, __instance.entityTarget.position, 40);
                     EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Ranged);
                     return false;
                 }
-                if (distanceSq <= 4)
+                if (distanceSq <= 1)
                 {
                     EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Melee);
                     return true;

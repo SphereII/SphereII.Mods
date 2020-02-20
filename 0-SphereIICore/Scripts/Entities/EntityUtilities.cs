@@ -122,6 +122,7 @@ public static class EntityUtilities
                 // Ranged
                 case Need.Melee:
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
+                    
                     break;
                     // Ranged
             }
@@ -211,17 +212,11 @@ public static class EntityUtilities
 
         EntityClass entityClass = EntityClass.list[myEntity.entityClass];
         if (entityClass.Properties.Values.ContainsKey(Property))
-        {
-            Debug.Log("Has Property: " + Property);
             return true;
-        }
-        if (entityClass.Properties.Classes.ContainsKey(Property))
-        {
-            Debug.Log("Has Property: " + Property);
 
+        if (entityClass.Properties.Classes.ContainsKey(Property))
             return true;
-            
-            }
+
         return false;
     }
 

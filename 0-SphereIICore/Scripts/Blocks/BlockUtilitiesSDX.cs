@@ -79,5 +79,18 @@ public static class BlockUtilitiesSDX
 
         }
     }
+
+    public static void addParticles(String strParticleName, Vector3i position)
+    {
+        if (strParticleName == null || strParticleName == "")
+            return;
+        BlockValue blockValue = GameManager.Instance.World.GetBlock(position);
+        GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position, new ParticleEffect(strParticleName,  position.ToVector3() + Vector3.up, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
+    }
+
+    public static void removeParticles(Vector3i position)
+    {
+        GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
+    }
 }
 

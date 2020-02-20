@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.3.0.415</mod_version>
+    <mod_version>18.3.0.456</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -577,7 +577,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="ab816be2e3d6f4ad4d9d64f7262feb56" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="ee64aecd3046b94c976330626440b70d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\FoodSpoilage\FoodSpoilage.cs" hash="e5bec3f816a6cf927953977fbb0d7bd7" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="67f6fc8234b6dd3fb5f667a39d681693" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\DurabilityAffectsDamage.cs" hash="856003d4b5faef8d5e9220504adff047" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\ItemRadiusBuffEffects.cs" hash="f394820e6bf4d715cd4de08d6ec97e86" />
@@ -604,14 +603,12 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\InertEntity.cs" hash="ff1d5a720c5f88da06fe76fc81f07404" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="e653c5c08406d6af1436492978b71509" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomDeathSpawn.cs" hash="2f69099360a17d434f37288479b7979f" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomWalk.cs" hash="df76b207f79be7e7554ec6a37c45e72c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\UMATweaks.cs" hash="c3140768b29a4e80b6150d5ae1e871e7" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\FoodSpoilagePatch.cs" hash="0a6b62b7bb1ae330eded6598ebab7f50" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Animation\MecanimSDX.cs" hash="6f84af232ee7c2376f66ec727934df25" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockPoweredWorkstation.cs" hash="159d0268990936b19698ea1f11b4de7d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockTriggeredSDX.cs" hash="09d9931ea8097976b82054f1dfdaf543" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockUtilitiesSDX.cs" hash="f84574ad45cdf27142a02d3eb06e450b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\PickUpAndReplace.cs" hash="ad49270793e593003db222912151ccc4" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Buffs\RequirementEveryDawn.cs" hash="75cee244c3b46158a9071653654e6c37" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Buffs\RequirementEveryXDaySDX.cs" hash="12e5f40a2f4e1a4464163b5b1f8cf728" />
@@ -717,18 +714,25 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="1d97a1e0244cdb77c389e0f4215094df" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAttention.cs" hash="6cb66e894bca01f13decf60717ab8b16" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomSize.cs" hash="206a523ceb681ce3c704eea23a71d765" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="a487a454a67c797c41ebd0156a1d9138" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDXv2.cs" hash="fef91be96c1fd56fe034c2a8068e10e6" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="2a5270f042676657cb2f47d60354bb39" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="9ba04a86d08cf4c6a02fa5f511ff111e" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="47f63bd7aa74c3033c0e361f72fa7017" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIRangedAttackTarget2.cs" hash="e07fa16eda60c4b7b66ca6658a1a42e1" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="75c450a6fc907ec1603a4834754a7b7b" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="5c0d8a68d3c06b529eb59d6f4c980ec7" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="d347c3497c15bf3cc2133ce1e1731241" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetIfHurtSDX.cs" hash="0cfd42af2262741631f8bb20fecca215" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetIfLeaderAttackedSDX.cs" hash="60444b3b3374d8359b45b4d5fcb980bb" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="c7f5979a7b612befec56dc054924a21f" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="26f5b3c10d1f9d7c86d9eafac9867136" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="8f818067eaf7d611ff2c3c0e4a07f258" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="5868f4c3cc5303ffcf2de6c54e4c1747" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomWalk.cs" hash="a18c3f52c6586a4858999790ceeb3107" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="8663e686cf65c13a79d39ff4ceb60434" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="4144673bbe2990d8c16a7339393e415b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Blocks\Particles.cs" hash="d7cfc88aaa03bdeb916022e7d9637dbf" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\FoodSpoilage\FoodSpoilage.cs" hash="9166672e3b0f41a197f4867942139b78" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="18afadfacca60b8f0c3e74d2ae58930f" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathSmokeParticle_X.prefab" hash="059d3ae5d2e26b3931cf5f2337be7f89" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathSmokeParticle.unity3d" hash="6698fbfd22fcef5003887ad22e8c7e81" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockUtilitiesSDX.cs" hash="50d019e78e8f41c6e06ce87b39c6784a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="1020f50464b4c346f3be58f57186f9d7" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\blocks.xml" hash="744549d5e4fbaf0443f9728e396ccb12" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Resources\PathSmoke.unity3d" hash="92d19af29417eccd2812568fc766b3b5" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="7c76e8183450ed7d8a1a7a64784eb68a" />
   </hashes>
 </mod>
