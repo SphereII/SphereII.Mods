@@ -56,13 +56,13 @@ class EAIWanderSDX : EAIWander
         }
 
           //Check if we are blocked, which may indicate that we are at a door that we want to open.
-        if (moveHelper.IsBlocked && moveHelper.BlockedTime > 0.09)
-        {
-            DisplayLog("I am blocked, and I've been blocked for more than 0.010 seconds. I cannot keep going.");
-            moveHelper.Stop();
-            this.time = 40f;
-            return;
-        }
+        //if (moveHelper.IsBlocked && moveHelper.BlockedTime > 0.09)
+        //{
+        //    DisplayLog("I am blocked, and I've been blocked for more than 0.010 seconds. I cannot keep going.");
+        //    moveHelper.Stop();
+        //    this.time = 40f;
+        //    return;
+        //}
 
     }
 
@@ -93,7 +93,7 @@ class EAIWanderSDX : EAIWander
         {
              String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
             //String strParticleName = "forge";
-            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+           // ParticleEffect.RegisterBundleParticleEffect(strParticleName);
             BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
             DisplayLog(" I have a new position I can path too.");
 

@@ -181,21 +181,21 @@ public class EntityAliveSDX : EntityNPC
     }
 
     // Reduce the block time threshold to see if the entity can jump or not.
-    public override bool CanEntityJump()
-    {
-        bool result = base.CanEntityJump();
+    //public override bool CanEntityJump()
+    //{
+    //    bool result = base.CanEntityJump();
 
-        if (EntityUtilities.GetAttackOrReventTarget(this.entityId) != null)
-            return false;
+    //    if (EntityUtilities.GetAttackOrReventTarget(this.entityId) != null)
+    //        return false;
 
-        if (this.moveHelper.BlockedEntity)
-            return false;
+    //    if (this.moveHelper.BlockedEntity)
+    //        return false;
 
-        if (this.moveHelper.BlockedTime < 0.2)
-            return false;
+    //    if (this.moveHelper.BlockedTime < 0.2)
+    //        return false;
 
-        return result;
-    }
+    //    return result;
+    //}
 
     public void RestoreSpeed()
     {

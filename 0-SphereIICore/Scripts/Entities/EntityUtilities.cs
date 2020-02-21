@@ -104,12 +104,12 @@ public static class EntityUtilities
 
     public static int ChangeHandholdItem(int EntityID, Need myCurrentNeed, int Preferred = -1)
     {
-        return 0;
         int index = 0;
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return index;
 
+        
       //  Debug.Log("My Current Need: " + myCurrentNeed.ToString() + " Preferred Item Slot: " + Preferred);
         if (Preferred == -1)
         {
@@ -122,9 +122,7 @@ public static class EntityUtilities
                 // Ranged
                 case Need.Melee:
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
-                    
                     break;
-                    // Ranged
             }
         }
         else
@@ -134,13 +132,7 @@ public static class EntityUtilities
         if (myEntity.inventory.holdingItemIdx == index)
             return index;
 
-        //Debug.Log("ChangeHoldItem: " + index);
-        
-        myEntity.inventory.SetHoldingItemIdx(index);
-        //Debug.Log("Now holding: " + myEntity.inventory.holdingItem.GetItemName());
-     //   myEntity.inventory.ForceHoldingItemUpdate();
-       // myEntity.emodel.avatarController.SetVisible(true);
-        //myEntity.emodel.avatarController.ResetAnimations();
+        myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
         return index;
 
     }
@@ -197,11 +189,11 @@ public static class EntityUtilities
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward = -4;
+        myEntity.speedForward = -1;
 
         // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom);
-        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 45f, 45f);
+        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 60f, 60f);
     }
 
     public static bool CheckProperty(int EntityID, string Property)
@@ -549,12 +541,20 @@ public static class EntityUtilities
         {
             case "TellMe":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, myEntity.ToString() + "\n\n\n\n\n", "ui_denied");
-                Debug.Log("\n\nBuffs:");
+                AdvLogging.DisplayLog(AdvFeatureClass, "\n\nBuffs:");
                 foreach (var Buff in myEntity.Buffs.ActiveBuffs)
-                    Debug.Log("\t" + Buff.BuffName);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "\t" + Buff.BuffName);
 
-                ChangeHandholdItem(EntityID, Need.Ranged);
-                ChangeHandholdItem(EntityID, Need.Melee);
+                AdvLogging.DisplayLog(AdvFeatureClass, myEntity.ToString());
+                AdvLogging.DisplayLog(AdvFeatureClass, "Body Damage: ");
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Right Leg? " + myEntity.bodyDamage.HasRightLeg);
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Left Leg? " + myEntity.bodyDamage.HasLeftLeg);
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Limbs? " + myEntity.bodyDamage.HasLimbs);
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Arm or Leg missing? " + myEntity.bodyDamage.IsAnyArmOrLegMissing);
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has any leg missing? " + myEntity.bodyDamage.IsAnyLegMissing);
+                bool LegDamageTrigger = false;
+                myEntity.emodel.avatarController.TryGetTrigger("LegDamageTrigger", out LegDamageTrigger);
+                AdvLogging.DisplayLog(AdvFeatureClass, "\t Leg Damage Trigger? " + LegDamageTrigger);
                 break;
             case "ShowAffection":
                 GameManager.ShowTooltipWithAlert(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
