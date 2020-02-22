@@ -233,7 +233,7 @@ public class EntityAliveSDX : EntityNPC
             EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
             return false;
         }
-        
+
         return base.Attack(_bAttackReleased);
     }
 
@@ -429,23 +429,23 @@ public class EntityAliveSDX : EntityNPC
             BlockValue block = this.world.GetBlock(blockPos);
             if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
             {
-                TileEntitySecureDoor tileEntitySecureDoor = (TileEntitySecureDoor)GameManager.Instance.World.GetTileEntity(0, blockPos);
-                if (tileEntitySecureDoor != null)
-                {
-                    if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
-                    {
-                        // Door is locked and is not a player door.
-                    }
-                    else
-                    {
-                        DisplayLog("I am blocked by a door. Trying to open...");
-                        SphereCache.AddDoor(this.entityId, blockPos);
-                        EntityUtilities.OpenDoor(this.entityId, blockPos);
-                        //      We were blocked, so let's clear it.
-                        moveHelper.ClearBlocked();
+                //TileEntitySecureDoor tileEntitySecureDoor = (TileEntitySecureDoor)GameManager.Instance.World.GetTileEntity(0, blockPos);
+                //if (tileEntitySecureDoor != null)
+                //{
+                //    if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
+                //    {
+                //        // Door is locked and is not a player door.
+                //    }
+                //    else
+                //    {
+                DisplayLog("I am blocked by a door. Trying to open...");
+                SphereCache.AddDoor(this.entityId, blockPos);
+                EntityUtilities.OpenDoor(this.entityId, blockPos);
+                //      We were blocked, so let's clear it.
+                moveHelper.ClearBlocked();
 
-                    }
-                }
+                //         }
+                //     }
             }
         }
 
@@ -478,9 +478,9 @@ public class EntityAliveSDX : EntityNPC
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
- 
-            // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
-            Stats.Water.Tick(0.5f, 0, false);
+
+        // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
+        Stats.Water.Tick(0.5f, 0, false);
 
         // then fire the updatestats over time, which is protected from a IsPlayer check in the base onUpdateLive().
         Stats.UpdateStatsOverTime(0.5f);
@@ -506,8 +506,8 @@ public class EntityAliveSDX : EntityNPC
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
-               
-        if ( target == null)
+
+        if (target == null)
         {
             if (this is EntityAliveFarmingAnimalSDX)
                 return;
@@ -533,7 +533,7 @@ public class EntityAliveSDX : EntityNPC
                             break;
                         }
 
-                       
+
                         // Turn to face the player, and stop the movement.
                         this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
                         this.RotateTo(entitiesInBounds[i], 90f, 90f);
@@ -598,7 +598,7 @@ public class EntityAliveSDX : EntityNPC
                 return;
         }
 
-        
+
         base.SetRevengeTarget(_other);
         //  Debug.Log("Adding Buff for RevengeTarget() ");
         this.Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
