@@ -15,11 +15,26 @@ public class SphereII_Blocks_Particles
             if (__instance.Properties.Values.ContainsKey("ParticleName"))
                 ParticleEffect.RegisterBundleParticleEffect(__instance.Properties.Values["ParticleName"]);
 
-            __instance.IsPathSolid = true;
+            if (__instance is BlockDoorSecure)
+                return;
+
+                __instance.IsPathSolid = true;
         }
     }
 
- 
+    // Let the NPCs pass by traps without being hurt.
+    [HarmonyPatch(typeof(BlockDamage))]
+    [HarmonyPatch("OnEntityCollidedWithBlock")]
+    public class SphereII_BlockDamage_OnEntityCollidedWithBlock
+    {
+        public static bool Prefix( Entity _targetEntity)
+        {
+            if (_targetEntity is EntityNPC)
+                return false;
+            return true;
+        }
+    }
+
 
 
 }
