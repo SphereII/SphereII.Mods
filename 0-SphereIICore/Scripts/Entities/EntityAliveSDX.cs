@@ -429,11 +429,23 @@ public class EntityAliveSDX : EntityNPC
             BlockValue block = this.world.GetBlock(blockPos);
             if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
             {
-                DisplayLog("I am blocked by a door. Trying to open...");
-                SphereCache.AddDoor(this.entityId, blockPos);
-                EntityUtilities.OpenDoor(this.entityId, blockPos);
-                //      We were blocked, so let's clear it.
-                moveHelper.ClearBlocked();
+                TileEntitySecureDoor tileEntitySecureDoor = (TileEntitySecureDoor)GameManager.Instance.World.GetTileEntity(0, blockPos);
+                if (tileEntitySecureDoor != null)
+                {
+                    if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
+                    {
+                        // Door is locked and is not a player door.
+                    }
+                    else
+                    {
+                        DisplayLog("I am blocked by a door. Trying to open...");
+                        SphereCache.AddDoor(this.entityId, blockPos);
+                        EntityUtilities.OpenDoor(this.entityId, blockPos);
+                        //      We were blocked, so let's clear it.
+                        moveHelper.ClearBlocked();
+
+                    }
+                }
             }
         }
 
@@ -516,7 +528,7 @@ public class EntityAliveSDX : EntityNPC
                         if (GetDistance(entitiesInBounds[i]) < 2)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
-                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 3);
+                            EntityUtilities.BackupHelper(this.entityId, entitiesInBounds[i].position, 5);
                             //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
@@ -524,7 +536,7 @@ public class EntityAliveSDX : EntityNPC
                        
                         // Turn to face the player, and stop the movement.
                         this.SetLookPosition(entitiesInBounds[i].getHeadPosition());
-                        this.RotateTo(entitiesInBounds[i], 45f, 45f);
+                        this.RotateTo(entitiesInBounds[i], 90f, 90f);
                         this.navigator.clearPath();
                         this.moveHelper.Stop();
                         break;

@@ -189,7 +189,7 @@ public static class EntityUtilities
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward = -1;
+        myEntity.speedForward = -0.25f;
 
         // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom);

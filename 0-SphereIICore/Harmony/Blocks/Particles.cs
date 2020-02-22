@@ -18,7 +18,7 @@ public class SphereII_Blocks_Particles
             if (__instance is BlockDoorSecure)
                 return;
 
-                __instance.IsPathSolid = true;
+            //    __instance.IsPathSolid = true;
         }
     }
 
