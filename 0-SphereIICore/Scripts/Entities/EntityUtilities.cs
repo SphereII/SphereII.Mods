@@ -133,6 +133,9 @@ public static class EntityUtilities
             return index;
 
         myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
+
+        // Forcing the show items
+        myEntity.inventory.ShowHeldItem(true);
         return index;
 
     }
@@ -189,7 +192,7 @@ public static class EntityUtilities
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward = -0.25f;
+        myEntity.speedForward = -0.25f;// Mathf.SmoothStep(myEntity.speedForward, -4, 2 * Time.deltaTime);
 
         // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom);
