@@ -135,7 +135,7 @@ public static class EntityUtilities
         myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
 
         // Forcing the show items
-        myEntity.inventory.ShowHeldItem(true);
+        myEntity.inventory.ShowHeldItem(true, 1f);
         return index;
 
     }
@@ -158,20 +158,16 @@ public static class EntityUtilities
                 continue;
             if ( stack.itemValue.ItemClass == null )
                 continue;
-
             if (stack.itemValue.ItemClass.Actions == null)
                 continue;
-            //Debug.Log("\tItem: " + stack.itemValue.ItemClass.GetItemName() + " Slot: " + counter);
+
             foreach (var action in stack.itemValue.ItemClass.Actions)
             {
                 if (action == null)
                     continue;
                 var checkType = action.GetType();
                 if (findAction == checkType || findAction.IsAssignableFrom(checkType))
-                {
-                 //   Debug.Log("Found Action: " + action.ToString() + " Slot: " + counter);
                     return counter;
-                }
             }
             counter++;
         }
