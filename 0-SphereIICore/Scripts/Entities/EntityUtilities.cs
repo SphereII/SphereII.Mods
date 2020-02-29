@@ -808,7 +808,7 @@ public static class EntityUtilities
             if (Blocks.Count == 0)
             {
                 // DisplayLog("No Blocks configured. Setting Default", __instance.theEntity);
-                Blocks.Add("PathingCube");
+               // Blocks.Add("PathingCube");
                 return result;
             }
 
