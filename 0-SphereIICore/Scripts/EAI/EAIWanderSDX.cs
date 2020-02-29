@@ -69,7 +69,9 @@ class EAIWanderSDX : EAIWander
     public override void Start()
     {
         // if no pathing blocks, just randomly pick something.
-        if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
+
+        Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
+        if ( newPosition == Vector3.zero)
             this.position = RandomPositionGenerator.CalcAway(this.theEntity, 10, 30, 10, this.theEntity.position);
 
         //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
