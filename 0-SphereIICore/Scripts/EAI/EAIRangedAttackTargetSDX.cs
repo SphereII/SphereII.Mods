@@ -27,6 +27,9 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
             this.theEntity.SetRevengeTarget(null);
             return false;
         }
+
+        return EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
+
         float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
         // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
         if (distanceSq > 50 && distanceSq < 60)

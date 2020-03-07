@@ -53,36 +53,36 @@ class SphereII_EAIApproachAndAttackTarget
             // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
             if (EntityUtilities.HasTask(__instance.theEntity.entityId, "Ranged"))
             {
-               
-                DisplayLog(" Ranged Entity: Distance between " + __instance.entityTarget.EntityName + " : " + distanceSq, __instance.theEntity);
-                // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
-                if (distanceSq > 50 && distanceSq < 60)
-                    return result;
+                return EntityUtilities.CheckAIRange(__instance.theEntity.entityId, __instance.entityTarget.entityId);
+                //DisplayLog(" Ranged Entity: Distance between " + __instance.entityTarget.EntityName + " : " + distanceSq, __instance.theEntity);
+                //// Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
+                //if (distanceSq > 50 && distanceSq < 60)
+                //    return result;
 
-                // Hold your ground
-                if (distanceSq > 20f && distanceSq < 60)
-                {
-                    DisplayLog("I am ranged, so I will not move forward.", __instance.theEntity);
-                    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Ranged);
-                    __instance.theEntity.navigator.clearPath();
-                    __instance.theEntity.moveHelper.Stop();
-                    return false;
-                }
+                //// Hold your ground
+                //if (distanceSq > 20f && distanceSq < 60)
+                //{
+                //    DisplayLog("I am ranged, so I will not move forward.", __instance.theEntity);
+                //    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Ranged);
+                //    __instance.theEntity.navigator.clearPath();
+                //    __instance.theEntity.moveHelper.Stop();
+                //    return false;
+                //}
 
-                // Back away!
-                if (distanceSq > 2 && distanceSq < 21)
-                {
-                    DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
-                    EntityUtilities.BackupHelper(__instance.theEntity.entityId, __instance.entityTarget.position, 40);
-                    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Ranged);
-                    return false;
-                }
+                //// Back away!
+                //if (distanceSq > 2 && distanceSq < 21)
+                //{
+                //    DisplayLog(" Ranged Entity: They are coming too close to me! I am backing away", __instance.theEntity);
+                //    EntityUtilities.BackupHelper(__instance.theEntity.entityId, __instance.entityTarget.position, 40);
+                //    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Ranged);
+                //    return false;
+                //}
                 
-                if (distanceSq < 2)
-                {
-                    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Melee);
-                    return true;
-                }
+                //if (distanceSq < 2)
+                //{
+                //    EntityUtilities.ChangeHandholdItem(__instance.theEntity.entityId, EntityUtilities.Need.Melee);
+                //    return true;
+                //}
             }
 
             return result;

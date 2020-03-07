@@ -436,8 +436,14 @@ public class EntityAliveSDX : EntityNPC
                     if(tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
                         canOpenDoor = false;
                 }
+                //TileEntityPowered poweredDoor = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPowered;
+                //if (poweredDoor != null)
+                //{
+                //    if (poweredDoor.IsLocked() && poweredDoor.GetOwner() == "")
+                //        canOpenDoor = false;
 
-                if(canOpenDoor)
+                //}
+                if (canOpenDoor)
                 {
                     DisplayLog("I am blocked by a door. Trying to open...");
                     SphereCache.AddDoor(entityId, blockPos);
@@ -483,7 +489,6 @@ public class EntityAliveSDX : EntityNPC
             SetLookPosition(attackTarget.position);
             RotateTo(attackTarget, 45, 45);
         }
-
 
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;

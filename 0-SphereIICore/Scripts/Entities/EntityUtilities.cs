@@ -135,7 +135,9 @@ public static class EntityUtilities
         myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
 
         // Forcing the show items
-        myEntity.inventory.ShowHeldItem(true, 1f);
+        myEntity.inventory.ShowHeldItem(false, 0f);
+        myEntity.inventory.ShowHeldItem(true);
+
         return index;
 
     }
@@ -174,12 +176,51 @@ public static class EntityUtilities
         return index;
     }
 
+    public static bool CheckAIRange(int EntityID, int targetEntity)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return false;
+        EntityAlive myTarget = GameManager.Instance.World.GetEntity(targetEntity) as EntityAlive;
+        if (myTarget == null)
+            return false;
+        float distanceSq = myTarget.GetDistanceSq(myEntity);
+
+        // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
+        if (distanceSq > 50 && distanceSq < 60)
+            return false;
+
+        // Hold your ground
+        if (distanceSq > 20f && distanceSq < 60)
+        {
+            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
+            myEntity.navigator.clearPath();
+            myEntity.moveHelper.Stop();
+            return false;
+        }
+
+        // Back away!
+        if (distanceSq > 2 && distanceSq < 21)
+        {
+            BackupHelper(EntityID, myTarget.position, 40);
+            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
+            return false;
+        }
+
+        if (distanceSq < 2)
+        {
+            ChangeHandholdItem(EntityID, Need.Melee);
+            return true;
+        }
+
+        return false;
+    }
     public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return;
-        
+
         Vector3 dirV = myEntity.position - awayFrom;
         Vector3 vector = Vector3.zero;
 
@@ -188,7 +229,7 @@ public static class EntityUtilities
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward = -0.25f;// Mathf.SmoothStep(myEntity.speedForward, -4, 2 * Time.deltaTime);
+        myEntity.speedForward =  Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
 
         // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom);
