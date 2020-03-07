@@ -188,8 +188,10 @@ public static class EntityUtilities
 
         // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
         if (distanceSq > 50 && distanceSq < 60)
+        {
+            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
             return false;
-
+        }
         // Hold your ground
         if (distanceSq > 20f && distanceSq < 60)
         {
@@ -232,8 +234,8 @@ public static class EntityUtilities
         myEntity.speedForward =  Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
 
         // Keep them facing the spot
-        myEntity.SetLookPosition( awayFrom);
-        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 60f, 60f);
+        myEntity.SetLookPosition( awayFrom );
+        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 30f, 30f);
     }
 
     public static bool CheckProperty(int EntityID, string Property)

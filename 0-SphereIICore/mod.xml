@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.4.1.21</mod_version>
+    <mod_version>18.4.1.31</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -673,7 +673,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveBuffSDX.cs" hash="31170b60971d2045efeba0e7f7898dd2" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\ObjectiveGotoPOISDX.cs" hash="f17b6a7ef6beb939529f1f93de306017" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionGiveBuffSDX.cs" hash="ab9b3926ab99e542169b0e84e682e527" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" hash="cd08a2552c6d1852c5f8c1d9a8090da0" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionPlaySound.cs" hash="869ebd451f0c4c757d1a69a202813123" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionReplaceEntitySDX.cs" hash="01fbadd46f253fb48bc6ecb3634c2621" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionSpawnEntitySDX.cs" hash="a9384bee07a797f2122f68b213677139" />
@@ -733,9 +732,10 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\Configuration.cs" hash="d0f188ef1ba096fa16100f007cb12869" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="634398b459dafad03a6d740eeee84219" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX - Copy.cs" hash="c38d6aaeedf41a8317ccc268a0b2f602" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="fa8b7f9273e5677fae7649aa74f7f992" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="d0599bde09d5be3d750ca7c97bfce36b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="f4cd59997fb29afdd73bbd51af9ba133" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="ee4f14af4c999f7dd640325e8d6e415c" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" hash="4bb8a8398de9c1c5e45916a083d0d1b8" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="c9f2abb666b5eb27b29d40ab97f61947" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="2a8d4e0fc95e89193f24539137360092" />
   </hashes>
 </mod>

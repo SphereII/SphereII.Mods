@@ -484,12 +484,16 @@ public class EntityAliveSDX : EntityNPC
 
         // Makes the NPC always face its attack or revent target.
         EntityAlive target = EntityUtilities.GetAttackOrReventTarget(entityId) as EntityAlive;
-        if(target != null)
+        if (target != null)
         {
             SetLookPosition(attackTarget.position);
             RotateTo(attackTarget, 45, 45);
         }
-
+        else
+        {
+            // Reset the hand held back to their preferred item 0
+            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+        }
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
@@ -561,7 +565,10 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
-
+    public override Ray GetLookRay()
+    {
+        return new Ray(this.position + new Vector3(0f, this.GetEyeHeight() * this.eyeHeightHackMod, 0f), this.GetLookVector());
+    }
 
     public void ToggleTraderID(bool Restore)
     {
