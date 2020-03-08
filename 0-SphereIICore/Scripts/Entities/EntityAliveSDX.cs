@@ -489,11 +489,6 @@ public class EntityAliveSDX : EntityNPC
             SetLookPosition(attackTarget.position);
             RotateTo(attackTarget, 45, 45);
         }
-        else
-        {
-            // Reset the hand held back to their preferred item 0
-            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
-        }
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
@@ -620,6 +615,11 @@ public class EntityAliveSDX : EntityNPC
                 return;
         }
 
+        if (_other == null)
+        {
+            // Reset the hand held back to their preferred item 0
+            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+        }
 
         base.SetRevengeTarget(_other);
         //  Debug.Log("Adding Buff for RevengeTarget() ");
@@ -632,6 +632,14 @@ public class EntityAliveSDX : EntityNPC
         if(_attackTarget != null)
             if(_attackTarget.IsDead())
                 return;
+
+
+        if (_attackTarget == null)
+        {
+            // Reset the hand held back to their preferred item 0
+            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+        }
+
         base.SetAttackTarget(_attackTarget, _attackTargetTime);
         // Debug.Log("Adding Buff for Attack Target() ");
         Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
