@@ -95,7 +95,7 @@ class EAIWanderSDX : EAIWander
         {
              String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
             //String strParticleName = "forge";
-           // ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
             BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
             DisplayLog(" I have a new position I can path too.");
 
