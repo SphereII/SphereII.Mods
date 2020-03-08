@@ -15,7 +15,10 @@ class EntityNPCJumpHeight
             float JumpHeight = EntityUtilities.GetFloatValue(__instance.entity.entityId, "JumpHeight");
             if (JumpHeight == -1f)
                 return true;
-            heightDiff = JumpHeight;
+
+            // These are the values set in the EntityMoveHelper's update. They are filtered here so that the EAI Task Swim and Leap will be unaffected.
+            if ( heightDiff > 1.1f && heightDiff < 1.5f)
+                heightDiff = JumpHeight;
 
             return true;
         }
