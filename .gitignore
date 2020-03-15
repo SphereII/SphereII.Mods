@@ -260,3 +260,15 @@ paket-files/
 __pycache__/
 *.pyc
 Xyth NPCs/*
+0-CreaturePackAnimals
+0-CreaturePackFantasy
+0-CreaturePackHumans
+0-CreaturePackMechs
+0-CreaturePackZombies
+1-CreaturePackConversion/Config/entityclasses.xml
+1-CreaturePackConversion/Config/utilityai.xml
+1-CreaturePackConversion/mod.xml
+1-CreaturePackConversion/ModInfo.xml
+1-CreaturePackConversion/ReadMe.md
+1-NoPottyMouth
+1-NPCPackHumans
