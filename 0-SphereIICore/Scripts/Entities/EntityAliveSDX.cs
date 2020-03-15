@@ -549,6 +549,8 @@ public class EntityAliveSDX : EntityNPC
 
 
                         // Turn to face the player, and stop the movement.
+                        emodel.avatarController.SetBool("IsBusy", true);
+
                         SetLookPosition(entitiesInBounds[i].getHeadPosition());
                         RotateTo(entitiesInBounds[i], 90f, 90f);
                         navigator.clearPath();
@@ -636,6 +638,10 @@ public class EntityAliveSDX : EntityNPC
 
         if (_attackTarget == null)
         {
+            // Some of the AI tasks resets the attack target when it falls down stunned; this will prevent the NPC from ignoring its stunned opponent.
+            if (attackTarget != null && attackTarget.IsAlive())
+                return;
+
             // Reset the hand held back to their preferred item 0
             EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
         }

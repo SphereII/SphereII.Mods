@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 //  <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'fcrops')]/@value">,fcropsDestroy</append>
-//	<property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy"/>
+//	<property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy"/> 
 public class SphereII_Blocks_OnEntityCollidedWithBlock
 {
     private static string DestructableTag = "fcropsDestroy";
