@@ -84,12 +84,18 @@ class EAIWanderSDX : EAIWander
 
     public override bool CanExecute()
     {
+        // If Pathing blocks does not exist, don't bother trying to do the enhanced wander code
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
             return base.CanExecute();
 
+        // If there's a target to fight, dont wander around. That's lame, sir.
         if (EntityUtilities.GetAttackOrReventTarget( this.theEntity.entityId) != null)
             return false;
 
+        // if you are supposed to stay put, don't wander. 
+        if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
+            return false;
+        
         Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
         if (newPosition != Vector3.zero)
         {
