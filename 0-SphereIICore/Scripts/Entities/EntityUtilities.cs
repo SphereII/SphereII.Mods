@@ -213,7 +213,7 @@ public static class EntityUtilities
         }
 
         // Back away!
-        if (distanceSq > 2 && distanceSq <= RetreatDistance)
+        if (distanceSq > 2 && ( distanceSq <= RetreatDistance || distanceSq < 8))
         {
             BackupHelper(EntityID, myTarget.position, 40);
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
