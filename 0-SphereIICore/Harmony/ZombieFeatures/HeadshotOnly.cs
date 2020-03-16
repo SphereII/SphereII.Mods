@@ -17,8 +17,12 @@ public class SphereII_HeadshotOnly
         public static bool Prefix(EntityAlive __instance, ref DamageSource _damageSource, ref int _strength, bool _criticalHit, float _impulseScale)
         {
             // Apply a damage boost if there is a head shot.
-            if (__instance is EntityZombie)
+            if (__instance is EntityZombie )
             {
+                // No head shots for snakes.
+                if(__instance is EntityAnimalSnake)
+                    return true;
+
                 if (_strength > 999)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, " Massive Damage Detected. Falling back to base");
