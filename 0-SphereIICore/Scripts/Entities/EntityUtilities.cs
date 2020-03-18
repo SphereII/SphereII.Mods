@@ -190,21 +190,23 @@ public static class EntityUtilities
         //   Hold Ground Distance between 20 to 50 
         //   Retreat distance is 20%, so 20
         float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, myEntity.inventory.holdingItemItemValue, 60f,myEntity, null, myEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
-        float HoldGroundDistance = (float)MaxRangeForWeapon * 0.40f; // minimum range to hold ground 
+        float HoldGroundDistance = (float)MaxRangeForWeapon * 0.80f; // minimum range to hold ground 
         float RetreatDistance = (float)MaxRangeForWeapon * 0.20f; // start retreating at this distance.
         float distanceSq = myTarget.GetDistanceSq(myEntity);
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
 
         // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
-        if (distanceSq > (float)( MaxRangeForWeapon * 0.80))  // 80% of range
+        if (distanceSq > HoldGroundDistance )  // 80% of range
         {
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
             myEntity.moveHelper.SetMoveTo(myEntity.position, true);
             return false;
         }
         // Hold your ground
-        if (distanceSq > RetreatDistance) // distance greater than 20%  of the range of the weapon
+        //if (distanceSq > 20f && distanceSq < 60)
+
+        if(distanceSq > RetreatDistance && distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
         {
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
             myEntity.navigator.clearPath();
