@@ -92,7 +92,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                     // Leader is dead
                     if (!this.entityTarget.IsAlive())
                     {
-                        this.theEntity.MarkToUnload();
+                        // wait until leader respawns
+                        //this.theEntity.MarkToUnload();
                         return false;
                     }
 
