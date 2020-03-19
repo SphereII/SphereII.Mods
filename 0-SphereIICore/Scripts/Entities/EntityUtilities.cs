@@ -192,8 +192,7 @@ public static class EntityUtilities
         float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, myEntity.inventory.holdingItemItemValue, 60f,myEntity, null, myEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
         float HoldGroundDistance = (float)MaxRangeForWeapon * 0.80f; // minimum range to hold ground 
         float RetreatDistance = (float)MaxRangeForWeapon * 0.10f; // start retreating at this distance.
-//        float distanceSq = myTarget.GetDistanceSq(myEntity);
-        float distanceSq = myTarget.GetDistance(myEntity);
+        float distanceSq = myTarget.GetDistanceSq(myEntity);
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
         myEntity.navigator.clearPath();
@@ -205,7 +204,7 @@ public static class EntityUtilities
             Debug.Log("moving forward");
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
             myEntity.moveHelper.SetMoveTo(myEntity.position, true);
-            return false;
+            return true;
         }
 
         // Hold your ground

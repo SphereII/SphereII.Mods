@@ -555,6 +555,9 @@ public class EntityAliveSDX : EntityNPC
                         RotateTo(entitiesInBounds[i], 90f, 90f);
                         navigator.clearPath();
                         moveHelper.Stop();
+
+                        // this stops the walking jitter
+                        this.speedForward = 0;
                         break;
                     }
                 }
