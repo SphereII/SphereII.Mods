@@ -185,6 +185,7 @@ public static class EntityUtilities
         if (myTarget == null)
             return false;
 
+        
         // Find the max range for the weapon
         // Example Range:  50
         //   Hold Ground Distance between 20 to 50 
@@ -193,6 +194,10 @@ public static class EntityUtilities
         float HoldGroundDistance = (float)MaxRangeForWeapon * 0.80f; // minimum range to hold ground 
         float RetreatDistance = (float)MaxRangeForWeapon * 0.10f; // start retreating at this distance.
         float distanceSq = myTarget.GetDistanceSq(myEntity);
+
+        float MinMeleeRange = GetFloatValue(EntityID, "MinimumMeleeRange");
+        if (MinMeleeRange == -1)
+            MinMeleeRange = 4;
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
         myEntity.navigator.clearPath();
@@ -217,7 +222,7 @@ public static class EntityUtilities
         }
 
         // Back away!
-        if (distanceSq > 2 && ( distanceSq <= RetreatDistance || distanceSq < 8))
+        if (distanceSq > MinMeleeRange && ( distanceSq <= RetreatDistance || distanceSq < 8))
         {
             Debug.Log("backing away");
             BackupHelper(EntityID, myTarget.position, 40);
@@ -225,7 +230,7 @@ public static class EntityUtilities
             return false;
         }
 
-        if (distanceSq < 2) // if they are too close, switch to melee
+        if (distanceSq <= MinMeleeRange) // if they are too close, switch to melee
         {
             ChangeHandholdItem(EntityID, Need.Melee);
             return true;
@@ -928,7 +933,7 @@ public static class EntityUtilities
     {
         bool result = false;
 
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
@@ -942,7 +947,7 @@ public static class EntityUtilities
     {
         float result = -1;
 
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
             EntityClass entityClass = EntityClass.list[myEntity.entityClass];
