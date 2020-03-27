@@ -48,12 +48,24 @@ class SphereII_EAIApproachAndAttackTarget
             }
 
 
-            float distanceSq = __instance.entityTarget.GetDistanceSq(__instance.theEntity);
 
             // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
             if (EntityUtilities.HasTask(__instance.theEntity.entityId, "Ranged"))
             {
-                return EntityUtilities.CheckAIRange(__instance.theEntity.entityId, __instance.entityTarget.entityId);
+                int Task = EntityUtilities.CheckAIRange(__instance.theEntity.entityId, __instance.entityTarget.entityId);
+                if (Task == 2)
+                    return true;
+                else
+                    return false;
+
+                //float distanceSq = __instance.entityTarget.GetDistanceSq(__instance.theEntity);
+                //float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, __instance.theEntity.inventory.holdingItemItemValue, 40f, __instance.theEntity, null, __instance.theEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
+
+                //if (distanceSq > 5 && distanceSq < MaxRangeForWeapon)
+                //    return false;
+
+
+               // return true;
                 //DisplayLog(" Ranged Entity: Distance between " + __instance.entityTarget.EntityName + " : " + distanceSq, __instance.theEntity);
                 //// Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
                 //if (distanceSq > 50 && distanceSq < 60)

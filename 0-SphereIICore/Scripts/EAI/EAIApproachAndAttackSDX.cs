@@ -1,27 +1,14 @@
 ﻿using System;
 using UnityEngine;
 
-//<property name="AITask-5" value="ApproachAndAttackTargetSDX, Mods" param1="" param2=""  /> <!-- param1 not used -->
+//<property name="AITask-5" value="ApproachAndAttackSDX, Mods" param1="" param2=""  /> <!-- param1 not used -->
 // Disables the Eating animation
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
     private bool isTargetToEat = false;
-  // // private Vector3 entityTargetPos;
-  // // public EntityAlive entityTarget;
-  ////  private Vector3 entityTargetVel;
-  //  private bool isGoingHome;
-
-  //  private float homeTimeout;
-  //  private bool hasHome;
-  //  private bool isEating;
-  //  private int pathCounter;
-  //  private int attackTimeout;
-  //  private int relocateTicks;
-  //  private float maxChaseTime;
 
     private bool blDisplayLog = false;
-   // private EntityAlive entityTarget;
-
+  
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
@@ -38,15 +25,19 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
             this.theEntity.RotateTo(this.entityTarget, 30f, 30f);
 
             DisplayLog(" Has Task: " + EntityUtilities.HasTask(this.theEntity.entityId, "Ranged"));
-            DisplayLog(" Is In Range: " + InRange());
+
             // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
-            if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") && !InRange())
+            if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") )
             {
- 
-                DisplayLog(" Has Ranged Attack. Not Moving forward.");
-                // If the entity is dead, don't hover over it.
-                // this.theEntity.inventory.SetHoldingItemIdx(0);
-                return false;
+                if (result)
+                {
+                    int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
+                    if (Task == 2)
+                        return true;
+                    else
+                        return false;
+
+                }
             }
 
             EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
@@ -56,13 +47,23 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
         return result;
     }
 
- 
-    // If the entity is closer than 4 blocks, return true, allowing the approach and attack target to start.
-    private bool InRange()
+    public override bool Continue()
     {
-        float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
-        return distanceSq < 2f;
+        bool result = base.Continue();
+        if (result)
+        {
+            float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
+            float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, this.theEntity.inventory.holdingItemItemValue, 40f, this.theEntity, null, this.theEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
+
+            Debug.Log("Distance: " + distanceSq + " Range: " + MaxRangeForWeapon);
+            if (distanceSq > 5 && distanceSq < MaxRangeForWeapon)
+                return false;
+
+        }
+
+        return result;
     }
- 
+
+
 }
 

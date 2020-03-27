@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class EntityUtilities
 {
-    static bool blDisplayLog = true;
+    static bool blDisplayLog = false;
     private static string AdvFeatureClass = "AdvancedNPCFeatures";
 
 
@@ -109,7 +109,6 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
-        
       //  Debug.Log("My Current Need: " + myCurrentNeed.ToString() + " Preferred Item Slot: " + Preferred);
         if (Preferred == -1)
         {
@@ -128,6 +127,7 @@ public static class EntityUtilities
         else
             index = Preferred;
 
+        
         // If there's no change, don't do anything.
         if (myEntity.inventory.holdingItemIdx == index)
             return index;
@@ -142,6 +142,26 @@ public static class EntityUtilities
 
     }
 
+    public static bool CurrentHoldingItemType(int EntityID, Type CheckAction)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return false;
+
+        ItemClass item = myEntity.inventory.holdingItem;
+        if (item == null)
+            return false;
+        foreach (var action in item.Actions)
+        {
+            if (action == null)
+                continue;
+            var checkType = action.GetType();
+            if (CheckAction == checkType || CheckAction.IsAssignableFrom(checkType))
+                return true;
+        }
+
+        return false;
+    }
     // Searches the entity, looking for a specific action
     public static int FindItemWithAction(int EntityID, Type findAction)
     {
@@ -150,10 +170,11 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
-        int counter = 0;
+        int counter = -1;
         foreach (var stack in myEntity.inventory.GetSlots())
         {
-            
+            counter++;
+
             if (stack == ItemStack.Empty)
                 continue;
             if (stack.itemValue == null)
@@ -171,19 +192,23 @@ public static class EntityUtilities
                 if (findAction == checkType || findAction.IsAssignableFrom(checkType))
                     return counter;
             }
-            counter++;
         }
         return index;
     }
 
-    public static bool CheckAIRange(int EntityID, int targetEntity)
+
+    // 0 no action
+    // 1 ranged
+    // 2 Melee
+    // 3 backing up
+    public static int CheckAIRange(int EntityID, int targetEntity)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
-            return false;
+            return 0;
         EntityAlive myTarget = GameManager.Instance.World.GetEntity(targetEntity) as EntityAlive;
         if (myTarget == null)
-            return false;
+            return 0;
 
         
         // Find the max range for the weapon
@@ -191,8 +216,9 @@ public static class EntityUtilities
         //   Hold Ground Distance between 20 to 50 
         //   Retreat distance is 20%, so 20
         float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, myEntity.inventory.holdingItemItemValue, 60f,myEntity, null, myEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
+        MaxRangeForWeapon = MaxRangeForWeapon * 2;
         float HoldGroundDistance = (float)MaxRangeForWeapon * 0.80f; // minimum range to hold ground 
-        float RetreatDistance = (float)MaxRangeForWeapon * 0.10f; // start retreating at this distance.
+        float RetreatDistance = (float)MaxRangeForWeapon * 0.30f; // start retreating at this distance.
         float distanceSq = myTarget.GetDistanceSq(myEntity);
 
         float MinMeleeRange = GetFloatValue(EntityID, "MinimumMeleeRange");
@@ -200,45 +226,51 @@ public static class EntityUtilities
             MinMeleeRange = 4;
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
-        myEntity.navigator.clearPath();
-        myEntity.moveHelper.Stop();
 
+         //
+        // Return false when Ranged Attack does not execute
+        // ApproachAndAttackTarget is reverse this condition
+        //
         // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
         if (distanceSq > HoldGroundDistance )  // 80% of range
         {
-            Debug.Log("moving forward");
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
             myEntity.moveHelper.SetMoveTo(myEntity.position, true);
-            return true;
+            return 2;
         }
 
         // Hold your ground
         if(distanceSq > RetreatDistance && distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
         {
-            Debug.Log("Holding ground");
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-        
-            return false;
+            Stop(EntityID);
+            return 1;
         }
 
         // Back away!
-        if (distanceSq > MinMeleeRange && ( distanceSq <= RetreatDistance || distanceSq < 8))
+        if (distanceSq > MinMeleeRange && distanceSq <= RetreatDistance )
         {
-            Debug.Log("backing away");
             BackupHelper(EntityID, myTarget.position, 40);
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-            return false;
+            return 1;
         }
 
         if (distanceSq <= MinMeleeRange) // if they are too close, switch to melee
         {
             ChangeHandholdItem(EntityID, Need.Melee);
-            return true;
+            return 2;
         }
+        return 0;
+    }
 
-        Debug.Log("nothing");
-
-        return false;
+    public static void Stop(int EntityID)
+    {
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return;
+        myEntity.navigator.clearPath();
+        myEntity.moveHelper.Stop();
+        myEntity.speedForward = 0;
     }
     public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)
     {
@@ -254,7 +286,7 @@ public static class EntityUtilities
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward =  Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
+        myEntity.speedForward = -4f;// Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
 
         // Keep them facing the spot
         myEntity.SetLookPosition( awayFrom );
