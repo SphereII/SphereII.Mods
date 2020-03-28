@@ -268,8 +268,9 @@ public static class EntityUtilities
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return;
-        myEntity.navigator.clearPath();
         myEntity.moveHelper.Stop();
+
+        myEntity.navigator.clearPath();
         myEntity.speedForward = 0;
     }
     public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)

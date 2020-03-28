@@ -25,58 +25,71 @@ class EAIWanderSDX : EAIWander
             
             EntityMoveHelper moveHelper = this.theEntity.moveHelper;
 
-        //If we are close, be done with it.
+        //If we are close, be done with it. This is to help prevent the NPC from standing on certain workstations that its supposed to path too.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
-        if (dist < 0.1f)
+        if (dist < 1f)
         {
             DisplayLog("I am within 1f of the block: " + dist);
-            BlockValue block = GameManager.Instance.World.GetBlock( new Vector3i(this.position));
+            BlockValue block = GameManager.Instance.World.GetBlock(new Vector3i(this.position));
             if (block.type != BlockValue.Air.type || block.Block.GetBlockName() != "PathingCube")
             {
                 DisplayLog("I am close enough to this block: " + block.Block.GetBlockName());
-//                if (block.Block.GetBlockName() == "bedroll")
-//                {
-//                    Debug.Log("At a bedroll");
-//                    if (this.theEntity.emodel != null && this.theEntity.emodel.avatarController != null)
-//                    {
-//                        DisplayLog("Turning into crawler");
-//                        int sleeperPose = (int)this.theEntity.rand.RandomRange(0, 9);
-//                        this.theEntity.emodel.avatarController.TriggerSleeperPose(sleeperPose);
-//                       // this.theEntity.emodel.avatarController.TurnIntoCrawler(true);
-////                        this.theEntity.emodel.avatarController.GetAnimator().enabled =false;
-//                    }
+                // Test code here
+                //                if (block.Block.GetBlockName() == "bedroll")
+                //                {
+                //                    Debug.Log("At a bedroll");
+                //                    if (this.theEntity.emodel != null && this.theEntity.emodel.avatarController != null)
+                //                    {
+                //                        DisplayLog("Turning into crawler");
+                //                        int sleeperPose = (int)this.theEntity.rand.RandomRange(0, 9);
+                //                        this.theEntity.emodel.avatarController.TriggerSleeperPose(sleeperPose);
+                //                       // this.theEntity.emodel.avatarController.TurnIntoCrawler(true);
+                ////                        this.theEntity.emodel.avatarController.GetAnimator().enabled =false;
+                //                    }
+                //                }
 
-//                }
-                moveHelper.Stop();
-                this.theEntity.navigator.clearPath();
+                // Call the stop, and set the to 40, which kills the task.
+                EntityUtilities.Stop(this.theEntity.entityId);
                 this.time = 40f;
                 return;
             }
-     
+
         }
 
-          //Check if we are blocked, which may indicate that we are at a door that we want to open.
+        ////Check if we are blocked, which may indicate that we are at a door that we want to open.
         //if (moveHelper.IsBlocked && moveHelper.BlockedTime > 0.09)
         //{
         //    DisplayLog("I am blocked, and I've been blocked for more than 0.010 seconds. I cannot keep going.");
-        //    moveHelper.Stop();
-        //    this.time = 40f;
+        // //   EntityUtilities.Stop(this.theEntity.entityId);
+        //   // this.time = 40f;
         //    return;
         //}
 
     }
 
+    public override bool Continue()
+    {
+        // calling stop here if we can't continue to clear the path and movement. 
+        bool result = base.Continue();
+        if (!result)
+        {
+            // calling stop here if we can't continue to clear the path and movement. 
+            EntityUtilities.Stop(this.theEntity.entityId);
+        }
+
+        return result;
+    }
+
+
     public override void Start()
     {
         // if no pathing blocks, just randomly pick something.
-
-        Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
-        if ( newPosition == Vector3.zero)
-            this.position = RandomPositionGenerator.CalcAway(this.theEntity, 10, 30, 10, this.theEntity.position);
+        this.position = EntityUtilities.GetNewPositon(this.theEntity.entityId);
+        if (this.position == Vector3.zero)
+            this.position = RandomPositionGenerator.CalcAway(this.theEntity, 0, 20, 20, this.theEntity.LastTargetPos);
 
         //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
-        this.time = -90f;
-
+        this.time = 90f;
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
         return;
