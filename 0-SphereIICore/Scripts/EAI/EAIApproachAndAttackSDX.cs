@@ -54,8 +54,6 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
         {
             float distanceSq = this.entityTarget.GetDistanceSq(this.theEntity);
             float MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, this.theEntity.inventory.holdingItemItemValue, 40f, this.theEntity, null, this.theEntity.inventory.holdingItem.ItemTags, true, true, true, true, 1, true);
-
-            Debug.Log("Distance: " + distanceSq + " Range: " + MaxRangeForWeapon);
             if (distanceSq > 5 && distanceSq < MaxRangeForWeapon)
                 return false;
 
