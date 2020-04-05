@@ -32,9 +32,7 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
                 if (result)
                 {
                     int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
-                    if (Task == 2)
-                        return true;
-                    else
+                    if (Task != 2)
                         return false;
 
                 }

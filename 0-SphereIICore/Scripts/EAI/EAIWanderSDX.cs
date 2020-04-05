@@ -27,7 +27,8 @@ class EAIWanderSDX : EAIWander
 
         //If we are close, be done with it. This is to help prevent the NPC from standing on certain workstations that its supposed to path too.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
-        if (dist < 1f)
+       // Debug.Log("Position: " + this.position + " My Position: " + this.theEntity.position + " Distance: " + dist);
+        if (dist < 2f)
         {
             DisplayLog("I am within 1f of the block: " + dist);
             BlockValue block = GameManager.Instance.World.GetBlock(new Vector3i(this.position));
@@ -55,16 +56,6 @@ class EAIWanderSDX : EAIWander
             }
 
         }
-
-        ////Check if we are blocked, which may indicate that we are at a door that we want to open.
-        //if (moveHelper.IsBlocked && moveHelper.BlockedTime > 0.09)
-        //{
-        //    DisplayLog("I am blocked, and I've been blocked for more than 0.010 seconds. I cannot keep going.");
-        // //   EntityUtilities.Stop(this.theEntity.entityId);
-        //   // this.time = 40f;
-        //    return;
-        //}
-
     }
 
     public override bool Continue()
@@ -90,6 +81,8 @@ class EAIWanderSDX : EAIWander
 
         //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
         this.time = 90f;
+
+     //   EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
         return;
