@@ -422,8 +422,12 @@ public class EntityAliveSDX : EntityNPC
     }
     public override void OnUpdateLive()
     {
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            return;
+        }
         //If blocked, check to see if its a door.
-        if(moveHelper.IsBlocked)
+        if (moveHelper.IsBlocked)
         {
             Vector3i blockPos = moveHelper.HitInfo.hit.blockPos;
             BlockValue block = world.GetBlock(blockPos);
@@ -518,8 +522,7 @@ public class EntityAliveSDX : EntityNPC
         // Check if there's a player within 10 meters of us. If not, resume wandering.
         emodel.avatarController.SetBool("IsBusy", false);
 
-        if(!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-            return;
+ 
 
         if(target == null)
         {
