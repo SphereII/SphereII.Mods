@@ -27,7 +27,7 @@ class EAIWanderSDX : EAIWander
 
         //If we are close, be done with it. This is to help prevent the NPC from standing on certain workstations that its supposed to path too.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
-       // Debug.Log("Position: " + this.position + " My Position: " + this.theEntity.position + " Distance: " + dist);
+       
         if (dist < 2f)
         {
             DisplayLog("I am within 1f of the block: " + dist);
@@ -50,7 +50,7 @@ class EAIWanderSDX : EAIWander
                 //                }
 
                 // Call the stop, and set the to 40, which kills the task.
-                EntityUtilities.Stop(this.theEntity.entityId);
+              //  EntityUtilities.Stop(this.theEntity.entityId);
                 this.time = 40f;
                 return;
             }
@@ -64,6 +64,10 @@ class EAIWanderSDX : EAIWander
         bool result = base.Continue();
         if (!result)
         {
+            float dist = Vector3.Distance(this.position, this.theEntity.position);
+
+          //  Debug.Log("Position: " + this.position + " My Position: " + this.theEntity.position + " Distance: " + dist);
+
             // calling stop here if we can't continue to clear the path and movement. 
             EntityUtilities.Stop(this.theEntity.entityId);
         }

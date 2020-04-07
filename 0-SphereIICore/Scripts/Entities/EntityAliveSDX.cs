@@ -424,6 +424,7 @@ public class EntityAliveSDX : EntityNPC
     {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
+            base.OnUpdateLive();
             return;
         }
         //If blocked, check to see if its a door.
