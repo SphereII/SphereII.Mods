@@ -44,7 +44,7 @@ public class EntityAliveSDX : EntityNPC
     private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
-        if(blDisplayLog && !IsDead())
+        if (blDisplayLog && !IsDead())
             Debug.Log(entityName + ": " + strMessage);
     }
 
@@ -57,7 +57,7 @@ public class EntityAliveSDX : EntityNPC
 
     public override float GetEyeHeight()
     {
-        if(flEyeHeight == -1f)
+        if (flEyeHeight == -1f)
             return base.GetEyeHeight();
 
         return flEyeHeight;
@@ -76,7 +76,7 @@ public class EntityAliveSDX : EntityNPC
         flEyeHeight = EntityUtilities.GetFloatValue(entityId, "EyeHeight");
 
         // Read in a list of names then pick one at random.
-        if(entityClass.Properties.Values.ContainsKey("Names"))
+        if (entityClass.Properties.Values.ContainsKey("Names"))
         {
             string text = entityClass.Properties.Values["Names"];
             string[] Names = text.Split(',');
@@ -85,11 +85,11 @@ public class EntityAliveSDX : EntityNPC
             strMyName = Names[index];
         }
 
-        if(entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
+        if (entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
         {
             isAlwaysAwake = true;
         }
-        if(entityClass.Properties.Values.ContainsKey("Titles"))
+        if (entityClass.Properties.Values.ContainsKey("Titles"))
         {
             string text = entityClass.Properties.Values["Titles"];
             string[] Names = text.Split(',');
@@ -98,23 +98,23 @@ public class EntityAliveSDX : EntityNPC
         }
 
 
-        if(entityClass.Properties.Classes.ContainsKey("Boundary"))
+        if (entityClass.Properties.Classes.ContainsKey("Boundary"))
         {
             DisplayLog(" Found Bandary Settings");
             String strBoundaryBox = "0,0,0";
             String strCenter = "0,0,0";
             DynamicProperties dynamicProperties3 = entityClass.Properties.Classes["Boundary"];
-            foreach(KeyValuePair<string, object> keyValuePair in dynamicProperties3.Values.Dict.Dict)
+            foreach (KeyValuePair<string, object> keyValuePair in dynamicProperties3.Values.Dict.Dict)
             {
                 DisplayLog("Key: " + keyValuePair.Key);
-                if(keyValuePair.Key == "BoundaryBox")
+                if (keyValuePair.Key == "BoundaryBox")
                 {
                     DisplayLog(" Found a Boundary Box");
                     strBoundaryBox = dynamicProperties3.Values[keyValuePair.Key];
                     continue;
                 }
 
-                if(keyValuePair.Key == "Center")
+                if (keyValuePair.Key == "Center")
                 {
                     DisplayLog(" Found a Center");
                     strCenter = dynamicProperties3.Values[keyValuePair.Key];
@@ -128,10 +128,11 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
+
     public override void SetSleeper()
     {
         // if configured as a sleeper, this should wake them up
-        if(isAlwaysAwake)
+        if (isAlwaysAwake)
             return;
         base.SetSleeper();
     }
@@ -144,7 +145,7 @@ public class EntityAliveSDX : EntityNPC
     /// </summary>
     public override void OnAddedToWorld()
     {
-        if(isAlwaysAwake)
+        if (isAlwaysAwake)
         {
             // Set the current order, defaults to "Wander"
             EntityUtilities.SetCurrentOrder(entityId, EntityUtilities.GetCurrentOrder(entityId));
@@ -159,7 +160,7 @@ public class EntityAliveSDX : EntityNPC
     public void ConfigureBounaryBox(Vector3 newSize, Vector3 center)
     {
         BoxCollider component = base.gameObject.GetComponent<BoxCollider>();
-        if(component)
+        if (component)
         {
             DisplayLog(" Box Collider: " + component.size.ToCultureInvariantString());
             DisplayLog(" Current Boundary Box: " + boundingBox.ToCultureInvariantString());
@@ -172,7 +173,7 @@ public class EntityAliveSDX : EntityNPC
 
             boundingBox.center = boundingBox.center + vector;
 
-            if(center != Vector3.zero)
+            if (center != Vector3.zero)
                 boundingBox.center = center;
 
             DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
@@ -215,7 +216,7 @@ public class EntityAliveSDX : EntityNPC
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if(IsDead() || NPCInfo == null)
+        if (IsDead() || NPCInfo == null)
             return new EntityActivationCommand[0];
 
         return new EntityActivationCommand[]
@@ -228,7 +229,7 @@ public class EntityAliveSDX : EntityNPC
 
     public override bool Attack(bool _bAttackReleased)
     {
-        if(attackTarget == null)
+        if (attackTarget == null)
         {
             EntityUtilities.ChangeHandholdItem(entityId, EntityUtilities.Need.Ranged, 0);
             return false;
@@ -241,12 +242,12 @@ public class EntityAliveSDX : EntityNPC
     {
         // Don't allow interaction with a Hated entity
         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
-        if(myRelationship == FactionManager.Relationship.Hate)
+        if (myRelationship == FactionManager.Relationship.Hate)
             return false;
 
 
         // If they have attack targets, don't interrupt them.
-        if(GetAttackTarget() != null || GetRevengeTarget() != null)
+        if (GetAttackTarget() != null || GetRevengeTarget() != null)
             return false;
 
         // set the IsBusy flag, so it won't wander away when you are talking to it.
@@ -266,17 +267,17 @@ public class EntityAliveSDX : EntityNPC
     {
         get
         {
-            if(strMyName == "Bob")
+            if (strMyName == "Bob")
                 return entityName;
 
-            if(String.IsNullOrEmpty(strTitle))
+            if (String.IsNullOrEmpty(strTitle))
                 return strMyName + " the " + base.EntityName;
             else
                 return strMyName + " the " + strTitle;
         }
         set
         {
-            if(!value.Equals(entityName))
+            if (!value.Equals(entityName))
             {
                 entityName = value;
                 bPlayerStatsChanged |= !isEntityRemote;
@@ -296,14 +297,14 @@ public class EntityAliveSDX : EntityNPC
         // disable god mode, since that's enabled by default in the NPC
         IsGodMode.Value = false;
 
-        if(NPCInfo != null)
+        if (NPCInfo != null)
             DefaultTraderID = NPCInfo.TraderID;
 
         InvokeRepeating("DisplayStats", 0f, 60f);
 
         // Check if there's a loot container or not already attached to store its stuff.
         DisplayLog(" Checking Entity's Loot Container");
-        if(lootContainer == null)
+        if (lootContainer == null)
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
             int lootList = GetLootList();
@@ -313,7 +314,7 @@ public class EntityAliveSDX : EntityNPC
             lootContainer.SetContainerSize(new Vector2i(8, 6), true);
 
             // If the loot list is available, set the container to that size.
-            if(lootList != 0)
+            if (lootList != 0)
                 lootContainer.SetContainerSize(LootContainer.lootList[lootList].size, true);
         }
 
@@ -321,6 +322,7 @@ public class EntityAliveSDX : EntityNPC
 
         SetupStartingItems();
         inventory.SetHoldingItemIdx(0);
+
     }
 
     // We use a tempList to store the patrol coordinates of each vector, but centered over the block. This allows us to check to make sure each
@@ -337,10 +339,10 @@ public class EntityAliveSDX : EntityNPC
         temp.z = 0.5f + Utils.Fastfloor(position.z);
         temp.y = Utils.Fastfloor(position.y);
 
-        if(!tempList.Contains(temp))
+        if (!tempList.Contains(temp))
         {
             tempList.Add(temp);
-            if(!PatrolCoordinates.Contains(position))
+            if (!PatrolCoordinates.Contains(position))
                 PatrolCoordinates.Add(position);
         }
     }
@@ -355,10 +357,10 @@ public class EntityAliveSDX : EntityNPC
         QuestJournal.Read(_br);
         PatrolCoordinates.Clear();
         String strPatrol = _br.ReadString();
-        foreach(String strPatrolPoint in strPatrol.Split(';'))
+        foreach (String strPatrolPoint in strPatrol.Split(';'))
         {
             Vector3 temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
-            if(temp != Vector3.zero)
+            if (temp != Vector3.zero)
                 PatrolCoordinates.Add(temp);
         }
 
@@ -379,7 +381,7 @@ public class EntityAliveSDX : EntityNPC
         Buffs.Write(_bw, false);
         QuestJournal.Write(_bw);
         String strPatrolCoordinates = "";
-        foreach(Vector3 temp in PatrolCoordinates)
+        foreach (Vector3 temp in PatrolCoordinates)
             strPatrolCoordinates += ";" + temp;
 
         _bw.Write(strPatrolCoordinates);
@@ -392,15 +394,15 @@ public class EntityAliveSDX : EntityNPC
     public void GiveQuest(String strQuest)
     {
         // Don't give duplicate quests.
-        foreach(Quest quest in QuestJournal.quests)
+        foreach (Quest quest in QuestJournal.quests)
         {
-            if(quest.ID == strQuest.ToLower())
+            if (quest.ID == strQuest.ToLower())
                 return;
         }
 
         // Make sure the quest is valid
         Quest NewQuest = QuestClass.CreateQuest(strQuest);
-        if(NewQuest == null)
+        if (NewQuest == null)
             return;
 
         // If there's no shared owner, it tries to read the PlayerLocal's entity ID. This entity doesn't have that.
@@ -413,77 +415,76 @@ public class EntityAliveSDX : EntityNPC
     {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
         bool isBusy = false;
-        if(emodel != null && emodel.avatarController != null)
+        if (emodel != null && emodel.avatarController != null)
             emodel.avatarController.TryGetBool("IsBusy", out isBusy);
-        if(isBusy)
+        if (isBusy)
             return;
 
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
     public override void OnUpdateLive()
     {
-        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        emodel.avatarController.SetBool("IsBusy", false);
+
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            base.OnUpdateLive();
-            return;
-        }
-        //If blocked, check to see if its a door.
-        if (moveHelper.IsBlocked)
-        {
-            Vector3i blockPos = moveHelper.HitInfo.hit.blockPos;
-            BlockValue block = world.GetBlock(blockPos);
-            if(Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
+            //If blocked, check to see if its a door.
+            if (moveHelper.IsBlocked)
             {
-                bool canOpenDoor = true;
-                TileEntitySecureDoor tileEntitySecureDoor = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntitySecureDoor;
-                if(tileEntitySecureDoor != null)
+                Vector3i blockPos = moveHelper.HitInfo.hit.blockPos;
+                BlockValue block = world.GetBlock(blockPos);
+                if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
                 {
-                    if(tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
-                        canOpenDoor = false;
-                }
-                //TileEntityPowered poweredDoor = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPowered;
-                //if (poweredDoor != null)
-                //{
-                //    if (poweredDoor.IsLocked() && poweredDoor.GetOwner() == "")
-                //        canOpenDoor = false;
+                    bool canOpenDoor = true;
+                    TileEntitySecureDoor tileEntitySecureDoor = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntitySecureDoor;
+                    if (tileEntitySecureDoor != null)
+                    {
+                        if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() == "")
+                            canOpenDoor = false;
+                    }
+                    //TileEntityPowered poweredDoor = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPowered;
+                    //if (poweredDoor != null)
+                    //{
+                    //    if (poweredDoor.IsLocked() && poweredDoor.GetOwner() == "")
+                    //        canOpenDoor = false;
 
-                //}
-                if (canOpenDoor)
-                {
-                    DisplayLog("I am blocked by a door. Trying to open...");
-                    SphereCache.AddDoor(entityId, blockPos);
-                    EntityUtilities.OpenDoor(entityId, blockPos);
-                    //  We were blocked, so let's clear it.
-                    moveHelper.ClearBlocked();
+                    //}
+                    if (canOpenDoor)
+                    {
+                        DisplayLog("I am blocked by a door. Trying to open...");
+                        SphereCache.AddDoor(entityId, blockPos);
+                        EntityUtilities.OpenDoor(entityId, blockPos);
+                        //  We were blocked, so let's clear it.
+                        moveHelper.ClearBlocked();
 
+                    }
                 }
             }
         }
 
-
         // Check to see if we've opened a door, and close it behind you.
         Vector3i doorPos = SphereCache.GetDoor(entityId);
-        if(doorPos != Vector3i.zero)
+        if (doorPos != Vector3i.zero)
         {
             DisplayLog("I've opened a door recently. I'll see if I can close it.");
             BlockValue block = world.GetBlock(doorPos);
-            if(Block.list[block.type].HasTag(BlockTags.Door) && BlockDoor.IsDoorOpen(block.meta))
+            if (Block.list[block.type].HasTag(BlockTags.Door) && BlockDoor.IsDoorOpen(block.meta))
             {
                 float CloseDistance = 3;
                 // If it's a multidim, increase tha radius a bit
-                if(Block.list[block.type].isMultiBlock)
+                if (Block.list[block.type].isMultiBlock)
                 {
                     Vector3i vector3i = StringParsers.ParseVector3i(Block.list[block.type].Properties.Values["MultiBlockDim"], 0, -1, false);
-                    if(CloseDistance > vector3i.x)
+                    if (CloseDistance > vector3i.x)
                         CloseDistance = vector3i.x + 1;
 
                 }
-                if((GetDistanceSq(doorPos.ToVector3()) > CloseDistance))
-                    {
-                        DisplayLog("I am going to close the door now.");
-                        EntityUtilities.CloseDoor(entityId, doorPos);
-                        SphereCache.RemoveDoor(entityId, doorPos);
-                    }
+                if ((GetDistanceSq(doorPos.ToVector3()) > CloseDistance))
+                {
+                    DisplayLog("I am going to close the door now.");
+                    EntityUtilities.CloseDoor(entityId, doorPos);
+                    SphereCache.RemoveDoor(entityId, doorPos);
+                }
             }
         }
 
@@ -508,61 +509,53 @@ public class EntityAliveSDX : EntityNPC
         updateTime = Time.time - 2f;
         base.OnUpdateLive();
 
+        //if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        //    return;
+
         // No NPC info, don't continue
-        if(NPCInfo == null)
+        if (NPCInfo == null)
             return;
 
         // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
-        if(TileEntityTrader == null)
+        if (TileEntityTrader == null)
         {
             TileEntityTrader = new TileEntityTrader(null);
             TileEntityTrader.entityId = entityId;
             TileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
         }
 
-        // Check if there's a player within 10 meters of us. If not, resume wandering.
-        emodel.avatarController.SetBool("IsBusy", false);
-
- 
-
-        if(target == null)
+        if (target == null)
         {
-            if(this is EntityAliveFarmingAnimalSDX)
+            if (this is EntityAliveFarmingAnimalSDX)
                 return;
 
             List<global::Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
-            if(entitiesInBounds.Count > 0)
+            if (entitiesInBounds.Count > 0)
             {
-                for(int i = 0; i < entitiesInBounds.Count; i++)
+                for (int i = 0; i < entitiesInBounds.Count; i++)
                 {
-                    if(entitiesInBounds[i] is EntityPlayerLocal)
+                    if (entitiesInBounds[i] is EntityPlayerLocal || entitiesInBounds[i] is EntityPlayer)
                     {
 
                         // Check your faction relation. If you hate each other, don't stop and talk.
                         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this, entitiesInBounds[i] as EntityPlayerLocal);
-                        if(myRelationship == FactionManager.Relationship.Hate)
+                        if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if(GetDistance(entitiesInBounds[i]) < 2)
+                        if (GetDistance(entitiesInBounds[i]) < 2)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
                             EntityUtilities.BackupHelper(entityId, entitiesInBounds[i].position, 5);
-                            //moveHelper.SetMoveTo((entitiesInBounds[i] as EntityPlayerLocal).GetLookVector(), false);
                             break;
                         }
 
-
                         // Turn to face the player, and stop the movement.
                         emodel.avatarController.SetBool("IsBusy", true);
-
                         SetLookPosition(entitiesInBounds[i].getHeadPosition());
                         RotateTo(entitiesInBounds[i], 90f, 90f);
-                        navigator.clearPath();
-                        moveHelper.Stop();
-
-                        // this stops the walking jitter
-                        this.speedForward = 0;
+                        EntityUtilities.Stop(this.entityId);
                         break;
+
                     }
                 }
             }
@@ -576,11 +569,11 @@ public class EntityAliveSDX : EntityNPC
 
     public void ToggleTraderID(bool Restore)
     {
-        if(NPCInfo == null)
+        if (NPCInfo == null)
             return;
 
         // Check if we are restoring the default trader ID.
-        if(Restore)
+        if (Restore)
             NPCInfo.TraderID = DefaultTraderID;
         else
             NPCInfo.TraderID = 0;
@@ -588,13 +581,13 @@ public class EntityAliveSDX : EntityNPC
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
 
-        if(EntityUtilities.IsAnAlly(entityId, _damageSource.getEntityId()))
+        if (EntityUtilities.IsAnAlly(entityId, _damageSource.getEntityId()))
             return 0;
 
-        if(EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
+        if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
             return 0;
 
-        if(Buffs.HasBuff("buffInvulnerable"))
+        if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
         // If we are being attacked, let the state machine know it can fight back
@@ -610,17 +603,17 @@ public class EntityAliveSDX : EntityNPC
 
     public override void SetRevengeTarget(EntityAlive _other)
     {
-        if(_other)
+        if (_other)
         {
             // Forgive friendly fire, even from explosions.
             EntityAlive myLeader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
-            if(myLeader)
-                if(myLeader.entityId == _other.entityId)
+            if (myLeader)
+                if (myLeader.entityId == _other.entityId)
                     return;
-            if(EntityUtilities.IsAnAlly(entityId, _other.entityId))
+            if (EntityUtilities.IsAnAlly(entityId, _other.entityId))
                 return;
 
-            if(_other.IsDead())
+            if (_other.IsDead())
                 return;
         }
 
@@ -638,8 +631,8 @@ public class EntityAliveSDX : EntityNPC
 
     public override void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
-        if(_attackTarget != null)
-            if(_attackTarget.IsDead())
+        if (_attackTarget != null)
+            if (_attackTarget.IsDead())
                 return;
 
 
@@ -659,13 +652,13 @@ public class EntityAliveSDX : EntityNPC
     }
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
-        if(EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
+        if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
             return;
 
-        if(Buffs.HasBuff("buffInvulnerable"))
+        if (Buffs.HasBuff("buffInvulnerable"))
             return;
 
-        if(!isEntityRemote)
+        if (!isEntityRemote)
         {
             // If we are being attacked, let the state machine know it can fight back
             emodel.avatarController.SetBool("IsBusy", false);
@@ -680,10 +673,10 @@ public class EntityAliveSDX : EntityNPC
     public override void MarkToUnload()
     {
         // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
-        if(traderArea == null)
+        if (traderArea == null)
             traderArea = world.GetTraderAreaAt(new Vector3i(position));
 
-        if(traderArea != null)
+        if (traderArea != null)
         {
             IsDespawned = false;
             return;
@@ -694,21 +687,21 @@ public class EntityAliveSDX : EntityNPC
     }
     protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
     {
-        if(isEntityRemote && _partialTicks > 1f)
+        if (isEntityRemote && _partialTicks > 1f)
         {
             _dist /= _partialTicks;
         }
         speedForward *= 0.5f;
         speedStrafe *= 0.5f;
         speedVertical *= 0.5f;
-        if(Mathf.Abs(_dist.x) > 0.001f || Mathf.Abs(_dist.z) > 0.001f)
+        if (Mathf.Abs(_dist.x) > 0.001f || Mathf.Abs(_dist.z) > 0.001f)
         {
             float num = Mathf.Sin(-rotation.y * 3.14159274f / 180f);
             float num2 = Mathf.Cos(-rotation.y * 3.14159274f / 180f);
             speedForward += num2 * _dist.z - num * _dist.x;
             speedStrafe += num2 * _dist.x + num * _dist.z;
         }
-        if(Mathf.Abs(_dist.y) > 0.001f)
+        if (Mathf.Abs(_dist.y) > 0.001f)
         {
             speedVertical += _dist.y;
         }
