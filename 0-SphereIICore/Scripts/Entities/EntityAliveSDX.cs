@@ -542,7 +542,7 @@ public class EntityAliveSDX : EntityNPC
                         if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if (GetDistance(entitiesInBounds[i]) < 2)
+                        if (GetDistance(entitiesInBounds[i]) < 2 && this.moveHelper != null)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
                             EntityUtilities.BackupHelper(entityId, entitiesInBounds[i].position, 5);
