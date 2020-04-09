@@ -109,7 +109,6 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
-      //  Debug.Log("My Current Need: " + myCurrentNeed.ToString() + " Preferred Item Slot: " + Preferred);
         if (Preferred == -1)
         {
             switch (myCurrentNeed)
@@ -121,23 +120,24 @@ public static class EntityUtilities
                 // Ranged
                 case Need.Melee:
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
+                    if (index == 0)
+                        index = FindItemWithAction(EntityID, typeof(ItemActionDynamicMelee));
                     break;
             }
         }
         else
             index = Preferred;
 
-        
+       
         // If there's no change, don't do anything.
         if (myEntity.inventory.holdingItemIdx == index)
             return index;
 
-        myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
-
-        // Forcing the show items
-        myEntity.inventory.ShowHeldItem(false, 0f);
-        myEntity.inventory.ShowHeldItem(true);
-
+       // ItemValue itemValue = myEntity.inventory.GetItem(index).itemValue;
+       // myEntity.inventory.SetItem(index, itemValue, 1);
+     //   Debug.Log("Current Holding Index: " + index);
+        myEntity.inventory.SetHoldingItemIdx(index);
+        myEntity.inventory.ForceHoldingItemUpdate();
         return index;
 
     }
@@ -173,6 +173,8 @@ public static class EntityUtilities
         int counter = -1;
         foreach (var stack in myEntity.inventory.GetSlots())
         {
+
+
             counter++;
 
             if (stack == ItemStack.Empty)
@@ -183,14 +185,17 @@ public static class EntityUtilities
                 continue;
             if (stack.itemValue.ItemClass.Actions == null)
                 continue;
-
             foreach (var action in stack.itemValue.ItemClass.Actions)
             {
                 if (action == null)
                     continue;
                 var checkType = action.GetType();
+
                 if (findAction == checkType || findAction.IsAssignableFrom(checkType))
+                {
+
                     return counter;
+                }
             }
         }
         return index;
@@ -268,15 +273,24 @@ public static class EntityUtilities
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
             return;
-        myEntity.moveHelper.Stop();
 
-        myEntity.navigator.clearPath();
+        if ( myEntity.moveHelper != null )
+            myEntity.moveHelper.Stop();
+
+        if ( myEntity.navigator != null )
+            myEntity.navigator.clearPath();
+
+        
         myEntity.speedForward = 0;
+
     }
     public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
+            return;
+
+        if (myEntity.moveHelper == null)
             return;
 
         Vector3 dirV = myEntity.position - awayFrom;
