@@ -290,6 +290,24 @@ public class EntityAliveSDX : EntityNPC
         return true;
     }
 
+    public override string GetRightHandTransformName()
+    {
+        String HandTransform = base.GetRightHandTransformName();
+        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("melee")))
+            HandTransform = "RightWeapon";
+        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("gun")))
+            HandTransform = "Gunjoint";
+        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("bow")))
+            HandTransform = "LeftWeapon";
+        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("pistol")))
+            HandTransform = "RightWeapon";
+
+        // If we are using the default weapon, re-set the hand item as per the xml.
+        if (this.inventory.holdingItemIdx == 0)
+            HandTransform = base.GetRightHandTransformName();
+
+        return HandTransform;
+    }
     public override void PostInit()
     {
         base.PostInit();

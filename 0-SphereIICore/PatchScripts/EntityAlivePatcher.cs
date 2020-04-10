@@ -26,9 +26,13 @@ public class EntityAliveSDXPatcher : IPatcherMod
         SetMethodToPublic(method);
         SetMethodToVirtual(method);
 
-      
 
-     
+        gm = module.Types.First(d => d.Name == "EntityAlive");
+        method = gm.Methods.First(d => d.Name == "GetRightHandTransformName");
+        SetMethodToPublic(method);
+        SetMethodToVirtual(method);
+
+
 
         method = gm.Methods.First(d => d.Name == "SetAttackTarget");
         SetMethodToPublic(method);

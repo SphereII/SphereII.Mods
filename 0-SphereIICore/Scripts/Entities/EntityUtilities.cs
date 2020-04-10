@@ -133,11 +133,15 @@ public static class EntityUtilities
         if (myEntity.inventory.holdingItemIdx == index)
             return index;
 
-       // ItemValue itemValue = myEntity.inventory.GetItem(index).itemValue;
-       // myEntity.inventory.SetItem(index, itemValue, 1);
-     //   Debug.Log("Current Holding Index: " + index);
-        myEntity.inventory.SetHoldingItemIdx(index);
+        myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
+
+        // Forcing the show items
+        myEntity.inventory.ShowHeldItem(false, 0f);
+        myEntity.inventory.ShowHeldItem(true);
+
+        //myEntity.inventory.SetHoldingItemIdx(index);
         myEntity.inventory.ForceHoldingItemUpdate();
+      //  myEntity.emodel.SwitchModelAndView(myEntity.emodel.IsFPV, myEntity.IsMale);
         return index;
 
     }
@@ -231,8 +235,7 @@ public static class EntityUtilities
             MinMeleeRange = 4;
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
-
-         //
+                 //
         // Return false when Ranged Attack does not execute
         // ApproachAndAttackTarget is reverse this condition
         //
@@ -620,14 +623,20 @@ public static class EntityUtilities
     public static Orders GetCurrentOrder(int EntityID)
     {
         Orders currentOrder = Orders.Wander;
-        EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
-            //DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
+            DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
             if (myEntity.Buffs.HasCustomVar("CurrentOrder"))
             {
-                //DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
+                DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
                 currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
+            }
+            else
+            {
+
+                DisplayLog("GetCurrentOrder(): This entity has no order.");
+
             }
         }
         return currentOrder;
@@ -780,7 +789,7 @@ public static class EntityUtilities
         {
             if (GetCurrentOrder(EntityID) != order)
             {
-                //                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
+                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
                 return false;
             }
 
@@ -795,13 +804,13 @@ public static class EntityUtilities
                 // If we have a leader and they are far away, abandon the fight and go after your leader.
                 if (Distance > 20)
                 {
-                    //DisplayLog("CanExecuteTask(): I have an Attack Target but my Leader is too far away.");
+                    DisplayLog("CanExecuteTask(): I have an Attack Target but my Leader is too far away.");
                     myEntity.SetAttackTarget(null, 0);
                     return true;
                 }
 
                 // I have an attack target, so don't keep doing your current task
-                //DisplayLog("CanExecuteTask(): I have an Attack Target: " + myEntity.GetAttackTarget().ToString() );
+                DisplayLog("CanExecuteTask(): I have an Attack Target: " + myEntity.GetAttackTarget().ToString() );
                 return false;
 
             }
@@ -810,24 +819,28 @@ public static class EntityUtilities
             {
                 if (Distance > 20)
                 {
-                    //   DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
+                    DisplayLog("CanExecuteTask(): I have a Revenge Target, but my leader is too far way.");
                     myEntity.SetRevengeTarget(null);
                     return true;
                 }
-                // DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
+                 DisplayLog("CanExecuteTask(): I have a Revenge Target: " + myEntity.GetRevengeTarget().ToString());
                 return false;
 
             }
 
             if (GetCurrentOrder(EntityID) == Orders.Follow)
             {
+                DisplayLog("My Current Order is Follow");
                 if (Distance < 2)
                 {
-                    myEntity.moveHelper.Stop();
-                    //   DisplayLog(" Too Close to leader. Moving to Look Vector");
-                    myEntity.moveHelper.SetMoveTo((leader as EntityAlive).GetLookVector(), false);
-                    return false;
+                    if (myEntity.moveHelper != null)
+                    {
+                        myEntity.moveHelper.Stop();
+                           DisplayLog(" Too Close to leader. Moving to Look Vector");
+                        myEntity.moveHelper.SetMoveTo((leader as EntityAlive).GetLookVector(), false);
 
+                    }
+                    return false;
                 }
 
             }
