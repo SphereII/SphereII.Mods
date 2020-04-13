@@ -8,6 +8,7 @@ class EAIWanderSDX : EAIWander
     public Vector3 position;
 
     public float time;
+    private float throttle = 10f;
 
     private bool blDisplayLog = false;
     private bool blShowPathFindingBlocks = true;
@@ -51,7 +52,7 @@ class EAIWanderSDX : EAIWander
 
                 // Call the stop, and set the to 40, which kills the task.
               //  EntityUtilities.Stop(this.theEntity.entityId);
-                this.time = 40f;
+                this.time = 90f;
                 return;
             }
 
@@ -61,7 +62,7 @@ class EAIWanderSDX : EAIWander
     public override bool Continue()
     {
         // calling stop here if we can't continue to clear the path and movement. 
-        bool result = base.Continue();
+        bool result = this.theEntity.bodyDamage.CurrentStun == EnumEntityStunType.None && this.theEntity.moveHelper.BlockedTime <= 0.3f && this.time <= 30f && !this.theEntity.navigator.noPathAndNotPlanningOne();
         if (!result)
         {
             float dist = Vector3.Distance(this.position, this.theEntity.position);
@@ -70,6 +71,7 @@ class EAIWanderSDX : EAIWander
 
             // calling stop here if we can't continue to clear the path and movement. 
             EntityUtilities.Stop(this.theEntity.entityId);
+            this.position = Vector3.zero;
         }
 
         return result;
@@ -79,13 +81,31 @@ class EAIWanderSDX : EAIWander
     public override void Start()
     {
         // if no pathing blocks, just randomly pick something.
-        this.position = EntityUtilities.GetNewPositon(this.theEntity.entityId);
         if (this.position == Vector3.zero)
-            this.position = RandomPositionGenerator.CalcAway(this.theEntity, 0, 20, 20, this.theEntity.LastTargetPos);
+        {
+            Vector3 vector = Vector3.zero;
+            int num2 = 30;
 
-        //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
-        this.time = 90f;
+            if (this.theEntity.IsAlert)
+                vector = RandomPositionGenerator.CalcAway(this.theEntity, 0, num2, num2, this.theEntity.LastTargetPos);
+            else
+                vector = RandomPositionGenerator.Calc(this.theEntity, num2, num2);
 
+            this.position = vector;
+            this.time = 0f;
+        }
+        else
+        {
+            this.time = -60f;
+        }
+        //Vector3 temp = Ent
+       //EntityUtilities.GetNewPositon(this.theEntity.entityId);
+        //if (temp != Vector3.zero)
+        //{
+        //    this.position = temp;
+        //    //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
+        //    this.time = 90f;
+        //}
      //   EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
@@ -96,7 +116,7 @@ class EAIWanderSDX : EAIWander
     {
         // If Pathing blocks does not exist, don't bother trying to do the enhanced wander code
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
-            return base.CanExecute();
+             return base.CanExecute();
 
         // If there's a target to fight, dont wander around. That's lame, sir.
         if (EntityUtilities.GetAttackOrReventTarget( this.theEntity.entityId) != null)
@@ -105,56 +125,61 @@ class EAIWanderSDX : EAIWander
         // if you are supposed to stay put, don't wander. 
         if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
             return false;
-        
-        Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
-        if (newPosition != Vector3.zero)
+
+        this.throttle += 0.05f;
+        if (this.throttle > 10)
         {
-             String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
-            //String strParticleName = "forge";
-            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
-            BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
-            DisplayLog(" I have a new position I can path too.");
+            this.throttle = 0;
 
-            //  For testing, change the target to this block, so we can see where the NPC intends to go.
-            if (blShowPathFindingBlocks)
+            Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
+            if (newPosition == Vector3.zero)
             {
-                DisplayLog(" I have highlighted where I am going: " + newPosition);
-
-                Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(newPosition);
-                BlockUtilitiesSDX.addParticles(strParticleName, new Vector3i(supportBlock));
-            }
-            if (SphereCache.LastBlock.ContainsKey(this.theEntity.entityId))
-            {
-                if (blShowPathFindingBlocks)
-                {
-                    DisplayLog("I am changing the block back to the pathing block");
-                    Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(this.position);
-                    BlockUtilitiesSDX.removeParticles( new Vector3i(supportBlock));
-                }
-                SphereCache.LastBlock[this.theEntity.entityId] = newPosition;
+                DisplayLog("I do not have any pathing blocks");
+                //result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Wander);
+                //if (result == false)
+                //    return false;
+                //else
+                //    DisplayLog("CanExecuteTask(): Order is set for Wander");
+                return base.CanExecute();
             }
             else
             {
-                // Store the LastBlock position here, so we know what we can remove next time.
-                SphereCache.LastBlock.Add(this.theEntity.entityId, newPosition);
+                String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+                //String strParticleName = "forge";
+                ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
+                DisplayLog(" I have a new position I can path too.");
+
+                //  For testing, change the target to this block, so we can see where the NPC intends to go.
+                if (blShowPathFindingBlocks)
+                {
+                    DisplayLog(" I have highlighted where I am going: " + newPosition);
+
+                    Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(newPosition);
+                    BlockUtilitiesSDX.addParticles(strParticleName, new Vector3i(supportBlock));
+                }
+                if (SphereCache.LastBlock.ContainsKey(this.theEntity.entityId))
+                {
+                    if (blShowPathFindingBlocks)
+                    {
+                        DisplayLog("I am changing the block back to the pathing block");
+                        Vector3 supportBlock = GameManager.Instance.World.FindSupportingBlockPos(this.position);
+                        BlockUtilitiesSDX.removeParticles(new Vector3i(supportBlock));
+                    }
+                    SphereCache.LastBlock[this.theEntity.entityId] = newPosition;
+                }
+                else
+                {
+                    // Store the LastBlock position here, so we know what we can remove next time.
+                    SphereCache.LastBlock.Add(this.theEntity.entityId, newPosition);
+                }
+                this.position = newPosition;
+
+
+                return true;
             }
-            this.position = newPosition;
-
-
-            return true;
         }
-        else
-        {
-            DisplayLog("I do not have any pathing blocks");
-            //result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Wander);
-            //if (result == false)
-            //    return false;
-            //else
-            //    DisplayLog("CanExecuteTask(): Order is set for Wander");
-            return base.CanExecute();
-        }
-
-
+        return false;
     }
 
 }

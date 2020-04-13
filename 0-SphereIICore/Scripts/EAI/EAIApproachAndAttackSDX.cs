@@ -50,10 +50,17 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
         bool result = base.Continue();
         if (result)
         {
-            int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
-            if (Task != 2)
-                return false;
+            // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
+            if (EntityUtilities.HasTask(this.theEntity.entityId, "Ranged"))
+            {
+                if (result)
+                {
+                    int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
+                    if (Task != 2)
+                        return false;
 
+                }
+            }
         }
 
         return result;
