@@ -17,10 +17,15 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 
     public override bool CanExecute()
     {
+
         bool result = base.CanExecute();
         
         if(result && this.entityTarget != null )
         {
+
+            if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
+                return false;
+
             this.theEntity.SetLookPosition(this.entityTarget.getHeadPosition());
             this.theEntity.RotateTo(this.entityTarget, 30f, 30f);
 

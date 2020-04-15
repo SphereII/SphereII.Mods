@@ -39,6 +39,25 @@
         <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, Mods" value="duke" />
       </effect_group>
     </item>
-    
+
+    <item name="UndeadPositiveFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadPositiveFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+          <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, Mods" target="self" faction="undead" value="100" /> 
+      </effect_group>
+    </item>
+
+    <item name="UndeadNegativeFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadNegativeFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, Mods" target="self" faction="undead" value="-100" />
+      </effect_group>
+    </item>
   </append>
 </configs>

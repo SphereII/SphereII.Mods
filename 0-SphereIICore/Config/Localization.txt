@@ -6,8 +6,11 @@ BanditFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
 UndeadFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
 DukeRiverFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
 WhiteRiverFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
-
 BanditFactionSchematicDesc,"Read this to switch over to the bandit faction!","Lisez ceci pour basculer dans la faction des bandits!"
 UndeadFactionSchematicDesc,"Read this to switch over to the undead faction!","Lisez ceci pour basculer dans la faction des morts-vivants!"
 WhiteRiverFactionSchematicDesc,"Read this to switch over to the White River faction!","Lisez ceci pour basculer dans la faction White River!"
-DukeRiverFactionSchematicDesc,"Read this to switch over to the Duke faction!","Lisez ceci pour basculer dans la faction du Duke!
+DukeRiverFactionSchematicDesc,"Read this to switch over to the Duke faction!","Lisez ceci pour basculer dans la faction du Duke!"
+UndeadPositiveFactionSchematic,"Peace and Love to the Undead",""
+UndeadPositiveFactionSchematicDesc,"Read this to spread the message of the undead! Increase your standings with the undead!",""
+UndeadNegativeFactionSchematic,"Undead: Unreliable! Untrustworthy!",""
+UndeadNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the undead! Decrease your standings with the undead!",""

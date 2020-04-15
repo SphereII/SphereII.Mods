@@ -293,6 +293,8 @@ public class EntityAliveSDX : EntityNPC
     public override string GetRightHandTransformName()
     {
         String HandTransform = base.GetRightHandTransformName();
+      //  Debug.Log("Entity ID: " + this.entityId + " Hand Transform: " + HandTransform);
+        return HandTransform;
         if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("melee")))
             HandTransform = "RightWeapon";
         if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("gun")))
@@ -443,7 +445,6 @@ public class EntityAliveSDX : EntityNPC
     public override void OnUpdateLive()
     {
         emodel.avatarController.SetBool("IsBusy", false);
-
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             //If blocked, check to see if its a door.
@@ -524,7 +525,7 @@ public class EntityAliveSDX : EntityNPC
         Stats.UpdateStatsOverTime(0.5f);
 
 
-        updateTime = Time.time - 2f;
+        updateTime = Time.time + 2f;
         base.OnUpdateLive();
 
         //if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)

@@ -11,6 +11,7 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
     private bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
+  
         if (blDisplayLog)
             Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
     }
@@ -25,8 +26,9 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
     {
         if(this.theEntity.factionId == Entity.factionId)
             return false;
-
+        DisplayLog("Entity ID: " + this.theEntity.entityId + " Faction: " + FactionManager.Instance.GetFaction(this.theEntity.factionId).Name + " Their faction: " + FactionManager.Instance.GetFaction( Entity.factionId).Name + " Value: " + FactionManager.Instance.GetRelationshipValue(this.theEntity, Entity));
         FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this.theEntity, Entity);
+  
         DisplayLog(" CheckFactionForEnemy: " + myRelationship.ToString());
         if (myRelationship == FactionManager.Relationship.Hate)
         {
@@ -56,13 +58,27 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
         for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)
         {
             EntityAlive x = (EntityAlive)this.NearbyEntities[i];
-            if(x is EntityVehicle)
+            DisplayLog("Nearby Entity: " + x.EntityName + " i: " + i);
+            if (x is EntityVehicle)
                 continue;
 
             if (x.IsDead())
+            {
+                DisplayLog("Nearby Entity: " + x.EntityName + " is dead.");
                 continue;
+            }
+
+            if (x.IsAlive())
+            {
+                DisplayLog("Nearby Entity: " + x.EntityName + " is Alive!");
+            }
+            else
+            {
+                DisplayLog("Nearby Entity: " + x.EntityName + " is NOT Alive.");
+            }
             if (x != this.theEntity && x.IsAlive())
             {
+
                 if (leader != null && x == leader)
                     continue;
 
@@ -76,7 +92,6 @@ class EAISetAsTargetNearestEnemySDX : EAISetAsTargetIfHurt
                     }
 
                 }
-                DisplayLog("Nearby Entity: " + x.EntityName);
                 if (CheckFactionForEnemy(x))
                     NearbyEnemies.Add(x);
             }

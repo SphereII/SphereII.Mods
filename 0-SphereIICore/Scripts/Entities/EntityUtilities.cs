@@ -120,8 +120,8 @@ public static class EntityUtilities
                 // Ranged
                 case Need.Melee:
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
-                    if (index == 0)
-                        index = FindItemWithAction(EntityID, typeof(ItemActionDynamicMelee));
+                    //if (index == 0)
+                    //    index = FindItemWithAction(EntityID, typeof(ItemActionDynamicMelee));
                     break;
             }
         }
