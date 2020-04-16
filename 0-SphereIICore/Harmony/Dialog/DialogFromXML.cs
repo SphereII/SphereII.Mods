@@ -24,6 +24,12 @@ public class SphereII_DialogFromXML_Extensions
                 if(e.HasAttribute("match"))
                     (__result as DialogRequirementHasBuffSDX).strMatch = e.GetAttribute("match");
             }
+
+            if (__result is DialogRequirementFactionValue)
+            {
+                if (e.HasAttribute("operator"))
+                    (__result as DialogRequirementFactionValue).strOperator = e.GetAttribute("operator");
+            }
         }
     }
     [HarmonyPatch(typeof(DialogFromXml))]
@@ -41,4 +47,5 @@ public class SphereII_DialogFromXML_Extensions
         }
     }
 
+  
 }

@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.4.1.354</mod_version>
+    <mod_version>18.4.1.360</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -570,7 +570,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Documentation\Examples\items.xml" hash="55aa41b534be75407d8e7b414fea2b9e" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Documentation\Examples\sounds.xml" hash="e352f8a394f5c8a288db7871fa0506a3" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Animation\AnimatorMapper.cs" hash="dccdbffb2804abb3847d43157ca09ab0" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="ab816be2e3d6f4ad4d9d64f7262feb56" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAISetAsTargetHurt.cs" hash="ee64aecd3046b94c976330626440b70d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ErrorHandling\NoExceptionHijack.cs" hash="2ace75d7f3efb2c6f6f7babbce11da56" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ItemFeatures\AdvancedItemRepair.cs" hash="67f6fc8234b6dd3fb5f667a39d681693" />
@@ -739,10 +738,17 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="26c575ec8d96176f865c0f17e61ffeb0" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="0b25475fed254f1c78d4e5b230e1d3bc" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" hash="200a09071e12e091073f892c23484a91" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="92e07a9d8c56dfc257035fc48912511d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="3459e48c009fe31ee2582e99e6896922" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="70da95980366b48f41d2c0cc30dfe7c4" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="b7b8780680f70ff2a8fb225b958b47d3" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="601e3cd8055f1b67988c27ede6703741" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\smx_traderitemlist_grid.cs" hash="d7e2ef3b9717772493a83613585db927" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="78b94bd948a86bb40e81867292d5e125" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="7047fd0ee51ce17825236fac57f6f19b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="f2c5fc7b9078d92611afe765565d086b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="de01646923238cd6fb47a174e2f810ff" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\UI\smx_traderitemlist_grid.cs" hash="fa67c44e223a03c4df869dcb6b1926c3" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\UI\smx_itemactionentry_fixes.cs" hash="2a2825b0af7eb072b1adf3be2373d733" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="8f485816474bea522d44bcabc989c77c" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementFaction.cs" hash="9cee7a25d56d1b72e72a5aeda04f8e8b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementFactionValue.cs" hash="7c416d452f7f980a91e71c6dbd5e6293" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHiredSDX - Copy.cs" hash="d07dc090a15004c38e56aaa87b2a6480" />
   </hashes>
 </mod>
