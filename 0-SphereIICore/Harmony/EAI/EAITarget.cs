@@ -8,9 +8,11 @@ class SphereII_EAITarget_Tweaks
     [HarmonyPatch("check")]
     public class SphereII_EAITarget_check
     {
+     
+
         public static bool Postfix(bool __result, EAITarget __instance, EntityAlive _e)
         {
-            Debug.Log("Entity: " + __instance.theEntity.entityId + " Target: " + _e.entityId +  " + Result: " + __result);
+          //  Debug.Log("Entity: " + __instance.theEntity.entityId + " Target: " + _e.entityId +  " + Result: " + __result);
             // The base class sees this as a valid target.
             if (__result)
             {
@@ -20,7 +22,7 @@ class SphereII_EAITarget_Tweaks
 
                 // We have some complicated checks here, since this method gets called by 3 different target methods.
                 FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(__instance.theEntity, _e);
-                Debug.Log("Checking Relationship: " + myRelationship.ToString());
+               // Debug.Log("Checking Relationship: " + myRelationship.ToString());
                 switch (myRelationship)
                 {
                     case FactionManager.Relationship.Hate:
