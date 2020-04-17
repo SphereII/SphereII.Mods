@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.4.1.360</mod_version>
+    <mod_version>18.4.1.376</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -594,7 +594,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\LowerResolutionUMA.cs" hash="e653c5c08406d6af1436492978b71509" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\RandomDeathSpawn.cs" hash="2f69099360a17d434f37288479b7979f" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\UMATweaks.cs" hash="c3140768b29a4e80b6150d5ae1e871e7" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\FoodSpoilagePatch.cs" hash="0a6b62b7bb1ae330eded6598ebab7f50" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Animation\MecanimSDX.cs" hash="6f84af232ee7c2376f66ec727934df25" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockPoweredWorkstation.cs" hash="159d0268990936b19698ea1f11b4de7d" />
@@ -648,7 +647,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Items\ItemsUtilities.cs" hash="59d3c5f78bfb6e854a28c820ad1c5f0d" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" hash="a806eeca9e5b3999b1dc97fa1c86cb12" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionAnimatorSDX.cs" hash="d198deefad50679503007190b674036d" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" hash="24788bc680e336e0081b3175d97cc93b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="6a28f647d6408f201e6a07419ba62132" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionGiveQuestSDX.cs" hash="373e3fc42c2ebf07edf36a32f224395e" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionModifySkillSDX.cs" hash="0f1eaa4189fe547b629a950eb0f63db1" />
@@ -715,7 +713,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityNPCJumpHeight.cs" hash="70dee3d4069b2fdda05347bc908374dc" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\localization.txt" hash="b54fff847ce652a81f27ad4dc435b115" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Blocks\BlockOnEntityCollidedWithBlock.cs" hash="42b55b9d5098aa3baf1e8c68932315e8" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\PlayerFeatures\OneBlockCrouch.cs" hash="1507f7f4739f9c773f8ccb98df20ee2c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIRangedAttackTarget2.cs" hash="522e6cc5db728fa241293e5c0781757b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\HeadshotOnly.cs" hash="194eac7a42d04b872221c8110f5bf0c4" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\Configuration.cs" hash="156716daf16bdead4be25c2f8004bd11" />
@@ -730,15 +727,10 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Animation\EModelBase.cs" hash="2f90f248bda22fe6d63ddfb3dcfe4c41" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIGuardSDX.cs" hash="7867b988db6f8335bcdbf41324e4aa84" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Blocks\BlockMaterial.cs" hash="6692c046d956ba726a70393db855bf05" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHiredSDX.cs" hash="d07dc090a15004c38e56aaa87b2a6480" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Animation\AvatarController.cs" hash="5bca1a93912c5f2dfb4d4ed05e14bd94" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="f4ef3e90d1c7b6991207887902c6d01c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="858752c97ef8e82501c7f5514369ec5f" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Faction\Faction.cs" hash="dab203b94092dac5056fcdcf1e689c9a" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="26c575ec8d96176f865c0f17e61ffeb0" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="0b25475fed254f1c78d4e5b230e1d3bc" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" hash="200a09071e12e091073f892c23484a91" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="3459e48c009fe31ee2582e99e6896922" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\smx_traderitemlist_grid.cs" hash="d7e2ef3b9717772493a83613585db927" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="78b94bd948a86bb40e81867292d5e125" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="7047fd0ee51ce17825236fac57f6f19b" />
@@ -750,5 +742,16 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementFaction.cs" hash="9cee7a25d56d1b72e72a5aeda04f8e8b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementFactionValue.cs" hash="7c416d452f7f980a91e71c6dbd5e6293" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHiredSDX - Copy.cs" hash="d07dc090a15004c38e56aaa87b2a6480" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Faction\BinaryWritter.cs" hash="0428e41387bb378f7f6a18909179f41a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EntityAlive\Faction.cs" hash="457921012b7d4665edaafe8d8530985d" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Faction\Faction.cs" hash="63b345c1dead9cd435342c6270ed99bf" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Dialogs\DialogRequirementHiredSDX.cs" hash="3c3e1a3b3d7711affc3a75096f394743" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\items.xml" hash="55e337dc80207ae603e03bacf528f114" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\Localization.txt" hash="489c9700bb67da14e64d4413d614e7de" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" hash="eb29a4479d695f8ff32b6c0f1bfde83e" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\PlayerFeatures\OneBlockCrouch.cs" hash="01435ac710fef48447e2622eb11a6edd" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAITarget.cs" hash="30bf46a6814c67b9363c38b62ec76d50" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="cd590d5f2fee821d4f4320daaf9ebeb5" />
   </hashes>
 </mod>
