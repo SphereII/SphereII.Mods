@@ -17,6 +17,9 @@ class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
     }
     public override bool Continue()
     {
+        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) == null)
+            return false;
+
         bool result = base.Continue();
 
         // Non zombies should continue to attack

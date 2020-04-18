@@ -15,6 +15,19 @@ namespace SphereIICore_EntityMoveHelper
         }
     }
 
+    [HarmonyPatch(typeof(EntityMoveHelper))]
+    [HarmonyPatch("DigStart")]
+    public class SphereII_EntityMoveHelper_DigStart
+    {
+        public static bool Prefix(EntityMoveHelper __instance)
+        {
+            if (EntityUtilities.IsHuman(__instance.entity.entityId))
+                return false;
+
+            return true;
+
+        }
+    }
 
     [HarmonyPatch(typeof(EntityMoveHelper))]
     [HarmonyPatch("StartJump")]

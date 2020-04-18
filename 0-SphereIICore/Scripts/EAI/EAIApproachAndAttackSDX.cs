@@ -17,7 +17,8 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 
     public override bool CanExecute()
     {
-
+        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) == null)
+            return false;
         bool result = base.CanExecute();
         
         if(result && this.entityTarget != null )
@@ -52,6 +53,9 @@ class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 
     public override bool Continue()
     {
+        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) == null)
+            return false;
+
         bool result = base.Continue();
         if (result)
         {

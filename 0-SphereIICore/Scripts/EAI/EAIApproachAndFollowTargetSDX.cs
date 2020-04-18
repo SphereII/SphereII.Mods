@@ -19,6 +19,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     private EntityAlive entityTarget;
     private bool isTargetToEat;
 
+    private bool Stop = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
@@ -156,6 +157,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         }
         DisplayLog("CanExecute() End: " + result);
+
+    
         return result;
 
     }
@@ -167,6 +170,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.isTargetToEat = false;
         this.theEntity.IsEating = false;
         this.pathCounter = 0;
+        Stop = false;
     }
 
     public void SetCloseSpawnPoint()
@@ -183,6 +187,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.SetPosition(new Vector3(x, y, z), true);
         this.theEntity.SetAttackTarget(null, 10);
         this.theEntity.SetRevengeTarget(null);
+
+        Stop = true;
     }
 
 
@@ -190,7 +196,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
     public override bool Continue()
     {
         DisplayLog("Continue() Start");
-
+        if (Stop)
+            return false;
         bool result = false;
         //   if (entityAliveSDX)
         {
