@@ -109,7 +109,7 @@ class SphereII_EAIApproachAndAttackTarget
     {
         public static bool Postfix(bool __result, EAIApproachAndAttackTarget __instance, ref bool ___isTargetToEat)
         {
-            if (__result)
+            if (__result && EntityUtilities.IsHuman(__instance.theEntity.entityId))
                 return SphereII_EAIApproachAndAttackTarget_Helper.CanContinue(__instance);
             return __result;
         }
@@ -122,7 +122,7 @@ class SphereII_EAIApproachAndAttackTarget
     {
         public static bool Postfix(bool __result, EAIApproachAndAttackTarget __instance, ref bool ___isTargetToEat)
         {
-            if (__result)
+            if (__result && EntityUtilities.IsHuman( __instance.theEntity.entityId))
                 return SphereII_EAIApproachAndAttackTarget_Helper.CanContinue(__instance);
 
             return __result;

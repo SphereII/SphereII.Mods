@@ -9,6 +9,12 @@
         <triggered_effect trigger="onSelfBuffStart" action="NotifyTeamAttack, Mods" target="positionAOE" range="20" />
         </effect_group>
     </buff>
+
+
+    <buff name="buffAttackCoolDown" hidden="true">
+      <stack_type value="ignore"/>
+      <duration value="30"/>
+    </buff>
   </append>
  
 </configs>

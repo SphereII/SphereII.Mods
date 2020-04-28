@@ -127,7 +127,13 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
             if (entity)
             {
                 DisplayLog("My leader is out of sight. Teleporting to my leader");
+                if (this.entityTarget != null)
+                {
+                    this.entityTarget.SetAttackTarget(null, 20);
+                    this.entityTarget.SetRevengeTarget(null);
+                }
                 this.entityTarget = entity;
+                this.theEntity.Buffs.AddBuff("buffAttackCoolDown");
                 SetCloseSpawnPoint();
                 return true;
 
@@ -187,7 +193,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         this.theEntity.SetPosition(new Vector3(x, y, z), true);
         this.theEntity.SetAttackTarget(null, 10);
         this.theEntity.SetRevengeTarget(null);
-
+        this.entityTargetPos = this.entityTarget.position;
         Stop = true;
     }
 

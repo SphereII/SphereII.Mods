@@ -12,12 +12,19 @@ class SphereII_EAITarget_Tweaks
 
         public static bool Postfix(bool __result, EAITarget __instance, EntityAlive _e)
         {
+
+            if (!EntityUtilities.IsHuman(__instance.theEntity.entityId))
+                return __result;
           //  Debug.Log("Entity: " + __instance.theEntity.entityId + " Target: " + _e.entityId +  " + Result: " + __result);
             // The base class sees this as a valid target.
             if (__result)
             {
                 // same faction
                 if (__instance.theEntity.factionId == _e.factionId)
+                    return false;
+
+                // if the attack cool down is applied, don't set a new target for 30 seconds.
+                if (__instance.theEntity.Buffs.HasBuff("buffAttackCoolDown"))
                     return false;
 
                 // We have some complicated checks here, since this method gets called by 3 different target methods.
