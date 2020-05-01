@@ -4,7 +4,7 @@
     <author>sphereii</author>
     <name>0-SphereIICore</name>
     <description>SphereII's Core Class Mod ( Required )</description>
-    <mod_version>18.4.0.5</mod_version>
+    <mod_version>18.4.0.51</mod_version>
   </info>
   <hashes>
     <hash filename="Scripts\BackpackStashAllButton.cs" hash="dcbc4122b91423b980f71c16c34b5b07" />
@@ -673,7 +673,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Cache\SphereCache.cs" hash="a248c5cfe4da7c04776bfeae748fdab7" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAIConsiderationPatrolBlocks.cs" hash="94f37621831dac312d2ee440d5776478" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskLookDMT.cs" hash="4d79e09e52011891a2778241c1bdb946" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="bf9e46a6c23a04acc74df72cd5bbea42" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskAttackEntityDMT.cs" hash="6a96b8c7e3751eb87378b66c7b634855" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\UAI\UAITaskPatrolDMT.cs" hash="a0c942435d7d0b0ed2cb6ce5f060dc18" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityAlive.cs" hash="1d97a1e0244cdb77c389e0f4215094df" />
@@ -696,7 +695,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\NPCFeatures\EntityNPCJumpHeight.cs" hash="70dee3d4069b2fdda05347bc908374dc" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\localization.txt" hash="b54fff847ce652a81f27ad4dc435b115" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Blocks\BlockOnEntityCollidedWithBlock.cs" hash="42b55b9d5098aa3baf1e8c68932315e8" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIRangedAttackTarget2.cs" hash="522e6cc5db728fa241293e5c0781757b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\ZombieFeatures\HeadshotOnly.cs" hash="194eac7a42d04b872221c8110f5bf0c4" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Features\Configuration.cs" hash="156716daf16bdead4be25c2f8004bd11" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\ModGeneralUtilities.cs" hash="6cbf1d95c621e63de7505b39af2c01f8" />
@@ -710,8 +708,6 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EntityAlivePatcher.cs" hash="f4ef3e90d1c7b6991207887902c6d01c" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" hash="200a09071e12e091073f892c23484a91" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\smx_traderitemlist_grid.cs" hash="d7e2ef3b9717772493a83613585db927" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="f2c5fc7b9078d92611afe765565d086b" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="de01646923238cd6fb47a174e2f810ff" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\UI\smx_traderitemlist_grid.cs" hash="fa67c44e223a03c4df869dcb6b1926c3" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\UI\smx_itemactionentry_fixes.cs" hash="2a2825b0af7eb072b1adf3be2373d733" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\Dialog\DialogFromXML.cs" hash="8f485816474bea522d44bcabc989c77c" />
@@ -728,14 +724,12 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/PatchScripts\EAITaskPatches.cs" hash="b525335cdfb9a8b8b0dab73051476da1" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EntityMoveHelper\EntityMoveHelper.cs" hash="9c623a51a18adcf4444e7d37eae84528" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndAttackSDX.cs" hash="537ad50fdcab78e3d3b184c554567abf" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="d05f297475b3adefa8cc83809d2b3c87" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" hash="cd590d5f2fee821d4f4320daaf9ebeb5" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Config\buffs.xml" hash="caa98ffa13e8fcf6ca050cf2df7bee4f" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" hash="52169421e453fb664a033bd80efaedaf" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\BlockMortSpawner.cs" hash="e58ec77bad2682fa4b78d2434dd2fa46" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Blocks\PickUpAndReplace.cs" hash="ad49270793e593003db222912151ccc4" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAILootLocationSDX.cs" hash="53a75acde883b52f77201fab00b896ed" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="858752c97ef8e82501c7f5514369ec5f" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" hash="24788bc680e336e0081b3175d97cc93b" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionCreateItemSDX.cs" hash="6a28f647d6408f201e6a07419ba62132" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" hash="4f7ca2b1272068ba2f8fb986851ad294" />
@@ -751,7 +745,13 @@
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" hash="e83b1856a4e8f655db8f85c219de5154" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_DialogRespondentNameSDX.cs" hash="a159804b3c2c433670b51b9d93cbe05a" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" hash="d1935655835a874f950e3a65b9da8265" />
-    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="7627face87900bd4d657bb6cd32f5c0a" />
     <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAITarget.cs" hash="55b03b55dbf6e1668a2b4d316a1ac58b" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIRangedAttackTarget2.cs" hash="49e9b98af61b9c935be38715b7aa3d3a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIApproachAndAttackTarget.cs" hash="7627face87900bd4d657bb6cd32f5c0a" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Harmony\EAI\EAIWander.cs" hash="bf9e46a6c23a04acc74df72cd5bbea42" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIRangedAttackTargetSDX.cs" hash="d05f297475b3adefa8cc83809d2b3c87" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\EAI\EAIWanderSDX.cs" hash="efc1df8de6c60a83f657047c4650a2b3" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityAliveSDX.cs" hash="29c84318870ac24f96d4ee0dd75d9e12" />
+    <hash filename="D:\Github\Working\SphereII.Mods/0-SphereIICore/Scripts\Entities\EntityUtilities.cs" hash="d883ca722f3d05f3488e1c70a98fcb1d" />
   </hashes>
 </mod>

@@ -11,7 +11,7 @@ class EAIWanderSDX : EAIWander
     private float throttle = 10f;
 
     private bool blDisplayLog = false;
-    private bool blShowPathFindingBlocks = true;
+    private bool blShowPathFindingBlocks = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
@@ -22,13 +22,13 @@ class EAIWanderSDX : EAIWander
     {
         this.time += 0.05f;
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
-           return;
-            
-            EntityMoveHelper moveHelper = this.theEntity.moveHelper;
+            return;
+
+        EntityMoveHelper moveHelper = this.theEntity.moveHelper;
 
         //If we are close, be done with it. This is to help prevent the NPC from standing on certain workstations that its supposed to path too.
         float dist = Vector3.Distance(this.position, this.theEntity.position);
-       
+
         if (dist < 2f)
         {
             DisplayLog("I am within 1f of the block: " + dist);
@@ -51,7 +51,7 @@ class EAIWanderSDX : EAIWander
                 //                }
 
                 // Call the stop, and set the to 40, which kills the task.
-              //  EntityUtilities.Stop(this.theEntity.entityId);
+                //  EntityUtilities.Stop(this.theEntity.entityId);
                 this.time = 90f;
                 return;
             }
@@ -67,7 +67,7 @@ class EAIWanderSDX : EAIWander
         {
             float dist = Vector3.Distance(this.position, this.theEntity.position);
 
-          //  Debug.Log("Position: " + this.position + " My Position: " + this.theEntity.position + " Distance: " + dist);
+            //  Debug.Log("Position: " + this.position + " My Position: " + this.theEntity.position + " Distance: " + dist);
 
             // calling stop here if we can't continue to clear the path and movement. 
             EntityUtilities.Stop(this.theEntity.entityId);
@@ -99,14 +99,14 @@ class EAIWanderSDX : EAIWander
             this.time = -60f;
         }
         //Vector3 temp = Ent
-       //EntityUtilities.GetNewPositon(this.theEntity.entityId);
+        //EntityUtilities.GetNewPositon(this.theEntity.entityId);
         //if (temp != Vector3.zero)
         //{
         //    this.position = temp;
         //    //Give them more time to path find.The CanContinue() stops at 30f, so we'll set it at -90, rather than 0.
         //    this.time = 90f;
         //}
-     //   EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
+        //   EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
         // Path finding has to be set for Breaking Blocks so it can path through doors
         PathFinderThread.Instance.FindPath(this.theEntity, this.position, this.theEntity.GetMoveSpeed(), true, this);
         return;
@@ -120,34 +120,25 @@ class EAIWanderSDX : EAIWander
 
         // If Pathing blocks does not exist, don't bother trying to do the enhanced wander code
         if (!EntityUtilities.CheckProperty(this.theEntity.entityId, "PathingBlocks"))
-             return base.CanExecute();
+            return base.CanExecute();
 
         // If there's a target to fight, dont wander around. That's lame, sir.
-        if (EntityUtilities.GetAttackOrReventTarget( this.theEntity.entityId) != null)
+        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) != null)
             return false;
 
-    
         this.throttle += 0.05f;
-        if (this.throttle > 10)
+        // If we have Paths available, allow us to look for a new one.
+        if (this.throttle > 10 || SphereCache.GetPaths( this.theEntity.entityId) != null)
         {
-            this.throttle = 0;
 
             Vector3 newPosition = EntityUtilities.GetNewPositon(this.theEntity.entityId);
-            if (newPosition == Vector3.zero)
+            if (newPosition != Vector3.zero)
             {
-                DisplayLog("I do not have any pathing blocks");
-                //result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Wander);
-                //if (result == false)
-                //    return false;
-                //else
-                //    DisplayLog("CanExecuteTask(): Order is set for Wander");
-                return base.CanExecute();
-            }
-            else
-            {
+                this.throttle = 11;
                 String strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
-                //String strParticleName = "forge";
-                ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                if (!ParticleEffect.IsAvailable(strParticleName))
+                    ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+
                 BlockValue myBlock = GameManager.Instance.World.GetBlock(new Vector3i(newPosition));
                 DisplayLog(" I have a new position I can path too.");
 
@@ -179,8 +170,13 @@ class EAIWanderSDX : EAIWander
 
                 return true;
             }
+            else
+            {
+                // no positions, so reset the time out.
+                this.throttle = 0; 
+            }
         }
-        return false;
+        return base.CanExecute();
     }
 
 }

@@ -231,7 +231,7 @@ public class EntityAliveSDX : EntityNPC
     {
         if (attackTarget == null)
         {
-            EntityUtilities.ChangeHandholdItem(entityId, EntityUtilities.Need.Ranged, 0);
+          //  EntityUtilities.ChangeHandholdItem(entityId, EntityUtilities.Need.Ranged, 0);
             return false;
         }
 
@@ -445,6 +445,9 @@ public class EntityAliveSDX : EntityNPC
     public override void OnUpdateLive()
     {
         emodel.avatarController.SetBool("IsBusy", false);
+
+
+
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             //If blocked, check to see if its a door.
@@ -514,6 +517,8 @@ public class EntityAliveSDX : EntityNPC
             SetLookPosition(attackTarget.position);
             RotateTo(attackTarget, 45, 45);
         }
+
+
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
 
@@ -545,6 +550,9 @@ public class EntityAliveSDX : EntityNPC
 
         if (target == null)
         {
+            // Reset their weapon
+            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+
             if (this is EntityAliveFarmingAnimalSDX)
                 return;
 
@@ -636,11 +644,11 @@ public class EntityAliveSDX : EntityNPC
                 return;
         }
 
-        if (_other == null)
-        {
-            // Reset the hand held back to their preferred item 0
-            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
-        }
+        //if (_other == null)
+        //{
+        //    // Reset the hand held back to their preferred item 0
+        //    EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+        //}
 
         base.SetRevengeTarget(_other);
         //  Debug.Log("Adding Buff for RevengeTarget() ");
@@ -662,7 +670,7 @@ public class EntityAliveSDX : EntityNPC
                 return;
 
             // Reset the hand held back to their preferred item 0
-            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
+           // EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
         }
 
         base.SetAttackTarget(_attackTarget, _attackTargetTime);

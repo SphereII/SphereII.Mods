@@ -115,10 +115,16 @@ public static class EntityUtilities
             {
                 // Ranged
                 case Need.Ranged:
-                    index = FindItemWithAction(EntityID, typeof(ItemActionRanged));
+                    if (CurrentHoldingItemType(EntityID, typeof(ItemActionRanged)))
+                        return myEntity.inventory.holdingItemIdx;
+
+                        index = FindItemWithAction(EntityID, typeof(ItemActionRanged));
                     break;
                 // Ranged
                 case Need.Melee:
+                    if (CurrentHoldingItemType(EntityID, typeof(ItemActionMelee)))
+                        return myEntity.inventory.holdingItemIdx;
+
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
                     //if (index == 0)
                     //    index = FindItemWithAction(EntityID, typeof(ItemActionDynamicMelee));
@@ -251,7 +257,7 @@ public static class EntityUtilities
         if(distanceSq > RetreatDistance && distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
         {
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-            Stop(EntityID);
+          //  Stop(EntityID);
             return 1;
         }
 
@@ -307,8 +313,8 @@ public static class EntityUtilities
         myEntity.speedForward = -4f;// Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
 
         // Keep them facing the spot
-        myEntity.SetLookPosition( awayFrom );
-        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 30f, 30f);
+       // myEntity.SetLookPosition( awayFrom );
+        //myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 30f, 30f);
     }
 
     public static bool CheckProperty(int EntityID, string Property)
