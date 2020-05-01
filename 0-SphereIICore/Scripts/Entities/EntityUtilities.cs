@@ -249,8 +249,8 @@ public static class EntityUtilities
         if (distanceSq > HoldGroundDistance )  // 80% of range
         {
             ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-            myEntity.moveHelper.SetMoveTo(myEntity.position, true);
-            return 2;
+       //     myEntity.moveHelper.SetMoveTo(myEntity.position, true);
+            return 1;
         }
 
         // Hold your ground
