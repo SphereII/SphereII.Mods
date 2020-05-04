@@ -15,6 +15,10 @@ class SphereII_EAITarget_Tweaks
 
             if (!EntityUtilities.IsHuman(__instance.theEntity.entityId))
                 return __result;
+
+            if (__instance.theEntity.IsSleeping)
+                return __result;
+
           //  Debug.Log("Entity: " + __instance.theEntity.entityId + " Target: " + _e.entityId +  " + Result: " + __result);
             // The base class sees this as a valid target.
             if (__result)
