@@ -90,7 +90,7 @@ public class BlockMusicBox : BlockLoot
         this.shape.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
         if (this.isMultiBlock)
         {
-            this.multiBlockPos.AddChilds(world, _chunk.ClrIdx, _blockPos, _blockValue);
+            this.multiBlockPos.AddChilds(world, _chunk,  _chunk.ClrIdx, _blockPos, _blockValue);
         }
 
         if (!(world.GetTileEntity(_chunk.ClrIdx, _blockPos) is TileEntitySecureLootContainer))
@@ -123,7 +123,7 @@ public class BlockMusicBox : BlockLoot
         Block block = Block.list[_blockValue.type];
         string blockName = block.GetBlockName();
 
-        string strReturn = string.Format(Localization.Get("pickupPrompt", string.Empty), Localization.Get(blockName, string.Empty));
+        string strReturn = string.Format(Localization.Get("pickupPrompt"), Localization.Get(blockName));
 
         BlockEntityData _ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);
         if (_ebcd != null && _ebcd.transform)
@@ -137,9 +137,9 @@ public class BlockMusicBox : BlockLoot
             if (myMusicBoxScript)
             {
                 if (myMusicBoxScript.enabled)
-                    strReturn = string.Format(Localization.Get("musicbox_turnOff", string.Empty) + this.GetBlockName(), keybindString);
+                    strReturn = string.Format(Localization.Get("musicbox_turnOff") + this.GetBlockName(), keybindString);
                 else
-                    strReturn = string.Format(Localization.Get("musicbox_turnOn", string.Empty) + this.GetBlockName(), keybindString);
+                    strReturn = string.Format(Localization.Get("musicbox_turnOn") + this.GetBlockName(), keybindString);
             }
         }
         return strReturn;
@@ -189,7 +189,7 @@ public class BlockMusicBox : BlockLoot
         #region TakeItemWithTimer
         if (_blockValue.damage > 0)
         {
-            GameManager.ShowTooltipWithAlert(_player as EntityPlayerLocal, Localization.Get("ttRepairBeforePickup", string.Empty), "ui_denied");
+            GameManager.ShowTooltipWithAlert(_player as EntityPlayerLocal, Localization.Get("ttRepairBeforePickup"), "ui_denied");
             return;
         }
         LocalPlayerUI playerUI = (_player as EntityPlayerLocal).PlayerUI;
@@ -278,9 +278,9 @@ public class BlockMusicBox : BlockLoot
                             String Quest = array[i].itemValue.ItemClass.Properties.Values["OnPlayQuest"];
                             if (_player is EntityPlayerLocal)
                             {
-                                QuestClass myQuest = QuestClass.GetQuest(Quest);
+                                Quest myQuest = QuestClass.CreateQuest(Quest);
                                 if (myQuest != null)
-                                    (_player as EntityPlayerLocal).QuestJournal.AddQuest(myQuest.CreateQuest());
+                                    (_player as EntityPlayerLocal).QuestJournal.AddQuest(myQuest);
                             }
 
                         }

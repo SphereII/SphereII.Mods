@@ -1,9 +1,16 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Reflection;
 using UnityEngine;
 
+
+/**
+ * SphereII_Progression
+ *
+ * This class includes a Harmony patch to disable all XP from all events.
+ * 
+ */
 public class SphereII_Progression
 {
     private static string AdvFeatureClass = "AdvancedProgression";

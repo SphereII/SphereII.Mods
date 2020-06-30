@@ -56,10 +56,7 @@
 
         <passive_effect name="WaterLossPerHealthPointGained" operation="base_set" value="0.06"/>
         <passive_effect name="WaterLossPerStaminaPointGained" operation="base_set" value="0.0075"/>
-        <passive_effect name="HealthLossMaxMult" operation="base_set" value="0.144"/>
-        <passive_effect name="StaminaLossMaxMult" operation="base_set" value="0.0068"/>
         <passive_effect name="HealthChangeOT" operation="base_set" value="0.017" />
-        <passive_effect name="HealthMaxModifierOT" operation="base_add" value=".00028"/>
         <passive_effect name="Mobility" operation="base_set" value="1"/>
         <passive_effect name="Mobility" operation="perc_add"  value="-.3" tags="swimming"/>
         <passive_effect name="JumpStrength" operation="base_set" value="0.16"/>

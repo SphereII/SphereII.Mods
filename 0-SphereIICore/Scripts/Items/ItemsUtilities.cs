@@ -9,9 +9,9 @@ public static class ItemsUtilities
     public static void WarnQueueFull(EntityPlayerLocal player)
     {
         string text = "No room in queue!";
-        if (Localization.Exists("wrnQueueFull", ""))
+        if (Localization.Exists("wrnQueueFull"))
         {
-            text = Localization.Get("wrnQueueFull", "");
+            text = Localization.Get("wrnQueueFull");
         }
         GameManager.ShowTooltip(player, text);
         Audio.Manager.PlayInsidePlayerHead("ui_denied", -1, 0f, false, false);

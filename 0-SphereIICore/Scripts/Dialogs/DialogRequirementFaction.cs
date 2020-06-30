@@ -4,7 +4,7 @@ public class DialogRequirementFaction : BaseDialogRequirement
 
     //  <requirement type="Faction, Mods" requirementtype="Hide" value="neutral" /> 
 
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int entityID = 0;
         if(player.Buffs.HasCustomVar("CurrentNPC"))

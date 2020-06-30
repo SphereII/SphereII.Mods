@@ -18,7 +18,7 @@ public class DialogRequirementHasBuffSDX : BaseDialogRequirement
 {
     public string strMatch = "1";
 
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int Matches = -1;
      

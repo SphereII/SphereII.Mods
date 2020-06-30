@@ -1,9 +1,16 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+
+/**
+ * EntityNPCMakeVulnerable
+ *
+ * This class includes a Harmony patches to the the EntityNPC to make them vulnerable to attacks and damage.
+ * 
+ */
 class EntityNPCMakeVulnerable
 {
     private static string AdvFeatureClass = "AdvancedNPCFeatures";
@@ -22,6 +29,8 @@ class EntityNPCMakeVulnerable
             __instance.IsGodMode.Value = false;
         }
     }
+
+
     [HarmonyPatch(typeof(EntityNPC))]
     [HarmonyPatch("ProcessDamageResponseLocal")]
     public class SphereII_RemoveTraderProtection_OricessDamageResponse

@@ -97,7 +97,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             base.getNavigator().setCanDrown(true);
-            base.getNavigator().setInWater(false);
+            //base.getNavigator().setInWater(false);
         }
         // Sets the hand value, so we can give our entities ranged weapons.
         inventory.SetSlots(new[]
@@ -176,7 +176,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
         base.InitFromPrefab(_entityClass);
         this.emodel.SetVisible(true, true);
         base.getNavigator().setCanDrown(true);
-        base.getNavigator().setInWater(false);
+        //base.getNavigator().setInWater(false);
     }
     public override void PostInit()
     {

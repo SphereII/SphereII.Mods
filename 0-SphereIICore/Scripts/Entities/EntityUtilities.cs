@@ -1,5 +1,6 @@
 ﻿
 // General Purpose Entity Utilities to centralize general checks.
+using GamePath;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -36,7 +37,8 @@ public static class EntityUtilities
         Melee = 1,
         Health = 2,
         Hungry = 3,
-        Thirsty = 4
+        Thirsty = 4,
+        Reset = 5
     }
 
     public static bool IsHuman(int EntityID)
@@ -115,16 +117,10 @@ public static class EntityUtilities
             {
                 // Ranged
                 case Need.Ranged:
-                    if (CurrentHoldingItemType(EntityID, typeof(ItemActionRanged)))
-                        return myEntity.inventory.holdingItemIdx;
-
-                        index = FindItemWithAction(EntityID, typeof(ItemActionRanged));
+                    index = FindItemWithAction(EntityID, typeof(ItemActionRanged));
                     break;
                 // Ranged
                 case Need.Melee:
-                    if (CurrentHoldingItemType(EntityID, typeof(ItemActionMelee)))
-                        return myEntity.inventory.holdingItemIdx;
-
                     index = FindItemWithAction(EntityID, typeof(ItemActionMelee));
                     //if (index == 0)
                     //    index = FindItemWithAction(EntityID, typeof(ItemActionDynamicMelee));
@@ -212,20 +208,16 @@ public static class EntityUtilities
     }
 
 
-    // 0 no action
-    // 1 ranged
-    // 2 Melee
-    // 3 backing up
-    public static int CheckAIRange(int EntityID, int targetEntity)
+    // Returns false if its not within AI Range
+    public static bool CheckAIRange(int EntityID, int targetEntity)
     {
         EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity == null)
-            return 0;
+            return false;
         EntityAlive myTarget = GameManager.Instance.World.GetEntity(targetEntity) as EntityAlive;
         if (myTarget == null)
-            return 0;
+            return false;
 
-        
         // Find the max range for the weapon
         // Example Range:  50
         //   Hold Ground Distance between 20 to 50 
@@ -241,40 +233,21 @@ public static class EntityUtilities
             MinMeleeRange = 4;
 
         DisplayLog(myEntity.EntityName  + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
-                 //
-        // Return false when Ranged Attack does not execute
-        // ApproachAndAttackTarget is reverse this condition
-        //
-        // Let the entity move closer, without walking a few steps and trying to fire, which can make the entity stutter as it tries to keep up with a retreating enemey.
-        if (distanceSq > HoldGroundDistance )  // 80% of range
-        {
-            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-       //     myEntity.moveHelper.SetMoveTo(myEntity.position, true);
-            return 1;
-        }
+
+
+        // if they are too close, switch to melee
+        if (distanceSq <= MinMeleeRange) 
+            return false;
 
         // Hold your ground
         if(distanceSq > RetreatDistance && distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
-        {
-            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-          //  Stop(EntityID);
-            return 1;
-        }
+            Stop(EntityID);
 
         // Back away!
         if (distanceSq > MinMeleeRange && distanceSq <= RetreatDistance )
-        {
             BackupHelper(EntityID, myTarget.position, 40);
-            ChangeHandholdItem(EntityID, EntityUtilities.Need.Ranged);
-            return 1;
-        }
 
-        if (distanceSq <= MinMeleeRange) // if they are too close, switch to melee
-        {
-            ChangeHandholdItem(EntityID, Need.Melee);
-            return 2;
-        }
-        return 0;
+        return true;
     }
 
     public static void Stop(int EntityID)
@@ -305,16 +278,18 @@ public static class EntityUtilities
         Vector3 dirV = myEntity.position - awayFrom;
         Vector3 vector = Vector3.zero;
 
+        vector = myEntity.position + -new Vector3(awayFrom.x, 0f, awayFrom.z) * distance;
+
         // If you are blocked, try to go to another side.
-        vector = RandomPositionGenerator.CalcAway(myEntity, distance, distance,distance, awayFrom);
+        //vector = RandomPositionGenerator.CalcAway(myEntity, distance, distance,distance, awayFrom);
         myEntity.moveHelper.SetMoveTo(vector, false);
 
         // Move away at a hard coded speed of -4 to make them go backwards
-        myEntity.speedForward = -4f;// Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
+      //  myEntity.speedForward = -4f;// Mathf.SmoothStep(myEntity.speedForward, -0.25f, 2 * Time.deltaTime);
 
         // Keep them facing the spot
-       // myEntity.SetLookPosition( awayFrom );
-        //myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 30f, 30f);
+        myEntity.SetLookPosition( awayFrom );
+        myEntity.RotateTo(awayFrom.x, awayFrom.y, awayFrom.z, 30f, 30f);
     }
 
     public static bool CheckProperty(int EntityID, string Property)
@@ -650,7 +625,7 @@ public static class EntityUtilities
 
     public static bool ExecuteCMD(int EntityID, String strCommand, EntityPlayer player)
     {
-        String strDisplay = "ExecuteCMD( " + strCommand + " ) to " + EntityID + " From " + player.DebugName;
+        String strDisplay = "ExecuteCMD( " + strCommand + " ) to " + EntityID + " From " + player.DebugNameInfo;
         AdvLogging.DisplayLog(AdvFeatureClass, strDisplay);
 
         EntityAliveSDX myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
@@ -1084,7 +1059,7 @@ public static class EntityUtilities
                 Entity entity = GameManager.Instance.World.GetEntity(_te.entityId);
                 if (entity != null)
                 {
-                    lootContainerName = Localization.Get(EntityClass.list[entity.entityClass].entityClassName, "");
+                    lootContainerName = Localization.Get(EntityClass.list[entity.entityClass].entityClassName);
                     if (entity is EntityVehicle)
                         flag = false;
                 }
@@ -1092,7 +1067,7 @@ public static class EntityUtilities
             else
             {
                 BlockValue block = GameManager.Instance.World.GetBlock(_te.ToWorldPos());
-                lootContainerName = Localization.Get(Block.list[block.type].GetBlockName(), "");
+                lootContainerName = Localization.Get(Block.list[block.type].GetBlockName());
             }
             if (flag)
             {
@@ -1107,7 +1082,7 @@ public static class EntityUtilities
         }
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt);
+            GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags());
             _te.bTouched = true;
             _te.SetModified();
         }

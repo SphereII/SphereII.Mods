@@ -3,7 +3,7 @@ public class DialogRequirementHasItemSDX : BaseDialogRequirement
 {
     private static string AdvFeatureClass = "AdvancedDialogDebugging";
 
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int count = 0;
 

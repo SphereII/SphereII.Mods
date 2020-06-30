@@ -28,7 +28,7 @@ class XUiC_JoinInformationPopupSDX : XUiController
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if(myEntity != null)
         {
-            this.hireInformationLabel.Text = Localization.Get("HireOffer_" + myEntity.EntityName, "");
+            this.hireInformationLabel.Text = Localization.Get("HireOffer_" + myEntity.EntityName);
             if(this.hireInformationLabel.Text == "Hire_Offer_" + myEntity.EntityName)
                 this.hireInformationLabel.Text = "I would like to join you. Will you accept me?";
         }

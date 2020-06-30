@@ -1,10 +1,27 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
+/**
+ * SphereII_RandomSize
+ *
+ * This class includes a Harmony patch that allows an entity to spawn in with a random size.
+ *
+ *  You may specify a property on the entityclasses.xml to specify a range. if this property does not exist, the following range
+ *  is used:
+ *  
+ *  { 0.7f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f };
+ *  
+ * Usage XML:
+ * 
+ *      <!-- enforce a specific size range for an entity class -->
+ *      <property name="RandomSizes" value="1.2,1.2,1.4" />
+ *
+ */
 public class SphereII_RandomSize
 {
     private static string AdvFeatureClass = "AdvancedZombieFeatures";
@@ -25,7 +42,7 @@ public class SphereII_RandomSize
             if (entityClass.Properties.Values.ContainsKey("RandomSize"))
                 bRandomSize = StringParsers.ParseBool(entityClass.Properties.Values["RandomSize"], 0, -1, true);
 
-            AdvLogging.DisplayLog(AdvFeatureClass, "Entity: " + entity.DebugName + " Random Size:  " + bRandomSize);
+            AdvLogging.DisplayLog(AdvFeatureClass, "Entity: " + entity.DebugNameInfo + " Random Size:  " + bRandomSize);
             return bRandomSize;
         }
     }

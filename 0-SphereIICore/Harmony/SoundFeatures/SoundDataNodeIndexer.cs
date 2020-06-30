@@ -1,4 +1,4 @@
-﻿using Harmony;
+using HarmonyLib;
 using System.Xml;
 
 // This class populates a static variable that will help us link Sound Data with Buff / Quests.

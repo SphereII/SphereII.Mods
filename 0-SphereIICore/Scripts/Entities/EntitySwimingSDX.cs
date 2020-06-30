@@ -50,7 +50,7 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
             return;
 
         base.getNavigator().setCanDrown(false);
-        base.getNavigator().setInWater(true);
+        //base.getNavigator().setInWater(true);
     }
     //}
 

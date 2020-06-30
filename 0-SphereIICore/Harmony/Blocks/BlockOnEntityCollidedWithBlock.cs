@@ -1,11 +1,22 @@
-﻿using DMT;
-using Harmony;
+    using DMT;
+using HarmonyLib;
 using System;
 using UnityEngine;
 
-
-//  <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'fcrops')]/@value">,fcropsDestroy</append>
-//	<property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy"/> 
+/**
+ * SphereII_Blocks_OnEntityCollidedWithBlock
+ * 
+ * This class includes a Harmony patch to allow crop trample, when enables. Any block that has a tag of fcropsDestroy will allow trample.
+ * 
+ * Also includes a Harmony patch for BlockDamage, which will prevent NPCs.
+ * 
+ * Usage XML: 
+ *  Adding to existing blocks:
+ *    <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'fcrops')]/@value">,fcropsDestroy</append>
+ *
+ * Adding to new blocks:
+ *    <property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy"/> 
+ */
 public class SphereII_Blocks_OnEntityCollidedWithBlock
 {
     private static string DestructableTag = "fcropsDestroy";
@@ -42,4 +53,18 @@ public class SphereII_Blocks_OnEntityCollidedWithBlock
 
         }
     }
+
+    // Let the NPCs pass by traps without being hurt.
+    [HarmonyPatch(typeof(BlockDamage))]
+    [HarmonyPatch("OnEntityCollidedWithBlock")]
+    public class SphereII_BlockDamage_OnEntityCollidedWithBlock
+    {
+        public static bool Prefix(Entity _targetEntity)
+        {
+            if (_targetEntity is EntityNPC )
+                return false;
+            return true;
+        }
+    }
+
 }

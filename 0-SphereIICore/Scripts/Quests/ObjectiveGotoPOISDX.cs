@@ -35,7 +35,7 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
     }
 
 
-    protected override Vector3 GetPosition(EntityNPC ownerNPC, List<Vector2> usedPOILocations, int entityIDforQuests)
+    protected override Vector3 GetPosition(EntityNPC ownerNPC = null, EntityPlayer entityPlayer = null, List < Vector2> usedPOILocations = null, int entityIDforQuests = -1)
     {
         if (base.OwnerQuest.GetPositionData(out this.position, Quest.PositionDataTypes.POIPosition))
         {
@@ -59,7 +59,7 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
         {
             Debug.Log("Running on Server");
             //PrefabInstance randomPOINearWorldPos = GetRandomPOINearWorldPos(new Vector2(entityAlive.position.x, entityAlive.position.z), 1000, 50000000, base.OwnerQuest.QuestTags, base.OwnerQuest.QuestClass.DifficultyTier, usedPOILocations, entityIDforQuests);
-            PrefabInstance randomPOINearWorldPos = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().Find( instance => instance.filename == this.strPOIname);
+            PrefabInstance randomPOINearWorldPos = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().Find( instance => instance.name == this.strPOIname);
 
             if (randomPOINearWorldPos != null)
             {
@@ -79,7 +79,7 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                     base.OwnerQuest.Position = this.position;
                     base.FinalizePoint(new Vector3((float)randomPOINearWorldPos.boundingBoxPosition.x, (float)randomPOINearWorldPos.boundingBoxPosition.y, (float)randomPOINearWorldPos.boundingBoxPosition.z), new Vector3((float)randomPOINearWorldPos.boundingBoxSize.x, (float)randomPOINearWorldPos.boundingBoxSize.y, (float)randomPOINearWorldPos.boundingBoxSize.z));
                     base.OwnerQuest.QuestPrefab = randomPOINearWorldPos;
-                    base.OwnerQuest.DataVariables.Add("POIName", base.OwnerQuest.QuestPrefab.filename);
+                    base.OwnerQuest.DataVariables.Add("POIName", base.OwnerQuest.QuestPrefab.name);
                     if (usedPOILocations != null)
                     {
                         Debug.Log("Adding to used POI Location.");

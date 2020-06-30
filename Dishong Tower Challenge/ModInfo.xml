@@ -4,6 +4,10 @@
     <Name value="Dishong Tower Challenge" />
     <Description value="Tweaks by MidngithDesigner to make the Dishong Tower Challenge Possible" />
     <Author value="sphereii" />
-    <Version value="18.1.1.12" />
+    <Version value="19.0.0.4" />
   </ModInfo>
+  <DMT Hash="a9031a0b13b9c1cddd949f00a318773a">
+    <dependencies />
+    <conflicts />
+  </DMT>
 </xml>

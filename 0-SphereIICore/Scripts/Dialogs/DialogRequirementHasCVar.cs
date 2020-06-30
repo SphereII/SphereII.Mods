@@ -4,7 +4,7 @@ public class DialogRequirementHasCVarSDX : BaseDialogRequirement
     private static string AdvFeatureClass = "AdvancedDialogDebugging";
 
     public string strOperator = "eq";
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "Player: " + player.EntityName);
         foreach (var temp in player.Buffs.CVars)

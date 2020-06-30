@@ -1,9 +1,14 @@
-﻿using Harmony;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-/*
+/**
+ * SphereII__AdvancedItems
+ *
+ * This class includes a Harmony patches to allow more repair flexbility for modders.
+ * 
+ *
  * <property name="RepairItems" value="resourceWood,10,resourceForgedIron,10" />
  * 
  * <property Class="RepairItems">
@@ -40,11 +45,11 @@ public class SphereII__AdvancedItems
                 AdvLogging.DisplayLog(AdvFeatureClass, "Reading Custom Repair description");
 
                 string descriptionKey2 = ___itemClass.DescriptionKey;
-                if(Localization.Exists(descriptionKey2, ""))
-                    value = Localization.Get(descriptionKey2, "");
+                if(Localization.Exists(descriptionKey2))
+                    value = Localization.Get(descriptionKey2);
 
                 StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(Localization.Get("lblRepairItems", ""));
+                stringBuilder.Append(Localization.Get("lblRepairItems"));
 
                 List<ItemStack> stack = new List<ItemStack>();
                 // Check if ScrapItems is specified

@@ -1,11 +1,23 @@
-﻿using Audio;
-using Harmony;
+using Audio;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-// This class populates a static variable that will help us link Sound Data with Buff / Quests.
+/**
+ * SphereII_GiveBuffOrQuestBySound
+ *
+ * This class includes a Harmony patch to hook the delivery of a buff or quest through the sound system.
+ * 
+ * Usage XML:
+ * 
+ *   <!-- Adds the buffCursed to any entity that hears the screamer -->
+ *   <append xpath="/Sounds/SoundDataNode[@name='zombiefemalescoutalert']">
+ *       <buff value="buffCursed" />
+ *       <Quest value="myQuest" />
+ *   </append>
+ */
 public class SphereII_GiveBuffOrQuestBySound
 {
     private static string AdvFeatureClass = "AdvancedSoundFeatures";

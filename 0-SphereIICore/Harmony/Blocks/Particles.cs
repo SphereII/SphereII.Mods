@@ -1,9 +1,20 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using UnityEngine;
 
 
+/**
+ * SphereII_Blocks_Particles
+ * 
+ * This class includes a Harmony patch to allow particles to be loaded from any blocks.
+ * 
+ * Usage XML: 
+ *
+ * Adding to new blocks:
+ *   	<property name="ParticleName" value="#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X"/>
+ *
+ */
 public class SphereII_Blocks_Particles
 {
     [HarmonyPatch(typeof(Block))]
@@ -13,28 +24,16 @@ public class SphereII_Blocks_Particles
         public static void Postfix(ref Block __instance)
         {
             if (__instance.Properties.Values.ContainsKey("ParticleName"))
-                ParticleEffect.RegisterBundleParticleEffect(__instance.Properties.Values["ParticleName"]);
+            {
+                String strParticleName = __instance.Properties.Values["ParticleName"];
+                if (!ParticleEffect.IsAvailable(strParticleName))
+                    ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+            }
+                
 
             if (__instance is BlockDoorSecure)
                 return;
-
-            //    __instance.IsPathSolid = true;
         }
     }
-
-    // Let the NPCs pass by traps without being hurt.
-    [HarmonyPatch(typeof(BlockDamage))]
-    [HarmonyPatch("OnEntityCollidedWithBlock")]
-    public class SphereII_BlockDamage_OnEntityCollidedWithBlock
-    {
-        public static bool Prefix( Entity _targetEntity)
-        {
-            if (_targetEntity is EntityNPC)
-                return false;
-            return true;
-        }
-    }
-
-
 
 }

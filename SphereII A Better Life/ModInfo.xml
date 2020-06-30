@@ -4,7 +4,13 @@
     <Name value="SphereII A Better Life" />
     <Description value="Introduces fish into the world." />
     <Author value="sphereii" />
-    <Version value="18.3.2.0" />
+    <Version value="19.0.0.6" />
     <Website value="" />
   </ModInfo>
+  <DMT Hash="048c664fb888ee32dbc758014547c35e">
+    <dependencies>
+      <dependancy>0-SphereIICore</dependancy>
+    </dependencies>
+    <conflicts />
+  </DMT>
 </xml>

@@ -1,9 +1,16 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+
+
+/**
+ * EntityNPCSpeedFix
+ *
+ * This class includes a Harmony patches to EntityNPC to adjust its update Speed Forward, which hasn't gotten the same updates as EntityAlive.
+ */
 class EntityNPCSpeedFix
 {
 

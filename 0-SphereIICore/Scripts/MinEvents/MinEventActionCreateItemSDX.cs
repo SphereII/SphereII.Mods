@@ -15,7 +15,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
         // Loot group
         if(_params.Self as EntityPlayerLocal != null && this.lootgroup > 0  )
         {
-            ItemStack[] array = LootContainer.lootList[lootgroup].Spawn(GameManager.Instance.lootManager.Random, this.CreateItemCount, EffectManager.GetValue(PassiveEffects.LootGamestage, null, (float)entityPlayer.HighestPartyGameStage, entityPlayer, null, default(FastTags), true, true, true, true, 1, true), 0f, entityPlayer);
+            ItemStack[] array = LootContainer.lootList[lootgroup].Spawn(GameManager.Instance.lootManager.Random, this.CreateItemCount, EffectManager.GetValue(PassiveEffects.LootGamestage, null, (float)entityPlayer.HighestPartyGameStage, entityPlayer, null, default(FastTags), true, true, true, true, 1, true), 0f, entityPlayer, new FastTags());
             for(int i = 0; i < array.Length; i++)
             {
                 if(!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(array[i], true))

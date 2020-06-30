@@ -28,7 +28,7 @@ public class XUiC_DialogRespondentNameSDX : XUiC_DialogRespondentName
                     //    value = myEntity.EntityName;// + " ( Hire for " + myEntity.GetHireCost() + " " + myEntity.GetHireCurrency().ItemClass.Name + " )";
                     return true;
                 }
-                value = ((!(base.xui.Dialog.Respondent != null)) ? string.Empty : Localization.Get(base.xui.Dialog.Respondent.EntityName, string.Empty));
+                value = ((!(base.xui.Dialog.Respondent != null)) ? string.Empty : Localization.Get(base.xui.Dialog.Respondent.EntityName));
                 return true;
             }
         }

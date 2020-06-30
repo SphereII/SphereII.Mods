@@ -31,17 +31,7 @@ public class EntityMoveHelperPatches : IPatcherMod
         {
             SetFieldToPublic(myField);
         }
-        //var field = gm.Fields.First(d => d.Name == "entity");
-        //SetFieldToPublic(field);
-
-        //field = gm.Fields.First(d => d.Name == "moveToPos");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "moveToTicks");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "obstacleCheckTickDelay");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "blockedDistSq");
-        //SetFieldToPublic(field);
+      
 
         return true;
     }

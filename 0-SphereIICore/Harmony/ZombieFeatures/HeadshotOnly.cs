@@ -1,9 +1,15 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.IO;
 using UnityEngine;
 
+
+/**
+ * SphereII_HeadshotOnly
+ *
+ * This class includes a Harmony patch force head-shot only, enabled via the Config/blocks.xml
+ */
 public class SphereII_HeadshotOnly
 {
     private static string AdvFeatureClass = "AdvancedZombieFeatures";

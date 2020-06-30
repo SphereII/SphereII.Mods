@@ -184,17 +184,8 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         if (entityTarget == null)
             return;
 
-        Vector3 newPos = entityTarget.GetPosition();
-        newPos.x += 2f;
-        newPos.z += 2f;
-        int x, y, z;
-        this.theEntity.world.FindRandomSpawnPointNearPositionUnderground(entityTarget.position, 15, out x, out y, out z, new Vector3(2, 2, 2));
-        //  this.theEntity.SetPosition( newPos, true);
-        this.theEntity.SetPosition(new Vector3(x, y, z), true);
-        this.theEntity.SetAttackTarget(null, 10);
-        this.theEntity.SetRevengeTarget(null);
-        this.entityTargetPos = this.entityTarget.position;
-        Stop = true;
+        this.theEntity.SetPosition(this.entityTarget.position + -new Vector3(this.entityTarget.GetLookVector().x, 0f, this.entityTarget.GetLookVector().z) * 4, true);
+
     }
 
 

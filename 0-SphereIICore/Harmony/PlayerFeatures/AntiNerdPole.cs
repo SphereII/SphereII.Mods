@@ -1,5 +1,13 @@
-﻿using Harmony;
+using HarmonyLib;
 
+
+
+/**
+ * SphereII_NerdPoll
+ *
+ * This class includes a Harmony patches to the the Block Placement code, so that a player cannot "nerd pole"
+ * 
+ */
 [HarmonyPatch(typeof(Block))]
 [HarmonyPatch("PlaceBlock")]
 public class SphereII_NerdPoll 

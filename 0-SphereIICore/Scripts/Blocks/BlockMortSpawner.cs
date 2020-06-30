@@ -97,16 +97,23 @@ public class BlockMortSpawner : BlockLoot
         }
     }
 
-    #region overrides
-    public override void OnBlockValueChanged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
-    {
-        base.OnBlockValueChanged(_world, _clrIdx, _blockPos, _oldBlockValue, _newBlockValue);
 
+    #region overrides
+    public override void OnBlockValueChanged(WorldBase _world, Chunk _chunk, int _clrIdx, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
+    {
+        base.OnBlockValueChanged(_world, _chunk, _clrIdx, _blockPos, _oldBlockValue, _newBlockValue);
         if (!Stopped(_newBlockValue.meta2) || GameManager.IsDedicatedServer) return;
 
         CheckParticles(_world.ChunkClusters[_clrIdx].GetBlockEntity(_blockPos));
     }
+    //public override void OnBlockValueChanged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _oldBlockValue, BlockValue _newBlockValue)
+    //{
+    //    base.OnBlockValueChanged(_world, _clrIdx, _blockPos, _oldBlockValue, _newBlockValue);
 
+    //    if (!Stopped(_newBlockValue.meta2) || GameManager.IsDedicatedServer) return;
+
+    //    CheckParticles(_world.ChunkClusters[_clrIdx].GetBlockEntity(_blockPos));
+    //}
     public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         RemoveScript(world, _chunk.ClrIdx, _blockPos, null);

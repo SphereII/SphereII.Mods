@@ -128,6 +128,14 @@ public class EntityAliveSDX : EntityNPC
         }
     }
 
+    protected override float getNextStepSoundDistance()
+    {
+        if (!this.IsRunning)
+        {
+            return 0.5f;
+        }
+        return 0.25f;
+    }
 
     public override void SetSleeper()
     {
@@ -226,17 +234,7 @@ public class EntityAliveSDX : EntityNPC
 
 
     }
-
-    public override bool Attack(bool _bAttackReleased)
-    {
-        if (attackTarget == null)
-        {
-          //  EntityUtilities.ChangeHandholdItem(entityId, EntityUtilities.Need.Ranged, 0);
-            return false;
-        }
-
-        return base.Attack(_bAttackReleased);
-    }
+     
 
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
@@ -290,26 +288,7 @@ public class EntityAliveSDX : EntityNPC
         return true;
     }
 
-    public override string GetRightHandTransformName()
-    {
-        String HandTransform = base.GetRightHandTransformName();
-      //  Debug.Log("Entity ID: " + this.entityId + " Hand Transform: " + HandTransform);
-        return HandTransform;
-        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("melee")))
-            HandTransform = "RightWeapon";
-        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("gun")))
-            HandTransform = "Gunjoint";
-        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("bow")))
-            HandTransform = "LeftWeapon";
-        if (this.inventory.holdingItem.HasAnyTags(FastTags.Parse("pistol")))
-            HandTransform = "RightWeapon";
-
-        // If we are using the default weapon, re-set the hand item as per the xml.
-        if (this.inventory.holdingItemIdx == 0)
-            HandTransform = base.GetRightHandTransformName();
-
-        return HandTransform;
-    }
+  
     public override void PostInit()
     {
         base.PostInit();
@@ -445,9 +424,6 @@ public class EntityAliveSDX : EntityNPC
     public override void OnUpdateLive()
     {
         emodel.avatarController.SetBool("IsBusy", false);
-
-
-
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             //If blocked, check to see if its a door.
@@ -517,10 +493,15 @@ public class EntityAliveSDX : EntityNPC
             SetLookPosition(attackTarget.position);
             RotateTo(attackTarget, 45, 45);
         }
-
-
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;
+
+        // Set CanFall and IsOnGround
+        if (this.emodel != null && this.emodel.avatarController != null)
+        {
+            this.emodel.avatarController.SetBool("CanFall", !this.emodel.IsRagdollActive && this.bodyDamage.CurrentStun == EnumEntityStunType.None && !this.isSwimming);
+            this.emodel.avatarController.SetBool("IsOnGround", this.onGround || this.isSwimming);
+        }
 
 
         // Non-player entities don't fire all the buffs or stats, so we'll manually fire the water tick,
@@ -550,9 +531,6 @@ public class EntityAliveSDX : EntityNPC
 
         if (target == null)
         {
-            // Reset their weapon
-            EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
-
             if (this is EntityAliveFarmingAnimalSDX)
                 return;
 
@@ -569,10 +547,10 @@ public class EntityAliveSDX : EntityNPC
                         if (myRelationship == FactionManager.Relationship.Hate)
                             break;
 
-                        if (GetDistance(entitiesInBounds[i]) < 2 && this.moveHelper != null)
+                        if (GetDistance(entitiesInBounds[i]) < 1 && this.moveHelper != null)
                         {
                             DisplayLog("The entity is too close to me. Moving away: " + entitiesInBounds[i].ToString());
-                            EntityUtilities.BackupHelper(entityId, entitiesInBounds[i].position, 5);
+                            EntityUtilities.BackupHelper(entityId, entitiesInBounds[i].position, 3);
                             break;
                         }
 
@@ -628,7 +606,7 @@ public class EntityAliveSDX : EntityNPC
     }
 
 
-    public override void SetRevengeTarget(EntityAlive _other)
+    public new void SetRevengeTarget(EntityAlive _other)
     {
         if (_other)
         {
@@ -644,19 +622,13 @@ public class EntityAliveSDX : EntityNPC
                 return;
         }
 
-        //if (_other == null)
-        //{
-        //    // Reset the hand held back to their preferred item 0
-        //    EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
-        //}
-
         base.SetRevengeTarget(_other);
         //  Debug.Log("Adding Buff for RevengeTarget() ");
         Buffs.AddBuff("buffNotifyTeamAttack", -1, true);
 
     }
 
-    public override void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
+    public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         if (_attackTarget != null)
             if (_attackTarget.IsDead())
@@ -669,8 +641,6 @@ public class EntityAliveSDX : EntityNPC
             if (attackTarget != null && attackTarget.IsAlive())
                 return;
 
-            // Reset the hand held back to their preferred item 0
-           // EntityUtilities.ChangeHandholdItem(this.entityId, EntityUtilities.Need.Ranged, 0);
         }
 
         base.SetAttackTarget(_attackTarget, _attackTargetTime);

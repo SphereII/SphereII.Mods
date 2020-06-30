@@ -7,7 +7,7 @@ public class DialogRequirementFactionValue : BaseDialogRequirement
 
         // strOperator is set in 0-SphereIICore/Harmony/DialogFromXML.cs
     public string strOperator = "eq";
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "Player: " + player.EntityName);
         int entityID = 0;

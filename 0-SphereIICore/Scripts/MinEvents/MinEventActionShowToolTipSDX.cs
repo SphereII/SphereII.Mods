@@ -37,9 +37,9 @@ public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
         }
         if (name == "message_key")
         {
-            if (_attribute.Value != "" && Localization.Exists(_attribute.Value, ""))
+            if (_attribute.Value != "" && Localization.Exists(_attribute.Value))
             {
-                this.message = Localization.Get(_attribute.Value, "");
+                this.message = Localization.Get(_attribute.Value);
                 this.messageKey = _attribute.Value;
             }
             return true;

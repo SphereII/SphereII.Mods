@@ -1,11 +1,12 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Reflection;
 using UnityEngine;
 
 public class SphereII_QuickLoad
 {
+  
     [HarmonyPatch(typeof(XUiC_MainMenu))]
     [HarmonyPatch("OnOpen")]
     public class SphereII_Main_Menu_AutoClick
@@ -28,7 +29,7 @@ public class SphereII_QuickLoad
             }
         }
     }
-       
+
     [HarmonyPatch(typeof(XUiC_NewContinueGame))]
     [HarmonyPatch("OnOpen")]
     public class SphereII_XUIC_NewContinueGame
@@ -37,7 +38,7 @@ public class SphereII_QuickLoad
         {
             if (SphereIIToggleCapsLock.GetScrollLock())
             {
-               MethodInfo method = __instance.GetType().GetMethod("BtnStart_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
+                MethodInfo method = __instance.GetType().GetMethod("BtnStart_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
                 method.Invoke(__instance, new object[] { null, null });
             }
         }

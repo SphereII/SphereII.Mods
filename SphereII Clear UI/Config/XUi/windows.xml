@@ -1,14 +1,14 @@
 <configs>
 
-<!--	// Roland's Clean UI // Compass Window -->
+  <!--	// Roland's Clean UI // Compass Window -->
 
-        <remove xpath="/windows/window[@name='windowCompass']" />
+  <remove xpath="/windows/window[@name='windowCompass']" />
 
-        <append xpath="/windows">
-            <window name="windowCompass" style="compass.window" controller="CompassWindow">
-                <texture name="compassTexture" style="compass.window.bar" rect_size="0.25,1" rect_offset=".8,0" />
-            </window>
-        </append>
+  <append xpath="/windows">
+    <window name="windowCompass" style="compass.window" controller="CompassWindow">
+      <texture name="compassTexture" style="compass.window.bar" rect_size="0.25,1" rect_offset=".8,0" />
+    </window>
+  </append>
 
 
   <remove xpath="/windows/window[@name='windowTimer']" />
@@ -23,32 +23,32 @@
     </window>
   </append>
 
-  
+
   <!--	// Roland's Clean UI // Stat Bars -->
 
-        <remove xpath="/windows/window[@name='HUDLeftStatBars']" />
+  <remove xpath="/windows/window[@name='HUDLeftStatBars']" />
 
-        <append xpath="/windows">
-            <window name="HUDLeftStatBars" style="compass.window">
-                <rect name="statBar" pos="40,-7" rows="1" cols="1" width="300" height="23" side="right">
-                    <rect name="healthBar" pos="0,0" width="300" height="23" controller="HUDStatBar" stat_type="Health" visible="{statvisible}">
-                        <sprite name="border" depth="11" pos="0,-8" size="300,7" color="0,0,0,255" type="sliced" fillcenter="false" />
-                        <sprite name="background" depth="8" pos="0,-9" size="300,5" color="255,255,255,255" type="sliced" />
-                        <sprite name="background" depth="9" pos="0,-9" size="300,5" color="126,126,126,255" type="filled" fill="{statmodifiedmax}" />
-                        <sprite name="BarContent" depth="10" pos="0,-9" size="300,5" color="187,10,30,255" type="filled" fill="0" />
-                    </rect>
-                    <rect name="staminaBar" pos="0,0" width="300" height="23" controller="HUDStatBar" stat_type="Stamina" visible="{statvisible}">
-                        <sprite name="background" depth="11" pos="1,-13" size="298,1" color="0,0,0,255" type="filled" fill="{statmodifiedmax}" />
-                        <!--sprite name="background" depth="12" pos="1,-13" size="298,1" color="126,126,126,255" type="filled" fill="{statmodifiedmax}" /-->
-                        <sprite name="BarContent" depth="13" pos="1,-13" size="298,1" color="236,255,0,255" type="filled" fill="0" />
-                    </rect>
-                </rect>
-            </window>
-        </append>
+  <append xpath="/windows">
+    <window name="HUDLeftStatBars" style="compass.window">
+      <rect name="statBar" pos="40,-7" rows="1" cols="1" width="300" height="23" side="right">
+        <rect name="healthBar" pos="0,0" width="300" height="23" controller="HUDStatBar" stat_type="Health" visible="{statvisible}">
+          <sprite name="border" depth="11" pos="0,-8" size="300,7" color="0,0,0,255" type="sliced" fillcenter="false" />
+          <sprite name="background" depth="8" pos="0,-9" size="300,5" color="255,255,255,255" type="sliced" />
+          <sprite name="background" depth="9" pos="0,-9" size="300,5" color="126,126,126,255" type="filled" fill="{statmodifiedmax}" />
+          <sprite name="BarContent" depth="10" pos="0,-9" size="300,5" color="187,10,30,255" type="filled" fill="0" />
+        </rect>
+        <rect name="staminaBar" pos="0,0" width="300" height="23" controller="HUDStatBar" stat_type="Stamina" visible="{statvisible}">
+          <sprite name="background" depth="11" pos="1,-13" size="298,1" color="0,0,0,255" type="filled" fill="{statmodifiedmax}" />
+          <!--sprite name="background" depth="12" pos="1,-13" size="298,1" color="126,126,126,255" type="filled" fill="{statmodifiedmax}" /-->
+          <sprite name="BarContent" depth="13" pos="1,-13" size="298,1" color="236,255,0,255" type="filled" fill="0" />
+        </rect>
+      </rect>
+    </window>
+  </append>
 
 
-<!--	// Roland's Clean UI // Move HUDRightStatBars Off-Screen -->
+  <!--	// Roland's Clean UI // Move HUDRightStatBars Off-Screen -->
 
-		<setattribute xpath="/windows/window[@name='HUDRightStatBars']" name="pos">99999,99999</setattribute>
+  <setattribute xpath="/windows/window[@name='HUDRightStatBars']" name="pos">99999,99999</setattribute>
 
 </configs>

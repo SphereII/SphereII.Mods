@@ -352,7 +352,7 @@ public static class ModGeneralUtilities
                     if (!lstBlocks.Contains(block.Block.GetBlockName()))
                         continue;
 
-                    localLists.Add(TargetBlockPosition.ToVector3());
+                    localLists.Add(TargetBlockPosition.ToVector3() + Vector3.up);
                 }
             }
         }

@@ -1,8 +1,19 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.IO;
 using UnityEngine;
+
+
+/**
+ * SphereII_RandomDeathSpawn
+ *
+ * This class includes a Harmony patch allows a new entity from a spawn group to spawn on the death of the original.
+ * 
+ * Usage XML entityclasses.xml
+ * 
+ * <property name="SpawnOnDeath" value="mySpawnGroup" />
+ */
 
 public class SphereII_RandomDeathSpawn
 {

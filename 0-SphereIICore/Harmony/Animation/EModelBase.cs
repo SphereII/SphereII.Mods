@@ -1,20 +1,25 @@
-﻿using Harmony;
+using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 using DMT;
 using System;
 
+
+/**
+ * SphereII_EmodelBase_InitCommon
+ * 
+ * This class includes a Harmony patch to allow MecanimSDX to work properly on dedicated servers.
+ * 
+ *   On dedicated servers, when using an external animation class (MecanimSDX), the server incorrectly assigns a Dummy avatar, rather than our own.
+ *   We can get around this by disabling ragdolling on external entities, but it also generates warnings in the log file. This should jump in right before we do the 
+ *   switchandmodel.
+ */
 [HarmonyPatch(typeof(EModelBase))]
 [HarmonyPatch("InitCommon")]
 public class SphereII_EModelBase_InitCommon
 {
-
-    // On dedicated servers, when using an external animation class (MecanimSDX), the server incorrectly assigns a Dummy avatar, rather than our own.
-    // We can get around this by disabling ragdolling on external entities, but it also generates warnings in the log file. This should jump in right before we do the 
-    // switchandmodel.
     static bool Prefix(ref EModelBase __instance, Entity ___entity)
     {
-       
         EntityClass entityClass = EntityClass.list[___entity.entityClass];
         if (entityClass.Properties.Values.ContainsKey(EntityClass.PropAvatarController))
         {

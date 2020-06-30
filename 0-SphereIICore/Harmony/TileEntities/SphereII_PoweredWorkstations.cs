@@ -1,7 +1,16 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 
+/**
+ * SphereII_PoweredWorkstations
+ *
+ * This class includes a Harmony patch allows a tile entity to require power, and recieve it when a power source is within a radious.
+ * 
+ * Usage XML:
+ * 
+ * <property name="RequirePower" value="true"/>
+ */
 public class SphereII_PoweredWorkstations
 {
     private static string AdvFeatureClass = "AdvancedWorkstationFeatures";

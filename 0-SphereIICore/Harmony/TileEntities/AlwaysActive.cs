@@ -1,19 +1,26 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-/*
- *    <!-- Allows the  Trigger to work -->
-      <property name="AlwaysActive" value="true" />
 
-      <!-- How far out the tile entity will re-scan to detect the player -->
-      <property name="ActivationDistance" value="5" />
-
-          <property name="ActivateOnLook" value="true" />
-
-      <!-- Triggers the block if the buff buffCursed is active on the player, or if the player has a cvar called "cvar" with a value of 4, or if myOtherCvar is available, regardless of value -->
-      <property name="ActivationBuffs" value="buffCursed,cvar(4),myOtherCvar" />
+/**
+ * SphereII_TileEntityAlwaysActive
+ *
+ * This class includes a Harmony patch allow an Always Active block, thus allowing a buff to be placed on it.
+ *
+ * Usage XML:
+ * 
+ *   <!-- Allows the  Trigger to work -->
+ *     <property name="AlwaysActive" value="true" />
+ *
+ *     <!-- How far out the tile entity will re-scan to detect the player -->
+ *     <property name="ActivationDistance" value="5" />
+ *
+ *      <property name="ActivateOnLook" value="true" />
+ *
+ *     <!-- Triggers the block if the buff buffCursed is active on the player, or if the player has a cvar called "cvar" with a value of 4, or if myOtherCvar is available, regardless of value -->
+ *     <property name="ActivationBuffs" value="buffCursed,cvar(4),myOtherCvar" />
 */
 public class SphereII_TileEntityAlwaysActive
 {

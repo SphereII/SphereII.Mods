@@ -1,5 +1,12 @@
-﻿using Harmony;
+using HarmonyLib;
 
+/**
+ * SphereII_NoExceptionHijack
+ * 
+ * This class includes a Harmony patch to disable the console from popping down when a Null ref or other critical error occurs. This is mainly to allow
+ * modders to keep control of their game despite erroring out while testing. 
+ * 
+ */
 public class SphereII_NoExceptionHijack
 {
     private static string AdvFeatureClass = "ErrorHandling";

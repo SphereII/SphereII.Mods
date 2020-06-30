@@ -1,5 +1,13 @@
-﻿using Harmony;
+using HarmonyLib;
+using UnityEngine;
+using System.Diagnostics;
 
+/**
+ * SphereII__SoftHands
+ *
+ * This class includes a Harmony patches to ItemAction to deal damage when the player hits something with their bare heands.
+ * 
+ */
 public class SphereII__SoftHands
 {
     private static string AdvFeatureClass = "AdvancedPlayerFeatures";
@@ -10,7 +18,7 @@ public class SphereII__SoftHands
     [HarmonyPatch("Hit")]
     public class SphereII_ItemAction_Hit_EntityPlayerLocal
     {
-        public static void Postfix(ItemActionAttack __instance, ItemActionAttack.AttackHitInfo _attackDetails, ref float _weaponCondition, int _attackerEntityId)
+        public static void Postfix(ItemActionAttack __instance, ItemActionAttack.AttackHitInfo _attackDetails, ref float _weaponCondition, int _attackerEntityId, ItemValue damagingItemValue)
         {
             // Check if this feature is enabled.
             if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -20,21 +28,11 @@ public class SphereII__SoftHands
             if (entityAlive)
             {
                 bool isWearingGloves = false;
-                //LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityAlive as EntityPlayerLocal);
-                //if(uiforPlayer)
-                //{
-                //    // Grab a hand item to see if its being worn.
-                //    ItemValue handItems = ItemClass.GetItem("armorClothGloves", false );
-                //    if(uiforPlayer.xui.PlayerEquipment.IsEquipmentTypeWorn( handItems ))
-                //        isWearingGloves = true;
-                //}
 
-                //BlockValue blockValue = _attackDetails.blockBeingDamaged;
-                //if (blockValue.type != 0 )
-                //{
-                //    if (blockValue.Block.blockMaterial.MaxDamage <= 1)
-                //        isWearingGloves = true;
-                //}
+                // Throw weapon, skipping
+                if ( damagingItemValue != null && damagingItemValue.ItemClass.HasAnyTags( FastTags.Parse("thrownWeapon")))
+                    return;
+
                 // Check if its the player hand
                 if (entityAlive.inventory.holdingItem.GetItemName() == "meleeHandPlayer" && _attackDetails.damageGiven > 0 && !isWearingGloves) 
                 {

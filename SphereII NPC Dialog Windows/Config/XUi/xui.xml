@@ -3,7 +3,9 @@
   <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowRespondentName']" name="anchor">CenterTop</setattribute>
   <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowStatement']" name="anchor">CenterTop</setattribute>
   <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowResponses']" name="anchor">CenterBottom</setattribute>
-<!--
+  <!--set xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/@controller">XUiC_DialogWindowGroupSDX, Mods</set-->
+
+  <!--
   <append xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']">
     <window name="NPCCharacterFrameWindow" anchor="LeftTop"/>
   </append>

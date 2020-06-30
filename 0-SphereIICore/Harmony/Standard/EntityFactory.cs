@@ -1,7 +1,14 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using UnityEngine;
 
+/**
+ * SphereII_EntityFactoryPatch
+ *
+ * This class includes a Harmony patch allows custom loading of entities
+ * 
+ * <property name="Class" value="EntityAliveSDX, Mods" />
+ */
 [HarmonyPatch(typeof(EntityFactory))]
 [HarmonyPatch("addEntityToGameObject")]
 [HarmonyPatch(new Type[] { typeof(GameObject), typeof(string) })]

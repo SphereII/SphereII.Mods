@@ -14,7 +14,7 @@ public class MinEventActionPlayerLevelSDX : MinEventActionRemoveBuff
                 if (entity.Progression.Level < Progression.MaxLevel)
                 {
                     entity.Progression.Level++;
-                    GameManager.ShowTooltipWithAlert(entity, string.Format(Localization.Get("ttLevelUp", string.Empty), entity.Progression.Level.ToString(), entity.Progression.SkillPoints), "levelupplayer");
+                    GameManager.ShowTooltipWithAlert(entity, string.Format(Localization.Get("ttLevelUp"), entity.Progression.Level.ToString(), entity.Progression.SkillPoints), "levelupplayer");
                 }
             }
         }

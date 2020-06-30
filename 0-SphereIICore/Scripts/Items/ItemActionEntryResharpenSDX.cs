@@ -17,7 +17,7 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
 
     public ItemActionEntryResharpenSDX(XUiController controller) : base(controller, "Resharpen", "ui_game_symbol_wrench", BaseItemActionEntry.GamepadShortCut.DPadLeft, "crafting/craft_click_craft", "ui/ui_denied")
     {
-        this.lblNeedMaterials = Localization.Get("xuiRepairMissingMats", "");
+        this.lblNeedMaterials = Localization.Get("xuiRepairMissingMats");
         controller.xui.PlayerInventory.OnBackpackItemsChanged += this.PlayerInventory_OnBackpackItemsChanged;
         controller.xui.PlayerInventory.OnToolbeltItemsChanged += this.PlayerInventory_OnToolbeltItemsChanged;
     }
@@ -100,9 +100,9 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
     public static void WarnQueueFull(XUiController ItemController)
     {
         string text = "No room in queue!";
-        if (Localization.Exists("wrnQueueFull", ""))
+        if (Localization.Exists("wrnQueueFull"))
         {
-            text = Localization.Get("wrnQueueFull", "");
+            text = Localization.Get("wrnQueueFull");
         }
         GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer, text);
         Audio.Manager.PlayInsidePlayerHead("ui_denied", -1, 0f, false, false);

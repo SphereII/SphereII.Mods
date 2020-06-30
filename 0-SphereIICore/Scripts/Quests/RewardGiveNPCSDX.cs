@@ -32,7 +32,7 @@ class RewardGiveNPCSDX : BaseReward
 
     public override void SetupReward()
     {
-        base.Description = Localization.Get("RewardGiveNPCSDX_keyword", Localization.QuestPrefix);
+        base.Description = Localization.Get("RewardGiveNPCSDX_keyword");
         this.SetupValueText();
         base.Icon = "ui_game_symbol_trophy";
     }

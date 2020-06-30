@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class DialogRequirementPatrolSDX : BaseDialogRequirement
 {
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
 
         int entityID = 0;

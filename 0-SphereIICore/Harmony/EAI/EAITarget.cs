@@ -1,31 +1,44 @@
-﻿using Harmony;
+using HarmonyLib;
 using UnityEngine;
+
+/**
+ * SphereII_EAITarget_Tweaks
+ * 
+ * This class includes a Harmony patch for the EAITarget's check(). It adds additional rules for Human NPCs, such as if the NPC is sleeping,
+ * they are the same faction, if you are their leader, your faction standing, etc.
+ *
+ */
 class SphereII_EAITarget_Tweaks
 {
 
-    // If this entity has a CVAr for an owner or leader, and they accidentally hurt this entity, don't set it as a target.
+    // Enables faction support in the targeting.
     [HarmonyPatch(typeof(EAITarget))]
     [HarmonyPatch("check")]
     public class SphereII_EAITarget_check
     {
-     
 
         public static bool Postfix(bool __result, EAITarget __instance, EntityAlive _e)
         {
-
             if (!EntityUtilities.IsHuman(__instance.theEntity.entityId))
                 return __result;
 
             if (__instance.theEntity.IsSleeping)
                 return __result;
 
-          //  Debug.Log("Entity: " + __instance.theEntity.entityId + " Target: " + _e.entityId +  " + Result: " + __result);
             // The base class sees this as a valid target.
             if (__result)
             {
                 // same faction
                 if (__instance.theEntity.factionId == _e.factionId)
                     return false;
+
+                // Check if its a leader.
+                Entity myLeader = EntityUtilities.GetLeaderOrOwner(__instance.theEntity.entityId);
+                if (myLeader)
+                {
+                    if (_e.entityId == myLeader.entityId)
+                        return false;
+                }
 
                 // if the attack cool down is applied, don't set a new target for 30 seconds.
                 if (__instance.theEntity.Buffs.HasBuff("buffAttackCoolDown"))
@@ -47,6 +60,9 @@ class SphereII_EAITarget_Tweaks
                             return false; // they aren't an enemy to kill right off
                         if (__instance is EAISetAsTargetIfHurt)
                             return true;  // They suck! They hurt you. Get them!
+                        return false;
+                    case FactionManager.Relationship.Love:
+                    case FactionManager.Relationship.Leader:
                         return false;
                     default:
                         return false;

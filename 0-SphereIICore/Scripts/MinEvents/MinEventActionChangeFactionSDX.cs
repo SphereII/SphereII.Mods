@@ -25,7 +25,17 @@ public class MinEventActionChangeFactionSDX : MinEventActionRemoveBuff
                         Faction Temp = FactionManager.Instance.GetFaction(FactionID);
                         if (Temp != null)
                             Faction = Temp.Name;
+
                     }
+                    else
+                    {
+                        if (FactionManager.Instance.GetFactionByName( entity.EntityName).ID == 0)
+                        {
+                            entity.factionId = FactionManager.Instance.CreateFaction(entity.EntityName, true, "").ID;
+                            entity.factionRank = byte.MaxValue;
+                        }
+                    }
+
                 }
 
                 // Search for the faction

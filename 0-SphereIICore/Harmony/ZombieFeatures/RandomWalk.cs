@@ -1,10 +1,27 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+
+/**
+ * SphereII_Transmogrifier
+ *
+ * This class includes a Harmony patch that allows an entity to spawn in with a random walk type
+ *
+ *  You may specify a property on the entityclasses.xml to specify a range. if this property does not exist, the following range
+ *  is used:
+ *  
+ *  { 1, 2, 2, 3, 4, 5, 6, 7, 8 }
+ *  
+ * Usage XML:
+ * 
+ *      <!-- enforce a specific walk type range for an entity class -->
+ *      <property name="RandomWalkTypes" value="2,3,4,5,6,7" />
+ *
+ */
 public class SphereII_Transmogrifier
 {
     private static string AdvFeatureClass = "AdvancedZombieFeatures";

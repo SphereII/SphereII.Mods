@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class DialogRequirementHasCompletedQuestSDX : BaseDialogRequirement
 {
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         if (string.IsNullOrEmpty(Value))
             return false;

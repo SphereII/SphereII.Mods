@@ -4,6 +4,12 @@
     <Name value="Blooms Animal Husbandry" />
     <Description value="Adds in new farm animatals into the world." />
     <Author value="sphereii" />
-    <Version value="18.1.0.3" />
+    <Version value="19.0.0.7" />
   </ModInfo>
+  <DMT Hash="3f1f9db62b2d6631d24a5acf1159ef2c">
+    <dependencies>
+      <dependancy>0-SphereIICore</dependancy>
+    </dependencies>
+    <conflicts />
+  </DMT>
 </xml>

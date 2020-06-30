@@ -15,7 +15,7 @@ class XUiC_CharacterFrameWindowSDX : XUiController
         this.lblLevel = (XUiV_Label)base.GetChildById("levelNumber").ViewComponent;
         this.lblName = (XUiV_Label)base.GetChildById("characterName").ViewComponent;
         this.isDirty = true;
-        this.levelLabel = Localization.Get("lblLevel", string.Empty);
+        this.levelLabel = Localization.Get("lblLevel");
 
     }
     public override void Update(float _dt)

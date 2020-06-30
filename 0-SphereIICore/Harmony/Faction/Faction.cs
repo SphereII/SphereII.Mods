@@ -1,11 +1,16 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
-
+/**
+ * SphereII_Faction_Tweaks
+ * 
+ * This class includes a Harmony patches to enable or improve functionality in the factions. It includes allowing the factions to be saved to disk, as well
+ *  as fixing a casting bug when setting the relationship (A18/A19).
+ */
 class SphereII_Faction_Tweaks
 {
     // Fixing for a reverse condition for isGameStarted

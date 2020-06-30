@@ -46,6 +46,8 @@ public static class WinterModPrefab
             return;
         }
 
+
+       
         notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
 
         List<BlockChangeInfo> Changes = null;

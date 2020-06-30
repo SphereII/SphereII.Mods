@@ -76,7 +76,7 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
 
     // Cows were being stuck on the fence and trying to attack them. This is, I think, due to the entity move helper which makes
     // it attack blocks that get in its way, ala zombie.
-    public override bool Attack(bool _bAttackReleased)
+    public new bool Attack(bool _bAttackReleased)
     {
         if (this.attackTarget == null)
             return false;

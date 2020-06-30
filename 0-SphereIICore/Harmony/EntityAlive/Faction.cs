@@ -1,4 +1,4 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +6,12 @@ using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
 
+/**
+ * SphereII_EntityAlive_Patches
+ * 
+ * This class includes a Harmony patch to allow EntityAlive's to save and read their faction ID, allowing persistence across game loads.
+ * 
+ */
 class SphereII_EntityAlive_Patches
 {
     [HarmonyPatch(typeof(EntityAlive))]

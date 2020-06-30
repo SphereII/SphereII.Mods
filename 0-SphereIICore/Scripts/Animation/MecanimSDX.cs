@@ -358,10 +358,12 @@ class MecanimSDX : AvatarController
     {
     }
 
-    public override void StartAnimationHit(EnumBodyPartHit _bodyPart, int _dir, int _hitDamage, bool _criticalHit, int _movementState, float _random)
+    public override void StartAnimationHit(EnumBodyPartHit _bodyPart, int _dir, int _hitDamage, bool _criticalHit, int _movementState, float _random, float _duration)
     {
         SetRandomIndex("PainIndex");
         SetTrigger("Pain");
+
+        base.StartAnimationHit(_bodyPart, _dir, _hitDamage, _criticalHit, _movementState, _random, _duration);
     }
 
     public override bool IsAnimationHitRunning()

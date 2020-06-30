@@ -214,7 +214,7 @@ class EAILootLocationSDX : EAIApproachSpot
                 return null;
             }
             Vector3 position = player.position;
-            int num = (player.ChunkObserver == null) ? GamePrefs.GetInt(EnumGamePrefs.OptionsViewDistance) : player.ChunkObserver.viewDim;
+            int num = (player.ChunkObserver == null) ? GamePrefs.GetInt(EnumGamePrefs.OptionsGfxViewDistance) : player.ChunkObserver.viewDim;
             num = (num - 1) * 16;
             if (!player.isEntityRemote)
             {
@@ -339,7 +339,7 @@ class EAILootLocationSDX : EAIApproachSpot
         if (tileLootContainer.items != null)
         {
             BlockValue block = this.theEntity.world.GetBlock(blockPos);
-            String lootContainerName = Localization.Get(Block.list[block.type].GetBlockName(), string.Empty);
+            String lootContainerName = Localization.Get(Block.list[block.type].GetBlockName());
             theEntity.SetLookPosition(blockPos.ToVector3());
 
             DisplayLog(" Loot container is: " + lootContainerName);
@@ -356,7 +356,7 @@ class EAILootLocationSDX : EAIApproachSpot
             theEntity.FireEvent(MinEventTypes.onSelfOpenLootContainer);
             UnityEngine.Random.State state = UnityEngine.Random.state;
             UnityEngine.Random.InitState((int)(GameManager.Instance.World.worldTime % 2147483647UL));
-            ItemStack[] array = LootContainer.lootList[tileLootContainer.lootListIndex].Spawn(this.Random, tileLootContainer.items.Length, EffectManager.GetValue(PassiveEffects.LootGamestage, null, (float)player.PartyGameStage, player, null, default(FastTags), true, true, true, true, 1, true), 0f, player);
+            ItemStack[] array = LootContainer.lootList[tileLootContainer.lootListIndex].Spawn(this.Random, tileLootContainer.items.Length, EffectManager.GetValue(PassiveEffects.LootGamestage, null, (float)player.PartyGameStage, player, null, default(FastTags), true, true, true, true, 1, true), 0f, player, new FastTags());
             UnityEngine.Random.state = state;
             for (int i = 0; i < array.Length; i++)
             {
