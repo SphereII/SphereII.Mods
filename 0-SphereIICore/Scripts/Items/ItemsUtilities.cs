@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 
@@ -94,7 +95,6 @@ public static class ItemsUtilities
 
         if (!CheckIngredients(recipe.ingredients, player))
             return false;
-
         // Verify we can craft this.
         if (!recipe.CanCraft(recipe.ingredients, player))
             return false;
@@ -144,23 +144,33 @@ public static class ItemsUtilities
 
     public static bool CheckIngredients(List<ItemStack> ingredients, EntityPlayerLocal player)
     {
-        bool result = false;
+        bool result = true;
         foreach (ItemStack ingredient in ingredients)
         {
             // Check if the palyer hs the items in their inventory or bag.
             int playerHas = player.inventory.GetItemCount(ingredient.itemValue);
-            if (ingredient.count < playerHas)
+            if (ingredient.count > playerHas)
             {
                 playerHas = player.bag.GetItemCount(ingredient.itemValue);
-                if (ingredient.count < playerHas)
+                if (ingredient.count > playerHas)
                 {
-                    ItemClass itemClass = ItemClass.GetItemClass(ingredient.itemValue.ItemClass.GetItemName(), false);
-                    ItemStack missingStack = new ItemStack(ingredient.itemValue, ingredient.count);
-                    player.AddUIHarvestingItem(missingStack, true);
                     result = false;
                 }
             }
         }
+
+        //// The player has all the ingredients.
+        //if ( result )
+        //{ 
+        //    if (ingredient.count < playerHas)
+        //    {
+        //        ItemClass itemClass = ItemClass.GetItemClass(ingredient.itemValue.ItemClass.GetItemName(), false);
+        //        ItemStack missingStack = new ItemStack(ingredient.itemValue, ingredient.count);
+        //        player.AddUIHarvestingItem(missingStack, true);
+        //        result = false;
+        //    }
+            
+        //}
 
         return result;
     }
