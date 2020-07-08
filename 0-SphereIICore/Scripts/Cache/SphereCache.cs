@@ -44,7 +44,9 @@ public static class SphereCache
             int MaxCount = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveCluster"));
             int ClusterSize = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CavesClusterSize"));
 
-            Debug.Log("Searching for " + MaxCount + " Cave Clusters. Each Cave Cluster will include " + ClusterSize + " chunks...");
+            String display = "Searching for " + MaxCount + " Cave Clusters. Each Cave Cluster will include " + ClusterSize + " chunks...";
+            AdvLogging.DisplayLog(AdvFeatureClass, display);
+           
 
             Vector3i[] RandomCavePoints = FindRandomPoints(MaxCount);
             //for (int x = 0; x < 10; x++)
@@ -54,14 +56,15 @@ public static class SphereCache
                 Vector3i randomChunkPosition = RandomCavePoints[i]; //vector3i world pos
                 var caveRadius = ClusterSize;
 
-                Debug.Log("Cave: " + RandomCavePoints[i]);
                 //find a random x/z inside the bounds of the cave
                 int entranceX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.x, randomChunkPosition.x + (caveRadius * 16)));
                 int entranceZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.z, randomChunkPosition.z + (caveRadius * 16)));
                 Vector3i entrance = new Vector3i(entranceX, 0, entranceZ);
                 caveEntrances.Add(new Vector3i(entranceX, 0, entranceZ));
 
-                Debug.Log("Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ));
+                display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
+                AdvLogging.DisplayLog(AdvFeatureClass, display);
+
                 for (var cX = 0; cX < caveRadius; cX++)
                 {
                     for (var cZ = 0; cZ < caveRadius; cZ++)
