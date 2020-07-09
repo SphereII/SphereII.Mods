@@ -70,7 +70,8 @@
       <property name="Lacunarity" value="1"/>
       <property name="Gain" value="0.5"/>
       <property name="Frequency" value="0.09"/>
-      <property name="CavePOIs" value="sphereii_cave_01,sphereii_cave_02,sphereii_cave_03,sphereii_cave_04,sphereii_cave_05,sphereii_cave_06" />
+      <property name="CavePOIs" value="sphereii_cave_01,sphereii_cave_02,sphereii_cave_03,sphereii_cave_04,sphereii_cave_05,sphereii_cave_06,sphereii_cave_07,sphereii_cave_08,sphereii_cave_09,sphereii_cave_10" />
+      
       <property name="MaxPrefabPerChunk" value="6" />
     </property>
   </append>

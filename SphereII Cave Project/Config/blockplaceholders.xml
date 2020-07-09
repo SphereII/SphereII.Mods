@@ -25,6 +25,8 @@
       <block name="stalagmite02" prob=".001"/>
       <block name="stalagmite03" prob=".001"/>
       <block name="stalagmite04" prob=".001"/>
+      <block name="mushroom01" prob=".001"/>
+      <block name="mushroom02" prob=".001"/>
       <block name="caveBlock02" />
     </placeholder>
 
@@ -41,11 +43,19 @@
       <block name="cntBarrelOilSingle00" prob=".001"/>
       <block name="cntBarrelRadiatedSingle00" prob=".001"/>
       <block name="cntBarrelRadiatedQuadB" prob=".001"/>
-
+      <block name="cntBackpack01" prob=".001"/>
+      <block name="cntBackpack03" prob=".001"/>
+      <block name="cntDuffle01" prob=".001"/>
+      <block name="cntSportsBag01" prob=".001"/>
+      <block name="cntSportsBag02" prob=".001"/>
+      <block name="cntPurse01" prob=".001"/>
+      <block name="cntDeskSafe" prob=".001"/>
+      <block name="cntBathTubGore" prob=".001" />
       <block name="stalagmite01" prob=".001"/>
       <block name="stalagmite02" prob=".001"/>
       <block name="stalagmite03" prob=".001"/>
       <block name="stalagmite04" prob=".001"/>
+      
       <block name="caveBlock02" />
     </placeholder>
     
