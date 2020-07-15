@@ -179,6 +179,10 @@ public static class SphereII_CaveTunneler
         foreach (String poi in Configuration.GetPropertyValue(AdvFeatureClass, "CavePOIs").Split(','))
             POIs.Add(poi);
 
+        List<String> CaveSpawners = new List<string>();
+        foreach (String poi in Configuration.GetPropertyValue(AdvFeatureClass, "CaveSpawners").Split(','))
+            CaveSpawners.Add(poi);
+
         FastNoise fastNoise = GetFastNoise(chunk);
 
         AdvLogging.DisplayLog(AdvFeatureClass, "Decorating new Cave System...");
@@ -226,6 +230,19 @@ public static class SphereII_CaveTunneler
                         continue;
                     }
 
+                    if (IsIsolatedBlock(chunk, new Vector3i(chunkX, y, chunkZ)) && _random.RandomRange(0, 10) < 1)
+                    {
+                        String FindPrefab = CaveSpawners[_random.RandomRange(0, CaveSpawners.Count)];
+                        Prefab prefab = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(FindPrefab);
+                        if (prefab != null)
+                        {
+                            Vector3i destination = chunk.ToWorldPos(new Vector3i(chunkX, y + prefab.yOffset, chunkZ));
+                            AdvLogging.DisplayLog(AdvFeatureClass, "Placing Spawner " + FindPrefab + " at " + destination);
+                            prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, true, true);
+                            prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
+                        }
+                        continue;
+                    }
                     // If there's a cave entrance on this chunk, find the top air block, and build the cave entrance from it.
                     if (caveEntrance != Vector3i.zero)
                     {

@@ -351,7 +351,6 @@ public class EntityAliveSDX : EntityNPC
     {
         base.Read(_version, _br);
         strMyName = _br.ReadString();
-        Buffs.Read(_br);
         QuestJournal = new QuestJournal();
         QuestJournal.Read(_br);
         PatrolCoordinates.Clear();
@@ -377,7 +376,6 @@ public class EntityAliveSDX : EntityNPC
     {
         base.Write(_bw);
         _bw.Write(strMyName);
-        Buffs.Write(_bw, false);
         QuestJournal.Write(_bw);
         String strPatrolCoordinates = "";
         foreach (Vector3 temp in PatrolCoordinates)
@@ -490,8 +488,12 @@ public class EntityAliveSDX : EntityNPC
         EntityAlive target = EntityUtilities.GetAttackOrReventTarget(entityId) as EntityAlive;
         if (target != null)
         {
-            SetLookPosition(attackTarget.position);
-            RotateTo(attackTarget, 45, 45);
+            // makes the npc look at its attack target
+            if (this.emodel != null && this.emodel.avatarController != null)
+                this.emodel.SetLookAt(target.getHeadPosition());
+
+            SetLookPosition(target.getHeadPosition());
+            RotateTo(target, 45, 45);
         }
         Buffs.RemoveBuff("buffnewbiecoat", false);
         Stats.Health.MaxModifier = Stats.Health.Max;

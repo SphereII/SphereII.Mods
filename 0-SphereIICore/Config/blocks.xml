@@ -3,75 +3,101 @@
   <removeattribute xpath="/blocks/block[@name='houseFrontDoor1_v1']/drop[@event='Destroy']/@tag" />
 
   <append xpath="/blocks">
-  
+
     <block name="ConfigFeatureBlock">
       <property name="Extends" value="terrDesertGround"/>
 
       <property class="FoodSpoilage">
         <property name="Logging" value="false"/>
-        <property name="FoodSpoilage" value="false" />  <!-- Turns on Food spoilage-->
-        <property name="Toolbelt" value="6" />     <!-- Penalty of 3 points per spoilage tick --> 
-        <property name="Backpack" value="5" />     <!-- Penalty of 5 points per spoilage tick -->
-        <property name="Container" value="4" />    <!-- Penalty of 2 points per spoilage tick -->
-        <property name="MinimumSpoilage" value="1" />  <!-- absolute minimum spoilage per tick -->
-        <property name="TickPerLoss" value="10" />   <!-- Global Setting Example value=10   10 ticks per Spoilage increase. -->
-        <property name="SpoiledItem" value="foodRottingFlesh" />  <!-- When spoiled, this item will turn into this item.-->
+        <property name="FoodSpoilage" value="false" />
+        <!-- Turns on Food spoilage-->
+        <property name="Toolbelt" value="6" />
+        <!-- Penalty of 3 points per spoilage tick -->
+        <property name="Backpack" value="5" />
+        <!-- Penalty of 5 points per spoilage tick -->
+        <property name="Container" value="4" />
+        <!-- Penalty of 2 points per spoilage tick -->
+        <property name="MinimumSpoilage" value="1" />
+        <!-- absolute minimum spoilage per tick -->
+        <property name="TickPerLoss" value="10" />
+        <!-- Global Setting Example value=10   10 ticks per Spoilage increase. -->
+        <property name="SpoiledItem" value="foodRottingFlesh" />
+        <!-- When spoiled, this item will turn into this item.-->
       </property>
 
       <property class="AdvancedSoundFeatures" >
         <property name="Logging" value="false"/>
       </property>
-     
+
       <property class="AdvancedItemFeatures" >
         <property name="Logging" value="false"/>
-        <property name="AdvancedItemRepair" value="false" />  <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
-        <property name="DurabilityAffectsDamage" value="false" />  <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
+        <property name="AdvancedItemRepair" value="false" />
+        <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
+        <property name="DurabilityAffectsDamage" value="false" />
+        <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
       </property>
 
       <property class="AdvancedPlayerFeatures" >
         <property name="Logging" value="false"/>
-        <property name="AntiNerdPole" value="false" /> <!-- Player cannot jump and place a block under neath them-->
-        <property name="OneBlockCrouch" value="true" />  <!-- Allow you to fit through one block spaces -->
-        <property name="SoftHands" value="false" />    <!-- Damages the player if they hit something with their bare hands. -->
+        <property name="AntiNerdPole" value="false" />
+        <!-- Player cannot jump and place a block under neath them-->
+        <property name="OneBlockCrouch" value="true" />
+        <!-- Allow you to fit through one block spaces -->
+        <property name="SoftHands" value="false" />
+        <!-- Damages the player if they hit something with their bare hands. -->
       </property>
 
       <property class="AdvancedZombieFeatures">
         <property name="Logging" value="false"/>
-        <property name="HeadshotOnly" value="false" />  <!-- Only way to kill them is through head shots -->
-        <property name="RandomSize" value="true" />     <!-- Give them random sizes for more variety -->
-        <property name="RandomWalk" value="true" />   <!-- Give them random walks. -->
+        <property name="HeadshotOnly" value="false" />
+        <!-- Only way to kill them is through head shots -->
+        <property name="RandomSize" value="true" />
+        <!-- Give them random sizes for more variety -->
+        <property name="RandomWalk" value="true" />
+        <!-- Give them random walks. -->
       </property>
 
       <property class="AdvancedProgression">
         <property name="Logging" value="false"/>
-        <property name="ZeroXP" value="false" /> <!-- Disable gaining Experience from any source. -->
+        <property name="ZeroXP" value="false" />
+        <!-- Disable gaining Experience from any source. -->
       </property>
 
       <property class="ErrorHandling">
         <property name="Logging" value="false"/>
-        <property name="NoExceptionHijack" value="true" />  <!-- Disables the console drop down on red exception -->
+        <property name="NoExceptionHijack" value="true" />
+        <!-- Disables the console drop down on red exception -->
       </property>
-      
+
       <property class="AdvancedUI">
         <property name="Logging" value="false"/>
-        <property name="DisableXPIconNotification" value="false" />   <!-- Don't like the UI element for XP? Set to true to disable. -->
-        <property name="UnlockEnemyHealthBar" value="true" /> <!-- Unlocks the enemy health bar-->
+        <property name="DisableXPIconNotification" value="false" />
+        <!-- Don't like the UI element for XP? Set to true to disable. -->
+        <property name="UnlockEnemyHealthBar" value="true" />
+        <!-- Unlocks the enemy health bar-->
       </property>
 
       <property class="AdvancedWorldGen">
         <property name="Logging" value="false"/>
-        <!--property name="DisableSplatMap" value="false" /-->   <!-- Disable the splat map: Also disables distant terrain -->
+        <!--property name="DisableSplatMap" value="false" /-->
+        <!-- Disable the splat map: Also disables distant terrain -->
         <!-- Mod moved to SphereII Legacy Distant Terrain -->
       </property>
-      
+
       <property class="AdvancedNPCFeatures" >
         <property name="Logging" value="false"/>
-        <property name="EnhancedFeatures" value="false" />   <!-- Allow NPCs to open doors, etc-->
-        <property name="MakeTraderVulnerable" value="false" /> <!-- allow the Trader NPCs to die. -->
-        <property name="NPCSpeedFix" value="true" />        <!-- allow the Trader NPCs to move at a reasonable speed -->
-        <property name="NPCMaslow" value="true" />    <!-- Turn on or off Maslow for NPCs -->
-        <property name="AnimalMaslow" value="true" /> <!-- Turn on or off maslow for animals. -->
-        <property name="HumanTags"  value="human,bandit,survivor,npc,trader" /> <!-- Tags that translate that the entity is alive and has a brain -->
+        <property name="EnhancedFeatures" value="false" />
+        <!-- Allow NPCs to open doors, etc-->
+        <property name="MakeTraderVulnerable" value="false" />
+        <!-- allow the Trader NPCs to die. -->
+        <property name="NPCSpeedFix" value="true" />
+        <!-- allow the Trader NPCs to move at a reasonable speed -->
+        <property name="NPCMaslow" value="true" />
+        <!-- Turn on or off Maslow for NPCs -->
+        <property name="AnimalMaslow" value="true" />
+        <!-- Turn on or off maslow for animals. -->
+        <property name="HumanTags"  value="human,bandit,survivor,npc,trader" />
+        <!-- Tags that translate that the entity is alive and has a brain -->
 
       </property>
 
@@ -90,16 +116,68 @@
         <property name="PhysicsBody" value="false" />
         <property name="AnimatorMapper" value="false" />
       </property>
-      
+
       <property class="AdvancedPrefabFeatures" >
         <property name="Logging" value="false"/>
-        <property name="DisableTraderProtection" value="false" />  <!-- Disables Trader Protection in their prefabs -->
+        <property name="DisableTraderProtection" value="false" />
+        <!-- Disables Trader Protection in their prefabs -->
       </property>
 
-        <property class="AdvancedTileEntities" >
-          <property name="Logging" value="false"/>
-        </property>
+      <property class="AdvancedTileEntities" >
+        <property name="Logging" value="false"/>
+      </property>
+      <property class="CaveConfiguration" >
+        <!-- 
+          FastNoise Implementation : https://github.com/Auburns/FastNoise_CSharp 
+      
+          Dynamically generates a FastNosie-based tunnelling system.
+          
+          Download FastNoise Preview to get a feel for the map they are generating.
+          https://github.com/Auburns/FastNoise/releases
+      -->
+        <property name="Logging" value="false"/>
+        <property name="CaveEnabled" value="false"/>
 
+        <!-- Generate cave system only in mountains (above terrain height 100, or random through the map. All for every chunk has a cave system ) -->
+        <!-- Deep Mountains will produce up to 100 levels, or until it reaches bedrock. This could cause lag during generation and an FPS drop. -->
+        <property name="CaveType" value="Random" />
+        <!-- Mountains, Random, All, DeepMountains -->
+
+        <!-- Default is up to 5 levels, depending on depth of terrain. Note: This value is ignored if DeepMountains is selected -->
+        <property name="MaxCaveLevels"  value="5" />
+
+        <!-- How many cave clusters to create on a map. This value only takes effect when CaveType is Random  -->
+        <property name="CaveCluster" value="50" />
+
+        <!-- How many chunks to include per cluster. This value only takes effect when CaveType is Random -->
+        <property name="CavesClusterSize" value="20" />
+
+        <!-- RigidMulti, Billow, or FBM-->
+        <!-- Default is RigidMulti-->
+        <property name="FractalType" value="RigidMulti" />
+
+        <!-- Celluar, Cubic, CubicFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Value, ValueFractal, WhiteNoise -->
+        <!-- Default is a SimplexFractal -->
+        <property name="NoiseType" value="SimplexFractal" />
+
+        <!-- Determines what level of a noise threshold to drop a cave Block -->
+        <!-- Higher numbers will result in more open caves horizontally -->
+        <property name="CaveThresholdXZ" value="0.20"/>
+
+        <!-- Determines what level of a noise threshold to drop down a level on the Y axis, making deeper caves. -->
+        <!-- higher numbers will result in more vertical drops. A lower number, less so. -->
+        <property name="CaveThresholdY" value="0.01"/>
+
+        <!--https://leatherbee.org/index.php/2018/10/24/perlin-and-simplex-noise/#:~:text=Lacunarity%20and%20gain%20measure%20how,amplitude%20of%20the%20previous%20octave. -->
+        <!-- Small adjustments are recommended. Large adjustments are.... inconsistent. -->
+        <property name="Octaves" value="10"/>
+        <property name="Lacunarity" value="1"/>
+        <property name="Gain" value="0.5"/>
+        <property name="Frequency" value="0.09"/>
+        <property name="CavePOIs" value="sphereii_cave_01,sphereii_cave_02,sphereii_cave_03,sphereii_cave_04,sphereii_cave_05,sphereii_cave_06,sphereii_cave_07,sphereii_cave_08,sphereii_cave_09,sphereii_cave_10" />
+        <property name="CaveSpawners" value="sphereii_cave_11" />
+        <property name="MaxPrefabPerChunk" value="6" />
+      </property>
     </block>
 
     <block name="PathingCube">
@@ -128,7 +206,8 @@
     <block name="BlockSpawnerSDX">
       <property name="Class" value="SpawnerSDX, Mods"/>
       <property name="SpawnGroup" value="FriendlyAnimalsDesert" />
-      <property name="Task" value="Stay" />  <!-- Stay, Patrol, Wander -->
+      <property name="Task" value="Stay" />
+      <!-- Stay, Patrol, Wander -->
       <property name="Material" value="Mair"/>
       <property name="CreativeMode" value="Player" />
       <property name="ImposterExclude" value="true" />
@@ -137,6 +216,26 @@
       <property name="TakeDelay" value="3" />
       <property name="Shape" value="ModelEntity" />
       <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube2"/>
+    </block>
+
+    <!-- Cave air block -->
+    <block name="caveBlock02">
+      <property name="Extends" value="air"/>
+      <property name="StabilityFull" value="true"/>
+    </block>
+
+    <block name="cntCaveFloorRandomLootHelper">
+      <property name="Extends" value="cntWastelandRandomLootHelper"/>
+      <property name="CreativeMode" value="Dev"/>
+    </block>
+    <block name="cntCaveCeilingRandomLootHelper">
+      <property name="Extends" value="cntWastelandRandomLootHelper"/>
+      <property name="CreativeMode" value="Dev"/>
+    </block>
+
+    <block name="cntDeepCaveFloorRandomLootHelper">
+      <property name="Extends" value="cntWastelandRandomLootHelper"/>
+      <property name="CreativeMode" value="Dev"/>
     </block>
   </append>
 </configs>

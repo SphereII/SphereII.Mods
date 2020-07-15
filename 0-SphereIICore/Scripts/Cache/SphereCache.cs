@@ -35,7 +35,7 @@ public static class SphereCache
 
         return positions;
     }
-    public static void GenerateCaveChunks()
+    public static void GenerateCaveChunks(int CaveEntrances = 2)
     {
         string AdvFeatureClass = "CaveConfiguration";
 
@@ -47,7 +47,6 @@ public static class SphereCache
             String display = "Searching for " + MaxCount + " Cave Clusters. Each Cave Cluster will include " + ClusterSize + " chunks...";
             AdvLogging.DisplayLog(AdvFeatureClass, display);
            
-
             Vector3i[] RandomCavePoints = FindRandomPoints(MaxCount);
             //for (int x = 0; x < 10; x++)
             //{
@@ -56,14 +55,17 @@ public static class SphereCache
                 Vector3i randomChunkPosition = RandomCavePoints[i]; //vector3i world pos
                 var caveRadius = ClusterSize;
 
-                //find a random x/z inside the bounds of the cave
-                int entranceX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.x, randomChunkPosition.x + (caveRadius * 16)));
-                int entranceZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.z, randomChunkPosition.z + (caveRadius * 16)));
-                Vector3i entrance = new Vector3i(entranceX, 0, entranceZ);
-                caveEntrances.Add(new Vector3i(entranceX, 0, entranceZ));
-
-                display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
-                AdvLogging.DisplayLog(AdvFeatureClass, display);
+                for (int x = 0; x < CaveEntrances; x++ )
+                {
+                    //find a random x/z inside the bounds of the cave
+                    int entranceX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.x, randomChunkPosition.x + (caveRadius * 16)));
+                    int entranceZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.z, randomChunkPosition.z + (caveRadius * 16)));
+                    Vector3i entrance = new Vector3i(entranceX, x, entranceZ);
+                    caveEntrances.Add(new Vector3i(entranceX, x, entranceZ));
+                    display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
+                    AdvLogging.DisplayLog(AdvFeatureClass, display);
+                    Debug.Log(display);
+                }
 
                 for (var cX = 0; cX < caveRadius; cX++)
                 {

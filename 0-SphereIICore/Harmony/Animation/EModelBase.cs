@@ -43,7 +43,6 @@ public class SphereII_EmodelBase_LookAtUpdate
     public static bool Prefix(EModelBase __instance, Entity ___entity, Transform ___neckParentTransform, Transform ___headTransform, ref Vector3 ___lookAtPos, float ___lookAtMaxAngle,
         ref Quaternion ___lookAtRot, Transform ___neckTransform, ref float ___lookAtBlendPer, ref float ___lookAtBlendPerTarget, bool ___lookAtIsPos)
     {
-
         EntityAliveSDX entityAlive = ___entity as EntityAliveSDX;
         if (!entityAlive)
             return true;
@@ -54,13 +53,15 @@ public class SphereII_EmodelBase_LookAtUpdate
         {
             ___lookAtBlendPerTarget = 0f;
         }
-        else if (!___lookAtIsPos)
+
+        // If the entity has an attack target, look at them, instead of hte player.
+        Entity target = EntityUtilities.GetAttackOrReventTarget(___entity.entityId);
+        if (target != null)
         {
             ___lookAtBlendPerTarget -= deltaTime;
-            EntityAlive attackTargetLocal = entityAlive.GetAttackTargetLocal();
-            if (attackTargetLocal && entityAlive.CanSee(attackTargetLocal))
+            if (target && entityAlive.CanSee(target as EntityAlive))
             {
-                ___lookAtPos = attackTargetLocal.getHeadPosition();
+                ___lookAtPos = target.getHeadPosition();
                 ___lookAtBlendPerTarget = 1f;
             }
         }
