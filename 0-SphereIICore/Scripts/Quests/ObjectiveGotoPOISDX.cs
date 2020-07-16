@@ -49,7 +49,6 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
             base.OwnerQuest.Position = this.position;
             this.SetDistanceOffset(vector);
             this.positionSet = true;
-
             base.OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, this.NavObjectName, -1);
             base.CurrentValue = 2;
             return this.position;
@@ -83,7 +82,7 @@ class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                     if (usedPOILocations != null)
                         usedPOILocations.Add(new Vector2((float)randomPOINearWorldPos.boundingBoxPosition.x, (float)randomPOINearWorldPos.boundingBoxPosition.z));
 
-                    base.OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, this.icon);
+                    base.OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, this.NavObjectName, -1);
                     return this.position;
                 }
             }

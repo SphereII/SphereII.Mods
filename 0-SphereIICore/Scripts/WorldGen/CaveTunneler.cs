@@ -46,7 +46,6 @@ public static class SphereII_CaveTunneler
                 Vector3i targetPos = Vector3i.zero;
                 if (Math.Abs(noise) < caveThresholdXZ)
                 {
-
                     //// Drop a level
                     if (Math.Abs(noise2) < caveThresholdY)
                         DepthFromTerrain++;
@@ -188,6 +187,13 @@ public static class SphereII_CaveTunneler
         AdvLogging.DisplayLog(AdvFeatureClass, "Decorating new Cave System...");
         GameRandom _random = GameManager.Instance.World.GetGameRandom();
 
+        // non-Random caves need an opening that isn't predefined in the cache.
+        String caveType = Configuration.GetPropertyValue(AdvFeatureClass, "CaveType");
+        if (caveType != "Random" && _random.RandomRange(0, 100) < 2)
+        {
+            caveEntrance.x = _random.RandomRange(1,15);
+            caveEntrance.z = _random.RandomRange(1,15);
+        }
         int MaxPrefab = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxPrefabPerChunk"));
         int currentPrefabCount = 0;
 
@@ -215,6 +221,8 @@ public static class SphereII_CaveTunneler
 
                     float noise = fastNoise.GetNoise(chunkX, chunkZ);
                     _random.SetSeed(chunkX * chunkZ * y);
+
+                    // Placing random Prefabs
                     if (IsIsolatedBlock(chunk, new Vector3i(chunkX, y, chunkZ)) && _random.RandomRange(0, 10) < 1)
                     {
                         String FindPrefab = POIs[_random.RandomRange(0, POIs.Count)];
@@ -226,10 +234,12 @@ public static class SphereII_CaveTunneler
                             prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, true, true);
                             prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
                             currentPrefabCount++;
+                            continue;
+
                         }
-                        continue;
                     }
 
+                    // Placing random sleeper prefab
                     if (IsIsolatedBlock(chunk, new Vector3i(chunkX, y, chunkZ)) && _random.RandomRange(0, 10) < 1)
                     {
                         String FindPrefab = CaveSpawners[_random.RandomRange(0, CaveSpawners.Count)];
@@ -240,9 +250,11 @@ public static class SphereII_CaveTunneler
                             AdvLogging.DisplayLog(AdvFeatureClass, "Placing Spawner " + FindPrefab + " at " + destination);
                             prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, true, true);
                             prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
+                            continue;
+
                         }
-                        continue;
                     }
+
                     // If there's a cave entrance on this chunk, find the top air block, and build the cave entrance from it.
                     if (caveEntrance != Vector3i.zero)
                     {
@@ -253,6 +265,7 @@ public static class SphereII_CaveTunneler
                             if (prefab != null)
                             {
                                 destination.y = tHeight;
+                                Debug.Log("Placing Cave Entrance: " + caveEntrance);
                                 AdvLogging.DisplayLog(AdvFeatureClass, "Placing Cave Entrance: " + caveEntrance);
 
                                 for (int x = 0; x < 10; x++)
@@ -276,6 +289,7 @@ public static class SphereII_CaveTunneler
 
                                 }
                             }
+                            caveEntrance = Vector3i.zero;
                         }
                     }
                     // Check the floor for possible decoration
