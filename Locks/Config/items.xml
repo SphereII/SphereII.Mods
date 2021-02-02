@@ -1,0 +1,18 @@
+<configs>
+	<append xpath="/items">
+		<item name="LockLoadingHack"> <!-- This mod contains paid assets, do not use locks outside this modlet  -->
+			<property name="CreativeMode" value="None"/>
+			<property name="CustomIcon" value="missingIcon"/><property name="CustomIconTint" value="90ff90"/>
+			<property name="HoldType" value="45"/>
+			<property name="HoldingItemHidden" value="true"/>
+			<property name="Meshfile" value="#@modfolder:Resources/Locks.unity3d?Lockset01"/> <!-- purchased asset  -->
+			<property name="DropMeshfile"  value="#@modfolder:Resources/Locks.unity3d?Lockset01"/>
+			<property name="Material" value="MresourceScrapIron"/>
+			<property name="Weight" value="1"/>
+			<property name="Stacknumber" value="1"/> 
+			<property name="EconomicValue" value="1"/>
+			<property name="EconomicBundleSize" value="1000"/>
+			<property name="Group" value="Resources"/>
+		</item>
+ 	</append>	  
+</configs>

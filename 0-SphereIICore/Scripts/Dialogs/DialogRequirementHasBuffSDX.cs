@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-/*
+﻿/*
  * Match at least one of these buffs, by default.
  *      <requirement type="HasBuffSDX, Mods" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" /> 
  * Match at least 2
@@ -18,29 +16,29 @@ public class DialogRequirementHasBuffSDX : BaseDialogRequirement
 {
     public string strMatch = "1";
 
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int Matches = -1;
-     
+
         // If there's more than one buff listed, loop around, recording how many we match.
-        if(Value.Contains(","))
+        if (Value.Contains(","))
         {
             Matches = 0;
             string[] array = Value.Split(new char[]
             {
                 ','
             });
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
-                if(player.Buffs.HasBuff(array[i]))
+                if (player.Buffs.HasBuff(array[i]))
                     Matches++;
             }
         }
         else
         {
             // If it's a single buff, check our operator
-            if(strMatch.ToLower() == "not")
-                if(!player.Buffs.HasBuff(Value))
+            if (strMatch.ToLower() == "not")
+                if (!player.Buffs.HasBuff(Value))
                     return true;
 
             // Reverse condition on the buff.
@@ -60,32 +58,32 @@ public class DialogRequirementHasBuffSDX : BaseDialogRequirement
             return false;
 
         // Check to see if match is a special key word.
-        switch(strMatch.ToLower())
+        switch (strMatch.ToLower())
         {
             case "not":  // Make sure we don't match any.
-                if(Matches == 0)
+                if (Matches == 0)
                     return true;
                 break;
             case "none":  // Make sure we don't match any.
-                if(Matches == 0)
+                if (Matches == 0)
                     return true;
                 break;
 
             case "all":   // make sure we match them all.
-                if(Matches == Value.Split(new char[] { ',' }).Length)
+                if (Matches == Value.Split(new char[] { ',' }).Length)
                     return true;
                 break;
         }
 
         // If it's a numeric value, make sure we match at least that many
         int Counter = 0;
-        if(int.TryParse(strMatch, out Counter))
+        if (int.TryParse(strMatch, out Counter))
         {
-            if(Counter >= Matches)
+            if (Counter >= Matches)
                 return true;
 
         }
-        
+
         return false;
 
     }

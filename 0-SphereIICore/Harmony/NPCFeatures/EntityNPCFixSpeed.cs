@@ -1,14 +1,17 @@
-﻿using DMT;
-using Harmony;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+using HarmonyLib;
 using UnityEngine;
+
+
+/**
+ * EntityNPCSpeedFix
+ *
+ * This class includes a Harmony patches to EntityNPC to adjust its update Speed Forward, which hasn't gotten the same updates as EntityAlive.
+ */
 class EntityNPCSpeedFix
 {
 
-    private static string AdvFeatureClass = "AdvancedNPCFeatures";
-    private static string Feature = "NPCSpeedFix";
+    private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
+    private static readonly string Feature = "NPCSpeedFix";
 
     [HarmonyPatch(typeof(EntityNPC))]
     [HarmonyPatch("updateSpeedForwardAndStrafe")]

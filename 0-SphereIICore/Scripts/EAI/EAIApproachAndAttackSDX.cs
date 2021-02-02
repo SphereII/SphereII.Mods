@@ -5,74 +5,73 @@ using UnityEngine;
 // Disables the Eating animation
 class EAIApproachAndAttackSDX : EAIApproachAndAttackTarget
 {
-    private bool isTargetToEat = false;
+    public readonly bool isTargetToEat = false;
 
-    private bool blDisplayLog = false;
-  
+    private readonly bool blDisplayLog = false;
+
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
-            Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
+            Debug.Log(GetType() + " : " + theEntity.EntityName + ": " + theEntity.entityId + ": " + strMessage);
     }
 
+
+    public override void Start()
+    {
+        base.Start();
+        EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Melee);
+
+    }
     public override bool CanExecute()
     {
-        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) == null)
+        if (this.theEntity.sleepingOrWakingUp || this.theEntity.bodyDamage.CurrentStun != EnumEntityStunType.None || (this.theEntity.Jumping && !this.theEntity.isSwimming))
             return false;
-        bool result = base.CanExecute();
-        
-        if(result && this.entityTarget != null )
-        {
 
-            if (EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
-                return false;
 
-            this.theEntity.SetLookPosition(this.entityTarget.getHeadPosition());
-            this.theEntity.RotateTo(this.entityTarget, 30f, 30f);
+        this.entityTarget = EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) as EntityAlive;
+        if (this.entityTarget == null)
+            return false;
 
-            DisplayLog(" Has Task: " + EntityUtilities.HasTask(this.theEntity.entityId, "Ranged"));
+        if (EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Stay))
+            return false;
 
-            // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
-            if(EntityUtilities.HasTask(this.theEntity.entityId, "Ranged") )
-            {
-                if (result)
-                {
-                    int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
-                    if (Task != 2)
-                        return false;
+        theEntity.SetLookPosition(entityTarget.getHeadPosition());
+        theEntity.RotateTo(entityTarget, 30f, 30f);
 
-                }
-            }
+        DisplayLog(" Has Task: " + EntityUtilities.HasTask(theEntity.entityId, "Ranged"));
 
-            EntityUtilities.ChangeHandholdItem(this.theEntity.entityId, EntityUtilities.Need.Melee);
-        }
+        // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
+        if (EntityUtilities.HasTask(theEntity.entityId, "Ranged") && EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId))
+            return false;
 
-        
-        return result;
+        return true;
     }
 
     public override bool Continue()
     {
-        if (EntityUtilities.GetAttackOrReventTarget(this.theEntity.entityId) == null)
+        if (this.theEntity.sleepingOrWakingUp || this.theEntity.bodyDamage.CurrentStun != EnumEntityStunType.None)
             return false;
 
-        bool result = base.Continue();
-        if (result)
-        {
-            // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
-            if (EntityUtilities.HasTask(this.theEntity.entityId, "Ranged"))
-            {
-                if (result)
-                {
-                    int Task = EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId);
-                    if (Task != 2)
-                        return false;
+        if (entityTarget == null)
+            return false;
 
-                }
-            }
+        // Non zombies should continue to attack
+        if (entityTarget.IsDead())
+        {
+            theEntity.IsEating = false;
+            theEntity.SetAttackTarget(null, 0);
+            theEntity.SetRevengeTarget(null);
+            return false;
         }
 
-        return result;
+        // Don't execute the approach and attack if there's a ranged ai task, and they are still 4 blocks away
+        if (EntityUtilities.HasTask(theEntity.entityId, "Ranged") && EntityUtilities.CheckAIRange(theEntity.entityId, entityTarget.entityId))
+            return false;
+
+        EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Melee);
+
+
+        return true;
     }
 
 

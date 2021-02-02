@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 
@@ -85,7 +84,7 @@ public static class BlockUtilitiesSDX
         if (strParticleName == null || strParticleName == "")
             return;
         BlockValue blockValue = GameManager.Instance.World.GetBlock(position);
-        GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position, new ParticleEffect(strParticleName,  position.ToVector3() + Vector3.up, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
+        GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position, new ParticleEffect(strParticleName, position.ToVector3() + Vector3.up, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
     }
 
     public static void removeParticles(Vector3i position)

@@ -10,10 +10,8 @@
  *
  *      <property name="Class" value="EntityAliveFarmingAnimal, Mods" />
  */
-using System.Collections.Generic;
-using UnityEngine;
 using System;
-using System.IO;
+using UnityEngine;
 
 public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
 {
@@ -23,8 +21,8 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
         base.Awake();
 
         // So they don't step over each other.
-       // this.stepHeight = 0f;
-       // ConfigureBounaryBox(new Vector3(1f, 1.8f, 1f));
+        // this.stepHeight = 0f;
+        // ConfigureBounaryBox(new Vector3(1f, 1.8f, 1f));
 
     }
 
@@ -34,22 +32,22 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
         if (component)
         {
             DisplayLog(" Box Collider: " + component.size.ToCultureInvariantString());
-            DisplayLog(" Current Boundary Box: " + this.boundingBox.ToCultureInvariantString());
+            DisplayLog(" Current Boundary Box: " + boundingBox.ToCultureInvariantString());
             // Re-adjusting the box collider     
             component.size = newSize;
 
-            this.scaledExtent = new Vector3(component.size.x / 2f * base.transform.localScale.x, component.size.y / 2f * base.transform.localScale.y, component.size.z / 2f * base.transform.localScale.z);
+            scaledExtent = new Vector3(component.size.x / 2f * base.transform.localScale.x, component.size.y / 2f * base.transform.localScale.y, component.size.z / 2f * base.transform.localScale.z);
             Vector3 vector = new Vector3(component.center.x * base.transform.localScale.x, component.center.y * base.transform.localScale.y, component.center.z * base.transform.localScale.z);
-            this.boundingBox = global::BoundsUtils.BoundsForMinMax(-this.scaledExtent.x, -this.scaledExtent.y, -this.scaledExtent.z, this.scaledExtent.x, this.scaledExtent.y, this.scaledExtent.z);
-            this.boundingBox.center = this.boundingBox.center + vector;
+            boundingBox = global::BoundsUtils.BoundsForMinMax(-scaledExtent.x, -scaledExtent.y, -scaledExtent.z, scaledExtent.x, scaledExtent.y, scaledExtent.z);
+            boundingBox.center = boundingBox.center + vector;
 
             // component.center = new Vector3(newSize.x, newSize.y / 2, newSize.z);
-            this.nativeCollider = component;
+            nativeCollider = component;
             //this.scaledExtent = component.size;
             //this.boundingBox = BoundsUtils.BoundsForMinMax(newSize.x, newSize.y, newSize.z, newSize.x, newSize.x, newSize.z );
-            if (this.isDetailedHeadBodyColliders())
+            if (isDetailedHeadBodyColliders())
                 component.enabled = false;
-            DisplayLog(" After BoundaryBox: " + this.boundingBox.ToCultureInvariantString());
+            DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
 
             CapsuleCollider[] componentsInChildren = base.gameObject.GetComponentsInChildren<CapsuleCollider>();
             for (int i = 0; i < componentsInChildren.Length; i++)
@@ -69,16 +67,16 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
     }
     public override void CopyPropertiesFromEntityClass()
     {
-        this.npcID = "animalFarm";
-        
+        npcID = "animalFarm";
+
         base.CopyPropertiesFromEntityClass();
     }
 
     // Cows were being stuck on the fence and trying to attack them. This is, I think, due to the entity move helper which makes
     // it attack blocks that get in its way, ala zombie.
-    public override bool Attack(bool _bAttackReleased)
+    public new bool Attack(bool _bAttackReleased)
     {
-        if (this.attackTarget == null)
+        if (attackTarget == null)
             return false;
 
         return base.Attack(_bAttackReleased);
@@ -87,7 +85,7 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
     public void CheckAnimalEvent()
     {
         // Test Hooks
-        DisplayLog(this.ToString());
+        DisplayLog(ToString());
     }
 
     // read in the cvar for sizeScale and adjust it based on the buff
@@ -106,14 +104,14 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
     {
         // AdjustSizeForStage();
 
-        if (this.Buffs.HasCustomVar("Herd") )
+        if (Buffs.HasCustomVar("Herd"))
         {
-            EntityAliveFarmingAnimalSDX temp = this.world.GetEntity((int)this.Buffs.GetCustomVar("Herd")) as EntityAliveFarmingAnimalSDX;
+            EntityAliveFarmingAnimalSDX temp = world.GetEntity((int)Buffs.GetCustomVar("Herd")) as EntityAliveFarmingAnimalSDX;
             if (temp)
             {
-                
-                this.Buffs.SetCustomVar("CurrentOrder", (float)EntityUtilities.Orders.None, true);
-                this.setHomeArea(temp.GetBlockPosition(), 10);
+
+                Buffs.SetCustomVar("CurrentOrder", (float)EntityUtilities.Orders.None, true);
+                setHomeArea(temp.GetBlockPosition(), 10);
             }
         }
         base.OnUpdateLive();
@@ -125,29 +123,29 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
         String strOutput = base.ToString();
 
         String strMilkLevel = "0";
-        if (this.Buffs.HasCustomVar("MilkLevel"))
-        {            
-            strMilkLevel = this.Buffs.GetCustomVar("MilkLevel").ToString();
+        if (Buffs.HasCustomVar("MilkLevel"))
+        {
+            strMilkLevel = Buffs.GetCustomVar("MilkLevel").ToString();
             strOutput += "\n Milk Level: " + strMilkLevel;
         }
 
-        if (this.Buffs.HasCustomVar("$EggValue"))
+        if (Buffs.HasCustomVar("$EggValue"))
         {
-            String strEggLevel  = this.Buffs.GetCustomVar("$EggValue").ToString();
+            String strEggLevel = Buffs.GetCustomVar("$EggValue").ToString();
             strOutput += "\n Egg Level: " + strEggLevel;
         }
-        if (this.Buffs.HasCustomVar("Mother"))
+        if (Buffs.HasCustomVar("Mother"))
         {
-            int MotherID = (int)this.Buffs.GetCustomVar("Mother");
-            EntityAliveSDX MotherEntity = this.world.GetEntity(MotherID) as EntityAliveSDX;
+            int MotherID = (int)Buffs.GetCustomVar("Mother");
+            EntityAliveSDX MotherEntity = world.GetEntity(MotherID) as EntityAliveSDX;
             if (MotherEntity)
                 strOutput += "\n My Mother is: " + MotherEntity.EntityName + " ( " + MotherID + " )";
         }
-  
+
         return strOutput;
     }
 
-   
+
 
     public override bool CanEntityJump()
     {

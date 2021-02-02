@@ -1,13 +1,15 @@
-﻿using DMT;
-using Harmony;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
+using HarmonyLib;
+
+/**
+ * EntityNPCMakeVulnerable
+ *
+ * This class includes a Harmony patches to the the EntityNPC to make them vulnerable to attacks and damage.
+ * 
+ */
 class EntityNPCMakeVulnerable
 {
-    private static string AdvFeatureClass = "AdvancedNPCFeatures";
-    private static string Feature = "MakeTraderVulnerable";
+    private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
+    private static readonly string Feature = "MakeTraderVulnerable";
 
     [HarmonyPatch(typeof(EntityNPC))]
     [HarmonyPatch("PostInit")]
@@ -22,11 +24,13 @@ class EntityNPCMakeVulnerable
             __instance.IsGodMode.Value = false;
         }
     }
+
+
     [HarmonyPatch(typeof(EntityNPC))]
     [HarmonyPatch("ProcessDamageResponseLocal")]
     public class SphereII_RemoveTraderProtection_OricessDamageResponse
     {
-        public static bool Prefix(EntityNPC __instance,  int __state )
+        public static bool Prefix(EntityNPC __instance, int __state)
         {
             // Check if this feature is enabled.
             if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -47,7 +51,7 @@ class EntityNPCMakeVulnerable
                 return;
 
             if (__instance.NPCInfo == null)
-                return ;
+                return;
 
             __instance.NPCInfo.TraderID = __state;
         }
@@ -67,7 +71,7 @@ class EntityNPCMakeVulnerable
                 return true;
 
             __state = __instance.NPCInfo.TraderID;
-            __instance.NPCInfo.TraderID =0;
+            __instance.NPCInfo.TraderID = 0;
             return true;
         }
 
@@ -78,7 +82,7 @@ class EntityNPCMakeVulnerable
                 return;
 
             if (__instance.NPCInfo == null)
-                return ;
+                return;
 
             __instance.NPCInfo.TraderID = __state;
         }

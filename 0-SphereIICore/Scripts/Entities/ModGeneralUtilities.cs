@@ -7,7 +7,7 @@ public static class ModGeneralUtilities
 {
 
 
-    static bool blDisplayLog = false;
+    static readonly bool blDisplayLog = false;
     public static void DisplayLog(string strMessage)
     {
         if (blDisplayLog)
@@ -323,9 +323,85 @@ public static class ModGeneralUtilities
 
         return null;
     }
-  
+
+
     // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
-    public static List<Vector3> ScanForBlockInListHelper(Vector3 centerPosition, List<String> lstBlocks, int MaxDistance)
+    public static List<Vector3> ScanForTileEntityInChunksListHelper(Vector3 centerPosition, List<String> lstBlocks, int EntityID = -1)
+    {
+        if (lstBlocks == null || lstBlocks.Count == 0)
+            lstBlocks = new List<string>() { "PathingCube" };
+
+        if (EntityID < 0)
+            return null;
+
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return null;
+
+        // Check if the entity has a PathingCode already. If it doesn't, use a default of 0.
+        float code = 0f;
+        if (myEntity.Buffs.HasCustomVar("PathingCode"))
+            code = EntityUtilities.GetCVarValue(EntityID, "PathingCode");
+        //else
+        //    myEntity.Buffs.AddCustomVar("PathingCode", 0f);
+
+        List<Vector3> localLists = new List<Vector3>();
+        Vector3i TargetBlockPosition;
+        Vector3i blockPosition = new Vector3i(centerPosition);
+
+        int num = World.toChunkXZ(blockPosition.x);
+        int num2 = World.toChunkXZ(blockPosition.z);
+        for (int i = -1; i < 2; i++)
+        {
+            for (int j = -1; j < 2; j++)
+            {
+                Chunk chunk = (Chunk)GameManager.Instance.World.GetChunkSync(num + j, num2 + i);
+                if (chunk != null)
+                {
+                    DictionaryList<Vector3i, TileEntity> tileEntities = chunk.GetTileEntities();
+                    for (int k = 0; k < tileEntities.list.Count; k++)
+                    {
+                        TileEntity tileEntity = tileEntities.list[k];
+                        TargetBlockPosition = tileEntity.ToWorldPos();
+
+                        // If it's a sign, check to see if there's a code on it.
+                        TileEntitySign tileEntitySign = tileEntity as TileEntitySign;
+                        if (tileEntitySign != null)
+                        {
+                            // If the sign is empty and the code is 0, then accept it as a path
+                            String text = tileEntitySign.GetText();
+                            if (String.IsNullOrEmpty(text) && code == 0)
+                            {
+                                localLists.Add(TargetBlockPosition.ToVector3());
+                                continue;
+                            }
+                            foreach (String temp in text.Split(','))
+                            {
+                                if (code.ToString() == temp || code == 0)
+                                {
+                                    localLists.Add(TargetBlockPosition.ToVector3() );
+                                    break;
+                                }
+                            }
+                            continue;
+                        }
+                        //else
+                        //    continue;
+
+                   
+
+                        //// if its not a listed block, then keep searching.
+                        //if (!lstBlocks.Contains(block.Block.GetBlockName()))
+                        //    continue;
+                        //localLists.Add(TargetBlockPosition.ToVector3());
+                    }
+                }
+            }
+        }
+        return localLists;
+    }
+    // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
+    public static List<Vector3> ScanForBlockInListHelper(Vector3 centerPosition, List<String> lstBlocks, int MaxDistance, int EntityID = -1)
     {
         if (lstBlocks.Count == 0)
             return null;
@@ -333,6 +409,19 @@ public static class ModGeneralUtilities
         List<Vector3> localLists = new List<Vector3>();
 
         Vector3i TargetBlockPosition = new Vector3i();
+        if (EntityID < 0)
+            return null;
+
+        EntityAlive myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return null;
+
+        // Check if the entity has a PathingCode already. If it doesn't, use a default of 0.
+        float code = 0;
+        if (myEntity.Buffs.HasCustomVar("PathingCode"))
+            code = EntityUtilities.GetCVarValue(EntityID, "PathingCode");
+        else
+            myEntity.Buffs.AddCustomVar("PathingCode", 0f);
 
         for (var x = (int)centerPosition.x - MaxDistance; x <= centerPosition.x + MaxDistance; x++)
         {
@@ -352,15 +441,36 @@ public static class ModGeneralUtilities
                     if (!lstBlocks.Contains(block.Block.GetBlockName()))
                         continue;
 
-                    localLists.Add(TargetBlockPosition.ToVector3());
+                    TileEntitySign tileEntitySign = GameManager.Instance.World.GetTileEntity(0, TargetBlockPosition) as TileEntitySign;
+                    if (tileEntitySign != null)
+                    {
+                        // If the sign is empty and the code is 0, then accept it as a path
+                        String text = tileEntitySign.GetText();
+                        if (String.IsNullOrEmpty(text) && code == 0)
+                        {
+                            localLists.Add(TargetBlockPosition.ToVector3() + Vector3.up);
+                            continue;
+                        }
+                        foreach (String temp in text.Split(','))
+                        {
+                            if (code.ToString() == temp || code == 0)
+                            {
+                                localLists.Add(TargetBlockPosition.ToVector3() + Vector3.up);
+                                break;
+                            }
+                        }
+                        continue;
+                    }
+                    localLists.Add(TargetBlockPosition.ToVector3() + Vector3.up);
                 }
             }
         }
+
         return localLists;
     }
 
-        // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
-        public static Vector3 ScanForBlockInList(Vector3 centerPosition, List<String> lstBlocks, int MaxDistance)
+    // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
+    public static Vector3 ScanForBlockInList(Vector3 centerPosition, List<String> lstBlocks, int MaxDistance)
     {
         List<Vector3> localLists = ScanForBlockInListHelper(centerPosition, lstBlocks, MaxDistance);
         return FindNearestBlock(centerPosition, localLists);
@@ -371,16 +481,12 @@ public static class ModGeneralUtilities
     public static Vector3 FindNearestBlock(Vector3 fromPosition, List<Vector3> lstOfPositions)
     {
         if (lstOfPositions == null)
-        {
-            Debug.Log("Lst of Positions is empty");
             return Vector3.zero;
-        }
 
-        Debug.Log(" Positions: " + lstOfPositions.ToArray().ToString());
         // Finds the closet block we matched with.
         Vector3 tMin = new Vector3();
         tMin = Vector3.zero;
-        float minDist = 1f;
+        float minDist = 1000f;
         foreach (Vector3 block in lstOfPositions)
         {
             if (block == Vector3.zero)
@@ -393,14 +499,8 @@ public static class ModGeneralUtilities
             }
         }
 
-        Debug.Log("tMin: " + tMin);
         if (tMin != Vector3.zero)
-        {
-
-            
             return tMin;
-
-        }
         return Vector3.zero;
 
     }

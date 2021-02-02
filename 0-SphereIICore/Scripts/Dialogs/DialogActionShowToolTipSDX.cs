@@ -1,11 +1,10 @@
-﻿using UnityEngine;
-public class DialogActionShowToolTipSDX : DialogActionAddBuff
+﻿public class DialogActionShowToolTipSDX : DialogActionAddBuff
 {
     public override void PerformAction(EntityPlayer player)
     {
-         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal);
         uiforPlayer.xui.currentToolTip.ToolTip = ID;
     }
 
-    private string name = string.Empty;
+    private readonly string name = string.Empty;
 }

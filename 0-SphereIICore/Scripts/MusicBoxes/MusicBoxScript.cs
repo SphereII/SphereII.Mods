@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-
 class MusicBoxScript : MonoBehaviour
 {
     // This is the entity that initialized the music box.
@@ -24,7 +23,7 @@ class MusicBoxScript : MonoBehaviour
     // AudioSource is the SoundData's Node AudioSource attribute. It's the "speaker"
     public string strAudioSource;
 
-    
+
     // References to our Animator and Video Player, if it exists.
     public Animator anim;
     public VideoPlayer videoPlayer;
@@ -37,9 +36,6 @@ class MusicBoxScript : MonoBehaviour
     // We need a randomize element to pick the sound and video from their groups.
     public System.Random random = new System.Random();
 
-    // This is the AudioSource that is attached to the VideoPlayer, so we can hear the sounds from the video.
-    public AudioSource myAudioSource;
-
     // Set up a throttle to delay the Update(), since we don't really need it called each frame
     private float nextCheck = 0;
     public float CheckDelay = 1f;
@@ -50,7 +46,7 @@ class MusicBoxScript : MonoBehaviour
         if (videoPlayer && videoPlayer.clip != null)
             defaultClip = videoPlayer.clip;
 
-       // myAudioSource = gameObject.AddComponent<AudioSource>();
+        // myAudioSource = gameObject.AddComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -63,80 +59,80 @@ class MusicBoxScript : MonoBehaviour
             CheckVideoPlayer();
         }
 
-     
+
 
     }
 
     void CheckVideoPlayer()
     {
-        if (!this.videoPlayer)
+        if (!videoPlayer)
             return;
 
-        if ( GameManager.Instance.IsPaused())
+        if (GameManager.Instance.IsPaused())
         {
-            this.videoPlayer.Pause();
+            videoPlayer.Pause();
             IsVideoPaused = true;
             return;
         }
 
-        if ( IsVideoPaused == true )
+        if (IsVideoPaused == true)
         {
             // If the video was paused, and we want to resume it, just re-play, and not change any clips.
             if (IsVideoPaused == true)
             {
-                this.videoPlayer.Play();
+                videoPlayer.Play();
                 IsVideoPaused = false;
                 return;
             }
         }
 
-        if ( !this.videoPlayer.isPlaying)
-        { 
+        if (!videoPlayer.isPlaying)
+        {
             // If the video has a clip already attached, then check if there's another clip we could use instead.
-            if (this.videoPlayer.clip)
+            if (videoPlayer.clip)
             {
                 // Otherwise, if we have another video clip specified, use that.
                 if (myVideoClip)
                 {
-                    this.videoPlayer.clip = myVideoClip;
+                    videoPlayer.clip = myVideoClip;
                 }
             }
 
             // If there's still no video clip, try to parse the Video Source as a URL
-            if (!this.videoPlayer.clip)
+            if (!videoPlayer.clip)
             {
-                this.videoPlayer.url = this.strVideoSource;
+                videoPlayer.url = strVideoSource;
             }
 
             // If the VideoGroups is populated, that means we can randomize based on all the videos groups in our container.
             if (VideoGroups.Count > 0)
             {
                 int randomIndex = random.Next(0, VideoGroups.Count);
-                this.strVideoSource = VideoGroups[randomIndex].ToString();
+                strVideoSource = VideoGroups[randomIndex].ToString();
                 if (strVideoSource.StartsWith("#"))
                 {
-                    this.videoPlayer.clip = DataLoader.LoadAsset<VideoClip>(strVideoSource);
+                    videoPlayer.clip = DataLoader.LoadAsset<VideoClip>(strVideoSource);
                 }
             }
             else
             {
                 if (defaultClip)
-                    this.videoPlayer.clip = defaultClip;
+                    videoPlayer.clip = defaultClip;
                 else
                     Debug.Log("There are no Groups of video detected.");
 
             }
-            this.videoPlayer.Play();
+            videoPlayer.Play();
         }
     }
 
     void OnEnable()
-    {    
+    {
         // Toggle the animation if it's available
-        if (this.anim)
+        if (anim)
         {
-            this.anim.enabled = true;
-            this.anim.SetBool("IsOn", true);
+            anim.enabled = true;
+            anim.SetBool("IsOn", true);
         }
     }
 
@@ -146,19 +142,19 @@ class MusicBoxScript : MonoBehaviour
         if (!IsPlaying())
         {
             // Toggle the sound if we have sound references.
-            if (myEntity && !string.IsNullOrEmpty(this.strSoundSource) && !string.IsNullOrEmpty(this.strAudioSource))
+            if (myEntity && !string.IsNullOrEmpty(strSoundSource) && !string.IsNullOrEmpty(strAudioSource))
             {
 
                 // If the SoundGroups is populated, that means we can randomize based on all the sound groups in our container.
                 if (SoundGroups.Count > 0)
                 {
                     int randomIndex = random.Next(0, SoundGroups.Count);
-                    this.strSoundSource = SoundGroups[randomIndex].ToString();
+                    strSoundSource = SoundGroups[randomIndex].ToString();
                 }
 
                 if (myBlockPos != null)
                 {
-                    Manager.BroadcastPlay( this.myBlockPos.ToVector3(), this.strSoundSource, 0f);
+                    Manager.BroadcastPlay(myBlockPos.ToVector3(), strSoundSource, 0f);
                 }
             }
         }
@@ -168,29 +164,29 @@ class MusicBoxScript : MonoBehaviour
     // Disable the script; turning off any sounds that may be playing, and shutting down the animation.
     void OnDisable()
     {
-        if (this.videoPlayer)
-            this.videoPlayer.Stop();
+        if (videoPlayer)
+            videoPlayer.Stop();
 
-        if (this.anim)
-            this.anim.enabled = false;
-       
+        if (anim)
+            anim.enabled = false;
+
         // In order for BroadcastStop() to work, when you are using an external audio source, is that it must be set to Loop. This is the Unity AudioSource, 
         // not the sounds.xml AudioClip line.
-        Manager.BroadcastStop(this.myBlockPos.ToVector3(), this.strSoundSource);
- 
+        Manager.BroadcastStop(myBlockPos.ToVector3(), strSoundSource);
+
     }
 
     // Since the Manager.Audio doesn't give us access to our playing source, we have to poll the List<> of sources to see if ours is still playing.
     bool IsPlaying()
     {
         // If the audio source isn't set, don't blindly try to play, but tell the loop that something is playing to prevent it starting something.
-        if (string.IsNullOrEmpty(this.strAudioSource))
+        if (string.IsNullOrEmpty(strAudioSource))
             return true;
 
         // look for the audio sources 
         foreach (var each in Manager.playingAudioSources)
         {
-            if (each.ToString().Contains(this.strAudioSource))
+            if (each.ToString().Contains(strAudioSource))
             {
                 return true;
             }

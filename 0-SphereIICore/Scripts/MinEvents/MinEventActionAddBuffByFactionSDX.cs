@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using UnityEngine;
 
 //        <triggered_effect trigger = "onSelfBuffUpdate" action="AddBuffByFactionSDX, Mods" target="selfAOE" range="4" buff="buffAnimalFertility"  />
@@ -11,11 +10,11 @@ public class MinEventActionAddBuffByFactionSDX : MinEventActionBuffModifierBase
 
     public override void Execute(MinEventParams _params)
     {
-        for (int i = 0; i < this.buffNames.Length; i++)
+        for (int i = 0; i < buffNames.Length; i++)
         {
-            if (BuffManager.GetBuff(this.buffNames[i]) != null)
+            if (BuffManager.GetBuff(buffNames[i]) != null)
             {
-                for (int j = 0; j < this.targets.Count; j++)
+                for (int j = 0; j < targets.Count; j++)
                 {
                     Debug.Log(" Target: " + targets[j].EntityName + " Faction: " + targets[j].factionId);
                     Debug.Log(" Self: " + _params.Self.EntityName + " Faction: " + _params.Self.factionId);
@@ -23,13 +22,13 @@ public class MinEventActionAddBuffByFactionSDX : MinEventActionBuffModifierBase
                     // Check to make sure that the faction is the same
                     if (MustMatch)
                     {
-                        if (this.targets[j].factionId == _params.Self.factionId)
-                            this.targets[j].Buffs.AddBuff(this.buffNames[i], _params.Self.entityId, !_params.Self.isEntityRemote);
+                        if (targets[j].factionId == _params.Self.factionId)
+                            targets[j].Buffs.AddBuff(buffNames[i], _params.Self.entityId, !_params.Self.isEntityRemote);
                     }
                     else
                     {
-                        if (this.targets[j].factionId != _params.Self.factionId)
-                            this.targets[j].Buffs.AddBuff(this.buffNames[i], _params.Self.entityId, !_params.Self.isEntityRemote);
+                        if (targets[j].factionId != _params.Self.factionId)
+                            targets[j].Buffs.AddBuff(buffNames[i], _params.Self.entityId, !_params.Self.isEntityRemote);
                     }
                 }
             }

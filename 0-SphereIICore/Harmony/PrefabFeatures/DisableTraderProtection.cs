@@ -1,25 +1,31 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
-using System.Reflection;
 using UnityEngine;
 
+
+/**
+ * SphereII_RemoveTraderProtection
+ *
+ * This class includes a Harmony patches to disable the landclaim block on the trader, making them vulnerable.
+ * 
+ */
 public class SphereII_RemoveTraderProtection
 {
-    private static string AdvFeatureClass = "AdvancedPrefabFeatures";
-    private static string Feature = "DisableTraderProtection";
+    private static readonly string AdvFeatureClass = "AdvancedPrefabFeatures";
+    private static readonly string Feature = "DisableTraderProtection";
 
-    
+
     public class SphereII_RemoveTraderProtection_Start : IHarmony
     {
-        // Special patch here, since we need to explicity target a patch
+        // Special patch here, since we need to explicity target a constructor
         public void Start()
         {
             Debug.Log(" Loading Patch: " + GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
+            var harmony = new Harmony(GetType().ToString());
 
             // Navezgane only - Since it's pregenerated, it uses a different prefabs loading, with preset locations. This will adjust the prefabs for only navezgane.
-            var original = typeof(PrefabInstance).GetConstructor(new Type[] { typeof(int), typeof(string), typeof(Vector3i), typeof(byte), typeof(Prefab), typeof(int) });
+            var original = typeof(PrefabInstance).GetConstructor(new Type[] { typeof(int), typeof(PathAbstractions.AbstractedLocation), typeof(Vector3i), typeof(byte), typeof(Prefab), typeof(int) });
             var prefix = typeof(SphereII_RemoveTraderProtection_PrefabInstance).GetMethod("PrefabInstance_Prefix");
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
@@ -38,9 +44,8 @@ public class SphereII_RemoveTraderProtection
             // Only apply these changes to navezgane world
             if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Navezgane")
             {
-                if(_bad != null)
+                if (_bad != null)
                     _bad.bTraderArea = false;
-
             }
             return true;
         }
@@ -48,7 +53,6 @@ public class SphereII_RemoveTraderProtection
 
     [HarmonyPatch(typeof(Prefab))]
     [HarmonyPatch("LoadXMLData")]
-    [HarmonyPatch(new Type[] { typeof(string), typeof(string) })]
     public class SphereII_RemoveTraderProtection_LoadXMLData
     {
         public static void Postfix(Prefab __instance)
@@ -58,6 +62,8 @@ public class SphereII_RemoveTraderProtection
                 return;
 
             __instance.bTraderArea = false;
+
+
         }
 
     }

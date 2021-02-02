@@ -1,9 +1,6 @@
-﻿using GamePath;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using UAI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -59,13 +56,11 @@ internal class EntityZombieFlyingSDX : EntityFlying
     // these 2 are used to rebuild the flock
     private int previousID;
     private bool retaliateAttack; // the entity will retaliate if attacked or if the master is attacked / killed
-    private string returnEntity = "";
+    private readonly string returnEntity = "";
     private string tameItem = "";
 
     private HashSet<string>
         targetBlocks; // list of landing blocks. Entity (master if flock) will try to fly near them, if nearby
-
-    private int TargetInterval;
 
     // optional AI
     private bool targetPlayers; // the entity will target players on sight
@@ -93,11 +88,11 @@ internal class EntityZombieFlyingSDX : EntityFlying
     public override void Init(int _entityClass)
     {
         base.Init(_entityClass);
-        this.emodel.SetVisible(true, true);
+        emodel.SetVisible(true, true);
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             base.getNavigator().setCanDrown(true);
-            base.getNavigator().setInWater(false);
+            //base.getNavigator().setInWater(false);
         }
         // Sets the hand value, so we can give our entities ranged weapons.
         inventory.SetSlots(new[]
@@ -174,9 +169,9 @@ internal class EntityZombieFlyingSDX : EntityFlying
     public override void InitFromPrefab(int _entityClass)
     {
         base.InitFromPrefab(_entityClass);
-        this.emodel.SetVisible(true, true);
+        emodel.SetVisible(true, true);
         base.getNavigator().setCanDrown(true);
-        base.getNavigator().setInWater(false);
+        //base.getNavigator().setInWater(false);
     }
     public override void PostInit()
     {
@@ -309,7 +304,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
         base.CopyPropertiesFromEntityClass();
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            this.aiManager.CopyPropertiesFromEntityClass(entityClass);
+            aiManager.CopyPropertiesFromEntityClass(entityClass);
         }
         return;
     }
@@ -321,35 +316,35 @@ internal class EntityZombieFlyingSDX : EntityFlying
     //        var eaibase = (EAIBase)AiFactory.Instantiate(text);
     //        if (eaibase == null) throw new Exception("Class '" + text + "' not found!");
 
-        //        eaibase.SetEntity(this);
-        //        if (entityClass.Properties.Params1.ContainsKey(EntityClass.PropAITask + num))
-        //            eaibase.SetParams1(entityClass.Properties.Params1[EntityClass.PropAITask + num]);
-        //        if (entityClass.Properties.Params2.ContainsKey(EntityClass.PropAITask + num))
-        //            eaibase.SetParams2(entityClass.Properties.Params2[EntityClass.PropAITask + num]);
-        //        TaskList.AddTask(num, eaibase);
-        //        num++;
-        //    }
+    //        eaibase.SetEntity(this);
+    //        if (entityClass.Properties.Params1.ContainsKey(EntityClass.PropAITask + num))
+    //            eaibase.SetParams1(entityClass.Properties.Params1[EntityClass.PropAITask + num]);
+    //        if (entityClass.Properties.Params2.ContainsKey(EntityClass.PropAITask + num))
+    //            eaibase.SetParams2(entityClass.Properties.Params2[EntityClass.PropAITask + num]);
+    //        TaskList.AddTask(num, eaibase);
+    //        num++;
+    //    }
 
-        //    var num2 = 1;
-        //    // Grab all the AI Targets
-        //    while (entityClass.Properties.Values.ContainsKey(EntityClass.PropAITargetTask + num2))
-        //    {
-        //        var text2 = "EAI" + entityClass.Properties.Values[EntityClass.PropAITargetTask + num2];
-        //        var eaibase2 = (EAIBase)AiFactory.Instantiate(text2);
-        //        if (eaibase2 == null) throw new Exception("Class '" + text2 + "' not found!");
-        //        eaibase2.SetEntity(this);
-        //        if (entityClass.Properties.Params1.ContainsKey(EntityClass.PropAITargetTask + num2))
-        //            eaibase2.SetParams1(entityClass.Properties.Params1[EntityClass.PropAITargetTask + num2]);
-        //        if (entityClass.Properties.Params2.ContainsKey(EntityClass.PropAITargetTask + num2))
-        //            eaibase2.SetParams2(entityClass.Properties.Params2[EntityClass.PropAITargetTask + num2]);
-        //        TargetList.AddTask(num2, eaibase2);
-        //        num2++;
-        //    }
-        //}
+    //    var num2 = 1;
+    //    // Grab all the AI Targets
+    //    while (entityClass.Properties.Values.ContainsKey(EntityClass.PropAITargetTask + num2))
+    //    {
+    //        var text2 = "EAI" + entityClass.Properties.Values[EntityClass.PropAITargetTask + num2];
+    //        var eaibase2 = (EAIBase)AiFactory.Instantiate(text2);
+    //        if (eaibase2 == null) throw new Exception("Class '" + text2 + "' not found!");
+    //        eaibase2.SetEntity(this);
+    //        if (entityClass.Properties.Params1.ContainsKey(EntityClass.PropAITargetTask + num2))
+    //            eaibase2.SetParams1(entityClass.Properties.Params1[EntityClass.PropAITargetTask + num2]);
+    //        if (entityClass.Properties.Params2.ContainsKey(EntityClass.PropAITargetTask + num2))
+    //            eaibase2.SetParams2(entityClass.Properties.Params2[EntityClass.PropAITargetTask + num2]);
+    //        TargetList.AddTask(num2, eaibase2);
+    //        num2++;
+    //    }
+    //}
 
 
 
-        // The vulture updateTasks() doesn't call down the chain, so it never does any checks on the AI Tasks.
+    // The vulture updateTasks() doesn't call down the chain, so it never does any checks on the AI Tasks.
     protected override void updateTasks()
     {
         if (!useVanillaAI)
@@ -799,8 +794,6 @@ internal class EntityZombieFlyingSDX : EntityFlying
                             }
                         }
 
-                    var num = 255;
-
                     AdjustWayPoint();
                     // if waypoint is not in the air, change it up
                     //                    while (world.GetBlock(new Vector3i(Waypoint)).type != BlockValue.Air.type && num > 0)
@@ -851,7 +844,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
     private int EV;
     private int MV;
     private const float SV = 48f;
-    private List<Bounds> YV = new List<Bounds>();
+    private readonly List<Bounds> YV = new List<Bounds>();
     protected void LegacyTask()
     {
         if (!GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving))
@@ -859,13 +852,13 @@ internal class EntityZombieFlyingSDX : EntityFlying
             if (GameStats.GetInt(EnumGameStats.GameState) != 2)
             {
                 base.GetEntitySenses().ClearIfExpired();
-                if (this.MV > 0)
+                if (MV > 0)
                 {
-                    this.MV--;
+                    MV--;
                 }
-                if (this.MV <= 0)
+                if (MV <= 0)
                 {
-                    Vector3 vector = this.HV - this.position;
+                    Vector3 vector = HV - position;
                     float sqrMagnitude = vector.sqrMagnitude;
                     if (sqrMagnitude < 1f || sqrMagnitude > 2304f)
                     {
@@ -874,34 +867,34 @@ internal class EntityZombieFlyingSDX : EntityFlying
                             Vector3 hv = RandomPositionGenerator.CalcTowards(this, 2 * base.getMaximumHomeDistance(), 2 * base.getMaximumHomeDistance(), 2 * base.getMaximumHomeDistance(), base.getHomePosition().position.ToVector3());
                             if (!hv.Equals(Vector3.zero))
                             {
-                                this.HV = hv;
-                                this.AV = true;
+                                HV = hv;
+                                AV = true;
                             }
                         }
                         else
                         {
-                            this.AV = false;
+                            AV = false;
                             if (base.GetRevengeTarget() != null && base.GetRevengeTarget().GetDistanceSq(this) < 2304f && Random.value <= 0.5f)
                             {
-                                this.HV = base.GetRevengeTarget().GetPosition() + Vector3.up;
+                                HV = base.GetRevengeTarget().GetPosition() + Vector3.up;
                             }
                             else
                             {
-                                this.HV = base.GetPosition() + new Vector3((float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0));
+                                HV = base.GetPosition() + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0));
                             }
                         }
-                        this.HV.y = Mathf.Min(this.HV.y, 250f);
+                        HV.y = Mathf.Min(HV.y, 250f);
                     }
-                    if (this.LV-- <= 0)
+                    if (LV-- <= 0)
                     {
-                        this.LV += this.rand.RandomRange(5) + 2;
-                        if (this.isCourseTraversable(this.HV, out sqrMagnitude))
+                        LV += rand.RandomRange(5) + 2;
+                        if (isCourseTraversable(HV, out sqrMagnitude))
                         {
-                            this.motion += vector / sqrMagnitude * 0.1f;
+                            motion += vector / sqrMagnitude * 0.1f;
                         }
                         else
                         {
-                            this.HV = base.GetPosition();
+                            HV = base.GetPosition();
                         }
                     }
                 }
@@ -909,40 +902,40 @@ internal class EntityZombieFlyingSDX : EntityFlying
                 {
                     base.SetRevengeTarget(null);
                 }
-                if (base.GetRevengeTarget() == null || this.EV-- <= 0)
+                if (base.GetRevengeTarget() == null || EV-- <= 0)
                 {
-                    EntityPlayer closestPlayer = this.world.GetClosestPlayer(this, 48f, false);
+                    EntityPlayer closestPlayer = world.GetClosestPlayer(this, 48f, false);
                     if (base.CanSee(closestPlayer))
                     {
                         base.SetRevengeTarget(closestPlayer);
                     }
                     if (base.GetRevengeTarget() != null)
                     {
-                        this.EV = 20;
+                        EV = 20;
                     }
                 }
                 float distanceSq;
-                if (!this.AV && base.GetRevengeTarget() != null && (distanceSq = base.GetRevengeTarget().GetDistanceSq(this)) < 2304f)
+                if (!AV && base.GetRevengeTarget() != null && (distanceSq = base.GetRevengeTarget().GetDistanceSq(this)) < 2304f)
                 {
-                    float num = base.GetRevengeTarget().position.x - this.position.x;
-                    float num2 = base.GetRevengeTarget().position.z - this.position.z;
-                    this.rotation.y = Mathf.Atan2(num, num2) * 180f / 3.14159274f;
-                    if (this.MV <= 0 && distanceSq < 2.8f && this.position.y >= base.GetRevengeTarget().position.y && this.position.y <= base.GetRevengeTarget().getHeadPosition().y && base.Attack(false))
+                    float num = base.GetRevengeTarget().position.x - position.x;
+                    float num2 = base.GetRevengeTarget().position.z - position.z;
+                    rotation.y = Mathf.Atan2(num, num2) * 180f / 3.14159274f;
+                    if (MV <= 0 && distanceSq < 2.8f && position.y >= base.GetRevengeTarget().position.y && position.y <= base.GetRevengeTarget().getHeadPosition().y && base.Attack(false))
                     {
-                        this.MV = base.GetAttackTimeoutTicks();
+                        MV = base.GetAttackTimeoutTicks();
                         base.Attack(true);
                     }
                 }
                 else
                 {
-                    this.rotation.y = (float)Math.Atan2((double)this.motion.x, (double)this.motion.z) * 180f / 3.14159274f;
+                    rotation.y = (float)Math.Atan2(motion.x, motion.z) * 180f / 3.14159274f;
                 }
                 return;
             }
         }
     }
 
-    
+
     protected override bool isDetailedHeadBodyColliders()
     {
         return true;
@@ -960,9 +953,9 @@ internal class EntityZombieFlyingSDX : EntityFlying
 
     protected bool isCourseTraversable(Vector3 _pos, out float _distance)
     {
-        float num = _pos.x - this.position.x;
-        float num2 = _pos.y - this.position.y;
-        float num3 = _pos.z - this.position.z;
+        float num = _pos.x - position.x;
+        float num2 = _pos.y - position.y;
+        float num3 = _pos.z - position.z;
         _distance = Mathf.Sqrt(num * num + num2 * num2 + num3 * num3);
         if (_distance < 1.5f)
         {
@@ -972,13 +965,13 @@ internal class EntityZombieFlyingSDX : EntityFlying
         num2 /= _distance;
         num3 /= _distance;
         Bounds boundingBox = this.boundingBox;
-        this.YV.Clear();
+        YV.Clear();
         int num4 = 1;
-        while ((float)num4 < _distance - 1f)
+        while (num4 < _distance - 1f)
         {
             boundingBox.center += new Vector3(num, num2, num3);
-            this.world.GetCollidingBounds(this, boundingBox, this.YV);
-            if (this.YV.Count > 0)
+            world.GetCollidingBounds(this, boundingBox, YV);
+            if (YV.Count > 0)
             {
                 return false;
             }
@@ -991,7 +984,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
     {
         if (base.GetRevengeTarget() == null && _damageSource.getEntityId() != -1)
         {
-            EntityAlive entityAlive = this.world.GetEntity(_damageSource.getEntityId()) as EntityAlive;
+            EntityAlive entityAlive = world.GetEntity(_damageSource.getEntityId()) as EntityAlive;
             if (entityAlive != null && entityAlive.IsCrouching && (_damageSource.GetDamageType() == EnumDamageTypes.Piercing || _damageSource.GetDamageType() == EnumDamageTypes.Bashing || _damageSource.GetDamageType() == EnumDamageTypes.Slashing || _damageSource.GetDamageType() == EnumDamageTypes.Crushing))
             {
                 _damageSource.DamageMultiplier = Constants.cSneakDamageMultiplier;

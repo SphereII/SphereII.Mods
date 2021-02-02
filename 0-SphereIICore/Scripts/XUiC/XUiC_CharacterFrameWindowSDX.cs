@@ -12,10 +12,10 @@ class XUiC_CharacterFrameWindowSDX : XUiController
     public override void Init()
     {
         base.Init();
-        this.lblLevel = (XUiV_Label)base.GetChildById("levelNumber").ViewComponent;
-        this.lblName = (XUiV_Label)base.GetChildById("characterName").ViewComponent;
-        this.isDirty = true;
-        this.levelLabel = Localization.Get("lblLevel", string.Empty);
+        lblLevel = (XUiV_Label)base.GetChildById("levelNumber").ViewComponent;
+        lblName = (XUiV_Label)base.GetChildById("characterName").ViewComponent;
+        isDirty = true;
+        levelLabel = Localization.Get("lblLevel");
 
     }
     public override void Update(float _dt)
@@ -24,11 +24,11 @@ class XUiC_CharacterFrameWindowSDX : XUiController
         {
             return;
         }
-        if (this.isDirty)
+        if (isDirty)
         {
-            this.lblLevel.Text = string.Format(this.levelLabel, entity.Progression.GetLevel());
-            this.lblName.Text = this.entity.EntityName.ToUpper();
-            this.isDirty = false;
+            lblLevel.Text = string.Format(levelLabel, entity.Progression.GetLevel());
+            lblName.Text = entity.EntityName.ToUpper();
+            isDirty = false;
             base.RefreshBindings(false);
         }
         base.Update(_dt);
@@ -38,14 +38,14 @@ class XUiC_CharacterFrameWindowSDX : XUiController
     public override void OnOpen()
     {
         base.OnOpen();
-        this.player = base.xui.playerUI.entityPlayer;
+        player = base.xui.playerUI.entityPlayer;
         int entityID = 0;
         if (player.Buffs.HasCustomVar("CurrentNPC"))
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
         UnityEngine.Debug.Log("Entity ID: " + entityID);
-        this.entity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if (!this.entity)
+        entity = player.world.GetEntity(entityID) as EntityAliveSDX;
+        if (!entity)
         {
             UnityEngine.Debug.Log(" Entity is null ");
             OnClose();
@@ -57,24 +57,24 @@ class XUiC_CharacterFrameWindowSDX : XUiController
         if (!entity)
             return false;
 
-        int EntityID = this.entity.entityId;
+        int EntityID = entity.entityId;
         string fieldName = binding.FieldName;
         switch (fieldName)
         {
             case "npchealth":
-                value = this.entity.Health.ToString();
+                value = entity.Health.ToString();
                 return true;
             case "npcmaxhealth":
-                value = this.entity.GetMaxHealth().ToString();
+                value = entity.GetMaxHealth().ToString();
                 return true;
             case "npchealthtitle":
                 value = "Health";
                 return true;
             case "":
-                value = this.entity.Stats.Water.Value.ToString();
+                value = entity.Stats.Water.Value.ToString();
                 return true;
             case "playerfood":
-                value = this.entity.Stats.Stamina.Value.ToString();
+                value = entity.Stats.Stamina.Value.ToString();
                 return true;
         }
 

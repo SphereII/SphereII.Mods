@@ -10,12 +10,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
-using XMLData.Item;
-using SDX.Payload;
-using UMA;
 using System.IO;
+using UnityEngine;
 
 // Extending HAL9000's Zombies Run In Dark mod by adding speed variation
 public class EntityZombieFlockSDX : EntityZombie
@@ -38,28 +34,18 @@ public class EntityZombieFlockSDX : EntityZombie
 
     // Caching the walk types and approach speed
     private int intWalkType = 0;
-    private float flApproachSpeed = 0.0f;
     private bool blHeadShotsMatter = false;
     private bool blRandomSpeeds = false;
 
     // Default value
     private bool blIdleSleep = false;
 
-    // Defualt max and min speed for uninitialized values.
-    private float MaxSpeed = 0f;
-    private float MinSpeed = 0f;
-
-    private String strCustomUMA = "None";
-    // set to true if you want the zombies to run in the dark.
-    bool blRunInDark = false;
-
     // Set the default scale of the zombies
     private float flScale = 1f;
 
     // debugging
-    bool debug = false;
-  
-    private bool useVanillaAI = false;
+    readonly bool debug = false;
+
     // flocking properties
     private EntityAlive masterEntity = null;
     private bool hasFlock = false;
@@ -77,7 +63,6 @@ public class EntityZombieFlockSDX : EntityZombie
     private DateTime dtaNextSpawn = DateTime.MinValue;
     Vector3 landPosition = Vector3.zero;
     Vector3 deflectorPosition = Vector3.zero;
-    private float meshScale = 1;
     // these 2 are used to rebuild the flock
     int previousID = 0;
     int oldmasterID = 0;
@@ -91,15 +76,15 @@ public class EntityZombieFlockSDX : EntityZombie
 
         // If true, reduces body damage, and requires headshots
         if (entityClass.Properties.Values.ContainsKey("HeadShots"))
-            bool.TryParse(entityClass.Properties.Values["HeadShots"], out this.blHeadShotsMatter);
+            bool.TryParse(entityClass.Properties.Values["HeadShots"], out blHeadShotsMatter);
 
         // If true, allows the zombies to move faster or slower
         if (entityClass.Properties.Values.ContainsKey("RandomSpeeds"))
-            bool.TryParse(entityClass.Properties.Values["RandomSpeeds"], out this.blRandomSpeeds);
+            bool.TryParse(entityClass.Properties.Values["RandomSpeeds"], out blRandomSpeeds);
 
         // If true, puts the zombie to sleep, rather than Idle animation
         if (entityClass.Properties.Values.ContainsKey("IdleSleep"))
-            bool.TryParse(entityClass.Properties.Values["IdleSleep"], out this.blIdleSleep);
+            bool.TryParse(entityClass.Properties.Values["IdleSleep"], out blIdleSleep);
 
         if (entityClass.Properties.Values.ContainsKey("FlockSize"))
         {
@@ -145,17 +130,14 @@ public class EntityZombieFlockSDX : EntityZombie
         {
             strFlockEntities = entityClass.Properties.Values["FlockEntities"].Split(',');
         }
-        // leave a 5% chance of this zombie running in the dark.
-        if (random.Next(100) <= 5)
-            blRunInDark = true;
-
+ 
         GetWalkType();
-      //  GetApproachSpeed();
+        //  GetApproachSpeed();
 
         // Sets the hand value, so we can give our entities ranged weapons.
-        this.inventory.SetSlots(new ItemStack[]
+        inventory.SetSlots(new ItemStack[]
         {
-               new ItemStack(this.inventory.GetBareHandItemValue(), 1)
+               new ItemStack(inventory.GetBareHandItemValue(), 1)
         });
 
 
@@ -166,15 +148,15 @@ public class EntityZombieFlockSDX : EntityZombie
         // This is the distributed random heigh multiplier. Add or adjust values as you see fit. By default, it's just a small adjustment.
         float[] numbers = new float[9] { 0.8f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.1f };
         int randomIndex = random.Next(0, numbers.Length);
-        this.flScale = numbers[randomIndex];
+        flScale = numbers[randomIndex];
 
         // scale down the zombies, or upscale them
-        this.gameObject.transform.localScale = new Vector3(this.flScale, this.flScale, this.flScale);
+        gameObject.transform.localScale = new Vector3(flScale, flScale, flScale);
 
 
     }
 
-   
+
 
     // Randomly assign a sleeper pose for each spawned in zombie, with it weighted to the standing sleeper pose.
     public void SetRandomSleeperPose()
@@ -182,7 +164,7 @@ public class EntityZombieFlockSDX : EntityZombie
         // We wait for the standing pose, since there's no animation to make them fall down to sleep
         int[] numbers = new int[9] { 0, 1, 2, 3, 4, 5, 5, 5, 5 };
         int randomNumber = random.Next(0, numbers.Length);
-        this.lastSleeperPose = numbers[randomNumber];
+        lastSleeperPose = numbers[randomNumber];
     }
     // Returns a random walk type for the spawned entity
     public static int GetRandomWalkType()
@@ -270,7 +252,7 @@ public class EntityZombieFlockSDX : EntityZombie
     //}
 
     // Randomize the Walk types.
-    public int GetWalkType()
+    public new int GetWalkType()
     {
         // Grab the current walk type in the baes class
         int WalkType = base.GetWalkType();
@@ -306,33 +288,33 @@ public class EntityZombieFlockSDX : EntityZombie
         if (nextCheck < Time.time)
         {
             nextCheck = Time.time + CheckDelay;
-            Vector3i v = new Vector3i(this.position);
+            Vector3i v = new Vector3i(position);
             if (v.x < 0) v.x -= 1;
             if (v.z < 0) v.z -= 1;
             lightLevel = GameManager.Instance.World.ChunkClusters[0].GetLight(v, Chunk.LIGHT_TYPE.SUN);
 
             // If the Idle Sleep flag is set, then we'll do a check to see if the zombie can go to sleep or not.
-            if (this.blIdleSleep)
+            if (blIdleSleep)
             {
                 try
                 {
                     // If its not alert, and not already sleeping, put it to sleep.
-                    if (!this.IsAlert)
+                    if (!IsAlert)
                     {
-                        this.ResumeSleeperPose();
+                        ResumeSleeperPose();
                     }
 
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // No Sleeper code!
-                    this.blIdleSleep = false;
+                    blIdleSleep = false;
 
 
                 }
 
             }
-        
+
         }
     }
 
@@ -445,9 +427,9 @@ public class EntityZombieFlockSDX : EntityZombie
                 masterID = masterEntity.entityId;
             }
             _bw.Write(masterID);
-            if (previousID == 0 && this.entityId > 0)
+            if (previousID == 0 && entityId > 0)
             {
-                previousID = this.entityId;
+                previousID = entityId;
                 if (debug) Debug.Log("Saving my ID of " + previousID);
             }
             if (previousID > 0)
@@ -511,7 +493,7 @@ public class EntityZombieFlockSDX : EntityZombie
         masterEntity = masterE;
         hasFlock = true;
     }
-    public new EntityAlive GetMasterEntity()
+    public EntityAlive GetMasterEntity()
     {
         if (masterEntity != null)
         {
@@ -544,21 +526,21 @@ public class EntityZombieFlockSDX : EntityZombie
         if (DateTime.Now < dtaNextSpawn) return;
         // spawn them right by the parent        
         // separates the spawning a few miliseconds just to avoid overlapping
-        Vector3 newPos = this.position + Vector3.up;
-        if (debug) Debug.Log("SPAWNING CHILDREN FOR ID " + this.entityId);
+        Vector3 newPos = position + Vector3.up;
+        if (debug) Debug.Log("SPAWNING CHILDREN FOR ID " + entityId);
 
         Debug.Log("Creating entity");
 
-        int intIndex = UnityEngine.Random.Range(0, this.strFlockEntities.Length - 1);
-        int intEntity = EntityClass.FromString(this.strFlockEntities[intIndex]);
-        Debug.Log("Spawning: " + this.strFlockEntities[intIndex]);
+        int intIndex = UnityEngine.Random.Range(0, strFlockEntities.Length - 1);
+        int intEntity = EntityClass.FromString(strFlockEntities[intIndex]);
+        Debug.Log("Spawning: " + strFlockEntities[intIndex]);
         //Entity spawnEntity = EntityFactory.CreateEntity(EntityClass.FromString(this.EntityName), newPos);
         Entity spawnEntity = EntityFactory.CreateEntity(intEntity, newPos);
         spawnEntity.SetSpawnerSource(EnumSpawnerSource.Unknown);
         Debug.Log("Spawning entity");
         GameManager.Instance.World.SpawnEntityInWorld(spawnEntity);
 
-        (spawnEntity as EntityZombieFlockSDX).setMasterEntity(this as EntityAlive);
+        (spawnEntity as EntityZombieFlockSDX).setMasterEntity(this);
         // flying entities spawning is a bit odd, so we "override" the position to where we want the children to be
         // which is by its parent
         spawnEntity.position = newPos;
@@ -604,12 +586,12 @@ public class EntityZombieFlockSDX : EntityZombie
             BlockValue blockAux = GameManager.Instance.World.GetBlock(new Vector3i(position));
             if (Array.Exists(blockList, s => s.Equals(Block.list[blockAux.type].GetBlockName())))
             {
-                if (Vector3.Distance(this.GetPosition(), position) <= range)
+                if (Vector3.Distance(GetPosition(), position) <= range)
                     return position;
             }
         }
 
-        return FindNearBlock(blockList, this.GetPosition(), range);
+        return FindNearBlock(blockList, GetPosition(), range);
     }
     public Vector3 FindNearBlock(string[] blockList, Vector3 position, int checkRange)
     {
@@ -640,11 +622,11 @@ public class EntityZombieFlockSDX : EntityZombie
         if (naturalEnemies.Length == 0) return;
         using (
                         List<Entity>.Enumerator enumerator =
-                            this.world.GetEntitiesInBounds(typeof(EntityAlive),
-                                BoundsUtils.BoundsForMinMax(this.position.x - 50f, this.position.y - 50f,
-                                    this.position.z - 50f, this.position.x + 50f,
-                                    this.position.y + 50f,
-                                    this.position.z + 50f), new List<Entity>()).GetEnumerator())
+                            world.GetEntitiesInBounds(typeof(EntityAlive),
+                                BoundsUtils.BoundsForMinMax(position.x - 50f, position.y - 50f,
+                                    position.z - 50f, position.x + 50f,
+                                    position.y + 50f,
+                                    position.z + 50f), new List<Entity>()).GetEnumerator())
         {
             while (enumerator.MoveNext())
             {
@@ -668,7 +650,7 @@ public class EntityZombieFlockSDX : EntityZombie
     }
     private void FindClosestPlayer()
     {
-        EntityPlayer closestPlayer = this.world.GetClosestPlayer(this, 80f, false);
+        EntityPlayer closestPlayer = world.GetClosestPlayer(this, 80f, false);
         if (base.CanSee(closestPlayer))
         {
             if (closestPlayer.GetWaterLevel() < 0.5f)
@@ -684,8 +666,8 @@ public class EntityZombieFlockSDX : EntityZombie
         {
             return;
         }
-        if (this.world.IsRemote()) return;
-        if (this.IsDead()) return;
+        if (world.IsRemote()) return;
+        if (IsDead()) return;
         if (masterEntity == null && !hasFlock && maxToSpawn > 0)
         {
             SpawnFlock();
@@ -695,96 +677,96 @@ public class EntityZombieFlockSDX : EntityZombie
             FindOldMaster();
         }
         base.GetEntitySenses().ClearIfExpired();
-        if (this.AttackTimeout > 0)
+        if (AttackTimeout > 0)
         {
-            this.AttackTimeout--;
+            AttackTimeout--;
         }
-        if (this.AttackTimeout <= 0)
+        if (AttackTimeout <= 0)
         {
-            Vector3 a = this.Waypoint - this.position;
+            Vector3 a = Waypoint - position;
             float sqrMagnitude = a.sqrMagnitude;
             if (sqrMagnitude < 1f || sqrMagnitude > 6400f)
             {
-                if (!base.isWithinHomeDistanceCurrentPosition() && this.GetMasterEntity() == null && !isHunting)
+                if (!base.isWithinHomeDistanceCurrentPosition() && GetMasterEntity() == null && !isHunting)
                 {
                     // uses vanilla code to stay near "home position" if its a "master"
                     Vector3 ye = RandomPositionGenerator.CalcTowards(this, 2 * base.getMaximumHomeDistance(), 2 * base.getMaximumHomeDistance(), 2 * base.getMaximumHomeDistance(), base.getHomePosition().position.ToVector3());
                     if (!ye.Equals(Vector3.zero))
                     {
                         if (debug) Debug.Log("Going Home");
-                        this.Waypoint = ye;
-                        this.HasWaypoint = true;
+                        Waypoint = ye;
+                        HasWaypoint = true;
                     }
                 }
                 else
                 {
-                    this.HasWaypoint = false;
+                    HasWaypoint = false;
                     if (base.GetRevengeTarget() != null && ((base.GetRevengeTarget().GetDistanceSq(this) < 6400f && UnityEngine.Random.value <= 0.5f) || isHunting))
                     {
                         // if it's targeting an enemy. Notice that if it's hunting I just want it to get it done.
-                        this.Waypoint = base.GetRevengeTarget().GetPosition() + Vector3.up;
+                        Waypoint = base.GetRevengeTarget().GetPosition() + Vector3.up;
                     }
                     else
                     {
-                        if (this.GetMasterEntity() == null)
+                        if (GetMasterEntity() == null)
                         {
                             // if it finds a target block nearby, it will go for it. Not attack it, just go near it
                             // this will make them "destroy" crops for example, if we make them target crop blocks.
                             if (FindLandSpot())
                             {
                                 // going for landing spot
-                                this.Waypoint = landPosition + new Vector3((float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0));
+                                Waypoint = landPosition + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0));
                             }
                             else
                             {
                                 // chooses a random waypoint - vanilla code
-                                this.Waypoint = base.GetPosition() + new Vector3((float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 16.0));
+                                Waypoint = base.GetPosition() + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0));
                                 // maximum Y. Just to avoid them going too high (out of sight, out of heart)
-                                int maxY = this.world.GetHeight((int)this.Waypoint.x, (int)this.Waypoint.z) + maxHeight;
-                                if (this.Waypoint.y > maxY)
+                                int maxY = world.GetHeight((int)Waypoint.x, (int)Waypoint.z) + maxHeight;
+                                if (Waypoint.y > maxY)
                                 {
-                                    this.Waypoint.y = maxY;
+                                    Waypoint.y = maxY;
                                     if (debug) Debug.Log("Prevented it from going higher");
                                 }
                             }
                         }
                         else
                         {
-                            if ((this.GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget() != null)
+                            if ((GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget() != null)
                             {
                                 // attacks the same target as master
-                                this.SetRevengeTarget((this.GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget());
-                                this.Waypoint = (this.GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget().GetPosition() + Vector3.up;
+                                SetRevengeTarget((GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget());
+                                Waypoint = (GetMasterEntity() as EntityZombieFlockSDX).GetRevengeTarget().GetPosition() + Vector3.up;
                             }
                             else
                             {
                                 // if the master has a landing spot, it goes to random position near the landing spot, otherwise just follows master
-                                if ((this.GetMasterEntity() as EntityZombieFlockSDX).GetLandingSpot() == Vector3.zero)
-                                    this.Waypoint = this.GetMasterEntity().GetPosition() + Vector3.up;
-                                else this.Waypoint = (this.GetMasterEntity() as EntityZombieFlockSDX).GetLandingSpot() + new Vector3((float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((this.rand.RandomDouble * 2.0 - 1.0) * 3.0));
+                                if ((GetMasterEntity() as EntityZombieFlockSDX).GetLandingSpot() == Vector3.zero)
+                                    Waypoint = GetMasterEntity().GetPosition() + Vector3.up;
+                                else Waypoint = (GetMasterEntity() as EntityZombieFlockSDX).GetLandingSpot() + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0));
                             }
                         }
                     }
                     int num = 255;
                     // if waypoint is not in the air, change it up
-                    while (this.world.GetBlock(new Vector3i(this.Waypoint)).type != BlockValue.Air.type && num > 0)
+                    while (world.GetBlock(new Vector3i(Waypoint)).type != BlockValue.Air.type && num > 0)
                     {
-                        this.Waypoint.y = this.Waypoint.y + 1f;
+                        Waypoint.y = Waypoint.y + 1f;
                         num--;
                     }
                 }
-                this.Waypoint.y = Mathf.Min(this.Waypoint.y, 250f);
+                Waypoint.y = Mathf.Min(Waypoint.y, 250f);
             }
-            if (this.CourseCheck-- <= 0)
+            if (CourseCheck-- <= 0)
             {
-                this.CourseCheck += this.rand.RandomRange(5) + 2;
+                CourseCheck += rand.RandomRange(5) + 2;
                 //if (base.isCourseTraversable(this.Waypoint, out sqrMagnitude))
                 //{
                 //    this.motion += a / sqrMagnitude * 0.1f;
                 //}
                 //else
                 //{
-                    this.Waypoint = base.GetPosition();
+                Waypoint = base.GetPosition();
                 //}
             }
         }
@@ -798,9 +780,9 @@ public class EntityZombieFlockSDX : EntityZombie
             }
         }
         // if it's a parent and has no target, then it will look for one.
-        if ((base.GetRevengeTarget() == null) && this.GetMasterEntity() == null)
+        if ((base.GetRevengeTarget() == null) && GetMasterEntity() == null)
         {
-            if (this.TargetInterval-- <= 0)
+            if (TargetInterval-- <= 0)
             {
                 isHunting = false;
                 if (targetPlayers)
@@ -821,45 +803,45 @@ public class EntityZombieFlockSDX : EntityZombie
                 }
                 if (base.GetRevengeTarget() != null)
                 {
-                    this.TargetInterval = 20;
+                    TargetInterval = 20;
                 }
             }
         }
         float intendedRotation;
-        if (!this.HasWaypoint)
+        if (!HasWaypoint)
         {
             if (base.GetRevengeTarget() != null)
             {
                 float distanceSq;
                 if ((distanceSq = base.GetRevengeTarget().GetDistanceSq(this)) < 6400f)
                 {
-                    float y = base.GetRevengeTarget().position.x - this.position.x;
-                    float x = base.GetRevengeTarget().position.z - this.position.z;
+                    float y = base.GetRevengeTarget().position.x - position.x;
+                    float x = base.GetRevengeTarget().position.z - position.z;
                     if (distanceSq < 5f)
                     {
                         intendedRotation = Mathf.Atan2(y, x) * 180f / 3.14159274f;
                     }
                     else
                     {
-                        intendedRotation = (float)Math.Atan2((double)this.motion.x, (double)this.motion.z) * 180f / 3.14159274f;
-                        if (this.motion.magnitude < 0.25f)
+                        intendedRotation = (float)Math.Atan2(motion.x, motion.z) * 180f / 3.14159274f;
+                        if (motion.magnitude < 0.25f)
                         {
-                            this.motion = this.motion.normalized * 0.25f;
+                            motion = motion.normalized * 0.25f;
                         }
                     }
-                    if (this.AttackTimeout <= 0)
+                    if (AttackTimeout <= 0)
                     {
                         if (distanceSq < 2.8f)
                         {
-                            if (this.position.y >= base.GetRevengeTarget().position.y)
+                            if (position.y >= base.GetRevengeTarget().position.y)
                             {
                                 if (!isHunting)
                                 {
-                                    if (this.position.y <= base.GetRevengeTarget().getHeadPosition().y - 0.25f)
+                                    if (position.y <= base.GetRevengeTarget().getHeadPosition().y - 0.25f)
                                     {
                                         if (base.Attack(false))
                                         {
-                                            this.AttackTimeout = base.GetAttackTimeoutTicks();
+                                            AttackTimeout = base.GetAttackTimeoutTicks();
                                             base.Attack(true);
                                         }
                                     }
@@ -874,19 +856,19 @@ public class EntityZombieFlockSDX : EntityZombie
                                         // stops hunting to look for another suitable target after a bit
                                         isHunting = false;
                                         base.SetRevengeTarget(null);
-                                        this.TargetInterval = 50;
+                                        TargetInterval = 50;
                                     }
                                 }
                             }
                         }
                     }
-                    this.rotation.y = EntityAlive.UpdateRotation(this.rotation.y, intendedRotation, 10f);
+                    rotation.y = EntityAlive.UpdateRotation(rotation.y, intendedRotation, 10f);
                     return;
                 }
             }
         }
-        intendedRotation = (float)Math.Atan2((double)this.motion.x, (double)this.motion.z) * 180f / 3.14159274f;
-        this.rotation.y = EntityAlive.UpdateRotation(this.rotation.y, intendedRotation, 10f);
+        intendedRotation = (float)Math.Atan2(motion.x, motion.z) * 180f / 3.14159274f;
+        rotation.y = EntityAlive.UpdateRotation(rotation.y, intendedRotation, 10f);
     }
     // flocking logic constants and variables
     private const float BS = 0.25f;

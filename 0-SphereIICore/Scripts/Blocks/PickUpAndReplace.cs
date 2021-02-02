@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
-using System.Globalization;
+﻿using System.Globalization;
 
 public class BlockTakeAndReplace : Block
 {
@@ -12,9 +9,9 @@ public class BlockTakeAndReplace : Block
     {
         base.Init();
 
-        if (this.Properties.Values.ContainsKey("TakeDelay"))
+        if (Properties.Values.ContainsKey("TakeDelay"))
         {
-            this.fTakeDelay = StringParsers.ParseFloat(this.Properties.Values["TakeDelay"], 0, -1, NumberStyles.Any);
+            fTakeDelay = StringParsers.ParseFloat(Properties.Values["TakeDelay"], 0, -1, NumberStyles.Any);
         }
     }
 
@@ -22,7 +19,7 @@ public class BlockTakeAndReplace : Block
     public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx,
         Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
-        this.TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
+        TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
         return true;
     }
 
@@ -31,20 +28,20 @@ public class BlockTakeAndReplace : Block
     {
         World world = GameManager.Instance.World;
         object[] array = (object[])timerData.Data;
-        int clrIdx = (int) array[0];
-        BlockValue _blockValue = (BlockValue) array[1];
-        Vector3i vector3i = (Vector3i) array[2];
+        int clrIdx = (int)array[0];
+        BlockValue _blockValue = (BlockValue)array[1];
+        Vector3i vector3i = (Vector3i)array[2];
         BlockValue block = world.GetBlock(vector3i);
         EntityPlayerLocal entityPlayerLocal = array[3] as EntityPlayerLocal;
         // Find the block value for the pick up value, and add it to the inventory
-        BlockValue pickUpBlock = Block.GetBlockValue(this.PickedUpItemValue, true);
+        BlockValue pickUpBlock = Block.GetBlockValue(PickedUpItemValue, true);
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         ItemStack itemStack = new ItemStack(pickUpBlock.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
         entityPlayerLocal.PlayOneShot("Sounds/DestroyBlock/wooddestroy1");
         // Damage the block for its full health 
-        this.DamageBlock(world, clrIdx, vector3i, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId, false);
+        DamageBlock(world, clrIdx, vector3i, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId, false);
     }
 
 
@@ -53,7 +50,7 @@ public class BlockTakeAndReplace : Block
     {
         LocalPlayerUI playerUI = (_player as EntityPlayerLocal).PlayerUI;
         playerUI.windowManager.Open("timer", true, false, true);
-        XUiC_Timer xuiC_Timer = (XUiC_Timer) playerUI.xui.GetChildByType<XUiC_Timer>();
+        XUiC_Timer xuiC_Timer = playerUI.xui.GetChildByType<XUiC_Timer>();
         TimerEventData timerEventData = new TimerEventData();
         timerEventData.Data = new object[]
         {
@@ -62,9 +59,9 @@ public class BlockTakeAndReplace : Block
             _blockPos,
             _player
         };
-        timerEventData.Event += this.TakeTarget;
+        timerEventData.Event += TakeTarget;
 
-        float newTakeTime = this.fTakeDelay;
+        float newTakeTime = fTakeDelay;
 
         // If the entity is holding a crow bar or hammer, then reduce the take time.
         if (_player.inventory.holdingItem.Name == "CrowBar" || _player.inventory.holdingItem.Name == "meleeToolClawHammer")
@@ -75,13 +72,13 @@ public class BlockTakeAndReplace : Block
                 // Bump the Use time by one.
                 global::ItemValue itemValue = _player.inventory.holdingItemItemValue;
 
-              
+
                 // Calculate the degradation value.
                 itemValue.UseTimes += (int)EffectManager.GetValue(PassiveEffects.DegradationPerUse, itemValue, 1f, _player, null, default(FastTags), true, true, true, true);
                 _player.inventory.holdingItemData.itemValue = itemValue;
 
                 // Automatically reduce the take delay by half if you have a crow bar or claw hammer.
-                newTakeTime = (this.fTakeDelay / 2);
+                newTakeTime = (fTakeDelay / 2);
 
                 // Reduce time based on the quality.
                 newTakeTime -= itemValue.Quality;
@@ -95,7 +92,7 @@ public class BlockTakeAndReplace : Block
 
     public override string GetActivationText(global::WorldBase _world, global::BlockValue _blockValue, int _clrIdx, global::Vector3i _blockPos, global::EntityAlive _entityFocusing)
     {
-        return string.Format(Localization.Get("takeandreplace", string.Empty), Localization.Get(_blockValue.Block.GetBlockName(), string.Empty));
-    //    return "Press <E> to remove the wood from this block.";
+        return string.Format(Localization.Get("takeandreplace"), Localization.Get(_blockValue.Block.GetBlockName()));
+        //    return "Press <E> to remove the wood from this block.";
     }
 }

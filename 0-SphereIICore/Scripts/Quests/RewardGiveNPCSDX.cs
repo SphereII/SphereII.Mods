@@ -32,8 +32,8 @@ class RewardGiveNPCSDX : BaseReward
 
     public override void SetupReward()
     {
-        base.Description = Localization.Get("RewardGiveNPCSDX_keyword", Localization.QuestPrefix);
-        this.SetupValueText();
+        base.Description = Localization.Get("RewardGiveNPCSDX_keyword");
+        SetupValueText();
         base.Icon = "ui_game_symbol_trophy";
     }
 
@@ -45,7 +45,7 @@ class RewardGiveNPCSDX : BaseReward
     {
         base.ValueText = "Value Test";
     }
-    public void SpawnFromGroup( string strEntityGroup, EntityPlayer player )
+    public void SpawnFromGroup(string strEntityGroup, EntityPlayer player)
     {
         int EntityID = 0;
 
@@ -69,7 +69,7 @@ class RewardGiveNPCSDX : BaseReward
                 uiforPlayer.windowManager.Open("JoinInformation", true, false, true);
                 //(NewEntity as EntityAliveSDX).SetOwner(player as EntityPlayerLocal);
             }
-                
+
         }
         else
         {

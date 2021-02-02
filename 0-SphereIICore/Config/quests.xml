@@ -1,0 +1,71 @@
+﻿<configs>
+  <append xpath="/quests">
+    <quest id="sphereii_gotoPoiTest">
+      <property name="name_key" value="quest_tier1_fetch" />
+      <property name="subtitle_key" value="quest_fetch_subtitle" />
+      <property name="description_key" value="quest_fetch_description" />
+      <property name="icon" value="ui_game_symbol_quest" />
+      <property name="repeatable" value="true" />
+      <property name="category_key" value="challenge" />
+      <property name="difficulty" value="medium" />
+      <property name="difficulty_tier" value="1" />
+      <property name="offer_key" value="quest_tier1_fetch_offer" />
+      <property name="statement_key" value="quest_fetch_statement" />
+      <property name="response_key" value="quest_fetch_response" />
+      <property name="login_rally_reset" value="true" />
+
+      <property name="completiontype" value="TurnIn" />
+      <property name="completion_key" value="quest_fetch_completion" />
+
+      <objective type="GotoPOISDX, Mods" value="10-6000" phase="1">
+        <property name="completion_distance" value="50" />
+        <property name="phase" value="1" />
+        <property name="PrefabName" value="store_gun_01" />
+        <property name="nav_object" value="quest" />
+      </objective>
+      
+      <objective type="RallyPoint">
+        <property name="phase" value="2" />
+        <property name="nav_object" value="rally" />
+      </objective>
+
+      <objective type="FetchFromContainer">
+        <property name="phase" value="3" />
+        <property name="quest_item_ID" value="1" />
+        <property name="item_count" value="1" />
+        <property name="default_container" value="cntFetchQuestSatchel" />
+        <property name="nav_object" value="fetch_container" />
+      </objective>
+
+      <objective type="POIStayWithin">
+        <property name="phase" value="3" />
+        <property name="radius" value="25" />
+      </objective>
+
+      <objective type="ReturnToNPC">
+        <property name="phase" value="4" />
+        <property name="nav_object" value="return_to_trader" />
+      </objective>
+
+      <objective type="InteractWithNPC">
+        <property name="phase" value="4" />
+        <property name="nav_object" value="return_to_trader" />
+      </objective>
+
+      <reward type="Exp" value="2500" />
+      <reward type="Item" id="casinoCoin" value="330" />
+
+      <!--<reward type="LootItem" id="groupQuestTools" ischosen="true" isfixed="true" value="1"/>-->
+      <!--<reward type="LootItem" id="groupQuestArmor,groupQuestMedical" ischosen="true" isfixed="true" value="1"/>-->
+      <reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
+      <!--<reward type="LootItem" id="groupQuestWeapons" ischosen="true" value="1"/>-->
+      <reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
+      <reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
+      
+      
+
+      <reward type="Exp" value="1000" />
+    
+    </quest>
+  </append>
+</configs>

@@ -1,57 +1,56 @@
 ﻿using GamePath;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 class EAIGuardSDX : EAILook
-    {
+{
 
     float originalView;
-    private bool hadPath;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0052:Remove unread private members", Justification = "Used by base class")]
     private int pathRecalculateTicks;
 
-    private bool blDisplayLog = false;
+    private readonly bool blDisplayLog = false;
     private int waitTicks;
     private int viewTicks;
 
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
-            Debug.Log(this.theEntity.EntityName + ": " + strMessage);
+            Debug.Log(theEntity.EntityName + ": " + strMessage);
     }
-    public bool FetchOrders( )
+    public bool FetchOrders()
     {
-        if(EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Stay))
+        if (!EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Stay))
             return false;
 
-        if ( this.theEntity is EntityAliveSDX )
+        if (theEntity is EntityAliveSDX)
         {
-            EntityAliveSDX temp = this.theEntity as EntityAliveSDX;
+            EntityAliveSDX temp = theEntity as EntityAliveSDX;
             float sqrMagnitude = (temp.GuardPosition - temp.position).sqrMagnitude;
             DisplayLog(" Magnitude from Guard " + temp.GuardPosition + " and Position " + temp.position + " is " + sqrMagnitude);
             if (sqrMagnitude > 1f)
             {
                 DisplayLog(" Moving to my guard position ");
-                this.updatePath( temp.GuardPosition);
-               // this.theEntity.moveHelper.SetMoveTo(temp.GuardPosition, false);
+                updatePath(temp.GuardPosition);
+                // this.theEntity.moveHelper.SetMoveTo(temp.GuardPosition, false);
                 return true;
             }
         }
 
-        originalView = this.theEntity.GetMaxViewAngle();
-        this.theEntity.SetMaxViewAngle(180f);
+        originalView = theEntity.GetMaxViewAngle();
+        theEntity.SetMaxViewAngle(180f);
         return true;
     }
 
     public override void Reset()
     {
-        this.theEntity.SetLookPosition(Vector3.zero);
-        if ( this.theEntity is EntityAliveSDX )
-            this.theEntity.SetLookPosition((this.theEntity as EntityAliveSDX).GuardLookPosition);
+        theEntity.SetLookPosition(Vector3.zero);
+        if (theEntity is EntityAliveSDX)
+            theEntity.SetLookPosition((theEntity as EntityAliveSDX).GuardLookPosition);
 
         // Reset the view angle, and rotate it back to the original look vector.
-        this.theEntity.SetMaxViewAngle(this.originalView);
-      //  this.theEntity.RotateTo(this.theEntity.GetLookVector().x, this.theEntity.GetLookVector().y, this.theEntity.GetLookVector().z, 30f, 30f);
+        theEntity.SetMaxViewAngle(originalView);
+        //  this.theEntity.RotateTo(this.theEntity.GetLookVector().x, this.theEntity.GetLookVector().y, this.theEntity.GetLookVector().z, 30f, 30f);
 
     }
     public override bool Continue()
@@ -59,35 +58,35 @@ class EAIGuardSDX : EAILook
         if (!FetchOrders())
             return false;
 
-        if (this.theEntity.bodyDamage.CurrentStun != global::EnumEntityStunType.None)
+        if (theEntity.bodyDamage.CurrentStun != global::EnumEntityStunType.None)
         {
             return false;
         }
-        this.waitTicks--;
-        if (this.waitTicks <= 0)
+        waitTicks--;
+        if (waitTicks <= 0)
         {
             return false;
         }
-        this.viewTicks--;
-        if (this.viewTicks <= 0)
+        viewTicks--;
+        if (viewTicks <= 0)
         {
-            this.viewTicks = 40;
-            Vector3 headPosition = this.theEntity.getHeadPosition();
-            Vector3 vector = this.theEntity.GetForwardVector();
+            viewTicks = 40;
+            Vector3 headPosition = theEntity.getHeadPosition();
+            Vector3 vector = theEntity.GetForwardVector();
             vector = Quaternion.Euler(UnityEngine.Random.value * 60f - 30f, UnityEngine.Random.value * 120f - 60f, 0f) * vector;
-            this.theEntity.SetLookPosition(headPosition + vector);
+            theEntity.SetLookPosition(headPosition + vector);
             return false; // cut it short.
         }
         return true;
     }
-    private void updatePath( Vector3 GuardPosition)
+    private void updatePath(Vector3 GuardPosition)
     {
-        if (PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
+        if (PathFinderThread.Instance.IsCalculatingPath(theEntity.entityId))
         {
             return;
         }
-        this.pathRecalculateTicks = 20 + this.theEntity.rand.RandomRange(20);
-        PathFinderThread.Instance.FindPath(this.theEntity, GuardPosition, this.theEntity.GetMoveSpeedAggro(), true, this);
+        pathRecalculateTicks = 20 + theEntity.rand.RandomRange(20);
+        PathFinderThread.Instance.FindPath(theEntity, GuardPosition, theEntity.GetMoveSpeedAggro(), true, this);
     }
     public override bool CanExecute()
     {
@@ -97,6 +96,6 @@ class EAIGuardSDX : EAILook
         return base.CanExecute();
     }
 
-  
+
 }
 

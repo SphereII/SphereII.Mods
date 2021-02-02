@@ -1,6 +1,4 @@
-﻿using System;
-
-public class QuestActionGiveCVarBuffSDX : BaseQuestAction
+﻿public class QuestActionGiveCVarBuffSDX : BaseQuestAction
 {
     public override void SetupAction()
     {

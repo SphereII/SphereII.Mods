@@ -1,5 +1,5 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -11,7 +11,7 @@ public class ClearUI
         public void Start()
         {
             Debug.Log(" Loading Patch: " + GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
+            var harmony = new Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
@@ -70,15 +70,7 @@ public class ClearUI
         }
     }
 
-    [HarmonyPatch(typeof(ItemActionDynamicMelee))]
-    [HarmonyPatch("canShowOverlay")]
-    public class SphereII_ClearUI_ItemActionDynamicMeLee
-    {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
+  
     // Removes the overlays, like the damage, downground and upgrade indicators
     [HarmonyPatch(typeof(ItemActionAttack))]
     [HarmonyPatch("canShowOverlay")]
@@ -116,6 +108,17 @@ public class ClearUI
     [HarmonyPatch(typeof(XUiC_TipWindow))]
     [HarmonyPatch("ShowTip")]
     public class SphereII_ClearUI_XUiC_TipWindow
+    {
+        static bool Prefix()
+        {
+            return false;
+        }
+    }
+
+    // Removes the looting pop up
+    [HarmonyPatch(typeof(XUiC_InteractionPrompt))]
+    [HarmonyPatch("SetText")]
+    public class SphereII_ClearUI_XUiC_InteractionPrompt
     {
         static bool Prefix()
         {
@@ -182,8 +185,23 @@ public class ClearUI
         {
             return false;
         }
+
+    }
+
+
+    // Removes the timer
+    [HarmonyPatch(typeof(XUiC_Timer))]
+    [HarmonyPatch("UpdateTimer")]
+    public class SphereII_ClearUI_XUiC_Timer_UpdateTimer
+    {
+        static bool Prefix()
+        {
+            return false;
+        }
       
     }
+
+   
 
     // removes cross hair
     [HarmonyPatch(typeof(ItemClass))]

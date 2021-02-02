@@ -1,6 +1,6 @@
 ﻿class TileEntityPoweredWorkstationSDX : TileEntityPowered
 {
-    TileEntityWorkstation workstation;
+    readonly TileEntityWorkstation workstation;
 
     public TileEntityPoweredWorkstationSDX(Chunk _chunk) : base(_chunk)
     {
@@ -17,6 +17,6 @@
         return TileEntityType.Workstation;
     }
 
-  
+
 }
 

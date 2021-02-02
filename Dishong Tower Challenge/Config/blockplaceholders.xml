@@ -1,0 +1,15 @@
+﻿<Configs>
+  <setattribute xpath="//block[@name='airConditioner']" name="prob">2</setattribute>
+  <remove xpath="//block[starts-with(@name, 'cntCar03SedanDamage1') ]" />
+  <remove xpath="//block[starts-with(@name, 'cntCar03SedanDamage2') ]" />
+
+  <append xpath="//placeholder[@name='carWrecksRandomHelper'] ">
+    <block name="cntCar03SedanDamage0v01" />
+    <block name="cntCar03SedanDamage0v02" />
+    <block name="cntCar03SedanDamage0v03" />
+    <block name="cntCar03SedanDamage0v04" />
+    <block name="cntCar03SedanDamage0v05" />
+    <block name="cntCar03SedanDamage0v06" />
+    <block name="cntCar03SedanDamage0v07" />
+  </append>
+</Configs>

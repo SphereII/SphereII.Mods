@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-class XUiC_EntityInformationPanelSDX : XUiController
+﻿class XUiC_EntityInformationPanelSDX : XUiController
 {
     public override bool GetBindingValue(ref string value, BindingItem binding)
     {
@@ -24,7 +23,7 @@ class XUiC_EntityInformationPanelSDX : XUiController
                 {
                     value = EntityUtilities.DisplayEntityStats(entityID);
                 }
-                    return false;
+                return false;
 
             }
         }

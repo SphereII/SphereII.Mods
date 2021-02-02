@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Reflection;
 using DMT;
-using Harmony;
+using HarmonyLib;
 using UnityEngine;
 
 // Re-enables Legacy Distant Terrain for low end machines.
@@ -12,11 +12,27 @@ class SphereII_LegacyDistantTerrain
         public void Start()
         {
             Debug.Log(" Loading Patch: " + this.GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
+            var harmony = new Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 
+
+    [HarmonyPatch(typeof(GameOptionsManager))]
+    [HarmonyPatch("ApplyTerrainOptions")]
+    public class SphereII_GameOptionsManager_ApplyTerrainOptions
+    {
+        public static bool Prefix()
+        {
+            Debug.Log(" SphereII Legacy Distant Terrain: Forcing Low Terrain Textures for FPS Boost..." );
+            Shader.EnableKeyword("GAME_TERRAINLOWQ");
+            Shader.DisableKeyword("_MAX3LAYER");
+            Shader.EnableKeyword("_MAX2LAYER");
+
+            return false;
+
+        }
+    }
     [HarmonyPatch(typeof(GameManager))]
     [HarmonyPatch("IsSplatMapAvailable")]
     public class SphereII_GameManager_SplatMap
@@ -125,7 +141,7 @@ class SphereII_LegacyDistantTerrain
             return GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt((int)x, (int)z);
         }
 
-        public static void Postfix(WorldEnvironment __instance, World ___m_World)
+        public static void Postfix(WorldEnvironment __instance, World ___world)
         {
             
             if(GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")

@@ -1,13 +1,15 @@
-﻿using DMT;
-using Harmony;
-using System;
-using System.IO;
-using UnityEngine;
+using HarmonyLib;
 
+
+/**
+ * SphereII_HeadshotOnly
+ *
+ * This class includes a Harmony patch force head-shot only, enabled via the Config/blocks.xml
+ */
 public class SphereII_HeadshotOnly
 {
-    private static string AdvFeatureClass = "AdvancedZombieFeatures";
-    private static string Feature = "HeadshotOnly";
+    private static readonly string AdvFeatureClass = "AdvancedZombieFeatures";
+    private static readonly string Feature = "HeadshotOnly";
 
     // Give a damage boost to headshots
     [HarmonyPatch(typeof(EntityAlive))]
@@ -17,10 +19,10 @@ public class SphereII_HeadshotOnly
         public static bool Prefix(EntityAlive __instance, ref DamageSource _damageSource, ref int _strength, bool _criticalHit, float _impulseScale)
         {
             // Apply a damage boost if there is a head shot.
-            if (__instance is EntityZombie )
+            if (__instance is EntityZombie)
             {
                 // No head shots for snakes.
-                if(__instance is EntityAnimalSnake)
+                if (__instance is EntityAnimalSnake)
                     return true;
 
                 if (_strength > 999)
@@ -30,6 +32,10 @@ public class SphereII_HeadshotOnly
                 }
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                 {
+                    // If its not a player, deal with default
+                    EntityPlayerLocal entityAlive = GameManager.Instance.World.GetEntity(_damageSource.getEntityId()) as EntityPlayerLocal;
+                    if (entityAlive == null)
+                        return true;
 
                     EnumBodyPartHit bodyPart = _damageSource.GetEntityDamageBodyPart(__instance);
                     if (bodyPart == EnumBodyPartHit.Head)

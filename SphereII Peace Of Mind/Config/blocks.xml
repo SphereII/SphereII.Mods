@@ -1,0 +1,16 @@
+﻿<configs>
+	<remove xpath="/blocks/block[contains( @name, 'modularRope' )]" />
+	<append xpath="/blocks">
+		<block name="modularRopeTiled">
+			<property name="Extends" value="air"/>
+		</block>
+
+		<block name="modularRopeTopTied">
+			<property name="Extends" value="modularRopeTiled"/>
+		</block>
+
+		<block name="modularRopeNoose">
+			<property name="Extends" value="modularRopeTiled"/>
+		</block>
+	</append>
+</configs>

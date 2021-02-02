@@ -69,5 +69,15 @@
         <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, Mods" target="self" faction="undead" value="-100" />
       </effect_group>
     </item>
+
+    <item name="UndeadPositiveRelatedFactionsSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadPositiveFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyRelatedFactionsSDX, Mods" target="self" faction="undead" value="100" related="bandits,whiteriver,duke" scale="0.5" />
+      </effect_group>
+    </item>
   </append>
 </configs>

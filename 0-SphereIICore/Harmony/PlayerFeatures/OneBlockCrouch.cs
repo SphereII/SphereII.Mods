@@ -1,9 +1,16 @@
-﻿using Harmony;
+using HarmonyLib;
+using UnityEngine;
 
+/**
+ * SphereII__OneBlockCrouch
+ *
+ * This class includes a Harmony patches to the EntityPlayer Local to allow players to crawl through a single block
+ * 
+ */
 public class SphereII__OneBlockCrouch
 {
-    private static string AdvFeatureClass = "AdvancedPlayerFeatures";
-    private static string Feature = "OneBlockCrouch";
+    private static readonly string AdvFeatureClass = "AdvancedPlayerFeatures";
+    private static readonly string Feature = "OneBlockCrouch";
 
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("Init")]
@@ -20,4 +27,25 @@ public class SphereII__OneBlockCrouch
             __instance.vp_FPController.SyncCharacterController();
         }
     }
+
+    [HarmonyPatch(typeof(PlayerMoveController))]
+    [HarmonyPatch("Update")]
+    public class SphereII_OneBlockCrouch_GetEyeHeight
+    {
+
+        static void Postfix(PlayerMoveController __instance, ref EntityPlayerLocal ___entityPlayerLocal)
+        {
+
+            // Check if this feature is enabled.
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                return;
+
+            if (__instance.playerInput.Crouch.IsPressed && !___entityPlayerLocal.IsFlyMode.Value)
+            {
+                ___entityPlayerLocal.cameraTransform.position -= Vector3.down;
+            }
+
+        }
+    }
+
 }

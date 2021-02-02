@@ -1,13 +1,11 @@
-﻿using System;
-
-class RewardQuestSDX : RewardQuest
+﻿class RewardQuestSDX : RewardQuest
 {
 
     public override BaseReward Clone()
     {
         RewardQuestSDX rewardQuest = new RewardQuestSDX();
         base.CopyValues(rewardQuest);
-        rewardQuest.IsChainQuest = this.IsChainQuest;
+        rewardQuest.IsChainQuest = IsChainQuest;
         return rewardQuest;
     }
 
@@ -24,10 +22,10 @@ class RewardQuestSDX : RewardQuest
     public override void GiveReward(EntityPlayer player)
     {
         Quest quest = QuestClass.CreateQuest(base.ID);
-        if (base.OwnerQuest != null && quest != null )
+        if (base.OwnerQuest != null && quest != null)
         {
             QuestClass newQuest = GetQuest(base.OwnerQuest.ID);
-            if( newQuest != null  )
+            if (newQuest != null)
                 quest.PreviousQuest = newQuest.Name;
         }
 

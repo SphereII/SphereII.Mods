@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+	<Name value="Locks" />
+	<Description value="Locks - Locks for the LockPicking minigame enabled in Sphereii's version 19.3 or greater Core" />
+	<Author value="Xyth/SphereII/Mumpfy" />
+	<Version value="19.3.0.1" />
+  </ModInfo>
+	<dependencies>
+	  <dependancy>0-SphereIICore</dependancy>
+	</dependencies>
+</xml>

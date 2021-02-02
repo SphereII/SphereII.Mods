@@ -4,7 +4,13 @@
     <Name value="SphereII Music Boxes" />
     <Description value="Add in new music and video players into the game." />
     <Author value="sphereii" />
-    <Version value="18.3.1.1" />
+    <Version value="19.1.1.1" />
     <Website value="" />
   </ModInfo>
+  <DMT Hash="da701b8859879d2035f7ceff02104486">
+    <dependencies>
+      <dependancy>0-SphereIICore</dependancy>
+    </dependencies>
+    <conflicts />
+  </DMT>
 </xml>

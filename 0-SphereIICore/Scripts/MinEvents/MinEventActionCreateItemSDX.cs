@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Xml;
 using UnityEngine;
 
@@ -13,21 +12,21 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
         EntityPlayerLocal entityPlayer = _params.Self as EntityPlayerLocal;
 
         // Loot group
-        if(_params.Self as EntityPlayerLocal != null && this.lootgroup > 0  )
+        if (_params.Self as EntityPlayerLocal != null && lootgroup > 0)
         {
-            ItemStack[] array = LootContainer.lootList[lootgroup].Spawn(GameManager.Instance.lootManager.Random, this.CreateItemCount, EffectManager.GetValue(PassiveEffects.LootGamestage, null, (float)entityPlayer.HighestPartyGameStage, entityPlayer, null, default(FastTags), true, true, true, true, 1, true), 0f, entityPlayer);
-            for(int i = 0; i < array.Length; i++)
+            ItemStack[] array = LootContainer.lootList[lootgroup].Spawn(GameManager.Instance.lootManager.Random, CreateItemCount, EffectManager.GetValue(PassiveEffects.LootGamestage, null, entityPlayer.HighestPartyGameStage, entityPlayer, null, default(FastTags), true, true, true, true, 1, true), 0f, entityPlayer, new FastTags());
+            for (int i = 0; i < array.Length; i++)
             {
-                if(!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(array[i], true))
+                if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(array[i], true))
                     entityPlayer.world.gameManager.ItemDropServer(array[i], entityPlayer.GetPosition(), Vector3.zero, -1, 60f, false);
             }
             return;
         }
 
         // item value.
-        if (_params.Self as EntityPlayerLocal != null && this.CreateItem != null && this.CreateItemCount > 0)
+        if (_params.Self as EntityPlayerLocal != null && CreateItem != null && CreateItemCount > 0)
         {
-            ItemStack itemStack = new ItemStack(ItemClass.GetItem(this.CreateItem, false), this.CreateItemCount);
+            ItemStack itemStack = new ItemStack(ItemClass.GetItem(CreateItem, false), CreateItemCount);
             if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(itemStack, true))
             {
                 entityPlayer.world.gameManager.ItemDropServer(itemStack, entityPlayer.GetPosition(), Vector3.zero, -1, 60f, false);
@@ -50,19 +49,19 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
             {
                 if (name == "item")
                 {
-       
-                    this.CreateItem = _attribute.Value;
+
+                    CreateItem = _attribute.Value;
                     return true;
                 }
 
-                if(name == "lootgroup")
+                if (name == "lootgroup")
                 {
-                   lootgroup = (int)StringParsers.ParseSInt64(_attribute.Value, 0, -1, NumberStyles.Any);
+                    lootgroup = (int)StringParsers.ParseSInt64(_attribute.Value, 0, -1, NumberStyles.Any);
                     return true;
                 }
                 if (name == "count")
                 {
-                    this.CreateItemCount = (int)StringParsers.ParseFloat(_attribute.Value, 0, -1, NumberStyles.Any);
+                    CreateItemCount = (int)StringParsers.ParseFloat(_attribute.Value, 0, -1, NumberStyles.Any);
                     return true;
                 }
             }

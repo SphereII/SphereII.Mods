@@ -1,0 +1,11 @@
+﻿<configs>
+  <append xpath="/windows">
+
+    <window name="windowLockPicking" width="1000" height="500" panel="Center" controller="PickLocking, Mods" cursor_area="true" >
+      <panel name="header" height="80" depth="1" backgroundspritename="ui_game_panel_header">
+        <sprite depth="2" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_pen"/>
+        <label style="header.name" text_key="advancedlockpicking_desc" width="800" height="300" font_size="30" overflow="resizefreely"/>
+      </panel>
+    </window>
+  </append>
+</configs>

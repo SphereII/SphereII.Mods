@@ -1,7 +1,7 @@
 ﻿class BlockPoweredWorkstationSDX : BlockWorkstation
 {
-    private float TakeDelay = 2f;
-    private BlockActivationCommand[] cmds = new BlockActivationCommand[]
+    private readonly float TakeDelay = 2f;
+    private readonly BlockActivationCommand[] cmds = new BlockActivationCommand[]
 {
         new BlockActivationCommand("open", "campfire", true),
         new BlockActivationCommand("take", "hand", false)
@@ -13,7 +13,7 @@
 
     public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        if(_blockValue.ischild)
+        if (_blockValue.ischild)
         {
             return;
         }
@@ -25,11 +25,11 @@
 
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
     {
-    
+
         base.PlaceBlock(_world, _result, _ea);
 
         TileEntityPoweredWorkstationSDX tileEntityWorkstation = (TileEntityPoweredWorkstationSDX)_world.GetTileEntity(_result.clrIdx, _result.blockPos);
-        if(tileEntityWorkstation != null)
+        if (tileEntityWorkstation != null)
         {
             tileEntityWorkstation.IsPlayerPlaced = true;
         }
@@ -38,7 +38,7 @@
     public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
         TileEntityPoweredWorkstationSDX tileEntityWorkstation = (TileEntityPoweredWorkstationSDX)_world.GetTileEntity(_cIdx, _blockPos);
-        if(tileEntityWorkstation == null)
+        if (tileEntityWorkstation == null)
         {
             return false;
         }
@@ -51,14 +51,14 @@
     public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         bool flag = _world.IsMyLandProtectedBlock(_blockPos, _world.GetGameManager().GetPersistentLocalPlayer(), false);
-        TileEntity tileEntityWorkstation = (TileEntity)_world.GetTileEntity(_clrIdx, _blockPos);
+        TileEntity tileEntityWorkstation = _world.GetTileEntity(_clrIdx, _blockPos);
         bool flag2 = false;
-        if(tileEntityWorkstation != null)
+        if (tileEntityWorkstation != null)
         {
             flag2 = (tileEntityWorkstation as TileEntityPoweredWorkstationSDX).IsPlayerPlaced;
         }
-        this.cmds[1].enabled = (flag && flag2 && this.TakeDelay > 0f);
-        return this.cmds;
+        cmds[1].enabled = (flag && flag2 && TakeDelay > 0f);
+        return cmds;
     }
 
     public override void OnBlockRemoved(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)

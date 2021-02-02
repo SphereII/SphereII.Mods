@@ -1,5 +1,28 @@
 <configs>
-   <append xpath="/quests">
+
+  <remove xpath="/quests/quest[@id='quest_BasicSurvival1']" />
+  <insertBefore xpath="/quests/quest[@id='quest_BasicSurvival2']">
+     <quest id="quest_BasicSurvival1">
+       <property name="name_key" value="challenge_StartingDishingTower"/>
+       <property name="subtitle_key" value="challenge_StartingDishingTower_subtitle"/>
+       <property name="description_key" value="challenge_StartingDishingTower_description"/>
+
+       <property name="icon" value="ui_game_symbol_zombie"/>
+       <property name="repeatable" value="true"/>
+       <property name="category_key" value="challenge"/>
+       <property name="offer_key" value="challenge_StartingDishingTower_offer"/>
+       <property name="difficulty" value="medium"/>
+
+       <objective type="ZombieKill" value="10" phase="1"/>
+
+       <reward type="Item" id="apparelNerdGlasses" value="1"/>
+       <reward type="Item" id="meleeToolSalvageT1Wrench" value="1"/>
+       <reward type="Item" id="armorMiningHelmet" value="1"/>
+       <reward type="Item" id="modArmorHelmetLight" value="1"/>
+       <reward type="SkillPoints" value="4" />
+       <reward type="Quest" id="quest_DishongTower" />
+     </quest>
+     
     <quest id="quest_DishongTower">
       <property name="group_name_key" value="quest_DishongTower"/>
       <property name="name_key" value="quest_DishongTower"/>
@@ -24,11 +47,18 @@
         <property name="count" value="1"/>
       </objective>
 
-      <objective type="BlockPlace" id="vehicleGyrocopterPlaceable" value="1" phase="3"/>
+      <objective type="Goto" id="trader" value="4" phase="3">
+        <property name="nav_object" value="go_to_trader" />
+      </objective>
+
+      <objective type="InteractWithNPC">
+        <property name="phase" value="4"/>
+        <property name="nav_object" value="return_to_trader" />
+        <property name="use_closest" value="true" />
+      </objective>
+      
       <reward type="Exp" value="500"/>
 
     </quest>
-  </append>
-
-  <set xpath="/quests/quest[@id='quest_BasicSurvival8']/reward[@type='Quest']/@id">quest_DishongTower</set>
+  </insertBefore>
 </configs>

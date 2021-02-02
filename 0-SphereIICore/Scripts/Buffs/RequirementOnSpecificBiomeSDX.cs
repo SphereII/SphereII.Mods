@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml;
-using UnityEngine;
+﻿using System.Xml;
 
 // 	<requirement name="RequirementOnSpecificBiomeSDX, Mods" biome="something" />
 
@@ -16,13 +14,13 @@ public class RequirementOnSpecificBiomeSDX : RequirementBase
             return false;
         }
 
-        if ( _params.Self.MinEventContext.Biome.m_sBiomeName == null )
+        if (_params.Self.MinEventContext.Biome.m_sBiomeName == null)
         {
             //Debug.Log(" RequirementONSpecificBiomeSDX: Biome Name is null");
             return false;
         }
         //Debug.Log(" Current Biome: " + _params.Self.MinEventContext.Biome.m_sBiomeName);
-        if (_params.Self.MinEventContext.Biome.m_sBiomeName == this.strBiome)
+        if (_params.Self.MinEventContext.Biome.m_sBiomeName == strBiome)
             return true;
 
         return false;

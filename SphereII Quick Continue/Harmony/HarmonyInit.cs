@@ -1,5 +1,5 @@
-﻿using DMT;
-using Harmony;
+using DMT;
+using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 
@@ -13,7 +13,7 @@ public class SphereIIQuickContinue_Init : IHarmony
         Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);
         Application.SetStackTraceLogType(UnityEngine.LogType.Warning, StackTraceLogType.None);
 
-        var harmony = HarmonyInstance.Create(GetType().ToString());
+        var harmony = new Harmony(GetType().ToString());
         harmony.PatchAll(Assembly.GetExecutingAssembly());
     }
 }

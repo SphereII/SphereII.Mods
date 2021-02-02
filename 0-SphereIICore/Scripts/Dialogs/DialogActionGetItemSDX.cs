@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-public class DialogActionGetItemSDX : DialogActionAddBuff
+﻿public class DialogActionGetItemSDX : DialogActionAddBuff
 {
     public override void PerformAction(EntityPlayer player)
     {
@@ -16,5 +15,5 @@ public class DialogActionGetItemSDX : DialogActionAddBuff
         playerInventory.AddItem(itemStack, true);
     }
 
-    private string name = string.Empty;
+    private readonly string name = string.Empty;
 }

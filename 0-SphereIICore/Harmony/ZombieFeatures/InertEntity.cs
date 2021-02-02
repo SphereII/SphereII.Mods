@@ -1,12 +1,23 @@
-﻿using DMT;
-using Harmony;
+using HarmonyLib;
 using System;
-using System.IO;
 using UnityEngine;
 
+
+/**
+ * SphereII_HeadshotOnly
+ *
+ * This class includes a Harmony patch that freezes an entity if its day or night.
+ * 
+ *  Used in Winter Project 2019 for the Snowman effect.
+ *  
+ * Usage XML:
+ * 
+ *      <property name="EntityActiveWhen" value="night" />
+ *      <property name="EntityActiveWhen" value="day" />
+ *
+ */
 public class SphereII_InertEntity
 {
-    // <property name="EntityActiveWhen" value="night" />
     public static bool IsInert(EntityAlive alive)
     {
         if (alive == null)
@@ -24,6 +35,7 @@ public class SphereII_InertEntity
         }
         return false;
     }
+
     [HarmonyPatch(typeof(EAIManager))]
     [HarmonyPatch("Update")]
     public class SphereII_EAIManager

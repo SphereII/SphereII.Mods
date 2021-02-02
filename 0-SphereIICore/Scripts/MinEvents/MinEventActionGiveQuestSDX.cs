@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using UnityEngine;
 public class MinEventActionGiveQuestSDX : MinEventActionRemoveBuff
 {
 
@@ -8,28 +7,28 @@ public class MinEventActionGiveQuestSDX : MinEventActionRemoveBuff
     //  <triggered_effect trigger="onSelfBuffStart" action="GiveQuestSDX, Mods" target="self" quest="myNewQuest" />
     public override void Execute(MinEventParams _params)
     {
-        for (int j = 0; j < this.targets.Count; j++)
+        for (int j = 0; j < targets.Count; j++)
         {
-            EntityAliveSDX entity = this.targets[j] as EntityAliveSDX;
+            EntityAliveSDX entity = targets[j] as EntityAliveSDX;
             if (entity != null)
             {
-                if (string.IsNullOrEmpty(this.strQuest))
+                if (string.IsNullOrEmpty(strQuest))
                     continue;
 
-                entity.GiveQuest(this.strQuest);
+                entity.GiveQuest(strQuest);
             }
 
             // If the target is a player.
-            EntityPlayerLocal Playerentity = this.targets[j] as EntityPlayerLocal;
+            EntityPlayerLocal Playerentity = targets[j] as EntityPlayerLocal;
             if (Playerentity != null)
             {
-                if (string.IsNullOrEmpty(this.strQuest))
+                if (string.IsNullOrEmpty(strQuest))
                     continue;
 
-                Quest myQuest = QuestClass.CreateQuest(this.strQuest);
+                Quest myQuest = QuestClass.CreateQuest(strQuest);
                 myQuest.QuestGiverID = -1;
-                Playerentity.QuestJournal.AddQuest( myQuest);
-                
+                Playerentity.QuestJournal.AddQuest(myQuest);
+
             }
 
         }
@@ -43,9 +42,9 @@ public class MinEventActionGiveQuestSDX : MinEventActionRemoveBuff
             string name = _attribute.Name;
             if (name != null)
             {
-                if (name == "quest" )
+                if (name == "quest")
                 {
-                    this.strQuest = _attribute.Value;
+                    strQuest = _attribute.Value;
                     return true;
                 }
             }

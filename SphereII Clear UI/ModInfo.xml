@@ -4,7 +4,13 @@
     <Name value="SphereII Clear UI" />
     <Description value="A minamlist dream come true: Removes nearly all everthing from your screen to a more immersive play." />
     <Author value="Sirillion and SphereII" />
-    <Version value="18.1.0.1" />
+    <Version value="19.1.1.2" />
     <Website value="" />
   </ModInfo>
+  <DMT Hash="77dd2269586ef15b21bd59aad1b88e90">
+    <dependencies>
+      <dependancy>0-SphereIICore</dependancy>
+    </dependencies>
+    <conflicts />
+  </DMT>
 </xml>

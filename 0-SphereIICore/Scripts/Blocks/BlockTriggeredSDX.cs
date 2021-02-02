@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using UnityEngine;
 /*
      <property name="Class" value="TriggeredSDX, Mods"/>
@@ -24,17 +19,13 @@ using UnityEngine;
 */
 class BlockTriggeredSDX : BlockLoot
 {
-    private static string AdvFeatureClass = "AdvancedTileEntities";
+    private static readonly string AdvFeatureClass = "AdvancedTileEntities";
     private int RandomIndex = 0;
-    float timeOut = 5f;
-    float NextCheck = 0f;
-    bool TriggerOnly = false;
-
     public override void Init()
     {
         base.Init();
-        if (this.Properties.Values.ContainsKey("RandomIndex"))
-            this.RandomIndex = StringParsers.ParseSInt32(this.Properties.Values["RandomIndex"], 0, -1, NumberStyles.Any);
+        if (Properties.Values.ContainsKey("RandomIndex"))
+            RandomIndex = StringParsers.ParseSInt32(Properties.Values["RandomIndex"], 0, -1, NumberStyles.Any);
     }
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
@@ -45,9 +36,7 @@ class BlockTriggeredSDX : BlockLoot
             {
                 AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Activating Block on GetActivationText");
 
-                TriggerOnly = true;
                 ActivateBlock(_world, _clrIdx, _blockPos, _blockValue, true, true);
-                TriggerOnly = false;
             }
 
         }
@@ -66,7 +55,7 @@ class BlockTriggeredSDX : BlockLoot
                 return true;
             }
         }
-            return true;
+        return true;
     }
     public override bool ActivateBlock(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, bool isOn, bool isPowered)
     {
@@ -85,7 +74,7 @@ class BlockTriggeredSDX : BlockLoot
                 AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Animator: " + animator.name + " : Active: " + isOn);
                 if (isOn)
                 {
-                    int random = UnityEngine.Random.Range(0, this.RandomIndex);
+                    int random = UnityEngine.Random.Range(0, RandomIndex);
                     AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Random Index for " + animator.name + " Value: " + random);
 
                     animator.SetInteger("RandomIndex", random);
@@ -99,8 +88,8 @@ class BlockTriggeredSDX : BlockLoot
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Setting Bool for On: false" + animator.name);
                     animator.SetBool("On", false);
-                  //  AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Turning Off Animator " + animator.name);
-                  //  animator.enabled = false;
+                    //  AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Turning Off Animator " + animator.name);
+                    //  animator.enabled = false;
                 }
             }
         }

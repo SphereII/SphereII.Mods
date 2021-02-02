@@ -4,6 +4,34 @@
   <remove xpath="/windows/window[@name='windowRespondentName']" />
 
   <append xpath="/windows">
+
+    <window name="windowLockPicking" pos="0, 60" width="600" height="600" anchor="CenterCenter" controller="PickLocking, Mods" cursor_area="true">
+      <panel name="header" height="43" depth="1" backgroundspritename="ui_game_panel_header">
+        <sprite depth="2" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_pen"/>
+        <label style="header.name" text_key="Enter Numeric Pathing Code" width="200" />
+      </panel>
+      <rect name="content" pos="0,-46" width="500" height="500" depth="1">
+        <sprite depth="8" name="backgroundMain" sprite="menu_empty3px" pos="0,0" color="[black]" type="sliced" fillcenter="false" />
+        <sprite color="[darkGrey]" type="sliced" />
+        <textfield name="txtPassword" depth="2" pos="10,-8" width="280" height="32" />
+      </rect>
+      <simplebutton name="btnCancel" depth="3" pos="0, -94" width="150" height="36" font_size="32" caption_key="xuiCancel" />
+      <simplebutton name="btnOk" depth="3" pos="300, -94" pivot="right" width="150" height="36" font_size="32" caption_key="xuiSubmit" />
+    </window>
+    <window name="windowPathFindingKeypad" pos="-150, 60" width="300" height="120" anchor="CenterCenter" controller="PathFindingKeypadWindow, Mods" cursor_area="true">
+      <panel name="header" height="43" depth="1" backgroundspritename="ui_game_panel_header">
+        <sprite depth="2" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_pen"/>
+        <label style="header.name" text_key="Enter Numeric Pathing Code" width="200" />
+      </panel>
+      <rect name="content" pos="0,-46" height="50" depth="1">
+        <sprite depth="8" name="backgroundMain" sprite="menu_empty3px" pos="0,0" color="[black]" type="sliced" fillcenter="false" />
+        <sprite color="[darkGrey]" type="sliced" />
+        <textfield name="txtPassword" depth="2" pos="10,-8" width="280" height="32" />
+      </rect>
+      <simplebutton name="btnCancel" depth="3" pos="0, -94" width="150" height="36" font_size="32" caption_key="xuiCancel" />
+      <simplebutton name="btnOk" depth="3" pos="300, -94" pivot="right" width="150" height="36" font_size="32" caption_key="xuiSubmit" />
+    </window>
+
     <window name="windowRespondentName" depth="0" pos="0,-15" width="1000" height="200" controller="DialogRespondentNameSDX, Mods">
       <texture name="SMXskillListBG" pos="0,-50" size="1000,200" style="SMX.conversation.player.background" pivot="top" />
       <rect name="content" depth="1" >

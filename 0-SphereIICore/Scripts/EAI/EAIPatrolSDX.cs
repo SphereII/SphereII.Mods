@@ -1,5 +1,4 @@
-﻿using GamePath;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 class EAIPatrolSDX : EAIApproachSpot
@@ -7,7 +6,6 @@ class EAIPatrolSDX : EAIApproachSpot
     private List<Vector3> lstPatrolPoints = new List<Vector3>();
     private int PatrolPointsCounter = 0;
 
-    private float nextCheck = 0;
     private Vector3 seekPos;
     private int pathRecalculateTicks;
 
@@ -18,11 +16,11 @@ class EAIPatrolSDX : EAIApproachSpot
 
 
     private int taskTimeOut = 0;
-    private bool blDisplayLog = false;
+    private readonly bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
-            Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + strMessage);
+            Debug.Log(GetType() + " : " + theEntity.EntityName + ": " + strMessage);
     }
 
     public override void Init(EntityAlive _theEntity)
@@ -30,11 +28,11 @@ class EAIPatrolSDX : EAIApproachSpot
         base.Init(_theEntity);
         EntityClass entityClass = EntityClass.list[_theEntity.entityClass];
         if (entityClass.Properties.Values.ContainsKey("PatrolSpeed"))
-            this.PatrolSpeed = float.Parse(entityClass.Properties.Values["PatrolSpeed"]);
+            PatrolSpeed = float.Parse(entityClass.Properties.Values["PatrolSpeed"]);
 
         entityAliveSDX = (_theEntity as EntityAliveSDX);
     }
- 
+
 
     public void SetPatrolVectors()
     {
@@ -42,16 +40,16 @@ class EAIPatrolSDX : EAIApproachSpot
         DisplayLog(" Setting Up Patrol Vectors");
         if (entityAliveSDX)
         {
-            if (this.lstPatrolPoints == entityAliveSDX.PatrolCoordinates)
+            if (lstPatrolPoints == entityAliveSDX.PatrolCoordinates)
                 return;
 
             DisplayLog(" Patrol Counters: " + entityAliveSDX.PatrolCoordinates.Count);
             if (entityAliveSDX.PatrolCoordinates.Count > 0)
             {
                 DisplayLog(" Setting up Patrol Coordinates");
-                this.lstPatrolPoints = entityAliveSDX.PatrolCoordinates;
-                PatrolPointsCounter = this.lstPatrolPoints.Count - 1;
-                this.seekPos = this.lstPatrolPoints[PatrolPointsCounter];
+                lstPatrolPoints = entityAliveSDX.PatrolCoordinates;
+                PatrolPointsCounter = lstPatrolPoints.Count - 1;
+                seekPos = lstPatrolPoints[PatrolPointsCounter];
             }
         }
     }
@@ -62,7 +60,7 @@ class EAIPatrolSDX : EAIApproachSpot
         bool result = false;
         if (entityAliveSDX)
         {
-            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Patrol);
+            result = EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Patrol);
             DisplayLog("CanExecute() Follow Task? " + result);
             if (result == false)
                 return false;
@@ -70,7 +68,7 @@ class EAIPatrolSDX : EAIApproachSpot
 
         // if The entity is busy, don't continue patrolling.
         bool isBusy = false;
-        if (this.theEntity.emodel.avatarController.TryGetBool("IsBusy", out isBusy))
+        if (theEntity.emodel.avatarController.TryGetBool("IsBusy", out isBusy))
             if (isBusy)
                 return true;
 
@@ -88,11 +86,11 @@ class EAIPatrolSDX : EAIApproachSpot
         else
             return false;
 
-        this.theEntity.SetInvestigatePosition(this.lstPatrolPoints[PatrolPointsCounter], 1200);
-        if (this.theEntity.HasInvestigatePosition)
+        theEntity.SetInvestigatePosition(lstPatrolPoints[PatrolPointsCounter], 1200);
+        if (theEntity.HasInvestigatePosition)
         {
             DisplayLog(" I have an intesgation Position. Starting to Patrol");
-            this.theEntity.emodel.avatarController.SetTrigger("IsPatrolling");
+            theEntity.emodel.avatarController.SetTrigger("IsPatrolling");
             result = true;
         }
 
@@ -103,29 +101,29 @@ class EAIPatrolSDX : EAIApproachSpot
     public override bool Continue()
     {
 
-        if(++this.taskTimeOut > 40)
+        if (++taskTimeOut > 40)
         {
-            this.taskTimeOut = 0;
+            taskTimeOut = 0;
             return false;
         }
-            // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
-            bool result = false;
+        // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
+        bool result = false;
         if (entityAliveSDX)
-            result = EntityUtilities.CanExecuteTask(this.theEntity.entityId, EntityUtilities.Orders.Patrol);
+            result = EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Patrol);
 
-        if (this.lstPatrolPoints.Count <= 0)
+        if (lstPatrolPoints.Count <= 0)
         {
             DisplayLog(" Patrol Point Count is too low.");
             result = false;
         }
-   
+
         // if The entity is busy, don't continue patrolling.
         bool isBusy = false;
-        if (this.theEntity.emodel.avatarController.TryGetBool("IsBusy", out isBusy))
+        if (theEntity.emodel.avatarController.TryGetBool("IsBusy", out isBusy))
             if (isBusy)
                 return false;
 
-      
+
         DisplayLog(" Continueing to Patrol");
         return result;
     }
@@ -134,35 +132,35 @@ class EAIPatrolSDX : EAIApproachSpot
 
     public void GetNextPosition()
     {
-        if (this.PatrolPointsCounter >= this.lstPatrolPoints.Count - 1)
+        if (PatrolPointsCounter >= lstPatrolPoints.Count - 1)
         {
-            this.PatrolPointsCounter = this.lstPatrolPoints.Count - 1;
+            PatrolPointsCounter = lstPatrolPoints.Count - 1;
             blReverse = true;
         }
-        if (this.PatrolPointsCounter == 0)
+        if (PatrolPointsCounter == 0)
             blReverse = false;
 
         if (blReverse)
-            this.PatrolPointsCounter--;
+            PatrolPointsCounter--;
         else
-            this.PatrolPointsCounter++;
+            PatrolPointsCounter++;
         //this.PatrolPointsCounter = (this.PatrolPointsCounter + 1) % this.lstPatrolPoints.Count;
 
-        
 
-        DisplayLog(" Patrol Points Counter: " + PatrolPointsCounter + " Patrol Points Count: " + this.lstPatrolPoints.Count);
-        DisplayLog(" Vector: " + this.lstPatrolPoints[PatrolPointsCounter].ToString());
 
-        this.seekPos = this.theEntity.world.FindSupportingBlockPos(this.lstPatrolPoints[PatrolPointsCounter]);
-        this.theEntity.SetLookPosition(this.seekPos);
+        DisplayLog(" Patrol Points Counter: " + PatrolPointsCounter + " Patrol Points Count: " + lstPatrolPoints.Count);
+        DisplayLog(" Vector: " + lstPatrolPoints[PatrolPointsCounter].ToString());
 
-        this.theEntity.moveHelper.SetMoveTo(this.lstPatrolPoints[PatrolPointsCounter], false);
+        seekPos = theEntity.world.FindSupportingBlockPos(lstPatrolPoints[PatrolPointsCounter]);
+        theEntity.SetLookPosition(seekPos);
+
+        theEntity.moveHelper.SetMoveTo(lstPatrolPoints[PatrolPointsCounter], false);
 
     }
     public override void Update()
     {
-        float sqrMagnitude2 = (this.seekPos - this.theEntity.position).sqrMagnitude;
-       
+        float sqrMagnitude2 = (seekPos - theEntity.position).sqrMagnitude;
+
         if (sqrMagnitude2 <= 3f)
             GetNextPosition();
 
@@ -171,16 +169,16 @@ class EAIPatrolSDX : EAIApproachSpot
 
     public void updatePath()
     {
-        if (this.theEntity.IsScoutZombie)
+        if (theEntity.IsScoutZombie)
         {
-            AstarManager.Instance.AddLocationLine(this.theEntity.position, this.seekPos, 32);
+            AstarManager.Instance.AddLocationLine(theEntity.position, seekPos, 32);
         }
-        if (GamePath.PathFinderThread.Instance.IsCalculatingPath(this.theEntity.entityId))
+        if (GamePath.PathFinderThread.Instance.IsCalculatingPath(theEntity.entityId))
         {
             return;
         }
-        this.pathRecalculateTicks = 40 + this.theEntity.rand.RandomRange(20);
-        GamePath.PathFinderThread.Instance.FindPath(this.theEntity, this.seekPos, this.theEntity.GetMoveSpeed(), true, this);
+        pathRecalculateTicks = 40 + theEntity.rand.RandomRange(20);
+        GamePath.PathFinderThread.Instance.FindPath(theEntity, seekPos, theEntity.GetMoveSpeed(), true, this);
     }
 }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
 {
-    private List<int> entityIDs = new List<int>();
+    private readonly List<int> entityIDs = new List<int>();
     private int count = 1;
 
     // read in the entities IDs that we want to spawn.
@@ -21,8 +21,8 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
                 if (keyValuePair.Value.entityClassName == array[i])
                 {
                     // we'll only need their entity ID to store, not their name.
-                    this.entityIDs.Add(keyValuePair.Key);
-                    if (this.entityIDs.Count == array.Length)
+                    entityIDs.Add(keyValuePair.Key);
+                    if (entityIDs.Count == array.Length)
                     {
                         break;
                     }
@@ -32,7 +32,7 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
     }
     public override void PerformAction()
     {
-        this.HandleSpawnEntities();
+        HandleSpawnEntities();
     }
 
 
@@ -40,7 +40,7 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
     {
         if (base.Value != null && base.Value != string.Empty)
         {
-            if (!int.TryParse(base.Value, out this.count))
+            if (!int.TryParse(base.Value, out count))
             {
                 if (base.Value.Contains("-"))
                 {
@@ -50,13 +50,13 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
                     });
                     int min = Convert.ToInt32(array[0]);
                     int max = Convert.ToInt32(array[1]);
-                    this.count = UnityEngine.Random.Range(min, max);
+                    count = UnityEngine.Random.Range(min, max);
                 }
             }
         }
-        GameManager.Instance.StartCoroutine(this.SpawnEntities());
+        GameManager.Instance.StartCoroutine(SpawnEntities());
     }
-    public new static void SpawnQuestEntity(int spawnedEntityID, int entityIDQuestHolder, EntityPlayer player )
+    public new static void SpawnQuestEntity(int spawnedEntityID, int entityIDQuestHolder, EntityPlayer player)
     {
         if (GameManager.Instance.World.Entities.dict.ContainsKey(entityIDQuestHolder))
         {
@@ -69,11 +69,11 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
 
             // Spawn the entity close by
             float d = UnityEngine.Random.Range(1f, 1f);
-        
+
             Vector3 transformPos = questEntity.position + a * d;
             Vector3 rotation = new Vector3(0f, questEntity.transform.eulerAngles.y + 180f, 0f);
-            float num = (float)GameManager.Instance.World.GetHeight((int)transformPos.x, (int)transformPos.z);
-            float num2 = (float)GameManager.Instance.World.GetTerrainHeight((int)transformPos.x, (int)transformPos.z);
+            float num = GameManager.Instance.World.GetHeight((int)transformPos.x, (int)transformPos.z);
+            float num2 = GameManager.Instance.World.GetTerrainHeight((int)transformPos.x, (int)transformPos.z);
             transformPos.y = (num + num2) / 2f + 0.5f;
 
             Entity entity = EntityFactory.CreateEntity(spawnedEntityID, transformPos, rotation);
@@ -86,16 +86,16 @@ class QuestActionSpawnEntitySDX : QuestActionSpawnEnemy
     {
         QuestActionSpawnEntitySDX questActionSpawnEntity = new QuestActionSpawnEntitySDX();
         base.CopyValues(questActionSpawnEntity);
-        questActionSpawnEntity.entityIDs.AddRange(this.entityIDs);
+        questActionSpawnEntity.entityIDs.AddRange(entityIDs);
         return questActionSpawnEntity;
     }
 
     private IEnumerator SpawnEntities()
     {
-        for (int i = 0; i < this.count; i++)
+        for (int i = 0; i < count; i++)
         {
             yield return new WaitForSeconds(0.5f);
-            int spawnKey = this.entityIDs[UnityEngine.Random.Range(0, this.entityIDs.Count)];
+            int spawnKey = entityIDs[UnityEngine.Random.Range(0, entityIDs.Count)];
             if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             {
                 QuestActionSpawnEntitySDX.SpawnQuestEntity(spawnKey, OwnerQuest.SharedOwnerID, null);

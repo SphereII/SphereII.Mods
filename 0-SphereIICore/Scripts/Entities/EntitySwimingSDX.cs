@@ -31,7 +31,6 @@
  *
  */
 
-using System;
 using UnityEngine;
 
 class EntitySwimingSDX : EntityZombieFlyingSDX
@@ -45,19 +44,19 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
     public override void Init(int _entityClass)
     {
         base.Init(_entityClass);
-        this.emodel.SetVisible(true, true);
+        emodel.SetVisible(true, true);
         if (base.getNavigator() == null)
             return;
 
         base.getNavigator().setCanDrown(false);
-        base.getNavigator().setInWater(true);
+        //base.getNavigator().setInWater(true);
     }
     //}
 
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
-       // Debug.Log("Position: " + this.position.ToString());
+        // Debug.Log("Position: " + this.position.ToString());
         //Debug.Log("Spawning Fish: " + this.entityName);
     }
 
@@ -78,16 +77,16 @@ class EntitySwimingSDX : EntityZombieFlyingSDX
 
         // Attempt to get rid of the vector zero errors.
         Waypoint = localWaypoint.ToVector3();
-    
+
     }
 
 
     // Over-riding the SetRotation to get around the look vector zero error
     public override void SetRotation(Vector3 _rot)
     {
-        if ( _rot != Vector3.zero)
-            this.rotation = _rot;
-   
+        if (_rot != Vector3.zero)
+            rotation = _rot;
+
     }
 
 }

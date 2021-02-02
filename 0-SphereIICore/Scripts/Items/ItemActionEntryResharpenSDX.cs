@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 public class ItemActionEntryResharpenSDX : BaseItemActionEntry
@@ -12,19 +9,19 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
         NotEnoughMaterials
     }
 
-    private string lblNeedMaterials;
+    private readonly string lblNeedMaterials;
     private ItemActionEntryResharpenSDX.StateTypes state;
 
     public ItemActionEntryResharpenSDX(XUiController controller) : base(controller, "Resharpen", "ui_game_symbol_wrench", BaseItemActionEntry.GamepadShortCut.DPadLeft, "crafting/craft_click_craft", "ui/ui_denied")
     {
-        this.lblNeedMaterials = Localization.Get("xuiRepairMissingMats", "");
-        controller.xui.PlayerInventory.OnBackpackItemsChanged += this.PlayerInventory_OnBackpackItemsChanged;
-        controller.xui.PlayerInventory.OnToolbeltItemsChanged += this.PlayerInventory_OnToolbeltItemsChanged;
+        lblNeedMaterials = Localization.Get("xuiRepairMissingMats");
+        controller.xui.PlayerInventory.OnBackpackItemsChanged += PlayerInventory_OnBackpackItemsChanged;
+        controller.xui.PlayerInventory.OnToolbeltItemsChanged += PlayerInventory_OnToolbeltItemsChanged;
     }
 
     private void PlayerInventory_OnToolbeltItemsChanged()
     {
-        this.RefreshEnabled();
+        RefreshEnabled();
         if (base.ParentItem != null)
         {
             base.ParentItem.MarkDirty();
@@ -33,7 +30,7 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
 
     private void PlayerInventory_OnBackpackItemsChanged()
     {
-        this.RefreshEnabled();
+        RefreshEnabled();
         if (base.ParentItem != null)
         {
             base.ParentItem.MarkDirty();
@@ -42,12 +39,12 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
 
     public override void OnDisabledActivate()
     {
-        ItemActionEntryResharpenSDX.StateTypes stateTypes = this.state;
+        ItemActionEntryResharpenSDX.StateTypes stateTypes = state;
         if (stateTypes != ItemActionEntryResharpenSDX.StateTypes.NotEnoughMaterials)
         {
             return;
         }
-        GameManager.ShowTooltip(base.ItemController.xui.playerUI.entityPlayer, this.lblNeedMaterials);
+        GameManager.ShowTooltip(base.ItemController.xui.playerUI.entityPlayer, lblNeedMaterials);
         ItemClass forId = ItemClass.GetForId(((XUiC_ItemStack)base.ItemController).ItemStack.itemValue.type);
         if (forId.Properties.Contains("SharpenItem"))
         {
@@ -67,14 +64,14 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
     public override void RefreshEnabled()
     {
         base.RefreshEnabled();
-        this.state = ItemActionEntryResharpenSDX.StateTypes.Normal;
+        state = ItemActionEntryResharpenSDX.StateTypes.Normal;
         XUi xui = base.ItemController.xui;
         if (((XUiC_ItemStack)base.ItemController).ItemStack.IsEmpty() || ((XUiC_ItemStack)base.ItemController).StackLock)
         {
             return;
         }
         ItemClass forId = ItemClass.GetForId(((XUiC_ItemStack)base.ItemController).ItemStack.itemValue.type);
-        base.Enabled = (this.state == ItemActionEntryResharpenSDX.StateTypes.Normal);
+        base.Enabled = (state == ItemActionEntryResharpenSDX.StateTypes.Normal);
         if (!base.Enabled)
         {
             base.IconName = "ui_game_symbol_book";
@@ -86,12 +83,12 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
             ItemClass itemClass = ItemClass.GetItemClass(forId.RepairTools[0].Value, false);
             if (itemClass != null)
             {
-                int b = Convert.ToInt32(Math.Ceiling((double)((float)Mathf.CeilToInt(itemValue.UseTimes) / (float)itemClass.RepairAmount.Value)));
+                int b = Convert.ToInt32(Math.Ceiling(Mathf.CeilToInt(itemValue.UseTimes) / (float)itemClass.RepairAmount.Value));
                 xui.PlayerInventory.GetItemCount(new ItemValue(itemClass.Id, false));
                 if (Mathf.Min(xui.PlayerInventory.GetItemCount(new ItemValue(itemClass.Id, false)), b) * itemClass.RepairAmount.Value <= 0)
                 {
-                    this.state = ItemActionEntryResharpenSDX.StateTypes.NotEnoughMaterials;
-                    base.Enabled = (this.state == ItemActionEntryResharpenSDX.StateTypes.Normal);
+                    state = ItemActionEntryResharpenSDX.StateTypes.NotEnoughMaterials;
+                    base.Enabled = (state == ItemActionEntryResharpenSDX.StateTypes.Normal);
                 }
             }
         }
@@ -100,9 +97,9 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
     public static void WarnQueueFull(XUiController ItemController)
     {
         string text = "No room in queue!";
-        if (Localization.Exists("wrnQueueFull", ""))
+        if (Localization.Exists("wrnQueueFull"))
         {
-            text = Localization.Get("wrnQueueFull", "");
+            text = Localization.Get("wrnQueueFull");
         }
         GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer, text);
         Audio.Manager.PlayInsidePlayerHead("ui_denied", -1, 0f, false, false);
@@ -118,7 +115,7 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
 
         if (itemValue.HasQuality)
         {
-            if (itemValue.PercentUsesLeft < 0.30 )
+            if (itemValue.PercentUsesLeft < 0.30)
             {
                 String text = "This item is too worn out to be resharpened.";
                 GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer, text);
@@ -145,7 +142,7 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
             if (itemClass == null)
                 return;
 
-            
+
             int Count = playerInventory.GetItemCount(new ItemValue(itemClass.Id, false));
             if (Count < 1)
             {
@@ -160,9 +157,9 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
                 recipe.craftingTime = 1;
                 recipe.craftExpGain = 1;
             }
-           // ItemClass.GetForId(recipe.itemValueType);
+            // ItemClass.GetForId(recipe.itemValueType);
             GameRandom random = GameRandomManager.Instance.CreateGameRandom();
-            float flRandom = random.RandomRange((int)itemValue.UseTimes, ((float)itemValue.MaxUseTimes / 1.20f));
+            float flRandom = random.RandomRange((int)itemValue.UseTimes, (itemValue.MaxUseTimes / 1.20f));
             if (!childByType.AddRepairItemToQueue(recipe.craftingTime, itemValue.Clone(), (int)flRandom))
             {
                 WarnQueueFull(ItemController);

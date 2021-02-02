@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 using UnityEngine;
-public class MinEventActionToggleCamera: MinEventActionRemoveBuff
+public class MinEventActionToggleCamera : MinEventActionRemoveBuff
 {
     string Camera = "Main Camera";
     bool CameraStatus = true;
@@ -10,7 +10,7 @@ public class MinEventActionToggleCamera: MinEventActionRemoveBuff
     {
         foreach (GameObject temp in GameObject.FindObjectsOfType<GameObject>())
         {
-    //        Debug.Log(temp.name);
+            //        Debug.Log(temp.name);
             if (temp.GetComponent<Camera>() != null)
             {
                 if (Camera.Contains(temp.name))
@@ -30,7 +30,7 @@ public class MinEventActionToggleCamera: MinEventActionRemoveBuff
             string name = _attribute.Name;
             if (name != null)
             {
-                if (name == "cameraName" )
+                if (name == "cameraName")
                 {
                     Camera = _attribute.Value;
                     return true;

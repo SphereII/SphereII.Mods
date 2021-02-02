@@ -4,21 +4,21 @@ using UnityEngine;
 
 class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
 {
-    private List<Entity> NearbyEntities = new List<Entity>();
+    private readonly List<Entity> NearbyEntities = new List<Entity>();
 
-    private bool blDisplayLog = false;
+    private readonly bool blDisplayLog = false;
     private EntityAlive targetEntity;
 
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
-            Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
+            Debug.Log(GetType() + " : " + theEntity.EntityName + ": " + theEntity.entityId + ": " + strMessage);
     }
 
     public override bool CanExecute()
     {
         DisplayLog(" CanExecute() ");
-        bool result = false; 
+        bool result = false;
         if (CheckSurroundingEntities())
         {
             DisplayLog(" CheckSurroundEntities is true for an enemy");
@@ -29,29 +29,30 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
 
     public bool CheckSurroundingEntities()
     {
-        this.NearbyEntities.Clear();
-        EntityAlive leader = EntityUtilities.GetLeaderOrOwner( this.theEntity.entityId ) as EntityAlive;
-        if(!leader)
+        NearbyEntities.Clear();
+        EntityAlive leader = EntityUtilities.GetLeaderOrOwner(theEntity.entityId) as EntityAlive;
+        if (!leader)
             return false;
 
         // Search in the bounds are to try to find the most appealing entity to follow.
-        Bounds bb = new Bounds(this.theEntity.position, new Vector3(this.theEntity.GetSeeDistance(), 20f, this.theEntity.GetSeeDistance()));
-        this.theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, this.NearbyEntities);
-        DisplayLog(" Nearby Entities: " + this.NearbyEntities.Count);
-        for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)
+        Bounds bb = new Bounds(theEntity.position, new Vector3(theEntity.GetSeeDistance(), 20f, theEntity.GetSeeDistance()));
+        //Bounds bb = new Bounds(this.theEntity.position, new Vector3(20f, 20f,20f));
+        theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, NearbyEntities);
+        DisplayLog(" Nearby Entities: " + NearbyEntities.Count);
+        for (int i = NearbyEntities.Count - 1; i >= 0; i--)
         {
-            EntityAlive x = (EntityAlive)this.NearbyEntities[i];
-            if (x != this.theEntity)
+            EntityAlive x = (EntityAlive)NearbyEntities[i];
+            if (x != theEntity)
             {
                 if (x.IsDead())
                     continue;
-                    
+
                 DisplayLog("Nearby Entity: " + x.EntityName);
                 if (x.GetAttackTarget() == leader)
                 {
                     DisplayLog(" My leader is being attacked by " + x.ToString());
                     targetEntity = x;
-                    this.theEntity.SetRevengeTarget(targetEntity);
+                    theEntity.SetRevengeTarget(targetEntity);
                     return true;
                 }
 
@@ -59,7 +60,7 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
                 {
                     DisplayLog(" My leader is being avenged by " + x.ToString());
                     targetEntity = x;
-                    this.theEntity.SetRevengeTarget(targetEntity);
+                    theEntity.SetRevengeTarget(targetEntity);
 
                     return true;
                 }
@@ -68,7 +69,7 @@ class EAISetAsTargetIfLeaderAttackedSDX : EAISetAsTargetIfHurt
                 {
                     DisplayLog(" My leader is being attacked by something that damaged it " + x.ToString());
                     targetEntity = x;
-                    this.theEntity.SetRevengeTarget(targetEntity);
+                    theEntity.SetRevengeTarget(targetEntity);
 
                     return true;
                 }

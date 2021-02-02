@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-public class DialogRequirementHasItemSDX : BaseDialogRequirement
+﻿public class DialogRequirementHasItemSDX : BaseDialogRequirement
 {
-    private static string AdvFeatureClass = "AdvancedDialogDebugging";
+    private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
 
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int count = 0;
 

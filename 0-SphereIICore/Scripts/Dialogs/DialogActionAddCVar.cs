@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-public class DialogActionAddCVar : DialogActionAddBuff
+﻿public class DialogActionAddCVar : DialogActionAddBuff
 {
-    private static string AdvFeatureClass = "AdvancedDialogDebugging";
+    private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
 
     public string strOperator = "add";
 

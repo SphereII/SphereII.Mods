@@ -1,6 +1,4 @@
-﻿using System;
-
-public class QuestActionGiveBuffSDX : BaseQuestAction
+﻿public class QuestActionGiveBuffSDX : BaseQuestAction
 {
     public override void SetupAction()
     {
@@ -11,7 +9,7 @@ public class QuestActionGiveBuffSDX : BaseQuestAction
         // Check if its a player entity.
         EntityAlive myEntity = null;
         if (OwnerQuest.OwnerJournal.OwnerPlayer != null)
-            myEntity = OwnerQuest.OwnerJournal.OwnerPlayer as EntityAlive;
+            myEntity = OwnerQuest.OwnerJournal.OwnerPlayer;
 
         // If it's not a player entity, check for the SharedOwnerID
         if (myEntity == null)

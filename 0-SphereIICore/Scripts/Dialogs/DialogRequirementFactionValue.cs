@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-public class DialogRequirementFactionValue : BaseDialogRequirement
+﻿public class DialogRequirementFactionValue : BaseDialogRequirement
 {
-    private static string AdvFeatureClass = "AdvancedDialogDebugging";
+    private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
     // Show Dialog if player faction is less than 400
-        //  <requirement type="FactionValue, Mods" requirementtype="Hide" value="400" operator="lt" /> 
+    //  <requirement type="FactionValue, Mods" requirementtype="Hide" value="400" operator="lt" /> 
 
-        // strOperator is set in 0-SphereIICore/Harmony/DialogFromXML.cs
+    // strOperator is set in 0-SphereIICore/Harmony/DialogFromXML.cs
     public string strOperator = "eq";
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, "Player: " + player.EntityName);
         int entityID = 0;
@@ -25,50 +24,50 @@ public class DialogRequirementFactionValue : BaseDialogRequirement
 
         float flValue = 0f;
         float.TryParse(Value, out flValue);
-        float flPlayerValue = FactionManager.Instance.GetRelationshipValue( myEntity, player );
-        AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: " + ID + " Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator);
+        float flPlayerValue = FactionManager.Instance.GetRelationshipValue(myEntity, player);
+        AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: " + ID + " Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator);
 
 
         if (strOperator.ToLower() == "lt")
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Checking for LT: " + flPlayerValue + " < " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Checking for LT: " + flPlayerValue + " < " + flValue);
             if (flPlayerValue < flValue)
                 return true;
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Failed for LT: " + flPlayerValue + " < " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Failed for LT: " + flPlayerValue + " < " + flValue);
         }
         else if (strOperator.ToLower() == "lte")
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Checking for LTE: " + flPlayerValue + " <= " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Checking for LTE: " + flPlayerValue + " <= " + flValue);
             if (flPlayerValue <= flValue)
                 return true;
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Failed for GT: " + flPlayerValue + " > " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Failed for GT: " + flPlayerValue + " > " + flValue);
         }
         else if (strOperator.ToLower() == "gt")
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Checking for GT: " + flPlayerValue + " > " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Checking for GT: " + flPlayerValue + " > " + flValue);
             if (flPlayerValue > flValue)
                 return true;
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Failed for GT: " + flPlayerValue + " > " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Failed for GT: " + flPlayerValue + " > " + flValue);
         }
         else if (strOperator.ToLower() == "gte")
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Checking for GTE: " + flPlayerValue + " >= " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Checking for GTE: " + flPlayerValue + " >= " + flValue);
             if (flPlayerValue >= flValue)
                 return true;
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Failed for GTE: " + flPlayerValue + " >= " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Failed for GTE: " + flPlayerValue + " >= " + flValue);
         }
 
         else
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Checking for equality: " + flPlayerValue + " == " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Checking for equality: " + flPlayerValue + " == " + flValue);
             if (flValue == flPlayerValue)
                 return true;
-            AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + " FactionValue: Failed for equality: " + flPlayerValue + " == " + flValue);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " FactionValue: Failed for equality: " + flPlayerValue + " == " + flValue);
         }
 
-        AdvLogging.DisplayLog(AdvFeatureClass, this.GetType() + "FactionValue: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator + " :: No Result");
-        
-    
+        AdvLogging.DisplayLog(AdvFeatureClass, GetType() + "FactionValue: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator + " :: No Result");
+
+
         AdvLogging.DisplayLog(AdvFeatureClass, "FactionValue:: false");
         return false;
     }

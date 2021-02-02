@@ -12,6 +12,7 @@
         <response_entry id="GuardHere" />
         <response_entry id="Wander" />
         <response_entry id="SetPatrol" />
+        <response_entry id="SetCode" />
         <response_entry id="Patrol" />
         <!--response_entry id="Loot" /-->
         <response_entry id="Hire" />
@@ -83,6 +84,11 @@
         <action type="ExecuteCommandSDX, Mods" id="SetPatrol" />
       </response>
 
+      <response id="SetCode" text="Here is your Patrol Code" >
+        <requirement type="HiredSDX, Mods" requirementtype="Hide" />
+        <requirement type="HasTaskSDX, Mods" requirementtype="Hide" value="WanderSDX"/>
+        <action type="OpenWindowSDX, Mods" id="SetCode" />
+      </response>
       
       <response id="Loot" text="Help me loot this joint." >
         <requirement type="HiredSDX, Mods" requirementtype="Hide" />

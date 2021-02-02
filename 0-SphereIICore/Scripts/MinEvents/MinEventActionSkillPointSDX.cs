@@ -1,14 +1,13 @@
 ﻿using System.Xml;
-using UnityEngine;
 public class MinEventActionSkillPointSDX : MinEventActionRemoveBuff
 {
     int mySkillPoint = 0;
     //  <triggered_effect trigger="onSelfBuffStart" action="SkillPointSDX, Mods" target="self" value="2" /> // two Skill points
     public override void Execute(MinEventParams _params)
     {
-        for (int i = 0; i < this.targets.Count; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
-            EntityPlayer entity = this.targets[i] as EntityPlayer;
+            EntityPlayer entity = targets[i] as EntityPlayer;
             if (entity != null)
                 entity.Progression.SkillPoints += mySkillPoint;
         }
@@ -22,7 +21,7 @@ public class MinEventActionSkillPointSDX : MinEventActionRemoveBuff
             string name = _attribute.Name;
             if (name != null)
             {
-                if (name == "value" )
+                if (name == "value")
                 {
                     int.TryParse(_attribute.Value, out mySkillPoint);
                     return true;

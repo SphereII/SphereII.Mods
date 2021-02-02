@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-class XUiC_HireInformationPopupSDX : XUiController
+﻿class XUiC_HireInformationPopupSDX : XUiController
 {
     public XUiV_Panel hireInformationPanel;
     public XUiV_Label hireInformationLabel;
@@ -19,15 +18,15 @@ class XUiC_HireInformationPopupSDX : XUiController
         EntityPlayer player = base.xui.playerUI.entityPlayer;
 
         int entityID = 0;
-        if(player.Buffs.HasCustomVar("CurrentNPC"))
+        if (player.Buffs.HasCustomVar("CurrentNPC"))
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
-        if(entityID == 0)
+        if (entityID == 0)
             return;
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if(myEntity != null)
-            hireInformationLabel.Text = "Hire " + myEntity.EntityName + " for " + EntityUtilities.GetHireCost( entityID ) + " " + EntityUtilities.GetHireCurrency(entityID).ItemClass.GetLocalizedItemName() + "?";
+        if (myEntity != null)
+            hireInformationLabel.Text = "Hire " + myEntity.EntityName + " for " + EntityUtilities.GetHireCost(entityID) + " " + EntityUtilities.GetHireCurrency(entityID).ItemClass.GetLocalizedItemName() + "?";
 
         base.OnOpen();
 
@@ -38,14 +37,14 @@ class XUiC_HireInformationPopupSDX : XUiController
         EntityPlayer player = base.xui.playerUI.entityPlayer;
 
         int entityID = 0;
-        if(player.Buffs.HasCustomVar("CurrentNPC"))
+        if (player.Buffs.HasCustomVar("CurrentNPC"))
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
-        if(entityID == 0)
+        if (entityID == 0)
             return;
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if(myEntity != null)
+        if (myEntity != null)
             EntityUtilities.Hire(entityID, player as EntityPlayerLocal);
 
         base.xui.playerUI.windowManager.Close(windowGroup.ID);
@@ -59,7 +58,7 @@ class XUiC_HireInformationPopupSDX : XUiController
 
     public override void OnClose()
     {
-        if(base.xui.playerUI.windowManager.Contains("dialog") && base.xui.playerUI.windowManager.IsWindowOpen("dialog"))
+        if (base.xui.playerUI.windowManager.Contains("dialog") && base.xui.playerUI.windowManager.IsWindowOpen("dialog"))
             base.xui.playerUI.windowManager.Close("dialog");
         base.OnClose();
     }

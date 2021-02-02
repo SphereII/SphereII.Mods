@@ -1,17 +1,136 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+
+
 
 public static class SphereCache
 {
     public static Dictionary<int, List<Vector3>> PathingCache = new Dictionary<int, List<Vector3>>();
-    public static Dictionary<int, Vector3i> DoorCache = new Dictionary<int,Vector3i>();
+    public static Dictionary<int, Vector3i> DoorCache = new Dictionary<int, Vector3i>();
     public static Dictionary<int, Vector3> LastBlock = new Dictionary<int, Vector3>();
 
     public static System.Random random = new System.Random(DateTime.Now.GetHashCode());
 
+    public static List<Vector3i> caveChunks = new List<Vector3i>(); //static list somewhere
+    public static List<Vector3i> caveEntrances = new List<Vector3i>();
+
+    public static FastNoise fastNoise = null;
+    public static List<String> POIs = new List<string>();
+    public static List<String> DeepCavePrefabs = new List<string>();
+
+    public static Vector3i[] FindRandomPoints(int count)
+    {
+        Vector3i _minSize;
+        Vector3i _maxSize;
+        GameManager.Instance.World.GetWorldExtent(out _minSize, out _maxSize);
+        GameRandom rand = GameManager.Instance.World.GetGameRandom();
+        rand.SetSeed(GameManager.Instance.World.Seed);
+
+        Vector3i[] positions = new Vector3i[count];
+        for (int i = 0; i < count; i++)
+        {
+            // Be sure we are within the bounds of the world.
+            int x = (int)Math.Round(Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(_minSize.x + 16, _maxSize.x - 16)) / 16.0) * 16;
+            int z = (int)Math.Round(Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(_minSize.z + 16, _maxSize.z - 16)) / 16.0) * 16;
+            positions[i].x = x;
+            positions[i].z = z;
+        }
+
+        return positions;
+    }
+
+    public static FastNoise GetFastNoise(Chunk chunk)
+    {
+        string AdvFeatureClass = "CaveConfiguration";
+
+        if (fastNoise != null)
+        {
+            if (chunk != null)
+                fastNoise.SetSeed(chunk.GetHashCode());
+            else
+                fastNoise.SetSeed(0);
+
+            return fastNoise;
+        }
+
+
+        fastNoise = new FastNoise();
+
+        // Read in the available POIs
+        foreach (String poi in Configuration.GetPropertyValue(AdvFeatureClass, "CavePOIs").Split(','))
+            POIs.Add(poi);
+
+        foreach (String poi in Configuration.GetPropertyValue(AdvFeatureClass, "DeepCavePrefabs").Split(','))
+            DeepCavePrefabs.Add(poi);
+
+        int Octaves = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Octaves"));
+        float Lacunarity = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Lacunarity"));
+        float Gain = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Gain"));
+        float Frequency = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Frequency"));
+
+        FastNoise.FractalType fractalType = EnumUtils.Parse<FastNoise.FractalType>(Configuration.GetPropertyValue(AdvFeatureClass, "FractalType"), false);
+        FastNoise.NoiseType noiseType = EnumUtils.Parse<FastNoise.NoiseType>(Configuration.GetPropertyValue(AdvFeatureClass, "NoiseType"), false);
+
+        fastNoise.SetFractalType(fractalType);
+        fastNoise.SetNoiseType(noiseType);
+        fastNoise.SetFractalOctaves(Octaves);
+        fastNoise.SetFractalLacunarity(Lacunarity);
+        fastNoise.SetFractalGain(Gain);
+        fastNoise.SetFrequency(Frequency);
+
+        if (chunk != null)
+            fastNoise.SetSeed(chunk.GetHashCode());
+        else
+            fastNoise.SetSeed(0);
+
+        return fastNoise;
+    }
+    public static void GenerateCaveChunks(int CaveEntrances = 2)
+    {
+        string AdvFeatureClass = "CaveConfiguration";
+
+        if (caveChunks.Count == 0)
+        {
+            int MaxCount = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveCluster"));
+            int ClusterSize = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CavesClusterSize"));
+
+            String display = "Searching for " + MaxCount + " Cave Clusters. Each Cave Cluster will include " + ClusterSize + " chunks...";
+            AdvLogging.DisplayLog(AdvFeatureClass, display);
+
+            Vector3i[] RandomCavePoints = FindRandomPoints(MaxCount);
+            //for (int x = 0; x < 10; x++)
+            //{
+            for (int i = 0; i < RandomCavePoints.Length; i++)
+            {
+                Vector3i randomChunkPosition = RandomCavePoints[i]; //vector3i world pos
+                var caveRadius = ClusterSize;
+
+                for (int x = 0; x < CaveEntrances; x++)
+                {
+                    //find a random x/z inside the bounds of the cave
+                    int entranceX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.x, randomChunkPosition.x + (caveRadius * 16)));
+                    int entranceZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.z, randomChunkPosition.z + (caveRadius * 16)));
+                    Vector3i entrance = new Vector3i(entranceX, x, entranceZ);
+                    caveEntrances.Add(new Vector3i(entranceX, x, entranceZ));
+                    display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
+                    AdvLogging.DisplayLog(AdvFeatureClass, display);
+                    Debug.Log(display);
+                }
+
+                for (var cX = 0; cX < caveRadius; cX++)
+                {
+                    for (var cZ = 0; cZ < caveRadius; cZ++)
+                    {
+                        Vector3i cave = randomChunkPosition + new Vector3i(cX * 16, 0, cZ * 16);
+                        caveChunks.Add(randomChunkPosition + new Vector3i(cX * 16, 0, cZ * 16));
+
+                    }
+                }
+            }
+        }
+    }
     public static void AddDoor(int EntityID, Vector3i doorPos)
     {
         if (DoorCache.ContainsKey(EntityID))
@@ -34,7 +153,7 @@ public static class SphereCache
             return DoorCache[EntityID];
         }
 
-      //  DisplayLog(EntityID, " No Door Record.");
+        //  DisplayLog(EntityID, " No Door Record.");
         return Vector3i.zero;
     }
     public static void RemoveDoor(int EntityID, Vector3i doorPos)
@@ -102,8 +221,8 @@ public static class SphereCache
             DisplayLog(EntityID, " Pathing to " + vector + ". Removing from cache.");
             PathingCache[EntityID].Remove(vector);
 
-            if ( PathingCache[EntityID].Count == 0 )
-                PathingCache.Remove( EntityID );
+            if (PathingCache[EntityID].Count == 0)
+                PathingCache.Remove(EntityID);
             return;
         }
         DisplayLog(EntityID, " Pathing Vector not in Cache...");

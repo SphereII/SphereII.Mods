@@ -1,5 +1,4 @@
 ﻿using System.Xml;
-using UnityEngine;
 public class MinEventActionModifyFactionSDX : MinEventActionRemoveBuff
 {
     string Faction = "";
@@ -10,9 +9,9 @@ public class MinEventActionModifyFactionSDX : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams _params)
     {
-        for (int i = 0; i < this.targets.Count; i++)
+        for (int i = 0; i < targets.Count; i++)
         {
-            EntityAlive entity = this.targets[i] as EntityAlive;
+            EntityAlive entity = targets[i];
             if (entity != null)
             {
                 // Search for the faction
@@ -41,7 +40,7 @@ public class MinEventActionModifyFactionSDX : MinEventActionRemoveBuff
                 }
                 if (name == "value")
                 {
-                    value = StringParsers.ParseFloat( _attribute.Value );
+                    value = StringParsers.ParseFloat(_attribute.Value);
                     return true;
                 }
 

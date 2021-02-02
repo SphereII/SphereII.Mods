@@ -1,13 +1,12 @@
-﻿using UnityEngine;
-public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
+﻿public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
 {
     // This loops through all the targets, refreshing the quest. 
     //  <triggered_effect trigger="onSelfBuffStart" action="PumpQuestSDX, Mods" target="self"  />
     public override void Execute(MinEventParams _params)
     {
-        for (int j = 0; j < this.targets.Count; j++)
+        for (int j = 0; j < targets.Count; j++)
         {
-            EntityAliveSDX entity = this.targets[j] as EntityAliveSDX;
+            EntityAliveSDX entity = targets[j] as EntityAliveSDX;
             if (entity != null)
             {
                 for (int k = 0; k < entity.QuestJournal.quests.Count; k++)
@@ -20,7 +19,7 @@ public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
                 continue;
             }
 
-            EntityPlayerLocal entityPlayer = this.targets[j] as EntityPlayerLocal;
+            EntityPlayerLocal entityPlayer = targets[j] as EntityPlayerLocal;
             if (entityPlayer != null)
             {
                 for (int k = 0; k < entityPlayer.QuestJournal.quests.Count; k++)

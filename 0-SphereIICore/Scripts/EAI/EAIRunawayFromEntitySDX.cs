@@ -4,35 +4,32 @@ using UnityEngine;
 
 
 // <property name="AITask-2" value="RunAwayFromEntitySDX, Mods" />
-class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
+class EAIRunAwayFromEntitySDX : EAIRunawayWhenHurt
 
 {
-    private List<Entity> NearbyEntities = new List<Entity>();
-    private List<Entity> NearbyEnemies = new List<Entity>();
-    private EntityAlive avoidEntity;
-    private int fleeCounter;
-    private int fleeDistance = 10;
-    float originalView;
-    private bool blDisplayLog = false;
+    private readonly List<Entity> NearbyEntities = new List<Entity>();
+    private readonly List<Entity> NearbyEnemies = new List<Entity>();
+    public int fleeDistance = 10;
+    private readonly bool blDisplayLog = false;
     public void DisplayLog(String strMessage)
     {
         if (blDisplayLog)
-            Debug.Log(this.GetType() + " : " + this.theEntity.EntityName + ": " + this.theEntity.entityId + ": " + strMessage);
+            Debug.Log(GetType() + " : " + theEntity.EntityName + ": " + theEntity.entityId + ": " + strMessage);
     }
     public override bool CanExecute()
     {
-        float originalView = this.theEntity.GetMaxViewAngle();
-        if ( CheckSurroundingEntities())
+        float originalView = theEntity.GetMaxViewAngle();
+        if (CheckSurroundingEntities())
         {
-            this.theEntity.SetMaxViewAngle(360f);
+            theEntity.SetMaxViewAngle(360f);
             if (base.CanExecute())
             {
-                this.theEntity.SetMaxViewAngle(180f);
+                theEntity.SetMaxViewAngle(180f);
                 return true;
             }
         }
 
-        this.theEntity.SetMaxViewAngle(180f);
+        theEntity.SetMaxViewAngle(180f);
 
         return false;
     }
@@ -40,22 +37,19 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
     public override void Reset()
     {
         base.Reset();
-        this.theEntity.SetMaxViewAngle(originalView);
     }
     public bool CheckFactionForEnemy(EntityAlive Entity)
     {
-        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(this.theEntity, Entity);
-        switch( myRelationship)
+        FactionManager.Relationship myRelationship = FactionManager.Instance.GetRelationshipTier(theEntity, Entity);
+        switch (myRelationship)
         {
             case FactionManager.Relationship.Hate:
-                this.fleeDistance = 40;
+                fleeDistance = 40;
                 break;
             case FactionManager.Relationship.Dislike:
-                this.fleeDistance = 20;
+                fleeDistance = 20;
                 break;
             case FactionManager.Relationship.Neutral:
-                //this.fleeDistance = 10;
-                //break;
                 return false;
             case FactionManager.Relationship.Like:
                 return false;
@@ -69,27 +63,27 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
 
     public bool CheckSurroundingEntities()
     {
-        this.NearbyEntities.Clear();
+        NearbyEntities.Clear();
         NearbyEnemies.Clear();
 
         EntityAlive leader = null;
-        if (this.theEntity.Buffs.HasCustomVar("Leader"))
+        if (theEntity.Buffs.HasCustomVar("Leader"))
         {
             DisplayLog(" leader Detected.");
-            int EntityID = (int)this.theEntity.Buffs.GetCustomVar("Leader");
-            leader = this.theEntity.world.GetEntity(EntityID) as EntityAlive;
+            int EntityID = (int)theEntity.Buffs.GetCustomVar("Leader");
+            leader = theEntity.world.GetEntity(EntityID) as EntityAlive;
 
         }
-        
+
 
         // Search in the bounds are to try to find the most appealing entity to follow.
-        Bounds bb = new Bounds(this.theEntity.position, new Vector3(this.theEntity.GetSeeDistance(), 20f, this.theEntity.GetSeeDistance()));
-        this.theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, this.NearbyEntities);
-        DisplayLog(" Nearby Entities: " + this.NearbyEntities.Count);
-        for (int i = this.NearbyEntities.Count - 1; i >= 0; i--)
+        Bounds bb = new Bounds(theEntity.position, new Vector3(theEntity.GetSeeDistance(), 20f, theEntity.GetSeeDistance()));
+        theEntity.world.GetEntitiesInBounds(typeof(EntityAlive), bb, NearbyEntities);
+        DisplayLog(" Nearby Entities: " + NearbyEntities.Count);
+        for (int i = NearbyEntities.Count - 1; i >= 0; i--)
         {
-            EntityAlive x = (EntityAlive)this.NearbyEntities[i];
-            if (x != this.theEntity && x.IsAlive())
+            EntityAlive x = (EntityAlive)NearbyEntities[i];
+            if (x != theEntity && x.IsAlive())
             {
                 if (x == leader)
                     continue;
@@ -100,14 +94,13 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
             }
 
             // if one of our faction died, flee from the spot.
-            if (x.factionId == this.theEntity.factionId)
+            if (x.factionId == theEntity.factionId)
             {
                 if (x.GetRevengeTarget() != null)
                 {
                     DisplayLog(" My Faction has a Revenge Target. I am sharing it. ");
-                    this.fleeDistance = 100;
-                    this.theEntity.SetRevengeTarget(x.GetRevengeTarget());
-                    this.avoidEntity = x.GetRevengeTarget(); 
+                    fleeDistance = 100;
+                    theEntity.SetRevengeTarget(x.GetRevengeTarget());
                     return true;
                 }
 
@@ -122,12 +115,11 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
                     //}
                     //else
                     //{
-                        DisplayLog(" I don not know who killed my friend, so i am running from " + x.EntityName);
-                        this.avoidEntity = x;
-                   // }
+                    DisplayLog(" I don not know who killed my friend, so i am running from " + x.EntityName);
+                    // }
                     return true;
                 }
-                
+
 
             }
         }
@@ -138,13 +130,13 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
 
     public bool NearestEnemy()
     {
-        if (this.NearbyEnemies.Count == 0)
+        if (NearbyEnemies.Count == 0)
             return false;
 
         // Finds the closet block we matched with.
         EntityAlive closeEnemy = null;
         float minDist = Mathf.Infinity;
-        Vector3 currentPos = this.theEntity.position;
+        Vector3 currentPos = theEntity.position;
         foreach (EntityAlive enemy in NearbyEnemies)
         {
             float dist = Vector3.Distance(enemy.position, currentPos);
@@ -159,7 +151,6 @@ class EAIRunAwayFromEntitySDX :  EAIRunawayWhenHurt
         if (closeEnemy != null)
         {
             DisplayLog(" Closes Enemy: " + closeEnemy.ToString());
-            this.avoidEntity = closeEnemy;
             return true;
         }
         return false;

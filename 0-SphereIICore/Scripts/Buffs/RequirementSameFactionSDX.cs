@@ -1,6 +1,4 @@
-using System;
-using System.Xml;
-using UnityEngine;
+﻿using System.Xml;
 
 // If targeting the player, you can add target="self" or just omit the target property:
 // 	<requirement name="RequirementSameFactionSDX, Mods" faction="animalsCows" />

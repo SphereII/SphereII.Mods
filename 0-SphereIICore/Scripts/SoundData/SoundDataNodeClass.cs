@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;   
-using System.Globalization;
+using System.Collections.Generic;
 using System.Xml;
 
 public static class SoundDataNodeClassSDX
 {
-    private static string AdvFeatureClass = "AdvancedSoundFeatures";
+    private static readonly string AdvFeatureClass = "AdvancedSoundFeatures";
 
     public struct SoundDataSDX
     {
@@ -39,9 +37,9 @@ public static class SoundDataNodeClassSDX
             }
         }
         // If it has a buff or a quest, add it to the monitored sound.
-        if(newSoundData.Buff != null || newSoundData.Quest != null)
+        if (newSoundData.Buff != null || newSoundData.Quest != null)
         {
-            if(!SoundDataSDXInfo.ContainsKey(SoundGroupName))
+            if (!SoundDataSDXInfo.ContainsKey(SoundGroupName))
                 SoundDataSDXInfo.Add(SoundGroupName, newSoundData);
         }
 

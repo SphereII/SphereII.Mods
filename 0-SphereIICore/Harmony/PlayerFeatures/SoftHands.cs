@@ -1,42 +1,38 @@
-﻿using Harmony;
+using HarmonyLib;
 
+/**
+ * SphereII__SoftHands
+ *
+ * This class includes a Harmony patches to ItemAction to deal damage when the player hits something with their bare heands.
+ * 
+ */
 public class SphereII__SoftHands
 {
-    private static string AdvFeatureClass = "AdvancedPlayerFeatures";
-    private static string Feature = "SoftHands";
+    private static readonly string AdvFeatureClass = "AdvancedPlayerFeatures";
+    private static readonly string Feature = "SoftHands";
 
     // Adds new feature where Durability affects the damage a weapon can do.
     [HarmonyPatch(typeof(ItemActionAttack))]
     [HarmonyPatch("Hit")]
     public class SphereII_ItemAction_Hit_EntityPlayerLocal
     {
-        public static void Postfix(ItemActionAttack __instance, ItemActionAttack.AttackHitInfo _attackDetails, ref float _weaponCondition, int _attackerEntityId)
+        public static void Postfix(ItemActionAttack __instance, ItemActionAttack.AttackHitInfo _attackDetails, ref float _weaponCondition, int _attackerEntityId, ItemValue damagingItemValue)
         {
             // Check if this feature is enabled.
             if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                return ;
+                return;
 
             EntityAlive entityAlive = GameManager.Instance.World.GetEntity(_attackerEntityId) as EntityAlive;
             if (entityAlive)
             {
                 bool isWearingGloves = false;
-                //LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityAlive as EntityPlayerLocal);
-                //if(uiforPlayer)
-                //{
-                //    // Grab a hand item to see if its being worn.
-                //    ItemValue handItems = ItemClass.GetItem("armorClothGloves", false );
-                //    if(uiforPlayer.xui.PlayerEquipment.IsEquipmentTypeWorn( handItems ))
-                //        isWearingGloves = true;
-                //}
 
-                //BlockValue blockValue = _attackDetails.blockBeingDamaged;
-                //if (blockValue.type != 0 )
-                //{
-                //    if (blockValue.Block.blockMaterial.MaxDamage <= 1)
-                //        isWearingGloves = true;
-                //}
+                // Throw weapon, skipping
+                if (damagingItemValue != null && damagingItemValue.ItemClass.HasAnyTags(FastTags.Parse("thrownWeapon")))
+                    return;
+
                 // Check if its the player hand
-                if (entityAlive.inventory.holdingItem.GetItemName() == "meleeHandPlayer" && _attackDetails.damageGiven > 0 && !isWearingGloves) 
+                if (entityAlive.inventory.holdingItem.GetItemName() == "meleeHandPlayer" && _attackDetails.damageGiven > 0 && !isWearingGloves)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, "Attacking Entity is an EntityAlive: " + entityAlive.inventory.holdingItemItemValue.ItemClass.GetItemName() + " Inflicting Damage");
                     DamageSource dmg = new DamageSource(EnumDamageSource.Internal, EnumDamageTypes.Bashing);
@@ -44,9 +40,9 @@ public class SphereII__SoftHands
                 }
             }
 
-            return ;
+            return;
         }
     }
 
-  
+
 }

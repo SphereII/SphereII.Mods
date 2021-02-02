@@ -1,9 +1,7 @@
-using System;
-using SDX.Compiler;
 using Mono.Cecil;
-using Mono.Cecil.Cil;
+using SDX.Compiler;
+using System;
 using System.Linq;
-using System.Collections.Generic;
 
 public class FoodSpoilagePatch : IPatcherMod
 {
@@ -14,8 +12,8 @@ public class FoodSpoilagePatch : IPatcherMod
         var gm = module.Types.First(d => d.Name == "ItemValue");
         var myTypeRef = gm.Fields.First(d => d.Name == "UseTimes");
 
-            gm.Fields.Add(new FieldDefinition("NextSpoilageTick", FieldAttributes.Public, myTypeRef.FieldType));
-            gm.Fields.Add(new FieldDefinition("CurrentSpoilage", FieldAttributes.Public, myTypeRef.FieldType));
+        gm.Fields.Add(new FieldDefinition("NextSpoilageTick", FieldAttributes.Public, myTypeRef.FieldType));
+        gm.Fields.Add(new FieldDefinition("CurrentSpoilage", FieldAttributes.Public, myTypeRef.FieldType));
 
         return true;
     }

@@ -1,8 +1,16 @@
-﻿using DMT;
-using Harmony;
+using HarmonyLib;
 using System;
-using System.IO;
-using UnityEngine;
+
+
+/**
+ * SphereII_RandomDeathSpawn
+ *
+ * This class includes a Harmony patch allows a new entity from a spawn group to spawn on the death of the original.
+ * 
+ * Usage XML entityclasses.xml
+ * 
+ * <property name="SpawnOnDeath" value="mySpawnGroup" />
+ */
 
 public class SphereII_RandomDeathSpawn
 {
@@ -18,7 +26,7 @@ public class SphereII_RandomDeathSpawn
             if (entityClass.Properties.Values.ContainsKey("SpawnOnDeath"))
             {
                 // Spawn location
-                Vector3i blockPos = default(Vector3i);
+                Vector3i blockPos;
                 blockPos.x = (int)__instance.position.x;
                 blockPos.y = (int)__instance.position.y;
                 blockPos.z = (int)__instance.position.z;
@@ -40,7 +48,7 @@ public class SphereII_RandomDeathSpawn
                 // If no group, then assume its an entity
                 int entityID = EntityClass.FromString(strSpawnGroup);
                 entity = EntityFactory.CreateEntity(entityID, __instance.position);
-                if(entity != null)
+                if (entity != null)
                 {
                     GameManager.Instance.World.SpawnEntityInWorld(entity);
                 }

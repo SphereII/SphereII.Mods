@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-// Token: 0x0200097B RID: 2427
+﻿// Token: 0x0200097B RID: 2427
 public class XUiC_DialogWindowGroupSDX : XUiController
 {
     // Token: 0x17000794 RID: 1940
@@ -16,8 +13,8 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     public override void Init()
     {
         base.Init();
-        this.statementWindow = base.GetChildByType<XUiC_DialogStatementWindow>();
-        this.responseWindow = base.GetChildByType<XUiC_DialogResponseList>();
+        statementWindow = base.GetChildByType<XUiC_DialogStatementWindow>();
+        responseWindow = base.GetChildByType<XUiC_DialogResponseList>();
     }
 
     // Token: 0x060049C1 RID: 18881 RVA: 0x001F5E44 File Offset: 0x001F4044
@@ -42,12 +39,12 @@ public class XUiC_DialogWindowGroupSDX : XUiController
         {
             base.xui.playerUI.windowManager.Close("toolbelt");
         }
-        this.CurrentDialog = Dialog.DialogList["humanEveBandit"];
-     
-        this.CurrentDialog.CurrentOwner = base.xui.Dialog.Respondent;
-        this.CurrentDialog.RestartDialog(base.xui.playerUI.entityPlayer);
-        this.statementWindow.CurrentDialog = this.CurrentDialog;
-        this.responseWindow.CurrentDialog = this.CurrentDialog;
+        CurrentDialog = Dialog.DialogList["humanEveBandit"];
+
+        CurrentDialog.CurrentOwner = base.xui.Dialog.Respondent;
+        CurrentDialog.RestartDialog(base.xui.playerUI.entityPlayer);
+        statementWindow.CurrentDialog = CurrentDialog;
+        responseWindow.CurrentDialog = CurrentDialog;
         GameManager.Instance.SetToolTipPause(base.xui.playerUI.nguiWindowManager, true);
     }
 
@@ -74,11 +71,11 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     // Token: 0x060049C4 RID: 18884 RVA: 0x001F6128 File Offset: 0x001F4328
     public void RefreshDialog()
     {
-        this.statementWindow.Refresh();
-        if (this.CurrentDialog.CurrentStatement != null)
+        statementWindow.Refresh();
+        if (CurrentDialog.CurrentStatement != null)
         {
-            this.statementWindow.Refresh();
-            this.responseWindow.Refresh();
+            statementWindow.Refresh();
+            responseWindow.Refresh();
             return;
         }
         base.xui.playerUI.windowManager.Close("dialog");
@@ -87,7 +84,7 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     // Token: 0x060049C5 RID: 18885 RVA: 0x001F6180 File Offset: 0x001F4380
     public void ShowResponseWindow(bool isVisible)
     {
-        this.responseWindow.Parent.ViewComponent.IsVisible = isVisible;
+        responseWindow.Parent.ViewComponent.IsVisible = isVisible;
     }
 
     // Token: 0x04003AE0 RID: 15072

@@ -1,13 +1,11 @@
-using System;
-using SDX.Compiler;
 using Mono.Cecil;
-using Mono.Cecil.Cil;
+using SDX.Compiler;
+using System;
 using System.Linq;
-using System.Collections.Generic;
 
 public class EntityMoveHelperPatches : IPatcherMod
 {
-   
+
 
     // Inorder to update the GetWalk Type, we'll need to mark the GetWalkType to be virtual, so we can over-ride it.
     public bool Patch(ModuleDefinition module)
@@ -15,7 +13,7 @@ public class EntityMoveHelperPatches : IPatcherMod
 
         // Search for all the EAI method sin the C#, and toggle the targetEntity or entityTarget to public.         
         Console.WriteLine("== EntityMoveHelper Patcher Patcher===");
-    
+
         var gm = module.Types.First(d => d.Name == "EntityMoveHelper");
 
         var method = gm.Methods.First(d => d.Name == "CalcMoveDist");
@@ -31,17 +29,7 @@ public class EntityMoveHelperPatches : IPatcherMod
         {
             SetFieldToPublic(myField);
         }
-        //var field = gm.Fields.First(d => d.Name == "entity");
-        //SetFieldToPublic(field);
 
-        //field = gm.Fields.First(d => d.Name == "moveToPos");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "moveToTicks");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "obstacleCheckTickDelay");
-        //SetFieldToPublic(field);
-        //field = gm.Fields.First(d => d.Name == "blockedDistSq");
-        //SetFieldToPublic(field);
 
         return true;
     }

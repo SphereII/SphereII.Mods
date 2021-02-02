@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-public class DialogActionGiveToNPC : DialogActionAddBuff
+﻿public class DialogActionGiveToNPC : DialogActionAddBuff
 {
     public override void PerformAction(EntityPlayer player)
     {
@@ -16,5 +15,5 @@ public class DialogActionGiveToNPC : DialogActionAddBuff
         playerInventory.RemoveItem(itemStack);
     }
 
-    private string name = string.Empty;
+    private readonly string name = string.Empty;
 }

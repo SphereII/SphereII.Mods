@@ -8,19 +8,19 @@ class ObjectiveBuffSDX : BaseObjective
     public override BaseObjective Clone()
     {
         ObjectiveBuffSDX objectiveBuff = new ObjectiveBuffSDX();
-        this.CopyValues(objectiveBuff);
+        CopyValues(objectiveBuff);
         return objectiveBuff;
     }
 
     // Helper to the clone
     protected void CopyValues(ObjectiveBuffSDX objective)
     {
-        objective.ID = this.ID;
-        objective.Value = this.Value;
-        objective.Optional = this.Optional;
-        objective.currentValue = this.currentValue;
-        objective.Phase = this.Phase;
-        objective.strBuff = this.strBuff;
+        objective.ID = ID;
+        objective.Value = Value;
+        objective.Optional = Optional;
+        objective.currentValue = currentValue;
+        objective.Phase = Phase;
+        objective.strBuff = strBuff;
     }
 
     public override void AddHooks()
@@ -35,18 +35,18 @@ class ObjectiveBuffSDX : BaseObjective
 
     public override void SetupDisplay()
     {
-        base.Description = string.Format("{0} {1}:", this.keyword, this.strBuff);
+        base.Description = string.Format("{0} {1}:", keyword, strBuff);
     }
 
     public override void Refresh()
     {
-        if (string.IsNullOrEmpty(this.strBuff))
+        if (string.IsNullOrEmpty(strBuff))
             return;
 
         // Check if its a player entity.
         EntityAlive myEntity = null;
         if (OwnerQuest.OwnerJournal.OwnerPlayer != null)
-            myEntity = OwnerQuest.OwnerJournal.OwnerPlayer as EntityAlive;
+            myEntity = OwnerQuest.OwnerJournal.OwnerPlayer;
 
         // If it's not a player entity, check for the SharedOwnerID
         if (myEntity == null)
@@ -60,9 +60,9 @@ class ObjectiveBuffSDX : BaseObjective
         if (myEntity != null)
         {
             // Check if it has the desired buff.
-            Debug.Log(" Checking if Entity has Buff: " + this.strBuff);
+            Debug.Log(" Checking if Entity has Buff: " + strBuff);
             Debug.Log(" Buffs: " + myEntity.Buffs.ActiveBuffs.ToArray().ToString());
-            base.Complete = myEntity.Buffs.HasBuff(this.strBuff);
+            base.Complete = myEntity.Buffs.HasBuff(strBuff);
             if (base.Complete)
             {
                 base.ObjectiveState = ObjectiveStates.Complete;
@@ -76,7 +76,7 @@ class ObjectiveBuffSDX : BaseObjective
         base.ParseProperties(properties);
 
         if (properties.Values.ContainsKey("buff"))
-            this.strBuff = properties.Values["buff"];
+            strBuff = properties.Values["buff"];
     }
 
     protected override bool useUpdateLoop

@@ -1,0 +1,3 @@
+﻿<configs>
+	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedLockpicking']/property[@name='AdvancedLocks']/@value">true</set> 
+</configs>

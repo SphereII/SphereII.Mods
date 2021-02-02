@@ -6,3 +6,11 @@ tutorialTipQuest01_title,,Journal,KeyTrunk FrNone GrNone KgNone SpNone,Started T
 quest_DishongTower,,Quest Info,Reordered,Starting the Dishong Tower Challenge
 quest_DishongTower_description,,Quest Info,Reordered,"Fight and loot your way to the top of the Dishong Tower, crafting and looting your way to a gyrocopter."
 quest_DishongTower_subtitle,,Quest Info,Reordered,Complete the Dishong Tower Challenge
+
+
+challenge_StartingDishingTower,,Quest Info,Reordered,"Do you think you have what it takes?"
+challenge_StartingDishingTower_description,,Quest Info,Reordered,"Do you have what it takes to complete the Dishong Tower Challange? Prove it."
+challenge_StartingDishingTower_subtitle,,Quest Info,Reordered,"Prove your worth."
+challenge_StartingDishingTower_offer,,Quest,Challenge Info,"So you think you can handle the Dishong Tower Challenge? The worlds gone to hell in a handbasket, and you think you can just leisurely walk in for some fun?\n\nYeh, right."
+
+

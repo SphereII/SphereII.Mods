@@ -1,14 +1,18 @@
-﻿using Harmony;
-using System.Reflection;
-using UnityEngine;
-using DMT;
+using HarmonyLib;
 
+
+
+/**
+ * SphereII_XPIconRemover
+ *
+ * This class includes a Harmony patch hide the IP Notification pop up
+ */
 [HarmonyPatch(typeof(XUiC_CollectedItemList))]
 [HarmonyPatch("AddIconNotification")]
 public class SphereII_XPIconRemover
 {
-    private static string AdvFeatureClass = "AdvancedUI";
-    private static string Feature = "DisableXPIconNotification";
+    private static readonly string AdvFeatureClass = "AdvancedUI";
+    private static readonly string Feature = "DisableXPIconNotification";
 
     static bool Prefix()
     {

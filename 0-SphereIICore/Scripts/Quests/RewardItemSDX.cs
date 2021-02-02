@@ -9,7 +9,7 @@
             if (questEntity == null)
                 return;
 
-            questEntity.inventory.AddItem(this.Item);
+            questEntity.inventory.AddItem(Item);
         }
     }
 

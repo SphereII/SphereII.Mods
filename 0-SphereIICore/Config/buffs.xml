@@ -7,7 +7,7 @@
       <duration value="1"/>
       <effect_group>
         <triggered_effect trigger="onSelfBuffStart" action="NotifyTeamAttack, Mods" target="positionAOE" range="20" />
-        </effect_group>
+      </effect_group>
     </buff>
 
 
@@ -15,6 +15,33 @@
       <stack_type value="ignore"/>
       <duration value="30"/>
     </buff>
+
+    
+    <!-- Template Buff for an NPC to go gather random loot items for you -->
+
+    <buff name="buffGatherResources" hidden="true">
+      <stack_type value="ignore" />
+      <duration value="600 "/>
+
+      <!-- Make the NPC disappear for the duration of the buff -->
+      <effect_group name="Start">
+        <triggered_effect trigger="onSelfBuffStart" action="HideNPCSDX, Mods" hide="true" />
+      </effect_group>
+      
+      <!-- Put items in its containers, make it appear, and give a boost to its loot experience-->
+      <effect_group name="End">
+        <!-- Grab items from the brassResource group -->
+        <triggered_effect trigger="onSelfBuffRemove" action="RandomLootSDX, Mods" lootgroup="brassResource" />
+
+        <!-- This cvar is used to determine both the amount of items to retrieve from the lootgroup, plus the quality tier, if applicable.-->
+        <!-- This gets reounded, so once it hits 2, it'll start pulling in two items from the brassResource group, up to a max of 5.-->
+        <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="spLootExperience" operation="add" value="0.1" />
+
+        <!-- Make the NPC visible! -->
+        <triggered_effect trigger="onSelfBuffRemove" action="HideNPCSDX, Mods" hide="false" />
+      </effect_group>
+
+    </buff>
   </append>
- 
+
 </configs>

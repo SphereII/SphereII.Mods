@@ -1,5 +1,6 @@
 <prefabs>
     <decoration type="model" name="skyscraper_01" position="0,40,0" rotation="2" />
   
+  <decoration type="model" name="trader_jen" position="1000,40,1000" rotation="1" />
 
 </prefabs>

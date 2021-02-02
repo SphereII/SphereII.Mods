@@ -1,24 +1,31 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-/*
- *    <!-- Allows the  Trigger to work -->
-      <property name="AlwaysActive" value="true" />
 
-      <!-- How far out the tile entity will re-scan to detect the player -->
-      <property name="ActivationDistance" value="5" />
-
-          <property name="ActivateOnLook" value="true" />
-
-      <!-- Triggers the block if the buff buffCursed is active on the player, or if the player has a cvar called "cvar" with a value of 4, or if myOtherCvar is available, regardless of value -->
-      <property name="ActivationBuffs" value="buffCursed,cvar(4),myOtherCvar" />
+/**
+ * SphereII_TileEntityAlwaysActive
+ *
+ * This class includes a Harmony patch allow an Always Active block, thus allowing a buff to be placed on it.
+ *
+ * Usage XML:
+ * 
+ *   <!-- Allows the  Trigger to work -->
+ *     <property name="AlwaysActive" value="true" />
+ *
+ *     <!-- How far out the tile entity will re-scan to detect the player -->
+ *     <property name="ActivationDistance" value="5" />
+ *
+ *      <property name="ActivateOnLook" value="true" />
+ *
+ *     <!-- Triggers the block if the buff buffCursed is active on the player, or if the player has a cvar called "cvar" with a value of 4, or if myOtherCvar is available, regardless of value -->
+ *     <property name="ActivationBuffs" value="buffCursed,cvar(4),myOtherCvar" />
 */
 public class SphereII_TileEntityAlwaysActive
 {
-    private static string AdvFeatureClass = "AdvancedTileEntities";
-    
+    private static readonly string AdvFeatureClass = "AdvancedTileEntities";
+
 
     [HarmonyPatch(typeof(TileEntity))]
     [HarmonyPatch("IsActive")]
@@ -43,7 +50,7 @@ public class SphereII_TileEntityAlwaysActive
                         Bounds = StringParsers.ParseSInt32(block2.Properties.Values["ActivationDistance"].ToString());
 
                     // Scan for the player in the radius as defined by the Activation distance of the block
-                    List <Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(__instance.ToWorldPos().ToVector3(),  (Vector3.one * 20 )));
+                    List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(__instance.ToWorldPos().ToVector3(), (Vector3.one * 20)));
                     if (entitiesInBounds.Count > 0)
                     {
                         AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": TileEntity has Entities in Bound of " + Bounds);
@@ -62,7 +69,7 @@ public class SphereII_TileEntityAlwaysActive
                                 {
                                     foreach (String strbuff in block2.Properties.Values["ActivationBuffs"].Split(','))
                                     {
-                                        AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Checking ActivationBuffs: " + strbuff );
+                                        AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Checking ActivationBuffs: " + strbuff);
                                         String strBuffName = strbuff;
                                         float CheckValue = -1f;
 
@@ -71,16 +78,16 @@ public class SphereII_TileEntityAlwaysActive
                                         int end = strbuff.IndexOf(')');
                                         if (start != -1 && end != -1 && end > start + 1)
                                         {
-                                            
+
                                             CheckValue = StringParsers.ParseFloat(strbuff.Substring(start + 1, end - start - 1), 0, -1, NumberStyles.Any);
                                             strBuffName = strbuff.Substring(0, start);
-                                            AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Actviation Buff is a cvar: " + strBuffName + ". Requires value: " + CheckValue );
+                                            AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Actviation Buff is a cvar: " + strBuffName + ". Requires value: " + CheckValue);
                                         }
 
                                         // If the player has a buff by this name, trigger it.
                                         if (player.Buffs.HasBuff(strBuffName))
                                         {
-                                            AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Buff has been found: " + strBuffName );
+                                            AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Buff has been found: " + strBuffName);
                                             blCanTrigger = true;
                                         }
 
@@ -91,13 +98,13 @@ public class SphereII_TileEntityAlwaysActive
                                             // If there's no cvar value specified, just allow it.
                                             if (CheckValue == -1)
                                             {
-                                                AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Cvar found, and does not require a specific value." );
+                                                AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Cvar found, and does not require a specific value.");
                                                 blCanTrigger = true;
                                             }
                                             // If a cvar is set, then check to see if it matches
                                             if (CheckValue > -1)
                                             {
-                                                AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Cvar found, and requires a value of " + CheckValue + " Player has: " + player.Buffs.GetCustomVar( strBuffName ));
+                                                AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": Cvar found, and requires a value of " + CheckValue + " Player has: " + player.Buffs.GetCustomVar(strBuffName));
                                                 if (player.Buffs.GetCustomVar(strBuffName) == CheckValue)
                                                     blCanTrigger = true;
                                             }
@@ -131,7 +138,7 @@ public class SphereII_TileEntityAlwaysActive
 
                     if (blCanTrigger)
                     {
-                     
+
                         AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": TileEntity can call ActivateBlock. Calling it...");
                         Block.list[block.type].ActivateBlock(world, __instance.GetClrIdx(), __instance.ToWorldPos(), block, true, true);
                     }

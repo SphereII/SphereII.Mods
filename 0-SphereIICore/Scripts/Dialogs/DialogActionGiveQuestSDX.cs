@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-public class DialogActionGiveQuestSDX : DialogActionAddBuff
+﻿public class DialogActionGiveQuestSDX : DialogActionAddBuff
 {
     public override void PerformAction(EntityPlayer player)
     {
@@ -9,8 +8,8 @@ public class DialogActionGiveQuestSDX : DialogActionAddBuff
 
         player.QuestJournal.RemoveQuest(NewQuest);
         player.QuestJournal.AddQuest(NewQuest);
-        
+
     }
 
-    private string name = string.Empty;
+    private readonly string name = string.Empty;
 }

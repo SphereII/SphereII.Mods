@@ -1,22 +1,21 @@
-﻿using UnityEngine;
-public class DialogRequirementHasTaskSDX : BaseDialogRequirement
+﻿public class DialogRequirementHasTaskSDX : BaseDialogRequirement
 {
-    public override bool CheckRequirement(EntityPlayer player)
+    public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         int entityID = 0;
-        if(player.Buffs.HasCustomVar("CurrentNPC"))
+        if (player.Buffs.HasCustomVar("CurrentNPC"))
             entityID = (int)player.Buffs.GetCustomVar("CurrentNPC");
 
-        if(entityID == 0)
+        if (entityID == 0)
             return false;
 
         EntityAliveSDX myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if(myEntity != null)
+        if (myEntity != null)
         {
             string text2;
 
-            EntityClass entityClass = EntityClass.list[ myEntity.entityClass];
-            for( int x = 1; x < 20; x++ )
+            EntityClass entityClass = EntityClass.list[myEntity.entityClass];
+            for (int x = 1; x < 20; x++)
             {
                 string text = EntityClass.PropAITask + x;
 

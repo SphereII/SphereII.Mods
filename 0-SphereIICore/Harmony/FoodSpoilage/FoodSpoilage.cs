@@ -1,16 +1,54 @@
-﻿using Harmony;
+using HarmonyLib;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
 using UnityEngine;
 
 
-public class FoodSpoilage_Mod
+/**
+ * SphereII_FoodSpoilage
+ * 
+ * This class includes a Harmony patches to enable Food spoilage, including trigger times and delays. The main trigger spoilage code occurs
+ * on the XUiC_ItemStack, so all stacks of items will be affected, if the right XML is used. This needs to be enabled through the Config/blocks.xml, as well as XML changes
+ * to food or other items you want to degrade over time.
+ * 
+ * XML Usage ( Taken from the SphereII Food Spoilage Mod )
+ * 
+ *   <!-- Spoilage: Every 500 Ticks, take a loss of 1, out of a total of 1000. -->
+ * <append xpath="/items">
+ *   <item name="foodSpoilageTest">
+ *     <property name="Extends" value="foodShamSandwich"/>
+ *     <property name="DisplayType" value="melee"/>
+ *     <property name="Tags" value="perkMasterChef"/>  <!-- tags must match the tags in the effect_group -->
+
+ *     <property name="Spoilable" value="true" />
+ *     <property name="SpoiledItem" value="foodRottingFlesh" />    <!-- Optional to over-ride ConfigBlockSpoilage globa. When spoiled, this item will turn into this item.-->
+ *     <property name="TickPerLoss" value="500" /> <!-- Optional to over-ride ConfigBlockSpoilage global. Example value=10   10 ticks per Spoilage increase. -->
+ 
+ *     <property name="ShowQuality" value="false"/>
+
+ *     <property name="SpoilageMax" value="1000" />
+ *     <property name="SpoilagePerTick" value="1" />
+ *   </item>
+  * </append>
+ * 
+ * <!-- Append Template -->
+ * <append xpath="/items/item[starts-with(@name, 'food') and not(contains(@name, 'foodCan'))]">
+ *   <property name="Spoilable" value="true" />
+ *   <property name="ShowQuality" value="false"/>
+ *   <property name="SpoiledItem" value="foodRottingFlesh" />
+ *   <!-- Optional to over-ride ConfigBlockSpoilage globa. When spoiled, this item will turn into this item.-->
+ *   <property name="TickPerLoss" value="5000" />
+ *   <!-- Optional to over-ride ConfigBlockSpoilage global. Example value=10   10 ticks per Spoilage increase. -->
+ *   <property name="SpoilageMax" value="1000" />
+ *   <property name="SpoilagePerTick" value="1" />
+ * </append>
+ * <append xpath="/items/item[starts-with(@name, 'food') and not(contains(@name, 'foodCan'))]/property[@name='Tags']/@value">,perkMasterChef</append>
+ *
+ */
+public class SphereII_FoodSpoilage
 {
-    private static string AdvFeatureClass = "FoodSpoilage";
-    private static string Feature = "FoodSpoilage";
+    private static readonly string AdvFeatureClass = "FoodSpoilage";
+    private static readonly string Feature = "FoodSpoilage";
 
 
     [HarmonyPatch(typeof(ItemValue))]
@@ -39,6 +77,7 @@ public class FoodSpoilage_Mod
             return __result;
         }
     }
+
     // NextSpoilageTick in ItemValue is an int, but when writen it gets converted over to a ushort, and re-read as an int. This could be due to refactoring of base code,
     // since none of these calls need to be ushort, change the ushort to just cast as an int.
     [HarmonyPatch(typeof(ItemValue))]
@@ -47,10 +86,10 @@ public class FoodSpoilage_Mod
     {
         public static void Postfix(BinaryWriter _bw, ItemValue __instance)
         {
-            _bw.Write((float)__instance.CurrentSpoilage);
-            _bw.Write((float)__instance.NextSpoilageTick);
+            _bw.Write(__instance.CurrentSpoilage);
+            _bw.Write(__instance.NextSpoilageTick);
         }
-     
+
     }
 
 
@@ -94,7 +133,7 @@ public class FoodSpoilage_Mod
                         TierColor = 7;
 
                     // allow over-riding of the color.
-                    if(__instance.ItemStack.itemValue.ItemClass.Properties.Contains("QualityTierColor"))
+                    if (__instance.ItemStack.itemValue.ItemClass.Properties.Contains("QualityTierColor"))
                         TierColor = __instance.ItemStack.itemValue.ItemClass.Properties.GetInt("QualityTierColor");
 
                     __instance.durability.Color = QualityInfo.GetQualityColor(TierColor);
@@ -189,7 +228,7 @@ public class FoodSpoilage_Mod
                             if (container != null)
                             {
                                 BlockValue Container = GameManager.Instance.World.GetBlock(container.ToWorldPos());
-                                String lootContainerName = Localization.Get(Block.list[Container.type].GetBlockName(), string.Empty);
+                                String lootContainerName = Localization.Get(Block.list[Container.type].GetBlockName());
                                 strDisplay += " " + lootContainerName;
 
                                 containerValue = float.Parse(Configuration.GetPropertyValue("FoodSpoilage", "Container"));
@@ -285,7 +324,7 @@ public class FoodSpoilage_Mod
 
                             if (itemStack.itemValue.ItemClass.GetItemName() != __instance.ItemStack.itemValue.ItemClass.GetItemName())
                             {
-                                if (!LocalPlayerUI.GetUIForPlayer(player as EntityPlayerLocal).xui.PlayerInventory.AddItem(itemStack, true))
+                                if (!LocalPlayerUI.GetUIForPlayer(player).xui.PlayerInventory.AddItem(itemStack, true))
                                 {
                                     player.world.gameManager.ItemDropServer(itemStack, player.GetPosition(), Vector3.zero, -1, 60f, false);
                                 }
