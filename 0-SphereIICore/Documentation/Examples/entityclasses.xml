@@ -1,6 +1,6 @@
 ﻿<configs>
 
-  <append xpath="/entity_classes/entity_class[ contains(@name, 'animal']" >
+  <append xpath="/entity_classes/entity_class[ contains(@name, 'animal') ]" >
     <property name="RandomSize" value="true" />
   </append>
  
