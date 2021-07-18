@@ -37,16 +37,7 @@ public class ClearUI
             return false;
         }
     }
-    // Removes the dim effect
-    [HarmonyPatch(typeof(StealthScreenOverlay))]
-    [HarmonyPatch("Update")]
-    public class SphereII_ClearUI_StealthScreenOverlay
-    {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
+   
 
     // Disables the compass marking, etc
     [HarmonyPatch(typeof(XUiC_CompassWindow))]
