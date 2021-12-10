@@ -1,2 +1,4 @@
 
-.vs/SphereII/v16/.suo
+.vs/
+bin/
+obj/
