@@ -1,4 +1,5 @@
-*/.vs/
-*/bin/
-*/obj/
+.vs/
+bin/
+obj/
 *.user
+*.cache
