@@ -51,6 +51,8 @@ namespace UAI
             SCoreUtils.SetCrouching(_context);
             base.Start(_context);
 
+            Debug.Log($"{_context.Self.EntityName}  Boundary: {_context.Self.boundingBox.ToString()}");
+
             // if distance is set correctly, set it to 1.5f
             if (distance < 0.001)
                 distance = 1.5f;

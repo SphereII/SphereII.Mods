@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\bin\Release\SphereII Skip Tutorial Quests.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\bin\Release\SphereII Skip Tutorial Quests.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\obj\Release\SphereII Skip Tutorial Quests.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\obj\Release\SphereII Skip Tutorial Quests.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\obj\Release\SphereII Skip Tutorial Quests.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Skip Tutorial Quests\obj\Release\SphereII Skip Tutorial Quests.pdb

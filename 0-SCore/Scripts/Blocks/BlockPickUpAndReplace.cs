@@ -29,6 +29,8 @@
         var block = world.GetBlock(vector3i);
         var entityPlayerLocal = array[3] as EntityPlayerLocal;
         // Find the block value for the pick up value, and add it to the inventory
+        if (PickedUpItemValue.Contains(":"))
+            PickedUpItemValue = "boardedWindowsSheet_weak";
         var pickUpBlock = GetBlockValue(PickedUpItemValue, true);
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         var itemStack = new ItemStack(pickUpBlock.ToItemValue(), 1);

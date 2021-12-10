@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\bin\Release\SphereII PG13.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\bin\Release\SphereII PG13.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\obj\Release\SphereII PG13.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\obj\Release\SphereII PG13.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\obj\Release\SphereII PG13.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII PG13\obj\Release\SphereII PG13.pdb

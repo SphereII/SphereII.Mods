@@ -15,13 +15,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using UAI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 // ReSharper disable once CheckNamespace
 public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
 {
-
     public event Action InventoryChangedEvent;
 
     public List<string> lstQuests = new List<string>();
@@ -92,6 +92,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
     {
         Debug.Log("Inventory Changed");
     }
+
     public override string EntityName
     {
         get
@@ -515,11 +516,11 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
             emodel.avatarController.TryGetBool("IsBusy", out isBusy);
         if (isBusy)
             return;
-
+        
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-    public override void OnUpdateLive()
+   public override void OnUpdateLive()
     {
         SetupAutoPathingBlocks();
 
@@ -692,6 +693,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         }
     }
 
+  
     public override void MarkToUnload()
     {
         // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
@@ -714,49 +716,68 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         var num2 = World.toChunkXZ(blockPosition.z);
         _startedThisFrame = new List<string>();
         for (var i = -1; i < 2; i++)
-            for (var j = -1; j < 2; j++)
+        for (var j = -1; j < 2; j++)
+        {
+            var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
+            if (chunk == null) continue;
+
+            var tileEntities = chunk.GetTileEntities();
+            for (var k = 0; k < tileEntities.list.Count; k++)
             {
-                var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
-                if (chunk == null) continue;
+                var tileEntity = tileEntities.list[k];
 
-                var tileEntities = chunk.GetTileEntities();
-                for (var k = 0; k < tileEntities.list.Count; k++)
+                if (!tileEntity.IsActive(world)) continue;
+
+                var block = world.GetBlock(tileEntity.ToWorldPos());
+                var block2 = Block.list[block.type];
+                if (block2.RadiusEffects == null) continue;
+
+
+                var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
+                for (var l = 0; l < block2.RadiusEffects.Length; l++)
                 {
-                    var tileEntity = tileEntities.list[k];
-
-                    if (!tileEntity.IsActive(world)) continue;
-
-                    var block = world.GetBlock(tileEntity.ToWorldPos());
-                    var block2 = Block.list[block.type];
-                    if (block2.RadiusEffects == null) continue;
-
-
-                    var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
-                    for (var l = 0; l < block2.RadiusEffects.Length; l++)
-                    {
-                        var blockRadiusEffect = block2.RadiusEffects[l];
-                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius && !Buffs.HasBuff(blockRadiusEffect.variable))
-                            Buffs.AddBuff(blockRadiusEffect.variable);
-                    }
+                    var blockRadiusEffect = block2.RadiusEffects[l];
+                    if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius && !Buffs.HasBuff(blockRadiusEffect.variable))
+                        Buffs.AddBuff(blockRadiusEffect.variable);
                 }
             }
-    }
-
-    protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
-    {
-        if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
-        speedForward *= 0.5f;
-        speedStrafe *= 0.5f;
-        speedVertical *= 0.5f;
-        if (Mathf.Abs(_dist.x) > 0.001f || Mathf.Abs(_dist.z) > 0.001f)
-        {
-            var num = Mathf.Sin(-rotation.y * 3.14159274f / 180f);
-            var num2 = Mathf.Cos(-rotation.y * 3.14159274f / 180f);
-            speedForward += num2 * _dist.z - num * _dist.x;
-            speedStrafe += num2 * _dist.x + num * _dist.z;
         }
-
-        if (Mathf.Abs(_dist.y) > 0.001f) speedVertical += _dist.y;
-        SetMovementState();
     }
+
+    public override float GetMoveSpeed()
+    {
+        var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed, this, null, default(FastTags), true, true, true, true, 1, true);
+        if (IsCrouching)
+            speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed, this, null, default(FastTags), true, true, true, true, 1, true);
+
+        return speed;
+    }
+
+    public new float GetMoveSpeedPanic()
+    {
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null, default(FastTags), true, true, true, true, 1, true);
+        return speed;
+    }
+
+
+    //protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
+    //{
+    //    if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
+    //    speedForward *= 0.5f;
+    //    speedStrafe *= 0.5f;
+    //    speedVertical *= 0.5f;
+    //    if (Mathf.Abs(_dist.x) > 0.001f || Mathf.Abs(_dist.z) > 0.001f)
+    //    {
+    //        var num = Mathf.Sin(-rotation.y * 3.14159274f / 180f);
+    //        var num2 = Mathf.Cos(-rotation.y * 3.14159274f / 180f);
+    //        speedForward += num2 * _dist.z - num * _dist.x;
+    //        speedStrafe += num2 * _dist.x + num * _dist.z;
+    //    }
+
+    //    if (Mathf.Abs(_dist.y) > 0.001f) speedVertical += _dist.y;
+
+    //    SetMovementState();
+    //}
+
+  
 }

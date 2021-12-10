@@ -7,7 +7,7 @@ namespace Harmony
     {
         public void InitMod(Mod _modInstance)
         {
-            Debug.Log(" Loading Patch: " + GetType());
+            Log.Out(" Loading Patch: " + GetType());
 
             // Reduce extra logging stuff
             Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);

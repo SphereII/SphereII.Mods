@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\bin\Release\SphereII A Better Life.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\bin\Release\SphereII A Better Life.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\obj\Release\SphereII A Better Life.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\obj\Release\SphereII A Better Life.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\obj\Release\SphereII A Better Life.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII A Better Life\obj\Release\SphereII A Better Life.pdb

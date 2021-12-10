@@ -26,7 +26,9 @@ namespace UAI
                     SCoreUtils.MoveBack(_context, _context.Self.position + Vector3.back);
                     return;
                 }
+                SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
             }
+
 
             EntityUtilities.Stop(_context.Self.entityId);
             if (SCoreUtils.IsEnemyNearby(_context))

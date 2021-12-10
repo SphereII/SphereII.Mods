@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GamePath;
+using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
 //       <task class="FollowSDX, SCore" />
@@ -21,9 +22,7 @@ namespace UAI
             if (Parameters.ContainsKey("teleportTime")) _timeOut = StringParsers.ParseFloat(Parameters["teleportTime"]);
 
         }
-
-
-
+      
         public override void Start(Context _context)
         {
             base.Start(_context);
@@ -39,13 +38,15 @@ namespace UAI
             // Sets up the original position of the leader.
             _position = _leader.position;
 
-            // If we are close enough, we don't need to path.
-            CheckProximityToLeader(_context);
+            _context.Self.SetLookPosition(_position);
+            _context.Self.RotateTo(_leader, 45f, 45);
+
+            SCoreUtils.FindPath(_context, _position, true);
         }
 
+      
         public override void Update(Context _context)
         {
-
             base.Update(_context);
 
             // Are we blocked? Can we see our leader? If not, start counting down. This should slow down aggressive teleports to the leader, while
@@ -64,7 +65,8 @@ namespace UAI
                 return;
             }
 
-
+            SCoreUtils.SetSpeed(_context, true);
+             
             // Reset the timeout.
             _currentTimeout = _timeOut;
 
@@ -78,7 +80,6 @@ namespace UAI
         {
             SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
 
-            // Are we too close?  // Handled on EntityAliveSDX.
             var distanceToLeader = Vector3.Distance(_context.Self.position, _leader.position);
 
             // If we are close to the leader, stop.
@@ -95,9 +96,7 @@ namespace UAI
             {
                 SCoreUtils.TeleportToLeader(_context);
                 Stop(_context);
-                return;
             }
-
             // If we have a path, check to see if the player has moved.
             if (!_context.Self.navigator.noPathAndNotPlanningOne())
             {

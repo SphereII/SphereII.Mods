@@ -52,11 +52,13 @@ public static class EntityUtilities
         {
             foreach (Component component in child.GetComponents<Component>())
             {
+             //   Debug.Log( $"\t\tComponent: {component} Tag: {component.tag}");
                 AdvLogging.DisplayLog(advFeatureClass, feature, $"\t\tComponent: {component} Tag: {component.tag}");
             }
 
             foreach (var component in child.GetComponents<MonoBehaviour>())
             {
+               // Debug.Log($"\t\tMonoBehaviour: {component} Tag: {component.tag}");
                 AdvLogging.DisplayLog(advFeatureClass, feature, $"\t\tMonoBehaviour: {component} Tag: {component.tag}");
             }
 
@@ -593,7 +595,7 @@ public static class EntityUtilities
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity != null)
         {
-            if (EntityClass.list[myEntity.entityId].UseAIPackages)
+            if (EntityClass.list[myEntity.entityClass].UseAIPackages)
                 return false;
 
             foreach (var task in myEntity.aiManager.GetTasks<EAIBase>())

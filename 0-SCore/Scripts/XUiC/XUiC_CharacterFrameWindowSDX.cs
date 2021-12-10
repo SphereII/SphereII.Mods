@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-internal class XUiC_CharacterFrameWindowSDX : XUiController
+public class XUiC_CharacterFrameWindowSDX : XUiController
 {
     private EntityAlive entity;
     private bool isDirty;

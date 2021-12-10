@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xml>
+  <ModInfo>
+    <Name value="SphereII Take And Replace" />
+    <Description value="A Take And Replace mod, designed to allow people to downgrade boarded windows into air." />
+    <Author value="sphereii" />
+    <Version value="19.1.1.1" />
+    <Website value="" />
+  </ModInfo>
+  <DMT Hash="3fdff91e966e3767816666d53f00c18d">
+    <dependencies>
+      <dependancy>0-SphereIICore</dependancy>
+    </dependencies>
+    <conflicts />
+  </DMT>
+</xml>

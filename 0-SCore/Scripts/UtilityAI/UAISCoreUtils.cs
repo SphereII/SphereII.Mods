@@ -23,8 +23,8 @@ namespace UAI
                 // Ending action fire events
                 _context.Self.MinEventContext.ItemValue.FireEvent(_actionIdx == 0 ? MinEventTypes.onSelfPrimaryActionEnd : MinEventTypes.onSelfSecondaryActionEnd, _context.Self.MinEventContext);
                 _context.Self.FireEvent(_actionIdx == 0 ? MinEventTypes.onSelfPrimaryActionEnd : MinEventTypes.onSelfSecondaryActionEnd, false);
-
             }
+
             _context.ActionData.CurrentTask.Stop(_context);
         }
 
@@ -39,9 +39,9 @@ namespace UAI
             {
                 _context.Self.inventory.SetHoldingItemIdx(_context.Self.inventory.DUMMY_SLOT_IDX);
                 _context.Self.inventory.OnUpdate();
-
             }
         }
+
         public static void SetWeapon(Context _context)
         {
             if (_context.Self.inventory.holdingItemIdx != 0)
@@ -50,6 +50,7 @@ namespace UAI
                 _context.Self.inventory.OnUpdate();
             }
         }
+
         public static bool IsBlocked(Context _context)
         {
             // Still calculating the path, let's let it finish.
@@ -61,12 +62,18 @@ namespace UAI
             return !CheckForClosedDoor(_context);
         }
 
-        public static void TeleportToLeader(Context _context)
+        public static void TeleportToLeader(Context _context, EntityAlive entityAlive = null)
         {
-            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
+
+            if (_context != null)
+                entityAlive = _context.Self;
+
+            var leader = EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) as EntityAlive;
             if (leader == null) return;
-            GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 3, 5, 3, false, out var _position);
-            _context.Self.SetPosition(_position);
+            GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 3, 15, 3, false, out var position);
+            if (position == Vector3.zero)
+                position = leader.position + Vector3.back;
+            _context.Self.SetPosition(position);
         }
 
         public static bool HasBuff(Context _context, string buff)
@@ -189,14 +196,21 @@ namespace UAI
             return paths;
         }
 
-        public static void FindPath(Context _context, Vector3 _position, bool panic = false)
+        public static float SetSpeed(Context _context, bool panic = false)
         {
             var speed = _context.Self.GetMoveSpeed();
             if (panic)
                 speed = _context.Self.GetMoveSpeedPanic();
 
-            _position = SCoreUtils.GetMoveToLocation(_context, _position);
+            _context.Self.navigator.setMoveSpeed(speed);
+            return speed;
+        }
+        public static void FindPath(Context _context, Vector3 _position, bool panic = false)
+        {
+            var speed = SetSpeed(_context, panic);
 
+            _position = SCoreUtils.GetMoveToLocation(_context, _position);
+            
             // If there's not a lot of distance to go, don't re-path.
             var distance = Vector3.Distance(_context.Self.position, _position);
             if (distance < 0.4f)
@@ -206,20 +220,32 @@ namespace UAI
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            _context.Self.FindPath(_position, speed, true, null);
+            _context.Self.FindPath(_position, speed, false, null);
         }
 
         // allows the NPC to climb ladders
         public static Vector3 GetMoveToLocation(Context _context, Vector3 position, float maxDist = 10f)
         {
             var vector = _context.Self.world.FindSupportingBlockPos(position);
+            var temp = _context.Self.world.GetBlock(new Vector3i(vector));
+            
             if (!(maxDist > 0f)) return vector;
 
             var vector2 = new Vector3(_context.Self.position.x, vector.y, _context.Self.position.z);
             var vector3 = vector - vector2;
-            var magnitude = vector3.magnitude;
-            if (!(magnitude < 3f)) return vector;
+            
+            var vector2Block = _context.Self.world.GetBlock(new Vector3i(vector2));
+            var vector3Block = _context.Self.world.GetBlock(new Vector3i(vector3));
+            if (temp.Block.GetBlockName().ToLower().Contains("ladder"))
+            {
+                Debug.Log("Ladder");
+                return vector + Vector3.forward;
+            }
 
+            Debug.Log($"Block: {temp.Block.GetBlockName()} Vector: {vector} Vector2: {vector2Block.Block.GetBlockName()} Vector3: {vector3Block.Block.GetBlockName()}");
+            var magnitude = vector3.magnitude;
+
+            if (!(magnitude < 3f)) return vector;
             if (magnitude <= maxDist)
             {
                 return vector.y - _context.Self.position.y > 1.5f ? vector : vector2;
@@ -232,6 +258,7 @@ namespace UAI
                 var pos = World.worldToBlockPos(vector4);
                 var block = _context.Self.world.GetBlock(pos);
                 var block2 = block.Block;
+
                 if (block2.IsPathSolid) return vector;
                 if (Physics.Raycast(vector4 - Origin.position, Vector3.down, out var raycastHit, 1.02f, 1082195968))
                 {

@@ -39,6 +39,9 @@ namespace Harmony.Animation
             if (___lookAtBlendPer <= 0f && ___lookAtBlendPerTarget <= 0f) return true;
             ___lookAtBlendPer = Mathf.MoveTowards(___lookAtBlendPer, ___lookAtBlendPerTarget, deltaTime * 2f);
 
+            if (___neckParentTransform == null)
+                return true;
+
             var rotation3 = ___neckParentTransform.rotation;
             var transform = ___headTransform;
             var quaternion = Quaternion.LookRotation(___lookAtPos - Origin.position - transform.position);

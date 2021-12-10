@@ -5,13 +5,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\7daysToDie.exe</StartProgram>
-    <StartWorkingDirectory>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game</StartWorkingDirectory>
+    <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\7 Days To Die\7DaysToDie.exe</StartProgram>
+    <StartWorkingDirectory>C:\Program Files %28x86%29\Steam\steamapps\common\7 Days To Die</StartWorkingDirectory>
     <StartArguments>-autostart</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <StartAction>Program</StartAction>
-    <StartProgram>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\7daysToDie.exe</StartProgram>
-    <StartWorkingDirectory>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\</StartWorkingDirectory>
+    <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\7 Days To Die\7DaysToDie.exe</StartProgram>
+    <StartWorkingDirectory>C:\Program Files %28x86%29\Steam\steamapps\common\7 Days To Die\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

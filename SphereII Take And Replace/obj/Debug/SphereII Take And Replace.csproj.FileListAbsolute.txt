@@ -1,0 +1,6 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\bin\Debug\SphereII Take And Replace.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\bin\Debug\SphereII Take And Replace.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\obj\Debug\SphereII Take And Replace.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\obj\Debug\SphereII Take And Replace.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\obj\Debug\SphereII Take And Replace.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Take And Replace\obj\Debug\SphereII Take And Replace.pdb

@@ -1,0 +1,3 @@
+Key,Source,Context,Changes,English,French,German,Klingon,Spanish,Polish
+CrowBar,items,Tool,KgNone,"Crow Bar",,,,,
+CrowBarDesc,items,Tool,KgNone,"Open up crates and boarded doors and windows quicker with the crow bar. Uses Breaking and Entering perk for quicker times.",,,,,

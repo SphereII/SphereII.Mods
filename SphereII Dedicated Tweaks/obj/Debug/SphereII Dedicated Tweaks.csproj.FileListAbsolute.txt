@@ -4,3 +4,9 @@ D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII 
 D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.dll
 D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.pdb
 D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.pdb

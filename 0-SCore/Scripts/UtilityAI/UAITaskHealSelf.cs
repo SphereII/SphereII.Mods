@@ -8,7 +8,7 @@ namespace UAI
 {
     public class UAITaskHealSelf : UAITaskBase
     {
-        public static bool isRunnning = false;
+        public static bool isRunning = false;
         private int _maxDistance = 0;
         protected override void initializeParameters()
         {
@@ -20,7 +20,7 @@ namespace UAI
         {
             base.Update(_context);
 
-            if (isRunnning) return;
+            if (isRunning) return;
 
             if (_context.Self.inventory.IsHoldingItemActionRunning())
                 return;
@@ -38,7 +38,7 @@ namespace UAI
             if (Equals(stack, ItemStack.Empty))
                 return;
 
-            isRunnning = true;
+            isRunning = true;
 
             // If the NPC doesn't have this cvar, give it an initial value, so it can heal somewhat from a bandage that it found in its inventory.
             if (!_context.Self.Buffs.HasCustomVar("medRegHealthIncSpeed"))
@@ -62,7 +62,7 @@ namespace UAI
                 yield return null;
             }
             _context.Self.inventory.SetHoldingItemIdx(oldSlot);
-            isRunnning = false;
+            isRunning = false;
             this.Stop(_context);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using UnityEngine;
 
 namespace Harmony.EntityAlive
 {
@@ -28,7 +29,9 @@ namespace Harmony.EntityAlive
 
                 // Check if this feature is enabled.
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                {
                     EntityUtilities.Traverse(__instance.GetModelTransformParent()?.gameObject);
+                }
             }
         }
     }

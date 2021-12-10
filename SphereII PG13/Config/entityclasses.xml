@@ -1,5 +1,5 @@
 <configs>
 	<!-- change the stripper's meshes with the nurses' skin -->
-	<set xpath="/entity_classes/entity_class[@name='zombieStripper']/property[@name='Mesh']/@value">#Entities/Zombies?Zombies/zombieStandardNurseRagdoll.prefab</set>
-	<set xpath="/entity_classes/entity_class[@name='zombieStripperFeral']/property[@name='Mesh']/@value">#Entities/Zombies?Zombies/zombieStandardNurseRagdoll.prefab</set>
+	<set xpath="/entity_classes/entity_class[@name='zombiePartyGirl']/property[@name='Mesh']/@value">#Entities/Zombies?Prefabs/ZNurse.prefab</set>
+	<set xpath="/entity_classes/entity_class[@name='zombiePartyGirlFeral']/property[@name='Mesh']/@value">#Entities/Zombies?Prefabs/ZNurse.prefab</set>
 </configs>

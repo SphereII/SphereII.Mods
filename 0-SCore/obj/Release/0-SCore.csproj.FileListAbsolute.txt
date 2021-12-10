@@ -1,6 +1,0 @@
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\obj\Release\0-SCore.csproj.AssemblyReference.cache
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\obj\Release\0-SCore.csproj.CoreCompileInputs.cache
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\bin\Release\SCore.dll
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\bin\Release\SCore.pdb
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\obj\Release\SCore.dll
-D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\0-SCore\obj\Release\SCore.pdb
