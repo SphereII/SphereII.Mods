@@ -1,6 +1,0 @@
-﻿<configs>
-       
-  <!-- Remove all surface biome decorations -->
-  <remove xpath="/worldgeneration/biomes/biome//decorations/decoration" />
-
-</configs>

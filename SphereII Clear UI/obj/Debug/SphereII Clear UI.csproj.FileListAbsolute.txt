@@ -1,0 +1,6 @@
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\SphereII Clear UI.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\SphereII Clear UI.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache

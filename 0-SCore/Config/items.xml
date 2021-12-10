@@ -1,0 +1,83 @@
+﻿<configs>
+  <append xpath="/items">
+    <item name="BanditFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="BanditFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, SCore" value="bandits" />
+      </effect_group>
+    </item>
+
+    <item name="UndeadFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, SCore" value="undead" />
+      </effect_group>
+    </item>
+
+
+    <item name="ResetFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="ResetFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, SCore" value="original" />
+      </effect_group>
+    </item>
+    <item name="WhiteRiverFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="WhiteRiverFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, SCore" value="whiteriver" />
+      </effect_group>
+    </item>
+
+    <item name="DukeRiverFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="DukeRiverFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ChangeFactionSDX, SCore" value="duke" />
+      </effect_group>
+    </item>
+
+    <item name="UndeadPositiveFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadPositiveFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+          <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, SCore" target="self" faction="undead" value="100" /> 
+      </effect_group>
+    </item>
+
+    <item name="UndeadNegativeFactionSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadNegativeFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, SCore" target="self" faction="undead" value="-100" />
+      </effect_group>
+    </item>
+
+    <item name="UndeadPositiveRelatedFactionsSchematic">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadPositiveFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyRelatedFactionsSDX, SCore" target="self" faction="undead" value="100" related="bandits,whiteriver,duke" scale="0.5" />
+      </effect_group>
+    </item>
+  </append>
+</configs>

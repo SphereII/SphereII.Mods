@@ -1,0 +1,6 @@
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.csproj.CoreCompileInputs.cache
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Dedicated Tweaks\obj\Debug\SphereII Dedicated Tweaks.csproj.AssemblyReference.cache

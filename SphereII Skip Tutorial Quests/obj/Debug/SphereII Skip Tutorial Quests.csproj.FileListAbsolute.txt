@@ -1,0 +1,6 @@
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\bin\Debug\SphereII Skip Tutorial Quests.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\bin\Debug\SphereII Skip Tutorial Quests.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\obj\Debug\SphereII Skip Tutorial Quests.csproj.CoreCompileInputs.cache
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\obj\Debug\SphereII Skip Tutorial Quests.dll
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\obj\Debug\SphereII Skip Tutorial Quests.pdb
+D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\Mods\SphereII Skip Tutorial Quests\obj\Debug\SphereII Skip Tutorial Quests.csproj.AssemblyReference.cache

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\7daysToDie.exe</StartProgram>
+    <StartWorkingDirectory>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game</StartWorkingDirectory>
+    <StartArguments>-autostart</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\7daysToDie.exe</StartProgram>
+    <StartWorkingDirectory>D:\Projects\Games\7DaysToDie\V2\Projects\SCore\testing_trunk\game\</StartWorkingDirectory>
+  </PropertyGroup>
+</Project>

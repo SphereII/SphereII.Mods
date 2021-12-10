@@ -1,8 +1,0 @@
-﻿<configs>
-    <append xpath="//lootgroup[@name='junk']">
-      <item name="resourcePotassiumNitratePowder" count="2,6" />
-    </append>
-<!--
-  <set xpath="//lootgroup[@name='junk']/item[@name='resourceGunPowder']/@count">2,6</set>
-  -->
-</configs>
