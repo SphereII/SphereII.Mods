@@ -3,3 +3,6 @@ bin/
 obj/
 *.user
 *.cache
+0-XNPCCore/
+1-NPCPackAnimals/
+*.zip
