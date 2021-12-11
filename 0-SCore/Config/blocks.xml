@@ -29,6 +29,11 @@
         <property name="Logging" value="false"/>
       </property>
 
+      <property class="AdvancedLogging" >
+        <property name="LowOutput" value="true"/> <!-- Removes the extra lines in the log out like AdvancedTroubleshootingFeatures :: UtilityAILogging -->
+      </property>
+
+
       <property class="AdvancedLockpicking" >
         <property name="Logging" value="false"/>
         <property name="AdvancedLocks" value="false" />
@@ -128,7 +133,7 @@
         
         <!-- On each entity spawn, when set to true, will print all the transforms and scripts on an entity -->
         <property name="ComponentMapper" value="false" />
-        <property name="UtilityAILogging" value="false" />
+        <property name="UtilityAILogging" value="true" />
         <!-- Only displays Start and Stop for AI tasks -->
         <property name="UtilityAILoggingMin" value="false" />
         <property name="UtilityAILoggingTask" value="false" />

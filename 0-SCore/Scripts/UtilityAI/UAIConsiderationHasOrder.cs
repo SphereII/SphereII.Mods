@@ -12,9 +12,6 @@ namespace UAI
 
     public class UAIConsiderationHasOrder : UAIConsiderationBase
     {
-        private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
-        private static readonly string Feature = "UtilityAILogging";
-
         private List<EntityUtilities.Orders> _orders = new List<EntityUtilities.Orders>();
 
         public override void Init(Dictionary<string, string> parameters)
@@ -42,9 +39,7 @@ namespace UAI
 
         public override float GetScore(Context _context, object target)
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tConsideration: {GetType()} ::  Current Order: {EntityUtilities.GetCurrentOrder(_context.Self.entityId)} Consideration Order: {string.Join("\n", _orders.ToArray())}");
             var currentOrder = EntityUtilities.GetCurrentOrder(_context.Self.entityId);
-
             return _orders.Contains(currentOrder) ? 1f : 0f;
         }
     }
