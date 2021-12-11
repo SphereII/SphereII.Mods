@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class UtilityAIPatches
 {
+    private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
+    private static readonly string Feature = "UtilityAILogging";
+
     private const BindingFlags _NonPublicStaticFlags = BindingFlags.Static | BindingFlags.NonPublic;
 
     /// <summary>
@@ -215,6 +218,8 @@ public class UtilityAIPatches
                 return false;
             }
 
+            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.Name} Checking Considerations for Target: {_target}");
+
             var score = 1f;
             for (var i = 0; i < considerations.Count; i++)
             {
@@ -236,17 +241,23 @@ public class UtilityAIPatches
                 var considerationScore = consideration.GetScore(_context, _target);
                 if (considerationScore == 0f)
                 {
-                    Debug.Log($"Failing task because consideration failed: Task: {__instance.GetType()} Consideration: {consideration.GetType()}");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{consideration.GetType()} Consideration Score: {considerationScore} Overall Score: {score}");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.Name} Task Failed due to above consideration");
                     __result = 0f;
                     return false;
                 }
-                score *= consideration.ComputeResponseCurve(considerationScore);
+                considerationScore = consideration.ComputeResponseCurve(considerationScore);
+                score *= considerationScore;
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{consideration.GetType()} Consideration Score: {considerationScore} Overall Score: {score}");
+
             }
 
             // If we want to give a higher score to actions with more considerations, then
             // we can use a bugfixed version of the vanilla code:
             // __result = (score + (1f - score) * (1f - 1f / __instance.considerations.Count) * score) * __instance.Weight;
             __result = score * __instance.Weight;
+            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.GetType()} Final Score {__result}");
+
             return false;
         }
     }
