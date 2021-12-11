@@ -36,7 +36,10 @@ namespace UAI
                 currentHealth = ((float)(block2.MaxDamage - block.damage) / (float)block2.MaxDamage);
             }
 
-            // Don't consider the target if they are above the max or below the threshold.
+            
+            if (currentHealth <= 0)
+                return 0f;
+
             if (currentHealth >= _max || currentHealth <= _min)
                 return 0f;
 

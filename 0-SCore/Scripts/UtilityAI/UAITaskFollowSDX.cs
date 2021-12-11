@@ -41,7 +41,7 @@ namespace UAI
             _context.Self.SetLookPosition(_position);
             _context.Self.RotateTo(_leader, 45f, 45);
 
-            SCoreUtils.FindPath(_context, _position, true);
+           SCoreUtils.FindPath(_context, _position, true);
         }
 
       

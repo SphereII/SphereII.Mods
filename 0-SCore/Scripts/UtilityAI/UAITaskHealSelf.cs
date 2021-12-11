@@ -3,6 +3,7 @@
 // The game adds UAI.UAITask to the class name for discover.
 
 using System.Collections;
+using UnityEngine;
 
 namespace UAI
 {
@@ -24,13 +25,6 @@ namespace UAI
 
             if (_context.Self.inventory.IsHoldingItemActionRunning())
                 return;
-
-            if (_maxDistance > 0)
-            {
-                _context.Self.detachHome();
-                var position = RandomPositionGenerator.CalcAway(_context.Self, 0, _maxDistance, _maxDistance, _context.Self.position);
-                SCoreUtils.FindPath(_context, position, true);
-            }
 
             // Current holding index
             var originalIndex = _context.Self.inventory.GetFocusedItemIdx();

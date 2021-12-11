@@ -1,0 +1,206 @@
+<configs>
+
+	<insertAfter xpath="/traders/trader_info[@id='5']" >
+	
+		<trader_info id="60" full_reset="true" min_inventory="20" max_inventory="40" min_items_swapped="10" max_items_swapped="20"
+			reset_interval="3" open_time="4:05" close_time="21:50"> <!-- weapons/ammo specialty trader -->
+			
+			<trader_items count="all">
+				<item group="weaponsGunsT2" prob="1,2"/>
+				<item group="ammo" count="2,4"/>
+				<item group="modAllT1SecretStash" count="1"/>
+			</trader_items>
+
+			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="weaponsGunsT2" prob="1,2"/>
+				<item group="ammo" count="2,4"/>
+				<item group="modMeleeT1" />
+				<item group="modAllT2SecretStash" count="0,1"/>
+			</tier_items>
+
+			<tier_items level="3000,3999" count="all">  <!-- requires Perk 3 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="weaponsGunsMixed" count="1,3"/>
+				<item group="ammo" count="2,5"/>
+				<item group="stashOnlyItemsLow" count="1,2"/>
+				<item group="modAllT3SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="4000,4999" count="all"> <!-- requires Perk 4 -->
+				<item group="weaponsGunsMixed" count="2,3"/>
+				<item group="ammo" count="3,6"/>
+				<item group="stashOnlyItemsHigh" count="2,3"/>
+				<item group="modAllT4SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
+				<item group="weaponsGunsMixed" count="2,3"/>
+				<item group="weaponsGunsT3" prob="1,2"/>
+				<item group="ammo" count="5,8"/>
+				<item group="stashOnlyItemsHigh" count="3,4"/>
+				<item group="modAllT5SecretStash" count="1,2"/>
+			</tier_items>
+		</trader_info>
+		
+		<trader_info id="61" full_reset="true" min_inventory="20" max_inventory="40" min_items_swapped="10" max_items_swapped="20"
+			reset_interval="3" open_time="4:05" close_time="21:50"> <!-- Science/drugs specialty trader -->
+			<trader_items count="all">
+				<item group="tools" count="1" quality="3"/>
+				<item group="medicine" count="2,3" />
+				<item group="traderElectrical" count="1,2"/>
+				<item group="modAllT1SecretStash" count="1,2"/>
+			</trader_items>
+
+			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="medicine" count="2,4" />
+				<item group="commonBooks" count="1,2"/>
+				<item group="rareBooks" count="1"/>
+				<item group="perkBooks" count="1"/>
+				<item group="tools" count="1" quality="4"/>
+				<item group="modAllT2SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="3000,3999" count="all">  <!-- requires Perk 3 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="traderElectrical" count="2,3"/>
+				<item group="rareMedicine" prob="1,2"/>
+				<item group="tools" count="1" quality="5"/>
+				<item group="rareTools" count="1" quality="5"/>
+				<item group="commonBooks" count="2,3"/>
+				<item group="rareBooks" count="1,2"/>
+				<item group="perkBooks" count="1,2"/>
+				<item group="stashOnlyItemsLow" count="1,2"/>
+				<item group="modAllT3SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="4000,4999" count="all"> <!-- requires Perk 4 -->
+				<item group="traderElectrical" count="2,3"/>
+				<item group="rareMedicine" prob="2,3"/>
+				<item group="tools" count="1,2"  quality="6"/>
+				<item group="rareTools" count="1,2" quality="6"/>
+				<item group="commonBooks" count="3,4"/>
+				<item group="rareBooks" count="2"/>
+				<item group="perkBooks" count="2"/>
+				<item group="stashOnlyItemsHigh" count="2,3"/>
+				<item group="modAllT4SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
+				<item group="rareMedicine" prob="2,3"/>
+				<item group="traderElectrical" count="3,4"/>
+				<item group="tools" count="1,2" quality="6"/>
+				<item group="rareTools" count="3,4" quality="6"/>
+				<item group="commonBooks" count="4,5"/>
+				<item group="rareBooks" count="2,3"/>
+				<item group="perkBooks" count="2,3"/>
+				<item name="apparelNightvisionGoggles" count="1"/>
+				<item name="plantedHop1" count="1,8"/>
+				<item name="solarbank" count="1"/>
+				<item name="solarCell" count="1,3" quality="3,6"/>
+				<!--<item name="batterybankSchematic" count="1"/>-->
+				<item group="stashOnlyItemsHigh" count="3,4"/>
+				<item group="modAllT5SecretStash" count="1,2"/>
+			</tier_items>
+		</trader_info>
+
+		<trader_info id="62" full_reset="true" min_inventory="20" max_inventory="40" min_items_swapped="10" max_items_swapped="20"
+			reset_interval="3" open_time="4:05" close_time="21:50"> <!-- Bulk/armor/clothing/food trader -->
+			
+			<trader_items count="all">
+				<item group="traderGeneral" count="1,2"/>
+				<item group="generalResources" count="1,2"/> 
+				<item name="cntVendingMachine" count="1" />
+				<item group="constructionSupplies" count="2,5"/>
+				<item group="decorativeBlocks" count="2,3"/>
+				<item group="clothes" count="1,4"/>
+				<item group="groupArmorLightT0" count="1,3"/>
+				<item group="groupArmorHeavyT0" count="1,3"/>
+				<item group="modAllT1SecretStash" count="1,2"/>
+			</trader_items>
+
+			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="groupArmorLightT0" count="1"/>
+				<item group="groupArmorHeavyT0" count="1"/>
+				<item group="modAllT2SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="3000,3999" count="all">  <!-- requires Perk 3 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item name="cntVendingMachine" count="2" />
+				<item group="groupArmorHeavyT1" count="1,2"/>
+				<item group="groupArmorLightT1" count="1,2"/>
+				<item group="stashOnlyItemsLow" count="1,2"/>
+				<item group="modAllT3SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="4000,4999" count="all"> <!-- requires Perk 4 -->
+				<item name="cntVendingMachine" count="3" />
+				<item name="armorMiningHelmet"/>
+				<item group="stashOnlyItemsHigh" count="2,3"/>
+				<item group="modAllT4SecretStash" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
+				<item name="cntVendingMachine" count="3" />
+				<item name="armorMiningHelmet"/>
+				<item group="stashOnlyItemsHigh" count="3,4"/>
+				<item group="modAllT5SecretStash" count="1,2"/>
+			</tier_items>
+		</trader_info>	
+		
+		<trader_info id="63" full_reset="true" min_inventory="20" max_inventory="40" min_items_swapped="10" max_items_swapped="20"
+			reset_interval="3" open_time="4:05" close_time="21:50"> 
+			
+			<trader_items count="all">
+				<item group="foodAll" count="1,2"/>
+			</trader_items>
+
+			<tier_items level="1,499" count="all">  <!-- requires Perk 0 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="seeds" count="2,5"/>
+				<item group="cannedfood" count="2,3"/>
+				<item group="foodSupplies" count="1,4"/>
+			</tier_items>
+
+			<tier_items level="3000,3999" count="all">  <!-- requires Perk 3 -->
+				<!-- Bug: The count is overridden by "all" anyway so all probabilities are =1 -->
+				<item group="traderGeneral" count="1,2"/>
+				<item group="generalResources" count="1,2"/> 
+				<item group="seeds" count="2,5"/>
+				<item group="cannedfood" count="2,3"/>
+				<item group="foodSupplies" count="1,4"/>
+				<item group="preparedFood" count="1,2"/>
+				<item group="preparedDrink" count="1,2"/>
+				<item group="foodAll" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="4000,4999" count="all"> <!-- requires Perk 4 -->
+				<item group="traderGeneral" count="1,2"/>
+				<item group="generalResources" count="1,2"/> 
+				<item name="cntVendingMachine" count="1" />
+				<item group="seeds" count="2,5"/>
+				<item group="cannedfood" count="2,3"/>
+				<item group="foodSupplies" count="1,4"/>
+				<item group="preparedFood" count="1,3"/>
+				<item group="preparedDrink" count="1,3"/>
+				<item group="foodAll" count="1,2"/>
+			</tier_items>
+
+			<tier_items level="5000,-1" count="all"> <!-- requires Perk 5 -->
+				<item group="traderGeneral" count="1,2"/>
+				<item group="generalResources" count="1,2"/> 
+				<item name="cntVendingMachine" count="1" />
+				<item group="seeds" count="2,5"/>
+				<item group="cannedfood" count="1,2"/>
+				<item group="foodSupplies" count="1,3"/>
+				<item group="preparedFood" count="1,5"/>
+				<item group="preparedDrink" count="1,5"/>
+				<item group="foodAll" count="1,4"/>
+			</tier_items>
+		</trader_info>			
+	</insertAfter>	
+	  
+</configs>

@@ -1,0 +1,144 @@
+<configs>
+	<insertAfter xpath="/npc/npc_info[@id='NPCjunkDrone']" >
+			<npc_info
+				id="NPCSampleDialog"
+				name="NPC"
+				name_key="npc_traitorJoel"
+				faction="whiteriver"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Like" voice_set="trader"
+				trader_id="1" dialog_id="GenericNPCWithQuest" />
+			<npc_info
+				id="spheretest"
+				name="NPC"
+				name_key="npc_traitorJoel"
+				faction="whiteriver"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Like" voice_set="trader"
+				trader_id="1" dialog_id="GenericNPCWithQuest" />
+			<npc_info
+				id="xythtest"
+				name="NPC"
+				name_key="npc_traitorJoel"
+				faction="whiteriver"
+				portrait="npc_xyth"
+				greeting_type="nearby"
+				stance="Neutral" voice_set="trader"
+				trader_id="1" dialog_id="trader" 
+				quest_list="trader_quests" />
+			<npc_info
+				id="traderWeapons"
+				name="Weapon Trader"
+				name_key="npc_Tradertest"
+				faction="trader"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Neutral" voice_set="trader"
+				trader_id="60" dialog_id="trader" 
+				quest_list="trader_quests" />
+			<npc_info
+				id="traderJoel"
+				name="Drug Trader"
+				name_key="npc_Tradertest"
+				faction="whiteriver"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Neutral" voice_set="trader"
+				trader_id="61" dialog_id="trader" 
+				quest_list="trader_quests" />
+			<npc_info
+				id="traderHeavy"
+				name="Heavy Trader"
+				name_key="npc_Tradertest"
+				faction="trader"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Neutral" voice_set="trader"
+				trader_id="62" dialog_id="trader" 
+				quest_list="trader_quests" />		
+			<npc_info
+				id="traderFood"
+				name="Food Trader"
+				name_key="npc_Tradertest"
+				faction="trader"
+				portrait="npc_joel"
+				greeting_type="nearby"
+				stance="Neutral" voice_set="trader"
+				trader_id="63" dialog_id="trader" 
+				quest_list="trader_quests" />		
+
+			<npc_info
+				id="NPCAnimalGeneric"
+				name="NPCAnimal"
+				name_key="npc_traitorJoel"
+				faction="whiteriver"
+				portrait="npc_warwolf"
+				greeting_type="nearby"
+				stance="Like" voice_set="trader"
+				trader_id="1" dialog_id="GenericNPCAnimal" /> <!-- GenericNPCAnimal eventually -->
+	 
+	</insertAfter>
+
+	<append xpath="/npc/factions" >	
+		<faction name="Passive Animals">
+			<relationship name="trader" value="neutral"/>
+			<relationship name="undead" value="hate"/>
+			<relationship name="*" value="neutral"/>
+		</faction>	
+		
+		<faction name="Neutral Animals">
+			<relationship name="*" value="neutral"/>
+		</faction>	
+		
+	
+		<faction name="Aggressive Animals">
+			<relationship name="*" value="hate"/>
+		</faction>		
+	</append>
+		
+		<append xpath="/npc/factions/faction[@name='undead']" >		
+			<relationship name="whisperers" value="like"/>
+		</append>
+		
+		<append xpath="/npc/factions" >	
+		
+			<faction name="whisperers">
+				<relationship name="trader" value="neutral"/>
+				<relationship name="undead" value="like"/>
+				<relationship name="*" value="hate"/>
+			</faction>
+			<faction name="vault">
+				<relationship name="trader" value="neutral"/>
+				<relationship name="undead" value="hate"/>
+				<relationship name="*" value="neutral"/>
+			</faction>
+	
+			
+<!--  How you might seperate soldiers into factions  -->
+		
+			<faction name="redteam">
+				<relationship name="*" value="neutral"/>
+				<relationship name="blueteam" value="hate"/>
+				<relationship name="greenteam" value="hate"/>
+				<relationship name="undead" value="hate"/>
+				<relationship name="bandits" value="hate"/>
+			</faction>
+			<faction name="blueteam">
+				<relationship name="*" value="neutral"/>
+				<relationship name="redteam" value="hate"/>
+				<relationship name="greenteam" value="hate"/>
+				<relationship name="undead" value="hate"/>
+				<relationship name="bandits" value="hate"/>
+			</faction>	
+			<faction name="greenteam">
+				<relationship name="*" value="neutral"/>
+				<relationship name="blueteam" value="hate"/>
+				<relationship name="redteam" value="hate"/>
+				<relationship name="undead" value="hate"/>
+				<relationship name="bandits" value="hate"/>
+			</faction>	
+	
+		</append>
+</configs>

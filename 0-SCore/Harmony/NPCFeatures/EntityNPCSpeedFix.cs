@@ -10,8 +10,8 @@ namespace Harmony.NPCFeatures
      */
     public class EntityNPCSpeedFix
     {
-        private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
-        private static readonly string Feature = "NPCSpeedFix";
+      //  private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
+//        private static readonly string Feature = "NPCSpeedFix";
 
     //    [HarmonyPatch(typeof(EntityTrader))]
     //    [HarmonyPatch("updateSpeedForwardAndStrafe")]

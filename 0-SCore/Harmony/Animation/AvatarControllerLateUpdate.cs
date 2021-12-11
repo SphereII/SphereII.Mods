@@ -28,7 +28,7 @@ namespace Harmony.Animation
                 __instance.SetFloat(_strafeHash, strafe);
 
                 AdvLogging.DisplayLog(AdvFeatureClass, SpeedFeature,
-                    ___entity.entityId + " After: AvatarZombie01Controller: Entity Speed Forward: " + ___entity.speedForward + "   Strafe: " + strafe);
+                    ___entity.entityId + "  After: AvatarZombie01Controller: Entity Speed Forward: " + ___entity.speedForward + "   Strafe: " + strafe);
 
                 return true;
             }

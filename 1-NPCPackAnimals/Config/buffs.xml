@@ -1,0 +1,39 @@
+<configs>
+	<append xpath="/buffs">
+
+		<buff name="buffSnowSwarm" name_key="buffElementColdName" description_key="buffElementColdDesc" tooltip_key="buffElementColdTooltip" >
+		  <damage_type value="cold"/>
+		  <stack_type value="replace"/>
+		  <update_rate value="3"/>
+		  <effect_group>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="50" buff="buffFrostbite" target_tags="player"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="10" buff="buffFrostbite2" target_tags="player"/>
+		  </effect_group>
+		</buff>
+
+		<buff name="buffFrostbite"  description_key="buffElementColdDesc" tooltip_key="buffElementColdTooltip" icon="ui_game_symbol_cold" icon_color="255,128,0" icon_blink="false">
+		  <damage_type value="cold"/>
+		  <stack_type value="replace"/>
+		  <duration value="10"/>
+		  <effect_group>
+			 <passive_effect name="StaminaChangeOT" operation="base_subtract" value="1"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyScreenEffect" intensity="1" fade="2" effect_name="Cold"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="ModifyScreenEffect" intensity="0" fade="1" effect_name="Cold"/>
+			<triggered_effect trigger="onSelfDied" action="RemoveBuff" buff="buffFrostbite"/>
+		  </effect_group>
+		</buff>
+		<buff name="buffFrostbite2" description_key="buffElementFreezingDesc" tooltip_key="buffElementFreezingTooltip" icon="ui_game_symbol_cold" icon_color="255,0,0" icon_blink="true">
+		  <damage_type value="cold"/>
+		  <stack_type value="replace"/>
+		  <duration value="4"/>
+		  <effect_group>
+	<!--        <passive_effect name="StaminaLossMaxMult" operation="perc_add" value="10"/> -->
+			 <passive_effect name="HealthChangeOT" operation="base_subtract" value=".5"/>
+			 <passive_effect name="StaminaChangeOT" operation="base_subtract" value="2"/>
+			<triggered_effect trigger="onSelfDied" action="RemoveBuff" buff="buffFrostbite2"/>
+		  </effect_group>
+		</buff>
+	
+	</append>
+
+</configs>

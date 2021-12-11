@@ -1,0 +1,46 @@
+Key,English,French
+MechFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
+VaultDwellersFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
+RedteamFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
+BlueteamFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
+GreenteamFactionSchematic,"Master of disguse","Maitre de l'écoeurement"
+MechFactionSchematicDesc,"Read this to switch over to the bandit faction!","Lisez ceci pour basculer dans la faction des Mech!"
+VaultDwellersFactionSchematicDesc,"Read this to switch over to the undead faction!","Lisez ceci pour basculer dans la faction des VaultDwellers!"
+RedteamFactionSchematicDesc,"Read this to switch over to the Red team!","Lisez ceci pour basculer dans la faction Redteam!"
+BlueteamFactionSchematicDesc,"Read this to switch over to the Blue team!","Lisez ceci pour basculer dans la faction Blue team!"
+GreenteamFactionSchematicDesc,"Read this to switch over to the Green Team!","Lisez ceci pour basculer dans la faction Green Team!"
+MechPositiveFactionSchematic,"Peace and Love to the Mechs",""
+MechPositiveFactionSchematicDesc,"Read this to spread the message of the mechs! Increase your standings with the mechs!",""
+MechNegativeFactionSchematic,"Mechs: Unreliable! Untrustworthy!",""
+MechNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the mechs! Decrease your standings with the mechs!",""
+VaultPositiveFactionSchematic,"Peace and Love to the Vault",""
+VaultPositiveFactionSchematicDesc,"Read this to spread the message of the vault! Increase your standings with the vault!",""
+VaultNegativeFactionSchematic,"The Vault: Unreliable! Untrustworthy!",""
+VaultNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the vault! Decrease your standings with the vault!",""
+RedteamPositiveFactionSchematic,"Peace and Love to the Redteam",""
+RedteamPositiveFactionSchematicDesc,"Read this to spread the message of the Redteam! Increase your standings with the Redteam!",""
+RedteamNegativeFactionSchematic,"The Redteam: Unreliable! Untrustworthy!",""
+RedteamNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the Redteam! Decrease your standings with the Redteam!",""
+BlueteamPositiveFactionSchematic,"Peace and Love to the Blueteam",""
+BlueteamPositiveFactionSchematicDesc,"Read this to spread the message of the Blueteam! Increase your standings with the Blueteam!",""
+BlueteamNegativeFactionSchematic,"The Blueteam: Unreliable! Untrustworthy!",""
+BlueteamNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the Blueteam! Decrease your standings with the Blueteam!",""
+GreenteamPositiveFactionSchematic,"Peace and Love to the Greenteam",""
+GreenteamPositiveFactionSchematicDesc,"Read this to spread the message of the Greenteam! Increase your standings with the Greenteam!",""
+GreenteamNegativeFactionSchematic,"The Greenteam: Unreliable! Untrustworthy!",""
+GreenteamNegativeFactionSchematicDesc,"Read this to spread lies and fake news about the Greenteam! Decrease your standings with the Greenteam!",""
+
+
+"start","Are you the undead?",,
+"statement_-1684104497","Maybe not but a bar of soap wouldn't kill ya none either.",
+"responseID_1595140464","No I'm not dead yet.",
+"response_-24413466","Gee thanks.",
+"responseID_-307220871","Be safe friend.",
+
+
+"start","Hello there"
+"statement_-1333722013","Im just a farmer type guy",
+"statement_1334552027","Naz, funny name eh?",
+"responseID_-1128936168","Tell me about yourself",
+"responseID_-1290029400","Whats this place called?",
+"responseID_1101680756","OK Bye",

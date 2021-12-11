@@ -1,0 +1,234 @@
+<!--Created using the 7 Days To Dialog Application-->
+
+<configs>
+
+  <append xpath="/dialogs">
+
+    <!-- Generic Dialog with Quest options (if quests are available -->
+    <dialog id="GenericNPCWithQuest" startstatementid="start">
+      <statement id="start" text="dialog_trader_statement_start">
+        <response_entry id="TellMe" />
+        <response_entry id="FollowMe" />
+        <response_entry id="jobshave" />
+        <response_entry id="ShowMe" />
+        <response_entry id="StayHere" />
+        <response_entry id="GuardHere" />
+        <response_entry id="Wander" />
+        <response_entry id="SetPatrol" />
+        <response_entry id="SetCode" />
+        <response_entry id="Patrol" />
+        <!--response_entry id="Loot" /-->
+        <response_entry id="Hire" />
+        <response_entry id="Dismiss" />
+        <response_entry id="done" />
+      </statement>
+
+      <!-- Quest Lines Entries -->
+      <statement id="currentjobs" text="Do any of these tasks sound like something you can do?">
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <quest_entry id="npcquest" type="add" listindex="0" />
+        <response_entry id="nevermind" />
+      </statement>
+
+      <response id="jobsnone" text="dialog_trader_response_jobsnone" nextstatementid="nojobs" >
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <requirement type="QuestStatus" value="InProgress" requirementtype="Hide" />
+      </response>
+      
+      <response id="jobshave" text="dialog_trader_response_jobshave" nextstatementid="currentjobs" >
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <requirement type="QuestStatus" value="NotStarted" requirementtype="Hide" />
+        <action type="AddJournalEntry" id="questTip" />
+      </response>
+      <!-- End Quest Lines Entries -->
+
+      <!-- If the NPC is not hired ( not the value="not" ), then display this option, allowing a hire dialog box o be opened. --> 
+      <response id="Hire" text="I am interested in hiring you." >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not"/>
+        <action type="OpenDialogSDX, SCore" id="Hire" />
+      </response>
+
+      <!-- If the entity is hired, you can order the NPCs to do the following: -->
+      <response id="FollowMe" text="Follow me" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide"/>
+        <action type="ExecuteCommandSDX, SCore" id="FollowMe" />
+      </response>
+
+      <response id="TellMe" text="Tell me about yourself" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide"/>
+        <action type="ExecuteCommandSDX, SCore" id="TellMe" />
+      </response>
+      <response id="ShowMe" text="Show Me your inventory" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="OpenInventory" />
+      </response>
+
+<!--      <response id="StayHere" text="Stay here" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="StayHere" />
+      </response>
+
+       <response id="GuardHere" text="Guard here" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+         <action type="ExecuteCommandSDX, SCore" id="GuardHere" />
+      </response>
+      
+      <response id="Wander" text="Wander around here" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Wander" />
+      </response>
+
+      <response id="SetPatrol" text="Follow me for your patrol route." >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="SetPatrol" />
+      </response> 
+
+      <response id="SetCode" text="Here is your Patrol Code" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="OpenWindowSDX, SCore" id="SetCode" />
+      </response>
+      
+      <response id="Loot" text="Help me loot this joint." >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Loot" />
+      </response> -->
+
+      <response id="Dismiss" text="Dismiss" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Dismiss" />
+      </response>
+
+ <!--    <response id="Patrol" text="Patrol your route" >
+        <requirement type="PatrolSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Patrol" />
+      </response> -->
+    
+      <response id="done" text="dialog_trader_response_nevermind" />
+
+    </dialog>
+	
+  </append>
+
+  <append xpath="/dialogs">
+ 
+    <dialog id="Farmer" startstatementid="start">
+      <statement id="start" text="start">
+        <response_entry id="responseID_-1128936168" ref_text="Tell me about yourself" />
+        <response_entry id="responseID_-1290029400" ref_text="Whats this place called?" />
+        <response_entry id="responseID_1101680756" ref_text="OK, Bye" />
+      </statement>
+      <statement id="statement_-1333722013" text="statement_-1333722013" nextstatementid="start" />
+      <statement id="statement_1334552027" text="statement_1334552027" nextstatementid="start" />
+      <response id="responseID_-1128936168" text="responseID_-1128936168" nextstatementid="statement_-1333722013" />
+      <response id="responseID_-1290029400" text="responseID_-1290029400" nextstatementid="statement_1334552027" />
+      <response id="responseID_1101680756" text="responseID_1101680756" />
+    </dialog>
+    
+    <dialog id="AFarmerSurvivor" startstatementid="start">
+      <statement id="start" text="start">
+        <response_entry id="responseID_1595140464" ref_text="No, I'm not dead yet." />
+        <response_entry id="responseID_-307220871" ref_text="Be safe, friend." />
+      </statement>
+      <statement id="statement_-1684104497" text="statement_-1684104497">
+        <response_entry id="response_-24413466" ref_text="Gee, thanks." />
+      </statement>
+      <response id="responseID_1595140464" text="responseID_1595140464" nextstatementid="statement_-1684104497" />
+      <response id="response_-24413466" text="response_-24413466" nextstatementid="start" />
+      <response id="responseID_-307220871" text="responseID_-307220871" />
+    </dialog>
+
+   <dialog id="GenericNPCAnimal" startstatementid="start">
+      <statement id="start" text="dialog_trader_statement_start">
+        <response_entry id="TellMe" />
+        <response_entry id="FollowMe" />
+        <!--response_entry id="jobshave" /-->
+        <response_entry id="ShowMe" />
+        <response_entry id="StayHere" />
+        <response_entry id="GuardHere" />
+        <response_entry id="Wander" />
+        <response_entry id="SetPatrol" />
+        <response_entry id="Patrol" />
+        <!--response_entry id="Loot" /-->
+        <response_entry id="Hire" />
+        <response_entry id="Dismiss" />
+        <response_entry id="done" />
+      </statement>
+
+      <!-- Quest Lines Entries -->
+      <statement id="currentjobs" text="Do any of these tasks sound like something you can do?">
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <quest_entry id="npcquest" type="add" listindex="0" />
+        <response_entry id="nevermind" />
+      </statement>
+
+      <response id="jobsnone" text="dialog_trader_response_jobsnone" nextstatementid="nojobs" >
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <requirement type="QuestStatus" value="InProgress" requirementtype="Hide" />
+      </response>
+      
+      <response id="jobshave" text="dialog_trader_response_jobshave" nextstatementid="currentjobs" >
+        <requirement type="HasQuestSDX, SCore" requirementtype="Hide" />
+        <requirement type="QuestStatus" value="NotStarted" requirementtype="Hide" />
+        <action type="AddJournalEntry" id="questTip" />
+      </response>
+      <!-- End Quest Lines Entries -->
+
+      <!-- If the NPC is not hired ( not the value="not" ), then display this option, allowing a hire dialog box o be opened. --> 
+      <response id="Hire" text="Hey little one, You look lost.  Want to come with me?  I have snacks!" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not"/>
+        <action type="OpenDialogSDX, SCore" id="Hire" />
+      </response>
+
+      <!-- If the entity is hired, you can order the NPCs to do the following: -->
+     <response id="FollowMe" text="Follow" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide"/>
+        <action type="ExecuteCommandSDX, SCore" id="FollowMe" />
+      </response> 
+
+      <response id="TellMe" text="Tell me about yourself" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide"/>
+        <action type="ExecuteCommandSDX, SCore" id="TellMe" />
+      </response>
+      <response id="ShowMe" text="Show me your pack" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="OpenInventory" />
+      </response>
+
+<!--      <response id="StayHere" text="Stay" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="StayHere" />
+      </response>
+
+      <response id="GuardHere" text="Guard here" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+         <action type="ExecuteCommandSDX, SCore" id="GuardHere" />
+      </response>
+      
+      <response id="Wander" text="Play around here, I'll be back" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Wander" />
+      </response>
+
+      <response id="SetPatrol" text="Follow me for your patrol route." >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="SetPatrol" />
+      </response>
+
+      
+      <response id="Loot" text="Help me loot this joint." >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+         <action type="ExecuteCommandSDX, SCore" id="Loot" />
+      </response> -->
+
+      <response id="Dismiss" text="Dismiss" >
+        <requirement type="HiredSDX, SCore" requirementtype="Hide" />
+        <action type="ExecuteCommandSDX, SCore" id="Dismiss" />
+      </response>
+    
+      <response id="done" text="dialog_trader_response_nevermind" />
+
+    </dialog>	
+	
+  </append>
+  
+</configs>

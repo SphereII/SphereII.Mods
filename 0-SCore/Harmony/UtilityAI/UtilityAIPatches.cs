@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 using UAI;
+using UnityEngine;
 
 public class UtilityAIPatches
 {
@@ -75,97 +76,105 @@ public class UtilityAIPatches
         }
     }
 
-    [HarmonyPatch(typeof(UAIBase))]
-    [HarmonyPatch("chooseAction")]
-    public class UAIBase_chooseAction
-    {
-        /// <summary>
-        /// This prefix method replaces UAIBase.chooseAction in order to fix a bug,
-        /// and to introduce a "fail fast" mechanism for efficiency (hopefully).
-        /// </summary>
-        /// <param name="_context"></param>
-        /// <returns></returns>
-        public static bool Prefix(Context _context)
-        {
-            float highScore = 0f;
 
-            _context.ConsiderationData.EntityTargets.Clear();
-            _context.ConsiderationData.WaypointTargets.Clear();
+    /*
+     * sphereii notes:
+     * This needs re-looked at, as it seems like the various packages were fighting constantly, and never sticking.
+     *
+     * ie: When a nurse was hired, and there was a Zombie Boe nearby, she would go back and forth between the Follow Leader and Move To Target tasks.
+     */
 
-            // These are private static methods so we need to call them using reflection
-            var addEntityTargetsToConsider = typeof(UAIBase).GetMethod(
-                "addEntityTargetsToConsider",
-                _NonPublicStaticFlags);
-            var addWaypointTargetsToConsider = typeof(UAIBase).GetMethod(
-                "addWaypointTargetsToConsider",
-                _NonPublicStaticFlags);
-            addEntityTargetsToConsider.Invoke(null, new object[] { _context });
-            addWaypointTargetsToConsider.Invoke(null, new object[] { _context });
+    //[HarmonyPatch(typeof(UAIBase))]
+    //[HarmonyPatch("chooseAction")]
+    //public class UAIBase_chooseAction
+    //{
+    //    /// <summary>
+    //    /// This prefix method replaces UAIBase.chooseAction in order to fix a bug,
+    //    /// and to introduce a "fail fast" mechanism for efficiency (hopefully).
+    //    /// </summary>
+    //    /// <param name="_context"></param>
+    //    /// <returns></returns>
+    //    public static bool Prefix(Context _context)
+    //    {
+    //        float highScore = 0f;
 
-            // Sort AIPackages according to each package's highest possible score, descending.
-            // (If there is only one package, no sorting is needed.)
-            if (_context.AIPackages.Count > 0)
-            {
-                _context.AIPackages.Sort((a, b) =>
-                {
-                    if (!UAIBase.AIPackages.ContainsKey(a))
-                        return 1; // a should go last
-                    if (!UAIBase.AIPackages.ContainsKey(b))
-                        return -1; // b should go last
+    //        _context.ConsiderationData.EntityTargets.Clear();
+    //        _context.ConsiderationData.WaypointTargets.Clear();
 
-                    var aScore = UtilityAIPatches.GetHighestPossibleScore(UAIBase.AIPackages[a]);
-                    var bScore = UtilityAIPatches.GetHighestPossibleScore(UAIBase.AIPackages[b]);
-                    return bScore.CompareTo(aScore);
-                });
-            }
+    //        // These are private static methods so we need to call them using reflection
+    //        var addEntityTargetsToConsider = typeof(UAIBase).GetMethod(
+    //            "addEntityTargetsToConsider",
+    //            _NonPublicStaticFlags);
+    //        var addWaypointTargetsToConsider = typeof(UAIBase).GetMethod(
+    //            "addWaypointTargetsToConsider",
+    //            _NonPublicStaticFlags);
+    //        addEntityTargetsToConsider.Invoke(null, new object[] { _context });
+    //        addWaypointTargetsToConsider.Invoke(null, new object[] { _context });
 
-            for (var i = 0; i < _context.AIPackages.Count; i++)
-            {
-                if (!UAIBase.AIPackages.ContainsKey(_context.AIPackages[i]))
-                    continue;
+    //        // Sort AIPackages according to each package's highest possible score, descending.
+    //        // (If there is only one package, no sorting is needed.)
+    //        //if (_context.AIPackages.Count > 0)
+    //        //{
+    //        //    _context.AIPackages.Sort((a, b) =>
+    //        //    {
+    //        //        if (!UAIBase.AIPackages.ContainsKey(a))
+    //        //            return 1; // a should go last
+    //        //        if (!UAIBase.AIPackages.ContainsKey(b))
+    //        //            return -1; // b should go last
 
-                var package = UAIBase.AIPackages[_context.AIPackages[i]];
+    //        //        var aScore = UtilityAIPatches.GetHighestPossibleScore(UAIBase.AIPackages[a]);
+    //        //        var bScore = UtilityAIPatches.GetHighestPossibleScore(UAIBase.AIPackages[b]);
+    //        //        return bScore.CompareTo(aScore);
+    //        //    });
+    //        //}
 
-                // If the current high score is greater than the highest score this package can
-                // produce, it's also higher than any of the remaining packages, so we're done.
-                // (If there is only one package, this test is not needed.)
-                if (i > 0 && highScore >= UtilityAIPatches.GetHighestPossibleScore(package))
-                    break;
+    //        for (var i = 0; i < _context.AIPackages.Count; i++)
+    //        {
+    //            if (!UAIBase.AIPackages.ContainsKey(_context.AIPackages[i]))
+    //                continue;
 
-                UAIAction action;
-                object target;
-                var score = package.DecideAction(_context, out action, out target) * package.Weight;
+    //            var package = UAIBase.AIPackages[_context.AIPackages[i]];
 
-                // From vanilla: Only change the action if it's not already the action being taken.
-                // This also means the target will not change, even if the same action against a
-                // different target would produce a higher score this time.
-                // (Should we change this?)
-                if (score > highScore && _context.ActionData.Action != action)
-                {
-                    if (_context.ActionData.Action != null && _context.ActionData.CurrentTask != null)
-                    {
-                        if (_context.ActionData.Started)
-                        {
-                            _context.ActionData.CurrentTask.Stop(_context);
-                        }
+    //            // If the current high score is greater than the highest score this package can
+    //            // produce, it's also higher than any of the remaining packages, so we're done.
+    //            // (If there is only one package, this test is not needed.)
+    //            if (i > 0 && highScore >= UtilityAIPatches.GetHighestPossibleScore(package))
+    //                break;
 
-                        if (_context.ActionData.Initialized)
-                        {
-                            _context.ActionData.CurrentTask.Reset(_context);
-                        }
-                    }
+    //            UAIAction action;
+    //            object target;
+    //            var score = package.DecideAction(_context, out action, out target) * package.Weight;
 
-                    _context.ActionData.Action = action;
-                    _context.ActionData.Target = target;
-                    _context.ActionData.TaskIndex = 0;
-                    highScore = score; // bug fix - vanilla code never sets the high score
-                }
-            }
+    //            // From vanilla: Only change the action if it's not already the action being taken.
+    //            // This also means the target will not change, even if the same action against a
+    //            // different target would produce a higher score this time.
+    //            // (Should we change this?)
+    //            if (score > highScore && _context.ActionData.Action != action)
+    //            {
+    //                if (_context.ActionData.Action != null && _context.ActionData.CurrentTask != null)
+    //                {
+    //                    if (_context.ActionData.Started)
+    //                    {
+    //                        _context.ActionData.CurrentTask.Stop(_context);
+    //                    }
 
-            // Don't call through to the original
-            return false;
-        }
-    }
+    //                    if (_context.ActionData.Initialized)
+    //                    {
+    //                        _context.ActionData.CurrentTask.Reset(_context);
+    //                    }
+    //                }
+
+    //                _context.ActionData.Action = action;
+    //                _context.ActionData.Target = target;
+    //                _context.ActionData.TaskIndex = 0;
+    //                highScore = score; // bug fix - vanilla code never sets the high score
+    //            }
+    //        }
+
+    //        // Don't call through to the original
+    //        return false;
+    //    }
+    //}
 
     [HarmonyPatch(typeof(UAIAction))]
     [HarmonyPatch("GetScore")]
@@ -216,8 +225,22 @@ public class UtilityAIPatches
                     return false;
                 }
 
+                /*
+                 * sphereii notes:
+                 *
+                 * Since we use a simpler way of failing a consideration, I've added in a quick fail here, which causes the task to fail our early.
+                 *
+                 * Do we need to process the ComputeResponseCurve here, or can we just get the simplified score?
+                 */
                 var consideration = considerations[i];
-                score *= consideration.ComputeResponseCurve(consideration.GetScore(_context, _target));
+                var considerationScore = consideration.GetScore(_context, _target);
+                if (considerationScore == 0f)
+                {
+                    Debug.Log($"Failing task because consideration failed: Task: {__instance.GetType()} Consideration: {consideration.GetType()}");
+                    __result = 0f;
+                    return false;
+                }
+                score *= consideration.ComputeResponseCurve(considerationScore);
             }
 
             // If we want to give a higher score to actions with more considerations, then

@@ -207,6 +207,14 @@ namespace UAI
         }
         public static void FindPath(Context _context, Vector3 _position, bool panic = false)
         {
+            // If we have a leader, and following, match the player speed.
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
+            if (leader != null && _context.ActionData.CurrentTask is UAITaskFollowSDX)
+            {
+                var tag = FastTags.Parse("running");
+                panic = leader.CurrentMovementTag.Test_AllSet(tag);
+            }
+
             var speed = SetSpeed(_context, panic);
 
             _position = SCoreUtils.GetMoveToLocation(_context, _position);
@@ -236,13 +244,13 @@ namespace UAI
             
             var vector2Block = _context.Self.world.GetBlock(new Vector3i(vector2));
             var vector3Block = _context.Self.world.GetBlock(new Vector3i(vector3));
-            if (temp.Block.GetBlockName().ToLower().Contains("ladder"))
-            {
-                Debug.Log("Ladder");
-                return vector + Vector3.forward;
-            }
+            //if (temp.Block.GetBlockName().ToLower().Contains("ladder"))
+            //{
+            //    Debug.Log("Ladder");
+            //    return vector + Vector3.forward;
+            //}
 
-            Debug.Log($"Block: {temp.Block.GetBlockName()} Vector: {vector} Vector2: {vector2Block.Block.GetBlockName()} Vector3: {vector3Block.Block.GetBlockName()}");
+            //  Debug.Log($"Block: {temp.Block.GetBlockName()} Vector: {vector} Vector2: {vector2Block.Block.GetBlockName()} Vector3: {vector3Block.Block.GetBlockName()}");
             var magnitude = vector3.magnitude;
 
             if (!(magnitude < 3f)) return vector;

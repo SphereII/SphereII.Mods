@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<remove xpath="/utility_ai/ai_packages"/><!-- Remove TFP broken UAI xml  -->
+	<append xpath="/utility_ai">
+
+		<!-- The complete documentation for these actions and considerations are included in the UtilityAI.xml file found in the 0_SphereiiCore mod or prefixed to this file in the ConfigsDump UtilityAI.xml file -->
+		<!-- UAI packages are delared in entityclasses.xml using, for example <property name="AIPackages" value="Human Basic, Human Melee Basic, Human Heal Basic"/>   If you have this property, it will override any EAI tasks and target properties on that entity. -->
+		<!-- Note:  Place considerations that are most likely to fail before ones likely to be true, speeds up the AI calculations  -->
+		<!-- Note:  Animal NPCs can use human UAI packages, but not extensively tested and probably should have their own packages  -->
+		<!-- Dont use multiple versions of the same type of packages, like dont add the Human basic and the Human Timid basic on one character  -->
+
+		<!-- Human Basic is the default movement package for NPCs.  If all else fails, character will wander, otherwise follow or flee if wounded  -->
+		<ai_packages>
+<!--		<ai_packages max_entities="30" max_waypoints="10"> -->
+			<ai_package name="Human Basic" weight="1"><!-- Runs away only if badly wounded  -->
+				<action name="WanderBasic" weight="1"><!-- Lowest score, so wander doesnt win against any other action, yet will score true so the NPC does something if not busy in dailog. -->
+					<task class="WanderSDX, SCore"/><!-- enhanced EAI wander class, additional params include stop_distance (from target, 1.5 default) and max_distance (10 default) -->
+					<consideration class="IsNotBusy, SCore"/><!-- If doing an activity, don't just walkaway, do that animation -->
+					<consideration class="EnemyNotNear, SCore"/><!-- True if no enemies are near, so ok to just walk about  -->
+					<consideration class="NotHasOrder, SCore" order="Follow"/><!-- True if you DO NOT have the follow order, dont wander when following  -->
+				</action>
+				<action name="Idle" weight="2">
+                    <task class="IdleSDX, SCore" OnStartAddBuffs="RandomIdle" OnStopRemoveBuffs="RandomIdle"   /> 
+                        <consideration class="EnemyNotNear, SCore"/><!-- True if no enemies are near, so ok to just walk about  -->
+                        <consideration class="TargetDistance" flip_y="true" min="2" max="5" />
+                        <consideration class="TargetType" type="EntityPlayer"/><!-- eligible target classes -->
+                </action> 
+				
+				<action name="LeaderFollow" weight="2"> <!-- a weight of 2 doubles the returned score from evaluating all of the considerations. -->
+					<task class="FollowSDX, SCore" /> <!-- OnStartAddBuffs="NPCpegasus" OnStopRemoveBuffs="NPCpegasus" /> --> <!-- follow your leader class -->
+					<consideration class="TargetLeader, SCore"/><!--  True if you have a leader -->
+					<consideration class="HasOrder, SCore" order="Follow"/><!-- True if you have the follow order  -->
+					<consideration class="TargetDistance" min="8" />
+				</action>
+				<!-- Investigate action is under development, planned for Bloodmoon and Horde use  -->
+			<!--<action name="Investigate" weight="1">
+					<task class="MoveToInvestigate, SCore"/> 
+					<consideration class="IsAlerted, SCore"/> 
+				</action> -->
+
+				<action name="RetreatBasic" weight="4">
+					<task class="BackupFromTargetSDX, SCore" max_distance="15"/> <!-- run upto 25M away  -->
+					<consideration class="SelfHealthSDX, SCore" min=".10" max=".30"/><!-- True only if wounded between 10 and 30% of max health -->
+					<consideration class="TargetIsEnemy, SCore" max="127"/><!-- True only if target is an enemy, 0-127 are enemies  -->
+					<consideration class="TargetDistance" flip_y="true" min="2" max="15"/><!-- flip_y means "True" if the target is that range, flip_y="false" (default) means "True" if not in that range  -->
+					<consideration class="SelfVisible"/><!-- True if NPC is in line of sight of something targeting him/her  -->
+				</action>
+
+			</ai_package>
+			<!-- Human Timid Basic always runs away from enemys.  For peasants or wary survivors -->
+			<ai_package name="Human Timid Basic">
+				<action name="WanderBasic" weight="1">
+					<task class="WanderSDX, SCore"/>
+					<consideration class="IsNotBusy, SCore"/>
+					<consideration class="EnemyNotNear, SCore"/>
+				</action>
+				<action name="Idle" weight="2">
+                    <task class="IdleSDX, SCore"  /> 
+					<consideration class="EnemyNotNear, SCore"/><!-- True if no enemies are near, so ok to just walk about  -->
+					<consideration class="TargetDistance" flip_y="true" min="2" max="5" />
+					<consideration class="TargetType" type="EntityPlayer"/><!-- eligible target classes -->
+                </action> 
+				<action name="LeaderFollow" weight="2">
+					<task class="FollowSDX, SCore" />
+					<consideration class="TargetLeader, SCore"/><!--  True if you have a leader -->
+					<consideration class="HasOrder, SCore" order="Follow"/><!-- True if you have the follow order in this case, could be another order specified  -->
+					<consideration class="EnemyNotNear, SCore"/>
+					<consideration class="TargetDistance" min="8" />
+				</action>
+				<action name="FleeBasic" weight="5">
+					<task class="FleeFromTarget" max_distance="25"/>
+					<consideration class="TargetIsEnemy, SCore" max="127"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="15"/>
+					<consideration class="SelfVisible"/>
+				</action>
+			</ai_package>
+			<!-- Human Hero Basic never runs away from enemys.  For heros or trained fighters -->
+			<ai_package name="Human Hero Basic">
+				<action name="WanderBasic" weight="1">
+					<task class="WanderSDX, SCore"/>
+					<consideration class="IsNotBusy, SCore"/>
+					<consideration class="EnemyNotNear, SCore"/>
+				</action>
+				<action name="Idle" weight="2">
+                    <task class="IdleSDX, SCore"  /> 
+					<consideration class="EnemyNotNear, SCore"/><!-- True if no enemies are near, so ok to just walk about  -->
+					<consideration class="TargetDistance" flip_y="true" min="2" max="5" />
+					<consideration class="TargetType" type="EntityPlayer"/><!-- eligible target classes -->
+                </action> 				
+				<action name="LeaderFollow" weight="2">
+					<task class="FollowSDX, SCore" />
+					<consideration class="TargetLeader, SCore"/>
+					<consideration class="HasOrder, SCore" order="Follow"/>
+					<consideration class="TargetDistance" min="8" />
+				</action>
+			</ai_package>
+
+
+			<!-- Human Melee Basic is the default melee package for NPCs.  Run to target until close, then walk, then attack  -->
+			<ai_package name="Human Melee Basic" weight="3" >
+				<action name="MoveToEnemyMelee" weight="4">
+					<task class="MoveToTargetSDX, SCore" run="false"/><!--Enhanced ApproachAndAttackTarget class, param means disable run (test break_walls and distance params)-->
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/><!-- Fail the task if the NPC has a leader, and more than 20 blocks away. If no leader, the consideration is true. -->
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/><!-- eligible target classes -->
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="1" max="3"/><!-- Flip_Y="true" means use walk speed if inside that range -->
+					<consideration class="TargetVisible"/><!-- needed or they target and approach target hidden by walls etc. -->
+				</action>
+				<action name="MoveToEnemyRunMelee" weight="4">
+					<task class="MoveToTargetSDX, SCore" run="true" />
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="3" max="30"/><!-- Flip_Y="true" means use aggro speed if inside that range -->
+					<consideration class="TargetVisible"/>
+				</action>
+				<action name="MeleeAttackEntity" weight="5">
+					<task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="1.5"/>
+					<consideration class="TargetVisible"/>
+				</action>
+			</ai_package>
+
+			<!-- Human Ranged Basic is the default ranged package for NPCs.  Move to target until 30M away,then attack.  Reload when low on ammo.  Backup to maintain range.  Don't combine with a melee package, initial testing wouldnt fire melee well.  Use Enhanced Ranged instead-->
+			<ai_package name="Human Ranged Basic">
+				<action name="MoveToEnemyRanged" weight="3">
+					<task class="MoveToTargetSDX, SCore" run="false"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="25" max="50"/>
+					<consideration class="TargetVisible"/><!-- needed or they target and approach target hidden by walls etc. -->
+				</action>
+				<action name="BackupRanged" weight="4">
+					<task class="BackupFromTargetSDX, SCore" max_distance="20"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="10"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/><!-- If a ranged human turns into a zombie, dont backup -->
+				</action>
+				<action name="RangedAttack" weight="4">
+					<task class="AttackTargetEntitySDX, SCore" action_index="1"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="buffReload2,buffReloadDelay,buffReloadDelay2"/><!-- dont fire if reloading, but maybe handled in code too -->
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/><!-- If a ranged human turns into a zombie, dont shoot ranged weapons -->
+					<consideration class="TargetDistance" flip_y="true" min="10" max="30"/>
+				</action>
+			</ai_package>
+
+			<!-- Prefered package. Human Ranged Enhanced adds melee to ranged NPCs.  Adds a melee attack if very close. Dont combine with a melee package-->
+			<ai_package name="Human Ranged Enhanced">
+				<action name="MoveToEnemyRanged" weight="3">
+					<task class="MoveToTargetSDX, SCore" run="false"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="20" max="50"/>
+					<consideration class="TargetVisible"/>
+				</action>
+				<action name="BackupRanged" weight="4">
+					<task class="BackupFromTargetSDX, SCore" max_distance="20"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="TargetDistance" flip_y="true" min="5" max="20"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/>
+				</action>
+				<action name="RangedAttack" weight="5">
+					<task class="AttackTargetEntitySDX, SCore" action_index="1"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="50"/><!-- Dont fire point blank, use melee instead  -->
+					<consideration class="SelfNotHasBuff, SCore" buffs="buffReload2,buffReloadDelay,buffReloadDelay2,RandomIdle"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/>
+				</action>
+				<action name="MeleeRangedAttackEntity" weight="6">
+					<task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+					<consideration class="TargetVisible"/>
+				</action>
+			</ai_package>
+			
+			<ai_package name="Human Ranged Launcher"> <!-- needs distance adjusting  -->
+				<action name="MoveToEnemyRanged" weight="3">
+					<task class="MoveToTargetSDX, SCore" run="false" Distance="50"/> <!-- approach to max sight range  -->
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="50" max="100"/>
+					<consideration class="TargetVisible"/>
+				</action>
+				<action name="BackupRanged" weight="4">
+					<task class="BackupFromTargetSDX, SCore" max_distance="20"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="20"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/>
+				</action>
+				<action name="RangedAttack" weight="5">
+					<task class="AttackTargetEntitySDX, SCore" action_index="1"/>
+					<consideration class="FailOnDistanceToLeader, Score" max_distance="20"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetVisible"/>
+					<consideration class="TargetDistance" flip_y="true" min="8" max="50"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="buffReload2,buffReloadDelay,buffReloadDelay2,RandomIdle"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="isZombie"/>
+				</action>
+				<action name="MeleeRangedAttackEntity" weight="6">
+					<task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+					<consideration class="TargetType" type="EntityZombie,EntityPlayer,EntityNPC,EntityEnemyAnimal"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+				</action>
+			</ai_package>
+			
+
+
+			<!-- Human Heal Basic is the default self healing package for NPCs. -->
+			<ai_package name="Human Heal Basic">
+				<action name="HealSelf" weight="6">
+					<task class="HealSelf, SCore" OnStartAddBuffs="Heal" max_distance="20"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables"/><!-- Are they alreading healing? -->
+					<consideration class="SelfHealthSDX, SCore" min=".01" max=".50"/><!-- Percent values, true if wounded between 1 and 50%, but allows last gasp attacks -->
+					<consideration class="SelfHasItem, SCore" tags="medical"/><!-- Do I have medical supplies? This can be comma delimited for multiple items. First match wins.-->
+				</action>
+			</ai_package>
+
+			<!-- Human Healer Enhanced is the default healing package for NPC healers/clerics.  They prioritize selfheal, and can heal allies and leaders -->
+			<ai_package name="Human Heal Enhanced">
+				<!-- Healing AI -->
+				<action name="HealSelf" weight="6">
+					<task class="HealSelf, SCore"/>
+					<consideration class="SelfNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables"/><!-- Are they alreading healing? -->
+					<consideration class="SelfHealthSDX, SCore" min=".01" max=".70"/>
+					<consideration class="SelfHasItem, SCore" tags="medical"/>
+				</action>
+				<action name="HealStandard" weight="2">
+					<task class="MoveToHealTarget, SCore" run="true"/>
+					<consideration class="TargetNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables"/><!-- Are they alreading healing? -->
+					<consideration class="TargetHealthSDX, SCore" min="0.01" max="0.50"/><!-- percent values , are they between 10% and 50% of max HP?  -->
+					<consideration class="SelfHasItem, SCore" tags="medical"/>
+					<consideration class="TargetIsAlly, SCore"/><!-- Is my target a friend? If so true-->
+				</action>
+				<action name="HealLeader" weight="2">
+					<task class="MoveToHealTarget, SCore" run="true"/>
+					<consideration class="TargetLeader, SCore"/><!-- True if I have a leader  -->
+					<consideration class="TargetNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables"/>
+					<consideration class="SelfHasItem, SCore" tags="medical"/>
+					<consideration class="TargetHealthSDX, SCore" min=".01" max="0.65"/>
+				</action>
+				<action name="HealOnDemand" weight="2"><!-- If the target has a buff called buffINeedHealing, then go and heal them. This could be triggered via the dialog's AddBuff system, where you can ask them to heal you. -->
+					<task class="MoveToHealTarget, SCore" run="true"/>
+					<consideration class="TargetNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables"/>
+					<consideration class="TargetHasBuff, SCore" buffs="buffINeedHealing"/>
+					<consideration class="SelfHasItem, SCore" tags="medical"/>
+				</action>
+			</ai_package>
+
+			<!-- Human Activities are misc. activities NPCs can do, list will expand in time -->
+			<ai_package name="Human Loot Basic">
+				<action name="LootBasic" weight="2">
+					<task class="Loot, SCore" run="false" TargetType="Loot, SecureLoot" buff="ActivityBuff"/><!-- NPC will wander a chunk area and evaluate all conditions.  If true, move to target and when reached, run the specified ActivityBuff so correct animation plays  -->
+					<consideration class="Cooldown, SCore" cvar="LootCoolDown" value="200"/> <!-- configurable cooldown between looting  -->
+					<consideration class="EnemyNotNear, SCore"/><!--Is there an enemy nearby? Loot only when safe, (EnemyNear is the alternative)  -->
+				</action>
+			</ai_package>
+
+			<ai_package name="Human Craft Basic">
+				<action name="Craft Basic" weight="2">
+					<task class="MoveToExplore, SCore" run="false" buff="ActivityBuff"/><!-- NPC will wander a chunk area and look for a PathTarget type specified.  If true, move to target and when reached, run the specified ActivityBuff so correct animation plays  -->
+					<consideration class="EnemyNotNear, SCore"/><!--Is there an enemy nearby? Loot only when safe, (EnemyNear is the alternative)  -->
+					<consideration class="SelfNotHasBuff, SCore" buffs="ActivityCoolDown"/><!-- Don't fire this if the activity cool down buff is set to prevent tasklock.  Could use a different buff to turn off all looting here
+					too -->
+					<consideration class="HasPath, SCore"/><!-- Checks if the NPC has any Tile Entities in its area of scan. If there's none, it'll scan for some -->
+					<consideration class="PathTarget, SCore" type="Campfire, Forge, Workstation"/><!-- filter the task even more by tile entity type. -->
+				</action>
+			</ai_package>
+
+
+			<ai_package name="Zombie Dumb">
+				<!--  Not recommended, use EAI instead.  There are many unresolved issues -->
+				<action name="Wander" weight="1">
+					<task class="WanderSDX, SCore"/>
+					<consideration class="IsNotBusy, SCore"/>
+					<consideration class="Random, SCore" percent="0.90"/>
+				</action>
+				<action name="MoveToWaypoint" weight="2">
+					<task class="MoveToTarget" run="false"/>
+					<consideration class="TargetType" type="Block"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="4"/>
+					<consideration class="TargetVisible" flip_y="true"/>
+				</action>
+				<action name="MoveToEnemyAgro" weight="5">
+					<task class="MoveToTargetSDX, SCore" run="true"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityNPC"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="30"/>
+				</action>
+				<action name="MeleeAttackEntity" weight="5">
+					<task class="AttackTargetEntity" action_index="0"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityNPC"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+				</action>
+				<action name="MeleeAttackBlock" weight="3">
+					<task class="AttackTargetBlock" action_index="0"/>
+					<consideration class="PathBlocked"/>
+					<consideration class="TargetType" type="Block"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+				</action>
+			</ai_package>
+
+			<ai_package name="Animal Aggressive Basic">
+				<!--  Highly experimental, so use EAI instead for non NPC animals for now.   -->
+				<action name="Wander" weight="1">
+					<task class="WanderSDX, SCore"/>
+					<consideration class="IsNotBusy, SCore"/>
+					<consideration class="Random, SCore" percent="0.90"/>
+				</action>
+				<action name="MoveToWaypoint" weight="2">
+					<task class="MoveToTarget" run="false"/>
+					<consideration class="TargetType" type="Block"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="4"/>
+					<consideration class="TargetVisible" flip_y="true"/>
+				</action>
+				<action name="MoveToEnemyAgro" weight="3">
+					<task class="MoveToTargetSDX, SCore" run="true"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityNPC"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="2" max="30"/>
+				</action>
+				<action name="MeleeAttackEntity" weight="5">
+					<task class="AttackTargetEntity" action_index="0"/>
+					<consideration class="TargetType" type="EntityPlayer,EntityNPC"/>
+					<consideration class="TargetIsEnemy, SCore"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+				</action>
+				<action name="MeleeAttackBlock" weight="5">
+					<task class="AttackTargetBlock" action_index="0"/>
+					<consideration class="PathBlocked"/>
+					<consideration class="TargetType" type="Block"/>
+					<consideration class="TargetDistance" flip_y="true" min="0" max="2"/>
+				</action>
+			</ai_package>
+
+		</ai_packages>
+	</append>
+</config>

@@ -1,0 +1,122 @@
+﻿<configs>
+	
+ <append xpath="/blocks" >
+    <!-- This block will serve as a home location for the NPCs.-->
+    <!-- The Maslow will scan for the home block -->
+    <block name="cntNPCHomeBlock">
+      <property name="Class" value="Loot"/>
+      <property name="CreativeMode" value="Player"/>
+      <property name="Material" value="Mmetal_weak"/>
+      <property name="MaxDamage" value="200" />
+      <property name="Texture" value="267"/>
+      <property name="Shape" value="ModelEntity"/>
+      <property name="Path" value="solid"/>
+	  <property name="Model" value="#Entities/LootContainers?loot_cratePrefab.prefab"/>
+      <property name="Place" value="TowardsPlacerInverted"/>
+      <property name="LootList" value="1"/>
+      <property class="RepairItems">
+        <property name="resourceForgedIron" value="6"/>
+      </property>
+      <drop event="Harvest" name="resourceScrapIron" count="10,20" tag="allHarvest"/>
+      <drop event="Destroy" count="0"/>
+      <drop event="Fall" name="scrapMetalPile" count="1" prob="0.75" stick_chance="1"/>
+      <property name="EconomicValue" value="156"/>
+      <property name="FilterTags" value="floot,ffurniture"/>
+
+      <!-- Buff to keep the NPCs close by. thenumber in the ( ) is the range -->
+      <property name="ActiveRadiusEffects" value="buffHomePoint(30)"/>
+    </block>
+
+    <block name="NPCPoop">
+      <property name="Material" value="Mdirt"/>
+      <property name="Shape" value="Terrain"/>
+      <property name="Mesh" value="terrain"/>
+      <property name="Texture" value="2"/>
+      <property name="ImposterExclude" value="true"/>
+      <property name="LPHardnessScale" value="2"/>
+      <property name="Map.Color" value="20,50,21"/>
+      <property class="RepairItems">
+        <property name="animalPoop" value="1"/>
+      </property>
+  
+      <drop event="Harvest" name="resourceClayLump" count="22" tag="oreWoodHarvest"/>
+      <drop event="Destroy" count="0"/>
+    
+      <property name="CanMobsSpawnOn" value="false"/>
+      <property name="EconomicValue" value="5"/>
+      <property name="EconomicBundleSize" value="1"/>
+      <property name="SellableToTrader" value="false"/>
+      <property name="FilterTags" value="fterrain"/>
+      <property name="SortOrder1" value="d0k0"/>
+      <property name="SortOrder2" value="0050"/>
+      <property name="DisplayType" value="blockTerrainFertile" />
+    </block>
+   
+
+ <!--		<block name="DeadNurseBlock">
+			<property name="CustomIcon" value="sleeperWolfAnimal" />
+			<property name="DescriptionKey" value="DFbabyWolfMaleDesc"/> 
+			<property name="LightOpacity" value="0"/>
+			<property name="Material" value="Morganic" />
+			<property name="Shape" value="New"/>
+			<property name="Model" value="cube_half"/>
+			<property name="Texture" value="196,241,272,272,272,272" />
+			<property name="RotationAllowed" value="pivotOnFloor" />
+			<property name="StabilitySupport" value="true"/>
+			<property name="Class" value="PlantGrowing" />
+				<property class="PlantGrowing">
+				<property name="FertileLevel" value="1" />
+				<property name="Next" value="DeadBakerStage2" />
+				<property name="GrowthRate" value="0.1" />
+				<property name="LightLevelStay" value="0" />
+				<property name="IsRandom" value="false" />
+				<property name="IsGrowOnTopEnabled" value="true" />
+				<property name="GrowOnTop" value="SpawnNurseZombie" param1="1" param2="SpawnNurseZombie" />
+			</property>
+			<drop event="Harvest" name="foodRawMeat" count="2" tag="allHarvest"/>
+			<drop event="Destroy" count="0"/>
+		</block>
+
+		<block name="DeadNurseStage2">
+			<property name="CustomIcon" value="chickenCoop" />
+			<property name="LightOpacity" value="0"/>
+			<property name="Material" value="Morganic" />
+			<property name="CreativeMode" value="None"/>
+			<property name="Shape" value="New"/>
+			<property name="Model" value="cube_half"/>
+			<property name="Texture" value="196,241,272,272,272,272" />
+			<property name="RotationAllowed" value="pivotOnFloor" />
+			<property name="StabilitySupport" value="true"/>
+			<property name="Class" value="PlantGrowing" />
+				<property class="PlantGrowing">
+				<property name="FertileLevel" value="1" />
+				<property name="Next" value="treeTallGrassDiagonal2" />
+				<property name="GrowthRate" value="0.2" />
+				<property name="LightLevelStay" value="0" />
+				<property name="IsRandom" value="false" />
+				<property name="IsGrowOnTopEnabled" value="false" />
+			</property>
+			<drop event="Harvest" name="foodRawMeat" count="2" tag="allHarvest"/>
+			<drop event="Destroy" count="0"/>
+		</block>
+
+		<block name="SpawnNurseZombie">
+			<property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
+			<property name="CustomIcon" value="metalTrussingRampOld"/>
+			<property name="CreativeMode" value="None"/> 
+			<property name="Class" value="SpawnEntity"/>
+			<property name="Material" value="Morganic" />
+			<property name="StabilitySupport" value="false"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Mesh" value="models"/>
+			<property name="Model" value="Entities/Electrical/battery_bankPrefab"/> <property name="HandleFace" value="Bottom"/>
+			<property name="SpawnClass" value="zombieNurseTemplate"/>
+			<drop event="Destroy" count="0"/>
+			<drop event="Fall" name="scrapMetalPile" count="0" prob="0" stick_chance="0"/>
+			<property name="FilterTags" value="fdesign"/>
+			<property name="Collide" value="sight"/>
+		</block> -->
+
+  </append>
+
+</configs>

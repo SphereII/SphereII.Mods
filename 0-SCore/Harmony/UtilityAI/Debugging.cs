@@ -8,56 +8,56 @@ namespace Harmony.UtilityAI
         private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private static readonly string Feature = "UtilityAILogging";
 
-        [HarmonyPatch(typeof(UAI.UAIAction))]
-        [HarmonyPatch("GetScore")]
-        public class UAIAction_GetScore
-        {
-            private static bool Prefix(UAIAction __instance, Context _context, object _target, float min = 0f)
-            {
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return true;
+        //[HarmonyPatch(typeof(UAI.UAIAction))]
+        //[HarmonyPatch("GetScore")]
+        //public class UAIAction_GetScore
+        //{
+        //    private static bool Prefix(UAIAction __instance, Context _context, object _target, float min = 0f)
+        //    {
+        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //            return true;
 
-                var considerations = __instance.GetConsiderations();
-                var tasks = __instance.GetTasks();
+        //        var considerations = __instance.GetConsiderations();
+        //        var tasks = __instance.GetTasks();
 
-                float num = 1f;
-                if (considerations.Count == 0)
-                    return true;
-                if (tasks.Count == 0)
-                    return true;
+        //        float num = 1f;
+        //        if (considerations.Count == 0)
+        //            return true;
+        //        if (tasks.Count == 0)
+        //            return true;
 
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Start Evaluation {__instance.Name} for {_context.Self.EntityName} ( {_context.Self.entityId} ) :: Action {__instance.Name} Weight: {__instance.Weight} ");
+        //        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Start Evaluation {__instance.Name} for {_context.Self.EntityName} ( {_context.Self.entityId} ) :: Action {__instance.Name} Weight: {__instance.Weight} ");
 
-                global::EntityAlive entityAlive = UAIUtils.ConvertToEntityAlive(_target);
-                if (entityAlive != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget Entity: {entityAlive.EntityName} {entityAlive.entityId}");
+        //        global::EntityAlive entityAlive = UAIUtils.ConvertToEntityAlive(_target);
+        //        if (entityAlive != null)
+        //            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget Entity: {entityAlive.EntityName} {entityAlive.entityId}");
 
-                for (int i = 0; i < considerations.Count; i++)
-                {
-                    if (0f > num || num < min)
-                    {
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tConsiderations num {num} falls below minimum or 0: {min}");
-                        break;
-                    }
+        //        for (int i = 0; i < considerations.Count; i++)
+        //        {
+        //            if (0f > num || num < min)
+        //            {
+        //                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tConsiderations num {num} falls below minimum or 0: {min}");
+        //                break;
+        //            }
 
-                    num *= considerations[i].ComputeResponseCurve(considerations[i].GetScore(_context, _target));
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, string.Format("\t{0} {1} {2} : Consideration Score {3},  Cumulative Score: {4}", new object[]
-                    {
-                        __instance.Name,
-                        __instance.GetTasks()[0].Name,
-                        considerations[i].Name,
-                        considerations[i].GetScore(_context, _target),
-                        num
-                    }));
-                }
+        //            num *= considerations[i].ComputeResponseCurve(considerations[i].GetScore(_context, _target));
+        //            AdvLogging.DisplayLog(AdvFeatureClass, Feature, string.Format("\t{0} {1} {2} : Consideration Score {3},  Cumulative Score: {4}", new object[]
+        //            {
+        //                __instance.Name,
+        //                __instance.GetTasks()[0].Name,
+        //                considerations[i].Name,
+        //                considerations[i].GetScore(_context, _target),
+        //                num
+        //            }));
+        //        }
 
-                float result = (num + (1f - num) * (float)(1 - 1 / considerations.Count) * num) * __instance.Weight;
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, string.Format("\tFinal Score for Action: {0}", result));
+        //        float result = (num + (1f - num) * (float)(1 - 1 / considerations.Count) * num) * __instance.Weight;
+        //        AdvLogging.DisplayLog(AdvFeatureClass, Feature, string.Format("\tFinal Score for Action: {0}", result));
 
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"End Evaluation {__instance.Name} ");
-                return true;
-            }
-        }
+        //        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"End Evaluation {__instance.Name} ");
+        //        return true;
+        //    }
+        //}
 
 
         [HarmonyPatch(typeof(UAI.UAIPackage))]

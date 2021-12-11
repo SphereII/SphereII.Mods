@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+    <Name value="0-XNPCCore" />
+    <Description value="NPC Core Modlet, required for NPC Addon Packs" />
+    <Author value="Xyth" />
+    <Version value="20.0.0.1" />
+    <Website value="" />
+  </ModInfo>
+</xml>

@@ -1,0 +1,10 @@
+﻿<configs>
+  <append xpath="/controls">
+    <SMX_response_entry>
+      <rect width="300" height="40" style="press, hover, scroll" enabled_color="[iconColor]" disabled_color="[disabledLabelColor]" row_color="[white]" hover_color="[mediumGrey]" sound="[recipe_click]" controller="DialogResponseEntry" visible="{showresponse}">
+        <sprite depth="5" name="Icon" size="15,15" pos="16,-8" foregroundlayer="true" atlas="itemiconatlas" sprite="smx_bulletpoint_icon" color="{rowstatecolor}" />
+        <label depth="4" name="Text" pos="47,-3" width="300" height="40" text="{response}" font_size="24" effect="outline" color="{rowstatecolor}" />
+      </rect>
+    </SMX_response_entry>
+  </append>
+</configs>

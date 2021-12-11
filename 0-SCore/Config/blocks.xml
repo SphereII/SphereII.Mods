@@ -131,7 +131,7 @@
         <property name="UtilityAILogging" value="false" />
         <!-- Only displays Start and Stop for AI tasks -->
         <property name="UtilityAILoggingMin" value="false" />
-        <property name="UtilityAILoggingTask" value="true" />
+        <property name="UtilityAILoggingTask" value="false" />
 
       </property>
 

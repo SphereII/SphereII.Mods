@@ -1,0 +1,59 @@
+<configs>
+
+    <append xpath="/quests">	
+	
+<!--		<quest id="challenge_Strays">
+			<property name="name_key" value="challenge_Strays" />
+			<property name="subtitle_key" value="challenge_Strays_subtitle" />
+			<property name="description_key" value="challenge_Strays_offer" />
+			<property name="icon" value="ui_game_symbol_zombie" />
+			<property name="repeatable" value="true" />
+			<property name="shareable" value="true" />
+			<property name="category_key" value="challenge" />
+			<property name="offer_key" value="challenge_Strays_offer" />
+			<property name="completion_key" value="challenge_Strays_completion" />
+			<property name="difficulty" value="medium" />
+			<property name="completiontype" value="TurnIn" />
+
+			<objective type="RandomGoto" value="200-600" phase="1">
+				<property name="completion_distance" value="50" />
+			</objective>
+
+			<objective type="RallyPoint">
+				<property name="start_mode" value="Create" />
+				<property name="phase" value="2" />
+			</objective>
+
+			<action type="SpawnEnemy" id="animalPug" value="2" phase="3" />
+			<action type="SpawnEnemy" id="animalBeagle" value="2" phase="3" />
+			<action type="SpawnEnemy" id="animalWolfhound" value="2" phase="3" />
+			
+			<objective type="AnimalKill" id="animalPug" value="1" phase="3" />
+			<objective type="AnimalKill" id="animalBeagle" value="1" phase="3" />
+			<objective type="AnimalKill" id="animalWolfhound" value="1" phase="3" />
+			
+			<action type="SpawnEnemy" id="animalPug" value="2" phase="4" />
+			<action type="SpawnEnemy" id="animalBeagle" value="2" phase="4" />
+			<action type="SpawnEnemy" id="animalWolfhound" value="2" phase="4" />
+			<action type="SpawnEnemy" id="animalWulf" value="2" phase="4" />
+			
+			<objective type="AnimalKill" id="animalPug" value="1" phase="4" />
+			<objective type="AnimalKill" id="animalBeagle" value="1" phase="4" />
+			<objective type="AnimalKill" id="animalWolfhound" value="1" phase="4" />
+			<objective type="AnimalKill" id="animalWulf" value="1" phase="4" />
+
+			<objective type="Goto" id="trader" value="10" phase="5" />
+			
+			<objective type="InteractWithNPC">
+				<property name="phase" value="6" />
+			</objective>
+
+			<reward type="Exp" value="15000" />
+			<reward type="Item" id="casinoCoin" value="1000-2000" />
+			<reward type="LootItem" id="groupQuestRanged" value="1" isfixed="true"/>
+			<reward type="LootItem" id="groupQuestMelee,groupQuestArmor" value="1" ischosen="true"/>
+		</quest> -->
+
+	</append>
+
+</configs>

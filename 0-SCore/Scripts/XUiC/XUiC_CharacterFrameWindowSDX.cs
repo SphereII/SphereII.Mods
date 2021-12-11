@@ -46,7 +46,7 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
             if (progressionValue.ProgressionClass.IsBook)
                 temp += " (Book): ";
 
-            Log.Out($" {temp}: {progressionValue.Level}");
+          //  Log.Out($" {temp}: {progressionValue.Level}");
         }
 
         currentSkills.Sort(ProgressionClass.ListSortOrderComparer.Instance);

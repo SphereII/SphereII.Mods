@@ -1,0 +1,8 @@
+Key,Source,Context,UsedInMainMenu,NoTranslate,English
+
+qc_Strays,items,Item,New,Strays Quest,,,,,
+qc_StraysDesc,items,Quest - Challenge,,,There are a bunch of stray dogs at this location terrorizing survivors.,,
+challenge_Strays,Quest,Challenge Info,,,Strays
+challenge_Strays_offer,Quest,Challenge Info,,,"Dear Survivor,\nYea I get it they are cute and used to be mans best friend. You know what you have to do.\n\nGood Luck, Crazy Jake."
+challenge_Strays_subtitle,Quest,Challenge Info,,,Woof woof?
+challenge_Strays_completion,Quest,Quest Info,,,Well Done...here are some things I found awhile ago. \nTake it.  
