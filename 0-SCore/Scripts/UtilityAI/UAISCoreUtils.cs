@@ -30,7 +30,7 @@ namespace UAI
 
         public static void MoveBack(Context _context, Vector3 position)
         {
-            _context.Self.moveHelper.SetMoveTo(position, false);
+            _context.Self.moveHelper.SetMoveTo(position, true);
         }
 
         public static void HideWeapon(Context _context)
@@ -62,15 +62,11 @@ namespace UAI
             return !CheckForClosedDoor(_context);
         }
 
-        public static void TeleportToLeader(Context _context, EntityAlive entityAlive = null)
+        public static void TeleportToLeader(Context _context)
         {
-
-            if (_context != null)
-                entityAlive = _context.Self;
-
-            var leader = EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) as EntityAlive;
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
             if (leader == null) return;
-            GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 3, 15, 3, false, out var position);
+            GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 2, 3, false, out var position);
             if (position == Vector3.zero)
                 position = leader.position + Vector3.back;
             _context.Self.SetPosition(position);
@@ -228,7 +224,7 @@ namespace UAI
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            _context.Self.FindPath(_position, speed, false, null);
+            _context.Self.FindPath(_position, speed, true, null);
         }
 
         // allows the NPC to climb ladders

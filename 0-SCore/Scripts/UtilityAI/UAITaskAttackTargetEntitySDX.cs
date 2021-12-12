@@ -24,6 +24,13 @@ namespace UAI
             SCoreUtils.SetCrouching(_context);
 
         }
+
+        public override void Stop(Context _context)
+        {
+            SCoreUtils.SetCrouching(_context);
+            base.Stop(_context);
+        }
+
         public override void Update(Context _context)
         {
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);

@@ -18,14 +18,19 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
+                if (_context.Self.GetDistance(entityAlive) < 1.5)
+                {
+                    var moveTo = entityAlive.GetLookVector();
+                    //_context.Self.RotateTo(moveTo.x, moveTo.y, moveTo.z, 30f,30f);                    
+                    _context.Self.moveHelper.SetMoveTo(moveTo, true);
+                    //SCoreUtils.MoveBack(_context, _context.Self.position + Vector3.back);
+                    return;
+                }
+
                 _context.Self.RotateTo(entityAlive, 15f, 15f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
 
-                if (_context.Self.GetDistance(entityAlive) < 1.5)
-                {
-                    SCoreUtils.MoveBack(_context, _context.Self.position + Vector3.back);
-                    return;
-                }
+
                 SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
             }
 

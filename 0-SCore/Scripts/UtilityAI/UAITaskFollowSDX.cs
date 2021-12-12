@@ -13,7 +13,7 @@ namespace UAI
         private int _maxDistance = 25;
         private Vector3 _position;
 
-        private float _timeOut = 200f;
+        private float _timeOut = 100f;
         private float _currentTimeout;
         protected override void initializeParameters()
         {
@@ -35,6 +35,8 @@ namespace UAI
                 return;
             }
 
+            SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
+
             // Sets up the original position of the leader.
             _position = _leader.position;
 
@@ -51,19 +53,20 @@ namespace UAI
 
             // Are we blocked? Can we see our leader? If not, start counting down. This should slow down aggressive teleports to the leader, while
             // also helping keep the NPC close to the leader.
-            if (SCoreUtils.IsBlocked(_context))
-            {
+        //    if (SCoreUtils.IsBlocked(_context))
+//            {
                 if (!_context.Self.CanSee(_leader) && !_context.Self.CanEntityBeSeen(_leader))
                 {
                     _currentTimeout--;
                     if (_currentTimeout > 0) return;
 
                     SCoreUtils.TeleportToLeader(_context);
+                    Stop(_context);
                 }
 
-                Stop(_context);
-                return;
-            }
+//                Stop(_context);
+  //              return;
+  //          }
 
             SCoreUtils.SetSpeed(_context, true);
              
