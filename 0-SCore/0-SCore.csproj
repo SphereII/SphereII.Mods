@@ -233,6 +233,7 @@
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetDistanceSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsAlerted.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCooldown.cs" />

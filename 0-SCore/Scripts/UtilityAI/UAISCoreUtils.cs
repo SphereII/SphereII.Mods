@@ -44,6 +44,7 @@ namespace UAI
 
         public static void SetWeapon(Context _context)
         {
+            return;
             if (_context.Self.inventory.holdingItemIdx != 0)
             {
                 _context.Self.inventory.SetHoldingItemIdx(0);
@@ -228,7 +229,9 @@ namespace UAI
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            _context.Self.FindPath(_position, speed, true, null);
+            PathInfo path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
+            if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
+                _context.Self.FindPath(_position, speed, true, null);
         }
 
         // allows the NPC to climb ladders

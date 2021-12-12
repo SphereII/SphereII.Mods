@@ -10,6 +10,21 @@ namespace Harmony.UtilityAI
         private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private static readonly string Feature = "UtilityAILogging";
 
+        //[HarmonyPatch(typeof(UAIBase))]
+        //[HarmonyPatch("addEntityTargetsToConsider")]
+        //public class UAIBase_addEntityTargetsToConsider
+        //{
+        //    public static void Postfix(Context _context)
+        //    {
+        //        var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+        //        if ( leader != null )
+        //        {
+        //            if ( !_context.ConsiderationData.EntityTargets.Contains(leader))
+        //                _context.ConsiderationData.EntityTargets.Add(leader);
+        //        }
+
+        //    }
+        //}
         [HarmonyPatch(typeof(UAIBase))]
         [HarmonyPatch("addWaypointTargetsToConsider")]
         public class UAIBase_addWaypointTargetsToConsider

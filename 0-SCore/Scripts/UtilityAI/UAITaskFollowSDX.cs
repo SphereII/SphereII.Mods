@@ -50,6 +50,8 @@ namespace UAI
         public override void Update(Context _context)
         {
             base.Update(_context);
+            SCoreUtils.SetSpeed(_context, true);
+            CheckProximityToLeader(_context);
 
             // Are we blocked? Can we see our leader? If not, start counting down. This should slow down aggressive teleports to the leader, while
             // also helping keep the NPC close to the leader.
@@ -66,11 +68,6 @@ namespace UAI
 
             // Reset the timeout.
             _currentTimeout = _timeOut;
-
-            SCoreUtils.SetSpeed(_context, true);
-            CheckProximityToLeader(_context);
-
-
         }
 
         // Contains logic to determine if the NPC should be move towards its leader, etc.

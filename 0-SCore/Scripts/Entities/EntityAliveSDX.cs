@@ -581,7 +581,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
                 if (Buffs.HasCustomVar("onMission"))
                 {
                     SendOnMission(false);
-                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 4, 6, 3, false, out var position);
+                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
                     if (position == Vector3.zero)
                         position = leader.position + Vector3.back;
                     SetPosition(position);
