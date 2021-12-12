@@ -140,7 +140,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         {
             Buffs.AddCustomVar("onMission", 1f);
             emodel.avatarController.SetBool("IsBusy", true);
-            ModelTransform.gameObject.SetActive(false);
+            RootTransform.gameObject.SetActive(false);
             if ( this.NavObject != null )
                 this.NavObject.IsActive = false;
         }
@@ -148,7 +148,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         {
             Buffs.RemoveCustomVar("onMission");
             emodel.avatarController.SetBool("IsBusy", false);
-            ModelTransform.gameObject.SetActive(true);
+            RootTransform.gameObject.SetActive(true);
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
         }
@@ -581,7 +581,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
                 if (Buffs.HasCustomVar("onMission"))
                 {
                     SendOnMission(false);
-                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 4, 3, false, out var position);
+                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 4, 6, 3, false, out var position);
                     if (position == Vector3.zero)
                         position = leader.position + Vector3.back;
                     SetPosition(position);
@@ -749,6 +749,14 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         base.SetAttackTarget(_attackTarget, _attackTargetTime);
         // Debug.Log("Adding Buff for Attack Target() ");
         Buffs.AddBuff("buffNotifyTeamAttack");
+    }
+
+    public override bool CanDamageEntity(int _sourceEntityId)
+    {
+        if (EntityUtilities.IsAnAlly(entityId, _sourceEntityId))
+            return false;
+
+        return true;
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
