@@ -22,7 +22,7 @@ namespace UAI
             if (Parameters.ContainsKey("teleportTime")) _timeOut = StringParsers.ParseFloat(Parameters["teleportTime"]);
 
         }
-      
+
         public override void Start(Context _context)
         {
             base.Start(_context);
@@ -43,36 +43,31 @@ namespace UAI
             _context.Self.SetLookPosition(_position);
             _context.Self.RotateTo(_leader, 45f, 45);
 
-           SCoreUtils.FindPath(_context, _position, true);
+            SCoreUtils.FindPath(_context, _position, true);
         }
 
-      
+
         public override void Update(Context _context)
         {
             base.Update(_context);
 
             // Are we blocked? Can we see our leader? If not, start counting down. This should slow down aggressive teleports to the leader, while
             // also helping keep the NPC close to the leader.
-        //    if (SCoreUtils.IsBlocked(_context))
-//            {
-                if (!_context.Self.CanSee(_leader) && !_context.Self.CanEntityBeSeen(_leader))
-                {
-                    _currentTimeout--;
-                    if (_currentTimeout > 0) return;
+            if (SCoreUtils.IsBlocked(_context))
+            {
+                _currentTimeout--;
+                if (_currentTimeout > 0) return;
 
-                    SCoreUtils.TeleportToLeader(_context);
-                    Stop(_context);
-                }
+                SCoreUtils.TeleportToLeader(_context);
 
-//                Stop(_context);
-  //              return;
-  //          }
+                Stop(_context);
+                return;
+            }
 
-            SCoreUtils.SetSpeed(_context, true);
-             
             // Reset the timeout.
             _currentTimeout = _timeOut;
 
+            SCoreUtils.SetSpeed(_context, true);
             CheckProximityToLeader(_context);
 
 

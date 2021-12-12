@@ -22,6 +22,7 @@ namespace UAI
         {
             base.Start(_context);
             SCoreUtils.SetCrouching(_context);
+            SCoreUtils.SetWeapon(_context);
 
         }
 

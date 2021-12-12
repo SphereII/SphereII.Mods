@@ -62,6 +62,10 @@ namespace UAI
             return !CheckForClosedDoor(_context);
         }
 
+        public static void TeleportToPosition(Context _context, Vector3 position)
+        {
+            _context.Self.SetPosition(position);
+        }
         public static void TeleportToLeader(Context _context)
         {
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;

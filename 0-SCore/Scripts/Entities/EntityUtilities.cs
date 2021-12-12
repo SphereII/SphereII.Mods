@@ -608,22 +608,16 @@ public static class EntityUtilities
 
     public static bool Hire(int EntityID, EntityPlayerLocal _player)
     {
-        DisplayLog("Hire()");
         var result = false;
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         if (myEntity == null)
             return result;
 
-        DisplayLog("Hire(): I have an entity");
-
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(_player);
         if (uiforPlayer)
         {
-            DisplayLog("Hire(): I have a player.");
-            DisplayLog(" The Player wants to hire me for " + GetHireCost(EntityID) + " " + GetHireCurrency(EntityID));
             if (uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)) >= GetHireCost(EntityID))
             {
-                DisplayLog(" The Player has enough currency: " + uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)));
                 // Create the stack of currency
                 var stack = new ItemStack(GetHireCurrency(EntityID), GetHireCost(EntityID));
                 DisplayLog(" Removing Item: " + stack);
@@ -785,6 +779,9 @@ public static class EntityUtilities
         myEntity.moveSpeedAggro = leaderEntity.moveSpeedAggro;
         myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
         SetCurrentOrder(EntityID, Orders.Follow);
+
+        (GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive).AddOwnedEntity(myEntity);
+
     }
 
     public static void SetOwner(int EntityID, int LeaderID)

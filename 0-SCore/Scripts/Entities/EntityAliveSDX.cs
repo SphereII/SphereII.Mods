@@ -39,6 +39,8 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
     public float flEyeHeight = -1f;
     public bool bWentThroughDoor;
 
+    public EntityAlive Owner;
+
     //// if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
     //public override int GetLootList()
     //{
@@ -138,13 +140,17 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         {
             Buffs.AddCustomVar("onMission", 1f);
             emodel.avatarController.SetBool("IsBusy", true);
-            // GetRootTransform().gameObject.SetActive(false);
+            ModelTransform.gameObject.SetActive(false);
+            if ( this.NavObject != null )
+                this.NavObject.IsActive = false;
         }
         else
         {
-            Buffs.AddCustomVar("onMission", 0f);
+            Buffs.RemoveCustomVar("onMission");
             emodel.avatarController.SetBool("IsBusy", false);
-            //  GetRootTransform().gameObject.SetActive(true);
+            ModelTransform.gameObject.SetActive(true);
+            if (this.NavObject != null)
+                this.NavObject.IsActive = true;
         }
     }
 
@@ -320,11 +326,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
         if (myRelationship == FactionManager.Relationship.Hate)
             return false;
-
-
-        // set the IsBusy flag, so it won't wander away when you are talking to it.
-        //        emodel.avatarController.SetBool("IsBusy", true);
-
+        
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
 
@@ -516,12 +518,87 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
             emodel.avatarController.TryGetBool("IsBusy", out isBusy);
         if (isBusy)
             return;
-        
+
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-   public override void OnUpdateLive()
+    protected override void HandleNavObject()
     {
+        if (EntityClass.list[this.entityClass].NavObject != "")
+        {
+            if (this.LocalPlayerIsOwner() && this.Owner != null)
+            {
+                this.NavObject = NavObjectManager.Instance.RegisterNavObject(EntityClass.list[this.entityClass].NavObject, this.emodel.GetModelTransform(), "");
+                this.NavObject.UseOverrideColor = true;
+                this.NavObject.OverrideColor = Color.cyan;
+                this.NavObject.DisplayName = EntityName;
+                
+                return;
+            }
+            if (this.NavObject != null)
+            {
+                NavObjectManager.Instance.UnRegisterNavObject(this.NavObject);
+                this.NavObject = null;
+            }
+        }
+    }
+
+    public bool LocalPlayerIsOwner()
+    {
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if (leader != null)
+        {
+            if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
+                return true;
+        }
+        return false;
+    }
+    public override void OnUpdateLive()
+    {
+        // If we don't have a leader, make sure that we don't have a nav object set up.
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if (leader == null)
+        {
+            Owner = null;
+            HandleNavObject();
+        }
+
+        if ( leader )
+        {
+            // if our leader is attached, that means they are attached to a vehicle
+            if (leader.AttachedToEntity != null )
+            {
+                // if they don't have the onMission cvar, send them on a mission and make them disappear.
+                if (!Buffs.HasCustomVar("onMission"))
+                {
+                    SendOnMission(true);
+                    return;
+                }
+            }
+            else
+            {
+                // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
+                if (Buffs.HasCustomVar("onMission"))
+                {
+                    SendOnMission(false);
+                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 4, 3, false, out var position);
+                    if (position == Vector3.zero)
+                        position = leader.position + Vector3.back;
+                    SetPosition(position);
+
+                }
+            }
+        }
+        // However, if we don't have an owner, but a leader, this means we've been hired.
+        if (Owner == null && leader != null)
+        {
+            Owner = leader as EntityAlive;
+            this.Owner.AddOwnedEntity(this);
+            if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
+            {
+                this.HandleNavObject();
+            }
+        }
         SetupAutoPathingBlocks();
 
         if (Buffs.HasCustomVar("PathingCode") && Buffs.GetCustomVar("PathingCode") == -1)
@@ -562,6 +639,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
             _tileEntityTrader.entityId = entityId;
             _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
         }
+
 
         //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
         //if (entitiesInBounds.Count > 0)
@@ -693,7 +771,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         }
     }
 
-  
+
     public override void MarkToUnload()
     {
         // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
@@ -716,32 +794,32 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         var num2 = World.toChunkXZ(blockPosition.z);
         _startedThisFrame = new List<string>();
         for (var i = -1; i < 2; i++)
-        for (var j = -1; j < 2; j++)
-        {
-            var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
-            if (chunk == null) continue;
-
-            var tileEntities = chunk.GetTileEntities();
-            for (var k = 0; k < tileEntities.list.Count; k++)
+            for (var j = -1; j < 2; j++)
             {
-                var tileEntity = tileEntities.list[k];
+                var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
+                if (chunk == null) continue;
 
-                if (!tileEntity.IsActive(world)) continue;
-
-                var block = world.GetBlock(tileEntity.ToWorldPos());
-                var block2 = Block.list[block.type];
-                if (block2.RadiusEffects == null) continue;
-
-
-                var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
-                for (var l = 0; l < block2.RadiusEffects.Length; l++)
+                var tileEntities = chunk.GetTileEntities();
+                for (var k = 0; k < tileEntities.list.Count; k++)
                 {
-                    var blockRadiusEffect = block2.RadiusEffects[l];
-                    if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius && !Buffs.HasBuff(blockRadiusEffect.variable))
-                        Buffs.AddBuff(blockRadiusEffect.variable);
+                    var tileEntity = tileEntities.list[k];
+
+                    if (!tileEntity.IsActive(world)) continue;
+
+                    var block = world.GetBlock(tileEntity.ToWorldPos());
+                    var block2 = Block.list[block.type];
+                    if (block2.RadiusEffects == null) continue;
+
+
+                    var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
+                    for (var l = 0; l < block2.RadiusEffects.Length; l++)
+                    {
+                        var blockRadiusEffect = block2.RadiusEffects[l];
+                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius && !Buffs.HasBuff(blockRadiusEffect.variable))
+                            Buffs.AddBuff(blockRadiusEffect.variable);
+                    }
                 }
             }
-        }
     }
 
     public override float GetMoveSpeed()
@@ -779,5 +857,5 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
     //    SetMovementState();
     //}
 
-  
+
 }
