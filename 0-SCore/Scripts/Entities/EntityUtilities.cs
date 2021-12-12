@@ -801,6 +801,7 @@ public static class EntityUtilities
     public static bool IsAnAlly(int EntityID, int AttackingID)
     {
         var result = false;
+
         // Let you hurt yourself.
         if (EntityID == AttackingID)
             return false;
@@ -815,6 +816,11 @@ public static class EntityUtilities
         var theirLeader = GetLeaderOrOwner(AttackingID);
         if (myLeader && theirLeader && myLeader.entityId == theirLeader.entityId)
             result = true;
+
+        // Don't fight vehicles.
+        var entity = GameManager.Instance.World.GetEntity(AttackingID);
+        if (entity != null && entity is EntityVehicle)
+            return true;
 
         return result;
     }
