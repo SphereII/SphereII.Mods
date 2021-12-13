@@ -45,11 +45,11 @@ namespace UAI
         public static void SetWeapon(Context _context)
         {
             return;
-            if (_context.Self.inventory.holdingItemIdx != 0)
-            {
-                _context.Self.inventory.SetHoldingItemIdx(0);
-                _context.Self.inventory.OnUpdate();
-            }
+            //if (_context.Self.inventory.holdingItemIdx != 0)
+            //{
+            //    _context.Self.inventory.SetHoldingItemIdx(0);
+            //    _context.Self.inventory.OnUpdate();
+            //}
         }
 
         public static bool IsBlocked(Context _context)

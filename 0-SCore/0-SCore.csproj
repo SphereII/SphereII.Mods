@@ -97,7 +97,7 @@
     <Compile Include="Harmony\UI\FilterGameWorld.cs" />
     <Compile Include="Harmony\UI\TargetBar.cs" />
     <Compile Include="Harmony\UI\XPIconRemover.cs" />
-    <Compile Include="Harmony\UtilityAI\Debugging.cs" />
+    <Compile Include="Harmony\UtilityAI\UAIPackage.cs" />
     <Compile Include="Harmony\UtilityAI\UAIBase.cs" />
     <Compile Include="Harmony\UtilityAI\UAITaskBase.cs" />
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />

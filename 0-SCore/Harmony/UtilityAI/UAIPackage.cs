@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
 using UAI;
-
+using UnityEngine;
 namespace Harmony.UtilityAI
 {
     public class Debugging
@@ -64,75 +65,46 @@ namespace Harmony.UtilityAI
         [HarmonyPatch("DecideAction")]
         public class UAIPackage_DecideAction
         {
-            private static bool Prefix(UAI.UAIPackage __instance, Context _context)
+            // for out parameters, use ref instead of out. ref the __result otherwise the default of 0 is returned.
+            private static bool Prefix(UAI.UAIPackage __instance, ref float __result, Context _context, ref  UAIAction _chosenAction, ref object _chosenTarget, List<UAIAction> ___actionList)
             {
-                //  return true;
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return true;
-
-
-
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, "\n**** START ************************ ");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
-
-
-                /*UAIAction _chosenAction = null;
-                object _chosenTarget = null;
-                var actionList = __instance.GetActions();
                 float num = 0f;
                 _chosenAction = null;
                 _chosenTarget = null;
-                for (int i = 0; i < actionList.Count; i++)
+                for (int i = 0; i < ___actionList.Count; i++)
                 {
-                //    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\nAction List: {actionList[i].Name}");
                     int num2 = 0;
                     int num3 = 0;
                     while (num3 < _context.ConsiderationData.EntityTargets.Count && num2 <= UAIBase.MaxEntitiesToConsider)
                     {
-                        // If the score consideration is 0, don't continue processing for this target.
-                        float score = actionList[i].GetScore(_context, _context.ConsiderationData.EntityTargets[num3], 0f);
-              //          AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{actionList[i].Name} {_context.ConsiderationData.EntityTargets[num3]} Score: {score}");
-                        /*
-                        if (score == 0)
-                        {
-                            num2++;
-                            num3++;
-                            continue;
-                        }
-                        #1#
-
+                        float score = ___actionList[i].GetScore(_context, _context.ConsiderationData.EntityTargets[num3], 0f);
                         if (score > num)
                         {
-                   //         AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t\tNew Target! Score is {score} Old {num}");
                             num = score;
-                            _chosenAction = actionList[i];
+                            _chosenAction = ___actionList[i];
                             _chosenTarget = _context.ConsiderationData.EntityTargets[num3];
                         }
-
                         num2++;
                         num3++;
                     }
-
                     int num4 = 0;
-                    /*while (num4 < _context.ConsiderationData.WaypointTargets.Count && num4 <= UAIBase.MaxWaypointsToConsider)
+                    while (num4 < _context.ConsiderationData.WaypointTargets.Count && num4 <= UAIBase.MaxWaypointsToConsider)
                     {
-                        float score2 = actionList[i].GetScore(_context, _context.ConsiderationData.WaypointTargets[num4], 0f);
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{_context.ConsiderationData.WaypointTargets[num4]} Score2: {score2}");
-
+                        float score2 = ___actionList[i].GetScore(_context, _context.ConsiderationData.WaypointTargets[num4], 0f);
                         if (score2 > num)
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t\tNew Target! Score2 is {score2} Old {num}");
                             num = score2;
-                            _chosenAction = actionList[i];
+                            _chosenAction = ___actionList[i];
                             _chosenTarget = _context.ConsiderationData.WaypointTargets[num4];
                         }
-
                         num4++;
-                    }#1#
+                    }
                 }
 
-                /*
+
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"************* Final Decision: {_context.Self.EntityName} ( {_context.Self.entityId} ) ********************* ");
                 if (_chosenAction != null)
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name} Score {num}");
@@ -143,22 +115,22 @@ namespace Harmony.UtilityAI
                 else
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen target!");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, "********************************** ");
-                #1#*/
 
-                return true;
+                __result = num;
+                return false;
             }
 
-            private static void Postfix(UAI.UAIPackage __instance, Context _context, UAIAction _chosenAction, object _chosenTarget)
-            {
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
+            //private static void Postfix(UAI.UAIPackage __instance, Context _context, UAIAction _chosenAction, object _chosenTarget)
+            //{
+            //    if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+            //        return;
 
-                if (_chosenAction != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name}");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, "**** END ************************ \n");
-            }
+            //    if (_chosenAction != null)
+            //        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name}");
+            //    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
+            //    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
+            //    AdvLogging.DisplayLog(AdvFeatureClass, Feature, "**** END ************************ \n");
+            //}
         }
     }
 }
