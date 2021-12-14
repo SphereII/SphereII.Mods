@@ -44,12 +44,11 @@ namespace UAI
 
         public static void SetWeapon(Context _context)
         {
-            return;
-            //if (_context.Self.inventory.holdingItemIdx != 0)
-            //{
-            //    _context.Self.inventory.SetHoldingItemIdx(0);
-            //    _context.Self.inventory.OnUpdate();
-            //}
+            if (_context.Self.inventory.holdingItemIdx != 0)
+            {
+                _context.Self.inventory.SetHoldingItemIdx(0);
+                _context.Self.inventory.OnUpdate();
+            }
         }
 
         public static bool IsBlocked(Context _context)
@@ -114,6 +113,38 @@ namespace UAI
             return false;
         }
 
+        public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity)
+        {
+            var headPosition = sourceEntity.getHeadPosition();
+            var headPosition2 = targetEntity.getHeadPosition();
+            var direction = headPosition2 - headPosition;
+            var seeDistance = sourceEntity.GetSeeDistance();
+            if (direction.magnitude > seeDistance)
+                return false;
+            if (!sourceEntity.IsInViewCone(headPosition2))
+                return false;
+
+            var ray = new Ray(headPosition, direction);
+            ray.origin += direction.normalized * 0.2f;
+            var flag = Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true);
+            if (flag)
+            {
+                var hitRootTransform = GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);
+                if (hitRootTransform == null)
+                    return false;
+
+                var component = hitRootTransform.GetComponent<EntityAlive>();
+                if (component != null && component.IsAlive() && targetEntity == component)
+                {
+                    // Don't wake up the sleeping zombies if the leader is crouching.
+                    var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
+                    if (leader != null && leader.IsCrouching && component.IsSleeping)
+                        return false;
+                    return true;
+                }
+            }
+            return false;
+        }
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
             var nearbyEntities = new List<Entity>();
@@ -131,6 +162,11 @@ namespace UAI
 
                 // If they are friendly
                 if (EntityUtilities.CheckFaction(_context.Self.entityId, x)) continue;
+
+                // Can we see them?
+                if (!SCoreUtils.CanSee(_context.Self, x))
+                    continue;
+                
 
                 // Otherwise they are an enemy.
                 return true;
@@ -244,16 +280,7 @@ namespace UAI
 
             var vector2 = new Vector3(_context.Self.position.x, vector.y, _context.Self.position.z);
             var vector3 = vector - vector2;
-            
-            var vector2Block = _context.Self.world.GetBlock(new Vector3i(vector2));
-            var vector3Block = _context.Self.world.GetBlock(new Vector3i(vector3));
-            //if (temp.Block.GetBlockName().ToLower().Contains("ladder"))
-            //{
-            //    Debug.Log("Ladder");
-            //    return vector + Vector3.forward;
-            //}
-
-            //  Debug.Log($"Block: {temp.Block.GetBlockName()} Vector: {vector} Vector2: {vector2Block.Block.GetBlockName()} Vector3: {vector3Block.Block.GetBlockName()}");
+           
             var magnitude = vector3.magnitude;
 
             if (!(magnitude < 3f)) return vector;

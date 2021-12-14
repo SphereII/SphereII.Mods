@@ -20,7 +20,11 @@ namespace UAI
             {
                 _context.Self.RotateTo(entityAlive, 15f, 15f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
-                SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
+                var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+                if ( leader != null && entityAlive.entityId == leader.entityId)
+                    SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
+                else
+                    SCoreUtils.SetCrouching(_context);
             }
 
             EntityUtilities.Stop(_context.Self.entityId);

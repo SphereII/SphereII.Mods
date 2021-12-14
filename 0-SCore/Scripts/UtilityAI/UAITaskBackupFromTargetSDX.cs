@@ -22,7 +22,6 @@ namespace UAI
         public override void Start(Context _context)
         {
             base.Start(_context);
-            SCoreUtils.SetCrouching(_context);
             entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
@@ -34,6 +33,7 @@ namespace UAI
         }
         public override void Update(Context _context)
         {
+            SCoreUtils.SetCrouching(_context);
             base.Update(_context);
             if (entityAlive)
             {

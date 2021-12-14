@@ -17,11 +17,16 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
         // Loot group
         if (_params.Self as EntityPlayerLocal != null && !string.IsNullOrEmpty(_lootGroup))
         {
-            var array = LootContainer.GetLootContainer(_lootGroup).Spawn(GameManager.Instance.lootManager.Random, _createItemCount,
-                EffectManager.GetValue(PassiveEffects.LootGamestage, null, entityPlayer.HighestPartyGameStage, entityPlayer), 0f, entityPlayer, new FastTags());
-            foreach (var t in array)
-                if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(t, true))
-                    entityPlayer.world.gameManager.ItemDropServer(t, entityPlayer.GetPosition(), Vector3.zero);
+            var container = LootContainer.GetLootContainer(_lootGroup);
+            if (container != null)
+            {
+                var array = container.Spawn(GameManager.Instance.lootManager.Random, _createItemCount,
+                    EffectManager.GetValue(PassiveEffects.LootGamestage, null, entityPlayer.HighestPartyGameStage, entityPlayer), 0f, entityPlayer, new FastTags());
+                foreach (var t in array)
+                    if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(t, true))
+                        entityPlayer.world.gameManager.ItemDropServer(t, entityPlayer.GetPosition(), Vector3.zero);
+
+            }
             return;
         }
 

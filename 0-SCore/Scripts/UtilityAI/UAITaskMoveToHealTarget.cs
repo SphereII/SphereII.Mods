@@ -9,7 +9,8 @@ namespace UAI
 {
     public class UAITaskMoveToHealTarget : UAITaskMoveToTarget
     {
-        public static bool isRunning = false;
+
+        public bool isRunning = true;
 
         protected override void initializeParameters()
         {
@@ -35,12 +36,9 @@ namespace UAI
                     if (_context.Self.inventory.IsHoldingItemActionRunning())
                         return;
 
-                    // We use isRunning to throttle it,a s the holding item action running doesn't always work for timing.
                     if (isRunning)
                         return;
-
                     isRunning = true;
-
                     EntityUtilities.Stop(_context.Self.entityId);
 
                     // If the NPC doesn't have this cvar, give it an initial value, so it can heal somewhat from a bandage that it found in its inventory.
@@ -49,19 +47,28 @@ namespace UAI
 
                     var stack = EntityUtilities.GetItemStackByTag(_context.Self.entityId, "medical");
 
+                    var originalIndex = 0;
+
                     // Heal the target
                     GameManager.Instance.StartCoroutine(SimulateActionExecution(_context, entityAlive, 1, stack, delegate
                     {
-                        _context.Self.inventory.SetHoldingItemIdx(0);
                         _context.Self.inventory.SetItem(_context.Self.inventory.DUMMY_SLOT_IDX, ItemStack.Empty.Clone());
                         _context.Self.inventory.OnUpdate();
-                        Stop(_context);
+                        GameManager.Instance.StartCoroutine(SwitchBack(_context, originalIndex));
                     }));
 
                 }
             }
 
 
+        }
+
+        private IEnumerator SwitchBack(Context _context, int oldSlot)
+        {
+            _context.Self.inventory.SetHoldingItemIdx(oldSlot);
+            _context.Self.inventory.OnUpdate();
+            yield return new WaitForSeconds(0.1f);
+            this.Stop(_context);
         }
 
         public IEnumerator SimulateActionExecution(Context _context, EntityAlive target, int _actionIdx, ItemStack _itemStack, Action onComplete)
@@ -80,16 +87,13 @@ namespace UAI
                 yield return new WaitForSeconds(0.1f);
                 _context.Self.inventory.DecHoldingItem(1);
             }
-        }
-
-        public override void Stop(Context _context)
-        {
-            base.Stop(_context);
-            isRunning = false;
+            onComplete();
         }
 
         public override void Start(Context _context)
         {
+            Debug.Log($"Moving to Heal! {_context.Self.ToString()}");
+            isRunning = false;            
             base.Start(_context);
             SCoreUtils.SetCrouching(_context);
 

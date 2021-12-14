@@ -22,14 +22,14 @@ namespace UAI
         {
             base.Start(_context);
             SCoreUtils.SetCrouching(_context);
-            SCoreUtils.SetWeapon(_context);
-
         }
 
         public override void Stop(Context _context)
         {
             SCoreUtils.SetCrouching(_context);
             base.Stop(_context);
+            _context.Self.SetLookPosition(Vector3.zero);
+
         }
 
         public override void Update(Context _context)
