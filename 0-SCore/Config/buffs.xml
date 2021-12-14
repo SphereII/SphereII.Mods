@@ -32,8 +32,6 @@
       <effect_group name="End">
         <!-- Grab items from the brassResource group -->
         <triggered_effect trigger="onSelfBuffRemove" action="RandomLootSDX, SCore" lootgroup="brassResource" />
-		<triggered_effect trigger="onSelfPrimaryActionStart" action="ReturnPlayerToBedRoll, Sorcery"/>
-
         <!-- This cvar is used to determine both the amount of items to retrieve from the lootgroup, plus the quality tier, if applicable.-->
         <!-- This gets reounded, so once it hits 2, it'll start pulling in two items from the brassResource group, up to a max of 5.-->
         <triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="spLootExperience" operation="add" value="0.1" />
