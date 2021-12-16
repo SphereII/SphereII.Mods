@@ -58,6 +58,9 @@ namespace UAI
             if (_context.ActionData.Target is Vector3 vector)
                 _position = vector;
 
+            _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
+            _context.Self.SetLookPosition(_position);
+
             SCoreUtils.FindPath(_context, _position, run);
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
