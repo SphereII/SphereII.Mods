@@ -1,52 +1,39 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
-//       <task class="MoveToTargetSDX, SCore" />
+//       <task class="MoveToHealTarget, SCore" />
 // The game adds UAI.UAITask to the class name for discover.
 namespace UAI
 {
-    public class UAITaskMoveToTargetSDX : UAITaskMoveToTarget
+    public class UAITaskMoveToHealTargetSDX : UAITaskMoveToTarget
     {
         private Vector3 _position;
+        protected override void initializeParameters()
+        {
+            base.initializeParameters();
+            if (distance == 0)
+                distance = 3;
+
+        }
 
         public override void Update(Context _context)
         {
             base.Update(_context);
-
             SCoreUtils.CheckForClosedDoor(_context);
-            CheckProximityToPosition(_context);
-        }
 
-        public override void Stop(Context _context)
-        {
+            var dist = Vector3.Distance(_position, _context.Self.position);
+            if (dist > distance) return;
+
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
             _context.Self.SetLookPosition(_position);
-            base.Stop(_context);
+
+            EntityUtilities.Stop(_context.Self.entityId);
+            Stop(_context);
         }
 
-        public void CheckProximityToPosition(Context _context)
-        {
-            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-            if (entityAlive == null) return;
-
-            if (entityAlive.IsDead())
-            {
-                Stop(_context);
-                return;
-            }
-
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
-            {
-                var dist = Vector3.Distance(entityAlive.position, _position);
-                if (dist < distance)
-                    return;
-            }
-
-            // If the leader has moved quite a bit, re-position.
-            _position = entityAlive.position;
-            SCoreUtils.FindPath(_context, _position, run);
-        }
-
+  
         public override void Start(Context _context)
         {
             SCoreUtils.SetCrouching(_context);

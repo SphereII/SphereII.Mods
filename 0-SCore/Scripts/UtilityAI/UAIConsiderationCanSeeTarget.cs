@@ -2,7 +2,7 @@
 
 namespace UAI
 {
-    public class UAIConsiderationCanNotSee : UAIConsiderationCanSee
+    public class UAIConsiderationCanNotSeeTarget : UAIConsiderationCanSeeTarget
     {
         public override float GetScore(Context _context, object target)
         {
@@ -10,7 +10,7 @@ namespace UAI
         }
     }
 
-    public class UAIConsiderationCanSee: UAIConsiderationBase
+    public class UAIConsiderationCanSeeTarget: UAIConsiderationBase
     {
         public override float GetScore(Context _context, object target)
         {

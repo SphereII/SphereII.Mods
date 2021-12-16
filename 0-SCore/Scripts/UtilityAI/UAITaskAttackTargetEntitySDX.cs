@@ -24,16 +24,17 @@ namespace UAI
             SCoreUtils.SetCrouching(_context);
         }
 
-        public override void Stop(Context _context)
-        {
-            SCoreUtils.SetCrouching(_context);
-            base.Stop(_context);
-            _context.Self.SetLookPosition(Vector3.zero);
-
-        }
-
         public override void Update(Context _context)
         {
+            // if the NPC is on the ground, don't attack.
+            switch (_context.Self.bodyDamage.CurrentStun)
+            {
+                case EnumEntityStunType.Getup:
+                case EnumEntityStunType.Kneel:
+                case EnumEntityStunType.Prone:
+                    return;
+            }
+
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
@@ -44,7 +45,6 @@ namespace UAI
                 }
 
                 SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
-
                 _context.Self.RotateTo(entityAlive, 30f, 30f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
             }

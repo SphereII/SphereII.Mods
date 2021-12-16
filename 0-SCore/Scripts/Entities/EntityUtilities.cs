@@ -273,6 +273,43 @@ public static class EntityUtilities
 
         return itemStack;
     }
+
+    public static ItemStack GetItemByName(int EntityID, string items)
+    {
+        var itemStack = ItemStack.Empty;
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return itemStack;
+
+        foreach (var ID in items.Split(','))
+        {
+            // Validate the the string is actually an Item.
+            var item = ItemClass.GetItem(ID);
+            if (item != null)
+            {
+                foreach (var stack in myEntity.inventory.GetSlots())
+                {
+                    if (CheckItemStackByName(stack,ID))
+                        return stack;
+                }
+
+                foreach (var stack in myEntity.lootContainer?.items)
+                {
+                    if (CheckItemStackByName(stack, ID))
+                        return stack;
+                }
+
+                // Check for the items in the inventory.
+                foreach (var stack in myEntity.bag.GetSlots())
+                {
+                    if (CheckItemStackByName(stack, ID))
+                        return stack;
+                }
+
+            }
+        }
+        return itemStack;
+    }
     public static ItemStack GetItemStackByTag(int EntityID, string Tag)
     {
         var itemStack = ItemStack.Empty;
@@ -390,6 +427,17 @@ public static class EntityUtilities
             return true;
         return false;
     }
+
+    private static bool CheckItemStackByName(ItemStack stack, string itemName)
+    {
+        if (Equals(stack, ItemStack.Empty))
+            return false;
+        if (stack.itemValue == null)
+            return false;
+
+        return stack.itemValue.ItemClass != null && stack.itemValue.ItemClass.GetItemName() == itemName;
+    }
+
     private static bool CheckItemStack(ItemStack stack, FastTags tag)
     {
         if (Equals(stack, ItemStack.Empty))

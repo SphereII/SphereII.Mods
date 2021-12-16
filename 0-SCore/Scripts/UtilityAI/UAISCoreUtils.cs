@@ -265,7 +265,7 @@ namespace UAI
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            PathInfo path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
+            var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
             if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
                 _context.Self.FindPath(_position, speed, true, null);
         }
@@ -398,6 +398,69 @@ namespace UAI
             }
 
             private Entity self;
+        }
+
+        public static void GetItemFromContainer(Context _context, TileEntityLootContainer tileLootContainer)
+        {
+            var blockPos = tileLootContainer.ToWorldPos();
+            if (string.IsNullOrEmpty(tileLootContainer.lootListName))
+                return;
+            if (tileLootContainer.bTouched)
+                return;
+
+            tileLootContainer.bTouched = true;
+            tileLootContainer.bWasTouched = true;
+
+            // Nothing to loot.
+            if (tileLootContainer.items == null) return;
+
+            _context.Self.SetLookPosition(blockPos.ToVector3());
+            _context.Self.MinEventContext.TileEntity = tileLootContainer;
+            _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
+
+            var lootContainer = LootContainer.GetLootContainer(tileLootContainer.lootListName);
+            if (lootContainer == null)
+                return;
+            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
+            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
+
+            for (var i = 0; i < array.Count; i++)
+                _context.Self.lootContainer.AddItem(array[i].Clone());
+
+            _context.Self.FireEvent(MinEventTypes.onSelfLootContainer);
+        }
+
+        public static bool CheckContainer(Context _context, Vector3 _vector)
+        {
+            if (!_context.Self.onGround)
+                return false;
+
+            _context.Self.SetLookPosition(_vector);
+
+            var lookRay = new Ray(_context.Self.position, _context.Self.GetLookVector());
+            if (!Voxel.Raycast(_context.Self.world, lookRay, 3f, false, false))
+                return false; // Not seeing the target.
+
+            if (!Voxel.voxelRayHitInfo.bHitValid)
+                return false; // Missed the target. Overlooking?
+
+            // Still too far away.
+            var sqrMagnitude2 = (_vector - _context.Self.position).sqrMagnitude;
+            if (sqrMagnitude2 > 2f)
+                return false;
+
+            var tileEntity = _context.Self.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(_vector));
+            switch (tileEntity)
+            {
+                // if the TileEntity is a loot container, then loot it.
+                case TileEntityLootContainer tileEntityLootContainer:
+                    GetItemFromContainer(_context, tileEntityLootContainer);
+                    break;
+            }
+
+            // Stop the move helper, so the entity does not slide around.
+            EntityUtilities.Stop(_context.Self.entityId);
+            return true;
         }
     }
 }

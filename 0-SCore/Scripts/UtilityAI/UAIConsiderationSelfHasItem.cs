@@ -9,6 +9,7 @@ namespace UAI
         private string _tags;
         private ItemAction _itemAction;
         private string property;
+        private string items;
         public override void Init(Dictionary<string, string> parameters)
         {
             base.Init(parameters);
@@ -28,10 +29,37 @@ namespace UAI
             {
                 property = parameters["property"];
             }
+
+
+            if (parameters.ContainsKey("items"))
+            {
+                items = parameters["items"];
+            }
         }
 
         public override float GetScore(Context _context, object target)
         {
+            
+            if ( !string.IsNullOrEmpty(items))
+            {
+                foreach( var ID in items.Split(','))
+                {
+                    var item = ItemClass.GetItem(ID);
+                    if (item != null)
+                    {
+                        if (_context.Self.inventory.GetItemCount(item) > 0)
+                            return 1f;
+
+                        if (_context.Self.bag.GetItemCount(item) > 0)
+                            return 1f;
+
+                        if (_context.Self.lootContainer != null)
+                            if (_context.Self.lootContainer.HasItem(item))
+                                return 1f;
+                    }
+                }
+                return 0f;
+            }
             if (!string.IsNullOrEmpty(property))
             {
                 var item = EntityUtilities.GetItemStackByProperty(_context.Self.entityId, property);
@@ -43,6 +71,7 @@ namespace UAI
                 Debug.Log("No Items found.");
                 return 0f;
             }
+
             if (_itemAction != null)
             {
                 var item = EntityUtilities.GetItemStackByAction(_context.Self.entityId, _itemAction.GetType());

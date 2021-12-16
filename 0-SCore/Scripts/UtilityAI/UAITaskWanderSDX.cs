@@ -31,12 +31,7 @@ namespace UAI
             if (maxWanderDistance == 0)
                 maxWanderDistance = 20;
 
-            Vector3 headPosition = _context.Self.getHeadPosition();
-            Vector3 vector = _context.Self.GetForwardVector();
-            vector = Quaternion.Euler(_context.Self.rand.RandomFloat * 60f - 30f, _context.Self.rand.RandomFloat * 120f - 60f, 0f) * vector;
-            _context.Self.SetLookPosition(headPosition + vector);
-
-            // The y is lower than max wander, since they tend to try to climb up steep hills.
+        // The y is lower than max wander, since they tend to try to climb up steep hills.
             _position = RandomPositionGenerator.Calc(_context.Self, (int)maxWanderDistance, 5);
 
             // If interests points have been specified, random roll to see if the npc will path towards them or not.

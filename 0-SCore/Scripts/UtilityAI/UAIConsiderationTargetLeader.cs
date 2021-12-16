@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 namespace UAI
 {
 
@@ -16,7 +18,7 @@ namespace UAI
                 return 0f;
 
             var _leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
-            if (_leader == null) 
+            if (_leader == null)
                 return 0f;
 
             if (_leader.entityId == targetEntity.entityId)

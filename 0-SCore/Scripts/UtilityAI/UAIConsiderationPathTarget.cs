@@ -20,6 +20,9 @@
                     continue;
 
                 var tileEntity = _context.World.GetTileEntity(0, vector);
+                if (tileEntity == null) continue;
+                if (targetType == TileEntityType.None) continue;
+
                 if (tileEntity.GetTileEntityType() == targetType)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{GetType()} : {tileEntity.ToString()}  My Position: {_context.Self.position}  Type: {tileEntity.GetTileEntityType()}");
