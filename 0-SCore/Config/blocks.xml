@@ -59,6 +59,8 @@
         <!-- Allow you to fit through one block spaces -->
         <property name="SoftHands" value="false" />
         <!-- Damages the player if they hit something with their bare hands. -->
+
+		  <property name="VehicleNoTake" value="false" />
       </property>
 
       <property class="AdvancedZombieFeatures">

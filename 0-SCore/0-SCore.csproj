@@ -134,6 +134,7 @@
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionGiveQuestSDX.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetHomePosition.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPumpQuestSDX.cs" />

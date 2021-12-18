@@ -27,8 +27,9 @@ namespace UAI
             // Don't do anything until the entity touches the ground; avoid the free in mid-air scenario.
             if (!_context.Self.onGround) return;
 
+            // Don't look at yourself, that's shameful.
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-            if (entityAlive != null)
+            if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)
             {
                 _context.Self.RotateTo(entityAlive, 15f, 15f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
@@ -39,11 +40,25 @@ namespace UAI
                     SCoreUtils.SetCrouching(_context);
             }
 
-            EntityUtilities.Stop(_context.Self.entityId);
+            // Check if a player is in your bounds, and face them if they are.
+            var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
+            if (entitiesInBounds.Count > 0)
+            {
+                foreach (var entity in entitiesInBounds)
+                {
+                    if (entity is EntityPlayerLocal || entity is EntityPlayer)
+                    {
+                        _context.Self.RotateTo(entity, 15f, 15f);
+                        _context.Self.SetLookPosition(entity.getHeadPosition());
+                        break;
+                    }
+                }
+            }
+
             if (SCoreUtils.IsEnemyNearby(_context))
                 Stop(_context);
 
-            _currentTimeout--;
+               _currentTimeout--;
             if (_currentTimeout < 0) Stop(_context);
         }
     }

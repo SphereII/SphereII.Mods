@@ -15,9 +15,45 @@
       <stack_type value="ignore"/>
       <duration value="30"/>
     </buff>
+	  
+	  <buff name="buffOrderStay" >
+		  <stack_type value="ignore"/>
+		  <duration value="4" />
+		  <update_rate value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="SetHomePosition, SCore" />
+	  </buff>
 
-    
-    <!-- Template Buff for an NPC to go gather random loot items for you -->
+	  <buff name="buffOrderFollow" >
+		  <stack_type value="ignore"/>
+		  <duration value="4" />
+		  <update_rate value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="1"/>
+	  </buff>
+
+	  <buff name="buffOrderWander" >
+		  <stack_type value="ignore"/>
+		  <duration value="4" />
+		  <update_rate value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="3"/>
+	  </buff>
+
+	  <buff name="buffOrderPatrol" >
+		  <stack_type value="ignore"/>
+		  <duration value="4" />
+		  <update_rate value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="5"/>
+	  </buff>
+
+	  <buff name="buffOrderLoot" >
+		  <stack_type value="ignore"/>
+		  <duration value="4" />
+		  <update_rate value="2"/>
+		  <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="7"/>
+	  </buff>
+
+
+	  <!-- Template Buff for an NPC to go gather random loot items for you -->
 
     <buff name="buffGatherResources" hidden="true">
       <stack_type value="ignore" />
