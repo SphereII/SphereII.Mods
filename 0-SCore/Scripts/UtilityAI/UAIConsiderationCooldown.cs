@@ -30,6 +30,7 @@ namespace UAI
             if (!_context.Self.Buffs.HasCustomVar(_cvar))
                 _context.Self.Buffs.SetCustomVar(_cvar, currentTime + _value);
 
+            UnityEngine.Debug.Log($"Baker: {_context.Self.Buffs.GetCustomVar(_cvar)} Current Time: {currentTime}");
             if (_context.Self.Buffs.GetCustomVar(_cvar) > currentTime) return 0f;
 
             _context.Self.Buffs.SetCustomVar(_cvar, currentTime + _value);

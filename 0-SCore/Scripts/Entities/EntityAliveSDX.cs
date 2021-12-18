@@ -353,6 +353,8 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
     {
         base.PostInit();
 
+        SetupDebugNameHUD(true);
+
         // disable god mode, since that's enabled by default in the NPC
         IsGodMode.Value = false;
 
@@ -599,6 +601,7 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
                 this.HandleNavObject();
             }
         }
+
         SetupAutoPathingBlocks();
 
         if (Buffs.HasCustomVar("PathingCode") && Buffs.GetCustomVar("PathingCode") == -1)
@@ -839,6 +842,11 @@ public class EntityAliveSDX : EntityTrader, IInventoryChangedListener
         return speed;
     }
 
+    public override float GetMoveSpeedAggro()
+    {
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null, default(FastTags), true, true, true, true, 1, true);
+        return speed;
+    }
     public new float GetMoveSpeedPanic()
     {
         var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null, default(FastTags), true, true, true, true, 1, true);

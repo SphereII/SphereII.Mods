@@ -8,6 +8,18 @@ namespace UAI
 {
     public class UAITaskIdleSDX : UAITaskBase
     {
+        private float _timeOut = 100f;
+        private float _currentTimeout;
+        protected override void initializeParameters()
+        {
+            if (Parameters.ContainsKey("timeout")) _timeOut = StringParsers.ParseFloat(Parameters["timeout"]);
+        }
+
+        public override void Start(Context _context)
+        {
+            base.Start(_context);
+            _currentTimeout = _timeOut;
+        }
         public override void Update(Context _context)
         {
             base.Update(_context);
@@ -30,6 +42,9 @@ namespace UAI
             EntityUtilities.Stop(_context.Self.entityId);
             if (SCoreUtils.IsEnemyNearby(_context))
                 Stop(_context);
+
+            _currentTimeout--;
+            if (_currentTimeout < 0) Stop(_context);
         }
     }
 }

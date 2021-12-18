@@ -1,13 +1,29 @@
 ﻿using GamePath;
 using Platform;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml;
 using UnityEngine;
 
 namespace UAI
 {
     public static class SCoreUtils
     {
+        public static void DisplayDebugInformation( Context _context, string prefix = "", string postfix="" )
+        {
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled)) return;
+
+            var message = $" ( {_context.Self.entityId} ) {prefix}\n";
+            message += $" Active Action: {_context.ActionData.Action?.Name}\n";
+            var taskIndex = _context.ActionData.TaskIndex;
+            var tasks = _context.ActionData.Action.GetTasks();
+            message += $" Active Task: {tasks[taskIndex]}\n";
+            message += $" Active Target: {_context.ActionData.Target}\n";
+            message += $" {postfix}";
+            
+            _context.Self.DebugNameInfo = message;
+        }
         public static void SimulateActionInstantExecution(Context _context, int _actionIdx, ItemStack _itemStack)
         {
             if (!Equals(_itemStack, ItemStack.Empty))
@@ -56,7 +72,7 @@ namespace UAI
             // Still calculating the path, let's let it finish.
             if (PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
                 return false;
-            var result = _context.Self.bodyDamage.CurrentStun == EnumEntityStunType.None && _context.Self.moveHelper.BlockedTime <= 0.3f && !_context.Self.navigator.noPathAndNotPlanningOne();
+            var result = _context.Self.bodyDamage.CurrentStun == EnumEntityStunType.None && _context.Self.moveHelper.BlockedTime <= 0.3f;// && !_context.Self.navigator.noPathAndNotPlanningOne();
             if (result)
                 return false;
             return !CheckForClosedDoor(_context);
@@ -258,38 +274,53 @@ namespace UAI
             
             // If there's not a lot of distance to go, don't re-path.
             var distance = Vector3.Distance(_context.Self.position, _position);
-            if (distance < 0.4f)
+            if (distance < 2f)
                 return;
 
             _context.Self.SetLookPosition(_position);
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
-            if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
+            //var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
+           // if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
                 _context.Self.FindPath(_position, speed, true, null);
         }
 
+
+        public static Vector3 AlignToEdge( Vector3 vector )
+        {
+            return new Vector3i(vector).ToVector3();
+        }
         // allows the NPC to climb ladders
         public static Vector3 GetMoveToLocation(Context _context, Vector3 position, float maxDist = 10f)
         {
             var vector = _context.Self.world.FindSupportingBlockPos(position);
-            var temp = _context.Self.world.GetBlock(new Vector3i(vector));
-            
             if (!(maxDist > 0f)) return vector;
 
+            var Targetblock = _context.Self.world.GetBlock(new Vector3i( vector ));
+            if (Targetblock.Block is BlockLadder)
+                vector = SCoreUtils.AlignToEdge(vector);
             var vector2 = new Vector3(_context.Self.position.x, vector.y, _context.Self.position.z);
+
             var vector3 = vector - vector2;
-           
             var magnitude = vector3.magnitude;
 
-            if (!(magnitude < 3f)) return vector;
+            if (magnitude > 5f)
+                return vector;
             if (magnitude <= maxDist)
             {
-                return vector.y - _context.Self.position.y > 1.5f ? vector : vector2;
+                // When climbing ladders, align the vector to its edges to allow better ladder migration.
+                var yDist = vector.y - _context.Self.position.y;
+                if (yDist > 1.5f || yDist < -1.5f)
+                {
+                    return SCoreUtils.AlignToEdge(vector);
+                }
+                return vector2;
+                //return vector.y - _context.Self.position.y > 1.5f ? vector : vector2;
             }
             else
             {
+
                 vector3 *= maxDist / magnitude;
                 var vector4 = vector - vector3;
                 vector4.y += 0.51f;
@@ -297,17 +328,19 @@ namespace UAI
                 var block = _context.Self.world.GetBlock(pos);
                 var block2 = block.Block;
 
-                if (block2.IsPathSolid) return vector;
-                if (Physics.Raycast(vector4 - Origin.position, Vector3.down, out var raycastHit, 1.02f, 1082195968))
+                if (block2.PathType <= 0)
                 {
-                    vector4.y = raycastHit.point.y + Origin.position.y;
-                    return vector4;
-                }
-
-                if (block2.IsElevator((int)block.rotation))
-                {
-                    vector4.y = vector.y;
-                    return vector4;
+                    RaycastHit raycastHit;
+                    if (Physics.Raycast(vector4 - Origin.position, Vector3.down, out raycastHit, 1.02f, 1082195968))
+                    {
+                        vector4.y = raycastHit.point.y + Origin.position.y;
+                        return vector4;
+                    }
+                    if (block2.IsElevator((int)block.rotation))
+                    {
+                        vector4.y = vector.y;
+                        return vector4;
+                    }
                 }
             }
 
@@ -359,10 +392,10 @@ namespace UAI
             SphereCache.RemoveDoor(_context.Self.entityId, doorPos);
         }
 
-        public static bool IsAlly(Context _context, EntityAlive targetEntity)
+        public static bool IsAlly(Entity self, Entity targetEntity)
         {
             // Do I have a leader?
-            var myLeader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+            var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
             if (!myLeader) return false;
 
             // Is the target my leader?
@@ -375,6 +408,11 @@ namespace UAI
                 return false;
 
             return targetLeader.entityId == myLeader.entityId;
+        }
+
+        public static bool IsAlly(Context _context, EntityAlive targetEntity)
+        {
+            return IsAlly(_context.Self, targetEntity);
         }
 
         public class NearestPathSorter : IComparer<Vector3>
@@ -462,5 +500,113 @@ namespace UAI
             EntityUtilities.Stop(_context.Self.entityId);
             return true;
         }
+
+        /// <summary>
+        /// <para>
+        /// Store the attributes for a package.
+        /// </para>
+        /// 
+        /// <para>
+        /// The package name cannot be empty. If it is, the attributes will not be stored.
+        /// </para>
+        /// </summary>
+        /// <param name="package">The package.</param>
+        /// <param name="element">The XML element with the attributes to store.</param>
+        public static void StoreAttributes(
+            UAIPackage package,
+            XmlElement element)
+        {
+            var key = GetKey(package, null);
+            if (key != null)
+                _storedElements[key] = element;
+        }
+
+        /// <summary>
+        /// <para>
+        /// Store the attributes for an action associated with a package.
+        /// </para>
+        /// 
+        /// <para>
+        /// Neither the package name nor the action name can be empty. If either are empty, the
+        /// attributes will not be stored.
+        /// </para>
+        /// </summary>
+        /// <param name="package">The package.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="element">The XML element with the attributes to store.</param>
+        public static void StoreAttributes(
+            UAIPackage package,
+            UAIAction action,
+            XmlElement element)
+        {
+            var key = GetKey(package, action);
+            if (key != null)
+                _storedElements[key] = element;
+        }
+
+        public static IUAITargetFilter<Entity> GetEntityFilter(
+            UAIPackage package,
+            UAIAction action,
+            EntityAlive self)
+        {
+            return GetTargetFilter<Entity>(package, action, self, EntityFilterAttribute);
+        }
+
+        public static IUAITargetFilter<Vector3> GetWaypointFilter(
+            UAIPackage package,
+            UAIAction action,
+            EntityAlive self)
+        {
+            return GetTargetFilter<Vector3>(package, action, self, WaypointFilterAttrubute);
+        }
+
+        private static string GetKey(UAIPackage package, UAIAction action)
+        {
+            if (string.IsNullOrEmpty(package?.Name))
+                return null;
+
+            if (action == null)
+            {
+                return package.Name;
+            }
+
+            if (string.IsNullOrEmpty(action?.Name))
+                return null;
+
+            return $"{package?.Name}-{action?.Name}";
+        }
+
+        private static IUAITargetFilter<T> GetTargetFilter<T>(
+            UAIPackage package,
+            UAIAction action,
+            EntityAlive self,
+            string attribute)
+        {
+            var key = GetKey(package, action);
+            if (key == null)
+                return null;
+
+            if (!_storedElements.TryGetValue(key, out var element))
+                return null;
+
+            if (!element.HasAttribute(attribute))
+                return null;
+
+            // This only works for the filter classes in SCore - do we need to worry about other
+            // modders adding their own?
+            var filterName = "UAI.UAIFilter" + element.GetAttribute(attribute);
+
+            var type = Type.GetType(filterName);
+            if (type == null)
+                return null;
+
+            return Activator.CreateInstance(type, new object[] { self }) as IUAITargetFilter<T>;
+        }
+
+        private static readonly string EntityFilterAttribute = "entity_filter";
+
+        private static readonly string WaypointFilterAttrubute = "waypoint_filter";
+
+        private static readonly Dictionary<string, XmlElement> _storedElements = new Dictionary<string, XmlElement>();
     }
 }

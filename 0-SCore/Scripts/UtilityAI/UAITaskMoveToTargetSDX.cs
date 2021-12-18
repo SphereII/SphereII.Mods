@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GamePath;
+using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
 //       <task class="MoveToTargetSDX, SCore" />
@@ -11,17 +12,10 @@ namespace UAI
 
         public override void Update(Context _context)
         {
-            base.Update(_context);
-
+            // We don't call base.Update() here, because it's checking if the entity has no path, then it stops the task.
+            // However, at times, we do want the opportunity to repath without stopping the task. This stops the pauses the entity does.
             SCoreUtils.CheckForClosedDoor(_context);
             CheckProximityToPosition(_context);
-        }
-
-        public override void Stop(Context _context)
-        {
-            _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
-            _context.Self.SetLookPosition(_position);
-            base.Stop(_context);
         }
 
         public void CheckProximityToPosition(Context _context)
@@ -35,20 +29,16 @@ namespace UAI
                 return;
             }
 
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
-            {
-                var dist = Vector3.Distance(entityAlive.position, _position);
-                if (dist < distance)
-                    return;
-            }
-
-            // If the leader has moved quite a bit, re-position.
+            // Check if our entity has moved.
             _position = entityAlive.position;
-            SCoreUtils.FindPath(_context, _position, run);
+            
+            _context.Self.moveHelper.SetMoveTo(_position, true);
+//            var speed = SCoreUtils.SetSpeed(_context, run);
         }
 
         public override void Start(Context _context)
         {
+            // Reset crouch status to default
             SCoreUtils.SetCrouching(_context);
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);

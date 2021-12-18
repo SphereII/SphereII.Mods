@@ -27,13 +27,13 @@ namespace UAI
         public override void Update(Context _context)
         {
             // if the NPC is on the ground, don't attack.
-            switch (_context.Self.bodyDamage.CurrentStun)
-            {
-                case EnumEntityStunType.Getup:
-                case EnumEntityStunType.Kneel:
-                case EnumEntityStunType.Prone:
-                    return;
-            }
+            //switch (_context.Self.bodyDamage.CurrentStun)
+            //{
+            //    case EnumEntityStunType.Getup:
+            //    case EnumEntityStunType.Kneel:
+            //    case EnumEntityStunType.Prone:
+            //        return;
+            //}
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)

@@ -56,6 +56,7 @@
     <Compile Include="Harmony\Dialog\DialogClose.cs" />
     <Compile Include="Harmony\Dialog\DialogFromXML.cs" />
     <Compile Include="Harmony\DMS\DynamicMusicPlayerTracker.cs" />
+    <Compile Include="Harmony\EAI\EAITarget.cs" />
     <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
@@ -164,7 +166,6 @@
     <Compile Include="Scripts\EAI\EAIRunawayFromEntitySDX.cs" />
     <Compile Include="Scripts\EAI\EAISetAsTargetIfHurtSDX.cs" />
     <Compile Include="Scripts\EAI\EAISetAsTargetIfLeaderAttackedSDX.cs" />
-    <Compile Include="Scripts\EAI\EAISetAsTargetNearestEnemySDX.cs" />
     <Compile Include="Scripts\EAI\EAISwimSDX.cs" />
     <Compile Include="Scripts\EAI\EAIWanderSDX.cs" />
     <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
@@ -233,8 +234,15 @@
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\IUAITargetFilter.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsAlly.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsEnemy.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetWeaponRange.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetDistanceSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsAlerted.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCooldown.cs" />
@@ -263,6 +271,7 @@
     <Compile Include="Scripts\UtilityAI\UAISCoreUtils.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskIdle.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSelf.cs" />
@@ -272,6 +281,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToHealTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskBackupFromTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToInvestigate.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToAttackTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />

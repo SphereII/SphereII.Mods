@@ -26,7 +26,7 @@ namespace UAI
             if (entityAlive != null)
             {
                 _context.Self.detachHome();
-                _context.Self.FindPath(RandomPositionGenerator.CalcAway(_context.Self, 0, (int)this.maxFleeDistance, (int)this.maxFleeDistance, entityAlive.position), _context.Self.GetMoveSpeed(), false, null);
+                _context.Self.FindPath(RandomPositionGenerator.CalcAway(_context.Self, 0, (int)this.maxFleeDistance, (int)this.maxFleeDistance, entityAlive.position), _context.Self.GetMoveSpeedPanic(), false, null);
                 return;
             }
             _context.ActionData.Failed = true;
@@ -41,8 +41,8 @@ namespace UAI
                 _context.Self.SetLookPosition(entityAlive.position);
             }
 
-            if (!_context.Self.getNavigator().noPathAndNotPlanningOne()) return;
-            this.Stop(_context);
+            //if (!_context.Self.getNavigator().noPathAndNotPlanningOne()) return;
+            //this.Stop(_context);
 
         }
     }

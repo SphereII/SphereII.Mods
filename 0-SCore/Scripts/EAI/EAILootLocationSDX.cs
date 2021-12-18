@@ -439,7 +439,7 @@ internal class EAILootLocationSDX : EAIApproachSpot
                 var pos = World.worldToBlockPos(vector4);
                 var type = theEntity.world.GetBlock(pos).type;
                 var block = Block.list[type];
-                if (!block.IsPathSolid && Physics.Raycast(vector4, Vector3.down, 1.02f, 1082195968)) return vector4;
+              //  if (!block.IsPathSolid && Physics.Raycast(vector4, Vector3.down, 1.02f, 1082195968)) return vector4;
             }
         }
 

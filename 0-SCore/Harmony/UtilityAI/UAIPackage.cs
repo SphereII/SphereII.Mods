@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.Xml;
 using UAI;
-using UnityEngine;
 namespace Harmony.UtilityAI
 {
     public class Debugging
@@ -60,63 +60,188 @@ namespace Harmony.UtilityAI
         //    }
         //}
 
+        /// <summary>
+        /// This patch adds the package to the dictionary of stored attributes in SCoreUtils.
+        /// We will need those attributes later to see if the user specified package filters.
+        /// </summary>
+        [HarmonyPatch(typeof(UAIFromXml))]
+        [HarmonyPatch("parseAIPackageNode")]
+        public static class UAIFromXml_parseAIPackageNode
+        {
+            public static void Postfix(XmlElement _element)
+            {
+                if (_element == null)
+                    return;
 
+                if (!_element.HasAttribute("name"))
+                    return;
+
+                var name = _element.GetAttribute("name");
+
+                if (UAIBase.AIPackages.TryGetValue(name, out var package))
+                {
+                    SCoreUtils.StoreAttributes(package, _element);
+                }
+            }
+        }
+
+        /// <summary>
+        /// This patch adds the action to the dictionary of stored attributes in SCoreUtils.
+        /// We will need those attributes later to see if the user specified action filters.
+        /// </summary>
+        [HarmonyPatch(typeof(UAIFromXml))]
+        [HarmonyPatch("parseActionNode")]
+        public static class UAIFromXml_parseActionNode
+        {
+            public static void Postfix(UAIPackage _package, XmlElement _element)
+            {
+                if (_element == null || _package == null)
+                    return;
+
+                if (!_element.HasAttribute("name"))
+                    return;
+
+                var name = _element.GetAttribute("name");
+
+                var actions = _package.GetActions();
+                if (actions == null)
+                    return;
+
+                for (int i = 0; i < actions.Count; i++)
+                {
+                    var action = actions[i];
+                    if (action.Name == name)
+                    {
+                        SCoreUtils.StoreAttributes(_package, action, _element);
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// <para>
+        /// This patch replaces the DecideAction method with one that will skip targets which are
+        /// not passed through the package and/or action filters.
+        /// </para>
+        /// <para>
+        /// Note that filters are inclusive, not exclusive; and that targets may be filtered by
+        /// packages and actions, and must pass through both filters.
+        /// </para>
+        /// </summary>
         [HarmonyPatch(typeof(UAI.UAIPackage))]
         [HarmonyPatch("DecideAction")]
         public class UAIPackage_DecideAction
         {
             // for out parameters, use ref instead of out. ref the __result otherwise the default of 0 is returned.
-            private static bool Prefix(UAI.UAIPackage __instance, ref float __result, Context _context, ref  UAIAction _chosenAction, ref object _chosenTarget, List<UAIAction> ___actionList)
+            private static bool Prefix(UAI.UAIPackage __instance, ref float __result, Context _context, ref UAIAction _chosenAction, ref object _chosenTarget, List<UAIAction> ___actionList)
             {
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, "\n**** START ************************ ");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
-                float num = 0f;
+                float highScore = 0f;
                 _chosenAction = null;
                 _chosenTarget = null;
+
+                int availableActions = 0;
+                int actionRans = 0;
+
+                var packageEntityFilter = SCoreUtils.GetEntityFilter(__instance, null, _context.Self);
+                var packageWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, null, _context.Self);
+                if (packageEntityFilter != null)
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} entity filter: {packageEntityFilter}");
+                if (packageWaypointFilter != null)
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} waypoint filter: {packageWaypointFilter}");
+
                 for (int i = 0; i < ___actionList.Count; i++)
                 {
-                    int num2 = 0;
-                    int num3 = 0;
-                    while (num3 < _context.ConsiderationData.EntityTargets.Count && num2 <= UAIBase.MaxEntitiesToConsider)
+                    var actionEntityFilter = SCoreUtils.GetEntityFilter(__instance, ___actionList[i], _context.Self);
+                    var actionWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, ___actionList[i], _context.Self);
+                    if (actionEntityFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} entity filter: {actionEntityFilter}");
+                    if (actionWaypointFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} waypoint filter: {actionWaypointFilter}");
+
+                    int entitiesConsidered = 0;
+                    int targetIndex = 0;
+                    while (targetIndex < _context.ConsiderationData.EntityTargets.Count && entitiesConsidered <= UAIBase.MaxEntitiesToConsider)
                     {
-                        float score = ___actionList[i].GetScore(_context, _context.ConsiderationData.EntityTargets[num3], 0f);
-                        if (score > num)
+                        var target = _context.ConsiderationData.EntityTargets[targetIndex];
+                        availableActions++;
+
+                        if (packageEntityFilter != null && !packageEntityFilter.Test(target))
                         {
-                            num = score;
-                            _chosenAction = ___actionList[i];
-                            _chosenTarget = _context.ConsiderationData.EntityTargets[num3];
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by package filter: {target}");
+                            targetIndex++;
+                            continue;
                         }
-                        num2++;
-                        num3++;
+
+                        if (actionEntityFilter != null && !actionEntityFilter.Test(target))
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by action filter: {target}");
+                            targetIndex++;
+                            continue;
+                        }
+
+                        float score = ___actionList[i].GetScore(_context, target, 0f);
+                        if (score > highScore)
+                        {
+                            highScore = score;
+                            _chosenAction = ___actionList[i];
+                            _chosenTarget = _context.ConsiderationData.EntityTargets[targetIndex];
+                        }
+                        entitiesConsidered++;
+                        targetIndex++;
+                        actionRans++;
                     }
-                    int num4 = 0;
-                    while (num4 < _context.ConsiderationData.WaypointTargets.Count && num4 <= UAIBase.MaxWaypointsToConsider)
+
+                    int waypointsConsidered = 0;
+                    int waypointIndex = 0;
+                    while (waypointIndex < _context.ConsiderationData.WaypointTargets.Count && waypointsConsidered <= UAIBase.MaxWaypointsToConsider)
                     {
-                        float score2 = ___actionList[i].GetScore(_context, _context.ConsiderationData.WaypointTargets[num4], 0f);
-                        if (score2 > num)
+                        var target = _context.ConsiderationData.WaypointTargets[waypointIndex];
+                        availableActions++;
+                        if (packageWaypointFilter != null && !packageWaypointFilter.Test(target))
                         {
-                            num = score2;
-                            _chosenAction = ___actionList[i];
-                            _chosenTarget = _context.ConsiderationData.WaypointTargets[num4];
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by package filter: {target}");
+                            waypointIndex++;
+                            continue;
                         }
-                        num4++;
+
+                        if (actionWaypointFilter != null && !actionWaypointFilter.Test(target))
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by action filter: {target}");
+                            waypointIndex++;
+                            continue;
+                        }
+
+                        float score2 = ___actionList[i].GetScore(_context, target, 0f);
+                        if (score2 > highScore)
+                        {
+                            highScore = score2;
+                            _chosenAction = ___actionList[i];
+                            _chosenTarget = target;
+                        }
+                        waypointsConsidered++;
+                        waypointIndex++;
+                        actionRans++;
                     }
                 }
 
+                UnityEngine.Debug.Log($"{_context.Self.EntityName} : I had a total of {availableActions} actions available, but I only evaluated {actionRans}");
 
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"************* Final Decision: {_context.Self.EntityName} ( {_context.Self.entityId} ) ********************* ");
                 if (_chosenAction != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name} Score {num}");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name} Score {highScore}");
                 else
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen action!");
                 if (_chosenTarget != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Target: {_chosenTarget} Score: {num}");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Target: {_chosenTarget} Score: {highScore}");
                 else
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen target!");
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, "********************************** ");
 
-                __result = num;
+                __result = highScore;
                 return false;
             }
 

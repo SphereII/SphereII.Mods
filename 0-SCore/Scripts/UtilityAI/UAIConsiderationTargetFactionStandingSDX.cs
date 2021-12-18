@@ -61,7 +61,7 @@
                 case FactionManager.Relationship.Hate:
                     return 1f;
                 case FactionManager.Relationship.Dislike:  // Added a 1 here for an example. Is there a difference between a Hate and Dislike?
-                    return 1f;
+                    return 0.5f;
                 case FactionManager.Relationship.Neutral:
                 case FactionManager.Relationship.Like:
                 case FactionManager.Relationship.Love:
