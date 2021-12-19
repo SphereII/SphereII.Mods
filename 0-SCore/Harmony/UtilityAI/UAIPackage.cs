@@ -228,7 +228,7 @@ namespace Harmony.UtilityAI
                     }
                 }
 
-                UnityEngine.Debug.Log($"{_context.Self.EntityName} : I had a total of {availableActions} actions available, but I only evaluated {actionRans}");
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{_context.Self.EntityName} : I had a total of {availableActions} actions available, but I only evaluated {actionRans}");
 
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"************* Final Decision: {_context.Self.EntityName} ( {_context.Self.entityId} ) ********************* ");
                 if (_chosenAction != null)

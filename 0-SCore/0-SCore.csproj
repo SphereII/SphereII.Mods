@@ -207,7 +207,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
-    <Compile Include="Scripts\MinEvents\MinEventActionSetHomePosition.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPumpQuestSDX.cs" />
@@ -244,6 +244,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHasCVar.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetWeaponRange.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetDistanceSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsAlerted.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_PathFindingKeypadWindow.cs" />
     <Compile Include="Scripts\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_PlayerStatWindowSDX.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\blockplaceholders.xml" />

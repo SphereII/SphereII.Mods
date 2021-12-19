@@ -19,14 +19,10 @@ namespace UAI
         public override void Update(Context _context)
         {
             var dist = Vector3.Distance(_vector, _context.Self.position);
-            if (dist < distance)
-            {
-                // true if you looted it.
+            if (dist <= distance)
                 SCoreUtils.CheckContainer(_context, _vector);
-                Stop(_context);
-            }
 
-            base.Update(_context);
+           // base.Update(_context);
             SCoreUtils.CheckForClosedDoor(_context);
         }
         public override void Start(Context _context)
@@ -38,6 +34,8 @@ namespace UAI
                 return;
             }
 
+            if (distance == 0)
+                distance = 1f;
             _vector = paths[0];
             AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{GetType()} Start Workstation: {_context.Self.EntityName} ( {_context.Self.entityId} Position: {_vector} ");
             SCoreUtils.FindPath(_context, _vector + Vector3.forward, false);

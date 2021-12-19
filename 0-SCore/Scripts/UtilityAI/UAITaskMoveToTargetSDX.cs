@@ -31,9 +31,7 @@ namespace UAI
 
             // Check if our entity has moved.
             _position = entityAlive.position;
-            
             _context.Self.moveHelper.SetMoveTo(_position, true);
-//            var speed = SCoreUtils.SetSpeed(_context, run);
         }
 
         public override void Start(Context _context)

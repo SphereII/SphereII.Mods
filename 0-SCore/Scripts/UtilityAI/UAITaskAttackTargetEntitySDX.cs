@@ -22,10 +22,14 @@ namespace UAI
         {
             base.Start(_context);
             SCoreUtils.SetCrouching(_context);
+
         }
 
         public override void Update(Context _context)
         {
+            if (!_context.Self.onGround)
+                return;
+
             // if the NPC is on the ground, don't attack.
             //switch (_context.Self.bodyDamage.CurrentStun)
             //{
@@ -38,6 +42,19 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
+                // Am I the target?
+                if (entityAlive.entityId == _context.Self.entityId)
+                {
+                    // Am I being attacked? 
+                    var attacker = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId) as EntityAlive;
+                    if (attacker == null)
+                    {
+                        Stop(_context);
+                        return;
+                    }
+
+                    entityAlive = attacker;
+                }
                 if (entityAlive.IsDead())
                 {
                     Stop(_context);
@@ -61,6 +78,29 @@ namespace UAI
 
             EntityUtilities.Stop(_context.Self.entityId);
 
+            // Check the range on the item action
+            var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
+            var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range - 0.35f) : 1.095f);
+            if (itemAction is ItemActionRanged itemActionRanged)
+            {
+                var itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
+                if (itemActionData != null)
+                {
+                    var range = itemActionRanged.GetRange(itemActionData);
+                    distance = Utils.FastMax(0.8f, range - 0.35f);
+                }
+            }
+            var minDistance = distance * distance;
+            var a = entityAlive.position - _context.Self.position;
+
+            // not within range?
+            if (a.sqrMagnitude > minDistance)
+            {
+                Stop(_context);
+                return;
+            }
+
+
             // Action Index = 1 is Use, 0 is Attack.
             if (_actionIndex > 0)
             {
@@ -74,7 +114,7 @@ namespace UAI
             }
 
             // Reset the attackTimeout, and allow another task to run.
-            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+            // this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
             Stop(_context);
         }
     }

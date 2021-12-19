@@ -33,6 +33,13 @@ namespace UAI
                 result = UAIUtils.DistanceSqr(_context.Self.position, vector3);
 
             var range = _context.Self.inventory.holdingItem.Actions[action_index].Range;
+            var itemActionRanged = _context.Self.inventory.holdingItem.Actions[action_index] as ItemActionRanged;
+            if (itemActionRanged != null )
+            {
+                var itemActionData = _context.Self.inventory.holdingItemData.actionData[action_index] as ItemActionRanged.ItemActionDataRanged;
+                if (itemActionData != null)
+                    range = itemActionRanged.GetRange(itemActionData);
+            }
             if (result <= range )
                 return 1f;
             return 0f;

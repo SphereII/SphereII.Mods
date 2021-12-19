@@ -55,8 +55,14 @@ namespace UAI
                 }
             }
 
-            if (SCoreUtils.IsEnemyNearby(_context))
+       
+            var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
+            if ( enemy != null && enemy.IsAlive() )
+            {
                 Stop(_context);
+                return;
+
+            }
 
                _currentTimeout--;
             if (_currentTimeout < 0) Stop(_context);
