@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+    <Name value="SampleProject" />
+    <Description value="Sample Project Mod" />
+    <Author value="sphereii" />
+    <Version value="20.0.0.0" />
+    <Website value="" />
+  </ModInfo>
+</xml>

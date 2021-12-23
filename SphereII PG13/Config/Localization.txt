@@ -1,0 +1,3 @@
+Key,English
+loadingTipPG13_title,"SphereII PG13"
+loadingTipPG13,"Party Girl model has been been converted over to nurse model for a more PG13 experience. Quests are unaffected. Grumpy Traders have been encouraged to be nicer as well."

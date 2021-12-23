@@ -1,0 +1,399 @@
+﻿<configs>
+  <insertBefore xpath="/dialogs/dialog[@id='trader']">
+    <!--
+    SCore Documentation for the Dialog System
+    
+    The SCore includes some extra scripts to help enhance the Dialog system to be more flexible.
+  
+  -->
+    <!-- [ Introduction ]   -->
+    <!-- 
+  
+  
+    The Dialog system uses a series of NPC statements with player responses.  Each of the player's responses can have requirements on whether or not to display.
+    
+    Each NPC can have their own dialog chain, as defined in their npc.xml entry's dialog id's reference to the dialog id in the dialogs.xml. NPCs can also share the same dialog.
+    
+    A dialog entry starts off with a system-wide unique id, along with an startstatementid, which tells the game which statement to show first when opening up a dialog with that NPC.
+    
+    The statement node needs an dialog entry-wide unique id, along with a text attribute. The text attribute is used to store the localization key to the full dialog statement.
+    
+    Example: 
+      This is the start of the dialog id called Alfred, and when first talking to Alfred, it will display the start statement.
+      
+      <dialog id="Alfred" startstatementid="start">
+      
+      
+    Inside each statement node, there's one or more response_entrys with an id. This response entry id is a reference to the full response node itself, which further defines what the player can say.
+    
+    Example:
+      This start statement will display the localized dialog_trader_statement_start to the player as an initial NPC greeting. The player will be presented two possible responses: help, or done.
+      
+      <statement id="start" text="dialog_trader_statement_start">
+			  <response_entry id="help" />  
+        <response_entry id="done" />
+      </statement>
+
+    Response nodes are used to further define what the player can say, what happens when they say it, and when they can say it. Each response has an id that is referenced by the response_id, along with a text attribute
+    which acts like a localization key. Each response also includes a nextstatementid attribute; This tells the system which statement to load when this response is selected.
+    
+    Example:
+      This response is called help. The player will see the localized entry for helpdialogkey. When the player clicks on this response, the start statement id loaded.
+        
+        <response id="help" text="helpdialogkey" nextstatementid="start" />
+    
+    A response node can contain optional actions and requirements. 
+    
+    Actions can trigger certain events and code-based events. Requirements are conditions that must be true in order for the response to show up to the player. If multiple requirements are listed, all requirements must 
+    be true for the dialog to show up.  
+    
+    Note: All requirements have a requirementtype of Hide.  The alternative to hide is not implemented.
+    
+    Example:
+      The Help response will only show up if the player is an Admin, or in God-mode. This example also has a special Action node. When this response is clicked, it will open up the Trade window.
+      
+      After the Action is completed, the nextstatementid will trigger. In this case, once the trader window is closed, the player will be taken back to the initial start dialog.
+            
+      If the player is not in God-mode, the help response will not show up at all. Using the start statement from above, only the "done" response would show up.
+      
+      <response id="help" text="helpdialogkey" nextstatementid="start">
+ 			  <requirement type="Admin" requirementtype="Hide" />
+			  <action type="Trader" id="trade" />
+		  </response>
+
+      If the nextstatementid is not defined, the dialog window will close.
+
+      <response id="done" text="dialog_trader_response_nevermind" />
+      
+      -->
+
+    <!-- [ Enhancements ]     -->
+
+    <!-- [ Requirements ]-->
+    <!--
+      Requirements
+      ============
+      
+      The following requirements are vanilla requirements:
+      
+      Admin
+        Checks if the game is in debug mode
+        
+        <requirement type="Admin" requirementtype="Hide" />
+
+      Buff
+        Does nothing.
+
+      DroneState
+        Used for the drone to check what its current state is. Code specific to EntityDrone, so it cannot be used with any other class.
+        
+        Valid States are:   Stay, Follow, Heal
+        
+        Note: Stay and Follow are orders defined by EntityDrone.Orders.  Heal is a fall-through. 
+
+        True if the drone has the order to stay.
+		      <requirement type="DroneState" value="Stay" requirementtype="Hide" />
+
+      The following series of Quests are pretty specific to trader functions. It can be argued that there's little need to replicate or try to re-use these, as some are tied very closely to the EntityTrader class. 
+      
+      QuestAvailable
+        Checks to see if the EntityTrader has any quest available for the player. Used by the default trader.
+        
+          <requirement type="QuestsAvailable" requirementtype="Hide" />
+
+      QuestStatus
+        Checks to see if there's any quest in the particular state. Used by the default trader.
+        
+        Valid Values are InProgress, NotStarted, TurnInReady, Completed, CanReceive, CannotReceive
+        
+    			<requirement type="QuestStatus"  requirementtype="Hide" value="InProgress" />
+
+      QuestTierHighest
+        Checks to see if the highest tier of quests has been unlocked yet.
+        
+          <requirement type="QuestTierHighest" requirementtype="Hide" value="2" />
+
+      QuestTier
+        Checks to see if a tier of quest can be accessed.  
+        
+          <requirement type="QuestTier" requirementtype="Hide" value="2" />
+
+        
+      
+      Remember that all requirements in a response must be true to show up to the player, otherwise the dialog option won't display to the player.
+      
+      The following new requirements were add to the SCore to help improve modability. 
+
+
+      Faction
+        Checks if the player has a specific relationship with the NPC.
+          Valid Values are: neutral, hate, dislike, Like, love, and leader.
+       
+          This requirement is true if the player has a neutral relationship with the trader. Otherwise, it will not show.
+            <requirement type="Faction, SCore" requirementtype="Hide" value="neutral" /> 
+                        
+      FactionValue
+        Checks if the player has a relationship with the NPC. Unlike the Faction requirement, FactionValue uses the numeric value of the faction, allowing more nuanced approach.
+        
+        Valid Values:  Range of 0 to 1001
+          0 - 199 : Hate
+          200 - 399 : Dislike
+          400 - 599 : Neutral
+          600 - 799 : Like
+          800 - 1000 : Love
+          1001 - max : Leader
+        
+        Valid Operator:
+            lt : less than
+            lte : less than or equal to
+            eq : equal to
+            neq : not equal to
+            gt : greater than
+            gte : greater than or equal to
+            
+            Note: If operator is not specified, it defaults to eq.
+            
+        If the player's standing in the faction is less than 400, it will show the response.
+          <requirement type="FactionValue, SCore" requirementtype="Hide" value="400" operator="lt" /> 
+
+        If the player's standing in the faction is greater than 600, it will show the response.
+          <requirement type="FactionValue, SCore" requirementtype="Hide" value="600" operator="gt" /> 
+
+        
+      HasBuffSDX
+        Checks if the player has the specified buff
+        
+        True if the player has the buffCursed
+          <requirement type="HasBuffSDX, SCore" requirementtype="Hide" value="buffCursed" /> 
+         
+         True if the player has any one of the three buffs.
+          <requirement type="HasBuffSDX, SCore" requirementtype="Hide" value="buffCursed,buffGodMode,buffImagination" /> 
+         
+         True if the player does not have buffCursed
+          <requirement type="HasBuffSDX, SCore" requirementtype="Hide" value="!buffCursed" />
+
+      HasCompletedQuestSDX
+        Checks if the player has completed the quest by name
+
+        True if the player has completed the myQuest
+          <requirement type="HasCompletedQuestSDX, SCore" requirementtype="Hide" value="myQuest" /> 
+
+        True if the player has not completed the myQuest. 
+          <requirement type="HasCompletedQuestSDX, SCore" requirementtype="Hide" value="!myQuest" /> 
+          
+          Note: This is specifically targeting a non-Completed quest. It will be true if the quest is: Not Started, In Progress, Ready For Turn in, or Failed.
+          
+          
+      HasCVarSDX
+        Checks if the player has the specified cvar, and, optionally, what value it is. Operator format matches the FactionValue operators.
+        
+        True if the cvar mycvar is less than 2.
+          <requirement type="HasCVarSDX, SCore" requirementtype="Hide" id="mycvar" operator="lt" value="2" /> 
+
+        True if the cvar mycvar is equal to 4.
+          <requirement type="HasCVarSDX, SCore" requirementtype="Hide" id="mycvar" operator="eq" value="4" /> 
+
+
+      HasFailedQuestSDX
+         Checks if the player has Failed the quest by name
+
+        True if the player has failed the myQuest
+          <requirement type="HasFailedQuestSDX, SCore" requirementtype="Hide" value="myQuest" /> 
+
+        True if the player has not completed the myQuest
+          <requirement type="HasFailedQuestSDX, SCore" requirementtype="Hide" value="!myQuest" /> 
+          
+          Note: This is specifically targeting a non-Failed quest. It will be true if the quest is: Not Started, In Progress, Ready For Turn in, or Completed.
+
+                    
+      HasItemSDX
+        Checks if the player has the specified item, with the right count.
+        
+        True if the player has at least 2 myItem's in their inventory.
+          <requirement type="HasItemSDX, SCore" requirementtype="Hide" id="myItem" value="2" /> 
+        
+        True if the player has at least 1 item in theiry inventory.
+          <requirement type="HasItemSDX, SCore" requirementtype="Hide" id="myItem" />         
+          
+
+      HasPlayerLevelSDX
+        Checks if the player has reached  a certain level.
+        
+        True if the player is less than level 5
+          <requirement type="HasPlayerLevelSDX, SCore" requirementtype="Hide" operator="lt" value="5" />    
+
+        True if the player is greater than or equal level 5
+          <requirement type="HasPlayerLevelSDX, SCore" requirementtype="Hide" operator="gte" value="5" />    
+
+        True if the player is not level 1
+          <requirement type="HasPlayerLevelSDX, SCore" requirementtype="Hide" operator="neq" value="1" />    
+
+          
+      HiredSDX
+        Checks if the NPC is currently hired by the player.
+        
+        True if the NPC is currently hired by the player
+          <requirement type="HiredSDX, SCore" requirementtype="Hide" />    
+
+        True if the NPC is currently not hired by the player
+          <requirement type="HiredSDX, SCore" requirementtype="Hide" value="not" />    
+
+      RandomRoll
+        Rolls a random value to be true. Value range is 0 to 10. The random roll must be less than the specified value, out of 10.
+        
+        True if the random roll is less than 1 
+          <requirement type="RandomRoll, Mods" requirementtype="Hide" value="1" /> 
+      
+        True if the random roll is less than 9
+          <requirement type="RandomRoll, Mods" requirementtype="Hide" value="9" /> 
+          
+  -->
+
+
+    <!-- [ Actions ] -->
+    <!--
+    
+    Actions are events that trigger game code. They get fired if all the requirements of a response are met, and are fired before it moves to the nextstatementid, if those are specified.
+    
+    The following vanilla Actions are available:
+    
+    Trader
+      Opens the trader window. 
+    	
+        <action type="Trader" id="trade" />
+    
+      Forces the inventory of the trader to be refreshed.
+      
+   			<action type="Trader" id="restock" />
+  
+      Forces the quest lists to be refreshed.
+      
+   			<action type="Trader" id="reset_quests" />
+      
+    AddJournalEntry
+      Adds the journal entry using the localization key
+      
+     			<action type="AddJournalEntry" id="questTip" />
+
+    AddBuff
+      Adds the specified buff to the player.
+      
+      Adds the myBuff to the player.
+   			<action type="AddBuff" id="myBuff" />
+
+    AddItem
+      Creates and gives the player the specified item. 
+      
+      Note: Value is treated differently, depending on if the specified item has a Quality level or not. 
+            Without a quality level, the value is the count of how many of that item to give to the player.
+            
+            If the item has a quality level, value will be used to specify at what quality level to make the item at.  
+            If Value has a comma in it, it'll treat the value as a min and max value of quality, and randomize it.
+      
+      Gives the player myItem
+  			<action type="AddItem" id="myItem" />
+
+      Gives the player 2 myItem
+  			<action type="AddItem" id="myItem" value="2" />
+
+      Gives the player an item with a quality level 2
+  			<action type="AddItem" id="myQualityItem" value="2" />
+
+      Gives the player an item with a random quality level between 2 and 3
+  			<action type="AddItem" id="myQualityItem" value="2,3" />
+
+    AddQuest
+      - Used internally by the jobs system
+      
+    Voice
+      Plays a voice clip
+      
+      <action type="Voice" id="mySoundNode" />
+
+    
+
+    The SCore adds the following new actions.
+
+    AddCVar
+      Modifies a CVar on the player.
+      
+      This will add the cvar myCvar with a value of 1 to the player. 
+        <action type="AddCVar, SCore" id="myCvar" value="1" operator="set" />
+
+      This will add 1 to the existing cvar called myCVar.  If the cvar does not exist, it will be added with an initial value of 0.
+        <action type="AddCVar, SCore" id="myCvar" value="1" operator="add" />
+
+      This will remove 1 from the existing cvar. If the cvar does not exist, it will be added with an initial value of 0.
+        <action type="AddCVar, SCore" id="myCvar" value="1" operator="sub" />
+        
+    ExecuteCommandSDX
+      Executes on of the pre-defined commands in EntityUtilities.ExecuteCMD()
+      
+      Valid Options: 
+        TellMe : Shows information about the NPC
+        ShowAffection : Unimplemented, meant for animal husbandry rather than hired NPCs. 
+        FollowMe:  If hired, the NPC will follow you
+        StayHere: If hired, the NPC will stay where it stands
+        GuardHere: If hired, the NPC will move to where you are standing, and stay there
+        Wander: Let the NPC walk around the area
+        Patrol: Let the NPC walk around its patrol route
+        Hire: Let's you hire the NPC
+        OpenInventory: If hired, let's you open up their inventory system.
+        Loot: Let the NPC walk around the area to loot
+        Dismiss: Resets the NPC hired status so they are a free agent.
+        
+      This will tell the NPC, if hired, to follow you.
+        <action type="ExecuteCommandSDX, SCore" id="FollowMe" />
+
+      GiveToNPC
+        Creates the specified item to give to the NPC, and removes the equivalent from the player's inventory. This should be paired with a requirement checking to make sure the player has the item.
+        
+        Give myItem to the NPC.
+          <action type="GiveToNPC, SCore" id="myItem" value="1" />
+
+        Give (2) myItem to the NPC.
+          <action type="GiveToNPC, SCore" id="myItem" value="2" />
+          
+      OpenDialogSDX
+        Open's up the HireInformation XUI window to hire the player.
+        
+        <action type="OpenDialogSDX, SCore" />
+
+     OpenWindowSDX
+        Open's up the generic UI window.
+        
+        Another way of opening the HireInformation dialog
+          <action type="OpenWindowSDX, SCore" id="HireInformation" />
+
+      AddBuffSDX          
+        Add the specified buff from the player.
+        
+        Adds the myBuff from the player. It does not check if the buff is already applied.
+          <action type="AddBuffSDX, SCore" id="myBuff" />
+          
+      RemoveBuffSDX          
+        Remove the specified buff from the player.
+        
+        Removes the myBuff from the player.
+          <action type="RemoveBuffSDX, SCore" id="myBuff" />
+          
+      RewardSkillPointSDX
+        Add the number of skill points to a player.
+        
+        Give the player 10 skill points.
+          <action type="RewardSkillPointSDX, SCore" value="10" />
+          
+      ShowToolTipSDX
+        Pop ups a tool tip with the prompt
+        
+          <action type="ShowToolTipSDX, SCore" id="This is my tool tip" />
+          
+    -->
+
+    <!-- [ Tutorial ]-->
+    <!--
+    
+    
+    -->
+  </insertBefore>
+</configs>

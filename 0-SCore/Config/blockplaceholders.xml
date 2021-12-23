@@ -1,0 +1,79 @@
+﻿<configs>
+  <append xpath="/blockplaceholders">
+    <placeholder name="cntCaveFloorRandomLootHelper">
+      <block name="cntTrashPile01" prob=".001"/>
+      <block name="cntTrashPile02" prob=".001"/>
+      <block name="garbage_decor1" prob=".001"/>
+      <block name="garbage_decor1" prob=".001"/>
+      <block name="terrDirt" prob=".001"/>
+      <block name="rock05" prob=".001"/>
+      <block name="rock06" prob=".001"/>
+      <block name="terrGravel" prob=".001"/>
+      <block name="rock_form02" prob=".001"/>
+      <block name="driftwood2" prob=".005"/>
+      <block name="driftwood" prob=".005"/>
+      <block name="decoCowSkull" prob=".001"/>
+      <block name="bodyBagPile" prob=".001"/>
+      <block name="bodyBagBlackFlies" prob=".001"/>
+      <block name="goreBlockAnimal" prob=".001"/>
+      <block name="goreBlockHumanCorpse" prob=".0001"/>
+      <block name="goreBlockHumanCorpse1" prob=".001"/>
+      <block name="goreBlockHumanCorpse2" prob=".0001"/>
+      <block name="goreBlockHumanCorpse3" prob=".0001"/>
+      <block name="goreBlockHumanBones" prob=".0001"/>
+      <block name="stalagmite01" prob=".001"/>
+      <block name="stalagmite02" prob=".001"/>
+      <block name="stalagmite03" prob=".001"/>
+      <block name="stalagmite04" prob=".001"/>
+      <block name="mushroom01" prob=".001"/>
+      <block name="mushroom02" prob=".001"/>
+
+      <block name="air" />
+    </placeholder>
+
+    <placeholder name="cntDeepCaveFloorRandomLootHelper">
+      <block name="bodyBagPile" prob=".0001"/>
+      <block name="bodyBagBlackFlies" prob=".001"/>
+      <block name="goreBlockAnimal" prob=".001"/>
+      <block name="goreBlockHumanCorpse" prob=".0001"/>
+      <block name="goreBlockHumanCorpse1" prob=".001"/>
+      <block name="goreBlockHumanCorpse2" prob=".0001"/>
+      <block name="goreBlockHumanCorpse3" prob=".001"/>
+      <block name="goreBlockHumanBones" prob=".0001"/>
+      <block name="cntBarrelOilQuadA" prob=".0001"/>
+      <block name="cntBarrelOilSingle00" prob=".001"/>
+      <block name="cntBarrelRadiatedSingle00" prob=".0001"/>
+      <block name="cntBarrelRadiatedQuadB" prob=".0001"/>
+      <block name="cntBackpack01" prob=".001"/>
+      <block name="cntBackpack03" prob=".0001"/>
+      <block name="cntDuffle01" prob=".001"/>
+      <block name="cntSportsBag01" prob=".0001"/>
+      <block name="cntSportsBag02" prob=".001"/>
+      <block name="cntPurse01" prob=".0001"/>
+      <block name="cntDeskSafe" prob=".0001"/>
+      <block name="cntBathTubGore" prob=".0001" />
+      <block name="stalagmite01" prob=".001"/>
+      <block name="stalagmite02" prob=".001"/>
+      <block name="stalagmite03" prob=".001"/>
+      <block name="stalagmite04" prob=".001"/>
+      <block name="driftwood" prob=".001"/>
+      <block name="driftwood2" prob=".001"/>
+
+      <block name="air" />
+    </placeholder>
+    
+    
+    <placeholder name="cntCaveCeilingRandomLootHelper">
+      <block name="cobweb" prob=".007"/>
+      <block name="hangingMoss" prob=".007"/>
+      <block name="stalactite01" prob=".006"/>
+      <block name="stalactite02" prob=".006"/>
+      <block name="stalactite03" prob=".006"/>
+      <block name="stalactite04" prob=".006"/>
+      <block name="air" />
+    </placeholder>
+    
+
+  </append>
+
+</configs>

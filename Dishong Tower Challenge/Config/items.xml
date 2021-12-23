@@ -1,5 +1,0 @@
-﻿<configs>
-  <set xpath="/items/item[@name='foodPumpkinBread']/effect_group/triggered_effect[@cvar='$foodAmountAdd']/@value">45</set>
-  <set xpath="/items/item[@name='foodPumpkinBread']/effect_group/triggered_effect[@cvar='foodHealthAmount']/@value">22</set>
-  <set xpath="/items/item[@name='foodPumpkinBread']/effect_group/triggered_effect[@cvar='.DiseaseRoll' and @operation='set']/@value">4</set>
-</configs>

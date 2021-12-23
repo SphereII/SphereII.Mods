@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{67868D47-719A-4DB4-95DF-44947DC0D5AA}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>SphereII_Clear_UI</RootNamespace>
+		<AssemblyName>SphereII Clear UI</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<Deterministic>true</Deterministic>
+		<TargetFrameworkProfile/>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>.\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>..\..\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="LogLibrary">
+			<HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Xml">
+			<HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System">
+			<HintPath>..\..\7DaysToDie_Data\Managed\System.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Xml.Linq">
+			<HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.Linq.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="Harmony\ClearUI.cs"/>
+		<Compile Include="Properties\AssemblyInfo.cs"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Config\blocks.xml"/>
+		<Content Include="Config\XUi\styles.xml"/>
+		<Content Include="Config\XUi\windows.xml"/>
+		<Content Include="Config\XUi\xui.xml"/>
+		<Content Include="Disabled-ModInfo.xml"/>
+		<Content Include="ReadMe.txt"/>
+		<Content Include="Textures\roland_compass_letters.png"/>
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+	<PropertyGroup>
+		<PostBuildEvent/>
+	</PropertyGroup>
+</Project>

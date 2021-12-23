@@ -1,0 +1,4 @@
+<configs>
+	<!-- change all the NPC's stances from dislike to neutral -->
+	<set xpath="/npc/npc_info[@stance='Dislike']/@stance">Neutral</set>
+</configs>

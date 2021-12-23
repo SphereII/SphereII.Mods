@@ -1,0 +1,47 @@
+﻿<configs>
+	<remove xpath="/quests/quest[@id='quest_BasicSurvival1']" />
+
+	<insertBefore xpath="/quests/quest[@id='quest_BasicSurvival2']">
+		<quest id="quest_BasicSurvival1">
+			<property name="group_name_key" value="quest_WhiteRiverCitizen"/>
+			<property name="name_key" value="quest_WhiteRiverCitizen1"/>
+			<property name="subtitle_key" value="quest_WhiteRiverCitizen1_subtitle"/>
+			<property name="description_key" value="quest_WhiteRiverCitizen1_description"/>
+			<property name="icon" value="ui_game_symbol_map_trader"/>
+			<property name="category_key" value="quest"/>
+			<property name="difficulty" value="medium"/>
+			<property name="shareable" value="false"/>
+	
+			<reward type="SkillPoints" value="4" chainreward="true"/>
+		<reward type="Quest" id="quest_BasicSurvival_trader"/>
+
+		</quest>
+		
+		<quest id="quest_BasicSurvival_trader">
+			<property name="group_name_key" value="quest_WhiteRiverCitizen"/>
+			<property name="name_key" value="quest_WhiteRiverCitizen1"/>
+			<property name="subtitle_key" value="quest_WhiteRiverCitizen1_subtitle"/>
+			<property name="description_key" value="quest_WhiteRiverCitizen1_description"/>
+			<property name="icon" value="ui_game_symbol_map_trader"/>
+			<property name="category_key" value="quest"/>
+			<property name="difficulty" value="medium"/>
+			<property name="shareable" value="false"/>
+
+			<objective type="Goto" id="trader" value="5" phase="1">
+				<property name="biome_filter_type" value="OnlyBiome" />
+				<property name="biome_filter" value="pine_forest" />
+				<!-- <property name="biome_filter_type" value="ExcludeBiome" /> -->
+				<!-- <property name="biome_filter" value="wasteland" /> -->
+				<property name="nav_object" value="go_to_trader" />
+			</objective>
+
+			<objective type="InteractWithNPC">
+				<property name="phase" value="2"/>
+				<property name="nav_object" value="return_to_trader" />
+				<property name="use_closest" value="true" />
+			</objective>
+
+			<reward type="Exp" value="500" />
+		</quest>
+	</insertBefore>
+</configs>

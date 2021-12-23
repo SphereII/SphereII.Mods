@@ -1,0 +1,361 @@
+﻿<configs>
+    <insertBefore xpath="/utility_ai/ai_packages">
+    <!--
+        To activate AI Packages, define the following in entityclasses.xml on the NPCs:
+        
+			<property name="AIPackages" value="Human Basic, Human Heal"/> 
+
+        Customize the value="" to match which AI Packages you want to use, separated by commas.
+        
+        Note: Remove the EAI references from the entity class entry.
+
+        AIPackages uses one or more AI Packages as defined in the utlityai.xml. 
+        
+        Each AI Package can contain one or more Actions. 
+        
+        Actions are made up of one or more Tasks and Considerations. 
+            
+        A Consideration score is valued at 1 if the consideration is true. Otherwise, it returns a 0. 
+        
+        All considerations for an Action are evaluated, contributing to an overall Score for the Action.
+        
+        A consideration value of 0 will not trigger the task, causing the action to fail.
+        
+        Once all the Actions are tallied, the highest score will execute its defined Task.
+
+        Each Task may have its own rules on when its complete. That means the Task may stop processing when it has reaching a destination, 
+        or another Action has been determined to have a higher Score now.
+        
+        Consideration and Tasks generally do not share much data. Considerations are just conditions that can trigger a task, but does not talk directly to its task.
+        
+        That means if you specify, for example, a min and max distance on a consideration, the Task itself never sees those values.
+        
+        To that counter that, the MoveToTargetSDX, SCore takes a distance attribute. This distance value will stop a task when the NPC is within that distance to its target.
+        
+        The following example has a consideration of TargetDistance to be within 10 and 30 distance to trigger. Once the task is triggered, the distance parameter on the target,
+            set at 10, will stop the task once it hits that distance.
+
+           <action name="MoveToEnemyRunMelee" weight="3" >
+                     This distance= check will end the Task when it reaches a distance of 10 from its target.
+                    <task class="MoveToTargetSDX, SCore" run="true" distance="10" />
+
+                    <consideration class="TargetType" type="EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+                    <consideration class="TargetIsEnemy, SCore" />
+                    
+                    This min / max determines if the Task can run at all.
+                    <consideration class="TargetDistance" min="10" max="30" flip_y="true"  /> 
+            </action>
+        
+        
+        For verbose troubleshooting, toggle the SCore's blocks.xml: 
+                <property name="UtilityAILogging" value="true" />
+        
+        This provides some output, but not as much:
+                <property name="UtilityAILoggingMin" value="true" />
+
+        Set to false to disable.
+        
+        SCore Tasks 
+        ******************************************
+        
+        Note:
+            All Tasks support the following parameters through a Harmony patch in Harmony/UtlityAI/UAITaskBase.cs
+            
+            It allows the following optional parameters with the value(s) of a buff name, and supports a comma-delimited list of buffs to add or remove.
+              
+              When the task starts, it fires the following buffs:
+                OnStartAddBuffs="myBuff,MyBuff2" 
+
+              When the task starts, it removes the following buffs:
+                OnStartRemoveBuffs="myBuff,MyBuff2"                 
+              
+              When the task is stopped, it fires the following buffs.
+                OnStopAddBuffs="myBuff,MyBuff2"
+
+              When the task stops, it removes the following buffs:
+                OnStopRemoveBuffs="myBuff"                 
+            
+         Allows the NPC to use the Action[0] for the attack.
+            <task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+
+         Defaults to index 0.
+            <task class="AttackTargetEntitySDX, SCore" />
+
+         Allows the NPC to use the Action[1] for the attack.
+            <task class="AttackTargetEntitySDX, SCore" action_index="1"/>
+
+        Allows the NPC to fire one of the buffs passed in, randomly selecting it.
+        Note: This task tries to stay locked until the buff is removed.
+            <task class="FireBuff, SCore" buffs="buffMyBuff,buffMyBuff2" />
+
+        Allows the NPC to investigate a position
+            <task class="MoveToInvestigate, SCore" />
+            
+        Allows the NPC to backup away from the target, while facing the entity.
+            <task class="BackupFromTargetSDX, SCore" />
+            
+         Allows the NPC to health itself by using medical supplies in the NPC's inventory.
+            <task class="HealSelf, SCore" />
+          
+         Allows the NPC to move to a target and heal the target using medical supplies in the NPC's inventory.
+            <task class="MoveToHealTarget, SCore" />
+
+        Allows the NPC to stay in place.
+            <task class="IdleSDX, SCore" />
+			
+         Allows the NPC to scan for TileEntities in the area, and path towards them. If the TileEntity is a loot
+         container, it will loot it, and add the items to the NPCs inventory.
+            <task class="MoveToExplore, SCore" />
+            
+         MoveToExplore has an optional buff parameter. When the NPC approaches close enough to the TileEntity, the
+         specified buff will be added to the NPC.  This could be used to trigger special animations.
+            <task class="MoveToExplore, SCore" buff="myActionBuff" />
+         
+         Same as MoveToTarget in vanilla, however, it does a block check.
+         If the entity is blocked for a few seconds, it'll stop the task. 
+         This prevents the walking-in-place when stuck on a small object like a pole.
+            <task class="MoveToTargetSDX, SCore" run="false" />
+
+         Allows the NPC to approach the target, up to the distance specified.
+         Defaults to 1 meters.
+            <task class="MoveToTargetSDX, SCore" run="false" distance="2" />
+
+
+        Allows the NPC to follow its leader, teleporting to the leader if too far apart, and moving away when its too close.
+  					<task class="FollowSDX, SCore"/>
+            
+            It has the following optional parameters: 
+              stop_distance : How close it can stand to the NPC, without trying to be in its space. Default is 1.5
+              max_distance : How far away the NPC is allowed to be from its leader before teleporting. Default is 30.
+              teleportTime : How long of a timeout, in ticks, before the teleport kicks in. Default is 200.
+              
+            <task class="FollowSDX, SCore" stop_distance="2" max_distance="20" teleportTime="200" />
+        
+         Wander in vanilla has the same challenges as MoveToTarget, where an NPC
+         can get stuck on small objects. This WanderSDX class adds in a check for blocked time.
+         
+         In addition, WanderSDX has Pathing Code support.
+         If the PathingCode CVar is set, the entity will scan for SignTile Entities looking for
+         a matching number. If found, it will path to them. 
+         If the NPC has a Leader cvar, and orders to follow, then logic is handled here as well.
+         If the NPC has ran into a door, it will open, and close the door, if the NPC is allowed.
+         If the NPC has a home position, it will act territorial and stay near that area.
+         If none of the above conditions are met, it will pick a spot randomly in a range of 10 blocks.
+            <task class="WanderSDX, SCore"/>    
+         
+         If the stop_distance is specified, the NPC will stop within a range of 1.5. This is a sqr calculation,
+         not a block size. Default is 1.5.
+            <task class="WanderSDX, SCore" stop_distance="1.5" />
+         
+         If the max_distance is specified, the NPC will wander only to that maximum distance. Defaults to 10.
+            <task class="WanderSDX, SCore" max_distance="10" />
+            
+            <task class="WanderSDX, SCore" stop_distance="1.5" max_distance="10" />
+         
+         stop_distance will be used in all cases: Follow, pathing cube, etc.
+         max_distance will only be used when no conditions are met, and the NPC is wandering aimlessly.
+        
+        Special Note about Wander:
+        
+            WanderSDX and Wander tasks do not traditionally have any considerations, so they always have a score of 1. This 
+        allows them to run when no other task has a higher priority for the NPC, thus the NPC does something. As such, 
+        always assume that your new tasks will be in direct competition against the Wander tasks, or any other task without consideration,
+        and thus set your considerations appropriately enough to score above Wanders' Tasks default score. 
+         
+        SCore Considerations
+        ************************************************************
+        
+        True if the passed in value, in ticks, has expired, allowing the task to run. This can allow you to delay a task
+        from firing too often. It sets a cvar on the character, and does a GetWorldTime() + value.
+        The cvar should be something unique to the Task its running against. However, multiple tasks can share the same cvar
+        and time out if it makes sense. The time out does not accelerate between the two.
+        
+        A value of 10 will allow this task to run GetWorldTime() + 10.
+       		<consideration class="Cooldown, SCore" cvar="WanderSDX" value="10"/>
+
+        True if the NPC detects an enemy nearby. Takes optional distance, which is by default 20x20x20
+            <consideration class="EnemyNear, SCore" distance="20"/>
+         
+         True if the NPC does not detect an enemy nearby.
+            <consideration class="EnemyNotNear, SCore" distance="20"/>
+                    
+        True if the target has a Home position, and is within it.
+            <consideration class="HasHomePosition, SCore" />
+    
+        True if the target has the specified order. Defaults to Wander. 
+            The following orders are supported:
+                Follow, Stay, Wander, None, Hire, Loot.
+           
+            <consideration class="HasOrder, SCore" order="Wander" />
+            <consideration class="HasOrder, SCore" order="Follow" />
+
+         True if the target does not have the specified order. For example, do not do this task if you are following a leader.
+            <consideration class="NotHasOrder, SCore" order="Follow" />
+         
+         True if the NPC has any scanned TileEntities in its area. If there's no recorded TileEntities, then it'll scan for nearby
+         tile entities to populate. This is the same logic as the pathing code for signs.
+            <consideration class="HasPath, SCore"/>
+                
+         True if the NPC does not have its IsBusy animator bool set.
+         This will prevent a task from running when the NPC is busy doing something for you. How the IsBusy
+         bool is set in the animator can done in different ways, such as a buff="" on actions, like MoveToLoot.
+            <consideration class="IsNotBusy, SCore" />
+            
+         True if the NPC is being targeted by an enemy.
+            <consideration class="IsTargeted, SCore"/>
+         
+         True if the NPC is not currently targeted by an enemy.
+            <consideration class="IsNotTargeted, SCore"/>
+         
+
+        True if one of the Pathing cubes is one of the listed tileEntities. This allows filtering for the MoveToExplore task, and pairs with HasPath consideration.
+        	 LandClaim, Loot, 	Trader, VendingMachine, Forge,	Campfire,	SecureLoot,	SecureDoor,
+         	Workstation, Sign,	GoreBlock, 	Powered, PowerSource, PowerRangeTrap,	Light, 	Trigger, 	Sleeper 
+         	PowerMeleeTrap,	SecureLootSigned 
+		<consideration class="PathTarget, SCore" type="Loot, SecureLoot"/>
+
+         True if the random number is between 0 and 1. Default is 0.25, meaning it'll fire 25% of the time.
+         This type of consideration is useful if a task may get locked in because all the other considerations are keeping
+         the task running beyond what you intend. For example, the MoveToLoot may continue looting everything. Adding a Random will
+         allow the NPC to alternate back and forth between Wander and Loot.
+            <consideration class="Random, SCore" percent="0.25" />
+               
+         True if the NPC has the specified buff(s). This can be a single buff, or a list of multiple subs. First match returns the true value.
+            <consideration class="SelfHasBuff, SCore" buffs="buffStatusCheck01,buffLevelUpTracking" />
+       
+         True if the NPC does not have the specified buff(s). This can be a single buff or a list of multiple buffs.
+			<consideration class="SelfNotHasBuff, SCore" buffs="ActivityCoolDown"/>
+      
+         True if the npc has an item with that tag in its inventory.
+         tags is comma delimited, so multiple tags can be specified.
+		    <consideration class="SelfHasItem, SCore" tags="medical" />
+		
+        True if the NPC has an item with the tag ranged on it. This can be a single tag, or a list of multiple tags separated by commas.
+        First match returns the true value.
+    	    <consideration class="SelfHasItem, SCore" tags="ranged" />
+
+         True if the Target is Disliked or Hated.
+            <consideration class="TargetIsEnemy, SCore" />
+
+         True if the Target is Neutral or friendlier.
+            <consideration class="TargetIsFriendly, SCore" />
+         
+         True if the Target is Liked, or better.
+            <consideration class="TargetIsAlly, SCore" />
+            
+         Consideration is true if the buff(s) exist on its target..
+		    <consideration class="TargetHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables" />
+
+         Consideration is true if the buff(s) does not exist.
+		    <consideration class="TargetNotHasBuff, SCore" buffs="buffHealHealth,buffProcessConsumables" />
+
+
+      True if the target has any of the tags
+        <consideration class="TargetHasTags, SCore" tags="mytag,mytag2" />
+        
+     True if the target does not have any one of the following tags
+        <consideration class="TargetNotHasTags, SCore" tags="mytag,mytag2" />
+        
+		 True if the target has a cvar "MyCvar" that has a value of 2.
+		    <consideration class="TargetHasCVar, SCore" cvar="MyCvar" value="2" />
+		    
+		 Same as above, but the value of the cvar does not matter. Just the existence of the cvar is considered.
+		    <consideration class="TargetHasCVar, SCore" cvar="MyCvar" />
+		 
+		 True if the target does not have the specified cvar
+		    <consideration class="TargetNotHasCVar, SCore" cvar="MyCvar" />
+
+     True if target health is within the min and max percent range.  Default of .01 and .75 if not defined. 
+            <consideration class="TargetHealthSDX, SCore" min=".01" max=".75"/>
+            
+            False if the target's health is below the minimum percent or above the max percent.
+
+     True if self health is within the min and max range in percent.  Default of 0.01 and 0.75 if not defined. 
+            <consideration class="SelfHealthSDX, SCore" min="0.01" max="0.75"/>
+
+
+     True if the entity is alerted, and has an investigation position
+          <consideration class="IsAlerted, SCore" />
+          
+     True if the target is alive.
+          <consideration class="TargetIsAlive, SCore" />
+
+     True if the target is dead.
+          <consideration class="TargetIsDead, SCore" />
+          
+		 True if the target entity's ID matches the NPC's "Leader" cvar
+		    <consideration class="TargetLeader, SCore" />
+    
+         True if the target and the NPC is the same entityclass ID
+            <consideration class="TargetSameClass, SCore" />
+         
+         True if the way point is one of the listed TileEntities.
+    		<consideration class="TargetTileEntity, SCore" type="Loot, SecureLoot" />
+ 
+Example action:
+    <action name="Heal" weight="1">
+
+         If my consideration scores are high enough, do this task:  
+        <task class="MoveToHealTarget, SCore" />
+  	    
+  	     Do they have medical supplies?
+        <consideration class="SelfHasItem, SCore" tags="medical" />
+
+         Are they a friend?  We don't want to heal someone who is indifferent.
+        <consideration class="TargetIsAlly, SCore"  />
+
+         Is my friend hurt?
+        <consideration class="TargetHealthSDX, SCore" min="1" max="75" />
+
+         is my friend already healing?
+        <consideration class="TargetNotHasBuff, SCore"  buffs="buffHealHealth,buffProcessConsumables" /> 
+    </action>
+    
+    
+    <action name="MoveToEnemyMelee" weight="2" >
+        If my consideration scores are high enough, move to the target. Walk, don't run.
+        <task class="MoveToTargetSDX, SCore" run="false"/>
+        
+        Is my target a zombie, npc or enemyanimal?
+        <consideration class="TargetType" type="EntityZombie,EntityNPC,EntityEnemyAnimal"/>
+        
+        Check their faction standings to make sure we don't have some kind of truce
+        <consideration class="TargetIsEnemy, SCore" />
+        
+        Are we with 3 and 4 meters away? If we are further away from 4, maybe have another MoveToTarget with run="true"
+        <consideration class="TargetDistance" min="3" max="4"/>
+    </action>
+    
+    
+More examples:
+      
+    Follow the target entity that has a Mother cvar set on it.
+    <action name="MoveToMother" weight="2" >
+        <task class="MoveToTargetSDX, SCore" run="true"/>
+        <consideration class="TargetHasCVar, SCore" cvar="Mother" />
+        <consideration class="TargetDistance" min="4" max="30"/>
+    </action>
+
+
+	All Tile Entities are included in the WayPoint list. The Type here is defined in TileEntityType enum
+        None, LandClaim, Loot, 	Trader, VendingMachine, Forge,	Campfire,	SecureLoot,	SecureDoor, 
+        Workstation, Sign,	GoreBlock, 	Powered, PowerSource, 	PowerRangeTrap,	Light, 	Trigger, 	Sleeper 
+        PowerMeleeTrap,	SecureLootSigned 
+
+    An optional buff can be triggered when the NPC reaches the TileEntity.  The buff will play out, pausing any
+    of the other context AI tasks until it runs out, or until it has an attack / revenge target. This could be used 
+    to trigger a special dance on a loot container, or if you want a particular animation when it reaches a campfire.              
+	<action name="LootBasic" weight="2">
+        <task class="MoveToLoot, SCore" run="false" buff="MyNPCTestBuff" />
+		All Tile Entities are included in the WayPoint list. The Type here is defined in TileEntityType enum
+        None, LandClaim, Loot, 	Trader, VendingMachine, Forge,	Campfire,	SecureLoot,	SecureDoor, 
+        Workstation, Sign,	GoreBlock, 	Powered, PowerSource, 	PowerRangeTrap,	Light, 	Trigger, 	Sleeper 
+        PowerMeleeTrap,	SecureLootSigned 
+        <consideration class="TargetVisible" />
+        <consideration class="TargetDistance"  min="2" max="10"/>
+        <consideration class="TargetTileEntity, SCore" type="Loot, SecureLoot" />
+    </action>  
+    -->
+
+    </insertBefore>
+</configs>

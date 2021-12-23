@@ -1,0 +1,86 @@
+﻿<configs>
+	<append xpath="/buffs">
+
+		<!-- When this buff is applied, it'll share its attack / revenge target with every NPC in the area that share the laeader.-->
+		<buff name="buffNotifyTeamAttack" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="NotifyTeamAttack, SCore" target="positionAOE" range="20" />
+			</effect_group>
+		</buff>
+
+
+		<buff name="buffAttackCoolDown" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="30"/>
+		</buff>
+
+		<buff name="buffOrderStay"  hidden="true" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffOrderFollow" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="1"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffOrderWander" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="3"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffOrderPatrol" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="5"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffOrderLoot" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="7"/>
+			</effect_group>
+		</buff>
+
+
+		<!-- Template Buff for an NPC to go gather random loot items for you -->
+
+		<buff name="buffGatherResources" hidden="true">
+			<stack_type value="ignore" />
+			<duration value="600 "/>
+
+			<!-- Make the NPC disappear for the duration of the buff -->
+			<effect_group name="Start">
+				<triggered_effect trigger="onSelfBuffStart" action="HideNPCSDX, SCore" hide="true" />
+			</effect_group>
+
+			<!-- Put items in its containers, make it appear, and give a boost to its loot experience-->
+			<effect_group name="End">
+				<!-- Grab items from the brassResource group -->
+				<triggered_effect trigger="onSelfBuffRemove" action="RandomLootSDX, SCore" lootgroup="brassResource" />
+				<!-- This cvar is used to determine both the amount of items to retrieve from the lootgroup, plus the quality tier, if applicable.-->
+				<!-- This gets reounded, so once it hits 2, it'll start pulling in two items from the brassResource group, up to a max of 5.-->
+				<triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar="spLootExperience" operation="add" value="0.1" />
+
+				<!-- Make the NPC visible! -->
+				<triggered_effect trigger="onSelfBuffRemove" action="HideNPCSDX, SCore" hide="false" />
+			</effect_group>
+
+		</buff>
+	</append>
+
+</configs>

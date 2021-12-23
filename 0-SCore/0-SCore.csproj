@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5717E58E-D52D-46B1-AF8D-EA06BF410286}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SCore</RootNamespace>
+    <AssemblyName>SCore</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>.\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Harmony\AIDirectorBloodMoon\AiDirectorBloodMoonParty.cs" />
+    <Compile Include="Harmony\Animation\AnimalAvatarController.cs" />
+    <Compile Include="Harmony\Animation\AnimatorMapper.cs" />
+    <Compile Include="Harmony\Animation\AvatarController.cs" />
+    <Compile Include="Harmony\Animation\AvatarControllerLateUpdate.cs" />
+    <Compile Include="Harmony\Animation\EmodelBaseLookAtUpdate.cs" />
+    <Compile Include="Harmony\Animation\ModelBaseInitCommon.cs" />
+    <Compile Include="Harmony\Atmosphere\Spook.cs" />
+    <Compile Include="Harmony\Blocks\BlockSecureLoot.cs" />
+    <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
+    <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
+    <Compile Include="Harmony\Blocks\Particles.cs" />
+    <Compile Include="Harmony\Dialog\DialogClose.cs" />
+    <Compile Include="Harmony\Dialog\DialogFromXML.cs" />
+    <Compile Include="Harmony\DMS\DynamicMusicPlayerTracker.cs" />
+    <Compile Include="Harmony\EAI\EAITarget.cs" />
+    <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
+    <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\StartJump.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\Stop.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\UpdateMoveHelper.cs" />
+    <Compile Include="Harmony\ErrorHandling\NoExceptionHijack.cs" />
+    <Compile Include="Harmony\Faction\FactionTweaks.cs" />
+    <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
+    <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
+    <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
+    <Compile Include="Harmony\Menu_ClearCache.cs" />
+    <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
+    <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityNPCJumpHeight.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
+    <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
+    <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />
+    <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
+    <Compile Include="Harmony\PlayerFeatures\SoftHands.cs" />
+    <Compile Include="Harmony\PrefabFeatures\RemoveTraderProtection.cs" />
+    <Compile Include="Harmony\Progression\EntityAliveSDXProgressionHooks.cs" />
+    <Compile Include="Harmony\Progression\Progression.cs" />
+    <Compile Include="Harmony\QuickContinue\QuickContinue.cs" />
+    <Compile Include="Harmony\SoundFeatures\AudioClientPlay.cs" />
+    <Compile Include="Harmony\SoundFeatures\AudioManagerPlay.cs" />
+    <Compile Include="Harmony\SoundFeatures\AudioServerPlay.cs" />
+    <Compile Include="Harmony\SoundFeatures\GiveBuffOrQuestBySound.cs" />
+    <Compile Include="Harmony\SoundFeatures\SoundsFromXML.cs" />
+    <Compile Include="Harmony\SphereIICore_Init.cs" />
+    <Compile Include="Harmony\Standard\ModInitModCode.cs" />
+    <Compile Include="Harmony\Standard\XMLDebugging.cs" />
+    <Compile Include="Harmony\TileEntities\PoweredWorkstations.cs" />
+    <Compile Include="Harmony\TileEntities\TileEntityAlwaysActive.cs" />
+    <Compile Include="Harmony\TileEntities\TileEntitySignGif.cs" />
+    <Compile Include="Harmony\UI\FilterGameWorld.cs" />
+    <Compile Include="Harmony\UI\TargetBar.cs" />
+    <Compile Include="Harmony\UI\XPIconRemover.cs" />
+    <Compile Include="Harmony\UtilityAI\UAIPackage.cs" />
+    <Compile Include="Harmony\UtilityAI\UAIBase.cs" />
+    <Compile Include="Harmony\UtilityAI\UAITaskBase.cs" />
+    <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
+    <Compile Include="Harmony\Vehicles\NoVechileTake.cs" />
+    <Compile Include="Harmony\WorldGen\CaveProject.cs" />
+    <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
+    <Compile Include="Harmony\XML\ModInfoPatches.cs" />
+    <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
+    <Compile Include="Harmony\ZombieFeatures\HeadshotOnly.cs" />
+    <Compile Include="Harmony\ZombieFeatures\InertEntity.cs" />
+    <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
+    <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
+    <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
+    <Compile Include="Scripts\Animation\MecanimSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockMortSpawner.cs" />
+    <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
+    <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
+    <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockUtilitiesSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
+    <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementIsBloodMoon.cs" />
+    <Compile Include="Scripts\Buffs\RequirementIsUnderground.cs" />
+    <Compile Include="Scripts\Buffs\RequirementLookingAt.cs" />
+    <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
+    <Compile Include="Scripts\Cache\SphereCache.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionGiveQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionGiveToNPC.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionOpenDialogSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionAddBuffSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionRemoveBuffSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionRewardSkillPoint.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionShowToolTipSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementFaction.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementFactionValue.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasCompletedQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasCVar.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasFailedQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasItemSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasPlayerLevelSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementRandomRoll.cs" />
+    <Compile Include="Scripts\EAI\DMTEAIUtilities.cs" />
+    <Compile Include="Scripts\EAI\EAIApproachAndAttackSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIApproachAndFollowTargetSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIBreakBlockSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIGuardSDX.cs" />
+    <Compile Include="Scripts\EAI\EAILootLocationSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIMaslowLevel1SDX.cs" />
+    <Compile Include="Scripts\EAI\EAIPatrolSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIRangedAttackTargetSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIRunawayFromEntitySDX.cs" />
+    <Compile Include="Scripts\EAI\EAISetAsTargetIfHurtSDX.cs" />
+    <Compile Include="Scripts\EAI\EAISetAsTargetIfLeaderAttackedSDX.cs" />
+    <Compile Include="Scripts\EAI\EAISwimSDX.cs" />
+    <Compile Include="Scripts\EAI\EAIWanderSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
+    <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
+    <Compile Include="Scripts\Entities\EntitySwimingSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityUtilities.cs" />
+    <Compile Include="Scripts\Entities\EntityZombieFlockSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityZombieFlyingSDX.cs" />
+    <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
+    <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Features\AdvLogging.cs" />
+    <Compile Include="Scripts\Features\Configuration.cs" />
+    <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
+    <Compile Include="Scripts\Items\ItemActionEntryResharpenSDX.cs" />
+    <Compile Include="Scripts\Items\ItemsUtilities.cs" />
+    <Compile Include="Scripts\Lockpicking\Cipher.cs" />
+    <Compile Include="Scripts\Lockpicking\CipherControls.cs" />
+    <Compile Include="Scripts\Lockpicking\CipherDemoUI.cs" />
+    <Compile Include="Scripts\Lockpicking\Keyhole.cs" />
+    <Compile Include="Scripts\Lockpicking\KeyholeDemoUI.cs" />
+    <Compile Include="Scripts\Lockpicking\LockButton.cs" />
+    <Compile Include="Scripts\Lockpicking\LockControls.cs" />
+    <Compile Include="Scripts\Lockpicking\LockDemoCommonControls.cs" />
+    <Compile Include="Scripts\Lockpicking\LockEmissive.cs" />
+    <Compile Include="Scripts\Lockpicking\LockEmissiveControls.cs" />
+    <Compile Include="Scripts\Lockpicking\LockObjectRotation.cs" />
+    <Compile Include="Scripts\Lockpicking\LocksetAudio.cs" />
+    <Compile Include="Scripts\Lockpicking\SphereII_Locks.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionCreateItemSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommand.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionGiveQuestSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionHideNPCSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionPumpQuestSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionRandomLootSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionShowToolTipSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSkillPointSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSpawnBabySDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionToggleCamera.cs" />
+    <Compile Include="Scripts\MonoBehaviour\LeaderCollision.cs" />
+    <Compile Include="Scripts\MusicBoxes\MusicBox.cs" />
+    <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
+    <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
+    <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionGiveBuffSDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionPlaySound.cs" />
+    <Compile Include="Scripts\Quests\QuestActionReplaceEntitySDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionSpawnEntitySDX.cs" />
+    <Compile Include="Scripts\Quests\RewardGiveCvarDMT.cs" />
+    <Compile Include="Scripts\Quests\RewardGiveNPCSDX.cs" />
+    <Compile Include="Scripts\Quests\RewardItemSDX.cs" />
+    <Compile Include="Scripts\Quests\RewardQuestSDX.cs" />
+    <Compile Include="Scripts\Quests\RewardReassignNPCSDX.cs" />
+    <Compile Include="Scripts\Signs\AnimatedGifDecoder.cs" />
+    <Compile Include="Scripts\Signs\AnimatedGifPlayer.cs" />
+    <Compile Include="Scripts\Signs\ImageWrapper.cs" />
+    <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
+    <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\IUAITargetFilter.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsAlly.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsEnemy.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
+    <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHasCVar.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetWeaponRange.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetDistanceSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsAlerted.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationCooldown.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationEnemyNear.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasHomePositioncs.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasTarget.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasOrder.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasPath.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsBusy.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationFailOnDistanceToLeader.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsTargeted.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationPathTarget.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationRandom.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHasBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHasItem.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetFactionStandingSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetHasTags.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetIsAlive.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetHasBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetHasCVar.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHealthSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetHealthSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetLeader.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetSameClass.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetTileEntity.cs" />
+    <Compile Include="Scripts\UtilityAI\UAISCoreUtils.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskIdle.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskHealSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskLoot.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToExplore.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToHealTargetSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToHealTarget.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskBackupFromTargetSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToInvestigate.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToAttackTargetSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToTargetSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
+    <Compile Include="Scripts\WorldGen\LegacyCaveTunneler.cs" />
+    <Compile Include="Scripts\WorldGen\SebastianCaveTunneler.cs" />
+    <Compile Include="Scripts\WorldGen\Utilities\FastNoise.cs" />
+    <Compile Include="Scripts\WorldGen\Utilities\FastNoiseSIMD.cs" />
+    <Compile Include="Scripts\WorldGen\Utilities\MapGenerator.cs" />
+    <Compile Include="Scripts\WorldGen\WinterProjectPrefab.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_DialogHireInformationSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_DialogRespondentNameSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_DialogStatementWindowSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_EntityInformationPanelSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_HireInformationPopupSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_JoinInformationPopupSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_PathFindingKeypadWindow.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_PlayerStatWindowSDX.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\blockplaceholders.xml" />
+    <Content Include="Config\blocks.xml" />
+    <Content Include="Config\buffs.xml" />
+    <Content Include="Config\dialogs.xml" />
+    <Content Include="Config\items.xml" />
+    <Content Include="Config\Localization.txt" />
+    <Content Include="Config\quests.xml" />
+    <Content Include="Config\spawning.xml" />
+    <Content Include="Config\utilityai.xml" />
+    <Content Include="Config\XUi\windows.xml" />
+    <Content Include="Config\XUi\xui.xml" />
+    <Content Include="ModInfo.xml" />
+    <Content Include="Prefabs\caveOpening02.tts" />
+    <Content Include="Prefabs\caveOpening02.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_01.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_01.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_01.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_02.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_02.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_02.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_03.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_03.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_03.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_04.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_04.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_04.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_05.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_05.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_05.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_06.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_06.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_06.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_07.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_07.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_07.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_08.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_08.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_08.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_09.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_09.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_09.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_10.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_10.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_10.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_11.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_11.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_11.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_12.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_12.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_12.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_13.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_13.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_13.xml" />
+    <Content Include="Prefabs\Chiko_SCcave_14.jpg" />
+    <Content Include="Prefabs\Chiko_SCcave_14.tts" />
+    <Content Include="Prefabs\Chiko_SCcave_14.xml" />
+    <Content Include="Prefabs\sphereii_cave_01.jpg" />
+    <Content Include="Prefabs\sphereii_cave_01.tts" />
+    <Content Include="Prefabs\sphereii_cave_01.xml" />
+    <Content Include="Prefabs\sphereii_cave_02.jpg" />
+    <Content Include="Prefabs\sphereii_cave_02.tts" />
+    <Content Include="Prefabs\sphereii_cave_02.xml" />
+    <Content Include="Prefabs\sphereii_cave_03.jpg" />
+    <Content Include="Prefabs\sphereii_cave_03.tts" />
+    <Content Include="Prefabs\sphereii_cave_03.xml" />
+    <Content Include="Prefabs\sphereii_cave_04.jpg" />
+    <Content Include="Prefabs\sphereii_cave_04.tts" />
+    <Content Include="Prefabs\sphereii_cave_04.xml" />
+    <Content Include="Prefabs\sphereii_cave_05.jpg" />
+    <Content Include="Prefabs\sphereii_cave_05.tts" />
+    <Content Include="Prefabs\sphereii_cave_05.xml" />
+    <Content Include="Prefabs\sphereii_cave_06.jpg" />
+    <Content Include="Prefabs\sphereii_cave_06.tts" />
+    <Content Include="Prefabs\sphereii_cave_06.xml" />
+    <Content Include="Prefabs\sphereii_cave_07.jpg" />
+    <Content Include="Prefabs\sphereii_cave_07.tts" />
+    <Content Include="Prefabs\sphereii_cave_07.xml" />
+    <Content Include="Prefabs\sphereii_cave_08.jpg" />
+    <Content Include="Prefabs\sphereii_cave_08.tts" />
+    <Content Include="Prefabs\sphereii_cave_08.xml" />
+    <Content Include="Prefabs\sphereii_cave_09.tts" />
+    <Content Include="Prefabs\sphereii_cave_09.xml" />
+    <Content Include="Prefabs\sphereii_cave_10.tts" />
+    <Content Include="Prefabs\sphereii_cave_10.xml" />
+    <Content Include="Prefabs\sphereii_cave_11.tts" />
+    <Content Include="Prefabs\sphereii_cave_11.xml" />
+    <Content Include="Prefabs\sphereii_deepcaves_01.tts" />
+    <Content Include="Prefabs\sphereii_deepcaves_01.xml" />
+    <Content Include="Scripts\Lockpicking\README.txt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Licenses\CaveGeneration.md" />
+    <None Include="Prefabs\caveOpening02.blocks.nim" />
+    <None Include="Prefabs\caveOpening02.ins" />
+    <None Include="Prefabs\Chiko_SCcave_01.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_01.ins" />
+    <None Include="Prefabs\Chiko_SCcave_02.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_02.ins" />
+    <None Include="Prefabs\Chiko_SCcave_03.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_03.ins" />
+    <None Include="Prefabs\Chiko_SCcave_04.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_04.ins" />
+    <None Include="Prefabs\Chiko_SCcave_05.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_05.ins" />
+    <None Include="Prefabs\Chiko_SCcave_06.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_06.ins" />
+    <None Include="Prefabs\Chiko_SCcave_07.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_07.ins" />
+    <None Include="Prefabs\Chiko_SCcave_08.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_08.ins" />
+    <None Include="Prefabs\Chiko_SCcave_09.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_09.ins" />
+    <None Include="Prefabs\Chiko_SCcave_10.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_10.ins" />
+    <None Include="Prefabs\Chiko_SCcave_11.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_11.ins" />
+    <None Include="Prefabs\Chiko_SCcave_12.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_12.ins" />
+    <None Include="Prefabs\Chiko_SCcave_13.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_13.ins" />
+    <None Include="Prefabs\Chiko_SCcave_14.blocks.nim" />
+    <None Include="Prefabs\Chiko_SCcave_14.ins" />
+    <None Include="Prefabs\sphereii_cave_01.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_01.ins" />
+    <None Include="Prefabs\sphereii_cave_01.mesh" />
+    <None Include="Prefabs\sphereii_cave_02.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_02.ins" />
+    <None Include="Prefabs\sphereii_cave_03.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_03.ins" />
+    <None Include="Prefabs\sphereii_cave_03.mesh" />
+    <None Include="Prefabs\sphereii_cave_04.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_04.ins" />
+    <None Include="Prefabs\sphereii_cave_04.mesh" />
+    <None Include="Prefabs\sphereii_cave_05.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_05.ins" />
+    <None Include="Prefabs\sphereii_cave_06.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_06.ins" />
+    <None Include="Prefabs\sphereii_cave_07.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_07.ins" />
+    <None Include="Prefabs\sphereii_cave_08.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_08.ins" />
+    <None Include="Prefabs\sphereii_cave_08.mesh" />
+    <None Include="Prefabs\sphereii_cave_09.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_09.ins" />
+    <None Include="Prefabs\sphereii_cave_10.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_10.ins" />
+    <None Include="Prefabs\sphereii_cave_10.mesh" />
+    <None Include="Prefabs\sphereii_cave_11.blocks.nim" />
+    <None Include="Prefabs\sphereii_cave_11.ins" />
+    <None Include="Prefabs\sphereii_deepcaves_01.blocks.nim" />
+    <None Include="Prefabs\sphereii_deepcaves_01.ins" />
+    <None Include="ReadMe.md" />
+    <None Include="Resources\PathingCube.unity3d" />
+    <None Include="Resources\PathSmoke.unity3d" />
+    <None Include="Resources\PathSmokeParticle.unity3d" />
+    <None Include="Resources\PathSmokeParticle_X.prefab" />
+    <None Include="Scripts\Mods.dll.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Harmony\Quests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AstarPathfindingProject">
+      <HintPath>..\..\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="InControl">
+      <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="LogLibrary">
+      <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>..\..\7DaysToDie_Data\Managed\System.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.Linq.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.Physics2DModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.Physics2DModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestTextureModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UnityWebRequestTextureModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestWWWModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UnityWebRequestWWWModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
+</Project>

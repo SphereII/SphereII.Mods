@@ -29,7 +29,7 @@
       <property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
       <property name="CustomIcon" value="metalTrussingRampOld"/>
       <property name="CreativeMode" value="Dev"/>
-      <property name="Class" value="MortSpawner, Mods"/>
+      <property name="Class" value="MortSpawner, SCore"/>
       <property name="StabilitySupport" value="false"/>
       <property name="Shape" value="Ext3dModel"/>
       <property name="Texture" value="293"/>
@@ -42,12 +42,12 @@
       <property name="Collide" value="sight"/>
       <property name="LootList" value="15"/>
 
-      <property name="TickRate" value="10" />
+      <property name="TickRate" value="1000" />
       <!-- 1 day = 24000 ticks (for 60min day) -->
       <property name="SpawnRadius" value="10" />
       <property name="SpawnArea" value="5" />
-      <property name="NumberToSpawn" value="3" />
-      <property name="MaxSpawned" value="4" />
+      <property name="NumberToSpawn" value="2" />
+      <property name="MaxSpawned" value="2" />
       <property name="CheckArea" value="20" />
 
     </block>

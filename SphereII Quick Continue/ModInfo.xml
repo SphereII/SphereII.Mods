@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xml>
-  <ModInfo>
-    <Name value="SphereII Quick Continue" />
-    <Description value="Enables auto-loading in the last loaded game when Scroll Lock is on" />
-    <Author value="sphereii" />
-    <Version value="18.3.1.4" />
-  </ModInfo>
-</xml>

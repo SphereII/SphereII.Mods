@@ -1,48 +1,36 @@
-﻿using DMT;
-using Harmony;
-using System;
+using HarmonyLib;
 using System.Reflection;
-using UnityEngine;
 
 public class ClearUI
 {
-    public class ClearUI_Init : IHarmony
+    public class ClearUIInit : IModApi
     {
-        public void Start()
+        public void InitMod(Mod _modInstance)
         {
-            Debug.Log(" Loading Patch: " + GetType().ToString());
-            var harmony = HarmonyInstance.Create(GetType().ToString());
+            Log.Out(" Loading Patch: " + GetType());
+            var harmony = new HarmonyLib.Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 
- 
+
     // Sneak Damage pop up
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("NotifySneakDamage")]
     public class SphereII_ClearUI_NotifySneakDamage
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
     }
+
     // Remove the damage notifier
     [HarmonyPatch(typeof(EntityPlayerLocal))]
     [HarmonyPatch("NotifyDamageMultiplier")]
     public class SphereII_ClearUI_NotifyDamageMultiplier
     {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
-    // Removes the dim effect
-    [HarmonyPatch(typeof(StealthScreenOverlay))]
-    [HarmonyPatch("Update")]
-    public class SphereII_ClearUI_StealthScreenOverlay
-    {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -53,7 +41,7 @@ public class ClearUI
     [HarmonyPatch("Update")]
     public class SphereII_ClearUI_XUiC_CompassWindow
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -64,27 +52,19 @@ public class ClearUI
     [HarmonyPatch("canShowOverlay")]
     public class SphereII_ClearUI_ItemActionDynamic
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
     }
 
-    [HarmonyPatch(typeof(ItemActionDynamicMelee))]
-    [HarmonyPatch("canShowOverlay")]
-    public class SphereII_ClearUI_ItemActionDynamicMeLee
-    {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
+
     // Removes the overlays, like the damage, downground and upgrade indicators
     [HarmonyPatch(typeof(ItemActionAttack))]
     [HarmonyPatch("canShowOverlay")]
     public class SphereII_ClearUI_ItemActionAttack
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -95,7 +75,7 @@ public class ClearUI
     [HarmonyPatch("canShowOverlay")]
     public class SphereII_ClearUI_ItemActionUseOther
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -106,7 +86,7 @@ public class ClearUI
     [HarmonyPatch("canShowOverlay")]
     public class SphereII_ClearUI_ItemActionRanged
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -117,45 +97,46 @@ public class ClearUI
     [HarmonyPatch("ShowTip")]
     public class SphereII_ClearUI_XUiC_TipWindow
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
     }
 
-    // Removes Tool tips and skill perks
-    [HarmonyPatch(typeof(NGuiWdwInGameHUD))]
-    [HarmonyPatch("ShowInfoText")]
-    public class SphereII_ClearUI_NGuiWdwInGameHUD
+    // Removes the looting pop up
+    [HarmonyPatch(typeof(XUiC_InteractionPrompt))]
+    [HarmonyPatch("SetText")]
+    public class SphereII_ClearUI_XUiC_InteractionPrompt
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
     }
 
-    // Remove all the tool tips
-    [HarmonyPatch(typeof(NGuiWdwInGameHUD))]
-    [HarmonyPatch("SetTooltipText")]
 
-    // There's multiple Tool tips, so let's specify the parameter types here:
-    // public void SetTooltipText(string _text, string[] _args, string _alertSound, ToolTipEvent eventHandler)
-    [HarmonyPatch(new Type[] { typeof(string), typeof(string[]), typeof(string), typeof(ToolTipEvent) })]
-    public class SphereII_ClearUI_SetTooltipText
-    {
-        static bool Prefix()
-        {
-            return false;
-        }
-    }
+    // // Remove all the tool tips
+    // [HarmonyPatch(typeof(NGuiWdwInGameHUD))]
+    // [HarmonyPatch("SetTooltipText")]
+    //
+    // // There's multiple Tool tips, so let's specify the parameter types here:
+    // // public void SetTooltipText(string _text, string[] _args, string _alertSound, ToolTipEvent eventHandler)
+    // [HarmonyPatch(new Type[] { typeof(string), typeof(string[]), typeof(string), typeof(ToolTipEvent) })]
+    // public class SphereII_ClearUI_SetTooltipText
+    // {
+    //     static bool Prefix()
+    //     {
+    //         return false;
+    //     }
+    // }
 
     // Remove the SetLabel Text calls
     [HarmonyPatch(typeof(NGUIWindowManager))]
     [HarmonyPatch("SetLabelText")]
-    [HarmonyPatch(new Type[] { typeof(EnumNGUIWindow), typeof(string) })]
+    [HarmonyPatch(new[] { typeof(EnumNGUIWindow), typeof(string) })]
     public class SphereII_ClearUI_NGUIWindowManager
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -164,10 +145,10 @@ public class ClearUI
     // Remove the SetLabel Text calls
     [HarmonyPatch(typeof(NGUIWindowManager))]
     [HarmonyPatch("SetLabelText")]
-    [HarmonyPatch(new Type[] { typeof(EnumNGUIWindow), typeof(string), typeof(bool) })]
+    [HarmonyPatch(new[] { typeof(EnumNGUIWindow), typeof(string), typeof(bool) })]
     public class SphereII_ClearUI_NGUIWindowManager_SetLabelText
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
@@ -178,23 +159,33 @@ public class ClearUI
     [HarmonyPatch("OnOpen")]
     public class SphereII_ClearUI_XUiC_Timer_OnOpen
     {
-        static bool Prefix()
+        private static bool Prefix()
         {
             return false;
         }
-      
     }
+
+
+    // Removes the timer
+    [HarmonyPatch(typeof(XUiC_Timer))]
+    [HarmonyPatch("UpdateTimer")]
+    public class SphereII_ClearUI_XUiC_Timer_UpdateTimer
+    {
+        private static bool Prefix()
+        {
+            return false;
+        }
+    }
+
 
     // removes cross hair
     [HarmonyPatch(typeof(ItemClass))]
     [HarmonyPatch("GetCrosshairType")]
     public class SphereII_ClearUI_ItemClass_Crosshair
     {
-        static ItemClass.EnumCrosshairType Postfix(ItemClass.EnumCrosshairType __result)
+        private static ItemClass.EnumCrosshairType Postfix(ItemClass.EnumCrosshairType __result)
         {
             return ItemClass.EnumCrosshairType.None;
         }
     }
-
 }
-
