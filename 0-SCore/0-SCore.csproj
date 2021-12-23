@@ -62,8 +62,10 @@
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
     <Compile Include="Harmony\EntityMoveHelper\StartJump.cs" />
     <Compile Include="Harmony\EntityMoveHelper\Stop.cs" />
+    <Compile Include="Harmony\EntityMoveHelper\UpdateMoveHelper.cs" />
     <Compile Include="Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
+    <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
@@ -478,6 +480,10 @@
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AstarPathfindingProject">
+      <HintPath>..\..\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="InControl">

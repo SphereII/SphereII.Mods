@@ -20,7 +20,6 @@ namespace UAI
             if (Parameters.ContainsKey("stop_distance")) _distance = StringParsers.ParseFloat(Parameters["stop_distance"]);
             if (Parameters.ContainsKey("max_distance")) _maxDistance = (int)StringParsers.ParseFloat(Parameters["max_distance"]);
             if (Parameters.ContainsKey("teleportTime")) _timeOut = StringParsers.ParseFloat(Parameters["teleportTime"]);
-
         }
 
         public override void Start(Context _context)

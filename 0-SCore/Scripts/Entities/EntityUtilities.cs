@@ -1455,6 +1455,12 @@ public static class EntityUtilities
         if (myEntity.factionId == entity.factionId)
             return true;
 
+        var revengeTarget = myEntity.GetRevengeTarget();
+        if (revengeTarget != null)
+        {
+            return false;
+        }
+
         var myRelationship = FactionManager.Instance.GetRelationshipTier(myEntity, entity);
         DisplayLog(" CheckFactionForEnemy: " + myRelationship);
         if (myRelationship == FactionManager.Relationship.Hate)

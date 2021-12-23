@@ -21,13 +21,11 @@ namespace UAI
         public override void Start(Context _context)
         {
             base.Start(_context);
-            SCoreUtils.SetCrouching(_context);
-
         }
 
         public override void Update(Context _context)
         {
-            if (!_context.Self.onGround)
+            if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
             // if the NPC is on the ground, don't attack.
@@ -61,7 +59,9 @@ namespace UAI
                     return;
                 }
 
-                SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
+                if ( entityAlive.IsWalkTypeACrawl())
+                    SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
+
                 _context.Self.RotateTo(entityAlive, 30f, 30f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
             }

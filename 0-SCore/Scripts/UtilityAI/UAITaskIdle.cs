@@ -27,6 +27,8 @@ namespace UAI
             // Don't do anything until the entity touches the ground; avoid the free in mid-air scenario.
             if (!_context.Self.onGround) return;
 
+            EntityUtilities.Stop(_context.Self.entityId);
+
             // Don't look at yourself, that's shameful.
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)

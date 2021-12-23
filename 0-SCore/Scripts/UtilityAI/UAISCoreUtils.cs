@@ -12,12 +12,15 @@ namespace UAI
     {
         public static void DisplayDebugInformation( Context _context, string prefix = "", string postfix="" )
         {
-            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled)) return;
-
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                _context.Self.DebugNameInfo = "";
+                return;
+            }
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";
             message += $" Active Action: {_context.ActionData.Action?.Name}\n";
             var taskIndex = _context.ActionData.TaskIndex;
-            var tasks = _context.ActionData.Action.GetTasks();
+            var tasks = _context.ActionData.Action?.GetTasks();
             message += $" Active Task: {tasks[taskIndex]}\n";
             message += $" Active Target: {_context.ActionData.Target}\n";
             message += $" {postfix}";
@@ -72,10 +75,18 @@ namespace UAI
             // Still calculating the path, let's let it finish.
             if (PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
                 return false;
-            var result = _context.Self.bodyDamage.CurrentStun == EnumEntityStunType.None && _context.Self.moveHelper.BlockedTime <= 0.3f;// && !_context.Self.navigator.noPathAndNotPlanningOne();
+
+            if (_context.Self.bodyDamage.CurrentStun != EnumEntityStunType.None)
+                return true;
+
+            var result = _context.Self.moveHelper.BlockedTime <= 0.3f;//&& !_context.Self.navigator.noPathAndNotPlanningOne();
             if (result)
                 return false;
-            return !CheckForClosedDoor(_context);
+
+            CheckForClosedDoor(_context);
+            return _context.Self.moveHelper.IsBlocked;
+
+
         }
 
         public static void TeleportToPosition(Context _context, Vector3 position)
@@ -92,6 +103,46 @@ namespace UAI
             _context.Self.SetPosition(position);
         }
 
+        public static bool IsEnemy(EntityAlive self, Entity target)
+        {
+            if (!(target is EntityAlive targetEntity))
+                return false;
+
+            if (targetEntity.IsDead())
+                return false;
+
+            // Checks if we are allies: either share a leader, or is our leader.
+            if (IsAlly(self, targetEntity))
+                return false;
+
+            // Do we have a revenge target? Are they the ones attacking us?
+            var revengeTarget = self.GetRevengeTarget();
+            if (revengeTarget != null && revengeTarget.entityId == targetEntity.entityId)
+            {
+                return true;
+            }
+
+            var leader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+            if (leader != null)
+            {
+                // If the target entity is attacking our leader, target them too.
+                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
+                if (enemyTarget != null && enemyTarget.entityId == leader.entityId)
+                {
+                    return true;
+                }
+
+                // If our leader is attacking the target entity, target them too.
+                var leaderTarget = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
+                if (leaderTarget != null && enemyTarget.entityId == leaderTarget.entityId)
+                {
+                    return true;
+                }
+            }
+
+            // If they share our faction, or are in a faction we don't hate, they're not an enemy.
+            return !EntityUtilities.CheckFaction(self.entityId, targetEntity);
+        }
         public static bool HasBuff(Context _context, string buff)
         {
             return !string.IsNullOrEmpty(buff) && _context.Self.Buffs.HasBuff(buff);
@@ -271,15 +322,23 @@ namespace UAI
             var speed = SetSpeed(_context, panic);
 
             _position = SCoreUtils.GetMoveToLocation(_context, _position);
-            
-            // If there's not a lot of distance to go, don't re-path.
-            var distance = Vector3.Distance(_context.Self.position, _position);
-            if (distance < 2f)
-                return;
 
+
+            //var sqrMagnitude2 = (_position - _context.Self.position).sqrMagnitude;
+            //if (sqrMagnitude2 < 1f)
+            //    return;
+
+            if (!_context.Self.navigator.noPathAndNotPlanningOne())
+            {
+                // If there's not a lot of distance to go, don't re-path.
+                var distance = Vector3.Distance(_context.Self.position, _position);
+                if (distance < 2f)
+                    return;
+            }
             _context.Self.SetLookPosition(_position);
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
+            
             // Path finding has to be set for Breaking Blocks so it can path through doors
             //var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
            // if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
@@ -306,7 +365,7 @@ namespace UAI
             var magnitude = vector3.magnitude;
 
             if (magnitude > 5f)
-                return vector;
+                return vector; 
             if (magnitude <= maxDist)
             {
                 // When climbing ladders, align the vector to its edges to allow better ladder migration.
@@ -344,7 +403,7 @@ namespace UAI
                 }
             }
 
-            return vector;
+            return SCoreUtils.AlignToEdge(vector);
         }
 
         public static bool CheckForClosedDoor(Context _context)
@@ -484,7 +543,7 @@ namespace UAI
 
             // Still too far away.
             var sqrMagnitude2 = (_vector - _context.Self.position).sqrMagnitude;
-            if (sqrMagnitude2 > 2f)
+            if (sqrMagnitude2 > 1f)
                 return false;
 
             var tileEntity = _context.Self.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx, new Vector3i(_vector));
@@ -492,6 +551,7 @@ namespace UAI
             {
                 // if the TileEntity is a loot container, then loot it.
                 case TileEntityLootContainer tileEntityLootContainer:
+
                     GetItemFromContainer(_context, tileEntityLootContainer);
                     break;
             }

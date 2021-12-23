@@ -1,7 +1,5 @@
 ﻿public class DialogActionAddCVarSelf : DialogActionAddBuff
 {
-    private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
-
     public string strOperator = "add";
 
     public override void PerformAction(EntityPlayer player)
