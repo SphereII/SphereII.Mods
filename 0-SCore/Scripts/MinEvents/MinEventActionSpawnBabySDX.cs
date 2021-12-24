@@ -33,8 +33,6 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
                     EntityID = EntityGroups.GetRandomFromGroup(strSpawnGroup, ref ClassID);
                 }
 
-//                entity.world.GetRandomSpawnPositionMinMaxToPosition(entity.position, 2, 6, 2, true, out transformPos);
-
                 GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(entity.position, 2, 6, 2, false, out var transformPos);
                 if (transformPos == Vector3.zero)
                     transformPos = entity.position + Vector3.back;

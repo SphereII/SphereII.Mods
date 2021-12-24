@@ -31,5 +31,17 @@ namespace Harmony.Animation
                 return true;
             }
         }
+
+        //[HarmonyPatch(typeof(AvatarZombieController))]
+        //[HarmonyPatch("Start")]
+        //public class AvatarControllerStart
+        //{
+        //    public static void Postfix(global::AvatarController __instance, ref int ___hitLayerIndex)
+        //    {
+        //        if (EntityUtilities.IsHuman(__instance.Entity.entityId))
+        //            ___hitLayerIndex = 5;
+        //        return;
+        //    }
+        //}
     }
 }

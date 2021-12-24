@@ -1,0 +1,137 @@
+See the end of this message for details on invoking 
+just-in-time (JIT) debugging instead of this dialog box.
+
+************** Exception Text **************
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at _7D2DLauncher.frmModDownloader.ReadLocalModInfo(String strReadFile, String Filter) in C:\Users\kilpa\Documents\GitHub\7D2DModLauncher-Original\7D2DLauncher\7D2DLauncher\ModDownloader.cs:line 820
+   at _7D2DLauncher.frmModDownloader.FindLocalUnlistedMods(DataTable dt) in C:\Users\kilpa\Documents\GitHub\7D2DModLauncher-Original\7D2DLauncher\7D2DLauncher\ModDownloader.cs:line 256
+   at _7D2DLauncher.frmModDownloader.SetDataTableToGrid(DataTable dt) in C:\Users\kilpa\Documents\GitHub\7D2DModLauncher-Original\7D2DLauncher\7D2DLauncher\ModDownloader.cs:line 201
+   at _7D2DLauncher.frmModDownloader.RefreshGrid() in C:\Users\kilpa\Documents\GitHub\7D2DModLauncher-Original\7D2DLauncher\7D2DLauncher\ModDownloader.cs:line 190
+   at _7D2DLauncher.frmModDownloader.frmModDownloader_Shown(Object sender, EventArgs e) in C:\Users\kilpa\Documents\GitHub\7D2DModLauncher-Original\7D2DLauncher\7D2DLauncher\ModDownloader.cs:line 104
+   at System.Windows.Forms.Form.OnShown(EventArgs e)
+   at System.Windows.Forms.Control.InvokeMarshaledCallbackHelper(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Windows.Forms.Control.InvokeMarshaledCallback(ThreadMethodEntry tme)
+   at System.Windows.Forms.Control.InvokeMarshaledCallbacks()
+
+
+************** Loaded Assemblies **************
+mscorlib
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4420.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.NET/Framework64/v4.0.30319/mscorlib.dll
+----------------------------------------
+7D2DLauncher
+    Assembly Version: 2.1.34.13873
+    Win32 Version: 2.1.34.13873
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/7D2DLauncher.exe
+----------------------------------------
+System.Windows.Forms
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4400.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Windows.Forms/v4.0_4.0.0.0__b77a5c561934e089/System.Windows.Forms.dll
+----------------------------------------
+System
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4360.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System/v4.0_4.0.0.0__b77a5c561934e089/System.dll
+----------------------------------------
+System.Drawing
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4390.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Drawing/v4.0_4.0.0.0__b03f5f7f11d50a3a/System.Drawing.dll
+----------------------------------------
+log4net
+    Assembly Version: 2.0.8.0
+    Win32 Version: 2.0.8.0
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/log4net.DLL
+----------------------------------------
+System.Net.Http
+    Assembly Version: 4.1.1.3
+    Win32 Version: 4.6.26907.01
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/System.Net.Http.DLL
+----------------------------------------
+System.Configuration
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4190.0 built by: NET48REL1LAST_B
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Configuration/v4.0_4.0.0.0__b03f5f7f11d50a3a/System.Configuration.dll
+----------------------------------------
+System.Core
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4390.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Core/v4.0_4.0.0.0__b77a5c561934e089/System.Core.dll
+----------------------------------------
+System.Xml
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4084.0 built by: NET48REL1
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Xml/v4.0_4.0.0.0__b77a5c561934e089/System.Xml.dll
+----------------------------------------
+System.Deployment
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4270.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Deployment/v4.0_4.0.0.0__b03f5f7f11d50a3a/System.Deployment.dll
+----------------------------------------
+AutoUpdater.NET
+    Assembly Version: 1.4.11.0
+    Win32 Version: 1.4.11.0
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/AutoUpdater.NET.DLL
+----------------------------------------
+System.Data
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4270.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_64/System.Data/v4.0_4.0.0.0__b77a5c561934e089/System.Data.dll
+----------------------------------------
+SharpConfig
+    Assembly Version: 3.2.7.0
+    Win32 Version: 3.2.7.0
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/SharpConfig.DLL
+----------------------------------------
+System.Data.SQLite
+    Assembly Version: 1.0.110.0
+    Win32 Version: 1.0.110.0
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/System.Data.SQLite.DLL
+----------------------------------------
+System.Transactions
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4084.0 built by: NET48REL1
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_64/System.Transactions/v4.0_4.0.0.0__b77a5c561934e089/System.Transactions.dll
+----------------------------------------
+System.EnterpriseServices
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4084.0 built by: NET48REL1
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_64/System.EnterpriseServices/v4.0_4.0.0.0__b03f5f7f11d50a3a/System.EnterpriseServices.dll
+----------------------------------------
+System.Numerics
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4084.0 built by: NET48REL1
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.Numerics/v4.0_4.0.0.0__b77a5c561934e089/System.Numerics.dll
+----------------------------------------
+System.ServiceModel
+    Assembly Version: 4.0.0.0
+    Win32 Version: 4.8.4250.0 built by: NET48REL1LAST_C
+    CodeBase: file:///C:/Windows/Microsoft.Net/assembly/GAC_MSIL/System.ServiceModel/v4.0_4.0.0.0__b77a5c561934e089/System.ServiceModel.dll
+----------------------------------------
+Octokit
+    Assembly Version: 0.48.0.0
+    Win32 Version: 0.48.0.0
+    CodeBase: file:///C:/Program%20Files/SphereII%20Software/7D2D%20Mod%20Launcher%20Installer/Octokit.DLL
+----------------------------------------
+
+************** JIT Debugging **************
+To enable just-in-time (JIT) debugging, the .config file for this
+application or computer (machine.config) must have the
+jitDebugging value set in the system.windows.forms section.
+The application must also be compiled with debugging
+enabled.
+
+For example:
+
+<configuration>
+    <system.windows.forms jitDebugging="true" />
+</configuration>
+
+When JIT debugging is enabled, any unhandled exception
+will be sent to the JIT debugger registered on the computer
+rather than be handled by this dialog box.
