@@ -11,7 +11,7 @@ namespace Harmony.EntityMoveHelper
             if (!EntityUtilities.IsHuman(___entity.entityId))
                 return true;
 
-            // This patch is for the NPCs who seem to get stuck, then start jumping, moving back to position, and looping again.
+             // This patch is for the NPCs who seem to get stuck, then start jumping, moving back to position, and looping again.
             if ( ___moveToTicks > 5 && ___moveToFailCnt >= 2)
             {
                 ___moveToFailCnt = 0;

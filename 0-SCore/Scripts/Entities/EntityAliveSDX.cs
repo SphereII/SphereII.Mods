@@ -118,6 +118,10 @@ public class EntityAliveSDX : EntityTrader
     }
 
 
+    public bool IsOnMission()
+    {
+        return this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f;
+    }
     // SendOnMission will make the NPC disappear and be unavailable
     public void SendOnMission(bool send)
     {
@@ -125,13 +129,22 @@ public class EntityAliveSDX : EntityTrader
         {
             var enemy = GetRevengeTarget();
             if (enemy != null)
-                enemy.SetAttackTarget(null, 50);
-                
+            {
+                SetAttackTarget(null, 0);
+                enemy.SetAttackTarget(null, 0);
+                enemy.SetRevengeTarget(null);
+                enemy.DoRagdoll(new DamageResponse());
+                SetRevengeTarget(null);
+            }
+
             Buffs.AddCustomVar("onMission", 1f);
             emodel.avatarController.SetBool("IsBusy", true);
             RootTransform.gameObject.SetActive(false);
+            
             if ( this.NavObject != null )
                 this.NavObject.IsActive = false;
+            this.DebugNameInfo = "";
+            
         }
         else
         {
@@ -140,6 +153,7 @@ public class EntityAliveSDX : EntityTrader
             RootTransform.gameObject.SetActive(true);
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
+
         }
     }
 
@@ -795,6 +809,9 @@ public class EntityAliveSDX : EntityTrader
 
     public new void SetRevengeTarget(EntityAlive _other)
     {
+        if (IsOnMission())
+            return;
+
         if (_other)
         {
             // Forgive friendly fire, even from explosions.
@@ -814,14 +831,16 @@ public class EntityAliveSDX : EntityTrader
         Buffs.AddBuff("buffNotifyTeamAttack");
     }
 
-
+    
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         if (_attackTarget != null)
             if (_attackTarget.IsDead())
                 return;
 
-
+        if (IsOnMission())
+            return;
+        
         if (_attackTarget == null)
             // Some of the AI tasks resets the attack target when it falls down stunned; this will prevent the NPC from ignoring its stunned opponent.
             if (attackTarget != null && attackTarget.IsAlive())
