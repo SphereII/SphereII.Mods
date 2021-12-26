@@ -29,17 +29,22 @@ namespace UAI
 
             EntityUtilities.Stop(_context.Self.entityId);
 
+
+            var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
+            if (enemy != null && enemy.IsAlive())
+            {
+                Stop(_context);
+                return;
+
+            }
+
             // Don't look at yourself, that's shameful.
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)
             {
-                _context.Self.RotateTo(entityAlive, 15f, 15f);
-                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
                 var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
                 if ( leader != null && entityAlive.entityId == leader.entityId)
                     SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
-                else
-                    SCoreUtils.SetCrouching(_context);
             }
 
             // Check if a player is in your bounds, and face them if they are.
@@ -50,6 +55,8 @@ namespace UAI
                 {
                     if (entity is EntityPlayerLocal || entity is EntityPlayer)
                     {
+                        if (SCoreUtils.IsEnemy(_context.Self, entity))
+                            break;
                         _context.Self.RotateTo(entity, 15f, 15f);
                         _context.Self.SetLookPosition(entity.getHeadPosition());
                         break;
@@ -57,14 +64,7 @@ namespace UAI
                 }
             }
 
-       
-            var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-            if ( enemy != null && enemy.IsAlive() )
-            {
-                Stop(_context);
-                return;
-
-            }
+    
 
                _currentTimeout--;
             if (_currentTimeout < 0) Stop(_context);
