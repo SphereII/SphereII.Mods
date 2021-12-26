@@ -21,7 +21,13 @@ namespace UAI
             message += $" Active Action: {_context.ActionData.Action?.Name}\n";
             var taskIndex = _context.ActionData.TaskIndex;
             var tasks = _context.ActionData.Action?.GetTasks();
-            message += $" Active Task: {tasks[taskIndex]}\n";
+            if ( tasks == null )
+            {
+                message += $" Active Task: None";
+                _context.Self.DebugNameInfo = message;
+                return;
+            }
+                message += $" Active Task: {tasks[taskIndex]}\n";
             message += $" Active Target: {_context.ActionData.Target}\n";
             message += $" {postfix}";
             

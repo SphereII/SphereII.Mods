@@ -36,8 +36,10 @@ namespace UAI
             if (_context.Self.inventory.holdingItem.Actions[action_index] is ItemActionRanged itemActionRanged)
             {
                 if (_context.Self.inventory.holdingItemData.actionData[action_index] is ItemActionRanged.ItemActionDataRanged itemActionData)
-                    range = itemActionRanged.GetRange(itemActionData);
+                {
 
+                    range = itemActionRanged.GetRange(itemActionData);
+                }
             }
             if (result <= range )
                 return 1f;
