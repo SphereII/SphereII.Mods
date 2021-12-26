@@ -155,6 +155,7 @@
     <Compile Include="Scripts\Dialogs\DialogRequirementHasItemSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasPlayerLevelSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementLeader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementRandomRoll.cs" />
     <Compile Include="Scripts\EAI\DMTEAIUtilities.cs" />
