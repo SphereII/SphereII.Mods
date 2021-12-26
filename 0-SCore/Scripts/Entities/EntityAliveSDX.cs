@@ -496,6 +496,29 @@ public class EntityAliveSDX : EntityTrader
         questJournal.AddQuest(newQuest);
     }
 
+    protected override void UpdateJump()
+    {
+        if (this.walkType == 4 && !this.isSwimming)
+        {
+            base.FaceJumpTo();
+            this.jumpState = EntityAlive.JumpState.Climb;
+            if (!this.emodel.avatarController || !this.emodel.avatarController.IsAnimationJumpRunning())
+            {
+                this.Jumping = false;
+            }
+            if (this.jumpTicks == 0 && this.accumulatedRootMotion.y > 0.005f)
+            {
+                this.jumpTicks = 30;
+            }
+            return;
+        }
+        base.UpdateJump();
+        if (this.isSwimming)
+        {
+            return;
+        }
+        this.accumulatedRootMotion.y = 0f;
+    }
     public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute)
     {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
@@ -505,6 +528,39 @@ public class EntityAliveSDX : EntityTrader
         if (isBusy)
             return;
 
+        if (this.walkType == 4 && this.Jumping)
+        {
+            this.motion = this.accumulatedRootMotion;
+            this.accumulatedRootMotion = Vector3.zero;
+            this.IsRotateToGroundFlat = true;
+            if (this.moveHelper != null)
+            {
+                Vector3 vector = this.moveHelper.JumpToPos - this.position;
+                if (Utils.FastAbs(vector.y) < 0.2f)
+                {
+                    this.motion.y = vector.y * 0.2f;
+                }
+                if (Utils.FastAbs(vector.x) < 0.3f)
+                {
+                    this.motion.x = vector.x * 0.2f;
+                }
+                if (Utils.FastAbs(vector.z) < 0.3f)
+                {
+                    this.motion.z = vector.z * 0.2f;
+                }
+                if (vector.sqrMagnitude < 0.010000001f)
+                {
+                    if (this.emodel && this.emodel.avatarController)
+                    {
+                        this.emodel.avatarController.StartAnimationJump(AnimJumpMode.Land);
+                    }
+                    this.Jumping = false;
+                }
+            }
+            this.entityCollision(this.motion);
+            return;
+        }
+        base.MoveEntityHeaded(_direction, _isDirAbsolute);
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
@@ -627,38 +683,76 @@ public class EntityAliveSDX : EntityTrader
             _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
         }
 
+        if (!this.isEntityRemote)
+        {
+            if (this.emodel)
+            {
+                AvatarController avatarController = this.emodel.avatarController;
+                if (avatarController)
+                {
+                    var flag = this.onGround || this.isSwimming || this.bInElevator;
+                    if (flag)
+                    {
+                        this.fallTime = 0f;
+                        this.fallThresholdTime = 0f;
+                        if (this.bInElevator)
+                        {
+                            this.fallThresholdTime = 0.6f;
+                        }
+                    }
+                    else
+                    {
+                        if (this.fallThresholdTime == 0f)
+                        {
+                            this.fallThresholdTime = 0.1f + this.rand.RandomFloat * 0.3f;
+                        }
+                        this.fallTime += 0.05f;
+                    }
+                    var canFall = !this.emodel.IsRagdollActive && this.bodyDamage.CurrentStun == EnumEntityStunType.None && !this.isSwimming && !this.bInElevator && this.jumpState == EntityAlive.JumpState.Off && !this.IsDead();
+                    if (this.fallTime <= this.fallThresholdTime)
+                    {
+                        canFall = false;
+                    }
+                    avatarController?.SetFallAndGround(canFall, flag);
+                }
+            }
+        }
 
         //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
-        //if (entitiesInBounds.Count > 0)
-        //{
-        //    foreach (var entity in entitiesInBounds)
-        //    {
-        //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-        //        {
-        //            // Check your faction relation. If you hate each other, don't stop and talk.
-        //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
-        //            if (myRelationship == FactionManager.Relationship.Hate)
-        //                break;
+    //if (entitiesInBounds.Count > 0)
+    //{
+    //    foreach (var entity in entitiesInBounds)
+    //    {
+    //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
+    //        {
+    //            // Check your faction relation. If you hate each other, don't stop and talk.
+    //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
+    //            if (myRelationship == FactionManager.Relationship.Hate)
+    //                break;
 
-        //            var player = entity as EntityPlayer;
-        //            if (player && player.IsSpectator)
-        //                    continue;
+    //            var player = entity as EntityPlayer;
+    //            if (player && player.IsSpectator)
+    //                    continue;
 
-        //            if (GetDistance(player) < 1.5 && moveHelper != null)
-        //            { 
-        //                moveHelper.SetMoveTo(player.GetLookVector(), false);
-        //                break;
-        //            }
+    //            if (GetDistance(player) < 1.5 && moveHelper != null)
+    //            { 
+    //                moveHelper.SetMoveTo(player.GetLookVector(), false);
+    //                break;
+    //            }
 
-        //            // Turn to face the player, and stop the movement.
-        //            SetLookPosition(entity.getHeadPosition());
-        //            RotateTo(entity, 90f, 90f);
-        //            EntityUtilities.Stop(entityId);
-        //            break;
-        //        }
-        //    }
-        //}
-    }
+    //            // Turn to face the player, and stop the movement.
+    //            SetLookPosition(entity.getHeadPosition());
+    //            RotateTo(entity, 90f, 90f);
+    //            EntityUtilities.Stop(entityId);
+    //            break;
+    //        }
+    //    }
+    //}
+}
+    private float fallTime;
+
+
+    private float fallThresholdTime;
 
     public override Ray GetLookRay()
     {

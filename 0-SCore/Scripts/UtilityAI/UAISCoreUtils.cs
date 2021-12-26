@@ -10,29 +10,32 @@ namespace UAI
 {
     public static class SCoreUtils
     {
-        public static void DisplayDebugInformation( Context _context, string prefix = "", string postfix="" )
+        public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
             if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
             {
                 _context.Self.DebugNameInfo = "";
                 return;
             }
+
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";
             message += $" Active Action: {_context.ActionData.Action?.Name}\n";
             var taskIndex = _context.ActionData.TaskIndex;
             var tasks = _context.ActionData.Action?.GetTasks();
-            if ( tasks == null )
+            if (tasks == null)
             {
                 message += $" Active Task: None";
                 _context.Self.DebugNameInfo = message;
                 return;
             }
-                message += $" Active Task: {tasks[taskIndex]}\n";
+
+            message += $" Active Task: {tasks[taskIndex]}\n";
             message += $" Active Target: {_context.ActionData.Target}\n";
             message += $" {postfix}";
-            
+
             _context.Self.DebugNameInfo = message;
         }
+
         public static void SimulateActionInstantExecution(Context _context, int _actionIdx, ItemStack _itemStack)
         {
             if (!Equals(_itemStack, ItemStack.Empty))
@@ -76,6 +79,36 @@ namespace UAI
             }
         }
 
+        public static void CheckJump(Context _context)
+        {
+            if (!_context.Self.onGround || _context.Self.Jumping)
+                return;
+
+            // Find out feet, and just a smidge ahead
+            var a = _context.Self.position + _context.Self.GetForwardVector() * 0.2f;
+            a.y += 0.4f;
+
+            // If we hit something, don't try to jump.
+            if (Physics.Raycast(a - Origin.position, Vector3.down, out var raycastHit, 3.4f, 1082195968) && !(raycastHit.distance > 2.2f)) return;
+
+            // if we hit something, don't jump.
+            var vector3i = new Vector3i(Utils.Fastfloor(_context.Self.position.x), Utils.Fastfloor(_context.Self.position.y + 2.35f), Utils.Fastfloor(_context.Self.position.z));
+            var block = _context.Self.world.GetBlock(vector3i);
+            if (block.Block.IsMovementBlocked(_context.Self.world, vector3i, block, BlockFace.None)) return;
+
+            
+            // Stop the forward movement, so we don't slide off the edge.
+            EntityUtilities.Stop(_context.Self.entityId);
+
+            // if we are going to land on air, let's not jump so far out.
+            var landingSpot = _context.Self.position + _context.Self.GetForwardVector() + _context.Self.GetForwardVector() + Vector3.down;
+            var block2 = _context.Self.world.GetBlock(new Vector3i(landingSpot));
+            if ( block2.isair)
+                _context.Self.moveHelper.StartJump(true, 1f, 0f);
+            else
+                _context.Self.moveHelper.StartJump(true, 2f, 1f);
+        }
+
         public static bool IsBlocked(Context _context)
         {
             // Still calculating the path, let's let it finish.
@@ -85,20 +118,22 @@ namespace UAI
             if (_context.Self.bodyDamage.CurrentStun != EnumEntityStunType.None)
                 return true;
 
-            var result = _context.Self.moveHelper.BlockedTime <= 0.3f;//&& !_context.Self.navigator.noPathAndNotPlanningOne();
+            // Check if we need to jump.
+            CheckJump(_context);
+
+            var result = _context.Self.moveHelper.BlockedTime <= 0.3f; //&& !_context.Self.navigator.noPathAndNotPlanningOne();
             if (result)
                 return false;
 
             CheckForClosedDoor(_context);
             return _context.Self.moveHelper.IsBlocked;
-
-
         }
 
         public static void TeleportToPosition(Context _context, Vector3 position)
         {
             _context.Self.SetPosition(position);
         }
+
         public static void TeleportToLeader(Context _context)
         {
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
@@ -149,6 +184,7 @@ namespace UAI
             // If they share our faction, or are in a faction we don't hate, they're not an enemy.
             return !EntityUtilities.CheckFaction(self.entityId, targetEntity);
         }
+
         public static bool HasBuff(Context _context, string buff)
         {
             return !string.IsNullOrEmpty(buff) && _context.Self.Buffs.HasBuff(buff);
@@ -216,8 +252,10 @@ namespace UAI
                     return true;
                 }
             }
+
             return false;
         }
+
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
             var nearbyEntities = new List<Entity>();
@@ -239,7 +277,7 @@ namespace UAI
                 // Can we see them?
                 if (!SCoreUtils.CanSee(_context.Self, x))
                     continue;
-                
+
 
                 // Otherwise they are an enemy.
                 return true;
@@ -315,6 +353,7 @@ namespace UAI
             _context.Self.navigator.setMoveSpeed(speed);
             return speed;
         }
+
         public static void FindPath(Context _context, Vector3 _position, bool panic = false)
         {
             // If we have a leader, and following, match the player speed.
@@ -341,28 +380,29 @@ namespace UAI
                 if (distance < 2f)
                     return;
             }
-            _context.Self.SetLookPosition(_position);
-            _context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
+            //      _context.Self.SetLookPosition(_position);
+            //_context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
 
-            
+
             // Path finding has to be set for Breaking Blocks so it can path through doors
             //var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
-           // if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
-                _context.Self.FindPath(_position, speed, true, null);
+            // if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
+            _context.Self.FindPath(_position, speed, true, null);
         }
 
 
-        public static Vector3 AlignToEdge( Vector3 vector )
+        public static Vector3 AlignToEdge(Vector3 vector)
         {
             return new Vector3i(vector).ToVector3();
         }
+
         // allows the NPC to climb ladders
         public static Vector3 GetMoveToLocation(Context _context, Vector3 position, float maxDist = 10f)
         {
             var vector = _context.Self.world.FindSupportingBlockPos(position);
             if (!(maxDist > 0f)) return vector;
 
-            var Targetblock = _context.Self.world.GetBlock(new Vector3i( vector ));
+            var Targetblock = _context.Self.world.GetBlock(new Vector3i(vector));
             if (Targetblock.Block is BlockLadder)
                 vector = SCoreUtils.AlignToEdge(vector);
             var vector2 = new Vector3(_context.Self.position.x, vector.y, _context.Self.position.z);
@@ -371,7 +411,7 @@ namespace UAI
             var magnitude = vector3.magnitude;
 
             if (magnitude > 5f)
-                return vector; 
+                return vector;
             if (magnitude <= maxDist)
             {
                 // When climbing ladders, align the vector to its edges to allow better ladder migration.
@@ -380,12 +420,12 @@ namespace UAI
                 {
                     return SCoreUtils.AlignToEdge(vector);
                 }
+
                 return vector2;
                 //return vector.y - _context.Self.position.y > 1.5f ? vector : vector2;
             }
             else
             {
-
                 vector3 *= maxDist / magnitude;
                 var vector4 = vector - vector3;
                 vector4.y += 0.51f;
@@ -401,6 +441,7 @@ namespace UAI
                         vector4.y = raycastHit.point.y + Origin.position.y;
                         return vector4;
                     }
+
                     if (block2.IsElevator((int)block.rotation))
                     {
                         vector4.y = vector.y;
