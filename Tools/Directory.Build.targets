@@ -1,0 +1,46 @@
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+
+	<!-- Disables the extra step of copying all the reference DLLs to the build area. We never use them after the build, so we can skip this -->
+	<Target Name="ModifyCopyLocal" AfterTargets="BeforeBuild">
+		<ItemGroup>
+			<Reference>
+				<Private>False</Private>
+			</Reference>
+			<ProjectReference>
+				<Private>False</Private>
+			</ProjectReference>
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
+		<PostBuildEvent>
+
+			:: Update the ModInfo.xml
+			IF EXIST $(ProjectDir)\ModInfo.xml (
+				IF EXIST ..\Tools\bin\sed.exe (
+					echo Updating Version number to @(VersionNumber)
+					..\Tools\bin\sed.exe -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" ModInfo.xml
+				)
+			)
+		</PostBuildEvent>
+	</PropertyGroup>
+	<!-- Automatic versioning -->
+	<PropertyGroup>
+		<PostBuildEventDependsOn>
+			$(PostBuildEventDependsOn);
+			PostBuildMacros;
+		</PostBuildEventDependsOn>
+	</PropertyGroup>
+
+	<!-- Grab the version number from the Assembly.properties -->
+	<Target Name="PostBuildMacros">
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+			<Output TaskParameter="Assemblies" ItemName="Targets"/>
+		</GetAssemblyIdentity>
+		<ItemGroup>
+			<VersionNumber Include="@(Targets->'%(Version)')"/>
+		</ItemGroup>
+	</Target>
+
+</Project>

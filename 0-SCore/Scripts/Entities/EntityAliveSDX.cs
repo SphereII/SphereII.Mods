@@ -796,6 +796,14 @@ public class EntityAliveSDX : EntityTrader
         if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
+        // If the damage source is a living entity, and it's not an enemy, don't take damage.
+        // Note - this also ignores explosion damage if the explosion is caused by friendly fire.
+        // If people find that unacceptable, we could check EnumGameStats.PlayerKillingMode, or
+        // create a feature block flag, or something along those lines.
+        var entity = world.GetEntity(_damageSource.getEntityId()) as EntityAlive;
+        if (entity != null && !SCoreUtils.IsEnemy(this, entity))
+            return 0;
+
         // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 

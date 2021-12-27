@@ -88,10 +88,11 @@ namespace UAI
             var a = _context.Self.position + _context.Self.GetForwardVector() * 0.2f;
             a.y += 0.4f;
 
-            // If we hit something, don't try to jump.
-            if (Physics.Raycast(a - Origin.position, Vector3.down, out var raycastHit, 3.4f, 1082195968) && !(raycastHit.distance > 2.2f)) return;
-
-            // if we hit something, don't jump.
+            RaycastHit ray;
+            // Check if we can hit anything downwards
+            if (Physics.Raycast(a - Origin.position, Vector3.down, out ray, 3.4f, 1082195968) && !(ray.distance > 2.2f)) return;
+            
+            // if we WILL hit something, don't jump.
             var vector3i = new Vector3i(Utils.Fastfloor(_context.Self.position.x), Utils.Fastfloor(_context.Self.position.y + 2.35f), Utils.Fastfloor(_context.Self.position.z));
             var block = _context.Self.world.GetBlock(vector3i);
             if (block.Block.IsMovementBlocked(_context.Self.world, vector3i, block, BlockFace.None)) return;
@@ -100,6 +101,17 @@ namespace UAI
             // Stop the forward movement, so we don't slide off the edge.
             EntityUtilities.Stop(_context.Self.entityId);
 
+            // If our target is below us, just drop down without jumping a lot.
+            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            if (entityAlive != null && entityAlive.IsAlive())
+            {
+                var drop = Mathf.Abs( entityAlive.position.y - _context.Self.position.y);
+                if (drop > 2)
+                {
+                    _context.Self.moveHelper.StartJump(true, 1f, 0f);
+                    return;
+                }
+            }
             // if we are going to land on air, let's not jump so far out.
             var landingSpot = _context.Self.position + _context.Self.GetForwardVector() + _context.Self.GetForwardVector() + Vector3.down;
             var block2 = _context.Self.world.GetBlock(new Vector3i(landingSpot));
@@ -156,13 +168,6 @@ namespace UAI
             if (IsAlly(self, targetEntity))
                 return false;
 
-            // Do we have a revenge target? Are they the ones attacking us?
-            var revengeTarget = self.GetRevengeTarget();
-            if (revengeTarget != null && revengeTarget.entityId == targetEntity.entityId)
-            {
-                return true;
-            }
-
             var leader = EntityUtilities.GetLeaderOrOwner(self.entityId);
             if (leader != null)
             {
@@ -179,6 +184,16 @@ namespace UAI
                 {
                     return true;
                 }
+            }
+
+            var revengeTarget = self.GetRevengeTarget();
+            if (revengeTarget != null && revengeTarget.entityId == targetEntity.entityId)
+            {
+                // If the entity attacked us, they don't need to be hated in order to be a target.
+                // Anything less than 800 (Love) means we should take our revenge.
+                // (If they're of the same faction, the relationship value will be 800.)
+                return FactionManager.Instance.GetRelationshipValue(self, targetEntity) <
+                       (int)FactionManager.Relationship.Love;
             }
 
             // If they share our faction, or are in a faction we don't hate, they're not an enemy.
@@ -715,5 +730,54 @@ namespace UAI
         private static readonly string WaypointFilterAttrubute = "waypoint_filter";
 
         private static readonly Dictionary<string, XmlElement> _storedElements = new Dictionary<string, XmlElement>();
+
+        private static int GetHitMaskByWeaponBuff(EntityAlive entity)
+        {
+            // Raycasts should always collide with these types of blocks.
+            // This is 0x42, which is the "base" value used if you call the
+            // Voxel.Raycast(World _worldData, Ray ray, float distance, bool bHitTransparentBlocks, bool bHitNotCollidableBlocks)
+            // overload; the transparent and non-collidable values are "ORed" to that, as needed.
+            int baseMask =
+                (int)HitMasks.CollideMovement |
+                (int)HitMasks.Liquid;
+
+            // Check for specialized ranged weapons
+            if (entity.Buffs.HasBuff("LBowUser") ||
+                entity.Buffs.HasBuff("XBowUser"))
+            {
+                return baseMask | (int)HitMasks.CollideArrows;
+            }
+
+            if (entity.Buffs.HasBuff("RocketLUser"))
+            {
+                return baseMask | (int)HitMasks.CollideRockets;
+            }
+
+            // Otherwise, if it has the "ranged" tag, assume bullets
+            if (entity.HasAnyTags(FastTags.Parse("ranged")))
+            {
+                return baseMask | (int)HitMasks.CollideBullets;
+            }
+
+            // Otherwise, assume melee
+            return baseMask | (int)HitMasks.CollideMelee;
+        }
+
+
+        /// <summary>
+        /// These hit mask values are taken verbatim from Voxel.raycastNew.
+        /// The names represent whether a raycast should <em>collide with</em> the block.
+        /// </summary>
+        private enum HitMasks : int
+        {
+            Transparent = 1,
+            Liquid = 2,
+            NotCollidable = 4,
+            CollideBullets = 8,
+            CollideRockets = 0x10,
+            CollideArrows = 0x20,
+            CollideMovement = 0x40,
+            CollideMelee = 0x80,
+        }
     }
 }
