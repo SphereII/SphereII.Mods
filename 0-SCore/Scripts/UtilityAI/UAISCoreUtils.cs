@@ -141,6 +141,7 @@ namespace UAI
             return _context.Self.moveHelper.IsBlocked;
         }
 
+
         public static void TeleportToPosition(Context _context, Vector3 position)
         {
             _context.Self.SetPosition(position);

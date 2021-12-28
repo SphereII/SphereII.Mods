@@ -81,4 +81,10 @@
 		<Content Include="Readme.txt"/>
 	</ItemGroup>
 	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+	  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
+
 </Project>
