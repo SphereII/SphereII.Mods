@@ -164,40 +164,119 @@ namespace UAI
             if (targetEntity.IsDead())
                 return false;
 
-            // Checks if we are allies: either share a leader, or is our leader.
-            if (IsAlly(self, targetEntity))
-                return false;
+            return IsEnemyOrPotentialEnemy(self, target, false);
+        }
 
-            var leader = EntityUtilities.GetLeaderOrOwner(self.entityId);
-            if (leader != null)
+        /// <summary>
+        /// This method checks to see if damage, presumably caused by another entity,
+        /// is allowed to actually do damage to the checking entity.
+        /// </summary>
+        /// <param name="checkingEntity">The entity that is checking to see if it can be damaged.</param>
+        /// <param name="damagingEntity">The entity causing the damage, if any.</param>
+        /// <returns></returns>
+        public static bool CanDamage(EntityAlive checkingEntity, Entity damagingEntity)
+        {
+            // If the damage was not caused by an entity, take that damage.
+            if (damagingEntity == null)
+                return true;
+
+            // If the damaging entity is not even a potential enemy, ignore that damage.
+            // Note: this also ignores explosion damage caused by friendly fire.
+            // If people find that unacceptable, we could check EnumGameStats.PlayerKillingMode,
+            // or create a feature block flag, or something along those lines.
+            return IsEnemyOrPotentialEnemy(checkingEntity, damagingEntity, true);
+        }
+
+        private static bool IsEnemyOrPotentialEnemy(EntityAlive self, Entity target, bool potential)
+        {
+            // The entities to use to check faction relationships - themselves or their leaders.
+            var targetingEntity = self;
+            var targetedEntity = target as EntityAlive;
+
+            // Player targets require special logic, so keep in a separate var.
+            var targetPlayer = target as EntityPlayer;
+
+            var ourLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+            var theirLeader = EntityUtilities.GetLeaderOrOwner(target.entityId);
+
+            if (ourLeader != null)
             {
-                // If the target entity is attacking our leader, target them too.
-                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
-                if (enemyTarget != null && enemyTarget.entityId == leader.entityId)
+                // Checks if we are allies: either share a leader, or is our leader.
+                if (IsAlly(self, target))
+                    return false;
+
+                // If our leader is a player, perform friendly fire checks for multiplayer.
+                if (ourLeader is EntityPlayer ourPlayer)
                 {
-                    return true;
+                    if (targetPlayer != null)
+                        return ourPlayer.FriendlyFireCheck(targetPlayer);
+
+                    if (theirLeader is EntityPlayer theirPlayer)
+                        return ourPlayer.FriendlyFireCheck(theirPlayer);
                 }
 
-                // If our leader is attacking the target entity, target them too.
-                var leaderTarget = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
-                if (leaderTarget != null && enemyTarget.entityId == leaderTarget.entityId)
-                {
+                // If they're fighting our leader, they're an enemy.
+                if (AreFighting(ourLeader, target))
                     return true;
-                }
+
+                // We have a leader, so use it to check faction relationships.
+                if (ourLeader is EntityAlive livingLeader)
+                    targetingEntity = livingLeader;
             }
 
+            if (theirLeader != null)
+            {
+                // If their leader is a player, perform a friendly fire check against us.
+                // (We already did a friendly fire check when both leaders are players.)
+                if (theirLeader is EntityPlayer theirPlayer && self is EntityPlayer us)
+                    return theirPlayer.FriendlyFireCheck(us);
+
+                // If their leader is fighting us, they're an enemy.
+                if (AreFighting(theirLeader, self))
+                    return true;
+
+                // They have a leader, so use it to check faction relationships.
+                if (theirLeader is EntityAlive livingLeader)
+                    targetedEntity = livingLeader;
+            }
+
+            // If the target is a player that passed the friendly fire and ally checks, they
+            // should always be considered a _potential_ enemy. This is so non-hired NPCs can take
+            // damage from players regardless of faction relationship.
+            if (potential && targetPlayer != null)
+                return true;
+
+            // If the entity damaged us, they're an enemy, regardless of faction.
             var revengeTarget = self.GetRevengeTarget();
-            if (revengeTarget != null && revengeTarget.entityId == targetEntity.entityId)
-            {
-                // If the entity attacked us, they don't need to be hated in order to be a target.
-                // Anything less than 800 (Love) means we should take our revenge.
-                // (If they're of the same faction, the relationship value will be 800.)
-                return FactionManager.Instance.GetRelationshipValue(self, targetEntity) <
-                       (int)FactionManager.Relationship.Love;
-            }
+            if (revengeTarget != null && revengeTarget.entityId == target.entityId)
+                return true;
 
-            // If they share our faction, or are in a faction we don't hate, they're not an enemy.
-            return !EntityUtilities.CheckFaction(self.entityId, targetEntity);
+            var relationship = FactionManager.Instance.GetRelationshipValue(
+                targetingEntity,
+                targetedEntity);
+
+            // A faction relationship value less than 800 (Love) means they are a potential enemy.
+            // A faction relationship value less than 200 (Dislike) means they are an actual enemy.
+            var friendRelationship = potential ?
+                FactionManager.Relationship.Love :
+                FactionManager.Relationship.Dislike;
+
+            return relationship < (int)friendRelationship;
+        }
+
+        private static bool AreFighting(Entity targetingEntity, Entity target)
+        {
+            if (targetingEntity != null)
+            {
+                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(target.entityId);
+                if (enemyTarget != null && enemyTarget.entityId == targetingEntity.entityId)
+                    return true;
+
+                var leaderTarget = EntityUtilities.GetAttackOrRevengeTarget(targetingEntity.entityId);
+                if (leaderTarget != null && leaderTarget.entityId == target.entityId)
+                    return true;
+            }
+            return false;
         }
 
         public static bool HasBuff(Context _context, string buff)
@@ -250,8 +329,10 @@ namespace UAI
 
             var ray = new Ray(headPosition, direction);
             ray.origin += direction.normalized * 0.2f;
-            var flag = Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true);
-            if (flag)
+
+            int hitMask = GetHitMaskByWeaponBuff(sourceEntity);
+            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f))
+            //if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
             {
                 var hitRootTransform = GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);
                 if (hitRootTransform == null)
