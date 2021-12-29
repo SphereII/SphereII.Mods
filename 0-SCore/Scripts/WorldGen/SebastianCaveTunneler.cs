@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public static class Sebastian
 {
@@ -21,14 +23,13 @@ public static class Sebastian
 
     public static void GenerateCave(Vector3i startPos, int width = 100, int height = 100, CaveType caveType = CaveType.Normal)
     {
-        Debug.Log("Cave System does not exist in this Chunk. Generating...");
         var mapGenerator = new MapGenerator();
-        var map = mapGenerator.GenerateMap(startPos, width, height);
+        var map = mapGenerator.GenerateMap(startPos, width, height, startPos.ToString());
 
         // Add the new map to the cache.
-        for (int x = 0; x < width; x++)
+        for (var x = 0; x < width; x++)
         {
-            for (int z = 0; z < height; z++)
+            for (var z = 0; z < height; z++)
             {
                 if (map[x, z] == 0)
                     SphereCache.caveMap.Add(new Vector2(startPos.x + x, startPos.z + z));
@@ -36,10 +37,9 @@ public static class Sebastian
         }
     }
 
-    public static void AddCaveToChunk(Chunk chunk)
+    public static void AddLevel(Chunk chunk, int depth, bool reverse = false)
     {
         var chunkPos = chunk.GetWorldPos();
-        int y = 40;
 
         for (var chunkX = 0; chunkX < 16; chunkX++)
         {
@@ -49,18 +49,59 @@ public static class Sebastian
                 var worldZ = (chunkPos.z + chunkZ);
 
                 var vector = new Vector2(worldX, worldZ);
-                if (SphereCache.caveMap.Contains(vector))
+                if ( reverse)
+                    vector = new Vector2(worldZ, worldX);
+
+                if (!SphereCache.caveMap.Contains(vector)) continue;
+
+                var y = chunk.GetTerrainHeight(chunkX, chunkZ) - depth;
+                if (y < 5)
+                    return;
+                for (var caveHeight = 0; caveHeight < 4; caveHeight++)
                 {
-                    for (var caveHeight = 0; caveHeight < 4; caveHeight++)
-                    {
-                        chunk.SetBlockRaw(chunkX, y + caveHeight, chunkZ, BlockValue.Air);
-                        chunk.SetDensity(chunkX, y + caveHeight, chunkZ, MarchingCubes.DensityAir);
-                    }
+                    chunk.SetBlockRaw(chunkX, y + caveHeight, chunkZ, BlockValue.Air);
+                    chunk.SetDensity(chunkX, y + caveHeight, chunkZ, MarchingCubes.DensityAir);
                 }
             }
         }
     }
 
+    public static void AddCaveToChunk(Chunk chunk)
+    {
+        // Populates the pois
+        var noise = SphereCache.GetFastNoise(chunk);
+
+        AddLevel(chunk, 5);
+        return;
+        var MaxLevels = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxCaveLevels"));
+        MaxLevels = 1;
+        var depth = 10;
+        for (var x = 0; x <= MaxLevels; x++)
+        {
+            AddLevel(chunk, depth, x%2 == 0);
+            depth += 8;
+        }
+    }
+
+    // Helper method is check the prefab decorator first to see if its there, then create it if it does not exist.
+    public static Prefab FindOrCreatePrefab(string strPOIname)
+    {
+        // Check if the prefab already exists.
+        var prefab = GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(strPOIname, true, true, true);
+        if (prefab != null)
+            return prefab;
+
+        // If it's not in the prefab decorator, load it up.
+        prefab = new Prefab();
+        prefab.Load(strPOIname, true, true, true);
+        var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
+        prefab.LoadXMLData(location);
+
+        if (string.IsNullOrEmpty(prefab.PrefabName))
+            prefab.PrefabName = strPOIname;
+
+        return prefab;
+    }
     public static void AddDecorationsToCave(Chunk chunk)
     {
         if (chunk == null)
@@ -71,6 +112,9 @@ public static class Sebastian
         AdvLogging.DisplayLog(AdvFeatureClass, "Decorating new Cave System...");
         var random = GameManager.Instance.World.GetGameRandom();
         // Decorate decorate the cave spots with blocks. Shrink the chunk loop by 1 on its edges so we can safely check surrounding blocks.
+
+        var MaxPrefab = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxPrefabPerChunk"));
+        var prefabCounter = 0;
         for (var chunkX = 1; chunkX < 15; chunkX++)
         {
             for (var chunkZ = 1; chunkZ < 15; chunkZ++)
@@ -107,6 +151,45 @@ public static class Sebastian
                             blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, random, worldX, worldZ);
 
                         chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
+
+                        // Check to see if we can place a prefab here.
+                        if (prefabCounter >= MaxPrefab) continue;
+
+                        if (random.RandomRange(0, 10) > 1) continue;
+
+                        //string strPOI;
+                        //if (y < 30)
+                        //    strPOI = SphereCache.DeepCavePrefabs[random.RandomRange(0, SphereCache.DeepCavePrefabs.Count)];
+                        //else
+                        //    strPOI = SphereCache.POIs[random.RandomRange(0, SphereCache.POIs.Count)];
+
+                        //var newPrefab = FindOrCreatePrefab(strPOI);
+                        //if (newPrefab != null)
+                        //{
+                        //    var prefab = newPrefab.Clone();
+                        //    prefab.RotateY(true, random.RandomRange(4));
+                        //    var destination = chunk.ToWorldPos(new Vector3i(chunkX, y , chunkZ));
+                        //    try
+                        //    {
+                        //        // Winter Project counter-sinks all prefabs -8 into the ground. However, for underground spawning, we want to avoid this, as they are already deep enough
+                        //        // Instead, temporarily replace the tag with a custom one, so that the Harmony patch for the CopyIntoLocal of the winter project won't execute.
+                        //        var temp = prefab.Tags;
+                        //        prefab.Tags = POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
+                        //        prefab.yOffset = 0;
+                        //        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, destination, true);
+                        //        var entityInstanceIds = new List<int>();
+                        //        prefab.CopyEntitiesIntoChunkStub(chunk, destination, entityInstanceIds, true);
+
+                        //        // Restore any of the tags that might have existed before.
+                        //        prefab.Tags = temp;
+                        //        prefabCounter++;
+
+                        //    }
+                        //    catch (Exception ex)
+                        //    {
+                        //        Debug.Log("Warning: Could not copy over prefab: " + strPOI + " " + ex);
+                        //    }
+                        //}
                         continue;
                     }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class MapGenerator
 {
@@ -324,7 +325,7 @@ public class MapGenerator
     {
         if (useRandomSeed)
         {
-            seed = Time.time.ToString();
+            seed = GameManager.Instance.World.RandomRange(float.MinValue, float.MaxValue).ToString();
         }
 
         System.Random pseudoRandom = new System.Random(seed.GetHashCode());

@@ -69,6 +69,7 @@
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
+    <Compile Include="Harmony\MiniTurret\shouldIgnoreTarget.cs" />
     <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />

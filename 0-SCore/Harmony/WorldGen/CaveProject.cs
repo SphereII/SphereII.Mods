@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Harmony.WorldGen
@@ -11,6 +12,7 @@ namespace Harmony.WorldGen
 
         private static readonly float depth = 30;
 
+    
         // Make the world darker underground
         [HarmonyPatch(typeof(SkyManager))]
         [HarmonyPatch("Update")]
@@ -268,6 +270,7 @@ namespace Harmony.WorldGen
                     return;
 
                 SphereCache.GenerateCaveChunks();
+
                 var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
                 switch (configurationType)
                 {
@@ -294,7 +297,6 @@ namespace Harmony.WorldGen
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
 
-
                 SphereCache.GenerateCaveChunks();
 
                 var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
@@ -311,5 +313,40 @@ namespace Harmony.WorldGen
                 }
             }
         }
+
+
+        [HarmonyPatch(typeof(EntityPlayerLocal))]
+        [HarmonyPatch("Init")]
+        public class EntityPlayerLocalInit
+        {
+            private static void Postfix(EntityPlayerLocal __instance)
+            {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return;
+
+                var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
+                if (configurationType != "Sebastian") return;
+
+                Log.Out("Initializing Sebastian Cave System...");
+                var counter = 0;
+                var prefabs = GameManager.Instance.GetDynamicPrefabDecorator().allPrefabs;
+                // garage_02,remnant_oldwest_06,cemetery_01,abandoned_house_01,house_burnt_06,vacant_lot_01,mp_waste_bldg_05_grey,oldwest_coal_factory,diner_03
+                var prefabFilter = Configuration.GetPropertyValue(AdvFeatureClass, "PrefabSister").Split(',').ToList();
+                foreach (var sister in prefabFilter)
+                {
+                    foreach (var individualInstance in prefabs.FindAll(instance => instance.name.Contains(sister)))
+                    {
+                        var pos = individualInstance.boundingBoxPosition;
+                        var size = 200;
+                        counter++;
+                        Log.Out($"Generating Cave at {pos} of size {size}...");
+                        Sebastian.GenerateCave(pos, size, size);
+                    }
+                }
+                Log.Out($"Cave System Generation Complete: {counter} Caves Generated.");
+            }
+        }
     }
+
+  
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
@@ -17,6 +18,8 @@ public static class SphereCache
     public static FastNoise fastNoise;
     public static List<string> POIs = new List<string>();
     public static List<string> DeepCavePrefabs = new List<string>();
+
+    public static List<Vector3i> spawnPoints = new List<Vector3i>(); //static list somewhere
 
     public static HashSet<Vector2> caveMap = new HashSet<Vector2>();
 
@@ -95,6 +98,36 @@ public static class SphereCache
 
         if (caveChunks.Count == 0)
         {
+            var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
+            switch (configurationType)
+            {
+                case "Legacy":
+                    break;
+                case "Sebastian":
+                    //Log.Out("Initializing Sebastian Cave System...");
+                    //var counter = 0;
+                    //var prefabs = GameManager.Instance.GetDynamicPrefabDecorator().allPrefabs;
+                    //// garage_02,remnant_oldwest_06,cemetery_01,abandoned_house_01,house_burnt_06,vacant_lot_01,mp_waste_bldg_05_grey,oldwest_coal_factory,diner_03
+                    //var prefabFilter = Configuration.GetPropertyValue(AdvFeatureClass, "PrefabSister").Split(',').ToList();
+                    //foreach (var sister in prefabFilter)
+                    //{
+                    //   foreach( var individualInstance in prefabs.FindAll(instance => instance.name.Contains(sister)))
+                    //   {
+                    //       var pos = individualInstance.boundingBoxPosition;
+                    //       var size = 200;
+                    //       counter++;
+                    //       Log.Out($"Generating Cave at {pos} of size {size}...");
+                    //       Sebastian.GenerateCave(pos, size, size);
+                    //   }
+                    //}
+                    //Log.Out($"Cave System Generation Complete: {counter} Caves Generated.");
+                    //// Add an empty vector for the caveChunks so we don't re-generate.
+                    caveChunks.Add(new Vector3i(0,0,0));
+                    return;
+                default:
+                    break;
+            }
+
             var MaxCount = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveCluster"));
             var ClusterSize = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CavesClusterSize"));
 
@@ -121,6 +154,9 @@ public static class SphereCache
                     display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
                     AdvLogging.DisplayLog(AdvFeatureClass, display);
                     Debug.Log(display);
+
+
+                
 
                 }
 
