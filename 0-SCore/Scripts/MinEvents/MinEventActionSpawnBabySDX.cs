@@ -32,7 +32,7 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
                     var ClassID = 0;
                     EntityID = EntityGroups.GetRandomFromGroup(strSpawnGroup, ref ClassID);
                 }
-
+             
                 GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(entity.position, 2, 6, 2, false, out var transformPos);
                 if (transformPos == Vector3.zero)
                     transformPos = entity.position + Vector3.back;
@@ -41,14 +41,15 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
                 if (NewEntity)
                 {
                     NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-                    GameManager.Instance.World.SpawnEntityInWorld(NewEntity);
-
                     if (NewEntity is EntityAlive)
                     {
                         Debug.Log("Setting " + strCvar + " ID to: " + entity.entityId + " for " + NewEntity.entityId);
                         (NewEntity as EntityAlive).Buffs.SetCustomVar(strCvar, entity.entityId);
                         EntityUtilities.SetCurrentOrder(NewEntity.entityId, EntityUtilities.Orders.Follow);
                     }
+                    var entityCreationData = new EntityCreationData(NewEntity);
+                    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+
                 }
                 else
                 {

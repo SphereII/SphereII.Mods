@@ -315,7 +315,9 @@ public class EntityAliveSDX : EntityTrader
             return new EntityActivationCommand[0];
         }
 
-        Debug.Log("Greet");
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
+            return new EntityActivationCommand[0];
+
         return new[]
         {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
@@ -329,7 +331,10 @@ public class EntityAliveSDX : EntityTrader
         var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
         if (myRelationship == FactionManager.Relationship.Hate)
             return false;
-        
+
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
+            return false;
+
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
 
