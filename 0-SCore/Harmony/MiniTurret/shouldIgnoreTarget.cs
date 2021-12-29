@@ -20,6 +20,13 @@ namespace SCore.Harmony.MiniTurret
             // If we shouldn't ignore them, do a quick ally check
             if (!__result)
             {
+                // Check the NPC faction to the player. This needs to be done as the player doesn't have a faction as defined in npc.xml
+                if (EntityUtilities.CheckFaction(_target.entityId,entity))
+                {
+                    __result = true;
+                    return;
+                }
+
                 if (SCoreUtils.IsAlly(entity, _target))
                     __result = true;
                 return;
@@ -43,6 +50,12 @@ namespace SCore.Harmony.MiniTurret
             // If we shouldn't ignore them, do a quick ally check
             if (!__result)
             {
+                // Check the NPC faction to the player. This needs to be done as the player doesn't have a faction as defined in npc.xml
+                if (EntityUtilities.CheckFaction(_target.entityId, entity))
+                {
+                    __result = true;
+                    return;
+                }
                 if ( SCoreUtils.IsAlly(entity, _target))
                     __result = true;
                 return;
