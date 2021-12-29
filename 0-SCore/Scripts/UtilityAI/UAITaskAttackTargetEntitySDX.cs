@@ -62,6 +62,9 @@ namespace UAI
                 if ( entityAlive.IsWalkTypeACrawl())
                     SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
 
+                if ( entityAlive.height < 1.1f)
+                    SCoreUtils.SetCrouching(_context, true);
+
                 _context.Self.RotateTo(entityAlive, 30f, 30f);
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
             }
