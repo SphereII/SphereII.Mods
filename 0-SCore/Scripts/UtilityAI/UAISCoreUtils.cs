@@ -169,6 +169,28 @@ namespace UAI
         }
 
         /// <summary>
+        /// Tests to see if the target entity is a friend. A "friend" is defined as yourself,
+        /// your leader, allies (those who share a leader), and entities in "loved" factions
+        /// (including members of your own faction, if not overridden by your leader).
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static bool IsFriend(EntityAlive self, Entity target)
+        {
+            if (!(target is EntityAlive targetEntity))
+                return false;
+
+            if (targetEntity.IsDead())
+                return false;
+
+            if (self.entityId == target.entityId)
+                return true;
+
+            return !IsEnemyOrPotentialEnemy(self, target, true);
+        }
+
+        /// <summary>
         /// This method checks to see if damage, presumably caused by another entity,
         /// is allowed to actually do damage to the checking entity.
         /// </summary>
