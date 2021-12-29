@@ -22,8 +22,6 @@ namespace UAI
             if (_context.ActionData.Target is Vector3 vector)
                 _position = vector;
 
-         
-
             SCoreUtils.FindPath(_context, _position, run);
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
@@ -75,6 +73,13 @@ namespace UAI
             // Check if our entity has moved.
             _position = entityAlive.position;
 
+            if (!_context.Self.navigator.noPathAndNotPlanningOne())
+            {
+                // If there's not a lot of distance to go, don't re-path.
+                var distance = Vector3.Distance(_context.Self.position, _position);
+                if (distance < 2f)
+                    return;
+            }
             if (SCoreUtils.CanSee(_context.Self, entityAlive))
                 _context.Self.moveHelper.SetMoveTo(_position, true);
            else
