@@ -345,8 +345,10 @@ namespace UAI
             var seeDistance = sourceEntity.GetSeeDistance();
             if (direction.magnitude > seeDistance)
                 return false;
-            if (!sourceEntity.IsInViewCone(headPosition2))
-                return false;
+
+            // if zombies have 360 view, we probably don't need the IsInViewCone()
+//            if (!sourceEntity.IsInViewCone(headPosition2))
+                //return false;
 
             var ray = new Ray(headPosition, direction);
             ray.origin += direction.normalized * 0.2f;
