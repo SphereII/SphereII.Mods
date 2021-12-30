@@ -70,16 +70,24 @@ namespace UAI
             _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
             _context.Self.SetLookPosition(_position);
 
-            // Check if our entity has moved.
-            _position = entityAlive.position;
-
+        
             if (!_context.Self.navigator.noPathAndNotPlanningOne())
             {
+                // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
+                var difference = Vector3.Distance(entityAlive.position, _position);
+                if (difference < 2f)
+                    return;
+
                 // If there's not a lot of distance to go, don't re-path.
-                var distance = Vector3.Distance(_context.Self.position, _position);
+                var distance = Vector3.Distance(_context.Self.position, entityAlive.position);
                 if (distance < 2f)
                     return;
+                
             }
+
+            // Update our position
+            _position = entityAlive.position;
+
             if (SCoreUtils.CanSee(_context.Self, entityAlive))
                 _context.Self.moveHelper.SetMoveTo(_position, true);
            else
