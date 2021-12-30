@@ -41,8 +41,8 @@ namespace UAI
                 _context.Self.SetLookPosition(entityAlive.position);
             }
 
-            //if (!_context.Self.getNavigator().noPathAndNotPlanningOne()) return;
-            //this.Stop(_context);
+            if (!_context.Self.getNavigator().noPathAndNotPlanningOne()) return;
+            this.Stop(_context);
 
         }
     }

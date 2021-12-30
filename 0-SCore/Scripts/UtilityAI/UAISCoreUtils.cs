@@ -274,9 +274,7 @@ namespace UAI
             if (revengeTarget != null && revengeTarget.entityId == target.entityId)
                 return true;
 
-            var relationship = FactionManager.Instance.GetRelationshipValue(
-                targetingEntity,
-                targetedEntity);
+            var relationship = FactionManager.Instance.GetRelationshipValue(targetedEntity, targetingEntity );
 
             // A faction relationship value less than 800 (Love) means they are a potential enemy.
             // A faction relationship value less than 200 (Dislike) means they are an actual enemy.
