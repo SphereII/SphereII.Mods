@@ -224,13 +224,22 @@ public class UtilityAIPatches
             var score = 1f;
             for (var i = 0; i < considerations.Count; i++)
             {
+                // bug fix: vanilla only fails fast if 0 > score and not if 0 == score
+                //if (0f >= score || score < min)
+                //{
+                //    __result = 0f;
+                //    return false;
+                //}
+
                 /*
                  * sphereii notes:
                  *
-                 * Since we use a simpler way of failing a consideration, I've added in a quick fail here, which causes the task to fail out early.
+                 * Since we use a simpler way of failing a consideration, I've added in a quick fail here, which causes the task to fail our early.
+                 *
+                 * Do we need to process the ComputeResponseCurve here, or can we just get the simplified score?
                  */
                 var consideration = considerations[i];
-                var considerationScore = consideration.ComputeResponseCurve(consideration.GetScore(_context, _target));
+                var considerationScore = consideration.GetScore(_context, _target);
                 if (considerationScore == 0f)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Consideration  Overall Score: {score}");
@@ -238,6 +247,7 @@ public class UtilityAIPatches
                     __result = 0f;
                     return false;
                 }
+                considerationScore = consideration.ComputeResponseCurve(considerationScore);
                 score *= considerationScore;
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Overall Score: {score}");
 
