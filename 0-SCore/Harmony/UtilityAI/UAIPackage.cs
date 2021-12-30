@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml;
 using UAI;
-
 namespace Harmony.UtilityAI
 {
     public class Debugging
@@ -147,21 +146,22 @@ namespace Harmony.UtilityAI
                 int availableActions = 0;
                 int actionRans = 0;
 
-                var packageEntityFilters = SCoreUtils.GetEntityFilters(__instance, null, _context.Self);
-                var packageWaypointFilters = SCoreUtils.GetWaypointFilters(__instance, null, _context.Self);
-                if (packageEntityFilters != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} entity filters: {string.Join(",", packageEntityFilters)}");
-                if (packageWaypointFilters != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} waypoint filters: {string.Join(",", packageWaypointFilters)}");
+
+                var packageEntityFilter = SCoreUtils.GetEntityFilter(__instance, null, _context.Self);
+                var packageWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, null, _context.Self);
+                if (packageEntityFilter != null)
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} entity filter: {packageEntityFilter}");
+                if (packageWaypointFilter != null)
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} waypoint filter: {packageWaypointFilter}");
 
                 for (int i = 0; i < ___actionList.Count; i++)
                 {
-                    var actionEntityFilters = SCoreUtils.GetEntityFilters(__instance, ___actionList[i], _context.Self);
-                    var actionWaypointFilters = SCoreUtils.GetWaypointFilters(__instance, ___actionList[i], _context.Self);
-                    if (actionEntityFilters != null)
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} entity filters: {string.Join(",", actionEntityFilters)}");
-                    if (actionWaypointFilters != null)
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} waypoint filters: {string.Join(",", actionWaypointFilters)}");
+                    var actionEntityFilter = SCoreUtils.GetEntityFilter(__instance, ___actionList[i], _context.Self);
+                    var actionWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, ___actionList[i], _context.Self);
+                    if (actionEntityFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} entity filter: {actionEntityFilter}");
+                    if (actionWaypointFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} waypoint filter: {actionWaypointFilter}");
 
                     int entitiesConsidered = 0;
                     int targetIndex = 0;
@@ -170,9 +170,16 @@ namespace Harmony.UtilityAI
                         var target = _context.ConsiderationData.EntityTargets[targetIndex];
                         availableActions++;
 
-                        if (!PassesFilters(packageEntityFilters, actionEntityFilters, target))
+                        if (packageEntityFilter != null && !packageEntityFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by filters: {target}");
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by package filter: {target}");
+                            targetIndex++;
+                            continue;
+                        }
+
+                        if (actionEntityFilter != null && !actionEntityFilter.Test(target))
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by action filter: {target}");
                             targetIndex++;
                             continue;
                         }
@@ -195,10 +202,16 @@ namespace Harmony.UtilityAI
                     {
                         var target = _context.ConsiderationData.WaypointTargets[waypointIndex];
                         availableActions++;
-
-                        if (!PassesFilters(packageWaypointFilters, actionWaypointFilters, target))
+                        if (packageWaypointFilter != null && !packageWaypointFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by filters: {target}");
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by package filter: {target}");
+                            waypointIndex++;
+                            continue;
+                        }
+
+                        if (actionWaypointFilter != null && !actionWaypointFilter.Test(target))
+                        {
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by action filter: {target}");
                             waypointIndex++;
                             continue;
                         }
@@ -231,30 +244,6 @@ namespace Harmony.UtilityAI
 
                 __result = highScore;
                 return false;
-            }
-
-            private static bool PassesFilters<T>(
-                IList<IUAITargetFilter<T>> packageFilters,
-                IList<IUAITargetFilter<T>> actionFilters,
-                T target)
-            {
-                bool hasPackageFilters = packageFilters != null && packageFilters.Count > 0;
-                bool hasActionFilters = actionFilters != null && actionFilters.Count > 0;
-
-                if (hasPackageFilters && hasActionFilters)
-                {
-                    return SCoreUtils.PassesAny(actionFilters, target)
-                        || SCoreUtils.PassesAny(packageFilters, target);
-                }
-                if (hasPackageFilters)
-                {
-                    return SCoreUtils.PassesAny(packageFilters, target);
-                }
-                if (hasActionFilters)
-                {
-                    return SCoreUtils.PassesAny(actionFilters, target);
-                }
-                return true;
             }
 
             //private static void Postfix(UAI.UAIPackage __instance, Context _context, UAIAction _chosenAction, object _chosenTarget)
