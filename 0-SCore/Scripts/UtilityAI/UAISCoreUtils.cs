@@ -10,6 +10,8 @@ namespace UAI
 {
     public static class SCoreUtils
     {
+        public static readonly char TYPE_DELIMITER = ';';
+
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
             if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
@@ -377,6 +379,8 @@ namespace UAI
 
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
+            var revengeTarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
+
             var nearbyEntities = new List<Entity>();
 
             // Search in the bounds are to try to find the most appealing entity to follow.
@@ -393,10 +397,13 @@ namespace UAI
                 // If they are friendly
                 if (EntityUtilities.CheckFaction(_context.Self.entityId, x)) continue;
 
+                // If our revenge target is nearby, we should "know" it, even if we can't see them
+                if (revengeTarget != null && revengeTarget.entityId == x.entityId)
+                    return true;
+
                 // Can we see them?
                 if (!SCoreUtils.CanSee(_context.Self, x))
                     continue;
-
 
                 // Otherwise they are an enemy.
                 return true;
@@ -770,20 +777,40 @@ namespace UAI
                 _storedElements[key] = element;
         }
 
-        public static IUAITargetFilter<Entity> GetEntityFilter(
+        public static IList<IUAITargetFilter<Entity>> GetEntityFilters(
             UAIPackage package,
             UAIAction action,
             EntityAlive self)
         {
-            return GetTargetFilter<Entity>(package, action, self, EntityFilterAttribute);
+            return GetTargetFilters<Entity>(package, action, self, EntityFilterAttribute);
         }
 
-        public static IUAITargetFilter<Vector3> GetWaypointFilter(
+        public static IList<IUAITargetFilter<Vector3>> GetWaypointFilters(
             UAIPackage package,
             UAIAction action,
             EntityAlive self)
         {
-            return GetTargetFilter<Vector3>(package, action, self, WaypointFilterAttrubute);
+            return GetTargetFilters<Vector3>(package, action, self, WaypointFilterAttrubute);
+        }
+
+        public static bool PassesAny<T>(IList<IUAITargetFilter<T>> filters, T target)
+        {
+            if (target == null)
+                return false;
+
+            if (filters == null || filters.Count == 0)
+            {
+                // No filters specified, so the entity always passes
+                return true;
+            }
+
+            for (var i = 0; i < filters.Count; i++)
+            {
+                if (filters[i].Test(target))
+                    return true;
+            }
+
+            return false;
         }
 
         private static string GetKey(UAIPackage package, UAIAction action)
@@ -802,31 +829,45 @@ namespace UAI
             return $"{package?.Name}-{action?.Name}";
         }
 
-        private static IUAITargetFilter<T> GetTargetFilter<T>(
+        private static IList<IUAITargetFilter<T>> GetTargetFilters<T>(
             UAIPackage package,
             UAIAction action,
             EntityAlive self,
             string attribute)
         {
+            var targetFilters = new List<IUAITargetFilter<T>>();
+
             var key = GetKey(package, action);
             if (key == null)
-                return null;
+                return targetFilters;
 
             if (!_storedElements.TryGetValue(key, out var element))
-                return null;
+                return targetFilters;
 
             if (!element.HasAttribute(attribute))
-                return null;
+                return targetFilters;
 
-            // This only works for the filter classes in SCore - do we need to worry about other
-            // modders adding their own?
-            var filterName = "UAI.UAIFilter" + element.GetAttribute(attribute);
+            var filtersString = element.GetAttribute(attribute);
+            if (string.IsNullOrEmpty(filtersString))
+                return targetFilters;
+            
+            var filterNames = filtersString.Split(TYPE_DELIMITER);
 
-            var type = Type.GetType(filterName);
-            if (type == null)
-                return null;
+            for (var i = 0; i < filterNames.Length; i++)
+            {
+                // This only works for the filter classes in SCore - do we need to worry about other
+                // modders adding their own?
+                var filterName = "UAI.UAIFilter" + filterNames[i].Trim();
 
-            return Activator.CreateInstance(type, new object[] { self }) as IUAITargetFilter<T>;
+                var type = Type.GetType(filterName);
+                if (type == null)
+                    continue;
+
+                if (Activator.CreateInstance(type, new object[] { self }) is IUAITargetFilter<T> filter)
+                    targetFilters.Add(filter);
+            }
+            
+            return targetFilters;
         }
 
         private static readonly string EntityFilterAttribute = "entity_filter";
