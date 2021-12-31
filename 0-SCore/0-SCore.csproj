@@ -211,6 +211,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />

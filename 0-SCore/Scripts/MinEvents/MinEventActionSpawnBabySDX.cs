@@ -58,13 +58,17 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
                 var NewEntity = EntityFactory.CreateEntity(EntityID, transformPos, entity.rotation) as EntityAlive;
                 if (NewEntity)
                 {
-                    NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-                    Debug.Log("Setting " + strCvar + " ID to: " + entity.entityId + " for " + NewEntity.entityId);
-                    NewEntity.Buffs.SetCustomVar(strCvar, entity.entityId);
-
                     var entityCreationData = new EntityCreationData(NewEntity);
+                    GameManager.Instance.World.RemoveEntity(NewEntity.entityId, EnumRemoveEntityReason.Undef);
+                    //NewEntity.OnEntityUnload();
                     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-                    NewEntity.OnEntityUnload();
+                    //NewEntity.OnEntityUnload();
+                    //NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+                    //Debug.Log("Setting " + strCvar + " ID to: " + entity.entityId + " for " + NewEntity.entityId);
+                    //NewEntity.Buffs.SetCustomVar(strCvar, entity.entityId);
+
+                    //var entityCreationData = new EntityCreationData(NewEntity);
+                    //GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
                 }
                 else
                 {

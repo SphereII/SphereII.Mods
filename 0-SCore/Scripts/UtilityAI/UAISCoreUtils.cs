@@ -12,7 +12,7 @@ namespace UAI
     {
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
-            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled) || _context.Self.IsDead())
             {
                 _context.Self.DebugNameInfo = "";
                 return;

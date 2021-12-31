@@ -616,16 +616,23 @@ public class EntityAliveSDX : EntityTrader
     }
     public override void OnUpdateLive()
     {
+        if ( IsDead())
+            SetupDebugNameHUD(false);
+
         // If we don't have a leader, make sure that we don't have a nav object set up.
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
         if (leader == null)
         {
             Owner = null;
             HandleNavObject();
+            SetupDebugNameHUD(false);
+
         }
 
         if ( leader )
         {
+            SetupDebugNameHUD(true);
+
             // if our leader is attached, that means they are attached to a vehicle
             if (leader.AttachedToEntity != null )
             {
@@ -735,39 +742,41 @@ public class EntityAliveSDX : EntityTrader
                     avatarController?.SetFallAndGround(canFall, flag);
                 }
             }
+
+
         }
 
         //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
-    //if (entitiesInBounds.Count > 0)
-    //{
-    //    foreach (var entity in entitiesInBounds)
-    //    {
-    //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-    //        {
-    //            // Check your faction relation. If you hate each other, don't stop and talk.
-    //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
-    //            if (myRelationship == FactionManager.Relationship.Hate)
-    //                break;
+        //if (entitiesInBounds.Count > 0)
+        //{
+        //    foreach (var entity in entitiesInBounds)
+        //    {
+        //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
+        //        {
+        //            // Check your faction relation. If you hate each other, don't stop and talk.
+        //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
+        //            if (myRelationship == FactionManager.Relationship.Hate)
+        //                break;
 
-    //            var player = entity as EntityPlayer;
-    //            if (player && player.IsSpectator)
-    //                    continue;
+        //            var player = entity as EntityPlayer;
+        //            if (player && player.IsSpectator)
+        //                    continue;
 
-    //            if (GetDistance(player) < 1.5 && moveHelper != null)
-    //            { 
-    //                moveHelper.SetMoveTo(player.GetLookVector(), false);
-    //                break;
-    //            }
+        //            if (GetDistance(player) < 1.5 && moveHelper != null)
+        //            { 
+        //                moveHelper.SetMoveTo(player.GetLookVector(), false);
+        //                break;
+        //            }
 
-    //            // Turn to face the player, and stop the movement.
-    //            SetLookPosition(entity.getHeadPosition());
-    //            RotateTo(entity, 90f, 90f);
-    //            EntityUtilities.Stop(entityId);
-    //            break;
-    //        }
-    //    }
-    //}
-}
+        //            // Turn to face the player, and stop the movement.
+        //            SetLookPosition(entity.getHeadPosition());
+        //            RotateTo(entity, 90f, 90f);
+        //            EntityUtilities.Stop(entityId);
+        //            break;
+        //        }
+        //    }
+        //}
+    }
     private float fallTime;
 
 
@@ -836,7 +845,11 @@ public class EntityAliveSDX : EntityTrader
         Buffs.AddBuff("buffNotifyTeamAttack");
     }
 
-    
+    public override void SetDead()
+    {
+        
+        base.SetDead();
+    }
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         if (_attackTarget != null)
