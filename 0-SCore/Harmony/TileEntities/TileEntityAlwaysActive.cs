@@ -1,5 +1,10 @@
 //using HarmonyLib;
+//using System.Collections.Generic;
+//using System.Reflection;
 //using UnityEngine;
+
+/* Disabled until someone has a need for it */
+
 
 //namespace Harmony.TileEntities
 //{
@@ -22,22 +27,26 @@
 //        private static readonly string AdvFeatureClass = "AdvancedTileEntities";
 
 
-//        [HarmonyPatch(typeof(TileEntity))]
-//        [HarmonyPatch("IsActive")]
+//        static IEnumerable<MethodBase> TargetMethods()
+//        {
+//            yield return typeof(TileEntityForge).GetMethod("IsActive");
+//            yield return typeof(TileEntityLootContainer).GetMethod("IsActive");
+//        }
+
 //        public class TileEntityIsActive
 //        {
-//            public static bool Postfix(bool ___result, TileEntity __instance, World world)
+//            public static void Postfix( TileEntity __instance, ref bool __result, World world)
 //            {
 //                var block = GameManager.Instance.World.GetBlock(__instance.ToWorldPos());
 //                var block2 = Block.list[block.type];
 //                var isAlwaysActive = false;
 
-//                if (!block2.Properties.Values.ContainsKey("AlwaysActive")) return false;
+//                if (!block2.Properties.Values.ContainsKey("AlwaysActive")) return;
 
 //                isAlwaysActive = StringParsers.ParseBool(block2.Properties.Values["AlwaysActive"]);
-//                if (!isAlwaysActive) return false;
+//                if (!isAlwaysActive) return;
 
-//                ___result = true;
+//                __result = true;
 //                AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": TileEntity is Active.");
 //                var blCanTrigger = false;
 
@@ -132,8 +141,8 @@
 //                    AdvLogging.DisplayLog(AdvFeatureClass, block2.GetBlockName() + ": TileEntity is Active but is not Activating.");
 //                    Block.list[block.type].ActivateBlock(world, __instance.GetClrIdx(), __instance.ToWorldPos(), block, false, true);
 //                }
-
-//                return true;
+//                __result = true;
+//                return;
 //            }
 //        }
 //    }
