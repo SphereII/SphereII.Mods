@@ -98,7 +98,7 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
 
         // Do not display the extra information until they are hired.
         entity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if (entity)
+        if (entity != null)
         {
             var leader = EntityUtilities.GetLeaderOrOwner(entityID);
             if (leader && leader.entityId == player.entityId)
