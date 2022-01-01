@@ -19,6 +19,7 @@ namespace Harmony.Dialog
                 myEntity.emodel.avatarController.SetBool("IsBusy", false);
 
             }
+            __instance.xui.playerUI.entityPlayer.Buffs.RemoveCustomVar("CurrentNPC");
 
             return true;
         }
