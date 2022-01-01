@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
 //       <task class="BackupFromTargetSDX, SCore" />
@@ -26,7 +27,24 @@ namespace UAI
             if (entityAlive != null)
             {
                 _context.Self.detachHome();
-                _context.Self.FindPath(RandomPositionGenerator.CalcAway(_context.Self, 0, (int)this.maxFleeDistance, (int)this.maxFleeDistance, entityAlive.position), _context.Self.GetMoveSpeedPanic(), false, null);
+                var position = RandomPositionGenerator.CalcAway(_context.Self, 2, (int)this.maxFleeDistance, (int)this.maxFleeDistance, entityAlive.position);
+
+                // If the flee distance is small, we are just backing away from the entity in a friendly way
+                if ( maxFleeDistance < 5)
+                {
+                    Vector3 dist = entityAlive.position - _context.Self.position;
+                    if (Vector3.Distance(entityAlive.position, _context.Self.position) < 3)
+                    {
+                        // Calculate a position behind the npc, and move there.
+                        position = dist.normalized * -3f;
+                        position += _context.Self.position;
+                        _context.Self.moveHelper.SetMoveTo(position, true);
+                        return;
+                    }
+                }
+
+                
+                SCoreUtils.FindPath(_context, position, true);
                 return;
             }
             _context.ActionData.Failed = true;

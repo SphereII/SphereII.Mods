@@ -81,10 +81,12 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
     public override void Update(float _dt)
     {
         if (GameManager.Instance == null || GameManager.Instance.World == null) return;
-
-        if ( entity == null ) return;
-        if (!(entity is EntityAliveSDX)) return;
-
+        if (entity == null || !(entity is EntityAliveSDX))
+        {
+            lbldescriptionText.Text = "";
+            OnClose();
+            return;
+        }
         if (isDirty)
         {
             lbldescriptionText.Text = GetDescription();
