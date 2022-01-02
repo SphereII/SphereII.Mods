@@ -10,12 +10,15 @@ namespace UAI
         // Default to action 0.
         private int _actionIndex = 0;
         private string _buffThrottle = "buffReload2";
+        private int _targetTimeout = 20;
 
         protected override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("action_index")) _actionIndex = int.Parse(Parameters["action_index"]);
             if (Parameters.ContainsKey("buff_throttle")) _buffThrottle = Parameters["buff_throttle"];
+            if (Parameters.ContainsKey("target_timeout")) _targetTimeout = int.Parse(Parameters["target_timeout"]);
+
         }
 
         public override void Start(Context _context)
@@ -109,11 +112,13 @@ namespace UAI
             {
                 if (!_context.Self.Use(false)) return;
                 _context.Self.Use(true);
+                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
             }
             else
             {
                 if (!_context.Self.Attack(false)) return;
                 _context.Self.Attack(true);
+                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
             }
 
             // Reset the attackTimeout, and allow another task to run.

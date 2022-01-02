@@ -342,8 +342,68 @@ public class EntityAliveSDX : EntityTrader
         _entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
         Buffs.SetCustomVar("CurrentPlayer", _entityFocusing.entityId);
 
-        base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
 
+        // Copied from EntityTrader
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_entityFocusing as EntityPlayerLocal);
+
+        // We don't want the quest system to consider this NPC as interacted with
+        //QuestEventManager.Current.NPCInteracted(this);
+
+        Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
+        // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
+
+        if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)
+            nextCompletedQuest = null;
+
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId, _entityFocusing.entityId);
+            if (this.activeQuests == null)
+            {
+                this.activeQuests = this.PopulateActiveQuests(_entityFocusing as EntityPlayer, -1);
+                QuestEventManager.Current.SetupQuestList(this.entityId, _entityFocusing.entityId, this.activeQuests);
+            }
+        }
+        if (_indexInBlockActivationCommands != 0)
+        {
+            if (_indexInBlockActivationCommands == 1)
+            {
+                uiforPlayer.xui.Trader.TraderEntity = this;
+                if (nextCompletedQuest == null)
+                {
+                    GameManager.Instance.TELockServer(0, _tePos, this.TileEntityTrader.entityId, _entityFocusing.entityId, null);
+                }
+                else
+                {
+                    if (nextCompletedQuest.QuestGiverID != -1)
+                    {
+                        QuestEventManager.Current.NPCInteracted(this);
+                        uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
+                        uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+                        uiforPlayer.xui.Trader.TraderEntity.PlayVoiceSetEntry("questcomplete", true, true);
+                        uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
+                    }
+                }
+            }
+        }
+        else
+        {
+            uiforPlayer.xui.Dialog.Respondent = this;
+            if (nextCompletedQuest == null)
+            {
+                uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+                uiforPlayer.windowManager.Open("dialog", true, false, true);
+                return false;
+            }
+            if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != -1 )
+            {
+                QuestEventManager.Current.NPCInteracted(this);
+                uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
+                uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
+                uiforPlayer.xui.Dialog.Respondent.PlayVoiceSetEntry("questcomplete", true, true);
+                uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
+            }
+        }
 
         SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
 

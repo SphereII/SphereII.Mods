@@ -9,10 +9,14 @@ namespace UAI
     public class UAITaskMoveToAttackTargetSDX : UAITaskMoveToTargetSDX
     {
         private int _actionIndex = 0;
+        private int _targetTimeout = 20;
+
         protected override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("action_index")) _actionIndex = int.Parse(Parameters["action_index"]);
+            if (Parameters.ContainsKey("target_timeout")) _targetTimeout = int.Parse(Parameters["target_timeout"]);
+
         }
         public override void Stop(Context _context)
         {
@@ -27,6 +31,8 @@ namespace UAI
                 // if within range, attack!
                 if (a.sqrMagnitude <= minDistance)
                     _context.Self.Attack(true);
+
+                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
                 base.Stop(_context);
             }
         }

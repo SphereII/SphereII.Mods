@@ -249,6 +249,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfAttackTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationSelfHasCVar.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetWeaponRange.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetDistanceSDX.cs" />
