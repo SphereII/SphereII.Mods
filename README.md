@@ -1,6 +1,6 @@
 # SphereII.Mods
 
-latest_experimenta: A20
+Test branch: A20
 
 Notes:
   Compile using Visual Studio 2022, targeting .NET 4.8
