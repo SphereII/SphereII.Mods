@@ -17,4 +17,3 @@ For extra fun with Signs, place a sign and add in a direct link to an image or g
 Examples:
  - https://i.imgur.com/y5gNlBe.gif
  - https://i.imgur.com/9oMDAey.jpg
-
