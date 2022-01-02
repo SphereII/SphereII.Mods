@@ -1,4 +1,4 @@
-﻿using GamePath;
+using GamePath;
 using Platform;
 using System;
 using System.Collections.Generic;
@@ -249,6 +249,10 @@ namespace UAI
 
             if (theirLeader != null)
             {
+                // Checks if we are allies: share a leader, or are their leader.
+                if (IsAlly(target, self))
+                    return false;
+
                 // If their leader is a player, perform a friendly fire check against us.
                 // (We already did a friendly fire check when both leaders are players.)
                 if (theirLeader is EntityPlayer theirPlayer && self is EntityPlayer us)
@@ -274,7 +278,7 @@ namespace UAI
             if (revengeTarget != null && revengeTarget.entityId == target.entityId)
                 return true;
 
-            var relationship = FactionManager.Instance.GetRelationshipValue(targetedEntity, targetingEntity );
+            var relationship = EntityUtilities.GetFactionRelationship(targetedEntity, targetingEntity);
 
             // A faction relationship value less than 800 (Love) means they are a potential enemy.
             // A faction relationship value less than 200 (Dislike) means they are an actual enemy.

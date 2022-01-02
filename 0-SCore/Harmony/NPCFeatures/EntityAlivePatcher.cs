@@ -48,13 +48,13 @@ namespace Harmony.NPCFeatures
         [HarmonyPatch("DamageEntity")]
         public class EntityAliveDamageEntity
         {
-            private static bool Prefix(global::EntityAlive __instance, DamageSource _damageSource)
+            private static bool Prefix(global::EntityAlive __instance, ref int __result, DamageSource _damageSource)
             {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return true;
+                // I'm commenting this out, since it is now the expected behavior for all NPCs.
+                //if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                //    return true;
 
-                if (EntityUtilities.IsAnAlly(__instance.entityId, _damageSource.getEntityId()))
+                if (!UAI.SCoreUtils.CanDamage(__instance, __instance.world.GetEntity(_damageSource.getEntityId())))
                     return false;
 
                 return true;
