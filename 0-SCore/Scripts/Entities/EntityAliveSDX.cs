@@ -871,10 +871,8 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool CanDamageEntity(int _sourceEntityId)
     {
-        if (EntityUtilities.IsAnAlly(entityId, _sourceEntityId))
-            return false;
-
-        return true;
+        // If they can't damage us, we can't damage them.
+        return SCoreUtils.CanDamage(this, world.GetEntity(_sourceEntityId));
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)

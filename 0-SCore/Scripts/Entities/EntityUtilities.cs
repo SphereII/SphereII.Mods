@@ -1461,9 +1461,9 @@ public static class EntityUtilities
             return false;
         }
 
-        var myRelationship = FactionManager.Instance.GetRelationshipTier(myEntity, entity);
+        var myRelationship = GetFactionRelationship(myEntity, entity);
         DisplayLog(" CheckFactionForEnemy: " + myRelationship);
-        if (myRelationship == FactionManager.Relationship.Hate)
+        if (myRelationship < (float)FactionManager.Relationship.Dislike)
         {
             DisplayLog(" I hate this entity: " + entity);
             return false;
@@ -1471,6 +1471,27 @@ public static class EntityUtilities
 
         DisplayLog(" My relationship with this " + entity + " is: " + myRelationship);
         return true;
+    }
+
+    /// <summary>
+    /// Reliably gets the faction relationship between yourself and a target.
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static float GetFactionRelationship(EntityAlive self, EntityAlive target)
+    {
+        var selfCheckTarget = FactionManager.Instance.GetRelationshipValue(self, target);
+
+        // This is needed because if you don't have a faction entry in npcs.xml, the vanilla code
+        // will return "neutral." In this case, we assume the target does have a faction entry,
+        // and check ourselves against their entry.
+        if (selfCheckTarget != (float)FactionManager.Relationship.Neutral)
+        {
+            return selfCheckTarget;
+        }
+
+        return FactionManager.Instance.GetRelationshipValue(target, self);
     }
 
     public static bool CheckForBuff(int EntityID, string strBuff)
