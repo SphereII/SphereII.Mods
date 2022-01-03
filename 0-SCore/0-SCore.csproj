@@ -178,6 +178,7 @@
     <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
     <Compile Include="Scripts\Entities\EntitySwimingSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityTargetingUtilities.cs" />
     <Compile Include="Scripts\Entities\EntityUtilities.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlockSDX.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlyingSDX.cs" />

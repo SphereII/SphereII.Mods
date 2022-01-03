@@ -295,30 +295,18 @@ public class EntityAliveSDX : EntityTrader
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if (IsDead() || NPCInfo == null)
-        {
-            Debug.Log("NPCInfo is null ");
-            return new EntityActivationCommand[0];
-        }
+        if (IsDead() || NPCInfo == null)  return new EntityActivationCommand[0];
 
-        var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
-        if (myRelationship == FactionManager.Relationship.Hate)
-        {
-            Debug.Log("They hate me");
-            return new EntityActivationCommand[0];
-        }
-
+        // Do they even like us enough to talk?
+        if ( EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
+        
         // If not a human, don't talk to them
-        if (!EntityUtilities.IsHuman(entityId))
-        {
-            Debug.Log("is not a human.");
-            return new EntityActivationCommand[0];
-        }
+        if (!EntityUtilities.IsHuman(entityId)) return new EntityActivationCommand[0];
 
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
-            return new EntityActivationCommand[0];
+        // do we have an attack or revenge target? don't have time to talk, bro
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return new EntityActivationCommand[0];
 
-        return new[]
+        return new[] 
         {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
         };
@@ -328,12 +316,9 @@ public class EntityAliveSDX : EntityTrader
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow interaction with a Hated entity
-        var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
-        if (myRelationship == FactionManager.Relationship.Hate)
-            return false;
+        if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return false;
 
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
-            return false;
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return false;
 
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
@@ -341,7 +326,6 @@ public class EntityAliveSDX : EntityTrader
         // This is used by various dialog boxes to know which EntityID the player is talking too.
         _entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
         Buffs.SetCustomVar("CurrentPlayer", _entityFocusing.entityId);
-
 
         // Copied from EntityTrader
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_entityFocusing as EntityPlayerLocal);
@@ -867,7 +851,7 @@ public class EntityAliveSDX : EntityTrader
         if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
-        if (!SCoreUtils.CanDamage(this, world.GetEntity(_damageSource.getEntityId())))
+        if (!EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_damageSource.getEntityId())))
             return 0;
 
         // If we are being attacked, let the state machine know it can fight back
@@ -931,8 +915,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool CanDamageEntity(int _sourceEntityId)
     {
-        // If they can't damage us, we can't damage them.
-        return SCoreUtils.CanDamage(this, world.GetEntity(_sourceEntityId));
+        return EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)

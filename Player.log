@@ -1,0 +1,669 @@
+Mono path[0] = 'E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Managed'
+Mono config path = 'E:/A200B238 - Project SMX - Public - Stable Release Development/MonoBleedingEdge/etc'
+Initialize engine version: 2020.3.14f1 (d0d1bb862f9d)
+[Subsystems] Discovering subsystems at path E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1080 Ti (ID=0x1b06)
+    Vendor:   
+    VRAM:     11127 MB
+    Driver:   30.0.14.9709
+Begin MonoManager ReloadAssembly
+- Completed reload, in  0.069 seconds
+D3D11 device created for Microsoft Media Foundation video decoding.
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.518100 ms
+2022-01-03T18:21:20 0.012 INF [Platform] Init
+2022-01-03T18:21:20 0.056 INF [Platform] Using native platform: Steam
+2022-01-03T18:21:20 0.058 INF [Platform] Using cross platform: EOS
+2022-01-03T18:21:20 0.059 INF [Platform] Using server platform: Steam
+2022-01-03T18:21:20 0.059 INF [Platform] Initializing Steam
+2022-01-03T18:21:20 0.062 INF Starting PlayerInputManager...
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/XInputInterface32
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/XInputInterface32.dll
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/XInputInterface32
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libXInputInterface32
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libXInputInterface32.dll
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libXInputInterface32
+2022-01-03T18:21:20 0.245 INF InControl (version 1.8.2 build 9357, native module = False, XInput = True)
+2022-01-03T18:21:20 0.374 INF [Steamworks.NET] SteamAPI_Init() ok
+2022-01-03T18:21:20 0.382 INF Not running in Big Picture Mode, no on-screen keyboard available
+2022-01-03T18:21:20 0.382 INF [Platform] Initializing EOS
+2022-01-03T18:21:20 0.399 INF [EOS] Initialize: Success
+2022-01-03T18:21:20 0.540 INF Localization language: english
+2022-01-03T18:21:20 0.559 INF Texture quality is set to 0
+2022-01-03T18:21:20 0.560 INF Precaching...
+2022-01-03T18:21:20 0.560 INF Precaching file: 7DaysToDie_Data/resources.assets
+2022-01-03T18:21:20 0.616 INF [EAC] Not loading, not started from launcher
+2022-01-03T18:21:20 0.787 INF Precaching file: 7DaysToDie_Data/sharedassets1.assets
+2022-01-03T18:21:20 0.806 INF Precaching file: Data/Bundles/blocktextureatlases
+2022-01-03T18:21:20 0.966 INF Precaching file: Data/Bundles/terraintextures
+2022-01-03T18:21:21 1.145 INF Precaching done
+2022-01-03T18:21:26 6.240 INF Loading main scene
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.592500 ms
+2022-01-03T18:21:26 6.289 INF [GSM] Singleton Initialized...
+2022-01-03T18:21:26 6.296 INF Awake IsFocused: True
+2022-01-03T18:21:26 6.296 INF Awake
+2022-01-03T18:21:26 6.308 INF Version: Alpha 20 (b238) Compatibility Version: Alpha 20, Build: Windows 64 Bit
+2022-01-03T18:21:26 6.308 INF System information:
+2022-01-03T18:21:26 6.308 INF    OS: Windows 10  (10.0.19044) 64bit
+2022-01-03T18:21:26 6.308 INF    CPU: Intel(R) Core(TM) i9-9900K CPU @ 3.60GHz (cores: 16)
+2022-01-03T18:21:26 6.308 INF    RAM: 32699 MB
+2022-01-03T18:21:26 6.308 INF    GPU: NVIDIA GeForce GTX 1080 Ti (11127 MB)
+2022-01-03T18:21:26 6.309 INF    Graphics API: Direct3D 11.0 [level 11.1] (shader level 5.0)
+2022-01-03T18:21:26 6.309 INF Last played version: Alpha 20
+2022-01-03T18:21:26 6.310 INF Local UTC offset: 1 hours
+2022-01-03T18:21:26 6.312 INF Command line arguments: E:\A200B238 - Project SMX - Public - Stable Release Development\7DaysToDie.exe
+2022-01-03T18:21:26 6.341 INF Occlusion: Awake
+2022-01-03T18:21:26 6.346 INF ApplyAllOptions streaming budget 10014.3 MB
+2022-01-03T18:21:26 6.346 INF ApplyAllOptions current screen 2560 x 1440, 165hz, window 2560 x 1440, mode FullScreenWindow
+2022-01-03T18:21:26 6.347 INF Texture quality is set to 0
+2022-01-03T18:21:26 6.347 INF ApplyTextureFilter 2, AF Enable
+2022-01-03T18:21:26 6.348 INF ApplyTerrainOptions 3
+2022-01-03T18:21:26 6.430 INF [MODS] Start loading
+2022-01-03T18:21:26 6.434 INF [MODS] Trying to load from folder: .vs
+2022-01-03T18:21:26 6.435 WRN [MODS] Folder .vs does not contain a ModInfo.xml, ignoring
+2022-01-03T18:21:26 6.435 WRN [MODS] Failed loading mod from folder: .vs
+2022-01-03T18:21:26 6.435 INF [MODS] Trying to load from folder: SMXhud
+2022-01-03T18:21:26 6.483 INF [MODS] Found ModAPI in SMXhud.dll, creating instance
+2022-01-03T18:21:26 6.484 INF [MODS] Loaded Mod: SMXhud (r20.rc1)
+2022-01-03T18:21:26 6.484 INF [MODS] Trying to load from folder: SMXlib
+2022-01-03T18:21:26 6.484 INF [MODS] Loaded Mod: SMXlib (r20.rc1)
+2022-01-03T18:21:26 6.484 INF [MODS] Trying to load from folder: SMXmenu
+2022-01-03T18:21:26 6.484 WRN [MODS] Folder SMXmenu does not contain a ModInfo.xml, ignoring
+2022-01-03T18:21:26 6.484 WRN [MODS] Failed loading mod from folder: SMXmenu
+2022-01-03T18:21:26 6.484 INF [MODS] Trying to load from folder: SMXui
+2022-01-03T18:21:26 6.485 INF [MODS] Loaded Mod: SMXui (r20.rc0)
+2022-01-03T18:21:26 6.485 INF [MODS] Trying to load from folder: ZMXhudCP
+2022-01-03T18:21:26 6.485 INF [MODS] Loaded Mod: ZMXhudCP (r20.rc1)
+2022-01-03T18:21:26 6.485 INF [MODS] Trying to load from folder: ZMXhudCPTHB
+2022-01-03T18:21:26 6.485 INF [MODS] Loaded Mod: ZMXhudCPTHB (r20.rc1)
+2022-01-03T18:21:26 6.485 INF [MODS] Trying to load from folder: ZMXlib
+2022-01-03T18:21:26 6.485 WRN [MODS] Folder ZMXlib does not contain a ModInfo.xml, ignoring
+2022-01-03T18:21:26 6.485 WRN [MODS] Failed loading mod from folder: ZMXlib
+2022-01-03T18:21:26 6.485 INF [MODS] Trying to load from folder: ZMXuiCP
+2022-01-03T18:21:26 6.486 INF [MODS] Loaded Mod: ZMXuiCP (r20.rc0)
+2022-01-03T18:21:26 6.486 INF [MODS] Trying to load from folder: ZMXuizEnhanced
+2022-01-03T18:21:26 6.487 INF [MODS] Found ModAPI in ZMXuizEnhanced.dll, creating instance
+2022-01-03T18:21:26 6.487 INF [MODS] Loaded Mod: ZMXuizEnhanced (r20.rc0)
+2022-01-03T18:21:26 6.487 INF [MODS] Trying to load from folder: ZQLaNavObjectsZombie
+2022-01-03T18:21:26 6.487 WRN [MODS] Folder ZQLaNavObjectsZombie does not contain a ModInfo.xml, ignoring
+2022-01-03T18:21:26 6.487 WRN [MODS] Failed loading mod from folder: ZQLaNavObjectsZombie
+2022-01-03T18:21:26 6.487 INF [MODS] Trying to load from folder: zXui
+2022-01-03T18:21:26 6.487 WRN [MODS] Folder zXui does not contain a ModInfo.xml, ignoring
+2022-01-03T18:21:26 6.487 WRN [MODS] Failed loading mod from folder: zXui
+2022-01-03T18:21:26 6.487 INF [MODS] Initializing mod code
+ Loading Patch: SMXhud Mod: SMXhud
+
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/data-000001F32764D080.dll
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/data-000001F267CE20E0.dll
+ Loading Patch: ZMXuizEnhanced Mod: ZMXuizEnhanced
+
+2022-01-03T18:21:26 6.708 INF [MODS] Loading done
+2022-01-03T18:21:27 7.356 INF Pack 403333 us
+2022-01-03T18:21:27 7.357 INF [MODS] Loading localization from mod: SMXhud
+2022-01-03T18:21:27 7.358 INF [MODS] Loading localization from mod: SMXui
+2022-01-03T18:21:27 7.368 INF Loading permissions file at 'C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/serveradmin.xml'
+2022-01-03T18:21:27 7.372 INF Loading permissions file done.
+2022-01-03T18:21:27 7.432 INF GameSense server not found (no props file), disabling
+2022-01-03T18:21:27 7.432 INF Awake done in 1135 ms
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libc
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libc.dll
+Fallback handler could not load library E:/A200B238 - Project SMX - Public - Stable Release Development/7DaysToDie_Data/Mono/libc
+
+Unloading 340 unused Assets to reduce memory usage. Loaded Objects now: 5410.
+Total: 9.139900 ms (FindLiveObjects: 0.158600 ms CreateObjectMapping: 0.149000 ms MarkObjects: 8.611600 ms  DeleteObjects: 0.220400 ms)
+
+2022-01-03T18:21:27 7.662 INF Updated culture for display texts
+2022-01-03T18:21:28 8.057 INF [XUi] Parsing all window groups completed in 373 ms total.
+2022-01-03T18:21:28 8.115 INF Reloading serveradmin.xml
+2022-01-03T18:21:28 8.115 INF Loading permissions file at 'C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/serveradmin.xml'
+2022-01-03T18:21:28 8.116 INF Loading permissions file done.
+2022-01-03T18:21:28 8.847 INF [XUi] Initialized all window groups completed in 479 ms total.
+2022-01-03T18:21:28 8.858 WRN [EOS] [LogEOSAnalytics - Warning] EOS SDK Analytics disabled for route [1].
+2022-01-03T18:21:29 9.108 INF LoadTextureArraysForQuality quality -1 to 0, reload False
+2022-01-03T18:21:29 9.419 INF [GSM] GameSparks Connected
+2022-01-03T18:21:29 9.730 INF Loaded (local): rwgmixer
+2022-01-03T18:21:29 9.780 INF Loaded (local): archetypes
+2022-01-03T18:21:29 9.799 INF Loaded (local): color_mappings
+2022-01-03T18:21:29 9.834 INF Loaded (local): loadingscreen
+2022-01-03T18:21:29 9.844 INF WorldStaticData.Init() needed 1.000s
+2022-01-03T18:21:29 9.853 INF [Steamworks.NET] Login ok.
+2022-01-03T18:21:29 9.853 INF [EOS] Login
+2022-01-03T18:21:30 10.642 INF [GSM] Skipping me
+2022-01-03T18:21:30 10.680 INF [EOS] Login succeeded, PUID: 0002d6cdd90d4a5fbb2760f054206916
+2022-01-03T18:21:33 13.310 INF NET: Starting server protocols
+2022-01-03T18:21:33 13.325 INF NET: LiteNetLib server started
+2022-01-03T18:21:33 13.326 INF [Steamworks.NET] NET: Server started
+2022-01-03T18:21:33 13.326 INF Started thread SteamNetworkingServer
+2022-01-03T18:21:33 13.327 INF StartGame
+2022-01-03T18:21:33 13.327 INF NetPackageManager Init
+2022-01-03T18:21:33 13.369 INF Persistent GamePrefs saved
+GamePref.AdminFileName = serveradmin.xml
+GamePref.AirDropFrequency = 168
+GamePref.AirDropMarker = True
+GamePref.AutopilotMode = 0
+GamePref.BedrollDeadZoneSize = 15
+GamePref.BedrollExpiryTime = 45
+GamePref.BlockDamageAI = 100
+GamePref.BlockDamageAIBM = 100
+GamePref.BlockDamagePlayer = 100
+GamePref.BloodMoonEnemyCount = 24
+GamePref.BloodMoonFrequency = 14
+GamePref.BloodMoonRange = 0
+GamePref.BloodMoonWarning = 8
+GamePref.BuildCreate = False
+GamePref.ConnectToServerIP = 127.0.0.1
+GamePref.ConnectToServerPort = 26900
+GamePref.ControlPanelEnabled = False
+GamePref.ControlPanelPort = 8080
+GamePref.CraftTimer = 
+GamePref.CreateLevelDim = 8
+GamePref.CreateLevelName = My Level
+GamePref.CreativeMenuEnabled = False
+GamePref.DayCount = 3
+GamePref.DayLightLength = 18
+GamePref.DayNightLength = 120
+GamePref.DebugMenuEnabled = False
+GamePref.DebugMenuShowTasks = False
+GamePref.DebugStopEnemiesMoving = False
+GamePref.DropOnDeath = 1
+GamePref.DropOnQuit = 0
+GamePref.DynamicMeshDistance = 1000
+GamePref.DynamicMeshEnabled = True
+GamePref.DynamicMeshLandClaimBuffer = 3
+GamePref.DynamicMeshLandClaimOnly = False
+GamePref.DynamicMeshMaxItemCache = 3
+GamePref.DynamicMeshMaxRegionCache = 1
+GamePref.DynamicMeshUseImposters = False
+GamePref.DynamicSpawner = 
+GamePref.EACEnabled = False
+GamePref.EnemyDifficulty = 0
+GamePref.EnemySpawnMode = True
+GamePref.FavoriteServersList = 
+GamePref.FragLimit = 20
+GamePref.GameDifficulty = 1
+GamePref.GameGuidClient = 
+GamePref.GameMode = GameModeSurvival
+GamePref.GameName = 20238_SMX
+GamePref.GameNameClient = My Game
+GamePref.GameVersion = Alpha 20
+GamePref.GameWorld = PREGEN6k
+GamePref.HideCommandExecutionLog = 0
+GamePref.JoiningOptions = True
+GamePref.LandClaimCount = 1
+GamePref.LandClaimDeadZone = 30
+GamePref.LandClaimDecayMode = 0
+GamePref.LandClaimExpiryTime = 7
+GamePref.LandClaimOfflineDelay = 0
+GamePref.LandClaimOfflineDurabilityModifier = 4
+GamePref.LandClaimOnlineDurabilityModifier = 4
+GamePref.LandClaimSize = 41
+GamePref.LastGameResetRevision = 13
+GamePref.LastLoadedPrefab = 
+GamePref.LastLoadingTipRead = 7
+GamePref.LootAbundance = 100
+GamePref.LootRespawnDays = 30
+GamePref.LootTimer = 
+GamePref.MatchLength = 10
+GamePref.MaxSpawnedAnimals = 50
+GamePref.MaxSpawnedZombies = 64
+GamePref.MaxUncoveredMapChunksPerPlayer = 524288
+GamePref.NoGraphicsMode = False
+GamePref.OptionsAllowController = True
+GamePref.OptionsAmbientVolumeLevel = 1
+GamePref.OptionsAudioOcclusion = False
+GamePref.OptionsBackgroundGlobalOpacity = 0.75
+GamePref.OptionsControllerVibration = True
+GamePref.OptionsControlsResetRevision = 6
+GamePref.OptionsDisableChunkLODs = False
+GamePref.OptionsDynamicMusicDailyTime = 0.45
+GamePref.OptionsDynamicMusicEnabled = True
+GamePref.OptionsForegroundGlobalOpacity = 1
+GamePref.OptionsGfxAA = 4
+GamePref.OptionsGfxAASharpness = 0.05
+GamePref.OptionsGfxBloom = True
+GamePref.OptionsGfxBrightness = 0.5
+GamePref.OptionsGfxDOF = True
+GamePref.OptionsGfxDynamicMinFPS = 30
+GamePref.OptionsGfxDynamicMode = 0
+GamePref.OptionsGfxDynamicScale = 1
+GamePref.OptionsGfxFOV = 65
+GamePref.OptionsGfxGrassDistance = 3
+GamePref.OptionsGfxLODDistance = 0.75
+GamePref.OptionsGfxMotionBlur = 1
+GamePref.OptionsGfxObjQuality = 3
+GamePref.OptionsGfxOcclusion = True
+GamePref.OptionsGfxQualityPreset = 3
+GamePref.OptionsGfxReflectQuality = 2
+GamePref.OptionsGfxReflectShadows = False
+GamePref.OptionsGfxResetRevision = 3
+GamePref.OptionsGfxResolution = 0
+GamePref.OptionsGfxShadowDistance = 3
+GamePref.OptionsGfxSSAO = True
+GamePref.OptionsGfxSSReflections = 2
+GamePref.OptionsGfxStreamMipmaps = True
+GamePref.OptionsGfxSunShafts = True
+GamePref.OptionsGfxTerrainQuality = 3
+GamePref.OptionsGfxTexFilter = 2
+GamePref.OptionsGfxTexQuality = 0
+GamePref.OptionsGfxTreeDistance = 4
+GamePref.OptionsGfxUMATexQuality = 0
+GamePref.OptionsGfxViewDistance = 6
+GamePref.OptionsGfxVsync = 1
+GamePref.OptionsGfxWaterPtlLimiter = 0.75
+GamePref.OptionsGfxWaterQuality = 1
+GamePref.OptionsHudOpacity = 1
+GamePref.OptionsHudSize = 1
+GamePref.OptionsInterfaceSensitivity = 0.75
+GamePref.OptionsInvertMouse = False
+GamePref.OptionsJournalPopup = True
+GamePref.OptionsMenuMusicVolumeLevel = 0
+GamePref.OptionsMicVolumeLevel = 0.7
+GamePref.OptionsMouseSensitivity = 0.5
+GamePref.OptionsMusicVolumeLevel = 0.6
+GamePref.OptionsOverallAudioVolumeLevel = 0.15
+GamePref.OptionsPlayChanceFrequency = 3
+GamePref.OptionsPlayChanceProbability = 0.983
+GamePref.OptionsPlayerModel = playerMale
+GamePref.OptionsPlayerModelTexture = Player/Male/Player_male
+GamePref.OptionsPOICulling = 1
+GamePref.OptionsScreenBoundsValue = 1
+GamePref.OptionsSelectionBoxAlphaMultiplier = 0.4
+GamePref.OptionsShowCompass = True
+GamePref.OptionsShowCrosshair = True
+GamePref.OptionsStabSpawnBlocksOnGround = True
+GamePref.OptionsTempCelsius = True
+GamePref.OptionsUiFpsScaling = 1
+GamePref.OptionsVehicleMouseSensitivity = 0.5
+GamePref.OptionsVoiceChatEnabled = True
+GamePref.OptionsVoiceVolumeLevel = 0.75
+GamePref.OptionsWeaponAiming = True
+GamePref.OptionsZoomMouseSensitivity = 0.5
+GamePref.PartySharedKillRange = 10000
+GamePref.PersistentPlayerProfiles = True
+GamePref.PlayerAutologin = False
+GamePref.PlayerKillingMode = 2
+GamePref.PlayerName = Sirillion
+GamePref.PlayerSafeZoneHours = 7
+GamePref.PlayerSafeZoneLevel = 5
+GamePref.PlayerToken = 
+GamePref.PlaytestBiome = 3
+GamePref.RebuildMap = False
+GamePref.SaveGameFolder = C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves
+GamePref.SelectionContextMode = 0
+GamePref.SelectionOperationMode = 0
+GamePref.ServerAdminSlots = 0
+GamePref.ServerAdminSlotsPermission = 0
+GamePref.ServerDescription = 
+GamePref.ServerDisabledNetworkProtocols = 
+GamePref.ServerIP = 
+GamePref.ServerIsPublic = True
+GamePref.ServerLoginConfirmationText = 
+GamePref.ServerMaxAllowedViewDistance = 12
+GamePref.ServerMaxPlayerCount = 1
+GamePref.ServerMaxWorldTransferSpeedKiBs = 512
+GamePref.ServerName = Default Server
+GamePref.ServerPort = 26900
+GamePref.ServerReservedSlots = 0
+GamePref.ServerReservedSlotsPermission = 100
+GamePref.ServerVisibility = 0
+GamePref.ServerWebsiteURL = 
+GamePref.ShowFriendPlayerOnMap = True
+GamePref.TelnetEnabled = False
+GamePref.TelnetFailedLoginLimit = 10
+GamePref.TelnetFailedLoginsBlocktime = 10
+GamePref.TelnetPort = 25003
+GamePref.TerminalWindowEnabled = True
+GamePref.TwitchBloodMoonAllowed = True
+GamePref.TwitchServerPermission = 90
+GamePref.UNUSED_LastLoadedPrefabSize = 
+GamePref.UNUSED_OptionsBloom = 
+GamePref.UNUSED_OptionsDOF = 
+GamePref.UNUSED_OptionsFieldOfViewNew = 
+GamePref.UNUSED_OptionsGamma = 
+GamePref.UNUSED_OptionsMotionBlur = 
+GamePref.UNUSED_OptionsObjectBlur = 
+GamePref.UNUSED_OptionsReflectionBounces = 
+GamePref.UNUSED_OptionsReflectionCullList = 
+GamePref.UNUSED_OptionsReflectionFarClip = 
+GamePref.UNUSED_OptionsReflectionRefreshMode = 
+GamePref.UNUSED_OptionsReflectionShadowDistance = 
+GamePref.UNUSED_OptionsReflectionTimeSlicingMode = 
+GamePref.UNUSED_OptionsSSAO = 
+GamePref.UNUSED_OptionsStreamingMipmapsBudget = 
+GamePref.UNUSED_OptionsSunShafts = 
+GamePref.UNUSED_PlayerId = 
+GamePref.UserDataFolder = C:\Users\bksve\AppData\Roaming/7DaysToDie
+GamePref.WorldGenSeed = 
+GamePref.WorldGenSize = 8192
+GamePref.XPMultiplier = 100
+GamePref.ZombieBMMove = 3
+GamePref.ZombieFeralMove = 1
+GamePref.ZombieFeralSense = 0
+GamePref.ZombieMove = 0
+GamePref.ZombieMoveNight = 0
+GamePref.ZombiePlayers = True
+GameStat.AirDropFrequency = 0
+GameStat.AirDropMarker = False
+GameStat.AllowedViewDistance = 12
+GameStat.AnimalCount = 0
+GameStat.AutoParty = False
+GameStat.BedrollExpiryTime = 45
+GameStat.BlockDamagePlayer = 100
+GameStat.BloodMoonDay = 0
+GameStat.BloodMoonEnemyCount = 8
+GameStat.BloodMoonWarning = 8
+GameStat.ChunkStabilityEnabled = True
+GameStat.CraftTimer = 
+GameStat.CurrentRoundIx = 0
+GameStat.DayLightLength = 18
+GameStat.DayLimitActive = False
+GameStat.DayLimitThisRound = 0
+GameStat.DropOnDeath = 1
+GameStat.DropOnQuit = 0
+GameStat.EnemyCount = 0
+GameStat.EnemyDifficulty = Normal
+GameStat.EnemySpawnMode = True
+GameStat.FragLimitActive = False
+GameStat.FragLimitThisRound = 0
+GameStat.GameDifficulty = 2
+GameStat.GameDifficultyBonus = 1
+GameStat.GameModeId = 0
+GameStat.GameState = 0
+GameStat.GlobalMessageToShow = 
+GameStat.IsCreativeMenuEnabled = False
+GameStat.IsFlyingEnabled = False
+GameStat.IsPlayerCollisionEnabled = True
+GameStat.IsPlayerDamageEnabled = True
+GameStat.IsResetMapOnRestart = False
+GameStat.IsSaveSupplyCrates = True
+GameStat.IsSpawnEnemies = True
+GameStat.IsSpawnNearOtherPlayer = False
+GameStat.IsTeleportEnabled = False
+GameStat.IsVersionCheckDone = False
+GameStat.LandClaimCount = 1
+GameStat.LandClaimDeadZone = 30
+GameStat.LandClaimDecayMode = 0
+GameStat.LandClaimExpiryTime = 3
+GameStat.LandClaimOfflineDelay = 0
+GameStat.LandClaimOfflineDurabilityModifier = 32
+GameStat.LandClaimOnlineDurabilityModifier = 32
+GameStat.LandClaimSize = 41
+GameStat.LoadScene = 
+GameStat.LootTimer = 
+GameStat.OptionsPOICulling = 0
+GameStat.PartySharedKillRange = 100
+GameStat.PlayerKillingMode = KillStrangersOnly
+GameStat.ScoreDiedMultiplier = -5
+GameStat.ScorePlayerKillMultiplier = 1
+GameStat.ScoreZombieKillMultiplier = 1
+GameStat.ShowAllPlayersOnMap = False
+GameStat.ShowFriendPlayerOnMap = True
+GameStat.ShowSpawnWindow = False
+GameStat.ShowWindow = 
+GameStat.TimeLimitActive = False
+GameStat.TimeLimitThisRound = 0
+GameStat.TimeOfDayIncPerSec = 20
+GameStat.TwitchBloodMoonAllowed = True
+GameStat.UNUSED_ShowZombieCounter = 
+GameStat.XPMultiplier = 100
+GameStat.ZombieHordeMeter = False
+2022-01-03T18:21:33 13.383 INF StartAsServer
+2022-01-03T18:21:33 13.772 INF Set Microsplat diffuse: MicroSplatConfig_diff_tarray (UnityEngine.Texture2DArray)
+2022-01-03T18:21:33 13.772 INF Set Microsplat normals: MicroSplatConfig_normal_tarray (UnityEngine.Texture2DArray)
+2022-01-03T18:21:33 13.772 INF Set Microsplat smooth:  MicroSplatConfig_smoothAO_tarray (UnityEngine.Texture2DArray)
+2022-01-03T18:21:33 13.794 INF Loaded (local): materials
+2022-01-03T18:21:33 13.876 INF Loaded (local): physicsbodies
+2022-01-03T18:21:33 13.936 INF Loaded (local): painting
+2022-01-03T18:21:34 14.064 INF Loaded (local): shapes
+Unloading 3 Unused Serialized files (Serialized files now loaded: 9)
+2022-01-03T18:21:43 23.284 INF Block IDs with mapping
+2022-01-03T18:21:43 23.290 INF Block IDs total 13639, terr 44, last 13847
+2022-01-03T18:21:43 23.299 INF Loaded (local): blocks
+
+Unloading 53961 unused Assets to reduce memory usage. Loaded Objects now: 90126.
+Total: 311.188500 ms (FindLiveObjects: 5.239100 ms CreateObjectMapping: 8.443800 ms MarkObjects: 278.256500 ms  DeleteObjects: 19.248600 ms)
+
+2022-01-03T18:21:43 23.788 INF Loaded (local): progression
+2022-01-03T18:21:44 23.991 INF Loaded (local): buffs
+2022-01-03T18:21:44 24.052 INF Loaded (local): misc
+2022-01-03T18:21:44 24.522 INF Loaded (local): items
+2022-01-03T18:21:44 24.699 INF Item IDs with mapping
+2022-01-03T18:21:44 24.699 INF ItemIDs from Mapping
+2022-01-03T18:21:44 24.732 INF Loaded (local): item_modifiers
+2022-01-03T18:21:44 24.835 INF Loaded (local): entityclasses
+2022-01-03T18:21:44 24.905 INF Loaded (local): qualityinfo
+2022-01-03T18:21:45 25.002 INF Loaded (local): sounds
+2022-01-03T18:21:45 25.229 INF Loaded (local): recipes
+2022-01-03T18:21:45 25.341 INF Loaded (local): blockplaceholders
+2022-01-03T18:21:45 25.452 INF Loaded (local): loot
+2022-01-03T18:21:45 25.543 INF Loaded (local): entitygroups
+2022-01-03T18:21:45 25.611 INF Loaded (local): utilityai
+2022-01-03T18:21:45 25.672 INF Loaded (local): vehicles
+2022-01-03T18:21:45 25.732 INF Loaded (local): rwgmixer
+2022-01-03T18:21:45 25.794 INF Loaded (local): weathersurvival
+2022-01-03T18:21:45 25.860 INF Loaded (local): archetypes
+2022-01-03T18:21:45 25.942 INF Loaded (local): quests
+2022-01-03T18:21:46 26.016 INF Loaded (local): traders
+2022-01-03T18:21:46 26.080 INF Loaded (local): npc
+2022-01-03T18:21:46 26.142 INF Loaded (local): dialogs
+2022-01-03T18:21:46 26.207 INF Loaded (local): ui_display
+2022-01-03T18:21:46 26.266 INF Loaded (local): nav_objects
+2022-01-03T18:21:46 26.331 INF Loaded (local): gamestages
+2022-01-03T18:21:46 26.464 INF Loaded (local): gameevents
+2022-01-03T18:21:46 26.565 INF Loaded (local): twitch
+2022-01-03T18:21:46 26.629 INF Loaded (local): twitch_events
+2022-01-03T18:21:46 26.705 INF Loaded (local): dmscontent
+2022-01-03T18:21:46 26.766 INF Loaded (local): color_mappings
+2022-01-03T18:21:46 26.827 INF Loaded (local): XUi_Common/styles
+2022-01-03T18:21:46 26.888 INF Loaded (local): XUi_Common/controls
+2022-01-03T18:21:46 26.949 INF Loaded (local): XUi/styles
+2022-01-03T18:21:47 27.010 INF Loaded (local): XUi/controls
+2022-01-03T18:21:47 27.138 INF Loaded (local): XUi/windows
+2022-01-03T18:21:47 27.244 INF Loaded (local): XUi/xui
+FormatException: Input string was not in the correct format: s.Length==0.
+  at StringParsers.ParseSInt32 (System.String _input, System.Int32 _startIndex, System.Int32 _endIndex, System.Globalization.NumberStyles _style) [0x00013] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiC_PlayerStatWindow.GetBindingValue (System.String& value, System.String bindingName) [0x00818] in <b8ed0b6143dd4c49a9de18202f260f55>:0 
+  at BindingItemStandard..ctor (BindingInfo _parent, XUiView _view, System.String _sourceText) [0x00078] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at BindingInfo..ctor (XUiView _view, System.String _property, System.String _sourceText) [0x000ed] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiView.ParseAttributeViewAndController (System.String _attribute, System.String _value, XUiController _parent) [0x0000d] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseAttribute (XUiView _viewComponent, System.String _attributeNameLower, System.String _value, XUiController _parent, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x0000d] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseAttributes (System.Xml.XmlNode _node, XUiView _viewComponent, XUiController _parent, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x0026d] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseByElementName (System.Xml.XmlNode _node, XUiController _parent, XUiWindowGroup _windowGroup, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x0034a] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseViewComponents (System.Xml.XmlNode _node, XUiWindowGroup _windowGroup, XUiController _parent, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x00000] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseByElementName (System.Xml.XmlNode _node, XUiController _parent, XUiWindowGroup _windowGroup, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x006d2] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseViewComponents (System.Xml.XmlNode _node, XUiWindowGroup _windowGroup, XUiController _parent, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x00000] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseByElementName (System.Xml.XmlNode _node, XUiController _parent, XUiWindowGroup _windowGroup, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x006d2] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseViewComponents (System.Xml.XmlNode _node, XUiWindowGroup _windowGroup, XUiController _parent, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x00000] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseByElementName (System.Xml.XmlNode _node, XUiController _parent, XUiWindowGroup _windowGroup, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x006d2] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseViewComponents (System.Xml.XmlNode _node, XUiWindowGroup _windowGroup, XUiController _parent, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x00000] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseByElementName (System.Xml.XmlNode _node, XUiController _parent, XUiWindowGroup _windowGroup, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x006d2] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.parseViewComponents (System.Xml.XmlNode _node, XUiWindowGroup _windowGroup, XUiController _parent, System.String nodeNameOverride, System.Collections.Generic.Dictionary`2[TKey,TValue] _controlParams) [0x00000] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUiFromXml.LoadXui (XUi _xui, System.String windowGroupToLoad) [0x0056b] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at XUi+<LoadAsync>d__204.MoveNext () [0x00149] in <2ba1bc1bbbe64fe49f53fe5235fb7038>:0 
+  at UnityEngine.SetupCoroutine.InvokeMoveNext (System.Collections.IEnumerator enumerator, System.IntPtr returnValueAddress) [0x00026] in <544fca0986d54eca88fc7c56e2a8b4b4>:0 
+
+2022-01-03T18:21:49 29.255 INF Loaded (local): biomes
+2022-01-03T18:21:49 29.351 INF Loaded (local): worldglobal
+2022-01-03T18:21:49 29.422 INF Loaded (local): spawning
+2022-01-03T18:21:49 29.478 INF Loaded (local): loadingscreen
+2022-01-03T18:21:49 29.504 INF createWorld: PREGEN6k, 20238_SMX, GameModeSurvival
+2022-01-03T18:21:49 29.504 INF Occlusion: Enabled
+2022-01-03T18:21:49 29.514 INF Started thread ChunkRegeneration
+2022-01-03T18:21:49 29.514 INF Started thread ChunkCalc
+2022-01-03T18:21:49 29.514 INF Started thread ChunkMeshBake
+2022-01-03T18:21:49 29.526 INF World.Load: PREGEN6k
+2022-01-03T18:21:49 29.533 INF BloodMoon SetDay: day 14, last day 0, freq 14, range 0
+2022-01-03T18:21:54 34.548 INF Started thread GenerateChunks
+2022-01-03T18:21:54 34.844 INF Calculating world hashes took 281 ms (world size 149 MiB)
+2022-01-03T18:21:55 34.987 INF Loading dtm raw file took 434ms
+2022-01-03T18:21:55 35.208 INF Biomes image size w= 6144, h = 6144
+2022-01-03T18:21:55 35.925 INF Loading and creating biomes took 937ms
+2022-01-03T18:21:56 36.784 INF Loading and creating shader control textures took 859ms
+2022-01-03T18:21:57 37.414 INF Loading and parsing of generator took 629ms
+2022-01-03T18:21:57 37.437 INF Started thread SaveChunks C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX\Region
+2022-01-03T18:21:58 38.734 INF [DECO] read 81808/
+2022-01-03T18:21:58 38.757 INF Dynamic Music Initialized on Server
+2022-01-03T18:22:01 41.580 INF Dynamic Music Initialized on Client
+2022-01-03T18:22:01 41.776 INF AstarManager Init
+2022-01-03T18:22:01 41.879 INF WeatherManager: Init 8 weather packages
+2022-01-03T18:22:03 43.863 INF WeatherManager: ApplySavedPackages
+2022-01-03T18:22:03 43.866 INF createWorld() done
+2022-01-03T18:22:03 43.867 INF Loading players.xml
+2022-01-03T18:22:04 44.124 INF Created player with id=171
+2022-01-03T18:22:04 44.198 INF Loaded player
+2022-01-03T18:22:04 44.405 INF 14938 VehicleManager read #0, id 451, vehicle4x4Truck, (758.7, 45.0, -1568.7), chunk 47, -99
+2022-01-03T18:22:04 44.405 INF 14938 VehicleManager read #1, id 467, vehicleGyrocopter, (767.7, 45.0, -1627.1), chunk 47, -102
+2022-01-03T18:22:04 44.405 INF 14938 VehicleManager read #2, id 404, vehicleMotorcycle, (818.8, 44.9, -1657.7), chunk 51, -104
+2022-01-03T18:22:04 44.405 INF 14938 VehicleManager read #3, id 466, vehicleBicycle, (843.4, 44.3, -1659.8), chunk 52, -104
+2022-01-03T18:22:04 44.405 INF 14938 VehicleManager read #4, id 465, vehicleMinibike, (811.3, 44.8, -1667.2), chunk 50, -105
+2022-01-03T18:22:04 44.405 INF VehicleManager C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX/vehicles.dat, loaded 5
+2022-01-03T18:22:04 44.406 INF DroneManager C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX/drones.dat, loaded 1
+2022-01-03T18:22:04 44.468 INF Setting for 'DayNightLength' does not match the default (server will go to the modded category): current = 120, default = 60
+2022-01-03T18:22:04 44.468 INF Setting for 'BloodMoonEnemyCount' does not match the default (server will go to the modded category): current = 24, default = 8
+2022-01-03T18:22:04 44.468 INF Setting for 'LootRespawnDays' does not match the default (server will go to the modded category): current = 30, default = 7
+2022-01-03T18:22:04 44.468 INF Setting for 'AirDropFrequency' does not match the default (server will go to the modded category): current = 168, default = 72
+2022-01-03T18:22:04 44.534 INF 14942 Origin Reposition (0.0, 0.0, 0.0) to (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.764 INF OpenSpawnWindow
+2022-01-03T18:22:04 44.821 INF Loading dymesh settings
+2022-01-03T18:22:04 44.822 INF Dynamic Mesh Settings
+2022-01-03T18:22:04 44.822 INF Use Imposter Values: False
+2022-01-03T18:22:04 44.822 INF Only Player Areas: False
+2022-01-03T18:22:04 44.822 INF Player Area Buffer: 3
+2022-01-03T18:22:04 44.822 INF Max View Distance: 1000
+2022-01-03T18:22:04 44.822 INF Regen all on new world: False
+2022-01-03T18:22:04 44.822 INF Dymesh Enabled: True
+2022-01-03T18:22:04 44.822 INF Dymesh Distance: 1000
+2022-01-03T18:22:04 44.822 INF Dymesh LCB Only: False
+2022-01-03T18:22:04 44.822 INF Dymesh LCB Buff: 3
+2022-01-03T18:22:04 44.822 INF Dymesh Imposters: False
+2022-01-03T18:22:04 44.822 INF Dymesh MaxRegion: 1
+2022-01-03T18:22:04 44.822 INF Dymesh MaxItem: 3
+2022-01-03T18:22:04 44.823 INF Prepping dynamic mesh. Resend Default: True
+2022-01-03T18:22:04 44.823 INF Mesh location: C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX/DynamicMeshes/
+2022-01-03T18:22:04 44.824 INF StartGame done
+2022-01-03T18:22:04 44.857 INF 14944 EntityVehicle PostInit [type=EntityMinibike, name=vehicleMinibike, id=465], (811.3, 44.8, -1667.2) (chunk 50, -105), rbPos (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.859 INF 14944 VehicleManager loaded #4, id 465, [type=EntityMinibike, name=vehicleMinibike, id=465], (811.3, 44.8, -1667.2), chunk 50, -105 (50, -105)
+2022-01-03T18:22:04 44.862 INF 14944 EntityVehicle PostInit [type=EntityBicycle, name=vehicleBicycle, id=466], (843.4, 44.3, -1659.8) (chunk 52, -104), rbPos (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.862 INF 14944 VehicleManager loaded #3, id 466, [type=EntityBicycle, name=vehicleBicycle, id=466], (843.4, 44.3, -1659.8), chunk 52, -104 (52, -104)
+2022-01-03T18:22:04 44.865 INF 14944 EntityVehicle PostInit [type=EntityMotorcycle, name=vehicleMotorcycle, id=404], (818.8, 44.9, -1657.7) (chunk 51, -104), rbPos (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.866 INF 14944 VehicleManager loaded #2, id 404, [type=EntityMotorcycle, name=vehicleMotorcycle, id=404], (818.8, 44.9, -1657.7), chunk 51, -104 (51, -104)
+2022-01-03T18:22:04 44.878 INF 14944 EntityVehicle PostInit [type=EntityVGyroCopter, name=vehicleGyrocopter, id=467], (767.7, 45.0, -1627.1) (chunk 47, -102), rbPos (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.879 INF 14944 VehicleManager loaded #1, id 467, [type=EntityVGyroCopter, name=vehicleGyrocopter, id=467], (767.7, 45.0, -1627.1), chunk 47, -102 (47, -102)
+2022-01-03T18:22:04 44.881 INF 14944 EntityVehicle PostInit [type=EntityVJeep, name=vehicle4x4Truck, id=451], (758.7, 45.0, -1568.7) (chunk 47, -99), rbPos (736.0, 32.0, -1584.0)
+2022-01-03T18:22:04 44.881 INF 14944 VehicleManager loaded #0, id 451, [type=EntityVJeep, name=vehicle4x4Truck, id=451], (758.7, 45.0, -1568.7), chunk 47, -99 (47, -99)
+2022-01-03T18:22:04 44.881 INF 14944 VehicleManager Update loaded 5
+2022-01-03T18:22:05 45.033 INF [Steamworks.NET] GameServer.Init successful
+Calling Animator.GotoState on Synchronize layer
+
+2022-01-03T18:22:05 45.535 INF Warming dynamic mesh
+2022-01-03T18:22:05 45.535 INF Creating dynamic mesh manager
+2022-01-03T18:22:05 45.537 INF Dynamic mesh manager awake
+2022-01-03T18:22:05 45.538 INF Mesh location: C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX/DynamicMeshes/
+2022-01-03T18:22:05 45.538 INF Loading Items: C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX/DynamicMeshes/
+2022-01-03T18:22:05 45.629 INF Loaded Items: 406
+2022-01-03T18:22:05 45.629 WRN Loading all items took: 0.0907518 seconds.
+2022-01-03T18:22:06 46.548 INF Meshlist count is now 1
+2022-01-03T18:22:06 46.548 INF Meshlist count is now 2
+2022-01-03T18:22:06 46.549 INF Force load took 0 seconds
+2022-01-03T18:22:06 46.550 INF Clearing queues.
+2022-01-03T18:22:06 46.551 INF Cleared queues.
+2022-01-03T18:22:06 46.551 INF Dynamic thread starting
+2022-01-03T18:22:06 46.554 INF Dymesh door replacement: imposterBlock
+2022-01-03T18:22:06 46.607 INF [Steamworks.NET] GameServer.LogOn successful, SteamID=90154702265442306, public IP=8*.8*.5*.25*
+2022-01-03T18:22:06 46.616 INF [Steamworks.NET] Trying to create Lobby (visibility: k_ELobbyTypePrivate)
+2022-01-03T18:22:06 46.880 INF [Steamworks.NET] Lobby creation succeeded, LobbyID=109775240998390102, server SteamID=90154702265442306, server public IP=8*.8*.5*.25*, server port=26900
+2022-01-03T18:22:06 46.882 INF [Steamworks.NET] Lobby entered: 109775240998390102
+2022-01-03T18:22:08 48.466 INF Missing paint ID XML entry: 255 for block 'brickShapes:cube'
+2022-01-03T18:22:22 62.463 INF Executing command 'shutdown'
+2022-01-03T18:22:22 62.473 INF Preparing quit
+2022-01-03T18:22:22 62.473 INF Disconnect
+2022-01-03T18:22:22 62.475 INF [NET] ServerShutdown
+2022-01-03T18:22:22 62.475 INF NET: Stopping server protocols
+2022-01-03T18:22:22 62.930 INF NET: LiteNetLib server stopped
+2022-01-03T18:22:22 62.934 INF Exited thread SteamNetworkingServer
+2022-01-03T18:22:22 62.935 INF [Steamworks.NET] NET: Server stopped
+2022-01-03T18:22:22 62.936 INF SaveAndCleanupWorld
+2022-01-03T18:22:23 63.015 INF Saving 88 of chunks took 61ms
+2022-01-03T18:22:23 63.029 INF [DECO] written 81808, in 13ms
+2022-01-03T18:22:23 63.031 INF [Steamworks.NET] Stopping server
+2022-01-03T18:22:23 63.031 INF [DECO] write thread 2ms
+2022-01-03T18:22:23 63.045 INF [Steamworks.NET] Exiting Lobby
+2022-01-03T18:22:23 63.059 WRN GUIWindowManager.Remove: Window "crafting" unknown!
+2022-01-03T18:22:23 63.060 WRN GUIWindowManager.Remove: Window "character" unknown!
+2022-01-03T18:22:23 63.061 WRN GUIWindowManager.Remove: Window "workstation_campfire" unknown!
+2022-01-03T18:22:23 63.062 WRN GUIWindowManager.Remove: Window "workstation_forge" unknown!
+2022-01-03T18:22:23 63.062 WRN GUIWindowManager.Remove: Window "workstation_cementMixer" unknown!
+2022-01-03T18:22:23 63.063 WRN GUIWindowManager.Remove: Window "workstation_workbench" unknown!
+2022-01-03T18:22:23 63.064 WRN GUIWindowManager.Remove: Window "workstation_chemistryStation" unknown!
+2022-01-03T18:22:23 63.065 WRN GUIWindowManager.Remove: Window "looting" unknown!
+2022-01-03T18:22:23 63.066 WRN GUIWindowManager.Remove: Window "creativeOld" unknown!
+2022-01-03T18:22:23 63.067 WRN GUIWindowManager.Remove: Window "creative" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "backpack" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "death" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "dragAndDrop" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "compass" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "toolTip" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "interactionPrompt" unknown!
+2022-01-03T18:22:23 63.068 WRN GUIWindowManager.Remove: Window "focusedBlockHealth" unknown!
+2022-01-03T18:22:23 63.069 WRN GUIWindowManager.Remove: Window "tipWindow" unknown!
+2022-01-03T18:22:23 63.069 WRN GUIWindowManager.Remove: Window "questOffer" unknown!
+2022-01-03T18:22:23 63.069 WRN GUIWindowManager.Remove: Window "questTurnIn" unknown!
+2022-01-03T18:22:23 63.069 WRN GUIWindowManager.Remove: Window "timer" unknown!
+2022-01-03T18:22:23 63.069 WRN GUIWindowManager.Remove: Window "throwpower" unknown!
+2022-01-03T18:22:23 63.146 INF [MODS] Loading localization from mod: SMXhud
+2022-01-03T18:22:23 63.148 INF [MODS] Loading localization from mod: SMXui
+2022-01-03T18:22:23 63.153 INF AstarManager Cleanup
+2022-01-03T18:22:23 63.309 INF Clearing queues.
+2022-01-03T18:22:23 63.309 INF Cleared queues.
+2022-01-03T18:22:24 64.156 INF Clearing queues.
+2022-01-03T18:22:24 64.156 INF Cleared queues.
+2022-01-03T18:22:24 64.157 INF Clear LOD Disabled Prefabs
+2022-01-03T18:22:24 64.161 INF World.Unload
+2022-01-03T18:22:24 64.170 INF Exited thread GenerateChunks
+2022-01-03T18:22:24 64.174 INF 16546 VehicleManager RemoveTrackedVehicle [type=EntityVJeep, name=vehicle4x4Truck, id=451], Unloaded
+2022-01-03T18:22:24 64.178 INF 16546 VehicleManager RemoveTrackedVehicle [type=EntityVGyroCopter, name=vehicleGyrocopter, id=467], Unloaded
+2022-01-03T18:22:24 64.181 INF 16546 VehicleManager RemoveTrackedVehicle [type=EntityMotorcycle, name=vehicleMotorcycle, id=404], Unloaded
+2022-01-03T18:22:24 64.183 INF 16546 VehicleManager RemoveTrackedVehicle [type=EntityMinibike, name=vehicleMinibike, id=465], Unloaded
+2022-01-03T18:22:24 64.184 INF 16546 VehicleManager RemoveTrackedVehicle [type=EntityBicycle, name=vehicleBicycle, id=466], Unloaded
+2022-01-03T18:22:24 64.216 INF Exited thread SaveChunks C:\Users\bksve\AppData\Roaming/7DaysToDie/Saves/PREGEN6k/20238_SMX\Region
+2022-01-03T18:22:24 64.256 INF World.Cleanup
+2022-01-03T18:22:24 64.260 INF Exited thread ChunkRegeneration
+2022-01-03T18:22:24 64.265 INF Exited thread ChunkCalc
+2022-01-03T18:22:24 64.265 INF Exited thread ChunkMeshBake
+2022-01-03T18:22:24 64.269 INF VehicleManager saving 5 (0 + 5)
+2022-01-03T18:22:24 64.269 INF 16546 VehicleManager write #0, id 451, vehicle4x4Truck, (758.7, 45.0, -1568.7), chunk 47, -99
+2022-01-03T18:22:24 64.269 INF 16546 VehicleManager write #1, id 467, vehicleGyrocopter, (767.7, 45.0, -1627.1), chunk 47, -102
+2022-01-03T18:22:24 64.269 INF 16546 VehicleManager write #2, id 404, vehicleMotorcycle, (818.8, 44.9, -1657.7), chunk 51, -104
+2022-01-03T18:22:24 64.269 INF 16546 VehicleManager write #3, id 465, vehicleMinibike, (811.3, 44.8, -1667.2), chunk 50, -105
+2022-01-03T18:22:24 64.269 INF 16546 VehicleManager write #4, id 466, vehicleBicycle, (843.4, 44.3, -1659.8), chunk 52, -104
+2022-01-03T18:22:24 64.270 INF VehicleManager saved 3055 bytes
+2022-01-03T18:22:24 64.270 INF DroneManager saving 1 (0 + 1)
+2022-01-03T18:22:24 64.272 INF DroneManager saved 1102 bytes
+2022-01-03T18:22:24 64.362 INF Persistent GamePrefs saved
+2022-01-03T18:22:24 64.433 INF Persistent GamePrefs saved
+2022-01-03T18:22:24 64.434 INF Cleanup
+2022-01-03T18:22:25 65.147 INF AchievementManager.Cleanup
+2022-01-03T18:22:25 65.249 INF [GSM] GameSparks Disconnected
+2022-01-03T18:22:25 65.263 INF Terminating threads
+2022-01-03T18:22:25 65.263 INF OnApplicationQuit
+2022-01-03T18:22:25 65.264 INF Terminating threads
+2022-01-03T18:22:25 65.264 INF OnApplicationQuit
+2022-01-03T18:22:25 65.529 INF Terminating threads
+2022-01-03T18:22:25 65.529 INF OnApplicationQuit
+2022-01-03T18:22:25 65.530 INF Terminating threads
+2022-01-03T18:22:25 65.530 INF OnApplicationQuit
+Setting up 8 worker threads for Enlighten.
+  Thread -> id: 1554 -> priority: 1 
+  Thread -> id: 44a4 -> priority: 1 
+  Thread -> id: 2404 -> priority: 1 
+  Thread -> id: 7e8c -> priority: 1 
+  Thread -> id: 54e4 -> priority: 1 
+  Thread -> id: 6448 -> priority: 1 
+  Thread -> id: 810 -> priority: 1 
+  Thread -> id: 6bdc -> priority: 1 

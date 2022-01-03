@@ -6,7 +6,6 @@ using UnityEngine;
 public class MinEventActionSetCVar : MinEventActionTargetedBase
 {
     string cvar = "Leader";
-    string myentityname;
     public override void Execute(MinEventParams _params)
     {
         for (var j = 0; j < targets.Count; j++)
