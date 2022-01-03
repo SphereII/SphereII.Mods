@@ -28,19 +28,14 @@
             if (targetEntity == null)
                 return 0f;
 
-            if (SCoreUtils.IsEnemy(_context.Self, targetEntity)) 
+            if (EntityTargetingUtilities.IsEnemy(_context.Self, targetEntity)) 
                 return 1f;
 
-            // If the target entity is attacking our leader, target them too.
-            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
-            if (leader != null)
-            {
-                // What is our target attacking?
-                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
-                if (enemyTarget != null)
-                    if (enemyTarget.entityId == leader.entityId)
-                        return 1f;
-            }
+            // [Karl] Commented out because this check is done in IsEnemy.
+            // If the target entity is attacking our allies, target them too.
+            //var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+            //if (EntityTargetingUtilities.IsFightingFollowers(leader, targetEntity))
+            //    return 1f;
 
             var myRelationship = FactionManager.Instance.GetRelationshipTier(_context.Self, targetEntity);
             AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tChecking Relationship between: {_context.Self.EntityName} (me) and {targetEntity.EntityName} (them) is {myRelationship} ");

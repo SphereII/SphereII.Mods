@@ -54,7 +54,7 @@ namespace Harmony.NPCFeatures
                 //if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                 //    return true;
 
-                if (!UAI.SCoreUtils.CanDamage(__instance, __instance.world.GetEntity(_damageSource.getEntityId())))
+                if (!EntityTargetingUtilities.CanTakeDamage(__instance, __instance.world.GetEntity(_damageSource.getEntityId())))
                     return false;
 
                 return true;

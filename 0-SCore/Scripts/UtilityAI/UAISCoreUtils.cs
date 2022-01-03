@@ -157,153 +157,6 @@ namespace UAI
             _context.Self.SetPosition(position);
         }
 
-        public static bool IsEnemy(EntityAlive self, Entity target)
-        {
-            if (!(target is EntityAlive targetEntity))
-                return false;
-
-            if (targetEntity.IsDead())
-                return false;
-
-            return IsEnemyOrPotentialEnemy(self, target, false);
-        }
-
-        /// <summary>
-        /// Tests to see if the target entity is a friend. A "friend" is defined as yourself,
-        /// your leader, allies (those who share a leader), and entities in "loved" factions
-        /// (including members of your own faction, if not overridden by your leader).
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        public static bool IsFriend(EntityAlive self, Entity target)
-        {
-            if (!(target is EntityAlive targetEntity))
-                return false;
-
-            if (targetEntity.IsDead())
-                return false;
-
-            if (self.entityId == target.entityId)
-                return true;
-
-            return !IsEnemyOrPotentialEnemy(self, target, true);
-        }
-
-        /// <summary>
-        /// This method checks to see if damage, presumably caused by another entity,
-        /// is allowed to actually do damage to the checking entity.
-        /// </summary>
-        /// <param name="checkingEntity">The entity that is checking to see if it can be damaged.</param>
-        /// <param name="damagingEntity">The entity causing the damage, if any.</param>
-        /// <returns></returns>
-        public static bool CanDamage(EntityAlive checkingEntity, Entity damagingEntity)
-        {
-            // If the damage was not caused by an entity, take that damage.
-            if (damagingEntity == null)
-                return true;
-
-            // If the damaging entity is not even a potential enemy, ignore that damage.
-            // Note: this also ignores explosion damage caused by friendly fire.
-            // If people find that unacceptable, we could check EnumGameStats.PlayerKillingMode,
-            // or create a feature block flag, or something along those lines.
-            return IsEnemyOrPotentialEnemy(checkingEntity, damagingEntity, true);
-        }
-
-        private static bool IsEnemyOrPotentialEnemy(EntityAlive self, Entity target, bool potential)
-        {
-            // The entities to use to check faction relationships - themselves or their leaders.
-            var targetingEntity = self;
-            var targetedEntity = target as EntityAlive;
-
-            // Player targets require special logic, so keep in a separate var.
-            var targetPlayer = target as EntityPlayer;
-
-            var ourLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
-            var theirLeader = EntityUtilities.GetLeaderOrOwner(target.entityId);
-
-            if (ourLeader != null)
-            {
-                // Checks if we are allies: either share a leader, or is our leader.
-                if (IsAlly(self, target))
-                    return false;
-
-                // If our leader is a player, perform friendly fire checks for multiplayer.
-                if (ourLeader is EntityPlayer ourPlayer)
-                {
-                    if (targetPlayer != null)
-                        return ourPlayer.FriendlyFireCheck(targetPlayer);
-
-                    if (theirLeader is EntityPlayer theirPlayer)
-                        return ourPlayer.FriendlyFireCheck(theirPlayer);
-                }
-
-                // If they're fighting our leader, they're an enemy.
-                if (AreFighting(ourLeader, target))
-                    return true;
-
-                // We have a leader, so use it to check faction relationships.
-                if (ourLeader is EntityAlive livingLeader)
-                    targetingEntity = livingLeader;
-            }
-
-            if (theirLeader != null)
-            {
-                // Checks if we are allies: share a leader, or are their leader.
-                if (IsAlly(target, self))
-                    return false;
-
-                // If their leader is a player, perform a friendly fire check against us.
-                // (We already did a friendly fire check when both leaders are players.)
-                if (theirLeader is EntityPlayer theirPlayer && self is EntityPlayer us)
-                    return theirPlayer.FriendlyFireCheck(us);
-
-                // If their leader is fighting us, they're an enemy.
-                if (AreFighting(theirLeader, self))
-                    return true;
-
-                // They have a leader, so use it to check faction relationships.
-                if (theirLeader is EntityAlive livingLeader)
-                    targetedEntity = livingLeader;
-            }
-
-            // If the target is a player that passed the friendly fire and ally checks, they
-            // should always be considered a _potential_ enemy. This is so non-hired NPCs can take
-            // damage from players regardless of faction relationship.
-            if (potential && targetPlayer != null)
-                return true;
-
-            // If the entity damaged us, they're an enemy, regardless of faction.
-            var revengeTarget = self.GetRevengeTarget();
-            if (revengeTarget != null && revengeTarget.entityId == target.entityId)
-                return true;
-
-            var relationship = EntityUtilities.GetFactionRelationship(targetedEntity, targetingEntity);
-
-            // A faction relationship value less than 800 (Love) means they are a potential enemy.
-            // A faction relationship value less than 200 (Dislike) means they are an actual enemy.
-            var friendRelationship = potential ?
-                FactionManager.Relationship.Love :
-                FactionManager.Relationship.Dislike;
-
-            return relationship < (int)friendRelationship;
-        }
-
-        private static bool AreFighting(Entity targetingEntity, Entity target)
-        {
-            if (targetingEntity != null)
-            {
-                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(target.entityId);
-                if (enemyTarget != null && enemyTarget.entityId == targetingEntity.entityId)
-                    return true;
-
-                var leaderTarget = EntityUtilities.GetAttackOrRevengeTarget(targetingEntity.entityId);
-                if (leaderTarget != null && leaderTarget.entityId == target.entityId)
-                    return true;
-            }
-            return false;
-        }
-
         public static bool HasBuff(Context _context, string buff)
         {
             return !string.IsNullOrEmpty(buff) && _context.Self.Buffs.HasBuff(buff);
@@ -400,7 +253,7 @@ namespace UAI
                 //if (EntityUtilities.CheckFaction(_context.Self.entityId, x)) continue;
                 if (revengeTarget && x.entityId == revengeTarget.entityId)
                 {
-                    if (IsEnemy(_context.Self, revengeTarget))
+                    if (EntityTargetingUtilities.IsEnemy(_context.Self, revengeTarget))
                         return true;
                 }
                 // Can we see them?
@@ -408,7 +261,7 @@ namespace UAI
                     continue;
 
 
-                if (!IsEnemy(_context.Self, x)) continue;
+                if (!EntityTargetingUtilities.IsEnemy(_context.Self, x)) continue;
                     
                 // Otherwise they are an enemy.
                 return true;
@@ -627,29 +480,6 @@ namespace UAI
         {
             EntityUtilities.CloseDoor(_context.Self.entityId, doorPos);
             SphereCache.RemoveDoor(_context.Self.entityId, doorPos);
-        }
-
-        public static bool IsAlly(Entity self, Entity targetEntity)
-        {
-            // Do I have a leader?
-            var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
-            if (!myLeader) return false;
-
-            // Is the target my leader?
-            if (targetEntity.entityId == myLeader.entityId)
-                return true;
-
-            // Does my target have the same leader as me?
-            var targetLeader = EntityUtilities.GetLeaderOrOwner(targetEntity.entityId);
-            if (!targetLeader)
-                return false;
-
-            return targetLeader.entityId == myLeader.entityId;
-        }
-
-        public static bool IsAlly(Context _context, EntityAlive targetEntity)
-        {
-            return IsAlly(_context.Self, targetEntity);
         }
 
         public class NearestPathSorter : IComparer<Vector3>

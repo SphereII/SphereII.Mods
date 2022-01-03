@@ -16,7 +16,7 @@
         {
             // We can't use IsAlly because that only returns true if you have the same leader as
             // the target, so will always fail for NPCs that don't have a leader.
-            return SCoreUtils.IsFriend(self, target);
+            return EntityTargetingUtilities.IsFriend(self, target);
         }
     }
 }
