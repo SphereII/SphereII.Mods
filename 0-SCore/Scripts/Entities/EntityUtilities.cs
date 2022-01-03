@@ -1285,7 +1285,7 @@ public static class EntityUtilities
         return result;
     }
 
-    public static void OpenDoor(int EntityID, Vector3i blockPos)
+    public static void OpenDoor(int EntityID, Vector3i blockPos, bool forceLock = false)
     {
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
@@ -1294,6 +1294,12 @@ public static class EntityUtilities
             if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
             {
                 var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
+                if ( forceLock )
+                {
+                    var tileEntitySecureDoor = (TileEntitySecureDoor)GameManager.Instance.World.GetTileEntity(0, blockPos);
+                    if( tileEntitySecureDoor != null)
+                        tileEntitySecureDoor.SetLocked(false);
+                }
                 block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity);
             }
         }
