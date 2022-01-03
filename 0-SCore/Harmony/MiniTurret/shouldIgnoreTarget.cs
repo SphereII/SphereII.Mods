@@ -27,13 +27,13 @@ namespace SCore.Harmony.MiniTurret
                     return;
                 }
 
-                if (SCoreUtils.IsAlly(entity, _target))
+                if (EntityTargetingUtilities.IsAlly(entity, _target))
                     __result = true;
                 return;
             }
 
             // If they are our enemy, target them.
-            __result = !SCoreUtils.IsEnemy(entity, _target);
+            __result = !EntityTargetingUtilities.IsEnemy(entity, _target);
             return;
         }
     }
@@ -56,13 +56,13 @@ namespace SCore.Harmony.MiniTurret
                     __result = true;
                     return;
                 }
-                if ( SCoreUtils.IsAlly(entity, _target))
+                if (EntityTargetingUtilities.IsAlly(entity, _target))
                     __result = true;
                 return;
             }
 
             // If they are our enemy, target them.
-            __result =  !SCoreUtils.IsEnemy(entity, _target);
+            __result =  !EntityTargetingUtilities.IsEnemy(entity, _target);
             return;
         }
     }

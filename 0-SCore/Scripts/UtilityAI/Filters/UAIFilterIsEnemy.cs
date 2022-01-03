@@ -14,11 +14,7 @@
 
         public bool Test(Entity target)
         {
-            return SCoreUtils.IsEnemy(self, target);
-            //if (!(target is EntityAlive entity))
-            //    return false;
-
-            //return !EntityUtilities.CheckFaction(self.entityId, entity);
+            return EntityTargetingUtilities.IsEnemy(self, target);
         }
     }
 }

@@ -12,34 +12,25 @@ namespace Harmony.EAI
             if (!__result) return;
 
             // Checks if we are allies, either share a leader, or is our leader.
-            if (SCoreUtils.IsAlly(__instance.theEntity, _e))
+            if (EntityTargetingUtilities.IsAlly(__instance.theEntity, _e))
             {
                 __result = false;
                 return;
             }
 
             // Do we have a revenge target? Are they the ones attacking us?
-            var revengeTarget = __instance.theEntity.GetRevengeTarget();
-            if (revengeTarget != null)
+            if (EntityTargetingUtilities.IsCurrentRevengeTarget(__instance.theEntity, _e))
             {
-                if (revengeTarget.entityId == _e.entityId)
-                {
-                    __result = true;
-                    return;
-                }
+                __result = true;
+                return;
             }
-            // If the target entity is attacking our leader, target them too.
+
+            // If the target entity is attacking our ally, target them too.
             var leader = EntityUtilities.GetLeaderOrOwner(__instance.theEntity.entityId);
-            if (leader != null)
+            if (EntityTargetingUtilities.IsFightingFollowers(leader, _e))
             {
-                // What is our target attacking?
-                var enemyTarget = EntityUtilities.GetAttackOrRevengeTarget(_e.entityId);
-                if (enemyTarget != null)
-                    if (enemyTarget.entityId == leader.entityId)
-                    {
-                        __result = true;
-                        return;
-                    }
+                __result = true;
+                return;
             }
 
             var myRelationship = FactionManager.Instance.GetRelationshipTier(__instance.theEntity, _e);

@@ -867,7 +867,7 @@ public class EntityAliveSDX : EntityTrader
         if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
-        if (!SCoreUtils.CanDamage(this, world.GetEntity(_damageSource.getEntityId())))
+        if (!EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_damageSource.getEntityId())))
             return 0;
 
         // If we are being attacked, let the state machine know it can fight back
@@ -931,8 +931,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool CanDamageEntity(int _sourceEntityId)
     {
-        // If they can't damage us, we can't damage them.
-        return SCoreUtils.CanDamage(this, world.GetEntity(_sourceEntityId));
+        return EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
