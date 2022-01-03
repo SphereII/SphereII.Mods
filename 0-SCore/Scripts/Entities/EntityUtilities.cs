@@ -1481,17 +1481,33 @@ public static class EntityUtilities
     /// <returns></returns>
     public static float GetFactionRelationship(EntityAlive self, EntityAlive target)
     {
-        var selfCheckTarget = FactionManager.Instance.GetRelationshipValue(self, target);
-
-        // This is needed because if you don't have a faction entry in npcs.xml, the vanilla code
-        // will return "neutral." In this case, we assume the target does have a faction entry,
-        // and check ourselves against their entry.
-        if (selfCheckTarget != (float)FactionManager.Relationship.Neutral)
+        // Player does not have a full faction, so the return freom GetRelationshpValue is a 400, which is default.
+        // However, the self does have a full faction, with a relationship with the player faction id, even if the faction does not exist.
+        var relationship = 400f;
+        var selfFaction = FactionManager.Instance.GetFaction(self.factionId);
+        if (selfFaction != null)
         {
-            return selfCheckTarget;
+            relationship = selfFaction.GetRelationship(target.factionId);
         }
+        else
+        {
+            // if the self doesn't have a full faction, then it's a player. Let's flip it.
+            selfFaction = FactionManager.Instance.GetFaction(target.factionId);
+            if (selfFaction != null)
+                relationship = selfFaction.GetRelationship(self.factionId);
+        }
+        return relationship;
 
-        return FactionManager.Instance.GetRelationshipValue(target, self);
+        //var selfCheckTarget = FactionManager.Instance.GetRelationshipValue(self, target);
+        //// This is needed because if you don't have a faction entry in npcs.xml, the vanilla code
+        //// will return "neutral." In this case, we assume the target does have a faction entry,
+        //// and check ourselves against their entry.
+        //if (selfCheckTarget != (float)FactionManager.Relationship.Neutral)
+        //{
+        //    return selfCheckTarget;
+        //}
+
+        //return FactionManager.Instance.GetRelationshipValue(target, self);
     }
 
     public static bool CheckForBuff(int EntityID, string strBuff)
