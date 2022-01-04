@@ -44,7 +44,7 @@ public static class EntityTargetingUtilities
 
         // Otherwise, if the target is a player, you can only damage them if your player leader can
         // kill them, or if you or your (not necessarily player) leader hate them.
-        if (target is EntityPlayer targetPlayer)
+        if (target is EntityPlayer)
         {
             if (IsPlayerFriendlyFire(self, target))
                 return false;
@@ -161,18 +161,21 @@ public static class EntityTargetingUtilities
         if (leader == null || target == null)
             return false;
 
-        var theirTarget = EntityUtilities.GetAttackOrRevengeTarget(target.entityId);
+        var theirTarget = GetAggressionTarget(target);
         if (theirTarget != null)
         {
+            // Are they fighting the leader?
             if (theirTarget.entityId == leader.entityId)
                 return true;
 
+            // Are they fighting the leader's followers?
             var theirTargetLeader = EntityUtilities.GetLeaderOrOwner(theirTarget.entityId);
             if (theirTargetLeader != null && theirTargetLeader.entityId == leader.entityId)
                 return true;
         }
 
-        var leaderTarget = EntityUtilities.GetAttackOrRevengeTarget(leader.entityId);
+        // Is the leader fighting them?
+        var leaderTarget = GetAggressionTarget(leader);
         return leaderTarget != null && leaderTarget.entityId == target.entityId;
     }
 
@@ -346,5 +349,38 @@ public static class EntityTargetingUtilities
             return false;
 
         return targetLeader.entityId == leader.entityId;
+    }
+
+    /// <summary>
+    /// <para>
+    /// Private helper method to get the target of aggression, depending upon whether the targeting
+    /// entity is a player or an NPC.
+    /// </para>
+    /// 
+    /// <para>
+    /// This is necessary because we shouldn't use the "attack target" of NPCs. There are many
+    /// situations where this is automatically set to the player ("attack" sleeper volumes, quest
+    /// spawns, etc.) even if they aren't aggressive to the player. Also, some entities (like the
+    /// drone) use the "attack" target for non-aggressive tasks (like healing). So for NPCs, we
+    /// should only use their revenge target, which is always the entity that damaged them.
+    /// </para>
+    /// 
+    /// <para>
+    /// On the other hand, if the entity is a player, they only have an attack target if the player
+    /// voluntarily initiated an attack. They may also have a revenge target. We can use either,
+    /// but the revenge target takes priority.
+    /// </para>
+    /// </summary>
+    /// <param name="attacker"></param>
+    /// <returns></returns>
+    private static Entity GetAggressionTarget(Entity attacker)
+    {
+        if (attacker is EntityPlayer player)
+            return player.GetRevengeTarget() ?? player.GetAttackTarget();
+
+        if (attacker is EntityAlive entityAlive)
+            return entityAlive.GetRevengeTarget();
+
+        return null;
     }
 }
