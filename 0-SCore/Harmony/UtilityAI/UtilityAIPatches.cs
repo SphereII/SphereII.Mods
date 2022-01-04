@@ -76,6 +76,11 @@ public class UtilityAIPatches
                     UAIBase.MaxWaypointsToConsider,
                     maxWaypointsToConsider);
             }
+
+            if (_element.HasAttribute("action_delay"))
+            {
+                UAIBase.ActionChoiceDelay = StringParsers.ParseFloat(_element.GetAttribute("action_delay"));
+            }
         }
     }
 

@@ -295,30 +295,18 @@ public class EntityAliveSDX : EntityTrader
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if (IsDead() || NPCInfo == null)
-        {
-            Debug.Log("NPCInfo is null ");
-            return new EntityActivationCommand[0];
-        }
+        if (IsDead() || NPCInfo == null)  return new EntityActivationCommand[0];
 
-        var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
-        if (myRelationship == FactionManager.Relationship.Hate)
-        {
-            Debug.Log("They hate me");
-            return new EntityActivationCommand[0];
-        }
-
+        // Do they even like us enough to talk?
+        if ( EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
+        
         // If not a human, don't talk to them
-        if (!EntityUtilities.IsHuman(entityId))
-        {
-            Debug.Log("is not a human.");
-            return new EntityActivationCommand[0];
-        }
+        if (!EntityUtilities.IsHuman(entityId)) return new EntityActivationCommand[0];
 
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
-            return new EntityActivationCommand[0];
+        // do we have an attack or revenge target? don't have time to talk, bro
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return new EntityActivationCommand[0];
 
-        return new[]
+        return new[] 
         {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
         };
@@ -328,12 +316,9 @@ public class EntityAliveSDX : EntityTrader
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow interaction with a Hated entity
-        var myRelationship = FactionManager.Instance.GetRelationshipTier(this, _entityFocusing);
-        if (myRelationship == FactionManager.Relationship.Hate)
-            return false;
+        if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return false;
 
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null)
-            return false;
+        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return false;
 
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
@@ -341,7 +326,6 @@ public class EntityAliveSDX : EntityTrader
         // This is used by various dialog boxes to know which EntityID the player is talking too.
         _entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
         Buffs.SetCustomVar("CurrentPlayer", _entityFocusing.entityId);
-
 
         // Copied from EntityTrader
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_entityFocusing as EntityPlayerLocal);
@@ -693,27 +677,34 @@ public class EntityAliveSDX : EntityTrader
         {
             SetupDebugNameHUD(true);
 
-            // if our leader is attached, that means they are attached to a vehicle
-            if (leader.AttachedToEntity != null )
+            // If they are ordered to stay. don't disappear and re-appear.
+            if (Buffs.HasCustomVar("CurrentOrder") && Buffs.GetCustomVar("CurrentOrder") != 2)
             {
-                // if they don't have the onMission cvar, send them on a mission and make them disappear.
-                if (!Buffs.HasCustomVar("onMission"))
+                // if our leader is attached, that means they are attached to a vehicle
+                if (leader.AttachedToEntity != null)
                 {
-                    SendOnMission(true);
-                    return;
+                    // if they don't have the onMission cvar, send them on a mission and make them disappear.
+                    if (!Buffs.HasCustomVar("onMission"))
+                    {
+                        SendOnMission(true);
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
-                if (Buffs.HasCustomVar("onMission"))
+                else
                 {
-                    SendOnMission(false);
-                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
-                    if (position == Vector3.zero)
-                        position = leader.position + Vector3.back;
-                    SetPosition(position);
+                    // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
+                    if (Buffs.HasCustomVar("onMission"))
+                    {
+                        SendOnMission(false);
+                        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
+                        if (position == Vector3.zero)
+                            position = leader.position + Vector3.back;
+                        SetPosition(position);
 
+                        // If we teleported, we want to clear those paths so they can be re-aquired.
+                        SphereCache.RemovePaths(entityId);
+
+                    }
                 }
             }
         }
@@ -867,10 +858,10 @@ public class EntityAliveSDX : EntityTrader
         if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
+        // If we are being attacked, let the state machine know it can fight back
         if (!EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_damageSource.getEntityId())))
             return 0;
 
-        // If we are being attacked, let the state machine know it can fight back
         emodel.avatarController.SetBool("IsBusy", false);
 
         // Turn off the trader ID while it deals damage to the entity

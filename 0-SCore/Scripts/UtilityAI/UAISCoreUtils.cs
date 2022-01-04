@@ -349,24 +349,15 @@ namespace UAI
             }
 
             var speed = SetSpeed(_context, panic);
-
             _position = SCoreUtils.GetMoveToLocation(_context, _position);
 
-
-            //var sqrMagnitude2 = (_position - _context.Self.position).sqrMagnitude;
-            //if (sqrMagnitude2 < 1f)
-            //    return;
-
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
-            {
-                // If there's not a lot of distance to go, don't re-path.
-                var distance = Vector3.Distance(_context.Self.position, _position);
-                if (distance < 2f)
-                    return;
-            }
-            //      _context.Self.SetLookPosition(_position);
-            //_context.Self.RotateTo(_position.x, _position.y, _position.z, 45f, 45);
-
+            //if (!_context.Self.navigator.noPathAndNotPlanningOne())
+            //{
+            //    // If there's not a lot of distance to go, don't re-path.
+            //    var distance = Vector3.Distance(_context.Self.position, _position);
+            //    if (distance < 2f)
+            //        return;
+            //}
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
             //var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);

@@ -58,6 +58,7 @@ namespace UAI
                 }
                 if (entityAlive.IsDead())
                 {
+                    _context.Self.SetLookPosition(Vector3.zero);
                     Stop(_context);
                     return;
                 }
@@ -68,8 +69,7 @@ namespace UAI
                 if ( entityAlive.height < 1.1f)
                     SCoreUtils.SetCrouching(_context, true);
 
-                _context.Self.RotateTo(entityAlive, 30f, 30f);
-                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
+  
             }
 
             if (_context.ActionData.Target is Vector3 vector)
@@ -106,6 +106,12 @@ namespace UAI
                 return;
             }
 
+            // Face the target right before hitting them.
+            if (entityAlive != null)
+            {
+                _context.Self.RotateTo(entityAlive, 30f, 30f);
+                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
+            }
 
             // Action Index = 1 is Use, 0 is Attack.
             if (_actionIndex > 0)

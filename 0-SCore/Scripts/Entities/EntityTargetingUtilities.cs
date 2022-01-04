@@ -1,4 +1,4 @@
-﻿using GamePath;
+using GamePath;
 using Platform;
 using System;
 using System.Collections.Generic;
