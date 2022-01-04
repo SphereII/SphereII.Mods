@@ -23,6 +23,12 @@ namespace UAI
 
         }
 
+        public void ForceStop(Context _context)
+        {
+            _context.Self.Buffs.RemoveBuff(_buff);
+            Stop(_context);
+
+        }
         public override void Stop(Context _context)
         {
             SphereCache.RemovePath(_context.Self.entityId, _vector);
@@ -33,7 +39,7 @@ namespace UAI
         public override void Update(Context _context)
         {
             if (SCoreUtils.IsBlocked(_context))
-                this.Stop(_context);
+                ForceStop(_context);
 
             if ( _leader)
                 SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
@@ -41,8 +47,7 @@ namespace UAI
             var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
             if (enemy != null && enemy.IsAlive())
             {
-                _context.Self.Buffs.RemoveBuff(_buff);
-                Stop(_context);
+                ForceStop(_context);
                 return;
             }
 
@@ -80,13 +85,20 @@ namespace UAI
                 }
                 SphereCache.AddPaths(_context.Self.entityId, paths);
             }
+
+            
             if (distance == 0)
                 distance = 4f;
 
             // sort
             paths.Sort(new SCoreUtils.NearestPathSorter(_context.Self));
             _vector = paths[0];
-
+            if ( (_context.Self.position - _vector).sqrMagnitude > 500)
+            {
+                SphereCache.RemovePaths(_context.Self.entityId);
+                ForceStop(_context);
+                return;
+            }
             if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled) )
                 BlockUtilitiesSDX.addParticles("", new Vector3i(_vector));
 
