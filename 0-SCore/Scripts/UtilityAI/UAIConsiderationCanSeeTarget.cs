@@ -6,6 +6,10 @@ namespace UAI
     {
         public override float GetScore(Context _context, object target)
         {
+            var targetEntity = UAIUtils.ConvertToEntityAlive(target);
+            if (targetEntity != null && targetEntity.IsDead())
+                return 0f;
+
             return (base.GetScore(_context, target) == 1f) ? 0f : 1f;
         }
     }

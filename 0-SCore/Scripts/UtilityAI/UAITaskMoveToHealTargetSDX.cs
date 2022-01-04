@@ -26,9 +26,7 @@ namespace UAI
             var dist = Vector3.Distance(_position, _context.Self.position);
             if (dist > distance) return;
 
-            _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
-            _context.Self.SetLookPosition(_position);
-
+            SCoreUtils.SetLookPosition(_context, _position);
             EntityUtilities.Stop(_context.Self.entityId);
             Stop(_context);
         }

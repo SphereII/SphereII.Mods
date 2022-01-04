@@ -67,9 +67,7 @@ namespace UAI
                 return;
             }
 
-            _context.Self.RotateTo(_position.x, _position.y, _position.z, 30f, 30f);
-            _context.Self.SetLookPosition(_position);
-
+            SCoreUtils.SetLookPosition(_context, _position);
         
             if (!_context.Self.navigator.noPathAndNotPlanningOne())
             {

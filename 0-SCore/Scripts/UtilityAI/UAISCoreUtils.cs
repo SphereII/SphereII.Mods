@@ -196,6 +196,10 @@ namespace UAI
 
         public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity)
         {
+            // If they are dead, you can't see them anymore...
+            if (targetEntity.IsDead())
+                return false;
+
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
@@ -467,6 +471,30 @@ namespace UAI
             return true;
         }
 
+        public static void SetLookPosition(Context _context, object target)
+        {
+            var enemytarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
+            if ( enemytarget != null && enemytarget.IsDead())
+            {
+                _context.Self.SetAttackTarget(null, 30);
+                _context.Self.SetRevengeTarget(null);
+                return;
+            }
+            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            if (entityAlive != null)
+            {
+                var headPosition = entityAlive.getHeadPosition();
+                var forwardVector = _context.Self.GetForwardVector();
+                _context.Self.RotateTo(entityAlive, 45f, 45);
+                _context.Self.SetLookPosition(headPosition + forwardVector);
+            }
+
+            if (target is Vector3 vector)
+            {
+                _context.Self.RotateTo(vector.x, vector.y, vector.z, 45f, 45f);
+                _context.Self.SetLookPosition(vector);
+            }
+        }
         public static void CloseDoor(Context _context, Vector3i doorPos)
         {
             EntityUtilities.CloseDoor(_context.Self.entityId, doorPos);
@@ -510,7 +538,7 @@ namespace UAI
             // Nothing to loot.
             if (tileLootContainer.items == null) return;
 
-            _context.Self.SetLookPosition(blockPos.ToVector3());
+            SCoreUtils.SetLookPosition(_context, blockPos);
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
 
@@ -531,7 +559,7 @@ namespace UAI
             if (!_context.Self.onGround)
                 return false;
 
-            _context.Self.SetLookPosition(_vector);
+            SCoreUtils.SetLookPosition(_context, _vector);
 
             var lookRay = new Ray(_context.Self.position, _context.Self.GetLookVector());
             if (!Voxel.Raycast(_context.Self.world, lookRay, 3f, false, false))

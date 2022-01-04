@@ -62,7 +62,7 @@ namespace UAI
             var distance = Vector3.Distance(_context.Self.position, _position);
             if (distance < 0.5f)
             {
-                _context.Self.SetLookPosition(_position);
+                SCoreUtils.SetLookPosition(_context, _position);
                 Stop(_context);
             }
 

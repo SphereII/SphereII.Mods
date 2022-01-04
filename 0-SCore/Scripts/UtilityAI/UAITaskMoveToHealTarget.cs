@@ -31,9 +31,7 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
-                _context.Self.RotateTo(entityAlive, 15f, 15f);
-                _context.Self.SetLookPosition(entityAlive.position);
-
+                SCoreUtils.SetLookPosition(_context, entityAlive);
                 var dist = Vector3.Distance(entityAlive.position, _context.Self.position);
                 if (dist < distance)
                 {

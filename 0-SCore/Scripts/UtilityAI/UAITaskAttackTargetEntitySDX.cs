@@ -58,25 +58,22 @@ namespace UAI
                 }
                 if (entityAlive.IsDead())
                 {
-                    _context.Self.SetLookPosition(Vector3.zero);
+                    SCoreUtils.SetLookPosition(_context, Vector3.forward);
                     Stop(_context);
                     return;
                 }
 
-                if ( entityAlive.IsWalkTypeACrawl())
-                    SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
+          //      if ( entityAlive.IsWalkTypeACrawl())
+            //        SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
 
-                if ( entityAlive.height < 1.1f)
-                    SCoreUtils.SetCrouching(_context, true);
+              //  if ( entityAlive.height < 1.1f)
+                //    SCoreUtils.SetCrouching(_context, true);
 
   
             }
 
             if (_context.ActionData.Target is Vector3 vector)
-            {
-                _context.Self.RotateTo(vector.x, vector.y, vector.z, 30f, 30);
-                _context.Self.SetLookPosition(vector);
-            }
+                SCoreUtils.SetLookPosition(_context, vector);
 
             // Reloading
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
@@ -99,7 +96,7 @@ namespace UAI
             var minDistance = distance * distance;
             var a = entityAlive.position - _context.Self.position;
 
-            // not within range?
+            // not within range? qq
             if (a.sqrMagnitude > minDistance)
             {
                 Stop(_context);
@@ -108,10 +105,7 @@ namespace UAI
 
             // Face the target right before hitting them.
             if (entityAlive != null)
-            {
-                _context.Self.RotateTo(entityAlive, 30f, 30f);
-                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
-            }
+                SCoreUtils.SetLookPosition(_context, entityAlive);
 
             // Action Index = 1 is Use, 0 is Attack.
             if (_actionIndex > 0)
