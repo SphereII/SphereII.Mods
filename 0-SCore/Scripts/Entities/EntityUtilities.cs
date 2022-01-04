@@ -1491,13 +1491,13 @@ public static class EntityUtilities
         // However, the self does have a full faction, with a relationship with the player faction id, even if the faction does not exist.
         var relationship = 400f;
         var selfFaction = FactionManager.Instance.GetFaction(self.factionId);
-        if (selfFaction != null)
+        if (selfFaction != null && !selfFaction.IsPlayerFaction)
         {
             relationship = selfFaction.GetRelationship(target.factionId);
         }
         else
         {
-            // if the self doesn't have a full faction, then it's a player. Let's flip it.
+            // The self doesn't have a full faction, or it's a player. Let's flip it.
             selfFaction = FactionManager.Instance.GetFaction(target.factionId);
             if (selfFaction != null)
                 relationship = selfFaction.GetRelationship(self.factionId);
