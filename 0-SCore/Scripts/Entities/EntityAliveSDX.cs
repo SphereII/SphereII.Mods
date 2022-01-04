@@ -677,27 +677,34 @@ public class EntityAliveSDX : EntityTrader
         {
             SetupDebugNameHUD(true);
 
-            // if our leader is attached, that means they are attached to a vehicle
-            if (leader.AttachedToEntity != null )
+            // If they are ordered to stay. don't disappear and re-appear.
+            if (Buffs.HasCustomVar("CurrentOrder") && Buffs.GetCustomVar("CurrentOrder") != 2)
             {
-                // if they don't have the onMission cvar, send them on a mission and make them disappear.
-                if (!Buffs.HasCustomVar("onMission"))
+                // if our leader is attached, that means they are attached to a vehicle
+                if (leader.AttachedToEntity != null)
                 {
-                    SendOnMission(true);
-                    return;
+                    // if they don't have the onMission cvar, send them on a mission and make them disappear.
+                    if (!Buffs.HasCustomVar("onMission"))
+                    {
+                        SendOnMission(true);
+                        return;
+                    }
                 }
-            }
-            else
-            {
-                // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
-                if (Buffs.HasCustomVar("onMission"))
+                else
                 {
-                    SendOnMission(false);
-                    GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
-                    if (position == Vector3.zero)
-                        position = leader.position + Vector3.back;
-                    SetPosition(position);
+                    // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
+                    if (Buffs.HasCustomVar("onMission"))
+                    {
+                        SendOnMission(false);
+                        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
+                        if (position == Vector3.zero)
+                            position = leader.position + Vector3.back;
+                        SetPosition(position);
 
+                        // If we teleported, we want to clear those paths so they can be re-aquired.
+                        SphereCache.RemovePaths(entityId);
+
+                    }
                 }
             }
         }
