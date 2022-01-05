@@ -1,0 +1,1562 @@
+Mono path[0] = 'C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/Managed'
+Mono config path = 'C:/Users/bienp/Desktop/7D2DModLauncher-main/MonoBleedingEdge/etc'
+Initialize engine version: 2020.3.1f1 (77a89f25062f)
+[Subsystems] Discovering subsystems at path C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3060 Ti (ID=0x2486)
+    Vendor:   
+    VRAM:     8050 MB
+    Driver:   30.0.14.9709
+Begin MonoManager ReloadAssembly
+- Completed reload, in  0.072 seconds
+D3D11 device created for Microsoft Media Foundation video decoding.
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.513100 ms
+Initialize Lock
+
+Reading Latest
+
+Reading latest_experimental
+
+Reading alpha19.6
+
+Reading alpha19.5
+
+Reading alpha19.4
+
+Reading alpha19.3
+
+Reading alpha19.2
+
+Reading alpha19.0
+
+Reading alpha18.4
+
+Reading alpha17.4
+
+Reading alpha16.4
+
+Reading alpha15.2
+
+Reading alpha14.7
+
+Reading alpha13.8
+
+Reading alpha12.5
+
+Reading alpha11.6
+
+Reading alpha10.4
+
+Reading alpha9.3
+
+Reading alpha8.8
+
+Reading Alpha20,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml
+
+Loading Latest Alpha: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml ( Alpha20 )
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Reading Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Done Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Reading Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Done Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Done Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Reading Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Done Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Reading Alpha19,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha19/Default.xml
+
+Reading Alpha18,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha18/Default.xml
+
+Reading Alpha17,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha17/Default.xml
+
+Reading Alpha16,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Default.xml
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 3.963800 ms
+Reading Latest
+
+Reading latest_experimental
+
+Reading alpha19.6
+
+Reading alpha19.5
+
+Reading alpha19.4
+
+Reading alpha19.3
+
+Reading alpha19.2
+
+Reading alpha19.0
+
+Reading alpha18.4
+
+Reading alpha17.4
+
+Reading alpha16.4
+
+Reading alpha15.2
+
+Reading alpha14.7
+
+Reading alpha13.8
+
+Reading alpha12.5
+
+Reading alpha11.6
+
+Reading alpha10.4
+
+Reading alpha9.3
+
+Reading alpha8.8
+
+Reading Alpha20,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml
+
+Loading Latest Alpha: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml ( Alpha20 )
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Reading Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Done Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Reading Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Done Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Done Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Reading Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Done Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Reading Alpha19,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha19/Default.xml
+
+Reading Alpha18,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha18/Default.xml
+
+Reading Alpha17,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha17/Default.xml
+
+Reading Alpha16,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Default.xml
+
+Mods: 8
+
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 4919.
+Total: 23.550000 ms (FindLiveObjects: 0.182100 ms CreateObjectMapping: 0.034700 ms MarkObjects: 23.325600 ms  DeleteObjects: 0.007600 ms)
+
+Installing Game to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental
+
+Deleting Directory C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Zip file detected: https://ul.subquake.com/dl/LICENSE.zip
+
+Performing Direct Download
+
+Downloading https://ul.subquake.com/dl/LICENSE.zip...
+
+Creating Staging Area C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging
+
+Extracting C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging\temp.zip to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git ls-remote  https://gitlab.com/Subquake/UndeadLegacyExperimental.git from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+42f26a5a6020b93c332c597ad3d1cf0dc13c2933	HEAD
+
+42f26a5a6020b93c332c597ad3d1cf0dc13c2933	refs/heads/main
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git ls-remote  https://gitlab.com/Subquake/UndeadLegacyExperimental.git is 0:00.995
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  is 0:00.060
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 is 0:00.049
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git init --initial-branch main from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Initialized empty Git repository in C:/7D2D/Alpha20/Undead_Legacy/Undead_Legacy_Experimental/TempMods/1-UndeadLegacyExperimental.git/.git/
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git init --initial-branch main is 0:00.086
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git remote add origin http://gitlab.com/Subquake/UndeadLegacyExperimental.git from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git remote add origin http://gitlab.com/Subquake/UndeadLegacyExperimental.git is 0:00.062
+
+Download URL is http://gitlab.com/Subquake/UndeadLegacyExperimental.git Branch: main
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (315 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+POST git-upload-pack (162 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+remote: Enumerating objects: 3509, done.        
+
+remote: Counting objects:   1% (1/95)        
+
+remote: Counting objects:   2% (2/95)        
+
+remote: Counting objects:   3% (3/95)        
+
+remote: Counting objects:   4% (4/95)        
+
+remote: Counting objects:   5% (5/95)        
+
+remote: Counting objects:   6% (6/95)        
+
+remote: Counting objects:   7% (7/95)        
+
+remote: Counting objects:   8% (8/95)        
+
+remote: Counting objects:   9% (9/95)        
+
+remote: Counting objects:  10% (10/95)        
+
+remote: Counting objects:  11% (11/95)        
+
+remote: Counting objects:  12% (12/95)        
+
+remote: Counting objects:  13% (13/95)        
+
+remote: Counting objects:  14% (14/95)        
+
+remote: Counting objects:  15% (15/95)        
+
+remote: Counting objects:  16% (16/95)        
+
+remote: Counting objects:  17% (17/95)        
+
+remote: Counting objects:  18% (18/95)        
+
+remote: Counting objects:  20% (19/95)        
+
+remote: Counting objects:  21% (20/95)        
+
+remote: Counting objects:  22% (21/95)        
+
+remote: Counting objects:  23% (22/95)        
+
+remote: Counting objects:  24% (23/95)        
+
+remote: Counting objects:  25% (24/95)        
+
+remote: Counting objects:  26% (25/95)        
+
+remote: Counting objects:  27% (26/95)        
+
+remote: Counting objects:  28% (27/95)        
+
+remote: Counting objects:  29% (28/95)        
+
+remote: Counting objects:  30% (29/95)        
+
+remote: Counting objects:  31% (30/95)        
+
+remote: Counting objects:  32% (31/95)        
+
+remote: Counting objects:  33% (32/95)        
+
+remote: Counting objects:  34% (33/95)        
+
+remote: Counting objects:  35% (34/95)        
+
+remote: Counting objects:  36% (35/95)        
+
+remote: Counting objects:  37% (36/95)        
+
+remote: Counting objects:  38% (37/95)        
+
+remote: Counting objects:  40% (38/95)        
+
+remote: Counting objects:  41% (39/95)        
+
+remote: Counting objects:  42% (40/95)        
+
+remote: Counting objects:  43% (41/95)        
+
+remote: Counting objects:  44% (42/95)        
+
+remote: Counting objects:  45% (43/95)        
+
+remote: Counting objects:  46% (44/95)        
+
+remote: Counting objects:  47% (45/95)        
+
+remote: Counting objects:  48% (46/95)        
+
+remote: Counting objects:  49% (47/95)        
+
+remote: Counting objects:  50% (48/95)        
+
+remote: Counting objects:  51% (49/95)        
+
+remote: Counting objects:  52% (50/95)        
+
+remote: Counting objects:  53% (51/95)        
+
+remote: Counting objects:  54% (52/95)        
+
+remote: Counting objects:  55% (53/95)        
+
+remote: Counting objects:  56% (54/95)        
+
+remote: Counting objects:  57% (55/95)        
+
+remote: Counting objects:  58% (56/95)        
+
+remote: Counting objects:  60% (57/95)        
+
+remote: Counting objects:  61% (58/95)        
+
+remote: Counting objects:  62% (59/95)        
+
+remote: Counting objects:  63% (60/95)        
+
+remote: Counting objects:  64% (61/95)        
+
+remote: Counting objects:  65% (62/95)        
+
+remote: Counting objects:  66% (63/95)        
+
+remote: Counting objects:  67% (64/95)        
+
+remote: Counting objects:  68% (65/95)        
+
+remote: Counting objects:  69% (66/95)        
+
+remote: Counting objects:  70% (67/95)        
+
+remote: Counting objects:  71% (68/95)        
+
+remote: Counting objects:  72% (69/95)        
+
+remote: Counting objects:  73% (70/95)        
+
+remote: Counting objects:  74% (71/95)        
+
+remote: Counting objects:  75% (72/95)        
+
+remote: Counting objects:  76% (73/95)        
+
+remote: Counting objects:  77% (74/95)        
+
+remote: Counting objects:  78% (75/95)        
+
+remote: Counting objects:  80% (76/95)        
+
+remote: Counting objects:  81% (77/95)        
+
+remote: Counting objects:  82% (78/95)        
+
+remote: Counting objects:  83% (79/95)        
+
+remote: Counting objects:  84% (80/95)        
+
+remote: Counting objects:  85% (81/95)        
+
+remote: Counting objects:  86% (82/95)        
+
+remote: Counting objects:  87% (83/95)        
+
+remote: Counting objects:  88% (84/95)        
+
+remote: Counting objects:  89% (85/95)        
+
+remote: Counting objects:  90% (86/95)        
+
+remote: Counting objects:  91% (87/95)        
+
+remote: Counting objects:  92% (88/95)        
+
+remote: Counting objects:  93% (89/95)        
+
+remote: Counting objects:  94% (90/95)        
+
+remote: Counting objects:  95% (91/95)        
+
+remote: Counting objects:  96% (92/95)        
+
+remote: Counting objects:  97% (93/95)        
+
+remote: Counting objects:  98% (94/95)        
+
+remote: Counting objects: 100% (95/95)        
+
+remote: Counting objects: 100% (95/95), done.        
+
+remote: Compressing objects:   1% (1/95)        
+
+remote: Compressing objects:   2% (2/95)        
+
+remote: Compressing objects:   3% (3/95)        
+
+remote: Compressing objects:   4% (4/95)        
+
+remote: Compressing objects:   5% (5/95)        
+
+remote: Compressing objects:   6% (6/95)        
+
+remote: Compressing objects:   7% (7/95)        
+
+remote: Compressing objects:   8% (8/95)        
+
+remote: Compressing objects:   9% (9/95)        
+
+remote: Compressing objects:  10% (10/95)        
+
+remote: Compressing objects:  11% (11/95)        
+
+remote: Compressing objects:  12% (12/95)        
+
+remote: Compressing objects:  13% (13/95)        
+
+remote: Compressing objects:  14% (14/95)        
+
+remote: Compressing objects:  15% (15/95)        
+
+remote: Compressing objects:  16% (16/95)        
+
+remote: Compressing objects:  17% (17/95)        
+
+remote: Compressing objects:  18% (18/95)        
+
+remote: Compressing objects:  20% (19/95)        
+
+remote: Compressing objects:  21% (20/95)        
+
+remote: Compressing objects:  22% (21/95)        
+
+remote: Compressing objects:  23% (22/95)        
+
+remote: Compressing objects:  24% (23/95)        
+
+remote: Compressing objects:  25% (24/95)        
+
+remote: Compressing objects:  26% (25/95)        
+
+remote: Compressing objects:  27% (26/95)        
+
+remote: Compressing objects:  28% (27/95)        
+
+remote: Compressing objects:  29% (28/95)        
+
+remote: Compressing objects:  30% (29/95)        
+
+remote: Compressing objects:  31% (30/95)        
+
+remote: Compressing objects:  32% (31/95)        
+
+remote: Compressing objects:  33% (32/95)        
+
+remote: Compressing objects:  34% (33/95)        
+
+remote: Compressing objects:  35% (34/95)        
+
+remote: Compressing objects:  36% (35/95)        
+
+remote: Compressing objects:  37% (36/95)        
+
+remote: Compressing objects:  38% (37/95)        
+
+remote: Compressing objects:  40% (38/95)        
+
+remote: Compressing objects:  41% (39/95)        
+
+remote: Compressing objects:  42% (40/95)        
+
+remote: Compressing objects:  43% (41/95)        
+
+remote: Compressing objects:  44% (42/95)        
+
+remote: Compressing objects:  45% (43/95)        
+
+remote: Compressing objects:  46% (44/95)        
+
+remote: Compressing objects:  47% (45/95)        
+
+remote: Compressing objects:  48% (46/95)        
+
+remote: Compressing objects:  49% (47/95)        
+
+remote: Compressing objects:  50% (48/95)        
+
+remote: Compressing objects:  51% (49/95)        
+
+remote: Compressing objects:  52% (50/95)        
+
+remote: Compressing objects:  53% (51/95)        
+
+remote: Compressing objects:  54% (52/95)        
+
+remote: Compressing objects:  55% (53/95)        
+
+remote: Compressing objects:  56% (54/95)        
+
+remote: Compressing objects:  57% (55/95)        
+
+remote: Compressing objects:  58% (56/95)        
+
+remote: Compressing objects:  60% (57/95)        
+
+remote: Compressing objects:  61% (58/95)        
+
+remote: Compressing objects:  62% (59/95)        
+
+remote: Compressing objects:  63% (60/95)        
+
+remote: Compressing objects:  64% (61/95)        
+
+remote: Compressing objects:  65% (62/95)        
+
+remote: Compressing objects:  66% (63/95)        
+
+remote: Compressing objects:  67% (64/95)        
+
+remote: Compressing objects:  68% (65/95)        
+
+remote: Compressing objects:  69% (66/95)        
+
+remote: Compressing objects:  70% (67/95)        
+
+remote: Compressing objects:  71% (68/95)        
+
+remote: Compressing objects:  72% (69/95)        
+
+remote: Compressing objects:  73% (70/95)        
+
+remote: Compressing objects:  74% (71/95)        
+
+remote: Compressing objects:  75% (72/95)        
+
+remote: Compressing objects:  76% (73/95)        
+
+remote: Compressing objects:  77% (74/95)        
+
+remote: Compressing objects:  78% (75/95)        
+
+remote: Compressing objects:  80% (76/95)        
+
+remote: Compressing objects:  81% (77/95)        
+
+remote: Compressing objects:  82% (78/95)        
+
+remote: Compressing objects:  83% (79/95)        
+
+remote: Compressing objects:  84% (80/95)        
+
+remote: Compressing objects:  85% (81/95)        
+
+remote: Compressing objects:  86% (82/95)        
+
+remote: Compressing objects:  87% (83/95)        
+
+remote: Compressing objects:  88% (84/95)        
+
+remote: Compressing objects:  89% (85/95)        
+
+remote: Compressing objects:  90% (86/95)        
+
+remote: Compressing objects:  91% (87/95)        
+
+remote: Compressing objects:  92% (88/95)        
+
+remote: Compressing objects:  93% (89/95)        
+
+remote: Compressing objects:  94% (90/95)        
+
+remote: Compressing objects:  95% (91/95)        
+
+remote: Compressing objects:  96% (92/95)        
+
+remote: Compressing objects:  97% (93/95)        
+
+remote: Compressing objects:  98% (94/95)        
+
+remote: Compressing objects: 100% (95/95)        
+
+remote: Compressing objects: 100% (95/95), done.        
+
+Receiving objects:   0% (1/3509)
+
+Receiving objects:   1% (36/3509)
+
+Receiving objects:   2% (71/3509)
+
+Receiving objects:   3% (106/3509)
+
+Receiving objects:   4% (141/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:   5% (176/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:   6% (211/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:   7% (246/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:   8% (281/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:   9% (316/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:  10% (351/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:  11% (386/3509), 3.77 MiB | 7.47 MiB/s
+
+Receiving objects:  11% (399/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  12% (422/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  13% (457/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  14% (492/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  15% (527/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  16% (562/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  17% (597/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  18% (632/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  19% (667/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  20% (702/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  21% (737/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  22% (772/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  23% (808/3509), 9.02 MiB | 8.98 MiB/s
+
+Receiving objects:  24% (843/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  25% (878/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  26% (913/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  27% (948/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  28% (983/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  29% (1018/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  30% (1053/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  31% (1088/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  32% (1123/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  33% (1158/3509), 14.48 MiB | 9.62 MiB/s
+
+Receiving objects:  33% (1187/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  34% (1194/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  35% (1229/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  36% (1264/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  37% (1299/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  38% (1334/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  39% (1369/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  40% (1404/3509), 19.12 MiB | 9.53 MiB/s
+
+Receiving objects:  41% (1439/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  42% (1474/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  43% (1509/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  44% (1544/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  45% (1580/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  46% (1615/3509), 23.93 MiB | 9.54 MiB/s
+
+Receiving objects:  46% (1644/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  47% (1650/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  48% (1685/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  49% (1720/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  50% (1755/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  51% (1790/3509), 28.87 MiB | 9.59 MiB/s
+
+Receiving objects:  52% (1825/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  53% (1860/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  54% (1895/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  55% (1930/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  56% (1966/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  57% (2001/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  58% (2036/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  59% (2071/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  60% (2106/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  61% (2141/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  62% (2176/3509), 33.81 MiB | 9.63 MiB/s
+
+Receiving objects:  62% (2210/3509), 38.70 MiB | 9.65 MiB/s
+
+Receiving objects:  63% (2211/3509), 38.70 MiB | 9.65 MiB/s
+
+Receiving objects:  64% (2246/3509), 38.70 MiB | 9.65 MiB/s
+
+Receiving objects:  65% (2281/3509), 38.70 MiB | 9.65 MiB/s
+
+Receiving objects:  66% (2316/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  67% (2352/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  68% (2387/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  69% (2422/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  70% (2457/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  71% (2492/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  72% (2527/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  73% (2562/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  74% (2597/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  75% (2632/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  76% (2667/3509), 43.78 MiB | 9.71 MiB/s
+
+Receiving objects:  77% (2702/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  77% (2706/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  78% (2738/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  79% (2773/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  80% (2808/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  81% (2843/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  82% (2878/3509), 48.94 MiB | 10.03 MiB/s
+
+Receiving objects:  83% (2913/3509), 53.92 MiB | 9.97 MiB/s 
+
+Receiving objects:  84% (2948/3509), 53.92 MiB | 9.97 MiB/s
+
+Receiving objects:  85% (2983/3509), 53.92 MiB | 9.97 MiB/s
+
+Receiving objects:  86% (3018/3509), 53.92 MiB | 9.97 MiB/s
+
+Receiving objects:  87% (3053/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  87% (3060/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  88% (3088/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  89% (3124/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  90% (3159/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  91% (3194/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  92% (3229/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  93% (3264/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  94% (3299/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  95% (3334/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  96% (3369/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  97% (3404/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects:  98% (3439/3509), 58.39 MiB | 9.75 MiB/s
+
+remote: Total 3509 (delta 45), reused 0 (delta 0), pack-reused 3414        
+
+Receiving objects:  99% (3474/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects: 100% (3509/3509), 58.39 MiB | 9.75 MiB/s
+
+Receiving objects: 100% (3509/3509), 62.47 MiB | 9.75 MiB/s, done.
+
+Resolving deltas:   0% (0/940)
+
+Resolving deltas:   1% (10/940)
+
+Resolving deltas:   2% (19/940)
+
+Resolving deltas:   3% (29/940)
+
+Resolving deltas:   4% (38/940)
+
+Resolving deltas:   5% (47/940)
+
+Resolving deltas:   6% (57/940)
+
+Resolving deltas:   7% (66/940)
+
+Resolving deltas:   8% (76/940)
+
+Resolving deltas:   9% (85/940)
+
+Resolving deltas:  10% (94/940)
+
+Resolving deltas:  11% (104/940)
+
+Resolving deltas:  12% (113/940)
+
+Resolving deltas:  13% (123/940)
+
+Resolving deltas:  14% (132/940)
+
+Resolving deltas:  15% (141/940)
+
+Resolving deltas:  16% (151/940)
+
+Resolving deltas:  17% (160/940)
+
+Resolving deltas:  18% (170/940)
+
+Resolving deltas:  19% (179/940)
+
+Resolving deltas:  20% (188/940)
+
+Resolving deltas:  21% (198/940)
+
+Resolving deltas:  22% (207/940)
+
+Resolving deltas:  23% (217/940)
+
+Resolving deltas:  24% (226/940)
+
+Resolving deltas:  25% (235/940)
+
+Resolving deltas:  26% (245/940)
+
+Resolving deltas:  27% (254/940)
+
+Resolving deltas:  28% (264/940)
+
+Resolving deltas:  29% (273/940)
+
+Resolving deltas:  30% (282/940)
+
+Resolving deltas:  31% (292/940)
+
+Resolving deltas:  32% (301/940)
+
+Resolving deltas:  33% (313/940)
+
+Resolving deltas:  34% (320/940)
+
+Resolving deltas:  35% (329/940)
+
+Resolving deltas:  36% (339/940)
+
+Resolving deltas:  37% (348/940)
+
+Resolving deltas:  38% (358/940)
+
+Resolving deltas:  39% (367/940)
+
+Resolving deltas:  40% (376/940)
+
+Resolving deltas:  41% (386/940)
+
+Resolving deltas:  42% (395/940)
+
+Resolving deltas:  43% (405/940)
+
+Resolving deltas:  44% (414/940)
+
+Resolving deltas:  45% (423/940)
+
+Resolving deltas:  46% (433/940)
+
+Resolving deltas:  47% (442/940)
+
+Resolving deltas:  48% (452/940)
+
+Resolving deltas:  49% (461/940)
+
+Resolving deltas:  50% (470/940)
+
+Resolving deltas:  51% (480/940)
+
+Resolving deltas:  52% (489/940)
+
+Resolving deltas:  53% (499/940)
+
+Resolving deltas:  54% (508/940)
+
+Resolving deltas:  55% (518/940)
+
+Resolving deltas:  56% (527/940)
+
+Resolving deltas:  57% (536/940)
+
+Resolving deltas:  58% (546/940)
+
+Resolving deltas:  59% (555/940)
+
+Resolving deltas:  60% (564/940)
+
+Resolving deltas:  61% (574/940)
+
+Resolving deltas:  62% (583/940)
+
+Resolving deltas:  63% (593/940)
+
+Resolving deltas:  64% (602/940)
+
+Resolving deltas:  65% (611/940)
+
+Resolving deltas:  66% (621/940)
+
+Resolving deltas:  67% (630/940)
+
+Resolving deltas:  68% (640/940)
+
+Resolving deltas:  69% (649/940)
+
+Resolving deltas:  70% (658/940)
+
+Resolving deltas:  71% (669/940)
+
+Resolving deltas:  72% (677/940)
+
+Resolving deltas:  73% (687/940)
+
+Resolving deltas:  74% (696/940)
+
+Resolving deltas:  75% (705/940)
+
+Resolving deltas:  76% (715/940)
+
+Resolving deltas:  77% (724/940)
+
+Resolving deltas:  78% (734/940)
+
+Resolving deltas:  79% (743/940)
+
+Resolving deltas:  80% (752/940)
+
+Resolving deltas:  81% (762/940)
+
+Resolving deltas:  82% (771/940)
+
+Resolving deltas:  83% (781/940)
+
+Resolving deltas:  84% (790/940)
+
+Resolving deltas:  85% (799/940)
+
+Resolving deltas:  86% (809/940)
+
+Resolving deltas:  87% (818/940)
+
+Resolving deltas:  88% (828/940)
+
+Resolving deltas:  89% (837/940)
+
+Resolving deltas:  90% (846/940)
+
+Resolving deltas:  91% (856/940)
+
+Resolving deltas:  92% (865/940)
+
+Resolving deltas:  93% (875/940)
+
+Resolving deltas:  94% (884/940)
+
+Resolving deltas:  95% (894/940)
+
+Resolving deltas:  96% (903/940)
+
+Resolving deltas:  97% (912/940)
+
+Resolving deltas:  98% (922/940)
+
+Resolving deltas:  99% (931/940)
+
+Resolving deltas: 100% (940/940)
+
+Resolving deltas: 100% (940/940), done.
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ * branch            main       -> FETCH_HEAD
+
+ * [new branch]      main       -> origin/main
+
+Updating files:  59% (1088/1817)
+
+Updating files:  60% (1091/1817)
+
+Updating files:  61% (1109/1817)
+
+Updating files:  62% (1127/1817)
+
+Updating files:  63% (1145/1817)
+
+Updating files:  64% (1163/1817)
+
+Updating files:  65% (1182/1817)
+
+Updating files:  66% (1200/1817)
+
+Updating files:  67% (1218/1817)
+
+Updating files:  68% (1236/1817)
+
+Updating files:  69% (1254/1817)
+
+Updating files:  70% (1272/1817)
+
+Updating files:  71% (1291/1817)
+
+Updating files:  72% (1309/1817)
+
+Updating files:  73% (1327/1817)
+
+Updating files:  74% (1345/1817)
+
+Updating files:  75% (1363/1817)
+
+Updating files:  76% (1381/1817)
+
+Updating files:  77% (1400/1817)
+
+Updating files:  78% (1418/1817)
+
+Updating files:  79% (1436/1817)
+
+Updating files:  80% (1454/1817)
+
+Updating files:  81% (1472/1817)
+
+Updating files:  82% (1490/1817)
+
+Updating files:  83% (1509/1817)
+
+Updating files:  84% (1527/1817)
+
+Updating files:  85% (1545/1817)
+
+Updating files:  86% (1563/1817)
+
+Updating files:  87% (1581/1817)
+
+Updating files:  88% (1599/1817)
+
+Updating files:  89% (1618/1817)
+
+Updating files:  90% (1636/1817)
+
+Updating files:  91% (1654/1817)
+
+Updating files:  92% (1672/1817)
+
+Updating files:  93% (1690/1817)
+
+Updating files:  94% (1708/1817)
+
+Updating files:  95% (1727/1817)
+
+Updating files:  96% (1745/1817)
+
+Updating files:  97% (1763/1817)
+
+Updating files:  98% (1781/1817)
+
+Updating files:  99% (1799/1817)
+
+Updating files: 100% (1817/1817)
+
+Updating files: 100% (1817/1817), done.
+
+<color=yellow>Laughing at your pictures-i mean, loading...</color>
+
+<color=yellow>How did you get here?</color>
+
+<color=yellow>keep calm and npm install</color>
+
+Filtering content:  10% (2/20), 164.82 MiB | 4.77 MiB/s
+
+Filtering content:  10% (2/20), 214.33 MiB | 6.87 MiB/s
+
+Filtering content:  15% (3/20), 214.33 MiB | 6.87 MiB/s
+
+<color=yellow>Running with scissors...</color>
+
+Filtering content:  15% (3/20), 223.48 MiB | 3.06 MiB/s
+
+Filtering content:  20% (4/20), 223.48 MiB | 3.06 MiB/s
+
+Filtering content:  20% (4/20), 246.00 MiB | 3.05 MiB/s
+
+Filtering content:  25% (5/20), 246.00 MiB | 3.05 MiB/s
+
+Filtering content:  25% (5/20), 331.21 MiB | 4.82 MiB/s
+
+Filtering content:  30% (6/20), 331.21 MiB | 4.82 MiB/s
+
+Filtering content:  30% (6/20), 339.79 MiB | 4.44 MiB/s
+
+Filtering content:  35% (7/20), 339.79 MiB | 4.44 MiB/s
+
+<color=yellow>Winter is coming...</color>
+
+Filtering content:  35% (7/20), 359.95 MiB | 4.70 MiB/s
+
+Filtering content:  40% (8/20), 359.95 MiB | 4.70 MiB/s
+
+Filtering content:  40% (8/20), 367.35 MiB | 4.49 MiB/s
+
+Filtering content:  45% (9/20), 367.35 MiB | 4.49 MiB/s
+
+Filtering content:  50% (10/20), 367.35 MiB | 4.49 MiB/s
+
+Filtering content:  55% (11/20), 367.35 MiB | 4.49 MiB/s
+
+Filtering content:  55% (11/20), 380.73 MiB | 4.60 MiB/s
+
+Filtering content:  60% (12/20), 380.73 MiB | 4.60 MiB/s
+
+Filtering content:  65% (13/20), 381.43 MiB | 4.52 MiB/s
+
+Filtering content:  70% (14/20), 381.43 MiB | 4.52 MiB/s
+
+Filtering content:  70% (14/20), 384.59 MiB | 3.77 MiB/s
+
+Filtering content:  75% (15/20), 384.59 MiB | 3.77 MiB/s
+
+Filtering content:  80% (16/20), 384.59 MiB | 3.77 MiB/s
+
+Filtering content:  80% (16/20), 500.79 MiB | 10.12 MiB/s
+
+Filtering content:  85% (17/20), 500.79 MiB | 10.12 MiB/s
+
+<color=yellow>Optimism – is a lack of information.....</color>
+
+<color=yellow>Are we there yet?</color>
+
+<color=yellow>Two men walked into a bar; the third ducked...</color>
+
+Filtering content:  85% (17/20), 991.44 MiB | 7.52 MiB/s 
+
+Filtering content:  90% (18/20), 991.44 MiB | 7.52 MiB/s
+
+Filtering content:  90% (18/20), 1.30 GiB | 10.28 MiB/s 
+
+Filtering content:  95% (19/20), 1.30 GiB | 10.28 MiB/s
+
+<color=yellow>Ordering 1s and 0s...</color>
+
+Filtering content:  95% (19/20), 2.25 GiB | 14.50 MiB/s
+
+Filtering content: 100% (20/20), 2.25 GiB | 14.50 MiB/s
+
+Filtering content: 100% (20/20), 2.25 GiB | 8.43 MiB/s, done.
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main is 4:43.027
+
+Download State: OK for 
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip
+
+Deploying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-LICENSE.zip to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental
+
+Download State: OK for 
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Deploying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Common to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Common
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Menu to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Menu
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Resources to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Resources
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIActiveItems to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIActiveItems
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAltAtlas to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAltAtlas
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIScrollTab to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIScrollTab
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01 to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config\XUi to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config\XUi
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\Parts to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\Parts
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\POIs to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\POIs
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Resources to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Resources
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02 to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02\Config to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02\Config
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03 to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03\Config to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03\Config
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills\Config to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills\Config
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Deploying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\BepInEx to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\BepInEx to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\BepInEx\core to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\core
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\BepInEx\patchers to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\patchers
+
+Scanning C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Deploying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\doorstop_libs to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Copying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git\doorstop_libs to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Deploying C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git to C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental
+
+Resetting repo
+
+Resetting repo
+
+Git Filename: C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from C:\7D2D\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-UndeadLegacyExperimental.git
+
+Updating files:  18% (326/1736)
+
+Updating files:  19% (330/1736)
+
+Updating files:  20% (348/1736)
+
+Updating files:  21% (365/1736)
+
+Updating files:  22% (382/1736)
+
+Updating files:  23% (400/1736)
+
+Updating files:  24% (417/1736)
+
+Updating files:  25% (434/1736)
+
+Updating files:  26% (452/1736)
+
+Updating files:  27% (469/1736)
+
+Updating files:  28% (487/1736)
+
+Updating files:  29% (504/1736)
+
+Updating files:  30% (521/1736)
+
+Updating files:  31% (539/1736)
+
+Updating files:  32% (556/1736)
+
+Updating files:  33% (573/1736)
+
+Updating files:  34% (591/1736)
+
+Updating files:  35% (608/1736)
+
+Updating files:  36% (625/1736)
+
+Updating files:  37% (643/1736)
+
+Updating files:  38% (660/1736)
+
+Updating files:  39% (678/1736)
+
+Updating files:  40% (695/1736)
+
+Updating files:  41% (712/1736)
+
+Updating files:  42% (730/1736)
+
+Updating files:  43% (747/1736)
+
+Updating files:  44% (764/1736)
+
+Updating files:  45% (782/1736)
+
+Updating files:  46% (799/1736)
+
+Updating files:  47% (816/1736)
+
+Updating files:  48% (834/1736)
+
+Updating files:  49% (851/1736)
+
+Updating files:  50% (868/1736)
+
+Updating files:  51% (886/1736)
+
+Updating files:  52% (903/1736)
+
+Updating files:  53% (921/1736)
+
+Updating files:  54% (938/1736)
+
+Updating files:  55% (955/1736)
+
+Updating files:  56% (973/1736)
+
+Updating files:  57% (990/1736)
+
+Updating files:  58% (1007/1736)
+
+Updating files:  59% (1025/1736)
+
+Updating files:  60% (1042/1736)
+
+Updating files:  61% (1059/1736)
+
+Updating files:  62% (1077/1736)
+
+Updating files:  63% (1094/1736)
+
+Updating files:  64% (1112/1736)
+
+Updating files:  65% (1129/1736)
+
+Updating files:  65% (1134/1736)
+
+Updating files:  65% (1135/1736)
+
+Updating files:  65% (1137/1736)
+
+Updating files:  65% (1139/1736)
+
+Updating files:  65% (1143/1736)
+
+Updating files:  66% (1146/1736)
+
+Updating files:  66% (1150/1736)
+
+Updating files:  67% (1164/1736)
+
+Updating files:  68% (1181/1736)
+
+Updating files:  69% (1198/1736)
+
+Updating files:  70% (1216/1736)
+
+Updating files:  71% (1233/1736)
+
+Updating files:  72% (1250/1736)
+
+Updating files:  73% (1268/1736)
+
+Updating files:  73% (1270/1736)
+
+Updating files:  74% (1285/1736)
+
+Updating files:  75% (1302/1736)
+
+Updating files:  76% (1320/1736)
+
+Updating files:  77% (1337/1736)
+
+Updating files:  78% (1355/1736)
+
+Updating files:  79% (1372/1736)
+
+Updating files:  80% (1389/1736)
+
+Updating files:  81% (1407/1736)
+
+Updating files:  82% (1424/1736)
+
+Updating files:  82% (1430/1736)
+
+Updating files:  83% (1441/1736)
+
+Updating files:  84% (1459/1736)
+
+Updating files:  85% (1476/1736)
+
+Updating files:  86% (1493/1736)
+
+Updating files:  87% (1511/1736)
+
+Updating files:  88% (1528/1736)
+
+Updating files:  89% (1546/1736)
+
+Updating files:  90% (1563/1736)
+
+Updating files:  91% (1580/1736)
+
+Updating files:  91% (1585/1736)
+
+Updating files:  92% (1598/1736)
+
+Updating files:  93% (1615/1736)
+
+Updating files:  94% (1632/1736)
+
+Updating files:  95% (1650/1736)
+
+Updating files:  96% (1667/1736)
+
+Updating files:  97% (1684/1736)
+
+Updating files:  98% (1702/1736)
+
+Updating files:  99% (1719/1736)
+
+Updating files: 100% (1736/1736)
+
+Updating files: 100% (1736/1736), done.
+
+HEAD is now at 42f26a5 Update
+
+Total Time of C:/Users/bienp/Desktop/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:13.046
+
+Checking for log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Uploading log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Checking for log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Uploading log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Checking for log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Uploading log file C:\Users\bienp\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+

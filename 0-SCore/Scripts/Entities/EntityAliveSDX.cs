@@ -13,6 +13,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UAI;
@@ -140,11 +141,12 @@ public class EntityAliveSDX : EntityTrader
             Buffs.AddCustomVar("onMission", 1f);
             emodel.avatarController.SetBool("IsBusy", true);
             RootTransform.gameObject.SetActive(false);
-            
+            isIgnoredByAI = true;
             if ( this.NavObject != null )
                 this.NavObject.IsActive = false;
             this.DebugNameInfo = "";
-            
+            SetupDebugNameHUD(false);
+           
         }
         else
         {
@@ -153,7 +155,8 @@ public class EntityAliveSDX : EntityTrader
             RootTransform.gameObject.SetActive(true);
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
-
+            isIgnoredByAI = false;
+            SetupDebugNameHUD(true);
         }
     }
 
@@ -624,7 +627,56 @@ public class EntityAliveSDX : EntityTrader
             return;
         }
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
-        base.MoveEntityHeaded(_direction, _isDirAbsolute);
+    }
+
+    public override void CheckPosition()
+    {
+        base.CheckPosition();
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && Spawned)
+        {
+            Vector3i vector3i;
+            Vector3i vector3i2;
+            this.world.GetWorldExtent(out vector3i, out vector3i2);
+            if (this.position.y < (float)vector3i.y)
+            {
+                Chunk chunk = (Chunk)this.world.GetChunkFromWorldPos(new Vector3i((int)this.position.x, (int)this.position.y, (int)this.position.z));
+                if (chunk != null && chunk.IsCollisionMeshGenerated && chunk.IsDisplayed)
+                {
+                    this.TeleportToWithinBounds(vector3i.ToVector3(), vector3i2.ToVector3());
+                }
+            }
+        }
+    }
+
+    private void TeleportToWithinBounds(Vector3 _min, Vector3 _max)
+    {
+        _min.x += 16f;
+        _min.z += 16f;
+        _max.x -= 16f;
+        _max.z -= 16f;
+        Vector3 position = this.position;
+        if (position.x < _min.x)
+        {
+            position.x = _min.x;
+        }
+        else if (position.x > _max.x)
+        {
+            position.x = _max.x;
+        }
+        if (position.z < _min.z)
+        {
+            position.z = _min.z;
+        }
+        else if (position.z > _max.z)
+        {
+            position.z = _max.z;
+        }
+        RaycastHit raycastHit;
+        if (Physics.Raycast(new Ray(new Vector3(position.x, 999f, position.z) - Origin.position, Vector3.down), out raycastHit, 3.4028235E+38f, 1076428800))
+        {
+            position.y = raycastHit.point.y + Origin.position.y + 1f;
+            this.SetPosition(position, true);
+        }
     }
 
     protected override void HandleNavObject()
@@ -658,25 +710,44 @@ public class EntityAliveSDX : EntityTrader
         }
         return false;
     }
+
+    private bool isTeleporting = false;
+    //public override void OnUpdateEntity()
+    //{
+    //    base.OnUpdateEntity();
+    //    if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+    //    {
+    //        if (Owner != null)
+    //        {
+    //            if (GetDistance(Owner) > 64 && !isTeleporting)
+    //            {
+    //                base.StartCoroutine(validateTeleport());
+    //            }
+    //        }
+    //    }
+    //}
     public override void OnUpdateLive()
     {
-        if ( IsDead())
+        if (IsDead())
+        {
             SetupDebugNameHUD(false);
-
+        }
         // If we don't have a leader, make sure that we don't have a nav object set up.
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
         if (leader == null)
         {
             Owner = null;
             HandleNavObject();
-            SetupDebugNameHUD(true);
+            SetupDebugNameHUD(false);
 
         }
 
         if ( leader )
         {
-            SetupDebugNameHUD(true);
-
+            // This needs to be set for the entities to be still alive, so the player can teleport them
+            IsEntityUpdatedInUnloadedChunk = true;
+            bWillRespawn = true;
+               SetupDebugNameHUD(true);
             // If they are ordered to stay. don't disappear and re-appear.
             if (Buffs.HasCustomVar("CurrentOrder") && Buffs.GetCustomVar("CurrentOrder") != 2)
             {
@@ -687,6 +758,12 @@ public class EntityAliveSDX : EntityTrader
                     if (!Buffs.HasCustomVar("onMission"))
                     {
                         SendOnMission(true);
+
+                        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
+                        if (position == Vector3.zero)
+                            position = leader.position + Vector3.back;
+
+                        SetPosition(position);
                         return;
                     }
                 }
@@ -713,6 +790,7 @@ public class EntityAliveSDX : EntityTrader
         {
             Owner = leader as EntityAlive;
             this.Owner.AddOwnedEntity(this);
+            
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
             {
                 this.HandleNavObject();
@@ -898,7 +976,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override void SetDead()
     {
-        
+        SetupDebugNameHUD(false);
         base.SetDead();
     }
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
@@ -925,6 +1003,17 @@ public class EntityAliveSDX : EntityTrader
         return EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
     }
 
+    public IEnumerator validateTeleport()
+    {
+        yield return new WaitForSeconds(1f);
+        if (Owner == null) yield break;
+
+        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(Owner.position, 10, 10, 6, false, out var position);
+        if (position == Vector3.zero)
+            position = this.Owner.position + Vector3.back;
+        SetPosition(position);
+    }
+
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
         if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
@@ -945,9 +1034,11 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-
+   
     public override void MarkToUnload()
     {
+
+     
         // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
         if (_traderArea == null)
             _traderArea = world.GetTraderAreaAt(new Vector3i(position));

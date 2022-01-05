@@ -807,12 +807,46 @@ public static class EntityUtilities
         return leader;
     }
 
+    public static void Respawn(int leaderID)
+    {
+        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
+        if (leader == null) return;
+
+        var removeList = new List<string>();
+        foreach( var cvar in leader.Buffs.CVars)
+        {
+            if ( cvar.Key.StartsWith("hired_"))
+            {
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
+                if ( entity)
+                {
+                    if ( entity.IsDead()) // Are they dead? Don't teleport their dead bodies
+                    {
+                        removeList.Add(cvar.Key);
+                        continue;
+                    }
+
+                    // Set the position, then re-set it after the validateTeleport gets done, as there's a delay.
+                    entity.SetPosition(leader.position);
+                    entity.StartCoroutine(entity.validateTeleport());
+                    
+                }
+                else // Clean up the invalid entries
+                {
+                    removeList.Add(cvar.Key);   
+                }
+            }
+        }
+
+        foreach (var cvar in removeList)
+            leader.Buffs.CVars.Remove(cvar);
+    }
     public static Entity GetLeaderOrOwner(int EntityID)
     {
         var leader = GetLeader(EntityID);
         if (leader == null)
             leader = GetOwner(EntityID);
-
+     
         return leader;
     }
 
@@ -821,6 +855,9 @@ public static class EntityUtilities
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         var leaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if (myEntity == null || leaderEntity == null) return;
+
+        // Set up a link from the hired NPC to the player.
+        leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
 
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
         myEntity.moveSpeed = leaderEntity.moveSpeed;

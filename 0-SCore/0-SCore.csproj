@@ -64,6 +64,7 @@
     <Compile Include="Harmony\EntityMoveHelper\Stop.cs" />
     <Compile Include="Harmony\EntityMoveHelper\UpdateMoveHelper.cs" />
     <Compile Include="Harmony\ErrorHandling\NoExceptionHijack.cs" />
+    <Compile Include="Harmony\Faction\FactionRelationshipCVars.cs" />
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCJumpHeight.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
+    <Compile Include="Harmony\PlayerFeatures\TeleportNPCs.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
     <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
     <Compile Include="Harmony\Vehicles\NoVechileTake.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
+    <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
