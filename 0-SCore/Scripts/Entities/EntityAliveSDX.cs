@@ -669,7 +669,7 @@ public class EntityAliveSDX : EntityTrader
         {
             Owner = null;
             HandleNavObject();
-            SetupDebugNameHUD(false);
+            SetupDebugNameHUD(true);
 
         }
 
