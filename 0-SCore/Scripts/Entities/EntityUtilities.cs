@@ -1493,11 +1493,11 @@ public static class EntityUtilities
         var selfFaction = FactionManager.Instance.GetFaction(self.factionId);
         if (selfFaction != null && !selfFaction.IsPlayerFaction)
         {
-            relationship = selfFaction.GetRelationship(target.factionId);
+            relationship = FactionManager.Instance.GetRelationshipValue(self, target);
         }
         else
         {
-            // The self doesn't have a full faction, or it's a player. Let's flip it.
+            // The self is an entity without a faction property in its entity class XML, or it's a player. Let's flip it.
             selfFaction = FactionManager.Instance.GetFaction(target.factionId);
             if (selfFaction != null)
                 relationship = selfFaction.GetRelationship(self.factionId);
