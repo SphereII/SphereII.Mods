@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Class: EntityAliveSDX
  * Author:  sphereii 
  * Category: Entity
@@ -307,7 +307,8 @@ public class EntityAliveSDX : EntityTrader
         if (!EntityUtilities.IsHuman(entityId)) return new EntityActivationCommand[0];
 
         // do we have an attack or revenge target? don't have time to talk, bro
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return new EntityActivationCommand[0];
+        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
+        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
 
         return new[] 
         {
