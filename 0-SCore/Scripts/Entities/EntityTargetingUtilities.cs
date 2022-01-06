@@ -23,6 +23,10 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool CanDamage(EntityAlive self, Entity target)
     {
+        // Don't damage vehicles if they are immune.
+        if (IsDamageImmuneVehicle(self, target))
+            return false;
+
         // Don't damage your leader or fellow followers.
         var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
         if (IsAllyOfLeader(myLeader, target))
@@ -94,6 +98,29 @@ public static class EntityTargetingUtilities
             return true;
 
         return CanDamage(livingEntity, self);
+    }
+
+    /// <summary>
+    /// Returns true if the target is a vehicle that is immune to damage from the checking entity.
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    public static bool IsDamageImmuneVehicle(Entity self, Entity target)
+    {
+        if (!(target is EntityVehicle))
+            return false;
+
+        if (self is EntityNPC)
+        {
+            // For now, just return true.
+            // In the future we may have different rules, depending upon your entity class
+            // (EntityBandit, EntityDrone); if the vehicle is owned by your leader; if it's
+            // owned by a rival player depending upon the "Player Killing" setting; etc.
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
