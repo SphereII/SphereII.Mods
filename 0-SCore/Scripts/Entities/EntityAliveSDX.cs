@@ -976,6 +976,8 @@ public class EntityAliveSDX : EntityTrader
 
     public override void SetDead()
     {
+        bWillRespawn = false;
+
         SetupDebugNameHUD(false);
         base.SetDead();
     }
