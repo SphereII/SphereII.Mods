@@ -17,8 +17,11 @@ namespace UAI
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
+            {
                 _position = entityAlive.position;
-
+                if (entityAlive.IsWalkTypeACrawl())
+                    _position = entityAlive.getHeadPosition();
+            }
             if (_context.ActionData.Target is Vector3 vector)
                 _position = vector;
 

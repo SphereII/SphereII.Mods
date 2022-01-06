@@ -31,7 +31,27 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
             distanceOffset = POISize.z;
     }
 
+    private PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations )
+    {
+        PrefabInstance prefab = null;
+        float minDist = Mathf.Infinity;
+        foreach (var t in prefabs)
+        {
+            // Have we already went to this one?
+            Vector2 vector = new Vector2((float)prefab.boundingBoxPosition.x, (float)prefab.boundingBoxPosition.z);
+            if (usedPOILocations != null && usedPOILocations.Contains(vector))
+                continue;
 
+            float dist = Vector3.Distance(t.boundingBoxPosition, position);
+            if (dist < minDist)
+            {
+                prefab = t;
+                minDist = dist;
+            }
+        }
+
+        return prefab;
+    }
     protected override Vector3 GetPosition(EntityNPC ownerNPC = null, EntityPlayer entityPlayer = null, List<Vector2> usedPOILocations = null, int entityIDforQuests = -1)
     {
         if (OwnerQuest.GetPositionData(out position, Quest.PositionDataTypes.POIPosition))
@@ -58,8 +78,23 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            var randomPOINearWorldPos = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().Find(instance => instance.name.Contains(strPOIname));
+            var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(strPOIname));
+            if ( listOfPrefabs == null )
+            {
+                Log.Out($"GotoPOISDX: No Prefabs by this name found: {strPOIname}");
+                OwnerQuest.MarkFailed();
+                return Vector3.zero;
+            }
+            // Find the closes Prefab
+            var prefab = FindClosesPrefabs(entityPlayer.position, listOfPrefabs, usedPOILocations);
+            if (prefab == null)
+            {
+                Log.Out($"GotoPOISDX: Prefab not found, or used.: {strPOIname}");
+                OwnerQuest.MarkFailed();
+                return Vector3.zero;
+            }
 
+            var randomPOINearWorldPos = prefab;
             if (randomPOINearWorldPos != null)
             {
                 var vector = new Vector2(randomPOINearWorldPos.boundingBoxPosition.x + randomPOINearWorldPos.boundingBoxSize.x / 2f,

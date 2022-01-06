@@ -23,6 +23,8 @@ namespace UAI
 
         public override void Start(Context _context)
         {
+            // Reset crouching.
+            SCoreUtils.SetCrouching(_context);
             base.Start(_context);
         }
 

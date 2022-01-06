@@ -39,22 +39,23 @@ public class EntityAliveSDX : EntityTrader
     public bool bWentThroughDoor;
 
     public EntityAlive Owner;
+    public bool isTeleporting = false;
 
-    //// if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
-    //public override int GetLootList()
-    //{
-    //    if (IsAvailable() == false)
-    //        return 0;
+    // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
+    public override string GetLootList()
+    {
+        if (IsAvailable() == false)
+            return "";
 
-    //    return base.GetLootList();
-    //}
-    //// Check to see if the NPC is available
-    //public bool IsAvailable()
-    //{
-    //    if (this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f)
-    //        return false;
-    //    return true;
-    //}
+        return base.GetLootList();
+    }
+    // Check to see if the NPC is available
+    public bool IsAvailable()
+    {
+        if (this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f)
+            return false;
+        return true;
+    }
 
     public bool canJump = true;
 
@@ -75,18 +76,23 @@ public class EntityAliveSDX : EntityTrader
     private TileEntityTrader _tileEntityTrader;
     private TraderArea _traderArea;
 
-    // Update Time for NPCs onUpdateLive(). If the time is greater than update time, it'll do a trader area check, opening and closing. Something we don't want.
-    private float _updateTime;
-
     public ItemValue meleeWeapon = ItemClass.GetItem("meleeClubIron");
     public QuestJournal questJournal = new QuestJournal();
+
+    // This sets the entity's default scale, so when we re-scale it to make it disappear, everything
+    // will still run and work, and we can re-set it.
+    private Vector3 scale;
 
     public override string EntityName
     {
         get
         {
+            // No configured name? return the default.
             if (_strMyName == "Bob")
                 return entityName;
+
+            // Don't return the name when on a mission.
+            if (IsOnMission()) return "";
 
             if (string.IsNullOrEmpty(_strTitle))
                 return Localization.Get(_strMyName);
@@ -123,6 +129,7 @@ public class EntityAliveSDX : EntityTrader
     {
         return this.Buffs.HasCustomVar("onMission") && this.Buffs.GetCustomVar("onMission") == 1f;
     }
+
     // SendOnMission will make the NPC disappear and be unavailable
     public void SendOnMission(bool send)
     {
@@ -137,22 +144,29 @@ public class EntityAliveSDX : EntityTrader
                 enemy.DoRagdoll(new DamageResponse());
                 SetRevengeTarget(null);
             }
-
-            Buffs.AddCustomVar("onMission", 1f);
-            emodel.avatarController.SetBool("IsBusy", true);
-            RootTransform.gameObject.SetActive(false);
+            // Don't let anything target you
             isIgnoredByAI = true;
-            if ( this.NavObject != null )
+
+            // rescale to make it invisible.
+            transform.localScale = new Vector3(0, 0, 0);
+            emodel.SetVisible(false, false);
+            Buffs.AddCustomVar("onMission", 1f);
+
+            // Turn off the compass
+            if (this.NavObject != null)
                 this.NavObject.IsActive = false;
+            // Clear the debug information, usually set from UAI
             this.DebugNameInfo = "";
+
+            // Turn off the display component
             SetupDebugNameHUD(false);
-           
         }
         else
         {
+            transform.localScale = scale;
+
+            emodel.SetVisible(true, true);
             Buffs.RemoveCustomVar("onMission");
-            emodel.avatarController.SetBool("IsBusy", false);
-            RootTransform.gameObject.SetActive(true);
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
             isIgnoredByAI = false;
@@ -298,11 +312,11 @@ public class EntityAliveSDX : EntityTrader
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if (IsDead() || NPCInfo == null)  return new EntityActivationCommand[0];
+        if (IsDead() || NPCInfo == null) return new EntityActivationCommand[0];
 
         // Do they even like us enough to talk?
-        if ( EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
-        
+        if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
+
         // If not a human, don't talk to them
         if (!EntityUtilities.IsHuman(entityId)) return new EntityActivationCommand[0];
 
@@ -310,7 +324,7 @@ public class EntityAliveSDX : EntityTrader
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
 
-        return new[] 
+        return new[]
         {
             new EntityActivationCommand("Greet " + EntityName, "talk", true)
         };
@@ -383,7 +397,7 @@ public class EntityAliveSDX : EntityTrader
                 uiforPlayer.windowManager.Open("dialog", true, false, true);
                 return false;
             }
-            if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != -1 )
+            if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != -1)
             {
                 QuestEventManager.Current.NPCInteracted(this);
                 uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
@@ -437,6 +451,8 @@ public class EntityAliveSDX : EntityTrader
 
         // Does a quick local scan to see what pathing blocks, if any, are nearby. If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
+
+        scale = transform.localScale;
     }
 
     public virtual void UpdatePatrolPoints(Vector3 position)
@@ -630,67 +646,17 @@ public class EntityAliveSDX : EntityTrader
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-    public override void CheckPosition()
-    {
-        base.CheckPosition();
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && Spawned)
-        {
-            Vector3i vector3i;
-            Vector3i vector3i2;
-            this.world.GetWorldExtent(out vector3i, out vector3i2);
-            if (this.position.y < (float)vector3i.y)
-            {
-                Chunk chunk = (Chunk)this.world.GetChunkFromWorldPos(new Vector3i((int)this.position.x, (int)this.position.y, (int)this.position.z));
-                if (chunk != null && chunk.IsCollisionMeshGenerated && chunk.IsDisplayed)
-                {
-                    this.TeleportToWithinBounds(vector3i.ToVector3(), vector3i2.ToVector3());
-                }
-            }
-        }
-    }
-
-    private void TeleportToWithinBounds(Vector3 _min, Vector3 _max)
-    {
-        _min.x += 16f;
-        _min.z += 16f;
-        _max.x -= 16f;
-        _max.z -= 16f;
-        Vector3 position = this.position;
-        if (position.x < _min.x)
-        {
-            position.x = _min.x;
-        }
-        else if (position.x > _max.x)
-        {
-            position.x = _max.x;
-        }
-        if (position.z < _min.z)
-        {
-            position.z = _min.z;
-        }
-        else if (position.z > _max.z)
-        {
-            position.z = _max.z;
-        }
-        RaycastHit raycastHit;
-        if (Physics.Raycast(new Ray(new Vector3(position.x, 999f, position.z) - Origin.position, Vector3.down), out raycastHit, 3.4028235E+38f, 1076428800))
-        {
-            position.y = raycastHit.point.y + Origin.position.y + 1f;
-            this.SetPosition(position, true);
-        }
-    }
-
-    protected override void HandleNavObject()
+      protected override void HandleNavObject()
     {
         if (EntityClass.list[this.entityClass].NavObject != "")
         {
             if (this.LocalPlayerIsOwner() && this.Owner != null)
             {
-                this.NavObject = NavObjectManager.Instance.RegisterNavObject(EntityClass.list[this.entityClass].NavObject, this.emodel.GetModelTransform(), "");
+                this.NavObject = NavObjectManager.Instance.RegisterNavObject("ally", this.emodel.GetModelTransform(), "");
                 this.NavObject.UseOverrideColor = true;
                 this.NavObject.OverrideColor = Color.cyan;
                 this.NavObject.DisplayName = EntityName;
-                
+
                 return;
             }
             if (this.NavObject != null)
@@ -712,21 +678,7 @@ public class EntityAliveSDX : EntityTrader
         return false;
     }
 
-    private bool isTeleporting = false;
-    //public override void OnUpdateEntity()
-    //{
-    //    base.OnUpdateEntity();
-    //    if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-    //    {
-    //        if (Owner != null)
-    //        {
-    //            if (GetDistance(Owner) > 64 && !isTeleporting)
-    //            {
-    //                base.StartCoroutine(validateTeleport());
-    //            }
-    //        }
-    //    }
-    //}
+
     public override void OnUpdateLive()
     {
         if (IsDead())
@@ -743,46 +695,34 @@ public class EntityAliveSDX : EntityTrader
 
         }
 
-        if ( leader )
+        if (leader)
         {
+            var distanceToLeader = GetDistance(leader);
+            if (distanceToLeader > 60 && distanceToLeader < 5)
+            {
+                TeleportToPlayer(leader as EntityAlive);
+                // If we teleported, we want to clear those paths so they can be re-aquired.
+                SphereCache.RemovePaths(entityId);
+            }
+
             // This needs to be set for the entities to be still alive, so the player can teleport them
             IsEntityUpdatedInUnloadedChunk = true;
-            bWillRespawn = true;
-               SetupDebugNameHUD(true);
+            bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+
+            SetupDebugNameHUD(true);
             // If they are ordered to stay. don't disappear and re-appear.
             if (Buffs.HasCustomVar("CurrentOrder") && Buffs.GetCustomVar("CurrentOrder") != 2)
             {
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
                 {
-                    // if they don't have the onMission cvar, send them on a mission and make them disappear.
-                    if (!Buffs.HasCustomVar("onMission"))
-                    {
-                        SendOnMission(true);
-
-                        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
-                        if (position == Vector3.zero)
-                            position = leader.position + Vector3.back;
-
-                        SetPosition(position);
-                        return;
-                    }
+                    SendOnMission(true);
                 }
                 else
                 {
                     // No longer attached to the vehicle, but still has the cvar? return the NPC to the player.
                     if (Buffs.HasCustomVar("onMission"))
-                    {
                         SendOnMission(false);
-                        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 10, 10, 6, false, out var position);
-                        if (position == Vector3.zero)
-                            position = leader.position + Vector3.back;
-                        SetPosition(position);
-
-                        // If we teleported, we want to clear those paths so they can be re-aquired.
-                        SphereCache.RemovePaths(entityId);
-
-                    }
                 }
             }
         }
@@ -791,7 +731,7 @@ public class EntityAliveSDX : EntityTrader
         {
             Owner = leader as EntityAlive;
             this.Owner.AddOwnedEntity(this);
-            
+
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
             {
                 this.HandleNavObject();
@@ -820,7 +760,6 @@ public class EntityAliveSDX : EntityTrader
             emodel.avatarController.SetBool("IsOnGround", onGround || isSwimming);
         }
 
-        _updateTime = Time.time + 2f;
         base.OnUpdateLive();
 
         // Allow EntityAliveSDX to get buffs from blocks
@@ -977,8 +916,21 @@ public class EntityAliveSDX : EntityTrader
 
     public override void SetDead()
     {
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if ( leader )
+        {
+            var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+            if ( primaryPlayer.entityId == leader.entityId)
+            {
+                GameManager.ShowTooltip(primaryPlayer, $"Oh no! {EntityName} has died. :(");
+            }
+        }
         bWillRespawn = false;
-
+        if (this.NavObject != null)
+        {
+            NavObjectManager.Instance.UnRegisterNavObject(this.NavObject);
+            this.NavObject = null;
+        }
         SetupDebugNameHUD(false);
         base.SetDead();
     }
@@ -990,7 +942,7 @@ public class EntityAliveSDX : EntityTrader
 
         if (IsOnMission())
             return;
-        
+
         if (_attackTarget == null)
             // Some of the AI tasks resets the attack target when it falls down stunned; this will prevent the NPC from ignoring its stunned opponent.
             if (attackTarget != null && attackTarget.IsAlive())
@@ -1006,15 +958,53 @@ public class EntityAliveSDX : EntityTrader
         return EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
     }
 
-    public IEnumerator validateTeleport()
+
+    public void TeleportToPlayer(EntityAlive target)
+    {
+        if (target == null) return;
+
+        var target2i = new Vector2(target.position.x, target.position.z);
+        var mine2i = new Vector2(position.x, position.z);
+        var distance = Vector2.Distance(target2i, mine2i);
+        //var distance = GetDistance(target);
+        if (distance < 20) return;
+
+        if (isTeleporting) return;
+        var myPosition = RandomPositionGenerator.CalcAway(Owner, 10, 20,2, target.position);
+
+        // Find the ground.
+        myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) +1;
+
+        motion = Vector3.zero;
+        navigator.clearPath();
+        this.SetPosition(myPosition, true);
+        StartCoroutine(validateTeleport());
+    }
+    private float getAltitude(Vector3 pos)
+    {
+        RaycastHit raycastHit;
+        if (Physics.Raycast(pos - Origin.position, Vector3.down, out raycastHit, 1000f, 65536))
+        {
+            return raycastHit.distance;
+        }
+        return -1f;
+    }
+    private IEnumerator validateTeleport()
     {
         yield return new WaitForSeconds(1f);
-        if (Owner == null) yield break;
+        if (getAltitude(position) <= 0)
+        {
+            var myposition = RandomPositionGenerator.CalcAway(Owner, 10, 20, 5, Owner.position);
 
-        GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(Owner.position, 10, 10, 6, false, out var position);
-        if (position == Vector3.zero)
-            position = this.Owner.position + Vector3.back;
-        SetPosition(position);
+            // Find the ground.
+            myposition.y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 1;
+            motion = Vector3.zero;
+            navigator.clearPath();
+            this.SetPosition(myposition, true);
+        }
+        this.isTeleporting = false;
+        yield return null;
+        yield break;
     }
 
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
@@ -1037,11 +1027,11 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-   
+
     public override void MarkToUnload()
     {
 
-     
+
         // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
         if (_traderArea == null)
             _traderArea = world.GetTraderAreaAt(new Vector3i(position));

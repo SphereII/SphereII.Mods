@@ -40,7 +40,7 @@
       <property name="EntityGroup" value="AnimalSwiming"/>
       <property name="FilterTags" value="fdesign"/>
       <property name="Collide" value="sight"/>
-      <property name="LootList" value="15"/>
+      <property name="LootList" value="LootList"/>
 
       <property name="TickRate" value="1000" />
       <!-- 1 day = 24000 ticks (for 60min day) -->

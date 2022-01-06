@@ -85,7 +85,7 @@ namespace UAI
             // If they are too far away, then teleport.
             if (distanceToLeader > _maxDistance)
             {
-                SCoreUtils.TeleportToLeader(_context);
+                SCoreUtils.TeleportToLeader(_context, false);
                 Stop(_context);
             }
             // If we have a path, check to see if the player has moved.

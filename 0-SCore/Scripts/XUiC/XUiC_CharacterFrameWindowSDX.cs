@@ -110,9 +110,10 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
         entity = player.world.GetEntity(entityID) as EntityAliveSDX;
         if (entity != null)
         {
-            var leader = EntityUtilities.GetLeaderOrOwner(entityID);
-            if (leader && leader.entityId == player.entityId)
-                return;
+            return;   
+            //var leader = EntityUtilities.GetLeaderOrOwner(entityID);
+            //if (leader && leader.entityId == player.entityId)
+            //    return;
         }
         OnClose();
     }

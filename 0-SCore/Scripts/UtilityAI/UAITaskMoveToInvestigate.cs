@@ -34,18 +34,18 @@ namespace UAI
                 if (sqrMagnitude2 > 150f)
                     _position = RandomPositionGenerator.CalcTowards(_context.Self, 5, 5, 5, _position);
 
-                // If we already know we have a place, let's go there.
-                //if (_context.Self.HasInvestigatePosition)
-                //{
-                //    var sqrMagnitude = (_context.Self.InvestigatePosition - _context.Self.position).sqrMagnitude;
-                //    if (sqrMagnitude > 5f)
-                //        _position = _context.Self.InvestigatePosition;
-                //}
             }
 
             if (_context.ActionData.Target is Vector3 vector)
                 _position = vector;
 
+            // If we already know we have a place, let's go there.
+            if (_context.Self.HasInvestigatePosition)
+            {
+                var sqrMagnitude = (_context.Self.InvestigatePosition - _context.Self.position).sqrMagnitude;
+                if (sqrMagnitude > 2f)
+                    _position = _context.Self.InvestigatePosition;
+            }
 
             SCoreUtils.SetLookPosition(_context, _position);
 

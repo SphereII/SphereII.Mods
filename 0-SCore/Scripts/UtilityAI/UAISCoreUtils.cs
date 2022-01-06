@@ -147,14 +147,24 @@ namespace UAI
             _context.Self.SetPosition(position);
         }
 
-        public static void TeleportToLeader(Context _context)
+        public static void TeleportToLeader(Context _context, bool blocked = true)
         {
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
             if (leader == null) return;
-            GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 2, 3, false, out var position);
-            if (position == Vector3.zero)
-                position = leader.position + Vector3.back;
-            _context.Self.SetPosition(position);
+
+            if ( blocked )
+            {
+                GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 2, 3, false, out var position);
+                if (position == Vector3.zero)
+                    position = leader.position + Vector3.back;
+                _context.Self.SetPosition(position);
+                return;
+            }
+            // If we are on a mission, don't execute this teleport; let the one on entityaliveSDX handle it.
+            var entityAlive = _context.Self as EntityAliveSDX;
+            if (entityAlive != null)
+                entityAlive.TeleportToPlayer(leader);
+                
         }
 
         public static bool HasBuff(Context _context, string buff)
@@ -200,6 +210,12 @@ namespace UAI
             if (targetEntity.IsDead())
                 return false;
 
+            // Are we already targetting each other?
+            var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
+            if (target?.entityId == sourceEntity.entityId) return true;
+            target = EntityUtilities.GetAttackOrRevengeTarget(sourceEntity.entityId);
+            if (target?.entityId == targetEntity.entityId) return true;
+
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
@@ -207,15 +223,11 @@ namespace UAI
             if (direction.magnitude > seeDistance)
                 return false;
 
-            // if zombies have 360 view, we probably don't need the IsInViewCone()
-//            if (!sourceEntity.IsInViewCone(headPosition2))
-                //return false;
-
             var ray = new Ray(headPosition, direction);
             ray.origin += direction.normalized * 0.2f;
 
             int hitMask = GetHitMaskByWeaponBuff(sourceEntity);
-            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f))
+            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f) )//|| Voxel.Raycast(sourceEntity.world, ray, seeDistance, false, false))
             //if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
             {
                 var hitRootTransform = GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);

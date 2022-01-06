@@ -807,7 +807,7 @@ public static class EntityUtilities
         return leader;
     }
 
-    public static void Respawn(int leaderID)
+    public static void Respawn(int leaderID, RespawnType _respawnReason)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
         if (leader == null) return;
@@ -826,10 +826,14 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    // Set the position, then re-set it after the validateTeleport gets done, as there's a delay.
-                    entity.SetPosition(leader.position);
-                    entity.StartCoroutine(entity.validateTeleport());
-                    
+                    bool canRespawn = entity.Buffs.HasCustomVar("respawn");
+                    if (_respawnReason == RespawnType.Died && !canRespawn)
+                    {
+                        continue;
+                    }
+                    entity.TeleportToPlayer(leader);
+
+
                 }
                 else // Clean up the invalid entries
                 {
