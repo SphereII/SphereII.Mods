@@ -50,9 +50,9 @@ namespace Harmony.NPCFeatures
         {
             private static bool Prefix(global::EntityAlive __instance, ref int __result, DamageSource _damageSource)
             {
-                // I'm commenting this out, since it is now the expected behavior for all NPCs.
-                //if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                //    return true;
+                // New feature flag, specific to this feature.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
+                    return true;
 
                 if (!EntityTargetingUtilities.CanTakeDamage(__instance, __instance.world.GetEntity(_damageSource.getEntityId())))
                     return false;
