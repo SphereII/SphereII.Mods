@@ -38,7 +38,7 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
         foreach (var t in prefabs)
         {
             // Have we already went to this one?
-            Vector2 vector = new Vector2((float)prefab.boundingBoxPosition.x, (float)prefab.boundingBoxPosition.z);
+            Vector2 vector = new Vector2((float)t.boundingBoxPosition.x, (float)t.boundingBoxPosition.z);
             if (usedPOILocations != null && usedPOILocations.Contains(vector))
                 continue;
 
@@ -86,7 +86,7 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                 return Vector3.zero;
             }
             // Find the closes Prefab
-            var prefab = FindClosesPrefabs(entityPlayer.position, listOfPrefabs, usedPOILocations);
+            var prefab = FindClosesPrefabs(entityAlive.position, listOfPrefabs, usedPOILocations);
             if (prefab == null)
             {
                 Log.Out($"GotoPOISDX: Prefab not found, or used.: {strPOIname}");
