@@ -970,7 +970,7 @@ public class EntityAliveSDX : EntityTrader
         if (distance < 20) return;
 
         if (isTeleporting) return;
-        var myPosition = RandomPositionGenerator.CalcAway(Owner, 10, 20,2, target.position);
+        var myPosition = RandomPositionGenerator.CalcAway(target, 10, 20,2, target.position);
 
         // Find the ground.
         myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) +1;

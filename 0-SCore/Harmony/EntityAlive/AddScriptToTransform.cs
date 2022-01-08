@@ -12,12 +12,18 @@ namespace Harmony.EntityAlive
         [HarmonyPatch("Init")]
         public class EmodelInitCommon
         {
-            private static void Postfix(EModelBase __instance)
+            private static void Postfix(EModelBase __instance, Entity ___entity)
             {
                 if (__instance.GetModelTransform() == null)
                     return;
 
+                if ( ___entity != null )
+                {
+                    if (___entity.HasAnyTags(FastTags.Parse("floating")))
+                        return;
 
+                }
+                
                 // Add the animation Bridge to all entities that do not have it.
                 __instance.GetModelTransform().gameObject.GetOrAddComponent<AnimationEventBridge>();
 
