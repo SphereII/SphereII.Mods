@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 internal class BlockSpawnCubeSDX : BlockPlayerSign
@@ -29,7 +30,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             case 0:
                 return OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
             case 1:
-                CheckForSpawn(_world, _cIdx, _blockPos, _blockValue);
+                CheckForSpawn(_world, _cIdx, _blockPos, _blockValue, true);
                 break;
             default:
                 return false;
@@ -97,7 +98,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         return newSign;
     }
 
-    public void CheckForSpawn(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public void CheckForSpawn(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool force = false)
     {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             return;
@@ -136,6 +137,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             var entityClass = GetValue(signText, "ec");
             var entityGroup = GetValue(signText, "eg");
             var Task = GetValue(signText, "task");
+            var Buff = GetValue(signText, "buff");
             var PathingCode = GetValue(signText, "pc");
 
             // Set up a throttle time
@@ -146,8 +148,8 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             if (!string.IsNullOrEmpty(ThrottleTime))
                 throttleTime = StringParsers.ParseFloat(ThrottleTime);
 
-            Debug.Log("Throttle Time: " + ThrottleTime + " " + throttleTime + " World Time: " + GameManager.Instance.World.GetWorldTime());
-            if (throttleTime > GameManager.Instance.World.GetWorldTime())
+           // Debug.Log("Throttle Time: " + ThrottleTime + " " + throttleTime + " World Time: " + GameManager.Instance.World.GetWorldTime());
+            if (!force && throttleTime > GameManager.Instance.World.GetWorldTime())
             {
                 Debug.Log("World time not expired.");
                 return;
@@ -164,11 +166,11 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 var EntityID = EntityGroups.GetRandomFromGroup(entityGroup, ref ClassID);
                 if (EntityID == 0) // Invalid group.
                     return;
-                myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3());
+                myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3()) as EntityAlive;
             }
             else
             {
-                myEntity = EntityFactory.CreateEntity(EntityClass.FromString(entityClass), _blockPos.ToVector3());
+                myEntity = EntityFactory.CreateEntity(EntityClass.FromString(entityClass), _blockPos.ToVector3()) as EntityAlive;
             }
 
             // Not a valid entity.
@@ -199,15 +201,43 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             newSign = SetValue(signText, "time", (GameManager.Instance.World.GetWorldTime() + 5000).ToString());
             tileEntitySign.SetText(newSign);
 
-            GameManager.Instance.World.SpawnEntityInWorld(myEntity);
-            if (Task.ToLower() == "stay")
-                EntityUtilities.SetCurrentOrder(myEntity.entityId, EntityUtilities.Orders.Stay);
-            if (Task.ToLower() == "wander")
-                EntityUtilities.SetCurrentOrder(myEntity.entityId, EntityUtilities.Orders.Wander);
+            var entityCreationData = new EntityCreationData(myEntity);
+            entityCreationData.id = -1;
+            GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+            myEntity.OnEntityUnload();
+
+            var nearbyEntities = new List<Entity>();
+
+            // Search in the bounds are to try to find the most appealing entity to follow.
+            var bb = new Bounds(_blockPos, new Vector3(2, 2,2));
+
+            GameManager.Instance.World.GetEntitiesInBounds(typeof(EntityAlive), bb, nearbyEntities);
+            for (var i = nearbyEntities.Count - 1; i >= 0; i--)
+            {
+                var x = nearbyEntities[i] as EntityAlive;
+                if (x == null) continue;
+                if (x.entityClass == myEntity.entityId) continue;
+
+                if (Task.ToLower() == "stay")
+                    x.Buffs.AddBuff("buffOrderStay");
+                    
+                if (Task.ToLower() == "wander")
+                    x.Buffs.AddBuff("buffOrderWander");
+                if (Task.ToLower() == "guard")
+                    x.Buffs.AddBuff("buffOrderGuard");
+
+                if (Task.ToLower() == "follow")
+                    x.Buffs.AddBuff("buffOrderFollow");
+
+                if (!string.IsNullOrEmpty(Buff))
+                    x.Buffs.AddBuff(Buff);
+            }
+
+
         }
         catch (Exception ex)
         {
-            Debug.Log("Invalid String on Sign: " + signText + " Example:  ec=zombieBoe;task=Wander;pc=0 or  eg=zombiesAll: " + ex);
+            Debug.Log("Invalid String on Sign: " + signText + " Example:  ec=zombieBoe;buff=buffOrderStay;pc=0 or  eg=zombiesAll: " + ex);
         }
     }
 

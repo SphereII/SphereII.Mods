@@ -878,7 +878,10 @@ public static class EntityUtilities
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
         var leaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if (myEntity != null && leaderEntity != null)
+        {
             myEntity.Buffs.SetCustomVar("Owner", LeaderID);
+            leaderEntity.Buffs.SetCustomVar("EntityID", LeaderID);
+        }
     }
 
     public static void SetLeaderAndOwner(int EntityID, int LeaderID)
