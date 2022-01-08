@@ -33,6 +33,11 @@ namespace Harmony.EAI
                 return;
             }
 
+            // This patches the check for all entities, so if we're not supposed to use faction
+            // targeting for everything, stop now. Otherwise, do the faction check.
+            if (!Configuration.CheckFeatureStatus("AdvancedNPCFeatures", "AllEntitiesUseFactionTargeting"))
+                return;
+
             var myRelationship = FactionManager.Instance.GetRelationshipTier(__instance.theEntity, _e);
             switch (myRelationship)
             {
