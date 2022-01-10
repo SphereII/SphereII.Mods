@@ -31,7 +31,7 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
             distanceOffset = POISize.z;
     }
 
-    private PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations )
+    private PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations)
     {
         PrefabInstance prefab = null;
         float minDist = Mathf.Infinity;
@@ -76,37 +76,38 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
         if (ownerNPC == null)
             entityAlive = OwnerQuest.OwnerJournal.OwnerPlayer;
 
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+
+        var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(strPOIname));
+        if (listOfPrefabs == null)
         {
-            var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(strPOIname));
-            if ( listOfPrefabs == null )
-            {
-                Log.Out($"GotoPOISDX: No Prefabs by this name found: {strPOIname}");
-                OwnerQuest.MarkFailed();
-                return Vector3.zero;
-            }
-            // Find the closes Prefab
-            var prefab = FindClosesPrefabs(entityAlive.position, listOfPrefabs, usedPOILocations);
-            if (prefab == null)
-            {
-                Log.Out($"GotoPOISDX: Prefab not found, or used.: {strPOIname}");
-                OwnerQuest.MarkFailed();
-                return Vector3.zero;
-            }
+            Log.Out($"GotoPOISDX: No Prefabs by this name found: {strPOIname}");
+            OwnerQuest.MarkFailed();
+            return Vector3.zero;
+        }
+        // Find the closes Prefab
+        var prefab = FindClosesPrefabs(entityAlive.position, listOfPrefabs, usedPOILocations);
+        if (prefab == null)
+        {
+            Log.Out($"GotoPOISDX: Prefab not found, or used.: {strPOIname}");
+            OwnerQuest.MarkFailed();
+            return Vector3.zero;
+        }
 
-            var randomPOINearWorldPos = prefab;
-            if (randomPOINearWorldPos != null)
-            {
-                var vector = new Vector2(randomPOINearWorldPos.boundingBoxPosition.x + randomPOINearWorldPos.boundingBoxSize.x / 2f,
-                    randomPOINearWorldPos.boundingBoxPosition.z + randomPOINearWorldPos.boundingBoxSize.z / 2f);
-                if (vector.x == -0.1f && vector.y == -0.1f)
-                    return Vector3.zero;
+        var randomPOINearWorldPos = prefab;
+        if (randomPOINearWorldPos != null)
+        {
+            var vector = new Vector2(randomPOINearWorldPos.boundingBoxPosition.x + randomPOINearWorldPos.boundingBoxSize.x / 2f,
+                randomPOINearWorldPos.boundingBoxPosition.z + randomPOINearWorldPos.boundingBoxSize.z / 2f);
+            if (vector.x == -0.1f && vector.y == -0.1f)
+                return Vector3.zero;
 
-                var num = (int)vector.x;
-                var num2 = (int)entityAlive.position.y;
-                var num3 = (int)vector.y;
-                position = new Vector3(num, num2, num3);
-                if (GameManager.Instance.World.IsPositionInBounds(position))
+            var num = (int)vector.x;
+            var num2 = (int)entityAlive.position.y;
+            var num3 = (int)vector.y;
+            position = new Vector3(num, num2, num3);
+            if (GameManager.Instance.World.IsPositionInBounds(position))
+            {
+                if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
                 {
                     OwnerQuest.Position = position;
                     FinalizePoint(new Vector3(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.y, randomPOINearWorldPos.boundingBoxPosition.z),
@@ -120,13 +121,14 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                     return position;
                 }
             }
+            else
+            {
+                SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(entityAlive.entityId, OwnerQuest.QuestTags,
+                    OwnerQuest.QuestCode, NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI, OwnerQuest.QuestClass.DifficultyTier, (int)position.x, (int)position.y, 0f, 0f, 0f, -1f, biomeFilterType, strPOIname));
+                CurrentValue = 1;
+            }
         }
-        else
-        {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(entityAlive.entityId, OwnerQuest.QuestTags,
-                OwnerQuest.QuestCode, NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI, OwnerQuest.QuestClass.DifficultyTier, 0, -1, 0f, 0f, 0f, -1f, biomeFilterType, strPOIname));
-            CurrentValue = 1;
-        }
+
 
         return Vector3.zero;
     }

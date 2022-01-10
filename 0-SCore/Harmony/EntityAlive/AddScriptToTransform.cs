@@ -20,7 +20,10 @@ namespace Harmony.EntityAlive
                 if ( ___entity != null )
                 {
                     if (___entity.HasAnyTags(FastTags.Parse("floating")))
+                    {
+                        Debug.Log("Disabling foot steps?");
                         return;
+                    }
 
                 }
                 

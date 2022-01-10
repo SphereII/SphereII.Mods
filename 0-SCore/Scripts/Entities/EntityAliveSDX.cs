@@ -916,14 +916,11 @@ public class EntityAliveSDX : EntityTrader
 
     public override void SetDead()
     {
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
         if ( leader )
         {
-            var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
-            if ( primaryPlayer.entityId == leader.entityId)
-            {
                 GameManager.ShowTooltip(primaryPlayer, $"Oh no! {EntityName} has died. :(");
-            }
+
         }
         bWillRespawn = false;
         if (this.NavObject != null)
