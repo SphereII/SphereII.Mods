@@ -919,7 +919,7 @@ public class EntityAliveSDX : EntityTrader
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
         if ( leader )
         {
-                GameManager.ShowTooltip(primaryPlayer, $"Oh no! {EntityName} has died. :(");
+                GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
 
         }
         bWillRespawn = false;
