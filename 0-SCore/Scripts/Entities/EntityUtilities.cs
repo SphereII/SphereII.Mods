@@ -945,9 +945,25 @@ public static class EntityUtilities
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
-            DisplayLog(" Setting Current Order: " + order);
-            myEntity.Buffs.SetCustomVar("PreviousOrder", (float)GetCurrentOrder(EntityID), false);
-            myEntity.Buffs.SetCustomVar("CurrentOrder", (float)order, false);
+            switch(order)
+            {
+                case Orders.Follow:
+                    myEntity.Buffs.AddBuff("buffOrderFollow");
+                    break;
+                case Orders.Stay:
+                    myEntity.Buffs.AddBuff("buffOrderStay");
+                    break;
+
+                case Orders.Loot:
+                    myEntity.Buffs.AddBuff("buffOrderLoot");
+                    break;
+
+                case Orders.Patrol:
+                    myEntity.Buffs.AddBuff("buffOrderPatrol");
+                    break;
+
+
+            }
         }
     }
 

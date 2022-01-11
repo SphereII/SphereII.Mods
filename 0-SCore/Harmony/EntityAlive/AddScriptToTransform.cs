@@ -17,16 +17,7 @@ namespace Harmony.EntityAlive
                 if (__instance.GetModelTransform() == null)
                     return;
 
-                if ( ___entity != null )
-                {
-                    if (___entity.HasAnyTags(FastTags.Parse("floating")))
-                    {
-                        Debug.Log("Disabling foot steps?");
-                        return;
-                    }
-
-                }
-                
+                         
                 // Add the animation Bridge to all entities that do not have it.
                 __instance.GetModelTransform().gameObject.GetOrAddComponent<AnimationEventBridge>();
 
