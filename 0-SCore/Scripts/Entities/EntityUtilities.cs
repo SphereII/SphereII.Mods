@@ -807,6 +807,38 @@ public static class EntityUtilities
         return leader;
     }
 
+    public static void Despawn(int leaderID)
+    {
+        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
+        if (leader == null) return;
+
+        var removeList = new List<string>();
+        foreach (var cvar in leader.Buffs.CVars)
+        {
+            if (cvar.Key.StartsWith("hired_"))
+            {
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
+                if (entity)
+                {
+                    if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
+                    {
+                        removeList.Add(cvar.Key);
+                        continue;
+                    }
+
+                    Debug.Log($"Despawning Hired Entity {entity.EntityName}");
+                    entity.ForceDespawn();
+                }
+                else // Clean up the invalid entries
+                {
+                    removeList.Add(cvar.Key);
+                }
+            }
+        }
+
+        foreach (var cvar in removeList)
+            leader.Buffs.CVars.Remove(cvar);
+    }
     public static void Respawn(int leaderID, RespawnType _respawnReason)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;

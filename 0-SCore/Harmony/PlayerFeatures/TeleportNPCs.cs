@@ -2,6 +2,26 @@ using HarmonyLib;
 namespace Harmony.PlayerFeatures
 {
 
+    //[HarmonyPatch(typeof(GameManager))]
+    //[HarmonyPatch("PlayerDisconnected")]
+    //public class DespawnHiredNPCs
+    //{
+    //    private static bool Prefix(ClientInfo _cInfo)
+    //    {
+    //        if (_cInfo.entityId != -1)
+    //        {
+    //            EntityPlayer entityPlayer = GameManager.Instance.World.GetEntity(_cInfo.entityId) as EntityPlayer;
+    //            if ( entityPlayer != null)
+    //            {
+    //                EntityUtilities.Despawn(entityPlayer.entityId);
+    //            }
+          
+    //        }
+    //        return true;
+          
+    //    }
+    //}
+
     [HarmonyPatch(typeof(GameManager))]
     [HarmonyPatch("PlayerSpawnedInWorld")]
     public class TeleportNPCs

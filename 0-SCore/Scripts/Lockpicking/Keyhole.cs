@@ -535,8 +535,21 @@ namespace Lockpicking
                         maxGiveAmount += 15f;
                         break;
                 }
+                if (player.Buffs.HasCustomVar("BreakTime"))
+                {
+                    breakTime = player.Buffs.GetCustomVar("BreakTime");
+                }
+                if (player.Buffs.HasCustomVar("MaxGive"))
+                {
+                    maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
+                }
+
+                Debug.Log($"Lock Pick: Break Time: {breakTime}  MaxGiveAmount: {maxGiveAmount}");
+                Debug.Log("To Adjust, run console command   lock 2 34");
+                Debug.Log("For breaktime of 2 and maxgive of 34");
             }
 
+         
             SetLock(minLockAngle, maxLockAngle,
                 minGiveAmount, maxGiveAmount,
                 minCloseDistance, maxCloseDistance);

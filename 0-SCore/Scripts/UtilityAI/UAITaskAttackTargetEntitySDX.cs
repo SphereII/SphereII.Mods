@@ -25,11 +25,14 @@ namespace UAI
         {
             // Reset crouching.
             SCoreUtils.SetCrouching(_context);
+            this.attackTimeout = 0;
+
             base.Start(_context);
         }
 
         public override void Update(Context _context)
         {
+
             if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
@@ -64,14 +67,6 @@ namespace UAI
                     Stop(_context);
                     return;
                 }
-
-          //      if ( entityAlive.IsWalkTypeACrawl())
-            //        SCoreUtils.SetCrouching(_context, entityAlive.IsWalkTypeACrawl());
-
-              //  if ( entityAlive.height < 1.1f)
-                //    SCoreUtils.SetCrouching(_context, true);
-
-  
             }
 
             if (_context.ActionData.Target is Vector3 vector)
@@ -81,7 +76,11 @@ namespace UAI
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
                 return;
 
-            EntityUtilities.Stop(_context.Self.entityId);
+            attackTimeout--;
+            if (attackTimeout > 0)
+                return;
+
+            //EntityUtilities.Stop(_context.Self.entityId);
 
             // Check the range on the item action
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
@@ -101,8 +100,8 @@ namespace UAI
             // not within range? qq
             if (a.sqrMagnitude > minDistance)
             {
-                Stop(_context);
-                return;
+                // If we are out of range, it's probably a very small amount, so this will step forward
+                _context.Self.moveHelper.SetMoveTo(entityAlive.position, true);
             }
 
             // Face the target right before hitting them.
@@ -123,9 +122,10 @@ namespace UAI
                 _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
             }
 
+            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+
             // Reset the attackTimeout, and allow another task to run.
-            // this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
-            Stop(_context);
+            //  Stop(_context);
         }
     }
 }

@@ -107,7 +107,7 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-    public void DisplayLog(string strMessage)
+   public void DisplayLog(string strMessage)
     {
         if (_blDisplayLog && !IsDead())
             Debug.Log(entityName + ": " + strMessage);
@@ -419,11 +419,10 @@ public class EntityAliveSDX : EntityTrader
     }
 
 
+
     public override void PostInit()
     {
         base.PostInit();
-
-        SetupDebugNameHUD(true);
 
         // disable god mode, since that's enabled by default in the NPC
         IsGodMode.Value = false;
@@ -453,6 +452,7 @@ public class EntityAliveSDX : EntityTrader
         SetupAutoPathingBlocks();
 
         scale = transform.localScale;
+
     }
 
     public virtual void UpdatePatrolPoints(Vector3 position)
@@ -497,7 +497,7 @@ public class EntityAliveSDX : EntityTrader
         }
         catch (Exception)
         {
-            // fail safe to protect game saves
+            //  fail safe to protect game saves
         }
 
         Progression.Read(_br, this);
@@ -602,6 +602,8 @@ public class EntityAliveSDX : EntityTrader
         }
         this.accumulatedRootMotion.y = 0f;
     }
+
+
     public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute)
     {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
@@ -646,7 +648,7 @@ public class EntityAliveSDX : EntityTrader
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-      protected override void HandleNavObject()
+    protected override void HandleNavObject()
     {
         if (EntityClass.list[this.entityClass].NavObject != "")
         {
@@ -679,40 +681,33 @@ public class EntityAliveSDX : EntityTrader
     }
 
 
-    public override void OnUpdateLive()
+    public void LeaderUpdate()
     {
-        if (IsDead())
-        {
-            SetupDebugNameHUD(false);
-        }
-        // If we don't have a leader, make sure that we don't have a nav object set up.
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {
             Owner = null;
-            HandleNavObject();
-            SetupDebugNameHUD(false);
-
+            return;
+        }
+        if (Owner == null)
+        {
+            Owner = leader;
+            Owner.AddOwnedEntity(this);
+            if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
+            {
+                this.HandleNavObject();
+                SetupDebugNameHUD(true);
+            }
         }
 
-        if (leader)
+        // This needs to be set for the entities to be still alive, so the player can teleport them
+        IsEntityUpdatedInUnloadedChunk = true;
+        bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+
+        
+        switch (EntityUtilities.GetCurrentOrder(entityId))
         {
-            var distanceToLeader = GetDistance(leader);
-            if (distanceToLeader > 60 && distanceToLeader < 5)
-            {
-                TeleportToPlayer(leader as EntityAlive);
-                // If we teleported, we want to clear those paths so they can be re-aquired.
-                SphereCache.RemovePaths(entityId);
-            }
-
-            // This needs to be set for the entities to be still alive, so the player can teleport them
-            IsEntityUpdatedInUnloadedChunk = true;
-            bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
-
-            SetupDebugNameHUD(true);
-            // If they are ordered to stay. don't disappear and re-appear.
-            if (Buffs.HasCustomVar("CurrentOrder") && Buffs.GetCustomVar("CurrentOrder") != 2)
-            {
+            case EntityUtilities.Orders.Follow:
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
                 {
@@ -724,20 +719,24 @@ public class EntityAliveSDX : EntityTrader
                     if (Buffs.HasCustomVar("onMission"))
                         SendOnMission(false);
                 }
-            }
-        }
-        // However, if we don't have an owner, but a leader, this means we've been hired.
-        if (Owner == null && leader != null)
-        {
-            Owner = leader as EntityAlive;
-            this.Owner.AddOwnedEntity(this);
 
-            if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
-            {
-                this.HandleNavObject();
-            }
+                var distanceToLeader = GetDistance(leader);
+                if (distanceToLeader > 60 && distanceToLeader < 5)
+                    TeleportToPlayer(leader as EntityAlive);
+                break;
+            case EntityUtilities.Orders.Stay:
+            case EntityUtilities.Orders.Wander:
+            case EntityUtilities.Orders.Loot:
+            case EntityUtilities.Orders.Patrol:
+                break;
         }
+    }
 
+   
+    public override void OnUpdateLive()
+    {
+        LeaderUpdate();
+        CheckStuck();
         SetupAutoPathingBlocks();
 
         if (Buffs.HasCustomVar("PathingCode") && Buffs.GetCustomVar("PathingCode") == -1)
@@ -880,8 +879,6 @@ public class EntityAliveSDX : EntityTrader
         if (!EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_damageSource.getEntityId())))
             return 0;
 
-        emodel.avatarController.SetBool("IsBusy", false);
-
         // Turn off the trader ID while it deals damage to the entity
         ToggleTraderID(false);
         var damage = base.DamageEntity(_damageSource, _strength, _criticalHit, _impulseScale);
@@ -917,9 +914,9 @@ public class EntityAliveSDX : EntityTrader
     public override void SetDead()
     {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
-        if ( leader )
+        if (leader)
         {
-                GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
+            GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
 
         }
         bWillRespawn = false;
@@ -950,15 +947,35 @@ public class EntityAliveSDX : EntityTrader
         Buffs.AddBuff("buffNotifyTeamAttack");
     }
 
+    public override void OnUpdatePosition(float _partialTicks)
+    {
+        if (this.position.y <= 0)
+        {
+            var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
+            if (leader)
+            {
+                TeleportToPlayer(leader);
+                return;
+            }
+
+
+        }
+        base.OnUpdatePosition(_partialTicks);
+    }
+
     public override bool CanDamageEntity(int _sourceEntityId)
     {
-        return EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
+        var canDamage = EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_sourceEntityId));
+        return canDamage;
     }
 
 
     public void TeleportToPlayer(EntityAlive target)
     {
         if (target == null) return;
+
+        if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay)
+            return;
 
         var target2i = new Vector2(target.position.x, target.position.z);
         var mine2i = new Vector2(position.x, position.z);
@@ -967,13 +984,18 @@ public class EntityAliveSDX : EntityTrader
         if (distance < 20) return;
 
         if (isTeleporting) return;
-        var myPosition = RandomPositionGenerator.CalcAway(target, 10, 20,2, target.position);
+
+        Vector3 dirV = this.position - target.position;
+        var myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
+        //var myPosition = RandomPositionGenerator.CalcTowards(target, 10, 20, 2, target.position);
 
         // Find the ground.
-        myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) +1;
+        myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
 
         motion = Vector3.zero;
         navigator.clearPath();
+        SphereCache.RemovePaths(entityId);
+
         this.SetPosition(myPosition, true);
         StartCoroutine(validateTeleport());
     }
@@ -989,12 +1011,13 @@ public class EntityAliveSDX : EntityTrader
     private IEnumerator validateTeleport()
     {
         yield return new WaitForSeconds(1f);
-        if (getAltitude(position) <= 0)
+        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 2;
+        if (y > position.y)
         {
-            var myposition = RandomPositionGenerator.CalcAway(Owner, 10, 20, 5, Owner.position);
+            var myposition = RandomPositionGenerator.CalcAway(Owner, 5, 20, 5, Owner.position);
 
             // Find the ground.
-            myposition.y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 1;
+            myposition.y = y;
             motion = Vector3.zero;
             navigator.clearPath();
             this.SetPosition(myposition, true);
@@ -1016,12 +1039,12 @@ public class EntityAliveSDX : EntityTrader
         {
             // If we are being attacked, let the state machine know it can fight back
             emodel.avatarController.SetBool("IsBusy", false);
-
-            // Turn off the trader ID while it deals damage to the entity
-            ToggleTraderID(false);
-            base.ProcessDamageResponseLocal(_dmResponse);
-            ToggleTraderID(true);
         }
+        // Turn off the trader ID while it deals damage to the entity
+        ToggleTraderID(false);
+        base.ProcessDamageResponseLocal(_dmResponse);
+        ToggleTraderID(true);
+
     }
 
 
@@ -1117,5 +1140,128 @@ public class EntityAliveSDX : EntityTrader
     //    SetMovementState();
     //}
 
+    private bool shouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain)
+    {
+        BlockShape shape = this.world.GetBlock(_x, _y, _z).Block.shape;
+        if (shape.IsSolidSpace && !shape.IsTerrain())
+        {
+            return true;
+        }
+        if (pushOutOfTerrain && shape.IsSolidSpace && shape.IsTerrain())
+        {
+            BlockShape shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
+            if (shape2.IsSolidSpace && shape2.IsTerrain())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    private bool pushOutOfBlocks(float _x, float _y, float _z)
+    {
+        int num = Utils.Fastfloor(_x);
+        int num2 = Utils.Fastfloor(_y);
+        int num3 = Utils.Fastfloor(_z);
+        float num4 = _x - (float)num;
+        float num5 = _z - (float)num3;
+        bool result = false;
+        if (this.shouldPushOutOfBlock(num, num2, num3, false) || (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
+        {
+            bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) && !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
+            bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) && !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
+            bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
+            bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
+            byte b = byte.MaxValue;
+            float num6 = 9999f;
+            if (flag2 && num4 < num6)
+            {
+                num6 = num4;
+                b = 0;
+            }
+            if (flag3 && 1.0 - (double)num4 < (double)num6)
+            {
+                num6 = 1f - num4;
+                b = 1;
+            }
+            if (flag4 && num5 < num6)
+            {
+                num6 = num5;
+                b = 4;
+            }
+            if (flag5 && 1f - num5 < num6)
+            {
+                b = 5;
+            }
+            float num7 = 0.1f;
+            if (b == 0)
+            {
+                this.motion.x = -num7;
+            }
+            if (b == 1)
+            {
+                this.motion.x = num7;
+            }
+            if (b == 4)
+            {
+                this.motion.z = -num7;
+            }
+            if (b == 5)
+            {
+                this.motion.z = num7;
+            }
+            if (b != 255)
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
 
+    private bool CheckNonSolidVertical(Vector3i blockPos, int maxY, int verticalSpace)
+    {
+        for (int i = 0; i < maxY; i++)
+        {
+            if (!this.world.GetBlock(blockPos.x, blockPos.y + i + 1, blockPos.z).Block.shape.IsSolidSpace)
+            {
+                bool flag = true;
+                for (int j = 1; j < verticalSpace; j++)
+                {
+                    if (this.world.GetBlock(blockPos.x, blockPos.y + i + 1 + j, blockPos.z).Block.shape.IsSolidSpace)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public virtual void CheckStuck()
+    {
+        this.IsStuck = false;
+        if (!this.IsFlyMode.Value)
+        {
+            float num = this.boundingBox.min.y + 0.5f;
+            this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z + base.depth * 0.3f);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) || this.IsStuck);
+            if (!this.IsStuck)
+            {
+                int x = Utils.Fastfloor(this.position.x);
+                int num2 = Utils.Fastfloor(num);
+                int z = Utils.Fastfloor(this.position.z);
+                if (this.shouldPushOutOfBlock(x, num2, z, true) && this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
+                {
+                    this.IsStuck = true;
+                    this.motion = new Vector3(0f, 1.6f, 0f);
+                    Log.Warning($"{EntityName} ({entityId}) is stuck. Unsticking.");
+                }
+            }
+        }
+    }
 }
