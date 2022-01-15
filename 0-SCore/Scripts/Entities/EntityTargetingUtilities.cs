@@ -32,27 +32,25 @@ public static class EntityTargetingUtilities
         if (IsAllyOfLeader(myLeader, target))
             return CanDamageAlly(self, target);
 
-        // If you are a player, don't damage your followers, or the followers of unkillable players
-        // (as defined by the "Player Killing" setting). Everyone else is on the table.
+        // Whether player or NPC with a player leader, don't damage the followers of unkillable
+        // players (as defined by the "Player Killing" setting).
+        if (IsPlayerFriendlyFire(self, target))
+            return false;
+
+        // If you are a player, don't damage your followers. Everyone else is on the table.
         if (self is EntityPlayer)
         {
-            if (IsAlly(target, self))
-                return CanDamageAlly(target, self);
-
-            return !IsPlayerFriendlyFire(target, self);
+            return IsAlly(target, self) ? CanDamageAlly(target, self) : true;
         }
 
         // You can always damage your revenge target, even if it's a player (since they hit first).
         if (IsCurrentRevengeTarget(self, target))
             return true;
 
-        // Otherwise, if the target is a player, you can only damage them if your player leader can
-        // kill them, or if you or your (not necessarily player) leader hate them.
+        // Otherwise, if the target is a player, you can only damage them if you or your
+        // (not necessarily player) leader hate them.
         if (target is EntityPlayer)
         {
-            if (IsPlayerFriendlyFire(self, target))
-                return false;
-
             return myLeader == null
                 ? IsEnemyByFaction(self, target)
                 : IsEnemyByFaction(myLeader, target);
@@ -245,8 +243,8 @@ public static class EntityTargetingUtilities
 
         // They are a friend if we love them, or our leader loves them.
         return myLeader == null
-            ? IsEnemyByFaction(self, target)
-            : IsEnemyByFaction(myLeader, target);
+            ? IsFriendlyFireByFaction(self, target)
+            : IsFriendlyFireByFaction(myLeader, target);
     }
 
     /// <summary>
@@ -264,9 +262,9 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsPlayerFriendlyFire(Entity self, Entity target)
     {
-        EntityPlayer player = null;
         EntityAlive other = target as EntityAlive;
 
+        EntityPlayer player;
         if (self is EntityPlayer us)
         {
             player = us;
@@ -275,15 +273,19 @@ public static class EntityTargetingUtilities
         {
             player = ourLeader;
         }
+        else
+        {
+            // We aren't a player and don't have a player leader, nothing to check
+            return false;
+        }
 
         if (EntityUtilities.GetLeaderOrOwner(target.entityId) is EntityPlayer theirLeader)
         {
             other = theirLeader;
         }
 
-        return player != null
-            // FriendlyFireCheck returns true if it _fails_ the friendly fire check
-            && !player.FriendlyFireCheck(other);
+        // FriendlyFireCheck returns true if it _fails_ the friendly fire check
+        return !player.FriendlyFireCheck(other);
     }
 
     /// <summary>
