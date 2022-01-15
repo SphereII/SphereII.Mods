@@ -54,13 +54,41 @@ namespace Harmony.NPCFeatures
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
                     return true;
 
-                if (!EntityTargetingUtilities.CanTakeDamage(__instance, __instance.world.GetEntity(_damageSource.getEntityId())))
-                    return false;
-
-                return true;
+                // We have to use a different damge test for players, due to multiplayer.
+                // There is no NetPackage for setting a revenge target. So, if the player is a
+                // revenge target of the damage source, it won't be set locally, and it won't be
+                // considered in the targeting tests. Instead, only avoid damage from our allies.
+                if (__instance is EntityPlayer)
+                {
+                    return !EntityTargetingUtilities.IsAlly(
+                        __instance.world.GetEntity(_damageSource.getEntityId()),
+                        __instance);
+                }
+                
+                return EntityTargetingUtilities.CanTakeDamage(
+                    __instance,
+                    __instance.world.GetEntity(_damageSource.getEntityId()));
             }
         }
 
+        [HarmonyPatch(typeof(Entity))]
+        [HarmonyPatch("CanDamageEntity")]
+        public class EntityPlayerCanDamageEntity
+        {
+            private static bool Prefix(Entity __instance, int _sourceEntityId)
+            {
+                // This should work on multiplayer, because it is called by ItemActionAttack.Hit,
+                // and that is run on the server. If this returns false, then the hit is ignored,
+                // and a NetPackage is never even sent to the client.
+                if (__instance is EntityPlayer player)
+                {
+                    return EntityTargetingUtilities.CanTakeDamage(
+                        player,
+                        __instance.world.GetEntity(_sourceEntityId));
+                }
+                return true;
+            }
+        }
 
         [HarmonyPatch(typeof(ItemActionAttack))]
         [HarmonyPatch("Hit")]
