@@ -336,7 +336,9 @@ public class EntityAliveSDX : EntityTrader
         // Don't allow interaction with a Hated entity
         if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return false;
 
-        if (EntityUtilities.GetAttackOrRevengeTarget(entityId) != null) return false;
+        // do we have an attack or revenge target? don't have time to talk, bro
+        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
+        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
