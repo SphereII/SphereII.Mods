@@ -343,6 +343,7 @@ public class EntityAliveSDX : EntityTrader
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
+
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
 
@@ -352,6 +353,7 @@ public class EntityAliveSDX : EntityTrader
 
         // Copied from EntityTrader
         LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_entityFocusing as EntityPlayerLocal);
+        uiforPlayer.xui.Dialog.Respondent = this;
 
         // We don't want the quest system to consider this NPC as interacted with
         //QuestEventManager.Current.NPCInteracted(this);

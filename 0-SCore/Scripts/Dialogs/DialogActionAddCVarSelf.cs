@@ -7,6 +7,7 @@
         if (string.IsNullOrEmpty(Value))
             Value = "1";
 
+
         int.TryParse(Value, out var flValue);
 
         var entityId = -1;
@@ -34,7 +35,12 @@
                 break;
         }
 
-        entityNPC.Buffs.SetCustomVar(ID, currentValue, true);
+        if (currentValue == 0)
+            entityNPC.Buffs.RemoveCustomVar(ID);
+        else
+            entityNPC.Buffs.SetCustomVar(ID, currentValue, true);
+
+        
         return;
     }
 }

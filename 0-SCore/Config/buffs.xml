@@ -57,7 +57,7 @@
 		</buff>
 
 		<buff name="buffOrderDismiss" >
-			<stack_type value="ignore"/>
+			<stack_type value="replace"/>
 			<duration value="1" />
 			<effect_group>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="3"/>

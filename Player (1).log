@@ -1,0 +1,1606 @@
+Mono path[0] = 'E:/Games/7D2DModLauncher-main/ModLauncher_Data/Managed'
+Mono config path = 'E:/Games/7D2DModLauncher-main/MonoBleedingEdge/etc'
+Initialize engine version: 2020.3.1f1 (77a89f25062f)
+[Subsystems] Discovering subsystems at path E:/Games/7D2DModLauncher-main/ModLauncher_Data/UnitySubsystems
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1070 Ti (ID=0x1b82)
+    Vendor:   
+    VRAM:     8079 MB
+    Driver:   30.0.14.9729
+Begin MonoManager ReloadAssembly
+- Completed reload, in  0.203 seconds
+D3D11 device created for Microsoft Media Foundation video decoding.
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.884700 ms
+Initialize Lock
+
+Reading Latest
+
+Reading latest_experimental
+
+Reading alpha19.6
+
+Reading alpha19.5
+
+Reading alpha19.4
+
+Reading alpha19.3
+
+Reading alpha19.2
+
+Reading alpha19.0
+
+Reading alpha18.4
+
+Reading alpha17.4
+
+Reading alpha16.4
+
+Reading alpha15.2
+
+Reading alpha14.7
+
+Reading alpha13.8
+
+Reading alpha12.5
+
+Reading alpha11.6
+
+Reading alpha10.4
+
+Reading alpha9.3
+
+Reading alpha8.8
+
+Reading Alpha20,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml
+
+Loading Latest Alpha: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml ( Alpha20 )
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Reading Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Writing ModLauncher.cfg to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental
+
+Done Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Reading Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Done Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Done Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Reading Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Done Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Reading Configuration File: https://gitlab.com/ganthegrey/greys-prophecy-config/-/raw/master/Experimental.xml
+
+Done Configuration File: https://gitlab.com/ganthegrey/greys-prophecy-config/-/raw/master/Experimental.xml
+
+Reading Alpha19,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha19/Default.xml
+
+Reading Alpha18,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha18/Default.xml
+
+Reading Alpha17,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha17/Default.xml
+
+Reading Alpha16,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Default.xml
+
+Joystick reconnected ("Controller (XBOX 360 For Windows)").
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 6.853200 ms
+Reading Latest
+
+Reading latest_experimental
+
+Reading alpha19.6
+
+Reading alpha19.5
+
+Reading alpha19.4
+
+Reading alpha19.3
+
+Reading alpha19.2
+
+Reading alpha19.0
+
+Reading alpha18.4
+
+Reading alpha17.4
+
+Reading alpha16.4
+
+Reading alpha15.2
+
+Reading alpha14.7
+
+Reading alpha13.8
+
+Reading alpha12.5
+
+Reading alpha11.6
+
+Reading alpha10.4
+
+Reading alpha9.3
+
+Reading alpha8.8
+
+Reading Alpha20,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml
+
+Loading Latest Alpha: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/Default.xml ( Alpha20 )
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/TheFunPimps.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/AOO.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/War3zuk.xml
+
+Reading Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Writing ModLauncher.cfg to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental
+
+Done Configuration File: https://ul.subquake.com/data/modlauncher/configA20.xml
+
+Reading Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Done Configuration File: https://pastebin.com/raw/TrA78gg0
+
+Reading Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Done Configuration File: https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha20/test.xml
+
+Reading Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Done Configuration File: https://raw.githubusercontent.com/7d2d-sorcery/Sorcery/master/SorceryMod.xml
+
+Reading Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Done Configuration File: https://gitlab.com/Zilox/JokeModStable/-/raw/master/JokeModLauncherConfig.xml
+
+Reading Configuration File: https://gitlab.com/ganthegrey/greys-prophecy-config/-/raw/master/Experimental.xml
+
+Done Configuration File: https://gitlab.com/ganthegrey/greys-prophecy-config/-/raw/master/Experimental.xml
+
+Reading Alpha19,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha19/Default.xml
+
+Reading Alpha18,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha18/Default.xml
+
+Reading Alpha17,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Alpha17/Default.xml
+
+Reading Alpha16,https://raw.githubusercontent.com/SphereII/7D2DConfig/master/Default.xml
+
+Mods: 9
+
+Scanning for installed mods: E:\Games\7dtdmods...
+
+Writing ModLauncher.cfg to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+
+Unloading 3 unused Assets to reduce memory usage. Loaded Objects now: 5009.
+Total: 43.018100 ms (FindLiveObjects: 0.266200 ms CreateObjectMapping: 0.046700 ms MarkObjects: 42.689300 ms  DeleteObjects: 0.015700 ms)
+
+Checking for Updates...
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git ls-remote  https://gitlab.com/Subquake/UndeadLegacyExperimental.git from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+eb4a52c4e1be56cf7528038ff11dc73fa4fc5b7b	HEAD
+
+eb4a52c4e1be56cf7528038ff11dc73fa4fc5b7b	refs/heads/main
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git ls-remote  https://gitlab.com/Subquake/UndeadLegacyExperimental.git is 0:00.672
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  is 0:00.108
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 is 0:00.216
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.453
+
+Download URL is http://gitlab.com/Subquake/UndeadLegacyExperimental.git Branch: main
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Fetching origin
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (165 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ = [up to date]      main       -> origin/main
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose is 0:01.228
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.204
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (315 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ * branch            main       -> FETCH_HEAD
+
+ = [up to date]      main       -> origin/main
+
+hint: Pulling without specifying how to reconcile divergent branches is
+
+hint: discouraged. You can squelch this message by running one of the following
+
+hint: commands sometime before your next pull:
+
+hint: 
+
+hint:   git config pull.rebase false  # merge (the default strategy)
+
+hint:   git config pull.rebase true   # rebase
+
+hint:   git config pull.ff only       # fast-forward only
+
+hint: 
+
+hint: You can replace "git config" with "git config --global" to set a default
+
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+
+hint: or --ff-only on the command line to override the configured default per
+
+hint: invocation.
+
+Committer identity unknown
+
+
+
+*** Please tell me who you are.
+
+
+
+Run
+
+
+
+  git config --global user.email "you@example.com"
+
+  git config --global user.name "Your Name"
+
+
+
+to set your account's default identity.
+
+Omit --global to set the identity only in this repository.
+
+
+
+fatal: unable to auto-detect email address (got 'RG13@RG13-PC.(none)')
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main is 0:01.087
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.178
+
+Zip file detected: https://ul.subquake.com/dl/LICENSE.zip
+
+Performing Direct Download
+
+Downloading https://ul.subquake.com/dl/LICENSE.zip...
+
+Creating Staging Area E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging
+
+Extracting E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging\temp.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Common to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Common
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Menu to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Menu
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAltAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAltAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIScrollTab to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIScrollTab
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\Parts to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\Parts
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\POIs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\POIs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills\Config
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\core to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\core
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\patchers to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\patchers
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Updating files:   2% (51/1820)
+
+Updating files:   3% (55/1820)
+
+Updating files:   4% (73/1820)
+
+Updating files:   5% (91/1820)
+
+Updating files:   6% (110/1820)
+
+Updating files:   7% (128/1820)
+
+Updating files:   8% (146/1820)
+
+Updating files:   9% (164/1820)
+
+Updating files:  10% (182/1820)
+
+Updating files:  11% (201/1820)
+
+Updating files:  12% (219/1820)
+
+Updating files:  13% (237/1820)
+
+Updating files:  14% (255/1820)
+
+Updating files:  15% (273/1820)
+
+Updating files:  16% (292/1820)
+
+Updating files:  17% (310/1820)
+
+Updating files:  18% (328/1820)
+
+Updating files:  19% (346/1820)
+
+Updating files:  20% (364/1820)
+
+Updating files:  21% (383/1820)
+
+Updating files:  22% (401/1820)
+
+Updating files:  23% (419/1820)
+
+Updating files:  24% (437/1820)
+
+Updating files:  25% (455/1820)
+
+Updating files:  26% (474/1820)
+
+Updating files:  27% (492/1820)
+
+Updating files:  28% (510/1820)
+
+Updating files:  29% (528/1820)
+
+Updating files:  30% (546/1820)
+
+Updating files:  31% (565/1820)
+
+Updating files:  32% (583/1820)
+
+Updating files:  33% (601/1820)
+
+Updating files:  34% (619/1820)
+
+Updating files:  35% (637/1820)
+
+Updating files:  36% (656/1820)
+
+Updating files:  37% (674/1820)
+
+Updating files:  38% (692/1820)
+
+Updating files:  39% (710/1820)
+
+Updating files:  40% (728/1820)
+
+Updating files:  41% (747/1820)
+
+Updating files:  42% (765/1820)
+
+Updating files:  43% (783/1820)
+
+Updating files:  44% (801/1820)
+
+Updating files:  45% (819/1820)
+
+Updating files:  46% (838/1820)
+
+Updating files:  47% (856/1820)
+
+Updating files:  48% (874/1820)
+
+Updating files:  49% (892/1820)
+
+Updating files:  50% (910/1820)
+
+Updating files:  51% (929/1820)
+
+Updating files:  52% (947/1820)
+
+Updating files:  53% (965/1820)
+
+Updating files:  54% (983/1820)
+
+Updating files:  55% (1001/1820)
+
+Updating files:  56% (1020/1820)
+
+Updating files:  57% (1038/1820)
+
+Updating files:  58% (1056/1820)
+
+Updating files:  59% (1074/1820)
+
+Updating files:  60% (1092/1820)
+
+Updating files:  61% (1111/1820)
+
+Updating files:  62% (1129/1820)
+
+Updating files:  62% (1142/1820)
+
+Updating files:  62% (1143/1820)
+
+Updating files:  62% (1146/1820)
+
+Updating files:  63% (1147/1820)
+
+Updating files:  63% (1152/1820)
+
+Updating files:  64% (1165/1820)
+
+Updating files:  65% (1183/1820)
+
+Updating files:  66% (1202/1820)
+
+Updating files:  66% (1216/1820)
+
+Updating files:  67% (1220/1820)
+
+Updating files:  68% (1238/1820)
+
+Updating files:  69% (1256/1820)
+
+Updating files:  70% (1274/1820)
+
+Updating files:  71% (1293/1820)
+
+Updating files:  72% (1311/1820)
+
+Updating files:  73% (1329/1820)
+
+Updating files:  74% (1347/1820)
+
+Updating files:  75% (1365/1820)
+
+Updating files:  76% (1384/1820)
+
+Updating files:  77% (1402/1820)
+
+Updating files:  78% (1420/1820)
+
+Updating files:  79% (1438/1820)
+
+Updating files:  80% (1456/1820)
+
+Updating files:  81% (1475/1820)
+
+Updating files:  82% (1493/1820)
+
+Updating files:  83% (1511/1820)
+
+Updating files:  84% (1529/1820)
+
+Updating files:  85% (1547/1820)
+
+Updating files:  86% (1566/1820)
+
+Updating files:  87% (1584/1820)
+
+Updating files:  88% (1602/1820)
+
+Updating files:  89% (1620/1820)
+
+Updating files:  90% (1638/1820)
+
+Updating files:  91% (1657/1820)
+
+Updating files:  92% (1675/1820)
+
+Updating files:  93% (1693/1820)
+
+Updating files:  94% (1711/1820)
+
+Updating files:  95% (1729/1820)
+
+Updating files:  96% (1748/1820)
+
+Updating files:  97% (1766/1820)
+
+Updating files:  98% (1784/1820)
+
+Updating files:  99% (1802/1820)
+
+Updating files: 100% (1820/1820)
+
+Updating files: 100% (1820/1820), done.
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:10.087
+
+Resetting repo
+
+Checking for Updates...
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  is 0:00.339
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 is 0:00.116
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.220
+
+Download URL is http://gitlab.com/Subquake/UndeadLegacyExperimental.git Branch: main
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Fetching origin
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (165 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ = [up to date]      main       -> origin/main
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose is 0:01.076
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.233
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (315 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ * branch            main       -> FETCH_HEAD
+
+ = [up to date]      main       -> origin/main
+
+hint: Pulling without specifying how to reconcile divergent branches is
+
+hint: discouraged. You can squelch this message by running one of the following
+
+hint: commands sometime before your next pull:
+
+hint: 
+
+hint:   git config pull.rebase false  # merge (the default strategy)
+
+hint:   git config pull.rebase true   # rebase
+
+hint:   git config pull.ff only       # fast-forward only
+
+hint: 
+
+hint: You can replace "git config" with "git config --global" to set a default
+
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+
+hint: or --ff-only on the command line to override the configured default per
+
+hint: invocation.
+
+Committer identity unknown
+
+
+
+*** Please tell me who you are.
+
+
+
+Run
+
+
+
+  git config --global user.email "you@example.com"
+
+  git config --global user.name "Your Name"
+
+
+
+to set your account's default identity.
+
+Omit --global to set the identity only in this repository.
+
+
+
+fatal: unable to auto-detect email address (got 'RG13@RG13-PC.(none)')
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main is 0:01.038
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.195
+
+Zip file detected: https://ul.subquake.com/dl/LICENSE.zip
+
+Performing Direct Download
+
+Downloading https://ul.subquake.com/dl/LICENSE.zip...
+
+Creating Staging Area E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging
+
+Extracting E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging\temp.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Common to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Common
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Menu to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Menu
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAltAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAltAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIScrollTab to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIScrollTab
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\Parts to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\Parts
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\POIs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\POIs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills\Config
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\core to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\core
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\patchers to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\patchers
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Updating files:   2% (51/1826)
+
+Updating files:   3% (55/1826)
+
+Updating files:   4% (74/1826)
+
+Updating files:   5% (92/1826)
+
+Updating files:   6% (110/1826)
+
+Updating files:   7% (128/1826)
+
+Updating files:   8% (147/1826)
+
+Updating files:   9% (165/1826)
+
+Updating files:  10% (183/1826)
+
+Updating files:  11% (201/1826)
+
+Updating files:  11% (219/1826)
+
+Updating files:  12% (220/1826)
+
+Updating files:  13% (238/1826)
+
+Updating files:  14% (256/1826)
+
+Updating files:  14% (273/1826)
+
+Updating files:  15% (274/1826)
+
+Updating files:  16% (293/1826)
+
+Updating files:  17% (311/1826)
+
+Updating files:  18% (329/1826)
+
+Updating files:  19% (347/1826)
+
+Updating files:  20% (366/1826)
+
+Updating files:  21% (384/1826)
+
+Updating files:  22% (402/1826)
+
+Updating files:  23% (420/1826)
+
+Updating files:  24% (439/1826)
+
+Updating files:  25% (457/1826)
+
+Updating files:  26% (475/1826)
+
+Updating files:  27% (494/1826)
+
+Updating files:  28% (512/1826)
+
+Updating files:  29% (530/1826)
+
+Updating files:  30% (548/1826)
+
+Updating files:  31% (567/1826)
+
+Updating files:  32% (585/1826)
+
+Updating files:  33% (603/1826)
+
+Updating files:  34% (621/1826)
+
+Updating files:  35% (640/1826)
+
+Updating files:  36% (658/1826)
+
+Updating files:  37% (676/1826)
+
+Updating files:  38% (694/1826)
+
+Updating files:  39% (713/1826)
+
+Updating files:  40% (731/1826)
+
+Updating files:  41% (749/1826)
+
+Updating files:  42% (767/1826)
+
+Updating files:  43% (786/1826)
+
+Updating files:  44% (804/1826)
+
+Updating files:  45% (822/1826)
+
+Updating files:  46% (840/1826)
+
+Updating files:  47% (859/1826)
+
+Updating files:  48% (877/1826)
+
+Updating files:  49% (895/1826)
+
+Updating files:  50% (913/1826)
+
+Updating files:  51% (932/1826)
+
+Updating files:  52% (950/1826)
+
+Updating files:  53% (968/1826)
+
+Updating files:  54% (987/1826)
+
+Updating files:  55% (1005/1826)
+
+Updating files:  56% (1023/1826)
+
+Updating files:  57% (1041/1826)
+
+Updating files:  58% (1060/1826)
+
+Updating files:  59% (1078/1826)
+
+Updating files:  60% (1096/1826)
+
+Updating files:  61% (1114/1826)
+
+Updating files:  62% (1133/1826)
+
+Updating files:  62% (1143/1826)
+
+Updating files:  62% (1146/1826)
+
+Updating files:  63% (1151/1826)
+
+Updating files:  63% (1152/1826)
+
+Updating files:  64% (1169/1826)
+
+Updating files:  65% (1187/1826)
+
+Updating files:  66% (1206/1826)
+
+Updating files:  67% (1224/1826)
+
+Updating files:  68% (1242/1826)
+
+Updating files:  69% (1260/1826)
+
+Updating files:  69% (1264/1826)
+
+Updating files:  70% (1279/1826)
+
+Updating files:  71% (1297/1826)
+
+Updating files:  72% (1315/1826)
+
+Updating files:  73% (1333/1826)
+
+Updating files:  74% (1352/1826)
+
+Updating files:  75% (1370/1826)
+
+Updating files:  76% (1388/1826)
+
+Updating files:  77% (1407/1826)
+
+Updating files:  78% (1425/1826)
+
+Updating files:  79% (1443/1826)
+
+Updating files:  80% (1461/1826)
+
+Updating files:  81% (1480/1826)
+
+Updating files:  82% (1498/1826)
+
+Updating files:  83% (1516/1826)
+
+Updating files:  84% (1534/1826)
+
+Updating files:  85% (1553/1826)
+
+Updating files:  86% (1571/1826)
+
+Updating files:  87% (1589/1826)
+
+Updating files:  88% (1607/1826)
+
+Updating files:  89% (1626/1826)
+
+Updating files:  90% (1644/1826)
+
+Updating files:  91% (1662/1826)
+
+Updating files:  92% (1680/1826)
+
+Updating files:  93% (1699/1826)
+
+Updating files:  94% (1717/1826)
+
+Updating files:  95% (1735/1826)
+
+Updating files:  96% (1753/1826)
+
+Updating files:  97% (1772/1826)
+
+Updating files:  98% (1790/1826)
+
+Updating files:  99% (1808/1826)
+
+Updating files: 100% (1826/1826)
+
+Updating files: 100% (1826/1826), done.
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:14.049
+
+Resetting repo
+
+Launching Game from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Backups Temporarily disabled.
+
+Starting E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\7daystodie.exe  -logfile "E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\7DaysToDie_Data\output_log.txt" "-savegamefolder=E:\Games\7dtdmods\Saves\Undead Legacy\Undead Legacy Experimental" -nogs -noeac
+
+Can not play a disabled audio source
+
+Can not play a disabled audio source
+
+Checking for log file C:\Users\RG13\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Uploading log file C:\Users\RG13\AppData\Roaming\..\LocalLow\SphereII Software\ModLauncher\Player.log
+
+Checking for Updates...
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global http.postBuffer 524288000  is 0:00.107
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git config --global core.compression 0 is 0:00.115
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:06.351
+
+Download URL is http://gitlab.com/Subquake/UndeadLegacyExperimental.git Branch: main
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Fetching origin
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (165 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ = [up to date]      main       -> origin/main
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git fetch --all --progress --verbose is 0:01.013
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.179
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+warning: redirecting to https://gitlab.com/Subquake/UndeadLegacyExperimental.git/
+
+POST git-upload-pack (315 bytes)
+
+<color=yellow>Starting long running progress.. Please be patient.</color>
+
+From http://gitlab.com/Subquake/UndeadLegacyExperimental
+
+ * branch            main       -> FETCH_HEAD
+
+ = [up to date]      main       -> origin/main
+
+hint: Pulling without specifying how to reconcile divergent branches is
+
+hint: discouraged. You can squelch this message by running one of the following
+
+hint: commands sometime before your next pull:
+
+hint: 
+
+hint:   git config pull.rebase false  # merge (the default strategy)
+
+hint:   git config pull.rebase true   # rebase
+
+hint:   git config pull.ff only       # fast-forward only
+
+hint: 
+
+hint: You can replace "git config" with "git config --global" to set a default
+
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+
+hint: or --ff-only on the command line to override the configured default per
+
+hint: invocation.
+
+Committer identity unknown
+
+
+
+*** Please tell me who you are.
+
+
+
+Run
+
+
+
+  git config --global user.email "you@example.com"
+
+  git config --global user.name "Your Name"
+
+
+
+to set your account's default identity.
+
+Omit --global to set the identity only in this repository.
+
+
+
+fatal: unable to auto-detect email address (got 'RG13@RG13-PC.(none)')
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git pull --progress --verbose --allow-unrelated-histories origin main is 0:01.065
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:00.184
+
+Zip file detected: https://ul.subquake.com/dl/LICENSE.zip
+
+Performing Direct Download
+
+Downloading https://ul.subquake.com/dl/LICENSE.zip...
+
+Creating Staging Area E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging
+
+Extracting E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\Staging\temp.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Common to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Common
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Config\XUi_Menu to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Config\XUi_Menu
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAltAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAltAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIAtlas\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIBackground\DEV
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy\UIAtlases\UIScrollTab to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy\UIAtlases\UIScrollTab
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Config\XUi to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Config\XUi
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\Parts to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\Parts
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\POIs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\POIs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Prefabs\RWGTiles
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\Resources to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\Resources
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\ItemIconAtlas
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content01\UIAtlases\UIActiveItems
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content02\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content02\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03 to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Content03\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Content03\Config
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\Mods\UndeadLegacy_Skills\Config to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\Mods\UndeadLegacy_Skills\Config
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\core to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\core
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\BepInEx\patchers to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\BepInEx\patchers
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Copying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git\doorstop_libs to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\doorstop_libs
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Download State: OK for 
+
+Scanning E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip
+
+Deploying E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\1-LICENSE.zip to E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\
+
+Resetting repo
+
+Git Filename: E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git
+
+Running E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  from E:\Games\7dtdmods\Alpha20\Undead_Legacy\Undead_Legacy_Experimental\TempMods\0-UndeadLegacyExperimental.git
+
+Updating files:   2% (50/1777)
+
+Updating files:   3% (54/1777)
+
+Updating files:   4% (72/1777)
+
+Updating files:   5% (89/1777)
+
+Updating files:   6% (107/1777)
+
+Updating files:   7% (125/1777)
+
+Updating files:   8% (143/1777)
+
+Updating files:   9% (160/1777)
+
+Updating files:  10% (178/1777)
+
+Updating files:  11% (196/1777)
+
+Updating files:  12% (214/1777)
+
+Updating files:  13% (232/1777)
+
+Updating files:  14% (249/1777)
+
+Updating files:  15% (267/1777)
+
+Updating files:  16% (285/1777)
+
+Updating files:  17% (303/1777)
+
+Updating files:  18% (320/1777)
+
+Updating files:  19% (338/1777)
+
+Updating files:  20% (356/1777)
+
+Updating files:  21% (374/1777)
+
+Updating files:  22% (391/1777)
+
+Updating files:  23% (409/1777)
+
+Updating files:  24% (427/1777)
+
+Updating files:  25% (445/1777)
+
+Updating files:  26% (463/1777)
+
+Updating files:  27% (480/1777)
+
+Updating files:  28% (498/1777)
+
+Updating files:  29% (516/1777)
+
+Updating files:  30% (534/1777)
+
+Updating files:  31% (551/1777)
+
+Updating files:  32% (569/1777)
+
+Updating files:  33% (587/1777)
+
+Updating files:  34% (605/1777)
+
+Updating files:  35% (622/1777)
+
+Updating files:  36% (640/1777)
+
+Updating files:  37% (658/1777)
+
+Updating files:  38% (676/1777)
+
+Updating files:  39% (694/1777)
+
+Updating files:  40% (711/1777)
+
+Updating files:  41% (729/1777)
+
+Updating files:  42% (747/1777)
+
+Updating files:  43% (765/1777)
+
+Updating files:  44% (782/1777)
+
+Updating files:  45% (800/1777)
+
+Updating files:  46% (818/1777)
+
+Updating files:  47% (836/1777)
+
+Updating files:  48% (853/1777)
+
+Updating files:  49% (871/1777)
+
+Updating files:  50% (889/1777)
+
+Updating files:  51% (907/1777)
+
+Updating files:  52% (925/1777)
+
+Updating files:  53% (942/1777)
+
+Updating files:  54% (960/1777)
+
+Updating files:  55% (978/1777)
+
+Updating files:  56% (996/1777)
+
+Updating files:  56% (1000/1777)
+
+Updating files:  57% (1013/1777)
+
+Updating files:  58% (1031/1777)
+
+Updating files:  59% (1049/1777)
+
+Updating files:  60% (1067/1777)
+
+Updating files:  61% (1084/1777)
+
+Updating files:  62% (1102/1777)
+
+Updating files:  63% (1120/1777)
+
+Updating files:  64% (1138/1777)
+
+Updating files:  64% (1143/1777)
+
+Updating files:  64% (1144/1777)
+
+Updating files:  64% (1146/1777)
+
+Updating files:  64% (1152/1777)
+
+Updating files:  65% (1156/1777)
+
+Updating files:  66% (1173/1777)
+
+Updating files:  67% (1191/1777)
+
+Updating files:  68% (1209/1777)
+
+Updating files:  69% (1227/1777)
+
+Updating files:  70% (1244/1777)
+
+Updating files:  71% (1262/1777)
+
+Updating files:  72% (1280/1777)
+
+Updating files:  73% (1298/1777)
+
+Updating files:  74% (1315/1777)
+
+Updating files:  75% (1333/1777)
+
+Updating files:  76% (1351/1777)
+
+Updating files:  77% (1369/1777)
+
+Updating files:  78% (1387/1777)
+
+Updating files:  79% (1404/1777)
+
+Updating files:  80% (1422/1777)
+
+Updating files:  81% (1440/1777)
+
+Updating files:  82% (1458/1777)
+
+Updating files:  83% (1475/1777)
+
+Updating files:  84% (1493/1777)
+
+Updating files:  85% (1511/1777)
+
+Updating files:  86% (1529/1777)
+
+Updating files:  87% (1546/1777)
+
+Updating files:  88% (1564/1777)
+
+Updating files:  89% (1582/1777)
+
+Updating files:  90% (1600/1777)
+
+Updating files:  90% (1617/1777)
+
+Updating files:  91% (1618/1777)
+
+Updating files:  92% (1635/1777)
+
+Updating files:  93% (1653/1777)
+
+Updating files:  94% (1671/1777)
+
+Updating files:  95% (1689/1777)
+
+Updating files:  96% (1706/1777)
+
+Updating files:  97% (1724/1777)
+
+Updating files:  98% (1742/1777)
+
+Updating files:  99% (1760/1777)
+
+Updating files: 100% (1777/1777)
+
+Updating files: 100% (1777/1777), done.
+
+HEAD is now at 2f5b669 Update
+
+Total Time of E:/Games/7D2DModLauncher-main/ModLauncher_Data/StreamingAssets\Tools\Windows\PortableGit\cmd\git reset --hard  is 0:09.371
+
+Resetting repo
+
