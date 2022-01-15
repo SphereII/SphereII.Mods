@@ -56,6 +56,15 @@
 			</effect_group>
 		</buff>
 
+		<buff name="buffOrderDismiss" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Leader" operation="set" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Owner" operation="set" value="0"/>
+			</effect_group>
+		</buff>
 
 		<!-- Template Buff for an NPC to go gather random loot items for you -->
 

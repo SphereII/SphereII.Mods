@@ -12,10 +12,13 @@ namespace UAI
     {
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
-            if (_context.Self.IsDead())
+            if ( !GameManager.IsDedicatedServer)
             {
-                _context.Self.DebugNameInfo = "";
-                return;
+                if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
+                {
+                    _context.Self.DebugNameInfo = "";
+                    return;
+                }
             }
 
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";

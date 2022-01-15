@@ -269,10 +269,13 @@ public class EntityAliveSDX : EntityTrader
             // Set in EntityAlive.TriggerSleeperPose() - resetting here
             IsSleeping = false;
         }
-
         base.OnAddedToWorld();
     }
 
+    public string DebugNameHelper()
+    {
+        return $"{entityName} ({entityId}) ";
+    }
     public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center)
     {
         var component = gameObject.GetComponent<BoxCollider>();
@@ -407,7 +410,7 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-        SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+       // SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
 
         return true;
     }
@@ -681,6 +684,15 @@ public class EntityAliveSDX : EntityTrader
     }
 
 
+    public override bool IsSavedToFile()
+    {
+        //if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
+
+        //if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
+
+        return true;
+    }
+      
     public void LeaderUpdate()
     {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
@@ -702,7 +714,7 @@ public class EntityAliveSDX : EntityTrader
 
         // This needs to be set for the entities to be still alive, so the player can teleport them
         IsEntityUpdatedInUnloadedChunk = true;
-        bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+        //bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
         
         switch (EntityUtilities.GetCurrentOrder(entityId))
@@ -721,8 +733,8 @@ public class EntityAliveSDX : EntityTrader
                 }
 
                 var distanceToLeader = GetDistance(leader);
-                if (distanceToLeader > 60 && distanceToLeader < 5)
-                    TeleportToPlayer(leader as EntityAlive);
+                if (distanceToLeader > 60 || distanceToLeader < 5)
+                    TeleportToPlayer(leader );
                 break;
             case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
@@ -993,7 +1005,7 @@ public class EntityAliveSDX : EntityTrader
         myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
 
         motion = Vector3.zero;
-        navigator.clearPath();
+        navigator?.clearPath();
         SphereCache.RemovePaths(entityId);
 
         this.SetPosition(myPosition, true);
@@ -1050,18 +1062,20 @@ public class EntityAliveSDX : EntityTrader
 
     public override void MarkToUnload()
     {
-
-
-        // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
-        if (_traderArea == null)
-            _traderArea = world.GetTraderAreaAt(new Vector3i(position));
-
-        if (_traderArea != null)
+        // Only prevent despawning if owned.
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if (leader != null)
         {
-            IsDespawned = false;
-            return;
-        }
+            // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
+            if (_traderArea == null)
+                _traderArea = world.GetTraderAreaAt(new Vector3i(position));
 
+            if (_traderArea != null)
+            {
+                IsDespawned = false;
+                return;
+            }
+        }
         base.MarkToUnload();
     }
 
