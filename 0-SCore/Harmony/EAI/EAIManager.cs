@@ -16,6 +16,9 @@ namespace Harmony.EAI
             if (string.IsNullOrEmpty(___entity.DebugNameInfo))
                 ___entity.DebugNameInfo = ___entity.EntityName;
 
+            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks))
+                return true;
+            
             // otherwise, grab the debug information populated by the UAI
             __result = ___entity.DebugNameInfo;
             return false;
