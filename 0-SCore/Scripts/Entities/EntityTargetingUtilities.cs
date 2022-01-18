@@ -96,6 +96,8 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool CanTakeDamage(EntityAlive self, Entity damagingEntity)
     {
+        if (self == null) return true;
+
         // If the damage was not caused by a living entity, take that damage.
         if (!(damagingEntity is EntityAlive livingEntity))
             return true;
@@ -142,6 +144,8 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsAlly(Entity self, Entity targetEntity)
     {
+        if (self == null || targetEntity == null) return false;
+
         var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
 
         return IsAllyOfLeader(myLeader, targetEntity);
@@ -155,6 +159,8 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsEnemy(EntityAlive self, Entity target)
     {
+        if (self == null) return true;
+
         if (!(target is EntityAlive targetEntity))
             return false;
 

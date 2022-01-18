@@ -712,7 +712,6 @@ public class EntityAliveSDX : EntityTrader
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
             {
                 this.HandleNavObject();
-                SetupDebugNameHUD(true);
             }
         }
 
