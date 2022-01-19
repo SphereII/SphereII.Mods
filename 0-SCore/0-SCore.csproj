@@ -324,6 +324,7 @@
     <Content Include="Config\buffs.xml" />
     <Content Include="Config\dialogs.xml" />
     <Content Include="Config\items.xml" />
+    <Content Include="Config\loadingscreen.xml" />
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\quests.xml" />
     <Content Include="Config\spawning.xml" />

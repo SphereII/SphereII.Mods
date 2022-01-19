@@ -12,15 +12,20 @@ namespace UAI
     {
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
-            if ( !GameManager.IsDedicatedServer)
-            {
-                if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
-                {
-                    _context.Self.DebugNameInfo = "";
-                    return;
-                }
-            }
-
+            //if (!GameManager.IsDedicatedServer)
+            //{
+            //    if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
+            //    {
+            //        if (EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) == null)
+            //            _context.Self.DebugNameInfo = String.Empty;
+            //        else
+            //        {
+            //            if (string.IsNullOrEmpty(_context.Self.DebugNameInfo))
+            //                _context.Self.DebugNameInfo = _context.Self.EntityName;
+            //        }
+            //        return;
+            //    }
+            //}
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";
             message += $" Active Action: {_context.ActionData.Action?.Name}\n";
             var taskIndex = _context.ActionData.TaskIndex;
@@ -94,13 +99,13 @@ namespace UAI
             RaycastHit ray;
             // Check if we can hit anything downwards
             if (Physics.Raycast(a - Origin.position, Vector3.down, out ray, 3.4f, 1082195968) && !(ray.distance > 2.2f)) return;
-            
+
             // if we WILL hit something, don't jump.
             var vector3i = new Vector3i(Utils.Fastfloor(_context.Self.position.x), Utils.Fastfloor(_context.Self.position.y + 2.35f), Utils.Fastfloor(_context.Self.position.z));
             var block = _context.Self.world.GetBlock(vector3i);
             if (block.Block.IsMovementBlocked(_context.Self.world, vector3i, block, BlockFace.None)) return;
 
-            
+
             // Stop the forward movement, so we don't slide off the edge.
             EntityUtilities.Stop(_context.Self.entityId);
 
@@ -108,7 +113,7 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null && entityAlive.IsAlive())
             {
-                var drop = Mathf.Abs( entityAlive.position.y - _context.Self.position.y);
+                var drop = Mathf.Abs(entityAlive.position.y - _context.Self.position.y);
                 if (drop > 2)
                 {
                     _context.Self.moveHelper.StartJump(true, 1f, 0f);
@@ -118,7 +123,7 @@ namespace UAI
             // if we are going to land on air, let's not jump so far out.
             var landingSpot = _context.Self.position + _context.Self.GetForwardVector() + _context.Self.GetForwardVector() + Vector3.down;
             var block2 = _context.Self.world.GetBlock(new Vector3i(landingSpot));
-            if ( block2.isair)
+            if (block2.isair)
                 _context.Self.moveHelper.StartJump(true, 1f, 0f);
             else
                 _context.Self.moveHelper.StartJump(true, 2f, 1f);
@@ -155,7 +160,7 @@ namespace UAI
             var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
             if (leader == null) return;
 
-            if ( blocked )
+            if (blocked)
             {
                 GameManager.Instance.World.GetRandomSpawnPositionMinMaxToPosition(leader.position, 1, 2, 3, false, out var position);
                 if (position == Vector3.zero)
@@ -167,7 +172,7 @@ namespace UAI
             var entityAlive = _context.Self as EntityAliveSDX;
             if (entityAlive != null)
                 entityAlive.TeleportToPlayer(leader);
-                
+
         }
 
         public static bool HasBuff(Context _context, string buff)
@@ -230,7 +235,7 @@ namespace UAI
             ray.origin += direction.normalized * 0.2f;
 
             int hitMask = GetHitMaskByWeaponBuff(sourceEntity);
-            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f) )//|| Voxel.Raycast(sourceEntity.world, ray, seeDistance, false, false))
+            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f))//|| Voxel.Raycast(sourceEntity.world, ray, seeDistance, false, false))
             //if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
             {
                 var hitRootTransform = GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);
@@ -254,7 +259,7 @@ namespace UAI
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
             var revengeTarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-         
+
             var nearbyEntities = new List<Entity>();
 
             // Search in the bounds are to try to find the most appealing entity to follow.
@@ -281,7 +286,7 @@ namespace UAI
 
 
                 if (!EntityTargetingUtilities.IsEnemy(_context.Self, x)) continue;
-                    
+
                 // Otherwise they are an enemy.
                 return true;
             }
@@ -489,7 +494,7 @@ namespace UAI
         public static void SetLookPosition(Context _context, object target)
         {
             var enemytarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-            if ( enemytarget != null && enemytarget.IsDead())
+            if (enemytarget != null && enemytarget.IsDead())
             {
                 _context.Self.SetAttackTarget(null, 30);
                 _context.Self.SetRevengeTarget(null);

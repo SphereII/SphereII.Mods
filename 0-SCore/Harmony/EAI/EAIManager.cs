@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using HarmonyLib;
 using UAI;
 namespace Harmony.EAI
@@ -13,14 +14,39 @@ namespace Harmony.EAI
             bool useAIPackages = EntityClass.list[___entity.entityClass].UseAIPackages;
             if (!useAIPackages) return true;
 
-            if (string.IsNullOrEmpty(___entity.DebugNameInfo))
-                ___entity.DebugNameInfo = ___entity.EntityName;
-
-            if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks))
-                return true;
-            
-            // otherwise, grab the debug information populated by the UAI
             __result = ___entity.DebugNameInfo;
+            return false;
+        }
+    }
+
+    [HarmonyPatch(typeof(AIDirector))]
+    [HarmonyPatch("DebugReceiveNameInfo")]
+    public class EAIManager_DebugReceiveNameInfo
+    {
+        public static bool Prefix(int entityId, byte[] _data)
+        {
+            World world = GameManager.Instance.World;
+            if (world == null) return false;
+
+            // Nothing to display, then don't pass it along.
+            if (_data == null) return false;
+            if (_data.Length == 0) return false;
+
+            var entity = GameManager.Instance.World.GetEntity(entityId) as global::EntityAlive;
+            if ( entity == null ) return false;
+
+            // If we use EAI system, allow us to pass through
+            bool useAIPackages = EntityClass.list[entity.entityClass].UseAIPackages;
+            if (!useAIPackages) return true;
+
+                // If there's a primary player, check to see if they are our leader to decide to toggle on and off.
+            if (GameManager.Instance.World.GetPrimaryPlayerId() < 0) return false;
+            var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+            if (leader == null) return false;
+            if (leader.entityId == GameManager.Instance.World.GetPrimaryPlayerId())
+            {
+                return true;
+            }
             return false;
         }
     }
