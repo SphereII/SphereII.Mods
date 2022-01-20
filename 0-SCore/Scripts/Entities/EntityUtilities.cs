@@ -699,7 +699,7 @@ public static class EntityUtilities
                 if (leader == null)
                 {
                     currentEntity.Buffs.RemoveCustomVar("Leader");
-                    leader = currentEntity;
+                    leader = null;
                 }
             }
         }
@@ -879,6 +879,12 @@ public static class EntityUtilities
     }
     public static Entity GetLeaderOrOwner(int EntityID)
     {
+        if ( SphereCache.LeaderCache.ContainsKey(EntityID))
+        {
+            var cacheLeader = SphereCache.LeaderCache[EntityID];
+            if (cacheLeader != null)
+                return cacheLeader;
+        }
         var leader = GetLeader(EntityID);
         if (leader == null)
             leader = GetOwner(EntityID);
@@ -896,6 +902,13 @@ public static class EntityUtilities
         leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
 
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
+
+        // Cache the leader.
+        if (SphereCache.LeaderCache.ContainsKey(EntityID))
+            SphereCache.LeaderCache[EntityID] = leaderEntity;
+        else
+            SphereCache.LeaderCache.Add(EntityID, leaderEntity);
+
         myEntity.moveSpeed = leaderEntity.moveSpeed;
         myEntity.moveSpeedAggro = leaderEntity.moveSpeedAggro;
         myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);

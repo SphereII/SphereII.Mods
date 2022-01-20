@@ -22,6 +22,7 @@ public static class SphereCache
     public static List<Vector3i> spawnPoints = new List<Vector3i>(); //static list somewhere
 
     public static HashSet<Vector2> caveMap = new HashSet<Vector2>();
+    public static Dictionary<int, Entity> LeaderCache = new Dictionary<int, Entity>();
 
     public static Vector3i[] FindRandomPoints(int count)
     {
@@ -204,6 +205,7 @@ public static class SphereCache
             DoorCache.Remove(EntityID);
     }
 
+    
     #region PathingCache
 
     public static bool blDisplayLog = false;

@@ -414,7 +414,7 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-       // SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+        SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
 
         return true;
     }
@@ -422,7 +422,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool CanBePushed()
     {
-        return true;
+        return false;
     }
 
 
@@ -690,13 +690,14 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool IsSavedToFile()
     {
-        //if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
+        if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
 
-        //if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
+        if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
 
-        return true;
+        return false;
     }
-      
+
+    int expireLeaderCache = 30;
     public void LeaderUpdate()
     {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
@@ -713,6 +714,15 @@ public class EntityAliveSDX : EntityTrader
             {
                 this.HandleNavObject();
             }
+        }
+
+        // Recheck the cache to make sure the owner is updated.
+        expireLeaderCache--;
+        if ( expireLeaderCache < 0)
+        {
+            expireLeaderCache = 30;
+            if (SphereCache.LeaderCache.ContainsKey(entityId))
+                SphereCache.LeaderCache.Remove(entityId);
         }
 
         // This needs to be set for the entities to be still alive, so the player can teleport them
@@ -750,6 +760,7 @@ public class EntityAliveSDX : EntityTrader
    
     public override void OnUpdateLive()
     {
+        
         LeaderUpdate();
         CheckStuck();
         SetupAutoPathingBlocks();

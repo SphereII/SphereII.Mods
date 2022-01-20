@@ -27,16 +27,17 @@ namespace UAI
             if (targetEntity == null)
                 return 0f;
 
-            // If there's no comma, it's just one tag
-            if (!_buffs.Contains(","))
-            {
-                if (targetEntity.Buffs.HasBuff(_buffs))
-                    return 1f;
-            }
+            //// If there's no comma, it's just one tag
+            //if (!_buffs.Contains(","))
+            //{
+            //    if (targetEntity.Buffs.HasBuff(_buffs))
+            //        return 1f;
+            //}
 
-            for (int x = 0; x < _buffs.Split(',').Length; x++)
+            var buffs = _buffs.Split(',');
+            for (int x = 0; x < buffs.Length; x++)
             {
-                if (targetEntity.Buffs.HasBuff(_buffs.Split(',')[x]))
+                if (targetEntity.Buffs.HasBuff(buffs[x]))
                     return 1f;
             }
 

@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -231,6 +231,7 @@
     <Compile Include="Scripts\MonoBehaviour\LeaderCollision.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBox.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveBuffSDX.cs" />

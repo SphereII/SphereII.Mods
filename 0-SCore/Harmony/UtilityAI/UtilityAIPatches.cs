@@ -11,6 +11,8 @@ public class UtilityAIPatches
     private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
     private static readonly string Feature = "UtilityAILogging";
 
+    private static readonly bool LoggingEnabled = AdvLogging.LogEnabled(AdvFeatureClass, Feature);
+
     private const BindingFlags _NonPublicStaticFlags = BindingFlags.Static | BindingFlags.NonPublic;
 
     /// <summary>
@@ -223,8 +225,8 @@ public class UtilityAIPatches
                 return false;
             }
 
-            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"");
-            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{_context.Self.EntityName} ( {_context.Self.entityId} ): {__instance.Name} Checking Considerations for Target: {_target}");
+            if (LoggingEnabled)
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{_context.Self.EntityName} ( {_context.Self.entityId} ): {__instance.Name} Checking Considerations for Target: {_target}");
 
             var score = 1f;
             for (var i = 0; i < considerations.Count; i++)
@@ -247,14 +249,18 @@ public class UtilityAIPatches
                 var considerationScore = consideration.GetScore(_context, _target);
                 if (considerationScore == 0f)
                 {
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Consideration  Overall Score: {score}");
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.Name} Task Failed due to above consideration");
+                    if (LoggingEnabled)
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Consideration  Overall Score: {score}");
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.Name} Task Failed due to above consideration");
+                    }
                     __result = 0f;
                     return false;
                 }
                 considerationScore = consideration.ComputeResponseCurve(considerationScore);
                 score *= considerationScore;
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Overall Score: {score}");
+                if (LoggingEnabled)
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Overall Score: {score}");
 
             }
 
@@ -262,7 +268,8 @@ public class UtilityAIPatches
             // we can use a bugfixed version of the vanilla code:
             // __result = (score + (1f - score) * (1f - 1f / __instance.considerations.Count) * score) * __instance.Weight;
             __result = score * __instance.Weight;
-            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__result} Full Score for {__instance.GetType()} {_context.Self.EntityName} ( {_context.Self.entityId} )");
+            if (LoggingEnabled)
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__result} Full Score for {__instance.GetType()} {_context.Self.EntityName} ( {_context.Self.entityId} )");
 
             return false;
         }

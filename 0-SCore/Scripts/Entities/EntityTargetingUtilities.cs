@@ -227,6 +227,7 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsFriend(EntityAlive self, Entity target)
     {
+
         if (!(target is EntityAlive targetEntity))
             return false;
 

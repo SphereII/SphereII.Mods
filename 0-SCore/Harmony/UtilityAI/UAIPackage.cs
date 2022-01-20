@@ -9,6 +9,7 @@ namespace Harmony.UtilityAI
         private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private static readonly string Feature = "UtilityAILogging";
 
+        private static readonly bool LoggingEnabled = AdvLogging.LogEnabled(AdvFeatureClass, Feature);
         //[HarmonyPatch(typeof(UAI.UAIAction))]
         //[HarmonyPatch("GetScore")]
         //public class UAIAction_GetScore
@@ -133,12 +134,17 @@ namespace Harmony.UtilityAI
         [HarmonyPatch("DecideAction")]
         public class UAIPackage_DecideAction
         {
+
             // for out parameters, use ref instead of out. ref the __result otherwise the default of 0 is returned.
             private static bool Prefix(UAI.UAIPackage __instance, ref float __result, Context _context, ref UAIAction _chosenAction, ref object _chosenTarget, List<UAIAction> ___actionList)
             {
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, "\n**** START ************************ ");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
+                if (LoggingEnabled)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, "\n**** START ************************ ");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"UAIPackage: {_context.Self.entityId} {_context.Self.EntityName}");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"EntityTargets: {_context.ConsiderationData.EntityTargets.Count} WayPoint: {_context.ConsiderationData.WaypointTargets.Count}");
+                }
+
                 float highScore = 0f;
                 _chosenAction = null;
                 _chosenTarget = null;
@@ -149,19 +155,24 @@ namespace Harmony.UtilityAI
 
                 var packageEntityFilter = SCoreUtils.GetEntityFilter(__instance, null, _context.Self);
                 var packageWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, null, _context.Self);
-                if (packageEntityFilter != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} entity filter: {packageEntityFilter}");
-                if (packageWaypointFilter != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} waypoint filter: {packageWaypointFilter}");
-
+                if (LoggingEnabled)
+                {
+                    if (packageEntityFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} entity filter: {packageEntityFilter}");
+                    if (packageWaypointFilter != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Package {__instance.Name} waypoint filter: {packageWaypointFilter}");
+                }
                 for (int i = 0; i < ___actionList.Count; i++)
                 {
                     var actionEntityFilter = SCoreUtils.GetEntityFilter(__instance, ___actionList[i], _context.Self);
                     var actionWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, ___actionList[i], _context.Self);
-                    if (actionEntityFilter != null)
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} entity filter: {actionEntityFilter}");
-                    if (actionWaypointFilter != null)
-                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} waypoint filter: {actionWaypointFilter}");
+                    if (LoggingEnabled)
+                    {
+                        if (actionEntityFilter != null)
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} entity filter: {actionEntityFilter}");
+                        if (actionWaypointFilter != null)
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} waypoint filter: {actionWaypointFilter}");
+                    }
 
                     int entitiesConsidered = 0;
                     int targetIndex = 0;
@@ -172,14 +183,16 @@ namespace Harmony.UtilityAI
 
                         if (packageEntityFilter != null && !packageEntityFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by package filter: {target}");
+                            if (LoggingEnabled)
+                                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by package filter: {target}");
                             targetIndex++;
                             continue;
                         }
 
                         if (actionEntityFilter != null && !actionEntityFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by action filter: {target}");
+                            if (LoggingEnabled)
+                                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target entity excluded by action filter: {target}");
                             targetIndex++;
                             continue;
                         }
@@ -204,14 +217,16 @@ namespace Harmony.UtilityAI
                         availableActions++;
                         if (packageWaypointFilter != null && !packageWaypointFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by package filter: {target}");
+                            if (LoggingEnabled)
+                                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by package filter: {target}");
                             waypointIndex++;
                             continue;
                         }
 
                         if (actionWaypointFilter != null && !actionWaypointFilter.Test(target))
                         {
-                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by action filter: {target}");
+                            if (LoggingEnabled)
+                                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Target waypoint excluded by action filter: {target}");
                             waypointIndex++;
                             continue;
                         }
@@ -229,19 +244,21 @@ namespace Harmony.UtilityAI
                     }
                 }
 
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{_context.Self.EntityName} : I had a total of {availableActions} actions available, but I only evaluated {actionRans}");
+                if (LoggingEnabled)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{_context.Self.EntityName} : I had a total of {availableActions} actions available, but I only evaluated {actionRans}");
 
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"************* Final Decision: {_context.Self.EntityName} ( {_context.Self.entityId} ) ********************* ");
-                if (_chosenAction != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name} Score {highScore}");
-                else
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen action!");
-                if (_chosenTarget != null)
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Target: {_chosenTarget} Score: {highScore}");
-                else
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen target!");
-                AdvLogging.DisplayLog(AdvFeatureClass, Feature, "********************************** ");
-
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"************* Final Decision: {_context.Self.EntityName} ( {_context.Self.entityId} ) ********************* ");
+                    if (_chosenAction != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Action: {_chosenAction.Name} Score {highScore}");
+                    else
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen action!");
+                    if (_chosenTarget != null)
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Chosen Target: {_chosenTarget} Score: {highScore}");
+                    else
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, " No Chosen target!");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, "********************************** ");
+                }
                 __result = highScore;
                 return false;
             }

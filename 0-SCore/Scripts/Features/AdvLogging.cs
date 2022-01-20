@@ -11,6 +11,7 @@
             Log.Out($"{AdvFeatureClass} :: {strDisplay}");
     }
 
+    
     public static void DisplayLog(string AdvFeatureClass, string Feature, string strDisplay)
     {
 
@@ -21,5 +22,15 @@
             Log.Out($"{strDisplay}");
         else
             Log.Out($"{AdvFeatureClass} :: {Feature} :: {strDisplay}");
+    }
+
+    public static bool LogEnabled(string AdvFeatureClass, string strDisplay)
+    {
+        return Configuration.CheckFeatureStatus(AdvFeatureClass);
+    }
+
+    public static bool LogEnabled(string AdvFeatureClass, string Feature, string strDisplay)
+    {
+        return Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
     }
 }
