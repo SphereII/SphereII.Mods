@@ -690,11 +690,11 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool IsSavedToFile()
     {
-        if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
+        //if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
 
         if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
 
-        return false;
+        return true;
     }
 
     int expireLeaderCache = 30;
