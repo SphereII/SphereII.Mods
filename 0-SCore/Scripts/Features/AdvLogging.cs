@@ -24,12 +24,12 @@
             Log.Out($"{AdvFeatureClass} :: {Feature} :: {strDisplay}");
     }
 
-    public static bool LogEnabled(string AdvFeatureClass, string strDisplay)
+    public static bool LogEnabled(string AdvFeatureClass)
     {
         return Configuration.CheckFeatureStatus(AdvFeatureClass);
     }
 
-    public static bool LogEnabled(string AdvFeatureClass, string Feature, string strDisplay)
+    public static bool LogEnabled(string AdvFeatureClass, string Feature)
     {
         return Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
     }
