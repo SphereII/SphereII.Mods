@@ -891,8 +891,12 @@ public static class EntityUtilities
 
         // If we acquired a leader again, cache it.
         if (leader != null)
-            SphereCache.LeaderCache[EntityID] = leader;
-     
+        {
+            if ( SphereCache.LeaderCache.ContainsKey((int)EntityID))
+                SphereCache.LeaderCache[EntityID] = leader;
+            else
+                SphereCache.LeaderCache.Add((int)EntityID, leader); 
+        }
         return leader;
     }
 
