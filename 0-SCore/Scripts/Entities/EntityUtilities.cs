@@ -888,6 +888,10 @@ public static class EntityUtilities
         var leader = GetLeader(EntityID);
         if (leader == null)
             leader = GetOwner(EntityID);
+
+        // If we acquired a leader again, cache it.
+        if (leader != null)
+            SphereCache.LeaderCache[EntityID] = leader;
      
         return leader;
     }
