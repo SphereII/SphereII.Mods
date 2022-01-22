@@ -699,12 +699,11 @@ public static class EntityUtilities
             if (currentEntity.Buffs.HasCustomVar("Leader"))
             {
                 leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
-
                 // Something happened to our leader.
                 if (leader == null)
                 {
                     currentEntity.Buffs.RemoveCustomVar("Leader");
-                    leader = currentEntity;
+                    leader = null;
                 }
             }
         }
@@ -814,7 +813,7 @@ public static class EntityUtilities
 
     public static void Despawn(int leaderID)
     {
-        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
+        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
         if (leader == null) return;
 
         var removeList = new List<string>();
@@ -822,7 +821,7 @@ public static class EntityUtilities
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
                 if (entity)
                 {
                     if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
@@ -831,7 +830,6 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    Debug.Log($"Despawning Hired Entity {entity.EntityName}");
                     entity.ForceDespawn();
                 }
                 else // Clean up the invalid entries
@@ -884,10 +882,24 @@ public static class EntityUtilities
     }
     public static Entity GetLeaderOrOwner(int EntityID)
     {
+        if ( SphereCache.LeaderCache.ContainsKey(EntityID))
+        {
+            var cacheLeader = SphereCache.LeaderCache[EntityID];
+            if (cacheLeader != null)
+                return cacheLeader;
+        }
         var leader = GetLeader(EntityID);
         if (leader == null)
             leader = GetOwner(EntityID);
-     
+
+        // If we acquired a leader again, cache it.
+        if (leader != null)
+        {
+            if ( SphereCache.LeaderCache.ContainsKey((int)EntityID))
+                SphereCache.LeaderCache[EntityID] = leader;
+            else
+                SphereCache.LeaderCache.Add((int)EntityID, leader); 
+        }
         return leader;
     }
 
@@ -901,6 +913,13 @@ public static class EntityUtilities
         leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
 
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
+
+        // Cache the leader.
+        if (SphereCache.LeaderCache.ContainsKey(EntityID))
+            SphereCache.LeaderCache[EntityID] = leaderEntity;
+        else
+            SphereCache.LeaderCache.Add(EntityID, leaderEntity);
+
         myEntity.moveSpeed = leaderEntity.moveSpeed;
         myEntity.moveSpeedAggro = leaderEntity.moveSpeedAggro;
         myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);

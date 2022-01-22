@@ -12,20 +12,20 @@ namespace UAI
     {
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
-            //if (!GameManager.IsDedicatedServer)
-            //{
-            //    if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
-            //    {
-            //        if (EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) == null)
-            //            _context.Self.DebugNameInfo = String.Empty;
-            //        else
-            //        {
-            //            if (string.IsNullOrEmpty(_context.Self.DebugNameInfo))
-            //                _context.Self.DebugNameInfo = _context.Self.EntityName;
-            //        }
-            //        return;
-            //    }
-            //}
+            if (!GameManager.IsDedicatedServer)
+            {
+                if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuShowTasks) || _context.Self.IsDead())
+                {
+                    if (EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) == null)
+                        _context.Self.DebugNameInfo = String.Empty;
+                    else
+                    {
+                        if (string.IsNullOrEmpty(_context.Self.DebugNameInfo))
+                            _context.Self.DebugNameInfo = _context.Self.EntityName;
+                    }
+                    return;
+                }
+            }
             var message = $" ( {_context.Self.entityId} ) {prefix}\n";
             message += $" Active Action: {_context.ActionData.Action?.Name}\n";
             var taskIndex = _context.ActionData.TaskIndex;
@@ -212,11 +212,15 @@ namespace UAI
             return false;
         }
 
-        public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity)
+        public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1)
         {
             // If they are dead, you can't see them anymore...
             if (targetEntity.IsDead())
                 return false;
+
+            // Check to see if its in our "See" cache
+            if (sourceEntity.CanSee(targetEntity))
+                return true;
 
             // Are we already targetting each other?
             var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
@@ -227,7 +231,12 @@ namespace UAI
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
-            var seeDistance = sourceEntity.GetSeeDistance();
+            var seeDistance = maxDistance;
+            if ( maxDistance > -1)
+                seeDistance = maxDistance;
+            else
+                seeDistance = sourceEntity.GetSeeDistance();
+
             if (direction.magnitude > seeDistance)
                 return false;
 
@@ -249,6 +258,9 @@ namespace UAI
                     var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
                     if (leader != null && leader.IsCrouching && component.IsSleeping)
                         return false;
+
+                    /// Add the entity to our CanSee Cache, which expires.
+                    sourceEntity.SetCanSee(targetEntity);
                     return true;
                 }
             }
@@ -258,7 +270,10 @@ namespace UAI
 
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
-            var revengeTarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
+            // Do we have a revenge target at any distance? If so, stay paranoid.
+            var revengeTarget = _context.Self.GetRevengeTarget();
+            if (revengeTarget && !EntityTargetingUtilities.ShouldForgiveDamage(_context.Self, revengeTarget))
+                return true;
 
             var nearbyEntities = new List<Entity>();
 
@@ -273,19 +288,11 @@ namespace UAI
                 if (x == _context.Self) continue;
                 if (x.IsDead()) continue;
 
-                // If they are friendly
-                //if (EntityUtilities.CheckFaction(_context.Self.entityId, x)) continue;
-                if (revengeTarget && x.entityId == revengeTarget.entityId)
-                {
-                    if (EntityTargetingUtilities.IsEnemy(_context.Self, revengeTarget))
-                        return true;
-                }
-                // Can we see them?
-                if (!SCoreUtils.CanSee(_context.Self, x))
-                    continue;
-
-
+                // Check to see if they are our enemy first, before deciding if we should see them.
                 if (!EntityTargetingUtilities.IsEnemy(_context.Self, x)) continue;
+
+                // Can we see them?
+                if (!SCoreUtils.CanSee(_context.Self, x, distance)) continue;
 
                 // Otherwise they are an enemy.
                 return true;
@@ -384,9 +391,9 @@ namespace UAI
             //}
 
             // Path finding has to be set for Breaking Blocks so it can path through doors
-            //var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
-            // if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
-            _context.Self.FindPath(_position, speed, true, null);
+//            var path = PathFinderThread.Instance.GetPath(_context.Self.entityId);
+  //          if (path.path == null && !PathFinderThread.Instance.IsCalculatingPath(_context.Self.entityId))
+                _context.Self.FindPath(_position, speed, true, null);
         }
 
 

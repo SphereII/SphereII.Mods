@@ -22,7 +22,7 @@ namespace UAI
             if (targetEntity == null)
                 return 0f;
 
-            if (SCoreUtils.CanSee(_context.Self, targetEntity))
+            if (SCoreUtils.CanSee(_context.Self, targetEntity, 20))
                 return 1f;
             return 0f;
         }

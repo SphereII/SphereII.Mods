@@ -167,8 +167,23 @@ public static class EntityTargetingUtilities
         if (targetEntity.IsDead())
             return false;
 
-        // If we can't even damage it, no sense considering it an enemy.
-        if (!CanDamage(self, target))
+        // Don't start fights with vehicles.
+        if (IsDamageImmuneVehicle(self, target))
+            return false;
+
+        // Don't make enemies out of your followers, your leader, or fellow followers.
+        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+        if (IsAllyOfLeader(myLeader ?? self, target))
+            return false;
+
+        // If two players are involved (directly or as leaders), determine whether they or their
+        // followers can damage each other from the "Player Killing" setting.
+        // This is to make sure damage-immune entities are NOT enemies - the reverse is not true.
+        // Just because you can damage them does not make them enemies.
+        var selfPlayer = GetPlayerLeader(self, myLeader);
+        var targetPlayer = GetPlayerLeader(target);
+        // FriendlyFireCheck returns true if the players can damage each other
+        if (selfPlayer != null && targetPlayer != null && !selfPlayer.FriendlyFireCheck(targetPlayer))
             return false;
 
         // Our current revenge target is always an enemy.
@@ -176,7 +191,6 @@ public static class EntityTargetingUtilities
             return true;
 
         // If they are fighting my leader or allies, they're an enemy.
-        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
         if (IsFightingFollowers(myLeader, target))
             return true;
 
@@ -227,6 +241,7 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsFriend(EntityAlive self, Entity target)
     {
+
         if (!(target is EntityAlive targetEntity))
             return false;
 

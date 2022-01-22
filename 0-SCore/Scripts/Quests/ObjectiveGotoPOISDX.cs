@@ -105,22 +105,20 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
             var num2 = (int)entityAlive.position.y;
             var num3 = (int)vector.y;
             position = new Vector3(num, num2, num3);
-            if (GameManager.Instance.World.IsPositionInBounds(position))
+            if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             {
-                if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-                {
-                    OwnerQuest.Position = position;
-                    FinalizePoint(new Vector3(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.y, randomPOINearWorldPos.boundingBoxPosition.z),
-                        new Vector3(randomPOINearWorldPos.boundingBoxSize.x, randomPOINearWorldPos.boundingBoxSize.y, randomPOINearWorldPos.boundingBoxSize.z));
-                    OwnerQuest.QuestPrefab = randomPOINearWorldPos;
-                    OwnerQuest.DataVariables.Add("POIName", OwnerQuest.QuestPrefab.name);
-                    if (usedPOILocations != null)
-                        usedPOILocations.Add(new Vector2(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.z));
+                OwnerQuest.Position = position;
+                FinalizePoint(new Vector3(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.y, randomPOINearWorldPos.boundingBoxPosition.z),
+                    new Vector3(randomPOINearWorldPos.boundingBoxSize.x, randomPOINearWorldPos.boundingBoxSize.y, randomPOINearWorldPos.boundingBoxSize.z));
+                OwnerQuest.QuestPrefab = randomPOINearWorldPos;
+                OwnerQuest.DataVariables.Add("POIName", OwnerQuest.QuestPrefab.name);
+                if (usedPOILocations != null)
+                    usedPOILocations.Add(new Vector2(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.z));
 
-                    OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, NavObjectName);
-                    return position;
-                }
+                OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition, NavObjectName);
+                return position;
             }
+
             else
             {
                 SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(entityAlive.entityId, OwnerQuest.QuestTags,
