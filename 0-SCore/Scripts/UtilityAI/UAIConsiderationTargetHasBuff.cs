@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace UAI
 {
     public class UAIConsiderationTargetNotHasBuff : UAIConsiderationTargetHasBuff
@@ -13,7 +14,7 @@ namespace UAI
     public class UAIConsiderationTargetHasBuff : UAIConsiderationBase
     {
         private String _buffs;
-
+        private bool matchAll = false;
         public override void Init(Dictionary<string, string> parameters)
         {
             base.Init(parameters);
@@ -21,6 +22,10 @@ namespace UAI
             {
                 _buffs = parameters["buffs"].ToLower();
             }
+
+            if (parameters.ContainsKey("hasAll")) matchAll = true;
+            
+
         }
 
         public override float GetScore(Context _context, object target)
@@ -29,22 +34,24 @@ namespace UAI
             if (targetEntity == null)
                 return 0f;
 
-            //// If there's no comma, it's just one tag
-            //if (!_buffs.Contains(","))
-            //{
-            //    if (targetEntity.Buffs.HasBuff(_buffs))
-            //    {
-            //        return 1f;
-            //    }
-            //}
-
             var buffs = _buffs.Split(',');
+            if ( matchAll)
+            {
+                // If any of the buffs do not exist, then exit with a failure.
+                for (int x = 0; x < buffs.Length; x++)
+                {
+                    if (!targetEntity.Buffs.HasBuff(buffs[x]))
+                        return 0f;
+                }
+                return 1f;
+            }
             for (int x = 0; x < buffs.Length; x++)
             {
                 if (targetEntity.Buffs.HasBuff(buffs[x]))
                     return 1f;
             }
-         
+
+
             return 0f;
         }
     }

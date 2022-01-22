@@ -1,0 +1,38 @@
+<configs>
+	<append xpath="/buffs/buff[@name='buffStatusCheck01']">
+		<effect_group>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffGazzMutedAuger"/>
+		</effect_group>
+	</append>
+
+	<append xpath="/buffs">
+		<buff name="buffGazzMutedAuger" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+
+			<effect_group>
+				<triggered_effect trigger="onSelfEnteredGame" action="RemoveBuff" buff="buffGazzMutedAuger"/>
+			</effect_group>
+
+			<effect_group>
+				<requirement name="ItemHasTags" tags="motorTool"/>
+				<requirement name="!HasBuff" buff="twitch_buffDeafen"/>
+				<triggered_effect trigger="onSelfPrimaryActionStart" action="AddBuff" buff="buffGazzMutedAuger2"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffGazzMutedAuger2" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="1"/>
+
+			<effect_group>
+				<triggered_effect trigger="onSelfEnteredGame" action="RemoveBuff" buff="buffGazzMutedAuger2"/>
+				<triggered_effect trigger="onSelfRangedBurstShot" action="AddBuff" buff="buffGazzMutedAuger2">
+					<requirement name="ItemHasTags" tags="motorTool"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffStart" action="SetAudioMixerState" state="Deafened" enabled="true"/>
+				<triggered_effect trigger="onSelfBuffRemove" action="SetAudioMixerState" state="Deafened" enabled="false">
+					<requirement name="!HasBuff" buff="twitch_buffDeafen"/></triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

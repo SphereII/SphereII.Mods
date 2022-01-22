@@ -694,7 +694,6 @@ public static class EntityUtilities
             if (currentEntity.Buffs.HasCustomVar("Leader"))
             {
                 leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
-
                 // Something happened to our leader.
                 if (leader == null)
                 {
@@ -809,7 +808,7 @@ public static class EntityUtilities
 
     public static void Despawn(int leaderID)
     {
-        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
+        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
         if (leader == null) return;
 
         var removeList = new List<string>();
@@ -817,7 +816,7 @@ public static class EntityUtilities
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
                 if (entity)
                 {
                     if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
@@ -826,7 +825,6 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    Debug.Log($"Despawning Hired Entity {entity.EntityName}");
                     entity.ForceDespawn();
                 }
                 else // Clean up the invalid entries

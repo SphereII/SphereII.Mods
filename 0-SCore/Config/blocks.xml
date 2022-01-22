@@ -92,7 +92,7 @@
         <property name="Logging" value="false"/>
 		  <!-- Don't like the UI element for XP? Set to true to disable. -->
 		  <property name="DisableXPIconNotification" value="false" />
-		  <property name="ShowTargetHealthBar" value="true" />
+		  <property name="ShowTargetHealthBar" value="false" />
       </property>
 
       <property class="AdvancedWorldGen">

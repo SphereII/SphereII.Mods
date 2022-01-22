@@ -107,7 +107,7 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-   public void DisplayLog(string strMessage)
+    public void DisplayLog(string strMessage)
     {
         if (_blDisplayLog && !IsDead())
             Debug.Log(entityName + ": " + strMessage);
@@ -272,10 +272,6 @@ public class EntityAliveSDX : EntityTrader
         base.OnAddedToWorld();
     }
 
-    public string DebugNameHelper()
-    {
-        return $"{entityName} ({entityId}) ";
-    }
     public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center)
     {
         var component = gameObject.GetComponent<BoxCollider>();
@@ -343,6 +339,8 @@ public class EntityAliveSDX : EntityTrader
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
+
+        Buffs.SetCustomVar("Persist", 1);
 
         // Look at the entity that is talking to you.
         SetLookPosition(_entityFocusing.getHeadPosition());
@@ -414,7 +412,6 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-        SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
 
         return true;
     }
@@ -459,7 +456,6 @@ public class EntityAliveSDX : EntityTrader
         SetupAutoPathingBlocks();
 
         scale = transform.localScale;
-
     }
 
     public virtual void UpdatePatrolPoints(Vector3 position)
@@ -690,12 +686,17 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool IsSavedToFile()
     {
-        //if (EntityUtilities.GetLeaderOrOwner(entityId) != null) return true;
+        // Has a leader cvar set, good enough, as the leader may already be disconnected, so we'll fail a GetLeaderOrOwner()
+        if (Buffs.HasCustomVar("Leader")) return true;
 
+        // If they have a cvar persist, keep them around.
+        if (Buffs.HasCustomVar("Persist")) return true;
+
+        // If its dynamic spawn, don't let them stay.
         if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
-
         return true;
     }
+
 
     int expireLeaderCache = 30;
     public void LeaderUpdate()
@@ -706,6 +707,7 @@ public class EntityAliveSDX : EntityTrader
             Owner = null;
             return;
         }
+
         if (Owner == null)
         {
             Owner = leader;
@@ -718,7 +720,7 @@ public class EntityAliveSDX : EntityTrader
 
         // Recheck the cache to make sure the owner is updated.
         expireLeaderCache--;
-        if ( expireLeaderCache < 0)
+        if (expireLeaderCache < 0)
         {
             expireLeaderCache = 30;
             if (SphereCache.LeaderCache.ContainsKey(entityId))
@@ -729,7 +731,7 @@ public class EntityAliveSDX : EntityTrader
         IsEntityUpdatedInUnloadedChunk = true;
         //bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
-        
+
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
             case EntityUtilities.Orders.Follow:
@@ -747,7 +749,7 @@ public class EntityAliveSDX : EntityTrader
 
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60 || distanceToLeader < 5)
-                    TeleportToPlayer(leader );
+                    TeleportToPlayer(leader);
                 break;
             case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
@@ -757,10 +759,10 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-   
+
     public override void OnUpdateLive()
     {
-        
+
         LeaderUpdate();
         CheckStuck();
         SetupAutoPathingBlocks();
@@ -1011,19 +1013,28 @@ public class EntityAliveSDX : EntityTrader
 
         if (isTeleporting) return;
 
-        Vector3 dirV = this.position - target.position;
-        var myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
-        //var myPosition = RandomPositionGenerator.CalcTowards(target, 10, 20, 2, target.position);
+        var myPosition = target.position + Vector3.back;
+        var player = target as EntityPlayer;
+        if (player != null)
+        {
+            myPosition = player.GetBreadcrumbPos(3 * rand.RandomFloat);
 
-        // Find the ground.
-        myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+            //Vector3 dirV = target.position - this.position;
+            //myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
+
+            ////var myPosition = RandomPositionGenerator.CalcTowards(target, 5, 20, 2, target.position);
+
+            //// Find the ground.
+            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+        }
 
         motion = Vector3.zero;
         navigator?.clearPath();
         SphereCache.RemovePaths(entityId);
 
         this.SetPosition(myPosition, true);
-        StartCoroutine(validateTeleport());
+        StartCoroutine(validateTeleport(target));
+
     }
     private float getAltitude(Vector3 pos)
     {
@@ -1034,19 +1045,26 @@ public class EntityAliveSDX : EntityTrader
         }
         return -1f;
     }
-    private IEnumerator validateTeleport()
+    private IEnumerator validateTeleport(EntityAlive target)
     {
         yield return new WaitForSeconds(1f);
         var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 2;
         if (y > position.y)
         {
-            var myposition = RandomPositionGenerator.CalcAway(Owner, 5, 20, 5, Owner.position);
+            Vector3 dirV = target.position - this.position;
+            var myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
+
+            var player = target as EntityPlayer;
+            if (player != null)
+                myPosition = player.GetBreadcrumbPos(3 * rand.RandomFloat);
+
+            // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
             // Find the ground.
-            myposition.y = y;
+            myPosition.y = y;
             motion = Vector3.zero;
             navigator.clearPath();
-            this.SetPosition(myposition, true);
+            this.SetPosition(myPosition, true);
         }
         this.isTeleporting = false;
         yield return null;
@@ -1073,7 +1091,6 @@ public class EntityAliveSDX : EntityTrader
 
     }
 
-
     public override void MarkToUnload()
     {
         // Only prevent despawning if owned.
@@ -1090,6 +1107,7 @@ public class EntityAliveSDX : EntityTrader
                 return;
             }
         }
+
         base.MarkToUnload();
     }
 
