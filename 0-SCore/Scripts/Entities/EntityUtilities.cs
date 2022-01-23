@@ -674,6 +674,11 @@ public static class EntityUtilities
                 // Add the stack of currency to the NPC, and set its orders.
                 //myEntity.bag.AddItem(stack);
                 SetLeaderAndOwner(EntityID, _player.entityId);
+
+                // If we're going to hire them, they need to wake up.
+                if (myEntity.IsSleeping)
+                    myEntity.ConditionalTriggerSleeperWakeUp();
+                
                 return true;
             }
 

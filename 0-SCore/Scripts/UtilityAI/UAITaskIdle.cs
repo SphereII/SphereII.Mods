@@ -38,33 +38,47 @@ namespace UAI
 
             }
 
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
+
             // Don't look at yourself, that's shameful.
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)
             {
-                var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
                 if ( leader != null && entityAlive.entityId == leader.entityId)
                     SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
             }
 
             // Check if a player is in your bounds, and face them if they are.
-            var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
-            if (entitiesInBounds.Count > 0)
+            // ...But only if you're not asleep.
+            if (!_context.Self.IsSleeping)
             {
-                foreach (var entity in entitiesInBounds)
+                var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
+                if (entitiesInBounds.Count > 0)
                 {
-                    if (entity is EntityPlayerLocal || entity is EntityPlayer)
-                    {
-                        if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
-                            break;
+                    Entity lookEntity = null;
 
-                        SCoreUtils.SetLookPosition(_context, entity);
-                        break;
+                    foreach (var entity in entitiesInBounds)
+                    {
+                        // Prioritize your leader over non-leader players
+                        if (leader != null && entity.entityId == leader.entityId)
+                        {
+                            lookEntity = entity;
+                            break;
+                        }
+
+                        if (entity is EntityPlayerLocal || entity is EntityPlayer)
+                        {
+                            if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
+                                continue;
+
+                            lookEntity = entity;
+                        }
                     }
+
+                    if (lookEntity != null)
+                        SCoreUtils.SetLookPosition(_context, lookEntity);
                 }
             }
-
-    
 
                _currentTimeout--;
             if (_currentTimeout < 0) Stop(_context);
