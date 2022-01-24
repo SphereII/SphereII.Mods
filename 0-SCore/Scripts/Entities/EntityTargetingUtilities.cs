@@ -10,6 +10,13 @@ using UnityEngine;
 public static class EntityTargetingUtilities
 {
     /// <summary>
+    /// If the entity has a cvar of this name, get a relationship value from the cvar, and use it
+    /// as the faction relationship value for damage. The faction relationship must be
+    /// <em>strictly below</em> this value, or the enity cannot damage it.
+    /// </summary>
+    public static readonly string DamageRelationshipCVarName = "DamageRelationship";
+
+    /// <summary>
     /// <para>
     /// Determines whether you can damage the target.
     /// </para>
@@ -23,6 +30,12 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool CanDamage(EntityAlive self, Entity target)
     {
+        // Enemy animals can not follow these rules. We also can't use CanDamageEntity here,
+        // because that has a Harmony patch that calls this method again. Instead, reproduce the
+        // logic in EntityEnemyAnimal.CanDamageEntity.
+        if (IsEnemyInAnimalsFaction(self))
+            return target != null && target.entityClass != self.entityClass;
+
         // Don't damage vehicles if they are immune.
         if (IsDamageImmuneVehicle(self, target))
             return false;
@@ -42,10 +55,13 @@ public static class EntityTargetingUtilities
             return selfPlayer.FriendlyFireCheck(targetPlayer);
         }
 
-        // If you are a player, don't damage your followers. Everyone else is on the table.
+        // If you are a player, don't damage your followers. Otherwise, use factions.
         if (self is EntityPlayer)
         {
-            return IsAlly(target, self) ? CanDamageAlly(target, self) : true;
+            if (IsAlly(target, self))
+                return CanDamageAlly(target, self);
+
+            return !IsFriendlyFireByFaction(self, target);
         }
 
         // You can always damage your revenge target, even if it's a player (since they hit first).
@@ -194,6 +210,14 @@ public static class EntityTargetingUtilities
         if (IsFightingFollowers(myLeader, target))
             return true;
 
+        // If it's an enemy animal, we can't use faction targeting. Instead, test to see if it's
+        // the attack target. (We considered the revenge target, above.)
+        if (IsEnemyInAnimalsFaction(self))
+        {
+            var attackTarget = self.GetAttackTarget();
+            return attackTarget != null && attackTarget.entityId == target.entityId;
+        }
+
         // They are an enemy if we hate them, or if our leader hates them.
         return myLeader == null
             ? IsEnemyByFaction(self, target)
@@ -290,11 +314,27 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsEnemyByFaction(Entity self, Entity target)
     {
-        var relationship = EntityUtilities.GetFactionRelationship(
-            self as EntityAlive,
-            target as EntityAlive);
+        if (!(self is EntityAlive livingSelf && target is EntityAlive livingTarget))
+            return false;
+
+        var relationship = EntityUtilities.GetFactionRelationship(livingSelf, livingTarget);
 
         return relationship < (int)FactionManager.Relationship.Dislike;
+    }
+
+    /// <summary>
+    /// Returns true if the entity is an enemy type that is using the vanilla "animals" faction.
+    /// That faction is neutral to all, so cannot target enemies based on faction standing.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static bool IsEnemyInAnimalsFaction(Entity entity)
+    {
+        if (!(entity is EntityEnemy enemy))
+            return false;
+
+        var faction = FactionManager.Instance.GetFaction(enemy.factionId);
+        return faction != null && faction.Name == "animals";
     }
 
     /// <summary>
@@ -306,16 +346,22 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsFriendlyFireByFaction(Entity self, Entity target)
     {
-        // For now, we are just returning whether the two entities do not "Love" each other.
-        // (Members of the same faction love each other.)
-        // In the future, we may change this determination according to the "Player Killing"
-        // settings - for example, if set to "Kill Everyone," we may just return false.
+        if (!(self is EntityAlive livingSelf && target is EntityAlive livingTarget))
+            return false;
 
-        var relationship = EntityUtilities.GetFactionRelationship(
-            self as EntityAlive,
-            target as EntityAlive);
+        // If we have the "damage relationship" cvar, use that value. Otherwise, use "Neutral."
+        float damageRelationship = (float)FactionManager.Relationship.Neutral;
 
-        return relationship >= (int)FactionManager.Relationship.Love;
+        if (livingSelf.Buffs.HasCustomVar(DamageRelationshipCVarName))
+        {
+            var buffValue = livingSelf.Buffs.GetCustomVar(DamageRelationshipCVarName);
+            // GetCustomVar also sets the custom var to zero if it doesn't exist; check that.
+            if (buffValue > 0)
+                damageRelationship = buffValue;
+        }
+
+        var relationship = EntityUtilities.GetFactionRelationship(livingSelf, livingTarget);
+        return relationship >= damageRelationship;
     }
 
     /// <summary>
