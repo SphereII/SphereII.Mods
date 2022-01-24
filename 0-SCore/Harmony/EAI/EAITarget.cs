@@ -11,6 +11,15 @@ namespace Harmony.EAI
         {
             if (!__result) return;
 
+            // Only "humans" should use faction-based targeting
+            if (!EntityUtilities.IsHuman(__instance.theEntity.entityId)) return;
+
+            // If its a vehicle.. umm.. no.
+            if (_e is EntityVehicle)
+            {
+                __result = false;
+                return;
+            }
             // Checks if we are allies, either share a leader, or is our leader.
             if (EntityTargetingUtilities.IsAlly(__instance.theEntity, _e))
             {
