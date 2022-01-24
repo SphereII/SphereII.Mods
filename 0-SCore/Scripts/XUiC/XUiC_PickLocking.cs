@@ -60,7 +60,20 @@ public class XUiC_PickLocking : XUiController
 
     public override void OnClose()
     {
-        if (Lock.IsLockOpened()) Block.list[currentBlock.type].OnBlockActivated(GameManager.Instance.World, 0, blockPos, currentBlock, xui.playerUI.entityPlayer);
+        if (Lock.IsLockOpened())
+        {
+            if (!currentBlock.Block.DowngradeBlock.isair)
+            {
+                BlockValue blockValue2 = currentBlock.Block.DowngradeBlock;
+                blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2, GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false, QuestTags.none);
+                blockValue2.rotation = currentBlock.rotation;
+                blockValue2.meta = currentBlock.meta;
+                GameManager.Instance.World.SetBlockRPC(0, blockPos, blockValue2, blockValue2.Block.Density);
+            }
+
+            //currentBlock.Block.OnBlockActivated(GameManager.Instance.World, 0, blockPos, currentBlock, xui.playerUI.entityPlayer);
+            //Block.list[currentBlock.type].OnBlockActivated(GameManager.Instance.World, 0, blockPos, currentBlock, xui.playerUI.entityPlayer);
+        }
         Lock.Disable();
         LockedItem = null;
         base.OnClose();

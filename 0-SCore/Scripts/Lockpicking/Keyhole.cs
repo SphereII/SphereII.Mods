@@ -266,6 +266,7 @@ namespace Lockpicking
 
             // Check breakTimeCounter to stop shaking at the right time
             breakTimeCounter += Time.deltaTime;
+            Log.Out($"Break Time Counter: {breakTimeCounter} Total BreakTime: {breakTime}");
             if (breakTimeCounter > breakTime)
             {
                 StopShaking();
@@ -463,7 +464,6 @@ namespace Lockpicking
             _lockAngle = newLockAngle;
             _lockGive = newLockGive;
             _closeDistance = newCloseDistance;
-            Debug.Log("Lock Pick: " + _lockAngle + " Give: " + _lockGive + " Close distance: " + _closeDistance);
             if (audioLockpickEnter && audioLockpickEnter.isActiveAndEnabled) audioLockpickEnter.DelayPlay(0.7f);
 
             ResetLockpickPosition();
@@ -481,78 +481,96 @@ namespace Lockpicking
         public void ResetLock()
         {
             LockIsOpen = false;
+            ProgressionValue progressionValue = null;
+            var difficulty = 0;
+
+            var healthLeft = blockValue.Block.MaxDamage - blockValue.damage;
+            // Adjust the difficulty based on the lock damage
+            if (healthLeft <= 10000)
+                difficulty = 3;
+            if (healthLeft <= 2500)
+                difficulty = 2;
+            if (healthLeft <= 400)
+                difficulty = 1;
+            if (healthLeft <= 200)
+                difficulty = 0;
+
+            // Alternatively, use the max undamaged value.
+            //if (secureBlock.MaxDamage <= 10000)
+            //    difficulty = 3;
+            //if (secureBlock.MaxDamage <= 2500)
+            //    difficulty = 2;
+            //if (secureBlock.MaxDamage <= 400)
+            //    difficulty = 1;
+            //if (secureBlock.MaxDamage <= 200)
+            //    difficulty = 0;
 
             // give more time to avoid breaking pick locks.
             if (player != null)
             {
-                var difficulty = 0;
                 var secureBlock = Block.list[blockValue.type];
                 if (secureBlock != null)
+                {
+
                     if (secureBlock.Properties.Values.ContainsKey("LockPickDifficulty"))
                         difficulty = int.Parse(secureBlock.Properties.Values["LockPickDifficulty"]);
+                }
+                var maxGiveAmounts = Configuration.GetPropertyValue("AdvancedLockpicking", "MaxGiveAmount").Split(',');
+                var BreakTimes = Configuration.GetPropertyValue("AdvancedLockpicking", "BreakTime").Split(',');
+
                 // Default values.
-                maxGiveAmount = 1f;
-                switch (difficulty)
+                maxGiveAmount = 10f;
+                breakTime = 2f;
+                if (maxGiveAmounts.Length >= difficulty)
                 {
-                    case 0:
-                        maxGiveAmount = 10f;
-                        break;
-                    case 1:
-                        maxGiveAmount = 8f;
-                        break;
-                    case 2:
-                        maxGiveAmount = 6f;
-                        break;
-                    case 3:
-                        maxGiveAmount = 4f;
-                        break;
-                    case 4:
-                        maxGiveAmount = 2f;
-                        break;
-
-                    default: // if its not any of the other levels
-                        maxGiveAmount = 4f;
-                        break;
+                    maxGiveAmount = StringParsers.ParseFloat(maxGiveAmounts[difficulty]);
+                    breakTime = StringParsers.ParseFloat(BreakTimes[difficulty]);
                 }
 
-                var value = player.Progression.GetProgressionValue("perkLockPicking");
-                switch (value.Level)
-                {
-                    case 0:
-                        breakTime = 0.1f;
-                        break;
-                    case 1:
-                        breakTime = 0.1f;
-                        maxGiveAmount += 5f;
-                        break;
-                    case 2:
-                        breakTime = 0.1f;
-                        maxGiveAmount += 10f;
-                        break;
 
-                    case 3:
-                        breakTime = 0.1f;
-                        maxGiveAmount += 15f;
-                        break;
-                }
-                if (player.Buffs.HasCustomVar("BreakTime"))
+                progressionValue = player.Progression.GetProgressionValue("perkLockPicking");
+                if (progressionValue != null)
                 {
-                    breakTime = player.Buffs.GetCustomVar("BreakTime");
-                }
-                if (player.Buffs.HasCustomVar("MaxGive"))
-                {
-                    maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
+                    if (progressionValue.Level > 0)
+                    {
+                        breakTime += progressionValue.Level / 10;
+                        maxGiveAmount += progressionValue.Level / 10 ;
+                    }
                 }
 
-                Debug.Log($"Lock Pick: Break Time: {breakTime}  MaxGiveAmount: {maxGiveAmount}");
-                Debug.Log("To Adjust, run console command   lock 2 34");
-                Debug.Log("For breaktime of 2 and maxgive of 34");
             }
 
-         
+
             SetLock(minLockAngle, maxLockAngle,
                 minGiveAmount, maxGiveAmount,
                 minCloseDistance, maxCloseDistance);
+
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                if (player != null)
+                {
+                    if (player.Buffs.HasCustomVar("BreakTime"))
+                        breakTime = player.Buffs.GetCustomVar("BreakTime");
+
+                    if (player.Buffs.HasCustomVar("MaxGive"))
+                        maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
+                }
+                var progression = " Progression: ";
+                if (progressionValue != null)
+                    progression = $"{progression} Level {progressionValue.Level} BreakTime Before: {breakTime -= progressionValue.Level} MaxGiveAmount Before: {maxGiveAmount -= progressionValue.Level}";
+                else
+                    progression = $"{progression} N/A";
+
+                Log.Out("");
+                Log.Out("-------------------------------------------");
+                Log.Out($"Configured Lock Pick: Break Time: {breakTime}  MaxGiveAmount: {maxGiveAmount} Lock Difficulty: {difficulty} Block Damage: {healthLeft} {progression} ");
+                Log.Out("Lock Angle: " + _lockAngle + " Give: " + _lockGive + " Close distance: " + _closeDistance);
+                Log.Out($"MinLockAngle: {minLockAngle} MaxLockAngle: {maxLockAngle} Min Give Amount: {minGiveAmount} Max Give Amount: {maxGiveAmount} Min Close distance: {minCloseDistance} Max Close Distance: {maxCloseDistance}");
+                Log.Out(" To Adjust, run console command   lock 2 34");
+                Log.Out(" For breaktime of 2 and maxgive of 34");
+                Log.Out("-------------------------------------------");
+
+            }
 
 
             RefreshLockPicks();

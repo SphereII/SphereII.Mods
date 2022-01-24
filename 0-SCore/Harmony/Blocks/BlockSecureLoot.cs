@@ -16,45 +16,43 @@ namespace Harmony.Blocks
         public class Init
         {
             public static bool Prefix(ref Block __instance, int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player
-                , string ___lockPickItem)
+                , string ___lockPickItem, BlockActivationCommand[] ___cmds)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
+                var command = ___cmds[_indexInBlockActivationCommands];
+                if (command.text != "pick")
+                    return true;
+
+
                 if (_blockValue.ischild) return true;
                 if (!(_world.GetTileEntity(_cIdx, _blockPos) is TileEntitySecureLootContainer tileEntitySecureLootContainer)) return false;
 
-                if (tileEntitySecureLootContainer.IsLocked() && tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (!tileEntitySecureLootContainer.IsLocked() && tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
                     return false;
                 }
 
-                switch (_indexInBlockActivationCommands)
+                // Check if the player has lock picks.
+                var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
+                if (playerUI == null)
+                    return false;
+                var playerInventory = playerUI.xui.PlayerInventory;
+                var item = ItemClass.GetItem("resourceLockPick");
+                if (playerInventory.GetItemCount(item) == 0)
                 {
-                    case 4:
-                        {
-                            // Check if the player has lock picks.
-                            var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
-                            if (playerUI == null)
-                                return false;
-                            var playerInventory = playerUI.xui.PlayerInventory;
-                            var item = ItemClass.GetItem("resourceLockPick");
-                            if (playerInventory.GetItemCount(item) == 0)
-                            {
-                                playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
-                                GameManager.ShowTooltip((EntityPlayerLocal)_player, Localization.Get("ttLockpickMissing"));
-                                return false;
-                            }
-
-                            tileEntitySecureLootContainer.SetLocked(true);
-                            XUiC_PickLocking.Open(playerUI, tileEntitySecureLootContainer, _blockValue, _blockPos);
-                            return false;
-                        }
-                    default:
-                        return true;
+                    playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
+                    GameManager.ShowTooltip((EntityPlayerLocal)_player, Localization.Get("ttLockpickMissing"));
+                    return false;
                 }
+
+                tileEntitySecureLootContainer.SetLocked(true);
+                XUiC_PickLocking.Open(playerUI, tileEntitySecureLootContainer, _blockValue, _blockPos);
+                return false;
+
             }
         }
 

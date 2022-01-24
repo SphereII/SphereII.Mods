@@ -20,8 +20,6 @@ public class ConsoleCmdlock : ConsoleCmdAbstract
 
     public override void Execute(List<string> _params, CommandSenderInfo _senderInfo)
     {
-        return;
-
         if (_params.Count != 2)
         {
             SingletonMonoBehaviour<SdtdConsole>.Instance.Output("Invalid arguments, requires break time and max give ");

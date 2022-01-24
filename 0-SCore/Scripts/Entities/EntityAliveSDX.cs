@@ -997,7 +997,12 @@ public class EntityAliveSDX : EntityTrader
         return canDamage;
     }
 
-
+    public override bool IsAttackValid()
+    {
+        // If they are on a mission, don't attack. 
+        if (IsOnMission()) return false;
+        return base.IsAttackValid();
+    }
     public void TeleportToPlayer(EntityAlive target)
     {
         if (target == null) return;

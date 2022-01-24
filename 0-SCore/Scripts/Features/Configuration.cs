@@ -15,7 +15,26 @@ public static class Configuration
         return result;
     }
 
+    public static bool RequiredModletAvailable( string strClass)
+    {
+        // Check if the feature has a required modlet defined.
+        var requiredModlet = Configuration.GetPropertyValue(strClass, "RequiredModlet");
 
+        // None? pass through the results.
+        if (string.IsNullOrEmpty(requiredModlet)) return true;
+
+        var requiredModlets = requiredModlet.Split(',');
+        foreach (var requiredMod in requiredModlet.Split(','))
+        {
+            if (!ModManager.ModLoaded(requiredMod))
+            {
+                Log.Out($"WARN: RequiredModlet is defined on {strClass}: {requiredMod} not found. Feature is turned off.");
+                return false;
+            }
+        }
+
+        return true;
+    }
     public static bool CheckFeatureStatus(string strClass, string strFeature)
     {
         var ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
@@ -30,9 +49,12 @@ public static class Configuration
             foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
                 if (string.Equals(keyValuePair.Key, strFeature, StringComparison.CurrentCultureIgnoreCase))
                     result = StringParsers.ParseBool(dynamicProperties3.Values[keyValuePair.Key]);
-            //   UnityEngine.Debug.Log("Found: " + strClass + " " + strFeature + " : result: " + result);
         }
 
+        if (result)
+            result = RequiredModletAvailable(strClass);
+
+        
         return result;
     }
 
