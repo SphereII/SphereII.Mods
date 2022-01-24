@@ -218,6 +218,14 @@ namespace UAI
             if (targetEntity.IsDead())
                 return false;
 
+            // If the entity isn't very close to us, make sure they are in our viewcone.
+            var distance = sourceEntity.GetDistanceSq(targetEntity);
+            if ( distance > 100)
+            {
+                if (!sourceEntity.IsInViewCone(targetEntity.position))
+                    return false;
+            }
+
             // Check to see if its in our "See" cache
             if (sourceEntity.CanSee(targetEntity))
                 return true;
@@ -259,6 +267,10 @@ namespace UAI
                     if (leader != null && leader.IsCrouching && component.IsSleeping)
                         return false;
 
+                    if (sourceEntity.GetDistanceSq(targetEntity) > 10)
+                    {
+                        if (!sourceEntity.IsInViewCone(targetEntity.position)) return false;
+                    }
                     /// Add the entity to our CanSee Cache, which expires.
                     sourceEntity.SetCanSee(targetEntity);
                     return true;

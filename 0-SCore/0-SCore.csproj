@@ -145,6 +145,7 @@
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
+    <Compile Include="Scripts\UnitTests\CanDamageChecks.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\IUAITargetFilter.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsAlly.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsEnemy.cs" />
