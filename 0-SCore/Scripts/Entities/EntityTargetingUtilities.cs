@@ -122,6 +122,23 @@ public static class EntityTargetingUtilities
     }
 
     /// <summary>
+    /// Gets the default faction relationship that represents friendly fire (without taking the
+    /// cvar into account).
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static float GetFriendlyFireRelationship(Entity entity)
+    {
+        // Don't damage neutral NPCs. This is to avoid cases where the player or another NPC steps
+        // in to help neutral human NPCs fighting an enemy - we don't want them to hurt that NPC.
+        if (entity is EntityNPC)
+            return (float)FactionManager.Relationship.Neutral;
+
+        // For all other NPCs (animals, etc.) attackers can damage them if they don't love them.
+        return (float)FactionManager.Relationship.Love;
+    }
+
+    /// <summary>
     /// Returns true if the target is a vehicle that is immune to damage from the checking entity.
     /// </summary>
     /// <param name="self"></param>
@@ -349,8 +366,8 @@ public static class EntityTargetingUtilities
         if (!(self is EntityAlive livingSelf && target is EntityAlive livingTarget))
             return false;
 
-        // If we have the "damage relationship" cvar, use that value. Otherwise, use "Neutral."
-        float damageRelationship = (float)FactionManager.Relationship.Neutral;
+        // If we have the "damage relationship" cvar, use that value. Otherwise, use the default.
+        float damageRelationship = GetFriendlyFireRelationship(target);
 
         if (livingSelf.Buffs.HasCustomVar(DamageRelationshipCVarName))
         {
