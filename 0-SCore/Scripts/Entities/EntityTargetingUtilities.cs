@@ -10,10 +10,11 @@ using UnityEngine;
 public static class EntityTargetingUtilities
 {
     /// <summary>
-    /// The name of the cvar to check, to see if players can damage NPCs in friendly factions.
-    /// If this cvar is absent or zero, they cannot.
+    /// If the entity has a cvar of this name, get a relationship value from the cvar, and use it
+    /// as the faction relationship value for damage. The faction relationship must be
+    /// <em>strictly below</em> this value, or the enity cannot damage it.
     /// </summary>
-    public static readonly string DamageFriendliesCVarName = "varNPCModDamageFriendlies";
+    public static readonly string DamageRelationshipCVarName = "DamageRelationship";
 
     /// <summary>
     /// <para>
@@ -29,34 +30,46 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool CanDamage(EntityAlive self, Entity target)
     {
-        // Enemy animals can not follow these rules.
+        // Enemy animals can not follow these rules. We also can't use CanDamageEntity here,
+        // because that has a Harmony patch that calls this method again. Instead, reproduce the
+        // logic in EntityEnemyAnimal.CanDamageEntity.
         if (IsEnemyInAnimalsFaction(self))
-            return self.CanDamageEntity(target.entityId);
+            return target != null && target.entityClass != self.entityClass;
 
         // Don't damage vehicles if they are immune.
         if (IsDamageImmuneVehicle(self, target))
             return false;
 
-        // If you're a player, check according to player rules.
-        if (self is EntityPlayer me)
-            return PlayerCanDamage(me, target);
-
+        // Don't damage your leader or fellow followers.
         var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
-
-        // If your leader is a player, check according to their rules.
-        if (myLeader is EntityPlayer playerLeader)
-            return PlayerCanDamage(playerLeader, target);
-
-        // Don't damage your (non-player) leader or fellow followers.
         if (IsAllyOfLeader(myLeader, target))
             return CanDamageAlly(self, target);
 
-        // You can always damage your revenge target, since they hit first.
+        // If two players are involved (directly or as leaders), determine whether they or their
+        // followers can damage each other from the "Player Killing" setting.
+        var selfPlayer = GetPlayerLeader(self, myLeader);
+        var targetPlayer = GetPlayerLeader(target);
+        if (selfPlayer != null && targetPlayer != null)
+        {
+            // FriendlyFireCheck returns true if the players can damage each other
+            return selfPlayer.FriendlyFireCheck(targetPlayer);
+        }
+
+        // If you are a player, don't damage your followers. Otherwise, use factions.
+        if (self is EntityPlayer)
+        {
+            if (IsAlly(target, self))
+                return CanDamageAlly(target, self);
+
+            return !IsFriendlyFireByFaction(self, target);
+        }
+
+        // You can always damage your revenge target, even if it's a player (since they hit first).
         if (IsCurrentRevengeTarget(self, target))
             return true;
 
         // Otherwise, if the target is a player, you can only damage them if you or your
-        // (non-player) leader hate them.
+        // (not necessarily player) leader hate them.
         if (target is EntityPlayer)
         {
             return myLeader == null
@@ -68,7 +81,7 @@ public static class EntityTargetingUtilities
         if (IsFightingFollowers(myLeader, target))
             return true;
 
-        // If you have a (non-player) leader, check friendly fire using their faction.
+        // If you have a leader, check friendly fire using their faction.
         // In all other cases, use the faction relationship between yourself and the target.
         return myLeader == null
             ? !IsFriendlyFireByFaction(self, target)
@@ -202,7 +215,7 @@ public static class EntityTargetingUtilities
         if (IsEnemyInAnimalsFaction(self))
         {
             var attackTarget = self.GetAttackTarget();
-            return attackTarget.entityId == target.entityId;
+            return attackTarget != null && attackTarget.entityId == target.entityId;
         }
 
         // They are an enemy if we hate them, or if our leader hates them.
@@ -301,11 +314,27 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsEnemyByFaction(Entity self, Entity target)
     {
-        var relationship = EntityUtilities.GetFactionRelationship(
-            self as EntityAlive,
-            target as EntityAlive);
+        if (!(self is EntityAlive livingSelf && target is EntityAlive livingTarget))
+            return false;
+
+        var relationship = EntityUtilities.GetFactionRelationship(livingSelf, livingTarget);
 
         return relationship < (int)FactionManager.Relationship.Dislike;
+    }
+
+    /// <summary>
+    /// Returns true if the entity is an enemy type that is using the vanilla "animals" faction.
+    /// That faction is neutral to all, so cannot target enemies based on faction standing.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static bool IsEnemyInAnimalsFaction(Entity entity)
+    {
+        if (!(entity is EntityEnemy enemy))
+            return false;
+
+        var faction = FactionManager.Instance.GetFaction(enemy.factionId);
+        return faction != null && faction.Name == "animals";
     }
 
     /// <summary>
@@ -317,16 +346,22 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool IsFriendlyFireByFaction(Entity self, Entity target)
     {
-        // For now, we are just returning whether the two entities do not "Love" each other.
-        // (Members of the same faction love each other.)
-        // In the future, we may change this determination according to the "Player Killing"
-        // settings - for example, if set to "Kill Everyone," we may just return false.
+        if (!(self is EntityAlive livingSelf && target is EntityAlive livingTarget))
+            return false;
 
-        var relationship = EntityUtilities.GetFactionRelationship(
-            self as EntityAlive,
-            target as EntityAlive);
+        // If we have the "damage relationship" cvar, use that value. Otherwise, use "Neutral."
+        float damageRelationship = (float)FactionManager.Relationship.Neutral;
 
-        return relationship >= (int)FactionManager.Relationship.Love;
+        if (livingSelf.Buffs.HasCustomVar(DamageRelationshipCVarName))
+        {
+            var buffValue = livingSelf.Buffs.GetCustomVar(DamageRelationshipCVarName);
+            // GetCustomVar also sets the custom var to zero if it doesn't exist; check that.
+            if (buffValue > 0)
+                damageRelationship = buffValue;
+        }
+
+        var relationship = EntityUtilities.GetFactionRelationship(livingSelf, livingTarget);
+        return relationship >= damageRelationship;
     }
 
     /// <summary>
@@ -346,52 +381,6 @@ public static class EntityTargetingUtilities
 
         return revengeTarget.entityId == target.entityId
             && !ShouldForgiveDamage(self, target);
-    }
-
-    /// <summary>
-    /// This determines whether a player can damage a target.
-    /// </summary>
-    /// <param name="player">Player that potentially does damage.</param>
-    /// <param name="target">Potential damage target.</param>
-    /// <returns></returns>
-    public static bool PlayerCanDamage(EntityPlayer player, Entity target)
-    {
-        // If this isn't a player, assume damage - probably wrong but better than an NRE
-        if (player == null)
-        {
-            Debug.LogWarning($"PlayerCanDamage called with non-player: player=null, target={target}");
-            return true;
-        }
-
-        // We don't need to do all these checks if the target isn't an NPC
-        if (!(target is EntityNPC npc))
-            return target.CanDamageEntity(player.entityId);
-
-        // Don't damage your followers.
-        if (IsAlly(npc, player))
-            return CanDamageAlly(player, npc);
-
-        // If it's a follower of another player, check friendly fire according to the settings.
-        var targetPlayer = GetPlayerLeader(npc);
-        if (targetPlayer != null)
-        {
-            // FriendlyFireCheck returns true if the players can damage each other.
-            return player.FriendlyFireCheck(targetPlayer);
-        }
-
-        // You can damage them if they are fighting you or your followers (they hit first).
-        if (IsFightingFollowers(player, npc))
-            return true;
-
-        // If we have the "damage friendlies" cvar, all bets are off.
-        // GetCustomVar also sets the custom var if it doesn't exist; avoid that situation.
-        if (player.Buffs.HasCustomVar(DamageFriendliesCVarName)
-            && player.Buffs.GetCustomVar(DamageFriendliesCVarName) > 0)
-            return true;
-
-        // Without that cvar, neutral or higher NPCs should not take damage.
-        var relationship = EntityUtilities.GetFactionRelationship(npc, player);
-        return relationship < (int)FactionManager.Relationship.Neutral;
     }
 
     /// <summary>
@@ -457,21 +446,6 @@ public static class EntityTargetingUtilities
             return false;
 
         return targetLeader.entityId == leader.entityId;
-    }
-
-    /// <summary>
-    /// Returns true if the entity is an enemy type that is using the vanilla "animals" faction.
-    /// That faction is neutral to all, so cannot target enemies based on faction standing.
-    /// </summary>
-    /// <param name="entity"></param>
-    /// <returns></returns>
-    private static bool IsEnemyInAnimalsFaction(Entity entity)
-    {
-        if (!(entity is EntityEnemy enemy))
-            return false;
-
-        var faction = FactionManager.Instance.GetFaction(enemy.factionId);
-        return faction?.Name == "animals";
     }
 
     /// <summary>

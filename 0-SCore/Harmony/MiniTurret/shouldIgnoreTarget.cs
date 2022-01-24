@@ -21,7 +21,8 @@ namespace SCore.Harmony.MiniTurret
             if (!__result)
             {
                 // Check the NPC faction to the player. This needs to be done as the player doesn't have a faction as defined in npc.xml
-                if (EntityUtilities.CheckFaction(_target.entityId,entity))
+                // But if this is an enemy using the "animals" faction, we can't do the faction check.
+                if (!EntityTargetingUtilities.IsEnemyInAnimalsFaction(_target) && EntityUtilities.CheckFaction(_target.entityId,entity))
                 {
                     __result = true;
                     return;
