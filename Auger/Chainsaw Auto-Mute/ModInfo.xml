@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<xml>
-	<ModInfo>
-		<Name value="Auger/Chainsaw Auto-Mute"/>
-		<Description value="While actively using an auger/chainsaw, the game sounds will fade out. They will fade back in after you release the trigger, switch items, open a menu etc."/>
-		<Author value="Gazz"/>
-		<Version value="1.0"/>
-	</ModInfo>
-</xml>
