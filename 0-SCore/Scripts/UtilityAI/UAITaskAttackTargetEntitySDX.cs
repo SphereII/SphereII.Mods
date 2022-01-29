@@ -76,20 +76,39 @@ namespace UAI
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
                 return;
 
+
             attackTimeout--;
             if (attackTimeout > 0)
                 return;
 
+            var sphereTest = false;
             //EntityUtilities.Stop(_context.Self.entityId);
-
+            ItemActionRanged.ItemActionDataRanged itemActionData = null;
             // Check the range on the item action
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
             var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range - 0.35f) : 1.095f);
             if (itemAction is ItemActionRanged itemActionRanged)
             {
-                var itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
+                itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
                 if (itemActionData != null)
                 {
+                    if (sphereTest)
+                    {
+                        // Empty, no rounds left in the chamber
+                        if (itemActionData.invData.itemValue.Meta == 0)
+                        {
+                            _context.Self.OnReloadStart();
+                            itemActionData.isReloading = true;
+                            //itemActionRanged.ReloadGun(itemActionData);
+                            return;
+                        }
+                        // Are we reloading?
+                        if (itemActionData.isReloading) return;
+
+                        // Is an action running?
+                        if (itemAction.IsActionRunning(itemActionData)) return;
+
+                    }
                     var range = itemActionRanged.GetRange(itemActionData);
                     distance = Utils.FastMax(0.8f, range - 0.35f);
                 }
@@ -97,11 +116,14 @@ namespace UAI
             var minDistance = distance * distance;
             var a = entityAlive.position - _context.Self.position;
 
+
+
             // not within range? qq
             if (a.sqrMagnitude > minDistance)
             {
-                // If we are out of range, it's probably a very small amount, so this will step forward
-                _context.Self.moveHelper.SetMoveTo(entityAlive.position, true);
+                // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
+                if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
+                    _context.Self.moveHelper.SetMoveTo(entityAlive.position, true);
             }
 
             // Face the target right before hitting them.
@@ -114,6 +136,8 @@ namespace UAI
                 if (!_context.Self.Use(false)) return;
                 _context.Self.Use(true);
                 _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
+                if (itemActionData != null)
+                    itemActionData.invData.itemValue.Meta--;
             }
             else
             {

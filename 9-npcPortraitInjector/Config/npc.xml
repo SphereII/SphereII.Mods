@@ -1,0 +1,261 @@
+<npcPortraitInjector file="npc.xml">
+
+<!--	// npcPortraitInjector // Vanilla NPC Portrait Injection -->
+
+		<set xpath="/npc/npc_info[@id='NPCjunkDrone']/@portrait">npcDrone</set>
+
+
+<!--	// npcPortraitInjector // Entity NPC Injection - 0-XNPCCore -->
+
+		<append xpath="/npc">
+			<npc_info
+				id="npcanimalfox"
+				name="NPCAnimal"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcFox"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPCAnimal">
+			</npc_info>
+
+			<npc_info
+				id="npcnurse"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcNurse"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcbaker"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcBaker"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+		</append>
+
+
+<!--	// npcPortraitInjector // Entity NPC Injection - 1-SoldierPack -->
+
+		<append xpath="/npc">
+			<npc_info
+				id="npcmech"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcMech"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+		</append>
+
+
+<!--	// npcPortraitInjector // Entity NPC Injection - 1-SoldierPack -->
+
+		<append xpath="/npc">
+			<npc_info
+				id="npcofficer"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcOfficer"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcsoldier1"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcSoldier1"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcsoldier2"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcSoldier2"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcsoldier3"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcSoldier3"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcsoldier4"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcSoldier4"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+		</append>
+
+
+<!--	// npcPortraitInjector // Entity NPC Injection - 1-VaultDwellers -->
+
+		<append xpath="/npc">
+			<npc_info
+				id="npcpowerarmor"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcPowerArmorUnisex"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcreconmale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcReconMale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcreconfemale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcReconFemale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultsecmale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultSecurityMale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultsecfemale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultSecurityFemale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultboss"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultBoss"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultdoc"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultDoctor"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultresmale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultResidentMale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+
+			<npc_info
+				id="npcvaultresfemale"
+				name="NPC"
+				name_key=""
+				faction="whiteriver"
+				portrait="npcVaultResidentFemale"
+				greeting_type="nearby"
+				stance="Like"
+				voice_set="trader"
+				trader_id="1"
+				dialog_id="GenericNPC">
+			</npc_info>
+		</append>
+
+</npcPortraitInjector>

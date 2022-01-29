@@ -1,0 +1,1915 @@
+<configs>
+
+	<!-- Have player verify if all hired NPCs have the current player actions -->
+	<!--NEW-->
+	<append xpath="/buffs/buff[@name='buffStatusCheck01']">
+		<effect_group name="FuriousRamsayStatusCheck">
+			<triggered_effect trigger="onSelfEnteredGame" action="AddBuff" target="self" buff="buffNPCModVerifyCurrentActions"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="self" buff="buffNPCModVerifyCurrentActions"/>
+			
+		</effect_group>
+	</append>
+
+	<!-- main player control buff -->
+	<append xpath="/buffs">
+		<!--NEW-->
+		<buff name="buffNPCModVerifyCurrentActions" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<effect_group name="buffNPCModVerifyCurrentActions">
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" target="selfAOE" range="60" buff="buffNPCModStopAttacking">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModStopAttacking" operation="Equals" value="0" />
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="60" buff="buffNPCModStopAttacking">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModStopAttacking" operation="Equals" value="1" />
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" target="selfAOE" range="60" buff="buffNPCModFullControlMode">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModMode" operation="Equals" value="0" />
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="60" buff="buffNPCModThreatControlMode">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModMode" operation="Equals" value="1" />
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" target="selfAOE" range="60" buff="buffNPCModThreatControlMode">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModMode" operation="Equals" value="2" />
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="60" buff="buffNPCModFullControlMode">
+					<requirement name="CVarCompare" target="other" cvar="Leader" operation="Equals" value="@EntityID" />
+					<requirement name="CVarCompare" cvar="varNPCModMode" operation="Equals" value="2" />
+				</triggered_effect>
+			</effect_group>		
+		</buff>
+		<buff name="buffNPCModThreatControlMode" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+		</buff>
+		<buff name="buffNPCModFullControlMode" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+		</buff>
+		<buff name="buffNPCModThreat" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+		</buff>
+		<buff name="buffNPCModAttacking" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="15"/>
+		</buff>
+		<buff name="buffNPCModStopAttacking" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+		</buff>
+		<buff name="buffNPCModStopAttackingChange0" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="3"/>
+			<effect_group name="buffNPCModStopAttackingChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModStopAttackingChange" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModStopAttacking" operation="set" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="NPCResume" play_in_head="true"/>
+			</effect_group>
+		</buff>
+		<buff name="buffNPCModStopAttackingChange1" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="3"/>
+			<effect_group name="buffNPCModStopAttackingChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModStopAttackingChange" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModStopAttacking" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="NPCHalt" play_in_head="true"/>
+			</effect_group>
+		</buff>
+		<buff name="buffNPCModModeChange0" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="3"/>
+			<effect_group name="buffNPCModStopAttackingChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModModeChange" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModMode" operation="set" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="NPCHuntingMode" play_in_head="true"/>
+			</effect_group>
+		</buff>
+		<buff name="buffNPCModModeChange1" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="3"/>
+			<effect_group name="buffNPCModStopAttackingChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModModeChange" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModMode" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="NPCTheatControlMode" play_in_head="true"/>
+			</effect_group>
+		</buff>
+		<buff name="buffNPCModModeChange2" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="3"/>
+			<effect_group name="buffNPCModStopAttackingChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModModeChange" operation="set" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="varNPCModMode" operation="set" value="2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="NPCFullControlMode" play_in_head="true"/>
+			</effect_group>
+		</buff>
+
+		<buff name="buffNPCStatusCheck" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<update_rate value="1"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$infectionMaxDuration" operation="set" value="25200"/> <!-- in seconds -->
+				<triggered_effect trigger="onSelfEnteredGame" action="ModifyCVar" cvar="$dysenteryMaxDuration" operation="set" value="3600"/> <!-- in seconds -->
+				<!-- Being at low health increases the chance of getting hit by a critical effect -->
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.9"/>
+				</passive_effect>
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.8"/>
+				</passive_effect>
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.7"/>
+				</passive_effect>
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.6"/>
+				</passive_effect>
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.5"/>
+				</passive_effect>
+				<passive_effect name="BuffResistance" operation="base_add" value="-.04" tags="buffFatiguedTrigger,buffArmSprainedCHTrigger,buffLegSprainedCHTrigger,buffLaceration,buffInfectionCatch,buffAbrasionCatch,buffInjuryStunned01CHTrigger,buffInjuryBleedingTwo,buffInjuryBleedingBarbedWire">
+					<requirement name="StatComparePercModMaxToMax" stat="Health" operation="LT" value="0.4"/>
+				</passive_effect>
+
+				<!-- Remove particle effect if not on fire, this is a backup removal for remote clients -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveParticleEffectFromEntity" particle="p_onFire">
+					<requirement name="!HasBuff" buff="buffIsOnFire"/>
+				</triggered_effect>
+
+				<triggered_effect trigger="onSelfBuffUpdate" action="AttachParticleEffectToEntity" particle="p_onFire" shape_mesh="true">
+					<requirement name="HasBuff" buff="buffIsOnFire"/>
+				</triggered_effect>
+
+				<!-- One time weather survival buff for newbies -->
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffNewbieCoat"/>
+				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffRadiation03"> <!-- do we want NPCs to die if they wander into rad zones? -->
+					<requirement name="!HasBuff" buff="god"/>
+					<requirement name="CVarCompare" cvar="_biomeradiation" operation="GT" value="2.5"/>
+				</triggered_effect>
+				
+				<!-- Falling -->
+				<triggered_effect trigger="onSelfFallImpact" action="AddBuff" buff="buffPlayerFallingDamage">
+					<requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/> <!-- a bit over 1.5m while walking -->
+				</triggered_effect>
+
+				<!-- Crouching -->
+				<triggered_effect trigger="onSelfCrouch" action="AddBuff" buff="buffCrouching"/>
+				
+
+				<!-- set max bleeding stacks that an NPC can apply -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="2">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="0"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="3">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="1"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="4">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="2"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="5">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="3"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="6">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="4"/></triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$maxBleedCounter" operation="set" value="7">
+					<requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="Equals" value="5"/></triggered_effect>
+
+				<!-- Reloading delay for pipe weapons and other slow reload anims-->
+				<triggered_effect trigger="onReloadStart" action="AddBuff" buff="buffReloadMovementPenalty">
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty"/>
+				</triggered_effect>
+
+				<!-- Initialise perk abilities; buff only works onStack so fire it 2x -->
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffPerkAbilityUpdate"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffPerkAbilityUpdate"/>
+				<!-- Update cvar driven perks on buying perk levels -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffPerkAbilityUpdate"/>
+			</effect_group>
+		</buff>
+	</append>	
+      
+	<!-- Unity default is zero (0) for the property IsHuman.  Changing this value with a buff will change the animations from human to zombie.   -->
+ 
+	<!-- IsHuman Animator set to "0" (Unity default) for zombie, 1 for infected, 2 for Human, 3 for humanoid rigged animals.  Set WalkType to "7"	-->
+
+	<append xpath="/buffs">
+		<buff name="IsHuman" hidden="true" remove_on_death="true">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="IsHuman">
+				<requirement name="!EntityTagCompare" tags="saveable"/>
+<!--				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="NPCSoundSys" /> -->
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetFloat" property="IVar" value="0.0" />
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="IsHuman" value="2" /> <!-- need to make sure animator is initalized before ending this set  -->
+<!--				<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="MovementTrigger" value="true" /> -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IsHuman" value="2" /> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.0" /> 
+			</effect_group>
+
+			<effect_group name="IsCured">
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="NPCSoundSys" />
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IsHuman" value="2" />
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.0" />
+				<triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" buff="ZombieIsTalking"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="ZombieIsNotTalking"/>
+			</effect_group>
+			<effect_group tiered="false">
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX, SCore" value="whiteriver" /> 
+			</effect_group> 			
+
+			<effect_group>
+				<requirement name="!EntityTagCompare" tags="saveable"/>
+                <triggered_effect trigger="onSelfBuffStart" action="RemoveParticleEffectFromEntity" particle="p_Flies0_X" />
+                <triggered_effect trigger="onSelfBuffStart" action="RemoveParticleEffectFromEntity" particle="p_Flies_X" />
+                <triggered_effect trigger="onSelfBuffStart" action="RemoveParticleEffectFromEntity" particle="p_Flies2_X" />
+            </effect_group>
+			
+			<!-- Establish "HumanWalkTypes" Cvar. Set randomint(#,#) to any range you want.
+				 If you want to test a specific effect_group like:"(Normal Walk 7B)" set randomint(1,1) to
+				 always pick that effect_group (which is set to WVar 1)
+				  *If you don't want to test any: Set randomint to (0,0) or any number pther than what you have set in the range.*
+			-->
+			<effect_group name="CvarHumanWalkTypes">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="HumanWalkTypes" operation="set" value="randomint(0,7)"/> 
+			</effect_group>
+			<!-- Change WVar to Value "0" --> 
+			<!-- Default walktypes are always 0, so for non walktype 7, WVar is ignored for now--><!-- for now only walktype 7 has "styles" -->
+			<effect_group name="(Normal Walk 7A)"> 
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="LTE" value="4"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="0"/> 
+			</effect_group>
+			<effect_group name="(Normal Walk 7B)">
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="Equals" value="5"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="1"/>
+			</effect_group>
+			<effect_group name="(Proto Walk 7C)">
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="Equals" value="6"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="5"/>
+			</effect_group>
+			<effect_group name="(Happy Walk 7D)">
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="Equals" value="7"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="4"/>
+			</effect_group>	
+			
+			<!--  Special WalkStyles  -->
+			
+			<effect_group name="(Drunk Walk 7E)">
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="Equals" value="8"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="2"/>
+			</effect_group>
+			<effect_group name="(Injured Leg Walk 7F)">
+				<requirement name="CVarCompare" cvar="HumanWalkTypes" operation="Equals" value="9"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="3"/>
+			</effect_group>	
+		</buff>
+	</append>
+
+	<!-- Increase update rate when doing a test -->
+	<append xpath="/buffs">
+		<buff name="IsInfected" icon="ui_game_symbol_radiation" icon_color="75,255,125" hidden="false"><stack_type value="replace"/><!--<duration value="25200"/>--><duration value="25200"/><update_rate value="60"/>
+			<!-- Remove Buff "IsHuman".
+				 Set Animator "IsHuman" to Value="1". 
+				 Establish "InfectedStageCvar" value="0" 
+			-->
+			<effect_group name="Intital stage 0">
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 
+				<triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" target="self" buff="IsHuman"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="IsHuman" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="InfectedStageCvar" operation="set" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetFloat" property="IVar" value="0.0" /> 
+			</effect_group>
+			<!-- Every Update Rate adds 1 to "InfectedStageCvar" which correspond to stage levels -->
+			<effect_group name="InfectedStageAdd">
+			<requirement name="!EntityTagCompare" tags="player"/>
+			<requirement name="!EntityTagCompare" tags="animal"/> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="InfectedStageCvar" operation="add" value="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 1 -->
+			<effect_group name="Infected_Stage1">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="1"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.125" duration="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 2 -->
+			<effect_group name="Infected_Stage2">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="2"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.25" duration="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 3 -->
+			<effect_group name="Infected_Stage3">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="3"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.375" duration="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AttachParticleEffectToEntity" particle="#@modfolder:Resources/Fly.unity3d?p_Flies0_X" local_offset="0,1.5,0.0" local_rotation="0,0,0" parent_transform="Origin"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 4 -->
+			<effect_group name="Infected_Stage4">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="4"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.5" duration="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 5 -->
+			<effect_group name="Infected_Stage5">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="5"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.625" duration="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AttachParticleEffectToEntity" particle="#@modfolder:Resources/Bugs.unity3d?p_Flies_X" local_offset="0,1.1,0.3" local_rotation="0,0,0" parent_transform="Origin"/>	
+			<!-- Over half way there, remove all weapons  -->	
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="RightWeapon"/>  
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="LeftWeapon"/>  
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Gunjoint"/>  				
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 6 -->
+			<effect_group name="Infected_Stage6">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="6"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.75" duration="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 7 -->
+			<effect_group name="Infected_Stage7">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="7"/>
+				<requirement name="!EntityTagCompare" tags="player"/>
+				<requirement name="!EntityTagCompare" tags="animal"/> 								
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.875" duration="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AttachParticleEffectToEntity" particle="#@modfolder:Resources/Bugs.unity3d?p_Flies2_X" local_offset="0,0.5,0.3" local_rotation="0,0,0" parent_transform="Origin"/>
+			</effect_group>
+			<!-- Uncomment to buff "IsZombie" Buff -->
+			<effect_group name="Infected_Zombie_Change">
+				<requirement name="!EntityTagCompare" tags="player"/>						 
+				<requirement name="!EntityTagCompare" tags="zombie"/>						 
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="GTE" value="8"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="IsZombie" />
+			</effect_group>
+		</buff>
+	</append>
+	
+	<append xpath="/buffs">
+		<buff name="IsZombie" icon="ui_game_symbol_radiation" icon_color="0,0,125" hidden="false"><stack_type value="ignore"/><duration value="0"/><update_rate value="2"/>
+			<!-- IsHuman Animator set to "0" for zombie 
+				 IVar set to "1"
+				 Remove Buff "IsInfected".
+				 Add Buff "InfectedAttack". -->
+
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="NPCSoundSys">
+				</triggered_effect> 
+			</effect_group>			
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" buff="IsInfected" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="InfectedAttack" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="DeathDrop">
+				<requirement name="!EntityTagCompare" tags="zombie"/>
+				</triggered_effect>
+			</effect_group>
+			<effect_group tiered="false">
+<!--				<requirement name="CVarCompare" cvar="HasFactions" operation="Equals" value="1"/>	-->
+				<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX, SCore" value="undead" /> <!--Core must be loaded  -->
+			</effect_group> 
+			<effect_group name="IsZombie">
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IsHuman" value="0"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="7"/> 
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="MovementTrigger" value="true" duration="1" />	
+			</effect_group>
+			<!-- Establish "ZombieWalkTypes" Cvar.  Same process as above on humans -->
+			<effect_group name="CvarZombieWalkTypes">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="ZombieWalkTypes" operation="set" value="randomint(0,1)"/>
+			</effect_group>
+			<!-- Change WVar to Value "0" --> 
+			<effect_group name="(Normal Walk 7A )">
+				<requirement name="CVarCompare" cvar="ZombieWalkTypes" operation="Equals" value="0"/>	
+				<requirement name="EntityTagCompare" tags="walker"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="0"/>
+			</effect_group>
+			<!-- Change WVar to Value "1" --> 
+			<effect_group name="(Guppy Walk 7B)">
+				<requirement name="CVarCompare" cvar="ZombieWalkTypes" operation="Equals" value="1"/>
+				<requirement name="EntityTagCompare" tags="walker"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="1"/>
+			</effect_group>
+			<!-- Change WVar to Value "2" --> 
+			<effect_group name="(none)">
+				<requirement name="CVarCompare" cvar="ZombieWalkTypes" operation="Equals" value="2"/>
+				<requirement name="EntityTagCompare" tags="walker"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="WVar" value="2"/>
+			</effect_group>
+			
+			<!-- Attack Types -->
+			<!-- Establish "ZombieAttackTypes" Cvar. Same process as above on humans-->
+			<effect_group name="CvarZombieAttackTypes">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="ZombieAttackTypes" operation="set" value="randomint(0,0)"/> <!-- not hooked up -->
+			</effect_group>
+			<!-- Change WVar to Value "0" --> 
+			<effect_group name="(AttackA)">
+				<requirement name="CVarCompare" cvar="ZombieAttackTypes" operation="Equals" value="0"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AVar" value="0"/>
+			</effect_group>
+			<!-- Change WVar to Value "1" --> 
+			<effect_group name="(AttackB)">
+				<requirement name="CVarCompare" cvar="ZombieAttackTypes" operation="Equals" value="1"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AVar" value="1"/>
+			</effect_group>
+			<!-- Change WVar to Value "2" --> 
+			<effect_group name="(AttackC)">
+				<requirement name="CVarCompare" cvar="ZombieAttackTypes" operation="Equals" value="2"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AVar" value="2"/>
+			</effect_group>
+		</buff> 
+	</append>
+	
+	<append xpath="/buffs">
+		<buff name="IsCured" icon="ui_game_symbol_radiation" icon_color="75,255,125" hidden="false"><stack_type value="replace"/><!--<duration value="25200"/>--><duration value="0"/><!--<update_rate value="3600"/>--><update_rate value="4"/>
+			<!-- Remove Buff "IsHuman".
+				 Set Animator "IsHuman" to Value="1". 
+				 Establish "InfectedStageCvar" value="0" 
+			-->
+			
+			<effect_group name="Intital stage 0">
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" target="self" buff="IsZombie"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IsHuman" value="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="InfectedStageCvar" operation="set" value="8"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="1.0" />
+			</effect_group>
+			<!-- Every Update Rate subtracts 1 to "InfectedStageCvar" which correspond to stage levels -->
+			<effect_group name="InfectedStageAdd">
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="InfectedStageCvar" operation="subtract" value="1"/>
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 7 -->
+			<effect_group name="Infected_Stage1">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="7"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.875" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 6 -->
+			<effect_group name="Infected_Stage2">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="6"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.75" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 5 -->
+			<effect_group name="Infected_Stage3">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="5"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.625" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 4 -->
+			<effect_group name="Infected_Stage4">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="4"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.5" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 3 -->
+			<effect_group name="Infected_Stage5">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="3"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.375" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 2 -->
+			<effect_group name="Infected_Stage6">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="2"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.25" />
+			</effect_group>
+			<!-- See if Infected stage Cvar equals 1 -->
+			<effect_group name="Infected_Stage7">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="Equals" value="1"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>				
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="IVar" value="0.125" />
+			</effect_group>
+			<effect_group name="Now Human">
+				<requirement name="CVarCompare" cvar="InfectedStageCvar" operation="LT" value="1"/>
+				<requirement name="EntityTagCompare" tags="saveable"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="IsHuman" />
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" buff="IsCured" />
+				<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" buff="InfectedAttack" />
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IsElectrocuted" value="true" duration="0.01"/>
+			</effect_group>
+		</buff>
+		
+
+	<!-- IsInfected Buff Companion Buff -->
+	
+		<!-- Makes NPC Ragdoll for 10 seconds to play dead -->
+		<buff name="DeathDrop"><stack_type value="ignore"/><duration value="2"/>
+			<effect_group name="Ragdoll">
+				<triggered_effect trigger="onSelfBuffStart" action="Ragdoll" duration="10"/>
+			</effect_group>
+			<triggered_effect trigger="onSelfBuffStart" action="PlaySound" target="self" sound="player2death">
+				<requirement name="EntityTagCompare" tags="female"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfBuffStart" action="PlaySound" target="self" sound="player1death">
+				<requirement name="EntityTagCompare" tags="male"/>
+			</triggered_effect>
+		</buff> 
+	</append>
+	
+	<!--  New infected attack used to infect Humans but not others  -->
+	
+	<append xpath="/buffs">
+		<!-- When humans or NPC's turn into a zombie they get this buff and can infect others -->
+		<buff name="InfectedAttack" icon="ui_game_symbol_radiation" icon_color="125,0,0" hidden="false"><stack_type value="ignore"/><duration value="0"/><update_rate value="2"/>
+			<!-- Establish InfectChance Cvar (1-10).
+				 randomint value, can be adjusted to any value range you want.
+			-->
+			<effect_group name="Infection Attack Buff">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="InfectChance" operation="set" value="randomint(1,21)"/> <!-- 21 is  5% chance per hit, set to 1,1 for testing  -->
+			</effect_group>
+			<!-- Based off of the update rate. Every 2 seconds will roll to see if randomint value="1". 
+				 If so: will buff humans and other NPCS with the "IsInfected" Buff, and the player with buffInfectionCatch.
+				 If does not Equals "1" will not.
+				 The Equals value can be any number you want, but if set to check against "0" or GT "10" will not buff
+			-->
+			<effect_group name="Infection Attack Buff NPC">
+                <requirement name="CVarCompare" cvar="InfectChance" operation="Equals" value="1"/>
+                <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" target="other" buff="IsInfected">
+                    <requirement name="EntityTagCompare" target="other" tags="npc"/>
+					<requirement name="!EntityTagCompare" target="other" tags="animal"/> <!--  No models for zombiefied animals now, so lets not go there yet  -->
+					<requirement name="!EntityTagCompare" target="other" tags="mech"/>  <!--  nawww, makes no sense  -->
+					<requirement name="!EntityTagCompare" target="other" tags="human"/> <!-- traders have the human tag, so this stops them from getting this infection  -->
+                </triggered_effect>
+            </effect_group>    
+		</buff> 
+	</append>
+	
+	<!-- Random zombie walktype variations 
+			Walk Type Desc:
+   -1) Swim		
+	0) Normal attack (no movement)
+	1) Fat walk
+	2) Stomp (tough guy) walk
+	3) Arlene (Dracula) walk 
+	4) Army Crawl
+	5) Limping
+	6) Tweaker Walk
+	7) Listing Walk
+	8) Spider Walk
+	9) Behemouth Walk
+	-->
+	<append xpath="/buffs">
+		<buff name="ZombieWalkChange"><stack_type value="ignore"/><duration value="0"/>  <!--  Credit to Tin for writing this  -->
+			<effect_group name="ZombieWalkChange">
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="WalkChange" operation="set" value="randomint(0,5)"/>
+				<requirement name="!EntityTagCompare" tags="nowalkchange"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="0"/>
+<!--				<requirement name="!EntityTagCompare" tags="crawler,mannequin"/> -->
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="1"/>
+				<requirement name="EntityTagCompare" tags="walker"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="2"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="3"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>
+			<!--  no type 4 crawlers, crawlers are made by leg damage  -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="5"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="4"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="6"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="5"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="7"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="WalkChange" operation="Equals" value="6"/> <!-- dont set walking zeds to spiderwalk type 8, as they dont have the leap task and will jump instead, causing animation T Pose issues when landing, vanilla zeds using walktype 9 (behemoth) will go into the ground, but its okay on custom zeds.  Turning off for now.  -->
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetInt" property="WalkType" value="9"/>
+				<requirement name="EntityTagCompare" tags="walker"/>				
+			</effect_group>		
+			
+		</buff>
+	</append>
+
+	<!--  Prevent bandits class characters from getting near trader POIs, legacy buff, not needed in A20 hopefully -->
+	<append xpath="/buffs">
+		<buff name="buffTraderTrigger" hidden="true">
+				<stack_type value="replace"/>
+				<update_rate value="1"/>
+				<effect_group>
+					<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="50" buff="buffInfection04" target_tags="bandit,survivor"/>
+				</effect_group>
+		</buff>
+			
+		<buff name="buffTraderRagdollNPC" hidden="true" icon="ui_game_symbol_medical"> <!-- Not used, but funny to watch  -->
+			<stack_type value="ignore"/>
+			<duration value="3"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="Ragdoll" duration="3" target_tags="bandit,survivor"/>
+			</effect_group>
+		</buff>  
+	</append>
+	
+	<!--  Buffs to set parameters that path the controller ranged layer to specific weapon types (rather than using walktypes) Thanks to Khaine for this idea -->
+
+	<append xpath="/buffs">
+	
+		<buff name="PipePistolUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="PipePistolUser"> <!-- This sets the PipePistolUser value to 1 which is the parameter INT value used to path to PipePistol animations  -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PipePUser" value="1" duration="1" />
+				<!--<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Pistol"/>	-->
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PipePUser" value="0" duration="1" /> <!-- disables the pistol anims -->
+                <triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="PipePistol"/>  <!-- This sets the pipepistol on the model to inactive -->
+			</effect_group>
+		</buff>	
+	
+		<buff name="PistolUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="PistolUser"> <!-- This sets the PistolUser value to 1 which is the parameter INT value used to path to Pistol animations  -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PistolUser" value="1" duration="1" />
+				<!--				<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Pistol"/>	-->
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PistolUser" value="0" duration="1" /> <!-- disables the pistol anims -->
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Pistol"/>   
+			</effect_group>
+		</buff>	
+		<buff name="DPistolUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="DPistolUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="DPistolUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="DPistolUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="DPistol"/>   
+			</effect_group>
+		</buff>	
+	
+		<buff name="SMGUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="SMGUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="SMGUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="SMGUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="SMG"/>   
+			</effect_group>
+		</buff>	
+		
+		<buff name="PipeShotgunUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="ShottyUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PipeSUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PipeSUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="PipeSG"/>   
+			</effect_group>		
+		</buff>	
+
+		
+		<buff name="PShotgunUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="PShotgunUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PShotgunUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PShotgunUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="PShotgun"/>   				
+			</effect_group>		
+		</buff>	
+		
+		<buff name="AShotgunUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="AutoShottyUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AShotgunUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="AShotgunUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="AShotgun"/>   					
+			</effect_group>
+		</buff>	
+		
+		<buff name="SRifleUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="SniperRifleUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="SRifleUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="SRifleUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="SRifle"/>   					
+			</effect_group>
+		</buff>	
+		
+		<buff name="PipeRifleUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="HuntingRifleUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PipeRUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PipeRUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="PipeRifle"/>   					
+			</effect_group>
+		</buff>			
+		
+		<buff name="HRifleUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="HuntingRifleUser"> <!-- This sets the HRifleUser value to 1 which is the parameter INT value used to path to Hunting Rifle animations -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="HRifleUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="HRifleUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="HRifle"/>							
+			</effect_group>
+		</buff>	
+		
+		<buff name="PipeMGUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="PipeMGUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="PipeMUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="PipeMUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="PipeMG"/>   					
+			</effect_group>				
+		</buff>			
+		
+		<buff name="AK47User">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="AK47User"> <!-- This sets the AK47User value to 1 which is the parameter INT value used to path to Ak47 animations -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AK47User" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="AK47User" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="AK47"/>   						
+			</effect_group>				
+		</buff>	
+		
+		<buff name="TRifleUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="TRifleUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="ARUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="ARUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="TRifle"/>   					
+			</effect_group>
+		</buff>	
+		
+		<buff name="M60User">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="M60User"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="M60User" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="M60User" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="M60"/>   						
+			</effect_group>
+		</buff>	
+		
+		<buff name="LBowUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="LBowUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="LBowUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="LBowUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="LBow"/>   						
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Quiver"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Arrow"/>	
+			</effect_group>
+		</buff>	
+		
+		<buff name="XBowUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="XBow"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="XBowUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="XBowUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="XBow"/>   								
+			</effect_group>
+		</buff>	
+		
+		<buff name="RocketLUser">
+			<stack_type value="replace"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="Launcher"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="RocketLUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="RocketLUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="RocketL"/>   								
+			</effect_group>
+			<effect_group name="HideLauncher"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="RocketL">   	
+					<requirement name="HasBuff" buff="RandomIdle"/>
+				</triggered_effect> 
+			</effect_group>	
+			<effect_group name="ShowLauncher"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="RocketL">   	
+					<requirement name="!HasBuff" buff="RandomIdle"/>
+				</triggered_effect> 
+			</effect_group>
+		</buff>
+		
+		<buff name="EmptyHandUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="EmptyHandUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="EmptyHandUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="EmptyHandUser" value="0" duration="1" />
+			</effect_group>
+        </buff>  		
+		
+		
+		
+		<buff name="ClubUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="ClubUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="ClubUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="ClubUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Club"/>   				
+             </effect_group>
+        </buff>    		
+	
+		<buff name="KnifeUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="KnifeUser"> 
+			<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="KnifeUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="KnifeUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Knife"/>   				
+            </effect_group>
+        </buff>  
+
+		<buff name="MacheteUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="MacheteUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="MacheteUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="MacheteUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Machete"/>   					
+            </effect_group>
+        </buff>   		
+
+		<buff name="BatUser" >
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="BatUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="BatUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="BatUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Bat"/>   					
+            </effect_group>
+        </buff>  
+		
+		<buff name="AxeUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="AxeUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="AxeUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="AxeUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Axe"/>   					
+             </effect_group>
+        </buff>  
+		
+		<buff name="SpearUser">
+            <stack_type value="replace"/>
+            <duration value="0"/>
+            <update_rate value="1"/>
+            <effect_group name="SpearUser"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="SpearUser" value="1" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetInt" property="SpearUser" value="0" duration="1" />
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Spear"/>   					
+            </effect_group>
+        </buff>  
+	</append>	
+	
+	
+	<!--  Character Activity and other UAI Buffs  -->
+
+	<append xpath="/buffs">
+	
+		<buff name="Timid">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Timid" operation="set" value="1"/>
+			</effect_group>
+		</buff>	
+
+		<buff name="NPCHit" hidden="true" remove_on_death="true" > <!-- note to self, we could use a buff that detects when targets are stunned/down  -->
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value=".1"/>
+			<effect_group>
+				<triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffHitDelay" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="_stunned" operation="Equals" value="0"/> 			
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetBool" property="IsStunned" value="false"/> <!-- unused so far  -->
+ 			</effect_group>		
+			<effect_group>
+				<requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0"/> 			
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetBool" property="IsStunned" value="true"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffHitStun" />
+			</effect_group>					
+		</buff>		
+	
+		<buff name="buffHitStun" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="5"/> 
+		</buff>	
+		
+		<buff name="Heal">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Heal" />-->
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="Heal" />
+			</effect_group>
+		</buff>	
+		
+		<buff name="buffHealDelay" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="5"/> 
+		</buff>			
+
+		<buff name="IsHealing"> 
+            <stack_type value="ignore"/>
+            <duration value="3"/>
+            <update_rate value="1"/>
+             <effect_group>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="healAbrasionMult" operation="set" value="3"/> 
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medicalRegHealthAmount" operation="add" value="30"/> 
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medRegHealthIncSpeed" operation="set" value="2">
+                    <requirement name="ProgressionLevel" progression_name="perkPhysician" operation="Equals" value="0"/>
+				</triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medRegHealthIncSpeed" operation="set" value="2.5">
+                    <requirement name="ProgressionLevel" progression_name="perkPhysician" operation="Equals" value="1"/>
+				</triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medRegHealthIncSpeed" operation="set" value="2.8">
+                    <requirement name="ProgressionLevel" progression_name="perkPhysician" operation="Equals" value="2"/>
+				</triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medRegHealthIncSpeed" operation="set" value="3.1">
+                    <requirement name="ProgressionLevel" progression_name="perkPhysician" operation="Equals" value="3"/>
+				</triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" target="other" cvar="medRegHealthIncSpeed" operation="set" value="3.5">
+                    <requirement name="ProgressionLevel" progression_name="perkPhysician" operation="Equals" value="4"/>
+				</triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" target="other" buff="buffProcessConsumables"/>
+                <triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" target="other" buff="buffInjuryBleeding"/>
+			 </effect_group>	
+			 <effect_group>	
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" target="other" buff="buffInjuryAbrasionTreated">
+                    <requirement name="HasBuff" buff="buffInjuryAbrasion"/>
+                </triggered_effect>
+            </effect_group>
+            <effect_group name="IsHealing">
+                <triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="Heal" />
+            </effect_group>
+        </buff>    
+	</append>	
+		
+	<append xpath="/buffs">
+		<buff name="ActivityCoolDown"> <!--  So NPCs do not repeat the same activity, as needed  -->
+			<stack_type value="ignore"/>
+			<duration value="20"/>
+		</buff>
+		
+		<buff name="ActivityBuff"> <!-- This sets the IsBusy animation selection -->
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group name="Start" >
+				<!--<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="=== Starting ActivityBuff"/>  -->
+			<!--<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/> -->
+			</effect_group>
+			<effect_group name="IsPounding">
+			<!--<requirement name="NotHasBuff" buff="ActivityCoolDown"/> -->
+				<requirement name="RequirementLookingAt, SCore" block="Workstation, Forge"/>
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="=== Working at a workstation or forge"/> -->
+				<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Axe"/> <!-- add in Unity  -->
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsPounding" value="true"/>
+			</effect_group>
+			<effect_group name="IsLooting">
+			<!--<requirement name="NotHasBuff" buff="ActivityCoolDown"/> -->
+				<requirement name="RequirementLookingAt, SCore" block="Campfire, Loot, SecureLoot "/>
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="=== looting or gathering"/> -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetBool" property="IsGathering" value="true"/>
+			</effect_group>	
+			<effect_group name="LootHighorLow" >
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsCrouching" value="true"/> 
+				<requirement name="CVarCompare" cvar="focusBlockLocation" operation="LTE" value="0"/> <!-- Sets a cvar (Default is: focusBlockLocation, overridable by attribute cvar="" ) based on position. -1 below your feet. 0 at your feet, 1 at your eye level, and 2 over your head. 0 is default.  -->
+			</effect_group>
+			<effect_group name="Finish">
+				<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="ActivityCoolDown"/> 
+				<!--<triggered_effect trigger="onSelfBuffFinish" action="LogMessage" message="=== Finished my activity"/>-->
+			<!--<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/> -->
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsGathering" value="false"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsPounding" value="false"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Axe"/>
+			</effect_group>
+		</buff>
+
+		<buff name="IsFishing"> <!-- This sets the IsBusy animation selection to Fishing   -->
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/>
+			</effect_group>
+			<effect_group name="IsFishing">
+			<!--<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="FishingPole"/> -->
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsFishing" value="true" />
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsFishing" value="false" />
+				<triggered_effect trigger="onSelfBuffRemove" action="AnimatorSetBool" property="IsFishing" value="false" />
+				<!--<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffIsCooldown5" /> -->
+			</effect_group>
+		</buff>	
+	</append>	
+	
+	<append xpath="/buffs">
+		<buff name="IsServing"> <!-- This sets the IsBusy animation selection to Serving Anim -->
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/>
+			</effect_group>
+			<effect_group name="IsServing">
+				<!--<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Servingtool"/> -->
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsServing" value="true" />
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsServing" value="false" />
+				<triggered_effect trigger="onSelfBuffRemove" action="AnimatorSetBool" property="IsServing" value="false" />
+				<!--<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffIsCooldown5" /> -->
+			</effect_group>
+		</buff>	
+	</append>		
+	
+	<append xpath="/buffs">
+		<buff name="IsGathering"> <!-- This sets the IsBusy animation selection to Gathering   -->
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/>
+			</effect_group>
+			<effect_group>
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="=== Pausing to do an action"/> -->
+			</effect_group>		
+			<effect_group name="IsGathering">
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsGathering" value="true" />
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsGathering" value="false" />
+				<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffIsCooldown5" /> 
+			</effect_group>
+		</buff>	
+	</append>	
+	
+	<append xpath="/buffs">
+		<buff name="IsPounding"> <!-- This sets the IsBusy animation selection to Pounding   -->
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/>
+				<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="Hammer"/>
+			</effect_group>
+			<effect_group>
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="=== Pausing to do an action"/>  -->
+			</effect_group>		
+			<effect_group name="IsPounding">
+				<requirement name="NotHasBuff" buff="buffIsCooldown"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsPounding" value="true" />
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsPounding" value="false" />
+				<triggered_effect trigger="onSelfBuffFinish" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="Hammer"/>
+<!--				<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffIsCooldown5" /> -->
+			</effect_group>
+		</buff>	
+	</append>			
+	
+
+	
+	<!-- Lets randomize the NPCs Idles  -->
+	
+	<append xpath="/buffs">
+		<buff name="RandomIdle" hidden="true" remove_on_death="true" ><stack_type value="ignore"/><duration value="0"/> <update_rate value="1"/>  
+			<effect_group name="RandomIdle">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="RandomIdle" operation="set" value="randomint(0,29)"/>
+				<requirement name="EntityTagCompare" tags="npc"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="LTE" value="24"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="0"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="Equals" value="25"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="Equals" value="26"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="2"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="Equals" value="27"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="3"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="Equals" value="28"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="4"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomIdle" operation="Equals" value="29"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="5"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+		</buff>
+	</append>	
+
+	<append xpath="/buffs">
+		<buff name="RandomWanderIdle" hidden="true" remove_on_death="true" ><stack_type value="ignore"/><duration value="0"/> <update_rate value="1"/>  
+			<effect_group name="RandomWanderIdle">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="RandomWanderIdle" operation="set" value="randomint(0,29)"/>
+				<requirement name="EntityTagCompare" tags="npc"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="LTE" value="24"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleVar" value="0"/> <!-- reusing the default idle -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="Equals" value="25"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleWVar" value="0"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleWTrigger" />
+			</effect_group>			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="Equals" value="26"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleWVar" value="0"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleWTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="Equals" value="27"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleWVar" value="0"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleWTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="Equals" value="28"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleWVar" value="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleWTrigger" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomWanderIdle" operation="Equals" value="29"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetInt" property="IdleWVar" value="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="IdleWTrigger" />
+			</effect_group>
+		</buff>
+	</append>	
+
+	<!-- Start of Buff Sound System Buffs (Human/Infected/zombie)(Male/Female) (Individuals)-->
+
+	<append xpath="/buffs">
+		<buff name="NPCSoundSys" hidden="true" remove_on_death="true"><stack_type value="replace"/><damage_type value="bloodloss"/><duration value="0"/><update_rate value="3"/>
+			<!-- IsHuman Sounds (Female) 
+			1) Human NPC Sounds: Roaming/Idle.
+			2) Human NPC sounds: When attacking.
+			3) Human NPC sounds: Dies.
+			-->
+			<!--  Calculation; Random sound played every [(update_rate) * (CVarCompare match chance)] so every 3 seconds, there is a 1/10 chance of a random sound or on average one sound every 15 seconds  -->
+
+			<effect_group name="RndmSoundPlayRandomizer"> 
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="RndmSoundPlay" operation="set" value="randomint(1,21)"/>
+			</effect_group>
+			
+	<!--  Default Human Sound System  -->			
+			
+			<effect_group name="IsHumanSounds">
+				<!-- Male Random Roaming Sounds -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player1stamina">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+					<requirement name="EntityTagCompare" tags="male"/>
+					<requirement name="!EntityTagCompare" tags="voice"/>
+					<requirement name="HasBuff" buff="IsHuman"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player1stamina">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+					<requirement name="EntityTagCompare" tags="male"/>
+					<requirement name="!EntityTagCompare" tags="voice"/>
+					<requirement name="HasBuff" buff="IsHuman"/>
+				</triggered_effect>
+				<!-- Female Random Roaming Sounds -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player2stamina">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+					<requirement name="EntityTagCompare" tags="female"/>
+					<requirement name="!EntityTagCompare" tags="voice"/>
+					<requirement name="HasBuff" buff="IsHuman"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player2stamina">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+					<requirement name="EntityTagCompare" tags="female"/>
+					<requirement name="!EntityTagCompare" tags="voice"/>
+					<requirement name="HasBuff" buff="IsHuman"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- IsHuman [Male] Sounds for: Attacking/Hurt/Died -->
+			<effect_group name="IsHumanMaleSounds">
+				<requirement name="HasBuff" buff="IsHuman"/>
+				<requirement name="EntityTagCompare" tags="male"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="LTE" value="2"/>	
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player1powerattack"/>	
+			</effect_group>
+			<effect_group name="IsHumanMaleSounds2">
+				<requirement name="HasBuff" buff="IsHuman"/>
+				<requirement name="EntityTagCompare" tags="male"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player1painlg"/>	
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player1death"/>	
+			</effect_group>
+			<effect_group name="IsHumanFemaleSounds">
+				<requirement name="HasBuff" buff="IsHuman"/>
+				<requirement name="EntityTagCompare" tags="female"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="LTE" value="2"/>
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player2powerattack"/>	
+			</effect_group>
+			<effect_group name="IsHumanFemaleSounds2">
+				<requirement name="HasBuff" buff="IsHuman"/>
+				<requirement name="EntityTagCompare" tags="female"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player2painlg"/>	
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player2death"/>	
+			</effect_group>
+		<!--  Default Infected Sound System  -->					
+			
+			<!-- IsInfected Entity Sounds -->
+			<!-- Infected Male Random Roaming Sounds -->
+			<effect_group name="IsInfectedFemaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player1stamina">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<effect_group name="IsInfectedFemaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiemaleroam">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Infected Female Random Roaming Sounds -->
+			<effect_group name="IsInfectedFemaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player2stamina">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			<effect_group name="IsInfectedFemaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiefemaleroam">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Infected [Male] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsInfectedMaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player1powerattack">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player1painlg">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player1death3">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Infected [Female] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsInfectedFemaleSounds">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player2powerattack">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player2painlg">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player2death3">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			
+		<!--  Default Cured Sound System  -->					
+			
+			
+			<!-- IsCured Entity Sounds -->
+			<!-- IsCured Male Random Roaming Sounds -->
+			<effect_group name="IsCuredFemaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player1stamina">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<effect_group name="IsCuredFemaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiemaleroam">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- IsCured Female Random Roaming Sounds -->
+			<effect_group name="IsCuredFemaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player2stamina">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			<effect_group name="IsCuredFemaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiefemaleroam">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- IsCured [Male] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsCuredMaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player1powerattack">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player1painlg">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player1death3">
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- IsCured [Female] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsCuredFemaleSounds">
+				<requirement name="HasBuff" buff="IsCured"/>
+				<requirement name="!EntityTagCompare" tags="voice"/>
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="player2powerattack">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="player2painlg">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="player2death3">
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>	
+			
+		<!--  Default Zombie Sound System  -->					
+			
+			<!-- IsZombie Sounds [Male/Female] -->
+			<!-- Zombie Male Random Roaming Sounds -->
+			<effect_group name="IsZombieMaleSounds">
+				<requirement name="HasBuff" buff="IsZombie"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiemaleroam">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiemalesense">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+					<requirement name="EntityTagCompare" tags="male"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Zombie Female Random Roaming Sounds -->
+			<effect_group name="IsZombieFemaleSounds">
+				<requirement name="HasBuff" buff="IsZombie"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiefemaleroam">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="zombiefemalesense">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+					<requirement name="EntityTagCompare" tags="female"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Infected [Male] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsZombieMaleSounds">
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="zombiemaleattack">
+					<requirement name="EntityTagCompare" tags="male"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="zombiemalepain">
+					<requirement name="EntityTagCompare" tags="male"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="zombiemaledeath">
+					<requirement name="EntityTagCompare" tags="male"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- Infected [Female] Sounds for: Attacking/ Hurt/ Died -->
+			<effect_group name="IsZombieFemaleSounds">
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="zombiefemaleattack">
+					<requirement name="EntityTagCompare" tags="female"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="zombiefemalepain">
+					<requirement name="EntityTagCompare" tags="female"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="zombiefemaledeath">
+					<requirement name="EntityTagCompare" tags="female"/>
+					<requirement name="HasBuff" buff="IsZombie"/>
+				</triggered_effect>
+			</effect_group>
+			
+		<!--  Special Human Character Sound Subsystem> -->
+		<!--  Harley Quinn  Sounds  -->	
+			<effect_group name="IsHumanHarley">
+				<requirement name="EntityTagCompare" tags="voiceharley"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="HarleyRandom">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="player2stamina">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				</triggered_effect>				
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="HarleyAttack"/>	
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="HarleyHurt"/>	
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="HarleyDie"/>	
+			</effect_group>	
+			<effect_group name="IsInfectedHarley">
+				<requirement name="HasBuff" buff="IsInfected"/>
+				<requirement name="EntityTagCompare" tags="voiceharley"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="HarleyRandom">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="4"/>	
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="PlaySound" target="self" sound="HarleyInfected">
+					<requirement name="CVarCompare" cvar="RndmSoundPlay" operation="Equals" value="8"/>	
+				</triggered_effect>				
+				<triggered_effect trigger="onSelfAttackedOther" action="PlaySound" target="self" sound="HarleyAttack"/>	
+				<triggered_effect trigger="onOtherDamagedSelf" action="PlaySound" target="self" sound="HarleyHurt"/>	
+				<triggered_effect trigger="onSelfDied" action="PlaySound" target="self" sound="HarleyDie"/>	
+			</effect_group>	
+		</buff> 
+		
+	
+	
+		<buff name="buffBurst" hidden="true" >
+			<stack_type value="ignore"/><duration value="0"/><update_rate value=".1"/> 
+				<effect_group>
+					<requirement name="CVarCompare" cvar="$burstrate" operation="GT" value="0"/> <!-- Still bursting -->
+					<triggered_effect trigger="onSelfRangedBurstShot" action="ModifyCVar" cvar="$burstrate" operation="add" value="-1"/> <!-- use burstshot to decrement so bursts of >1 will be counted  -->
+				</effect_group> 
+				<effect_group>
+					<requirement name="CVarCompare" cvar="$burstrate" operation="LTE" value="0"/> <!-- done bursting? -->
+					<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffBurstDelay" /> 
+					<triggered_effect trigger="onSelfBuffUpdate" action="RemoveBuff" buff="buffBurst"/> 
+				</effect_group>	
+		</buff>		
+		<buff name="buffBurstDelay" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="2"/> 
+				<effect_group>
+					<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$burstrate" operation="set" value="@Burstsize"/> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffBurst" /> 
+				</effect_group>		
+		</buff>
+	
+
+		<!--  NPC Reloading hack buffs  -->
+		<buff name="buffReload" hidden="true" >
+			<stack_type value="ignore"/><duration value="0"/><update_rate value=".1"/> 
+				<effect_group>
+					<requirement name="CVarCompare" cvar="$roundsinmag" operation="GT" value="0"/> <!-- Still got bullets? -->
+					<triggered_effect trigger="onSelfRangedBurstShot" action="ModifyCVar" cvar="$roundsinmag" operation="add" value="-1"/> <!-- use burstshot to decrement rounds so bursts of >1 will be counted  -->
+					<!--<triggered_effect trigger="onSelfRangedBurstShot" action="CVarLogValue" cvar="$roundsinmag"/>--> 
+				</effect_group> 
+				<effect_group>
+					<requirement name="CVarCompare" cvar="$roundsinmag" operation="LTE" value="0"/> <!-- Magazine empty? -->
+				<!--<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="   Reloading Anim Start"/>-->
+					<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffReloadDelay" /> 
+				</effect_group>	
+		</buff>	
+		<buff name="buffReloadDelay" hidden="true">
+			<stack_type value="ignore"/><duration value=".5"/> <!-- provides a delay for the firing to end before setting the AnimatorsetBool   -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload2" /> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="Reload" value="true" duration="1" /> <!-- start animating the reloading  -->
+					<triggered_effect trigger="onSelfBuffStart" action="RemoveBuff" buff="buffReload" /> <!-- stop the Reload buff from running -->
+				</effect_group>	
+		</buff>	
+		<buff name="buffReload2" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/> <!-- Guns wont fire while buffReload2 is running, Pipe weapon reloads are very long, may need another longer version -->
+				<effect_group>
+					<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$roundsinmag" operation="set" value="@Magsize"/> <!-- refills magazine  -->
+					<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="Reload" value="false" duration="1" /> <!-- stops reloading anim -->
+					<triggered_effect trigger="onSelfBuffFinish" action="RemoveBuff" buff="buffReload2" /> <!-- might not be needed, failsafe  -->
+					<!--<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="   buffReload2 started -  reload anim stopped"/> -->
+				</effect_group>	
+				<effect_group>
+					<requirement name="!HoldingItemHasTags" tags="reloadPenalty1,reloadPenalty2,reloadPenalty3,reloadPenalty4,reloadPenalty5,reloadPenalty6"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty1"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty1" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty2"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty2" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty3"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty3" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty4"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty4" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty5"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty5" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+				<effect_group>
+					<requirement name="HoldingItemHasTags" tags="reloadPenalty6"/>
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReloadPenalty6" /> <!-- restarts the reloadbuff -->
+				</effect_group>
+		</buff>	
+		<buff name="buffReloadPenalty1" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		<buff name="buffReloadPenalty2" hidden="true">
+			<stack_type value="ignore"/><duration value="2"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		<buff name="buffReloadPenalty3" hidden="true">
+			<stack_type value="ignore"/><duration value="3"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		<buff name="buffReloadPenalty4" hidden="true">
+			<stack_type value="ignore"/><duration value="4"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		<buff name="buffReloadPenalty5" hidden="true">
+			<stack_type value="ignore"/><duration value="5"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		<buff name="buffReloadPenalty6" hidden="true">
+			<stack_type value="ignore"/><duration value="6"/> <!-- provides extra time for the slow reload anims to finish -->
+				<effect_group> 
+					<triggered_effect trigger="onSelfBuffFinish" action="AddBuff" buff="buffReload" /> 
+				</effect_group>	
+		</buff>
+		
+		<!--  Buff for testing IsBusy code  -->
+		<buff name="MyNPCTestBuff">
+			<stack_type value="ignore"/>
+			<duration value="6"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsBusy" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="IsBusy" value="false"/>
+			</effect_group>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="=== Pausing to do an action"/>
+			</effect_group>
+		</buff>
+	</append>
+	
+	<!--  Werewolf transform Buffs  -->
+	<append xpath="/buffs">
+		<buff name="IsWerewolf" icon="ui_game_symbol_radiation" icon_color="75,255,125" hidden="false">
+		<stack_type value="ignore"/>
+		<duration value="0"/>
+			<effect_group name="Intital">
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsWerewolf" value="true" />
+			</effect_group>
+		</buff>
+		
+		<buff name="HumantoWolf" icon="ui_game_symbol_radiation" icon_color="75,255,125" hidden="false">
+		<stack_type value="ignore"/>
+		<duration value="10"/>
+			<effect_group name="H2W">
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="MorphWolf" value="true" />
+			</effect_group>
+		</buff>	
+		
+		<buff name="WolftoHuman" icon="ui_game_symbol_radiation" icon_color="75,255,125" hidden="false">
+		<stack_type value="ignore"/>
+		<duration value="10"/>
+			<effect_group name="next stage">
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="MorphWolf" value="false" />
+			</effect_group>
+		</buff>	
+	</append>	
+
+	<append xpath="/buffs">	
+		<!--  Facial animation buffs  -->
+		<buff name="CanTalk">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="CanTalk" value="true"/>
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetBool" property="CanTalk" value="false"/>
+			</effect_group>
+		</buff>
+		
+		<buff name="CanBlink">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="CanBlink" value="true"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Blink" />
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetBool" property="CanBlink" value="false"/>
+			</effect_group>
+		</buff>	
+
+		<buff name="IsTalking">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsTalking" value="true"/>
+				<triggered_effect trigger="onSelfDied" action="AnimatorSetBool" property="IsTalking" value="false"/>
+			</effect_group>
+		</buff>	
+		<buff name="IsSilent">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="IsTalking" value="false"/>
+			</effect_group>
+		</buff>		
+
+		<buff name="SayYes">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="Yes" />
+			</effect_group>
+		</buff>	
+		
+		<buff name="SayNo">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<update_rate value="2"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTrigger" property="No" />
+			</effect_group>
+		</buff>	
+
+		<!--  If boobs are rigged, rescale them larger  -->
+		<buff name="Chesty">
+			<stack_type value="ignore"/>
+			<duration value="10"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetBool" property="ChestOut" value="true"/>
+				<triggered_effect trigger="onSelfBuffFinish" action="AnimatorSetBool" property="ChestOut" value="false"/>
+			</effect_group>
+		</buff>	
+	</append>	
+	<append xpath="/buffs">
+		<buff name="RandomFaceAnims" hidden="true" remove_on_death="true" ><stack_type value="ignore"/><duration value="0"/> <update_rate value="1"/>  
+			<effect_group name="Randomfaceanims">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="RandomFace" operation="set" value="randomint(0,19)"/>
+				<requirement name="EntityTagCompare" tags="npc"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomFace" operation="LTE" value="15"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Blink" />
+			</effect_group>			
+			
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomFace" operation="Equals" value="16"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="NoSmile" />
+			</effect_group>
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomFace" operation="Equals" value="17"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Smile" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomFace" operation="Equals" value="18"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="No" />
+			</effect_group>			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomFace" operation="Equals" value="19"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Yes" />
+			</effect_group>
+		</buff>
+		<buff name="RandomMouthPhonemes" hidden="true" remove_on_death="true" ><stack_type value="ignore"/><duration value="0"/> <update_rate value="1"/>  
+			<effect_group name="Randomfaceanims">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="RandomMouth" operation="set" value="randomint(0,19)"/>
+				<requirement name="EntityTagCompare" tags="npc"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomMouth" operation="LTE" value="15"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Blink" />
+			</effect_group>			
+			
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomMouth" operation="Equals" value="16"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="NoSmile" />
+			</effect_group>
+			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomMouth" operation="Equals" value="17"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Smile" />
+			</effect_group>
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomMouth" operation="Equals" value="18"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="No" />
+			</effect_group>			
+			<effect_group>
+				<requirement name="CVarCompare" cvar="RandomMouth" operation="Equals" value="19"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorFireTrigger" property="Yes" />
+			</effect_group>
+		</buff>		
+		
+		
+		
+		
+	</append>		
+	<!--  Character mesh activation buffs  -->
+
+	<append xpath="/buffs">
+		<buff name="HasBackpack" hidden="true" remove_on_death="true" > <!-- This sets the Backpack object to true for enabled NPCs.   -->
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<effect_group name="HasBackpack">
+				<triggered_effect trigger="onSelfBuffStart" action="SetTransformActive" active="true" parent_transform="Hips" transform_path="TraderBag"/>				
+			</effect_group>
+			<effect_group name="RemoveBackpack">
+				<triggered_effect trigger="onSelfDied" action="SetTransformActive" active="false" parent_transform="Hips" transform_path="TraderBag"/>	
+			</effect_group>		
+		</buff>	
+	</append>
+	
+		<!--  Buff to help NPCs keep up when following the player   -->
+	<append xpath="/buffs">	
+		<buff name="NPCpegasus" icon="ui_game_symbol_agility" icon_color="132,0,155">
+			<display_value_key value="Pegasus"/> <display_value value="xxx"/>
+			<stack_type value="ignore"/>
+			<effect_group>
+			<!--	<passive_effect name="WalkSpeed" operation="base_set" value=".6"/> -->
+				<passive_effect name="RunSpeed" operation="base_set" value="1.6"/>
+			</effect_group>
+		</buff>
+	</append>	
+	
+	<!--  Buff to test strafing, but A* pathing keeps them on rails  -->	
+	<append xpath="/buffs">	
+		<buff name="NPCevade" icon="ui_game_symbol_agility" icon_color="132,0,155">
+			<display_value_key value="Evade"/> <display_value value="xxx"/>
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+					<effect_group name="NPCStrafeChange">
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="StrafeChange" operation="set" value="randomint(0,2)"/>
+			</effect_group> 
+				<effect_group>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="Strafe" value="0" />
+				<requirement name="CVarCompare" cvar="StrafeChange" operation="Equals" value="0"/>
+			</effect_group> 
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="Strafe" value="0.07" />
+				<requirement name="CVarCompare" cvar="StrafeChange" operation="Equals" value="1"/> 
+			</effect_group>			
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloat" property="Strafe" value="-0.25" />
+				<requirement name="CVarCompare" cvar="StrafeChange" operation="Equals" value="2"/>
+			</effect_group>		
+		</buff>
+	</append>	
+	
+	
+	<!--  Testing Perks -->
+	<append xpath="/buffs"> 
+		<buff name="Gunslinger" hidden="true" remove_on_death="true" >
+		<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group name="AddGunslingerProgression">
+				<triggered_effect trigger="onSelfSecondaryActionEnd" action="SetProgressionLevel" progression_name="perkGunslinger" level="1"/>
+				<triggered_effect trigger="onSelfPrimaryActionEnd" action="SetProgressionLevel" progression_name="perkGunslinger" level="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetProgressionLevel" progression_name="perkGunslinger" level="2">
+					<requirement name="RandomRoll" seed_type="Player" min_max="0,100" operation="LTE" value="30"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetProgressionLevel" progression_name="perkGunslinger" level="3">
+					<requirement name="RandomRoll" seed_type="Player" min_max="0,100" operation="LTE" value="20"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetProgressionLevel" progression_name="perkGunslinger" level="4">
+					<requirement name="RandomRoll" seed_type="Player" min_max="0,100" operation="LTE" value="10"/>
+				</triggered_effect> 
+			</effect_group>	
+		</buff>	
+	</append>
+	
+	<!--  Until TFP changes the configuration of the fire particle, its not compatible with some custom entities, so if there is a tag "cp" on a character, it will use alternative particles --> 
+
+	<remove xpath="/buffs/buff[starts-with(@name, 'buffIsOnFire')]/effect_group[starts-with(@name, 'run particles')]" />
+	
+	<insertAfter xpath="/buffs/buff[starts-with(@name, 'buffIsOnFire')]/effect_group[3]" >
+		<effect_group name="run particles, cleanup">
+			<requirement name="!EntityTagCompare" tags="cp"/>		
+			<triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar=".buffIsOnFireDisplay" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AttachParticleEffectToEntity" particle="p_onFire" local_offset="0,0,0" parent_transform="LOD0" shape_mesh="true"/>
+			<triggered_effect trigger="onSelfEnteredGame" action="AttachParticleEffectToEntity" particle="p_onFire" local_offset="0,0,0" parent_transform="LOD0" shape_mesh="true"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="RemoveParticleEffectFromEntity" particle="p_onFire"/>
+			<triggered_effect trigger="onSelfDied" action="RemoveParticleEffectFromEntity" particle="p_onFire"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AddJournalEntry" journal="onFireTip"/>
+			<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="buff_burn_lp"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="StopSound" sound="buff_burn_lp"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="PlaySound" sound="buff_burn_extinguish"/>
+		</effect_group>
+		<effect_group name="run particles for customs, cleanup">
+			<requirement name="EntityTagCompare" tags="cp"/>	
+			<triggered_effect trigger="onSelfBuffRemove" action="ModifyCVar" cvar=".buffIsOnFireDisplay" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AttachParticleEffectToEntity" particle="p_burning_barrel" local_offset="0,-1,0" parent_transform="Hips" />
+			<triggered_effect trigger="onSelfEnteredGame" action="AttachParticleEffectToEntity" particle="p_burning_barrel" local_offset="0,-1,0" parent_transform="Hips" />
+			<triggered_effect trigger="onSelfBuffRemove" action="RemoveParticleEffectFromEntity" particle="p_burning_barrel"/>
+			<triggered_effect trigger="onSelfDied" action="RemoveParticleEffectFromEntity" particle="p_burning_barrel"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AddJournalEntry" journal="onFireTip"/>
+			<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="buff_burn_lp"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="StopSound" sound="buff_burn_lp"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="PlaySound" sound="buff_burn_extinguish"/>
+		</effect_group>
+	</insertAfter>
+
+</configs>

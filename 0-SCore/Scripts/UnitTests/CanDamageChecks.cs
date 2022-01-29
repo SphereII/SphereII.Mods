@@ -51,6 +51,7 @@ public class CanDamageChecks
  
     private void Compare(EntityAlive _source, EntityAlive _target)
     {
+
         Log.Out($"Testing {GetEntityID(_source)} to {GetEntityID(_target)}");
         Log.Out($"\tCan Damage? {EntityTargetingUtilities.CanDamage(_source, _target)}");
         Log.Out($"\tIs Enemy? {EntityTargetingUtilities.IsEnemy(_source, _target)}");

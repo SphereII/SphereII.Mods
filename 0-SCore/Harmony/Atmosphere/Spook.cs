@@ -13,7 +13,7 @@ namespace Harmony.Atmosphere
         {
             // Constant Blood Moon
             [HarmonyPatch(typeof(SkyManager))]
-            [HarmonyPatch("BloodMoon")]
+            [HarmonyPatch("IsBloodMoonVisible")]
             public static bool Prefix(ref bool __result)
             {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))

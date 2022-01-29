@@ -1,0 +1,56 @@
+<XNPCCoreUI name="XUi/xui.xml">
+
+<!--	// XNPCCoreUI // Conversation Dialog Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']">
+			<window name="windowRespondentName" anchor="CenterTop" />
+			<window name="windowStatement" anchor="CenterTop" />
+			<window name="windowResponses" anchor="CenterBottom" />
+			<!--window name="NPCCharacterFrameWindow" anchor="LeftTop" /-->
+			<window name="NPCTEST" anchor="LeftCenter" />
+		</set>
+
+		<!--setattribute xpath="/xui//window_group[@name='dialog']" name="controller">XUiC_DialogWindowGroupSDX, Mods</setattribute-->
+		<setattribute xpath="/xui//window_group[@name='dialog']" name="controller">XUiC_DialogWindowGroup</setattribute>
+		<setattribute xpath="/xui//window_group[@name='dialog']" name="close_compass_on_open">true</setattribute>
+
+
+<!--	// XNPCCoreUI // Hire Information Popup Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='HireInformation']">
+			<window name="windowHireInformationPopup" anchor="CenterTop" />
+		</set>
+
+
+<!--	// XNPCCoreUI // Join Information Popup Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='JoinInformation']">
+			<window name="windowJoinInformationPopup" anchor="CenterTop" />
+		</set>
+
+
+<!--	// XNPCCoreUI // Entity Information Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='EntityInformation']">
+			<window name="windowEntityInformationPanel" anchor="CenterTop" />
+		</set>
+
+
+<!--	// XNPCCoreUI // Set Code Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='SetCode']">
+			<window name="windowPathFindingKeypad" />
+		</set>
+
+
+<!--	// XNPCCoreUI // Lockpicking Window -->
+
+		<set xpath="/xui/ruleset[@name='default']/window_group[@name='LockPicking']">
+			<window name="windowLockPicking" />
+		</set>
+
+		<!--append xpath="/xui/ruleset[@name='default']/window_group[@name='toolbelt']">
+			<window name="petBar" anchor="RightCenter" />
+		</append-->
+
+</XNPCCoreUI>

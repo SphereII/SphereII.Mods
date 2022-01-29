@@ -32,7 +32,8 @@ public static class EntityUtilities
         Patrol = 5,
         Hire = 6,
         Loot = 7,
-        Task = 8
+        Task = 8,
+        Guard  = 9
     }
 
 
@@ -620,6 +621,18 @@ public static class EntityUtilities
         return false;
     }
 
+    public static string GetPropertyValues(int EntityID, string Property)
+    {
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        if (myEntity == null)
+            return String.Empty;
+
+        var entityClass = EntityClass.list[myEntity.entityClass];
+        if (entityClass.Properties.Values.ContainsKey(Property))
+            return entityClass.Properties.Values[Property];
+        
+        return String.Empty;
+    }
 
     public static void ProcessConsumables(int EntityID)
     {
@@ -847,15 +860,31 @@ public static class EntityUtilities
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
         if (leader == null) return;
 
+        //for (int j = 0; j < leader.Companions.Count; j++)
+        //{
+        //    var companion = leader.Companions[j] as EntityAliveSDX;
+        //    if (companion != null)
+        //    {
+        //        bool canRespawn = companion.Buffs.HasCustomVar("respawn");
+        //        if (_respawnReason == RespawnType.Died && !canRespawn)
+        //        {
+        //            continue;
+        //        }
+
+        //        Log.Out($"Teleporting {companion.EntityName} ({companion.entityId})");
+        //        companion.TeleportToPlayer(leader, true);
+        //    }
+        //}
+
         var removeList = new List<string>();
-        foreach( var cvar in leader.Buffs.CVars)
+        foreach (var cvar in leader.Buffs.CVars)
         {
-            if ( cvar.Key.StartsWith("hired_"))
+            if (cvar.Key.StartsWith("hired_"))
             {
                 var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
-                if ( entity)
+                if (entity)
                 {
-                    if ( entity.IsDead()) // Are they dead? Don't teleport their dead bodies
+                    if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
                     {
                         removeList.Add(cvar.Key);
                         continue;
@@ -866,13 +895,13 @@ public static class EntityUtilities
                     {
                         continue;
                     }
-                    entity.TeleportToPlayer(leader);
+                    entity.TeleportToPlayer(leader, true);
 
 
                 }
                 else // Clean up the invalid entries
                 {
-                    removeList.Add(cvar.Key);   
+                    removeList.Add(cvar.Key);
                 }
             }
         }
@@ -911,7 +940,6 @@ public static class EntityUtilities
 
         // Set up a link from the hired NPC to the player.
         leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
-
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
 
         // Cache the leader.

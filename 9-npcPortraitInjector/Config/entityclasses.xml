@@ -1,0 +1,103 @@
+<npcPortraitInjector file="entityclasses.xml">
+
+<!--	// npcPortraitInjector // Entity NPCID Injection - 0-XNPCCore -->
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'npcanimalfox') or (contains (@name, 'npcAnimalFox'))]">
+			<property name="NPCID" value="npcanimalfox"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'npcnurse') or (contains (@name, 'npcNurse'))]">
+			<property name="NPCID" value="npcnurse"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'npcbaker') or (contains (@name, 'npcBaker'))]">
+			<property name="NPCID" value="npcbaker"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+<!--	// npcPortraitInjector // Entity NPCID Injection - 1-RobotsPack -->
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'mech') or (contains (@name, 'Mech'))]">
+			<property name="NPCID" value="npcmech"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+
+<!--	// npcPortraitInjector // Entity NPCID Injection - 1-SoldierPack -->
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'officer') or (contains (@name, 'Officer'))]">
+			<property name="NPCID" value="npcofficer"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'soldier1') or (contains (@name, 'Soldier1'))]">
+			<property name="NPCID" value="npcsoldier1"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'soldier2') or (contains (@name, 'Soldier2'))]">
+			<property name="NPCID" value="npcsoldier2"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'soldier3') or (contains (@name, 'Soldier3'))]">
+			<property name="NPCID" value="npcsoldier3"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'soldier4') or (contains (@name, 'Soldier4'))]">
+			<property name="NPCID" value="npcsoldier4"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+
+<!--	// npcPortraitInjector // Entity NPCID Injection - 1-VaultDwellersPack -->
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'powerarmor') or (contains (@name, 'PowerArmor'))]">
+			<property name="NPCID" value="npcpowerarmor"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'reconmale') or (contains (@name, 'ReconMale'))]">
+			<property name="NPCID" value="npcreconmale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'reconfemale') or (contains (@name, 'ReconFemale'))]">
+			<property name="NPCID" value="npcreconfemale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultsecuritymale') or (contains (@name, 'VaultSecurityMale'))]">
+			<property name="NPCID" value="npcvaultsecmale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultsecurityfemale') or (contains (@name, 'VaultSecurityFemale'))]">
+			<property name="NPCID" value="npcvaultsecfemale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultboss') or (contains (@name, 'VaultBoss'))]">
+			<property name="NPCID" value="npcvaultboss"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultdoctor') or (contains (@name, 'VaultDoctor'))]">
+			<property name="NPCID" value="npcvaultdoc"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultresidentmale') or (contains (@name, 'VaultResidentMale'))]">
+			<property name="NPCID" value="npcvaultresmale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+		<append xpath="/entity_classes/entity_class[contains (@name, 'vaultresidentfemale') or (contains (@name, 'VaultResidentFemale'))]">
+			<property name="NPCID" value="npcvaultresfemale"/>
+			<property name="DanceType" value="1" />
+		</append>
+
+</npcPortraitInjector>

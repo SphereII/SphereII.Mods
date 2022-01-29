@@ -114,6 +114,9 @@ public static class EntityTargetingUtilities
     {
         if (self == null) return true;
 
+        // If it's dead, offer no such protection.
+        if (self.IsDead()) return true;
+
         // If the damage was not caused by a living entity, take that damage.
         if (!(damagingEntity is EntityAlive livingEntity))
             return true;

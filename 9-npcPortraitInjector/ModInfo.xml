@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<xml>
+	<ModInfo>
+		<Name value="9-npcPortraitInjector" />
+		<Description value="Injects the NPCID property into entities." />
+		<Author value="Sirillion" />
+		<Version value="20.0.1.1" />
+		<Website value="" />
+	</ModInfo>
+</xml>

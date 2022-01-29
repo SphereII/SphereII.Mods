@@ -1,0 +1,35 @@
+﻿<configs>
+  <!--    // SMX // Conversation NPC Window -->
+  <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowRespondentName']" name="anchor">CenterTop</setattribute>
+  <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowStatement']" name="anchor">CenterTop</setattribute>
+  <setattribute xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/window[@name='windowResponses']" name="anchor">CenterBottom</setattribute>
+  <!--set xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']/@controller">XUiC_DialogWindowGroupSDX, Mods</set-->
+
+  
+  <!--<append xpath="/xui/ruleset[@name='default']/window_group[@name='dialog']">
+    <window name="NPCCharacterFrameWindow" anchor="LeftTop"/>
+  </append>--> <!-- useful for debugging  -->
+  
+  <append xpath="/xui/ruleset[@name='default']">
+    <window_group name="HireInformation" >
+      <window name="windowHireInformationPopup" anchor="CenterTop"/>
+    </window_group>
+
+    <window_group name="JoinInformation" >
+      <window name="windowJoinInformationPopup" anchor="CenterTop"/>
+    </window_group>
+
+    <window_group name="EntityInformation" >
+      <window name="windowEntityInformationPanel" anchor="CenterTop"/>
+    </window_group>
+
+    <window_group name="SetCode" >
+      <window name="windowPathFindingKeypad"/>
+    </window_group>
+
+    <window_group name="LockPicking" >
+      <window name="windowLockPicking"/>
+    </window_group>
+
+  </append>
+</configs>

@@ -1,0 +1,44 @@
+<XNPCCoreUI file="XUi/controls.xml">
+
+<!--	// XNPCCoreUI // Global Colors -->
+
+		<append xpath="/styles/global">
+			<style_entry name="xnpccoreui_element_background"						value="7,7,7" />										<!-- This entry sets the color for: GLOBAL Element backgrounds -->
+			<style_entry name="xnpccoreui_element_backdrop_1"						value="32,32,32" />										<!-- This entry sets the color for: GLOBAL Element primary backdrops (module backgrounds) -->
+			<style_entry name="xnpccoreui_element_backdrop_2"						value="64,64,64" />										<!-- This entry sets the color for: GLOBAL Element secondary backdrops (module backgrounds) -->
+			<style_entry name="xnpccoreui_element_separation_1"						value="255,255,255" />									<!-- This entry sets the color for: GLOBAL Element primary separation lines -->
+			<style_entry name="xnpccoreui_element_separation_2"						value="128,128,128" />									<!-- This entry sets the color for: GLOBAL Element secondary separation lines -->
+			<style_entry name="xnpccoreui_element_accentcolor_1"					value="255,144,24" />									<!-- This entry sets the color for: GLOBAL Element primary accents -->
+			<style_entry name="xnpccoreui_element_labelcolor_1"						value="255,255,255" />									<!-- This entry sets the color for: GLOBAL Element primary labels -->
+			<style_entry name="xnpccoreui_element_labelcolor_effect"				value="20,20,20,230" />									<!-- This entry sets the color for: GLOBAL Element primary effect_color for labels -->
+		</append>
+
+
+<!--	// XNPCCoreUI // Defined Label Designs -->
+
+		<append xpath="/styles">
+			<style name="xnpccoreui_window_title" 					type="label">
+				<style_entry name="font_size"						value="36" />
+				<style_entry name="color"							value="[xnpccoreui_element_labelcolor_1]" />
+				<style_entry name="crispness"						value="Always" />
+				<style_entry name="effect" 							value="outline" />
+				<style_entry name="effect_distance"					value="1,1" />
+				<style_entry name="effect_color"					value="[xnpccoreui_element_labelcolor_effect]" />
+				<style_entry name="pivot"							value="center" />
+				<style_entry name="justify"							value="center" />
+				<style_entry name="upper_case"						value="true" />
+			</style>
+		</append>
+
+		<append xpath="/styles">
+			<style name="xnpccoreui_label_normal"					type="label">
+				<style_entry name="font_size"						value="22" />
+				<style_entry name="color"							value="[xnpccoreui_element_labelcolor_1]" />
+				<style_entry name="crispness"						value="Always" />
+				<style_entry name="effect" 							value="outline" />
+				<style_entry name="effect_distance"					value="1,1" />
+				<style_entry name="effect_color"					value="[xnpccoreui_element_labelcolor_effect]" />
+			</style>
+		</append>
+
+</XNPCCoreUI>

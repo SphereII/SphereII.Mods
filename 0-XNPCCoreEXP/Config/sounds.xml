@@ -1,0 +1,182 @@
+<configs>
+	<append xpath="/Sounds">
+	
+		<!--NEW-->
+		<SoundDataNode name="NPCHelp">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?NPCHelp_whistle" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="NPCHalt">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?Halt" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="NPCResume">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?Resume" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="NPCHuntingMode">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?Hunting" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="NPCTheatControlMode">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?ThreatControl" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="NPCFullControlMode">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/NPCControlSounds.unity3d?FullControl" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+
+		<SoundDataNode name="HarleyAlert">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Iseeyou" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Onemore" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Bigape" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Ominous" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Wannaplay" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleyAttack">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Couldabeen" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Eatthis" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Punchline" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Smackya" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Banzi" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleyRandom">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Laugh01" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Nutzo" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Teehee" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Woopee" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Tada" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Ididit" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Winner" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleyHurt">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Oww" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Hey" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleySense">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Ominous" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Wannaplay" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleyDie">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Die02" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Die01" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Isntfunny" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>
+		<SoundDataNode name="HarleyInfected">
+			<AudioSource name="Sounds/AudioSource_VO" />
+			<Channel name="Mouth"/>
+			<Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Die01" />
+			<AudioClip ClipName="#@modfolder:Resources/HarleySounds.unity3d?Isntfunny" />
+			<LocalCrouchVolumeScale name="1.0" />
+			<CrouchNoiseScale name="0.5" />
+			<NoiseScale name="1" />
+			<MaxVoices name="10" />
+			<maxVoicesPerEntity name="1" />
+			<MaxRepeatRate name="3.0" />
+		</SoundDataNode>		
+	</append>
+</configs>

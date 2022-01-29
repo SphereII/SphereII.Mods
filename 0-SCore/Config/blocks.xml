@@ -124,6 +124,8 @@
 				<!-- Enables the addition of faction relationship cvars (see FactionRelationshipCVars.cs)  -->
 				<property name="AllEntitiesUseFactionTargeting" value="false" />
 				<!-- If true, all entities in the game use faction-based targeting -->
+
+				<property name="DisplayCompanions" value="true" />
 			</property>
 
 			<!-- Allow themed settings to be applied: See Harmony/Atmosphere/-->

@@ -171,7 +171,7 @@ namespace UAI
             // If we are on a mission, don't execute this teleport; let the one on entityaliveSDX handle it.
             var entityAlive = _context.Self as EntityAliveSDX;
             if (entityAlive != null)
-                entityAlive.TeleportToPlayer(leader);
+                entityAlive.TeleportToPlayer(leader, true);
 
         }
 
@@ -337,8 +337,16 @@ namespace UAI
                     var tileEntities = chunk.GetTileEntities();
                     foreach (var tileEntity in tileEntities.list)
                     {
-                        foreach (var filterType in _targetTypes.Split(','))
+                        foreach (var filterTypeFull in _targetTypes.Split(','))
                         {
+                            // Check if the filter type includes a :, which may indicate we want a precise block.
+                            var filterType = filterTypeFull;
+                            var blockNames = "";
+                            if (filterTypeFull.Contains(":"))
+                            {
+                                filterType = filterTypeFull.Split(':')[0];
+                                blockNames = filterTypeFull.Split(':')[1];
+                            }
                             // Parse the filter type and verify if the tile entity is in the filter.
                             var targetType = EnumUtils.Parse<TileEntityType>(filterType, true);
                             if (tileEntity.GetTileEntityType() != targetType) continue;
@@ -358,6 +366,12 @@ namespace UAI
                                     break;
                             }
 
+                            // Search for the tile entity's block name to see if its filtered.
+                            if ( !string.IsNullOrEmpty(blockNames))
+                            {
+                                if (!blockNames.Contains(tileEntity.blockValue.Block.GetBlockName()))
+                                    continue;
+                            }
                             var position = tileEntity.ToWorldPos().ToVector3();
                             paths.Add(position);
                         }

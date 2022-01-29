@@ -1,0 +1,15 @@
+<Config>
+    
+	<append xpath="/recipes">
+
+		<!-- BACKPACK NPC ACTIONS -->
+		<recipe name="itemNPCModHelp" count="1">
+		</recipe>
+		<recipe name="itemNPCModStop" count="1">
+		</recipe>
+		<recipe name="itemNPCModMode" count="1">
+		</recipe>
+
+	</append>
+    
+</Config>

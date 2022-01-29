@@ -76,6 +76,7 @@
     <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAlivePatcherAwardKill.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCJumpHeight.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
     <Compile Include="Harmony\PlayerFeatures\SoftHands.cs" />
     <Compile Include="Harmony\PlayerFeatures\TeleportNPCs.cs" />
+    <Compile Include="Harmony\PrefabFeatures\DynamicPrefabDecorator.cs" />
     <Compile Include="Harmony\PrefabFeatures\RemoveTraderProtection.cs" />
     <Compile Include="Harmony\Progression\EntityAliveSDXProgressionHooks.cs" />
     <Compile Include="Harmony\Progression\Progression.cs" />
@@ -120,11 +122,10 @@
     <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\versionTemplate.cs">
+    <Compile Include="Properties\AssemblyInfo1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>versionTemplate.tt</DependentUpon>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
     </Compile>
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Scripts\Dialogs\DialogActionRemoveBuffSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionRewardSkillPoint.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionShowToolTipSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasTask.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementHasPackage.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementFaction.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementFactionValue.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasBuffSDX.cs" />
@@ -220,11 +223,14 @@
     <Compile Include="Scripts\MinEvents\MinEventActionCreateItemSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommand.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionGiveQuestSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionGuardClear.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionGuardThere.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionHideNPCSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetCVar.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionGuardHere.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />
@@ -245,6 +251,7 @@
     <Compile Include="Scripts\Quests\QuestActionPlaySound.cs" />
     <Compile Include="Scripts\Quests\QuestActionReplaceEntitySDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionSpawnEntitySDX.cs" />
+    <Compile Include="Scripts\Quests\QuestUtils.cs" />
     <Compile Include="Scripts\Quests\RewardGiveCvarDMT.cs" />
     <Compile Include="Scripts\Quests\RewardGiveNPCSDX.cs" />
     <Compile Include="Scripts\Quests\RewardItemSDX.cs" />
@@ -297,6 +304,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskGuard.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskIdle.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSelf.cs" />
@@ -326,6 +334,7 @@
     <Compile Include="Scripts\XUiC\XUiC_PathFindingKeypadWindow.cs" />
     <Compile Include="Scripts\XUiC\XUiC_PickLocking.cs" />
     <Compile Include="Scripts\XUiC\XUiC_PlayerStatWindowSDX.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_NPCStatWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\blockplaceholders.xml" />
@@ -418,9 +427,9 @@
     <Content Include="Prefabs\sphereii_cave_11.xml" />
     <Content Include="Prefabs\sphereii_deepcaves_01.tts" />
     <Content Include="Prefabs\sphereii_deepcaves_01.xml" />
-    <Content Include="Properties\versionTemplate.tt">
+    <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>versionTemplate.cs</LastGenOutput>
+      <LastGenOutput>AssemblyInfo1.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Lockpicking\README.txt.txt" />
   </ItemGroup>
@@ -586,17 +595,4 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
-  <PropertyGroup>
-    <PostBuildEvent>
-
-			:: Update the ModInfo.xml
-			IF EXIST $(ProjectDir)\ModInfo.xml (
-				IF EXIST ..\Tools\bin\sed.exe (
-					:: Sort out the version number from the Configuration, and grab the last digits of the Version number
-					echo Updating Version number to @(VersionNumber)
-					..\Tools\bin\sed.exe -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" ModInfo.xml
-				)
-			)
-</PostBuildEvent>
-  </PropertyGroup>
 </Project>

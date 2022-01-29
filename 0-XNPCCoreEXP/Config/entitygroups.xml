@@ -1,0 +1,274 @@
+<configs>
+	
+	<insertBefore xpath="/entitygroups/entitygroup[starts-with(@name, 'WildGame')]/entity[@name='none']"> <!-- always insert before the None entry in groups, none must be last  -->
+		<entity name="npcBakerEmptyHand" prob=".3" />
+		<entity name="npcBakerClub" prob=".3" />
+		<entity name="npcBakerKnife" prob=".3" />
+		<entity name="npcBakerBat" prob=".3" />
+		<entity name="npcBakerMachete" prob=".3" />
+		<entity name="npcBakerSMG" prob=".1" />
+		<entity name="npcBakerAK47" prob=".1" />
+		<entity name="npcBakerHRifle" prob=".1" />
+		<entity name="npcBakerPistol" prob=".2" />
+		<entity name="npcBakerLBow" prob=".2" />
+		<entity name="npcNurseEmptyHand" prob=".3" />
+		<entity name="npcNurseClub" prob=".3" />
+		<entity name="npcNurseKnife" prob=".3" />
+		<entity name="npcNursePistol" prob=".2" />
+		<entity name="npcNurseLBow" prob=".2" />
+		<entity name="npcAnimalFox" prob=".2" />
+	</insertBefore>  
+	
+	<insertBefore xpath="/entitygroups/entitygroup[starts-with(@name, 'EnemyAnimals')]/entity[@name='none']">
+		<entity name="npcHarleyClub" prob="1" />
+		<entity name="npcHarleyBat" prob="1" />
+		<entity name="npcHarleyKnife" prob="1" />	
+		<entity name="npcHarleyMachete" prob="1" />
+		<entity name="npcHarleySpear" prob="1" />	
+		<entity name="npcHarleyAxe" prob="1" />		
+		<entity name="npcHarleyPipePistol" prob=".5" />
+		<entity name="npcHarleyPipeRifle" prob=".5" />		
+		<entity name="npcHarleyPipeShotgun" prob=".5" />
+	</insertBefore>  
+	
+	<insertAfter xpath="/entitygroups/entitygroup[starts-with(@name, 'EnemyAnimalsWasteland')]/entity[@name='animalZombieBear']">
+		<entity name="npcHarleyBat" prob="1" />
+		<entity name="npcHarleyKnife" prob="1" />	
+		<entity name="npcHarleyMachete" prob="1" />
+		<entity name="npcHarleyPipePistol" prob="1" />
+		<entity name="npcHarleyPipeRifle" prob="1" />	
+		<entity name="npcHarleySMG" prob=".5" />
+		<entity name="npcHarleyAK47" prob=".5" />
+		<entity name="npcHarleyHRifle" prob="1" />
+		<entity name="npcHarleyPistol" prob="1" />
+		<entity name="npcHarleyLBow" prob="1" />
+		<entity name="npcHarleyTRifle" prob=".5" />	
+		<entity name="npcHarleyM60" prob=".25" />
+		<entity name="npcHarleyDPistol" prob="1" />
+		<entity name="npcHarleyPShotgun" prob="1" />	
+		<entity name="npcHarleyAShotgun" prob=".5" />
+		<entity name="npcHarleyXBow" prob="1" />
+		<entity name="npcHarleyRocketL" prob=".25" />
+	</insertAfter>
+
+		
+	<append xpath="/entitygroups/entitygroup[descendant::entity[@name='zombieArlene']]">	
+		<entity name="zombieFemaleTutorial" />
+	</append>
+	
+	
+<!--	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesAll']/entity[@name='zombieBoe']" >
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesNight']/entity[@name='zombieBoe']" >
+		<entity name="zombieFemaleTutorial" prob=".3" />
+		<entity name="zombieFemaleTutorialFeral" prob=".15" />
+	</insertAfter>
+
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesWasteland']/entity[@name='zombieBoe']" >
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesWastelandNight']/entity[@name='zombieBoeFeral']" >
+		<entity name="zombieFemaleTutorialFeral" prob=".15"/>
+	</insertAfter>
+
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesHoard']/entity[@name='zombieBoe']" >
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieGhostTownGroup']/entity[@name='zombieBoe']" >
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombiesFeral']/entity[@name='zombieWightFeral']" >	
+		<entity name="zombieFemaleTutorialFeral" prob=".15"/>
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieBadassGroup']/entity[@name='zombieArleneFeral']" >	
+		<entity name="zombieFemaleTutorialFeral" prob=".15"/>
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='EnemyAnimalsBurntForest']/entity[@name='animalZombieDog']" >
+
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='EnemyAnimalsWasteland']/entity[@name='animalZombieDog']" >	
+
+	</insertAfter>
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieDogGroup']/entity[@name='animalZombieDog']" >	
+
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieSoldierGroup']/entity[@name='zombieSoldier']" >
+
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='HospitalGroup']/entity[@name='zombieLab']" >	
+
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieHazMatOnlyGroup']/entity[@name='zombieMaleHazmat']" >	
+		
+	</insertAfter>
+
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieBikerBarGroup']/entity[@name='zombieBiker']" >	
+		
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'ZombieBikerBarGroupGS')]/entity[@name='zombieBiker']">
+		
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[@name='ZombieAnimalsGroup']/entity[@name='animalZombieDog']" >	
+
+	</insertAfter>		-->
+	
+	
+	<!-- NPCs can be sleepers, but this feature is under development -->
+	
+	<!--<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'sleeperHordeStageGS')]/entity[@name='zombieBoe']">
+		<entity name="npcNurseEmptyHand" prob=".2" />
+		<entity name="npcNurseClub" prob=".2" />
+		<entity name="npcNurseSMG" prob=".1" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'sleeperHordeStageGS')]/entity[@name='zombieJoe']">
+		<entity name="npcNurseEmptyHand" prob=".2" />
+		<entity name="npcNurseClub" prob=".2" />
+		<entity name="npcNurseSMG" prob=".1" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'sleeperHordeStageGS')]/entity[@name='zombieSteve']">
+		<entity name="npcNurseEmptyHand" prob=".2" />
+		<entity name="npcNurseClub" prob=".2" />
+		<entity name="npcNurseSMG" prob=".1" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'sleeperHordeStageGS')]/entity[@name='zombieMoe']">
+		<entity name="npcNurseEmptyHand" prob=".2" />
+		<entity name="npcNurseClub" prob=".2" />
+		<entity name="npcNurseSMG" prob=".1" />	
+	</insertAfter>	-->
+	
+	<!-- NPCs using the EntityEnemySDX, SCore Class can spawn in BloodMoon groups without error  -->
+	
+	<!--<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'feralHordeStageGS')]/entity[@name='zombieBoe']">
+		<entity name="npcNurseEmptyHandBloodMoon" prob=".1" />
+		<entity name="npcNurseClubBloodMoon" prob=".1" />
+		<entity name="npcNurseSMGBloodMoon" prob=".1" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'feralHordeStageGS')]/entity[@name='zombieJoe']">
+		<entity name="npcNurseEmptyHandBloodMoon" prob=".1" />
+		<entity name="npcNurseClubBloodMoon" prob=".15" />
+		<entity name="npcNurseSMGBloodMoon" prob=".1" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'feralHordeStageGS')]/entity[@name='zombieSteve']">
+		<entity name="npcNurseEmptyHandBloodMoon" prob=".1" />
+		<entity name="npcNurseClubBloodMoon" prob=".1" />
+		<entity name="npcNurseSMGBloodMoon" prob=".1" />	
+	</insertAfter> -->
+	
+	<!--<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'feralHordeStageGS')]/entity[@name='zombieFatCopFeral']">
+		
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'feralHordeStageGS')]/entity[@name='zombieWightFeral']">
+		
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'scoutHordeStageGS')]/entity[@name='zombieBoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'scoutHordeStageGS')]/entity[@name='zombieJoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />	
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'scoutHordeStageGS')]/entity[@name='zombieSteve']">
+		<entity name="zombieFemaleTutorial" prob=".3" />	
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'wanderingHordeStageGS')]/entity[@name='zombieBoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'wanderingHordeStageGS')]/entity[@name='zombieJoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'wanderingHordeStageGS')]/entity[@name='zombieSteve']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>	
+
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'FwanderingHordeStageGS')]/entity[@name='zombieBoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'FwanderingHordeStageGS')]/entity[@name='zombieJoe']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'FwanderingHordeStageGS')]/entity[@name='zombieSteve']">
+		<entity name="zombieFemaleTutorial" prob=".3" />
+	</insertAfter>	
+
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieLab']">
+
+	</insertAfter>	
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieBoeFeral' and @prob='0.1']">
+
+	</insertAfter>	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieBoeFeral' and @prob='0.2']">
+
+	</insertAfter>		
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieBoeFeral' and @prob='0.3']">
+
+	</insertAfter>	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieBoeFeral' and @prob='0.4']">
+
+	</insertAfter>		
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieHospitalGroupGS')]/entity[@name='zombieBoeFeral' and @prob='0.5']">
+ 
+	</insertAfter>		
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldier']">
+
+	</insertAfter>		
+	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldierFeral' and @prob='0.1']">
+ 
+	</insertAfter>	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldierFeral' and @prob='0.2']">
+ 
+	</insertAfter>		
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldierFeral' and @prob='0.3']">
+ 
+	</insertAfter>	
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldierFeral' and @prob='0.4']">
+
+	</insertAfter>		
+	<insertAfter xpath="/entitygroups/entitygroup[ starts-with(@name, 'zombieSoldierGroupGS')]/entity[@name='zombieSoldierFeral' and @prob='0.5']">
+ 
+	</insertAfter>	-->
+
+	
+	<!--  Gan/Xyth's method for injecting new characters from other modders.  Baselining on the zombieFemaleTutorial -->
+	
+	<!--<append xpath="/entitygroups/entitygroup[descendant::entity[@name='zombieFemaleTutorial' and @prob='.3']]">
+
+    </append> 
+	
+	<append xpath="/entitygroups/entitygroup[descendant::entity[@name='zombieFemaleTutorialFeral' and @prob='.15']]">
+
+    </append> 		-->
+	
+	
+</configs>

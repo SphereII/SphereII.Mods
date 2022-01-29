@@ -23,10 +23,12 @@ namespace Harmony
         {
             private static BlockValue GetBlock(IChunk chunk, int _x, int _y, int _z)
             {
-                if (_y >= 256)
+                if (_y >= 256 || _y <= 0)
                 {
                     return BlockValue.Air;
                 }
+
+                
                 return chunk.GetBlock(_x, _y, _z);
             }
 

@@ -31,7 +31,7 @@ namespace Harmony.PrefabFeatures
                 //Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-                Vector3i vector3I = new Vector3i(0, 0, 0);
+                Vector3i vector3I = new Vector3i(1, 1, 1);
                 __instance.ProtectSize = vector3I;
             }
         }

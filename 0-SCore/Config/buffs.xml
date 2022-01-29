@@ -21,6 +21,16 @@
 			<duration value="1" />
 			<effect_group>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="GuardThere, SCore"/> <!-- makes the entity stay in the position-->
+			</effect_group>
+		</buff>
+
+		<buff name="buffOrderGuardHere"  hidden="true" >
+			<stack_type value="ignore"/>
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="GuardHere, SCore"/> <!-- copies the player's current location for the entity to replace.-->
 			</effect_group>
 		</buff>
 

@@ -71,6 +71,11 @@ internal class MecanimSDX : AvatarController
     private MecanimSDX()
     {
         entity = transform.gameObject.GetComponent<EntityAlive>();
+        if ( entity == null )
+        {
+            Debug.Log($"Error trying to get EnttyAlive script");
+            return;
+        }
         var entityClass = EntityClass.list[entity.entityClass];
 
         // this.AttackHash = this.GenerateLists(entityClass, "AttackAnimations");

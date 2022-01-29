@@ -1,0 +1,27 @@
+﻿<configs>
+  <append xpath="/styles">
+  <style name="SMX.conversation.player.background" type="texture">
+    <style_entry name="depth" value="2" />
+    <style_entry name="pos" value="0,0" />
+    <style_entry name="size" value="856,200" />
+    <style_entry name="texture" value="@modfolder:Textures/trader/smx_player_bg.png" />
+  </style>
+
+  <style name="SMX.conversation.trader.background" type="texture">
+    <style_entry name="depth" value="2" />
+    <style_entry name="pos" value="0,0" />
+    <style_entry name="size" value="856,100" />
+    <style_entry name="texture" value="@modfolder:Textures/trader/smx_trader_bg.png" />
+  </style>
+
+  <style name="SMX.general.panel.title" type="label">
+    <style_entry name="depth" value="4" />
+    <style_entry name="pos" value="0,-24" />
+    <style_entry name="size" value="0,0" />
+    <style_entry name="font_size" value="36" />
+    <style_entry name="effect" value="outline" />
+    <style_entry name="justify" value="center" />
+    <style_entry name="foregroundlayer" value="true" />
+  </style>
+  </append>
+</configs>

@@ -59,20 +59,28 @@ namespace Harmony.Blocks
         //    }
         //}
 
-        //// Let the NPCs pass by traps without being hurt.
-        //[HarmonyPatch(typeof(BlockDamage))]
-        //[HarmonyPatch("OnEntityCollidedWithBlock")]
-        //public class SCoreBlockDamage_OnEntityCollidedWithBlock
-        //{
-        //    public static bool Prefix(Entity _targetEntity)
-        //    {
-        //        if (_targetEntity == null)
-        //            return false;
+        // Let the NPCs pass by traps without being hurt.
+        [HarmonyPatch(typeof(BlockDamage))]
+        [HarmonyPatch("OnEntityCollidedWithBlock")]
+        public class SCoreBlockDamage_OnEntityCollidedWithBlock
+        {
+            public static bool Prefix(BlockDamage __instance, Entity _targetEntity)
+            {
+                if (_targetEntity == null)
+                    return false;
 
-        //        if (_targetEntity is EntityNPC)
-        //            return false;
-        //        return true;
-        //    }
-        //}
+                // For hired entities, take a move penalty, but no damage.
+                var entityAlive = _targetEntity as global::EntityAlive;
+                if (EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) != null )
+                {
+                    if (__instance.MovementFactor != 1f)
+                    {
+                        entityAlive.SetMotionMultiplier(EffectManager.GetValue(PassiveEffects.MovementFactorMultiplier, null, __instance.MovementFactor, entityAlive, null, default(FastTags), true, true, true, true, 1, true));
+                    }
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

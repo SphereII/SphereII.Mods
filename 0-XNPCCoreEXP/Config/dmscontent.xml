@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<configs>
+	<append xpath="/root/contents">
+		<property type="SingleClip" name="spheretest" source ="Sounds/AudioSource_TraderTheme" sections="TraderJen" path="#Sounds/Music?TraderJen.wav"/>
+		<property type="SingleClip" name="xythtest" source ="Sounds/AudioSource_TraderTheme" sections="TraderBob" path="#Sounds/Music?TraderBob.wav"/>
+<!--		<property type="SingleClip" name="traderWeapons" source ="Sounds/AudioSource_TraderTheme" sections="None" path="#Sounds/Music?TraderJen.wav"/>
+		<property type="SingleClip" name="traderJoel" source ="Sounds/AudioSource_TraderTheme" sections="None" path="#Sounds/Music?TraderJen.wav"/>
+		<property type="SingleClip" name="traderHeavy" source ="Sounds/AudioSource_TraderTheme" sections="None" path="#Sounds/Music?TraderJen.wav"/>
+		<property type="SingleClip" name="traderFood" source ="Sounds/AudioSource_TraderTheme" sections="None" path="#Sounds/Music?TraderJen.wav"/> -->
+	</append>
+</configs>

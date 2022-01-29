@@ -484,6 +484,9 @@ namespace Lockpicking
             ProgressionValue progressionValue = null;
             var difficulty = 0;
 
+            var prevBreakTime = breakTime;
+            var prevMaxGive = maxGiveAmount;
+
             var healthLeft = blockValue.Block.MaxDamage - blockValue.damage;
             // Adjust the difficulty based on the lock damage
             if (healthLeft <= 10000)
@@ -527,14 +530,19 @@ namespace Lockpicking
                     breakTime = StringParsers.ParseFloat(BreakTimes[difficulty]);
                 }
 
+            
+
 
                 progressionValue = player.Progression.GetProgressionValue("perkLockPicking");
                 if (progressionValue != null)
                 {
                     if (progressionValue.Level > 0)
                     {
-                        breakTime += progressionValue.Level / 10;
-                        maxGiveAmount += progressionValue.Level / 10 ;
+                        prevBreakTime = breakTime;
+                        prevMaxGive = maxGiveAmount;
+                        Log.Out($"Break Time: {breakTime} (float){progressionValue.Level} {(float)progressionValue.Level / 10}");
+                        breakTime += (float)progressionValue.Level / 10;
+                        maxGiveAmount += (float)progressionValue.Level / 10 ;
                     }
                 }
 
@@ -547,17 +555,17 @@ namespace Lockpicking
 
             if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
             {
-                if (player != null)
-                {
-                    if (player.Buffs.HasCustomVar("BreakTime"))
-                        breakTime = player.Buffs.GetCustomVar("BreakTime");
+                //if (player != null)
+                //{
+                //    if (player.Buffs.HasCustomVar("BreakTime"))
+                //        breakTime = player.Buffs.GetCustomVar("BreakTime");
 
-                    if (player.Buffs.HasCustomVar("MaxGive"))
-                        maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
-                }
+                //    if (player.Buffs.HasCustomVar("MaxGive"))
+                //        maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
+                //}
                 var progression = " Progression: ";
                 if (progressionValue != null)
-                    progression = $"{progression} Level {progressionValue.Level} BreakTime Before: {breakTime -= progressionValue.Level} MaxGiveAmount Before: {maxGiveAmount -= progressionValue.Level}";
+                    progression = $"{progression} Level {progressionValue.Level} BreakTime Before: {prevBreakTime} MaxGiveAmount Before: {prevMaxGive}";
                 else
                     progression = $"{progression} N/A";
 

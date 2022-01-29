@@ -1,0 +1,52 @@
+<XNPCCoreUI file="XUi/controls.xml">
+
+<!--	// XNPCCoreUI // Conversation Player Window -->
+
+		<append xpath="/controls">
+			<xnpccoreui_response_entry>
+				<rect	width="340"
+						height="36"
+						style="press, hover, scroll"
+						controller="DialogResponseEntry"
+						enabled_color="${enabled_color}"
+						disabled_color="${disabled_color}"
+						row_color="${row_color}"
+						hover_color="${hover_color}"
+						sound="[recipe_click]"
+						visible="{showresponse}">
+					<sprite name="Icon" depth="5" pos="20,-20" size="20,20" sprite="xnpccoreui_game_symbol_talk" pivot="center" color="{rowstatecolor}" globalopacitymod="1.8" />
+					<label name="Text" depth="4" pos="200,-20" width="300" height="36" style="xnpccoreui_label_normal" text="{response}{poi.name}" font_size="22" pivot="center" color="{rowstatecolor}" overflow="ShrinkContent" />
+				</rect>
+			</xnpccoreui_response_entry>
+		</append>
+
+
+<!--	// SMX // Window Design - Main Window -->
+
+		<append xpath="/controls">
+			<xnpccoreui_window_design>
+				<rect name="xnpccoreui_window_design" depth="${depth}">
+					<!--sprite name="smxlib_window_background" depth="1" width="${width}" height="${height}" sprite="smxlib_window_background_detail" type="sliced" color="[smxui_element_bg]" globalopacitymod="1.0" /-->
+					<sprite name="xnpccoreui_window_background" depth="1" width="${width}" height="${height}" sprite="xnpccoreui_window_background" type="sliced" color="[xnpccoreui_element_background]" globalopacitymod="1.6" />
+					<sprite name="xnpccoreui_window_foreground" depth="2" pos="10,-70" width="${width-20}" height="${height-80}" sprite="xnpccoreui_window_background" type="sliced" color="[xnpccoreui_element_backdrop_1]" globalopacitymod="1.8" />
+					<sprite name="xnpccoreui_window_header_background" depth="3" pos="-18,-4" width="${16+width}" height="60" sprite="xnpccoreui_header_background" color="[black]" globalopacitymod="1.9" />
+					<sprite name="xnpccoreui_window_header_background" depth="4" pos="-18,-4" width="${16+width}" height="60" sprite="xnpccoreui_header_background" color="[white]" globalopacitymod="1.9" />
+					<sprite name="xnpccoreui_window_header_foreground" depth="5" pos="5,-4" width="${width-7}" height="62" sprite="xnpccoreui_header_foreground" type="sliced" color="[xnpccoreui_element_accentcolor_1]" globalopacitymod="0.8" />
+					<!--sprite name="smxlib_window_header_separation" depth="4" pos="20,-61" width="${width-40}" height="5" sprite="smxlib_window_separation_line_1" flip="vertically" color="[smxlib_window_sep_line]" globalopacitymod="1.2" /-->
+					<label name="${name}" depth="6" pos="${Round(width/2,0)},-36" width="${width-40}" height="36" style="xnpccoreui_window_title" text="${text}" text_key="${text_key}" overflow="ShrinkContent" />
+
+					<!--sprite name="xnpccoreui_window_isdev" depth="8" pos="${width-40},-35" width="28" height="28" sprite="menu_empty" type="sliced" pivot="center" color="[white]" globalopacitymod="1.8" visible="true" />
+					<sprite name="xnpccoreui_window_isdev" depth="9" pos="${width-40},-35" width="25" height="25" sprite="menu_empty" type="sliced" pivot="center" color="[black]" globalopacitymod="1.8" visible="true" />
+					<label name="ss" depth="10" pos="${width-40},-35" width="28" height="28" style="xnpccoreui_label_normal" text=" / " font_size="18" pivot="center" justify="center" color="[lightGrey]" overflow="ShrinkContent" tooltip="Debug Information" visible="true" /-->
+
+					<!--rect name="smxlib_window_frame">
+						<sprite name="frameLeft" depth="4" pos="10,-60" width="${height-60}" height="3" sprite="smxlib_window_separation_line_1" rotation="-90" color="[smxlib_window_sep_line]" globalopacitymod="1.8" />
+						<sprite name="frameTop" depth="5" pos="0,-5" width="${width}" height="3" sprite="smxlib_window_separation_line_1" color="[smxlib_window_sep_line]" globalopacitymod="1.8" />
+						<sprite name="frameRight" depth="4" pos="${width-10},-60" width="${height-60}" height="3" sprite="smxlib_window_separation_line_1" rotation="-90" color="[smxlib_window_sep_line]" globalopacitymod="1.8" />
+						<sprite name="frameBottom" depth="5" pos="0,${-height+10}" width="${width}" height="3" sprite="smxlib_window_separation_line_1" color="[smxlib_window_sep_line]" globalopacitymod="1.8" />
+					</rect-->
+				</rect>
+			</xnpccoreui_window_design>
+		</append>
+
+</XNPCCoreUI>

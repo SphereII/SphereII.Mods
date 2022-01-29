@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+  <ModInfo>
+    <Name value="0-XNPCCoreEXP" />
+    <Description value="Experimental version of the NPC Core Community Modlet, required for NPC Addon Packs" />
+    <Author value="Xyth" />
+    <Version value="20.1.02.00" />
+    <Website value="" />
+  </ModInfo>
+</xml>
