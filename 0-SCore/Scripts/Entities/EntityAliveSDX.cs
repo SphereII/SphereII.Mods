@@ -448,15 +448,15 @@ public class EntityAliveSDX : EntityTrader
 
         // Check if there's a loot container or not already attached to store its stuff.
         DisplayLog(" Checking Entity's Loot Container");
-        if (lootContainer == null && !string.IsNullOrEmpty(GetLootList()))
+        if (lootContainer == null )
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
             lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
 
-            lootContainer.SetContainerSize(new Vector2i(8, 6));
-
-            // If the loot list is available, set the container to that size.
-            lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
+            if (string.IsNullOrEmpty(GetLootList()))
+                lootContainer.SetContainerSize(new Vector2i(8, 6));
+            else
+                lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
         }
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
@@ -717,6 +717,8 @@ public class EntityAliveSDX : EntityTrader
         if (leader == null)
         {
             Owner = null;
+            IsEntityUpdatedInUnloadedChunk = false;
+            bWillRespawn = false; 
             return;
         }
 
@@ -986,14 +988,17 @@ public class EntityAliveSDX : EntityTrader
         {
             // Remove the cvar.
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
-            EntityUtilities.SetLeaderAndOwner(entityId, -1);
+            EntityUtilities.SetLeaderAndOwner(entityId, 0);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
         }
 
         // Remove them from the companions of the player.
         var player = leader as EntityPlayer;
         if (leader)
+        {
             player.Companions.Remove(this);
+            player.Buffs.RemoveCustomVar($"hired_{entityId}");
+        }
 
         bWillRespawn = false;
         if (this.NavObject != null)
@@ -1159,9 +1164,11 @@ public class EntityAliveSDX : EntityTrader
 
     public override void MarkToUnload()
     {
+
         // Only prevent despawning if owned.
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if (leader != null)
+        // make sure they are alive first.
+        if (leader != null && IsAlive())
         {
             // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
             if (_traderArea == null)
@@ -1173,8 +1180,6 @@ public class EntityAliveSDX : EntityTrader
                 return;
             }
         }
-
-
 
         base.MarkToUnload();
     }
@@ -1267,12 +1272,11 @@ public class EntityAliveSDX : EntityTrader
     }
 
 
-    protected override Vector3i dropCorpseBlock()
+    protected override void dropItemOnDeath()
     {
-        if (string.IsNullOrEmpty(GetLootList())) return Vector3i.zero;
-
         var bagPosition =  new Vector3i( this.position + base.transform.up );
         var hasContents = false;
+
         EntityBackpack entityBackpack = EntityFactory.CreateEntity("Backpack".GetHashCode(), bagPosition) as EntityBackpack;
         TileEntityLootContainer tileEntityLootContainer = new TileEntityLootContainer(null);
 
@@ -1281,16 +1285,16 @@ public class EntityAliveSDX : EntityTrader
         tileEntityLootContainer.SetUserAccessing(true);
         tileEntityLootContainer.SetEmpty();
 
-        if ( !string.IsNullOrEmpty(GetLootList()))
-            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList(), true).size, true);
+        if ( lootContainer != null )
+            tileEntityLootContainer.SetContainerSize(lootContainer.GetContainerSize(), true);
         else
             tileEntityLootContainer.SetContainerSize(new Vector2i(8, 6), true);
-        
+
         // Destroy their toolbar items.
         ItemStack[] slots3 = this.inventory.GetSlots();
         for (int n = 0; n < slots3.Length; n++)
         {
-                slots3[n] = ItemStack.Empty.Clone();
+            slots3[n] = ItemStack.Empty.Clone();
         }
 
         // NPCs backpack.
@@ -1321,18 +1325,11 @@ public class EntityAliveSDX : EntityTrader
         if ( !hasContents)
         {
             entityBackpack.OnEntityUnload();
-            return bagPosition;
+            return ;
         }
 
         tileEntityLootContainer.SetUserAccessing(false);
         tileEntityLootContainer.SetModified();
-
-        // If they have a leader, reference that backpack to the leader
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if ( leader != null)
-            entityBackpack.RefPlayerId =leader.entityId;
-        else
-            entityBackpack.RefPlayerId = this.entityId;
 
         EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
         entityCreationData.entityName = Localization.Get(this.EntityName);
@@ -1341,7 +1338,10 @@ public class EntityAliveSDX : EntityTrader
         GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
         entityBackpack.OnEntityUnload();
         this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
-        return bagPosition;
+
+        // Destroy this body.
+        this.OnEntityUnload();
+        return ;
     }
 
     //public override void OnReloadStart()
