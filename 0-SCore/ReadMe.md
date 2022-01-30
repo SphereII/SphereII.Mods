@@ -10,7 +10,7 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
-Version: 20.0.27.x
+Version: 20.0.29.x
 
 [ Fixes ]
 	- Fixed null ref when trying to get a block outside of world bounds in GetGamePath.

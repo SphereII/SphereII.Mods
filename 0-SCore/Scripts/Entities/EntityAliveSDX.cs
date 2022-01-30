@@ -1127,7 +1127,7 @@ public class EntityAliveSDX : EntityTrader
             // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
             // Find the ground.
-            myPosition.y = y;
+
             motion = Vector3.zero;
             navigator.clearPath();
             this.SetPosition(myPosition, true);
@@ -1269,6 +1269,8 @@ public class EntityAliveSDX : EntityTrader
 
     protected override Vector3i dropCorpseBlock()
     {
+        if (string.IsNullOrEmpty(GetLootList())) return Vector3i.zero;
+
         var bagPosition =  new Vector3i( this.position + base.transform.up );
         var hasContents = false;
         EntityBackpack entityBackpack = EntityFactory.CreateEntity("Backpack".GetHashCode(), bagPosition) as EntityBackpack;
@@ -1278,8 +1280,12 @@ public class EntityAliveSDX : EntityTrader
         tileEntityLootContainer.lootListName = GetLootList();
         tileEntityLootContainer.SetUserAccessing(true);
         tileEntityLootContainer.SetEmpty();
-        tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList(), true).size, true);
 
+        if ( !string.IsNullOrEmpty(GetLootList()))
+            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList(), true).size, true);
+        else
+            tileEntityLootContainer.SetContainerSize(new Vector2i(8, 6), true);
+        
         // Destroy their toolbar items.
         ItemStack[] slots3 = this.inventory.GetSlots();
         for (int n = 0; n < slots3.Length; n++)
