@@ -81,7 +81,6 @@ namespace UAI
             if (attackTimeout > 0)
                 return;
 
-            var sphereTest = false;
             //EntityUtilities.Stop(_context.Self.entityId);
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
             // Check the range on the item action
@@ -92,23 +91,23 @@ namespace UAI
                 itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
                 if (itemActionData != null)
                 {
-                    if (sphereTest)
-                    {
-                        // Empty, no rounds left in the chamber
-                        if (itemActionData.invData.itemValue.Meta == 0)
-                        {
-                            _context.Self.OnReloadStart();
-                            itemActionData.isReloading = true;
-                            //itemActionRanged.ReloadGun(itemActionData);
-                            return;
-                        }
-                        // Are we reloading?
-                        if (itemActionData.isReloading) return;
+                    //if (sphereTest)
+                    //{
+                    //    // Empty, no rounds left in the chamber
+                    //    if (itemActionData.invData.itemValue.Meta == 0)
+                    //    {
+                    //        _context.Self.OnReloadStart();
+                    //        itemActionData.isReloading = true;
+                    //        //itemActionRanged.ReloadGun(itemActionData);
+                    //        return;
+                    //    }
+                    //    // Are we reloading?
+                    //    if (itemActionData.isReloading) return;
 
-                        // Is an action running?
-                        if (itemAction.IsActionRunning(itemActionData)) return;
+                    //    // Is an action running?
+                    //    if (itemAction.IsActionRunning(itemActionData)) return;
 
-                    }
+                    //}
                     var range = itemActionRanged.GetRange(itemActionData);
                     distance = Utils.FastMax(0.8f, range - 0.35f);
                 }
@@ -136,8 +135,8 @@ namespace UAI
                 if (!_context.Self.Use(false)) return;
                 _context.Self.Use(true);
                 _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
-                if (itemActionData != null)
-                    itemActionData.invData.itemValue.Meta--;
+//                if (itemActionData != null)
+                    //itemActionData.invData.itemValue.Meta--;
             }
             else
             {

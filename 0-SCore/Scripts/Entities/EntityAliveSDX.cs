@@ -1344,35 +1344,35 @@ public class EntityAliveSDX : EntityTrader
         return bagPosition;
     }
 
-    public override void OnReloadStart()
-    {
-        base.OnReloadStart();
-        emodel.avatarController.SetBool("Reload", true);
+    //public override void OnReloadStart()
+    //{
+    //    base.OnReloadStart();
+    //    emodel.avatarController.SetBool("Reload", true);
 
-    }
-    public override void OnReloadEnd()
-    {
-        var itemAction = inventory.holdingItem.Actions[0];
-        if (itemAction is ItemActionRanged itemActionRanged)
-        {
-            ItemActionRanged.ItemActionDataRanged itemActionData = inventory.holdingItemData.actionData[0] as ItemActionRanged.ItemActionDataRanged;
-            if (itemActionData != null)
-            {
-                int num = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, itemActionData.invData.itemValue, (float)itemActionRanged.BulletsPerMagazine, this, null, default(FastTags), true, true, true, true, 1, true);
+    //}
+    //public override void OnReloadEnd()
+    //{
+    //    var itemAction = inventory.holdingItem.Actions[0];
+    //    if (itemAction is ItemActionRanged itemActionRanged)
+    //    {
+    //        ItemActionRanged.ItemActionDataRanged itemActionData = inventory.holdingItemData.actionData[0] as ItemActionRanged.ItemActionDataRanged;
+    //        if (itemActionData != null)
+    //        {
+    //            int num = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, itemActionData.invData.itemValue, (float)itemActionRanged.BulletsPerMagazine, this, null, default(FastTags), true, true, true, true, 1, true);
 
-                // If the magazine size isn't set, just assume 1
-                if (num == 0) num = 1;
+    //            // If the magazine size isn't set, just assume 1
+    //            if (num == 0) num = 1;
 
-                // Reload to the full magazine.
-                if (itemActionData.invData.itemValue.Meta == 0)
-                    itemActionData.invData.itemValue.Meta = num;
+    //            // Reload to the full magazine.
+    //            if (itemActionData.invData.itemValue.Meta == 0)
+    //                itemActionData.invData.itemValue.Meta = num;
 
-                itemActionData.isReloading = false;
-                emodel.avatarController.SetBool("Reload", false);
-            }
-        }
-            base.OnReloadEnd();
-    }
+    //            itemActionData.isReloading = false;
+    //            emodel.avatarController.SetBool("Reload", false);
+    //        }
+    //    }
+    //        base.OnReloadEnd();
+    //}
 
 
     //protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
