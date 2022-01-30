@@ -54,6 +54,8 @@ namespace Harmony.NPCFeatures
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
                     return true;
 
+                if (_damageSource.damageType == EnumDamageTypes.Suicide)
+                    return true;
                 // We have to use a different damge test for players, due to multiplayer.
                 // There is no NetPackage for setting a revenge target. So, if the player is a
                 // revenge target of the damage source, it won't be set locally, and it won't be

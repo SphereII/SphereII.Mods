@@ -135,7 +135,7 @@
 
 			<property class="AdvancedWorkstationFeatures" >
 				<property name="Logging" value="false"/>
-				<property name="EnablePoweredWorkstations" value="true" />
+				<property name="EnablePoweredWorkstations" value="false" />
 			</property>
 
 			<property class="AdvancedDialogDebugging" >
@@ -293,7 +293,11 @@
 			<property name="FilterTags" value="fdecor,fsigns,fother"/>
 			<property name="SortOrder1" value="70s0"/>
 			<drop event="Fall" count="0" prob="0"/>
+			<property name="Config" value="ec=zombieBoe;buff=buffOrderStay;pc=0" />
 		</block>
+
+
+
 
 	</append>
 </configs>

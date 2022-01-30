@@ -184,6 +184,7 @@
     <Compile Include="Scripts\EAI\EAISetAsTargetIfLeaderAttackedSDX.cs" />
     <Compile Include="Scripts\EAI\EAISwimSDX.cs" />
     <Compile Include="Scripts\EAI\EAIWanderSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityBackpackNPC.cs" />
     <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />

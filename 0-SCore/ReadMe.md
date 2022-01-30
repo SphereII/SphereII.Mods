@@ -10,6 +10,17 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.0.30.x
+
+[ Configuration Change ]
+	- Disabled Advanced Workstation from being enabled by default
+
+[ NPC Fixes ]
+	- Hired NPCs will drop their backpacks, if anything is in them
+	- Fixed Bandit loot containers
+
+
+
 Version: 20.0.29.x
 
 [ Fixes ]
