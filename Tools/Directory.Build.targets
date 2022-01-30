@@ -1,6 +1,7 @@
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
 
+<!-- Process any T4 Templates. The SCore uses it for its versions, check Properties/ folder -->
   <PropertyGroup>
     <TransformOnBuild>true</TransformOnBuild>
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
