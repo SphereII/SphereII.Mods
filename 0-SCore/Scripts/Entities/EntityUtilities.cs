@@ -824,6 +824,23 @@ public static class EntityUtilities
         return leader;
     }
 
+    public static void ClearHired(int leaderID)
+    {
+        var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
+        if (leader == null) return;
+
+        var removeList = new List<string>();
+        foreach (var cvar in leader.Buffs.CVars)
+        {
+            if (cvar.Key.StartsWith("hired_"))
+            {
+                removeList.Add(cvar.Key);
+            }
+        }
+
+        foreach (var cvar in removeList)
+            leader.Buffs.CVars.Remove(cvar);
+    }
     public static void Despawn(int leaderID)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;

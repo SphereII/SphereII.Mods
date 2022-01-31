@@ -448,15 +448,15 @@ public class EntityAliveSDX : EntityTrader
 
         // Check if there's a loot container or not already attached to store its stuff.
         DisplayLog(" Checking Entity's Loot Container");
-        if (lootContainer == null && !string.IsNullOrEmpty(GetLootList()))
+        if (lootContainer == null )
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
             lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
 
-            lootContainer.SetContainerSize(new Vector2i(8, 6));
-
-            // If the loot list is available, set the container to that size.
-            lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
+            if (string.IsNullOrEmpty(GetLootList()))
+                lootContainer.SetContainerSize(new Vector2i(8, 6));
+            else
+                lootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList()).size);
         }
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
@@ -713,10 +713,14 @@ public class EntityAliveSDX : EntityTrader
     int expireLeaderCache = 30;
     public void LeaderUpdate()
     {
+        if (IsDead()) return;
+
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {
             Owner = null;
+            IsEntityUpdatedInUnloadedChunk = false;
+            bWillRespawn = false; 
             return;
         }
 
@@ -934,6 +938,7 @@ public class EntityAliveSDX : EntityTrader
         if (Buffs.HasBuff("buffInvulnerable"))
             return 0;
 
+
         // If we are being attacked, let the state machine know it can fight back
         if (!EntityTargetingUtilities.CanTakeDamage(this, world.GetEntity(_damageSource.getEntityId())))
             return 0;
@@ -945,7 +950,7 @@ public class EntityAliveSDX : EntityTrader
         return damage;
     }
 
-
+  
     public new void SetRevengeTarget(EntityAlive _other)
     {
         if (IsOnMission())
@@ -986,14 +991,17 @@ public class EntityAliveSDX : EntityTrader
         {
             // Remove the cvar.
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
-            EntityUtilities.SetLeaderAndOwner(entityId, -1);
+            EntityUtilities.SetLeaderAndOwner(entityId, 0);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
         }
 
         // Remove them from the companions of the player.
         var player = leader as EntityPlayer;
         if (leader)
+        {
             player.Companions.Remove(this);
+            player.Buffs.RemoveCustomVar($"hired_{entityId}");
+        }
 
         bWillRespawn = false;
         if (this.NavObject != null)
@@ -1127,7 +1135,7 @@ public class EntityAliveSDX : EntityTrader
             // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
             // Find the ground.
-            myPosition.y = y;
+
             motion = Vector3.zero;
             navigator.clearPath();
             this.SetPosition(myPosition, true);
@@ -1161,7 +1169,8 @@ public class EntityAliveSDX : EntityTrader
     {
         // Only prevent despawning if owned.
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if (leader != null)
+        // make sure they are alive first.
+        if (leader != null && IsAlive())
         {
             // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
             if (_traderArea == null)
@@ -1173,8 +1182,6 @@ public class EntityAliveSDX : EntityTrader
                 return;
             }
         }
-
-
 
         base.MarkToUnload();
     }
@@ -1266,107 +1273,79 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-
+  
+    protected override void dropItemOnDeath()
+    {
+        // Don't drop your toolbelt
+        if (this.world.IsDark())
+        {
+            this.lootDropProb *= 1f;
+        }
+        if (this.entityThatKilledMe)
+        {
+            this.lootDropProb = EffectManager.GetValue(PassiveEffects.LootDropProb, this.entityThatKilledMe.inventory.holdingItemItemValue, this.lootDropProb, this.entityThatKilledMe, null, default(FastTags), true, true, true, true, 1, true);
+        }
+        if (this.lootDropProb > this.rand.RandomFloat)
+        {
+            GameManager.Instance.DropContentOfLootContainerServer(BlockValue.Air, new Vector3i(this.position), this.entityId);
+        }
+        return;
+    }
     protected override Vector3i dropCorpseBlock()
     {
         var bagPosition =  new Vector3i( this.position + base.transform.up );
-        var hasContents = false;
-        EntityBackpack entityBackpack = EntityFactory.CreateEntity("Backpack".GetHashCode(), bagPosition) as EntityBackpack;
-        TileEntityLootContainer tileEntityLootContainer = new TileEntityLootContainer(null);
+        if (lootContainer == null) return base.dropCorpseBlock();
 
-        // Loot list just returns a string, which grabs the size of the loot container we are using.
-        tileEntityLootContainer.lootListName = GetLootList();
-        tileEntityLootContainer.SetUserAccessing(true);
-        tileEntityLootContainer.SetEmpty();
-        tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(GetLootList(), true).size, true);
+        if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
 
-        // Destroy their toolbar items.
-        ItemStack[] slots3 = this.inventory.GetSlots();
-        for (int n = 0; n < slots3.Length; n++)
-        {
-                slots3[n] = ItemStack.Empty.Clone();
-        }
+        // Check to see if we have our backpack container.
+        var className = "BackpackNPC";
+        EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+        if (entityClass == null)
+            className = "Backpack";
 
-        // NPCs backpack.
-        slots3 = this.bag.GetSlots();
-        for (int n = 0; n < slots3.Length; n++)
-        {
-            if (!slots3[n].IsEmpty() && !slots3[n].itemValue.ItemClass.KeepOnDeath())
-            {
-                tileEntityLootContainer.AddItem(slots3[n]);
-                slots3[n] = ItemStack.Empty.Clone();
-                hasContents = true;
-            }
-        }
-
-        // Their loot container.
-        slots3 = this.lootContainer.items;
-        for (int n = 0; n < slots3.Length; n++)
-        {
-            if (!slots3[n].IsEmpty() && !slots3[n].itemValue.ItemClass.KeepOnDeath())
-            {
-                tileEntityLootContainer.AddItem(slots3[n]);
-                slots3[n] = ItemStack.Empty.Clone();
-                hasContents = true;
-            }
-        }
-        this.lootContainer.items = slots3;
-
-        if ( !hasContents)
-        {
-            entityBackpack.OnEntityUnload();
-            return bagPosition;
-        }
-
-        tileEntityLootContainer.SetUserAccessing(false);
-        tileEntityLootContainer.SetModified();
-
-        // If they have a leader, reference that backpack to the leader
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if ( leader != null)
-            entityBackpack.RefPlayerId =leader.entityId;
-        else
-            entityBackpack.RefPlayerId = this.entityId;
-
+        var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
         EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
         entityCreationData.entityName = Localization.Get(this.EntityName);
+
         entityCreationData.id = -1;
-        entityCreationData.lootContainer = tileEntityLootContainer;
+        entityCreationData.lootContainer = lootContainer;
         GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
         entityBackpack.OnEntityUnload();
         this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
         return bagPosition;
-    }
-
-    public override void OnReloadStart()
-    {
-        base.OnReloadStart();
-        emodel.avatarController.SetBool("Reload", true);
 
     }
-    public override void OnReloadEnd()
-    {
-        var itemAction = inventory.holdingItem.Actions[0];
-        if (itemAction is ItemActionRanged itemActionRanged)
-        {
-            ItemActionRanged.ItemActionDataRanged itemActionData = inventory.holdingItemData.actionData[0] as ItemActionRanged.ItemActionDataRanged;
-            if (itemActionData != null)
-            {
-                int num = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, itemActionData.invData.itemValue, (float)itemActionRanged.BulletsPerMagazine, this, null, default(FastTags), true, true, true, true, 1, true);
 
-                // If the magazine size isn't set, just assume 1
-                if (num == 0) num = 1;
+    //public override void OnReloadStart()
+    //{
+    //    base.OnReloadStart();
+    //    emodel.avatarController.SetBool("Reload", true);
 
-                // Reload to the full magazine.
-                if (itemActionData.invData.itemValue.Meta == 0)
-                    itemActionData.invData.itemValue.Meta = num;
+    //}
+    //public override void OnReloadEnd()
+    //{
+    //    var itemAction = inventory.holdingItem.Actions[0];
+    //    if (itemAction is ItemActionRanged itemActionRanged)
+    //    {
+    //        ItemActionRanged.ItemActionDataRanged itemActionData = inventory.holdingItemData.actionData[0] as ItemActionRanged.ItemActionDataRanged;
+    //        if (itemActionData != null)
+    //        {
+    //            int num = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, itemActionData.invData.itemValue, (float)itemActionRanged.BulletsPerMagazine, this, null, default(FastTags), true, true, true, true, 1, true);
 
-                itemActionData.isReloading = false;
-                emodel.avatarController.SetBool("Reload", false);
-            }
-        }
-            base.OnReloadEnd();
-    }
+    //            // If the magazine size isn't set, just assume 1
+    //            if (num == 0) num = 1;
+
+    //            // Reload to the full magazine.
+    //            if (itemActionData.invData.itemValue.Meta == 0)
+    //                itemActionData.invData.itemValue.Meta = num;
+
+    //            itemActionData.isReloading = false;
+    //            emodel.avatarController.SetBool("Reload", false);
+    //        }
+    //    }
+    //        base.OnReloadEnd();
+    //}
 
 
     //protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)

@@ -1,5 +1,15 @@
 <Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+
+<!-- Process any T4 Templates. The SCore uses it for its versions, check Properties/ folder -->
+  <PropertyGroup>
+    <TransformOnBuild>true</TransformOnBuild>
+	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
+    <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
+  
+	
 	<!-- Disables the extra step of copying all the reference DLLs to the build area. We never use them after the build, so we can skip this -->
 	<Target Name="ModifyCopyLocal" AfterTargets="BeforeBuild">
 		<ItemGroup>
