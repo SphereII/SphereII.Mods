@@ -68,6 +68,7 @@
     <Compile Include="Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="Harmony\Faction\FactionRelationshipCVars.cs" />
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
+    <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
