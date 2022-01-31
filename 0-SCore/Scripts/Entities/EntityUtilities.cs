@@ -824,22 +824,43 @@ public static class EntityUtilities
         return leader;
     }
 
-    public static void ClearHired(int leaderID)
+    public static void CheckForDanglingHires(int leaderID)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
         if (leader == null) return;
 
+        var totalHired = 0;
+        var totalCleared = 0;
         var removeList = new List<string>();
         foreach (var cvar in leader.Buffs.CVars)
         {
             if (cvar.Key.StartsWith("hired_"))
             {
+                totalHired++; 
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+                if (entity == null)
+                {
+                    totalCleared++;
+                    removeList.Add(cvar.Key);
+                    continue;
+                }
+                var leader2 = EntityUtilities.GetLeaderOrOwner(entity.entityId);
+                if ( leader2 && leader2.entityId == leaderID)
+                {
+                    // Still hired.
+                    continue;
+                }
+                totalCleared++;
                 removeList.Add(cvar.Key);
+
             }
         }
 
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
+
+        if (totalHired == totalCleared)
+            leader.Buffs.RemoveCustomVar("EntityID");
     }
     public static void Despawn(int leaderID)
     {
@@ -907,7 +928,7 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    bool canRespawn = entity.Buffs.HasCustomVar("respawn");
+                    bool canRespawn = entity.Buffs.HasCustomVar("respawn") && entity.Buffs.GetCustomVar("respawn") > 0;
                     if (_respawnReason == RespawnType.Died && !canRespawn)
                     {
                         continue;
@@ -958,6 +979,7 @@ public static class EntityUtilities
         // Set up a link from the hired NPC to the player.
         leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
+        leaderEntity.Buffs.SetCustomVar("EntityID", LeaderID);
 
         // Cache the leader.
         if (SphereCache.LeaderCache.ContainsKey(EntityID))

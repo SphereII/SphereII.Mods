@@ -368,7 +368,8 @@ public class EntityAliveSDX : EntityTrader
         uiforPlayer.xui.Dialog.Respondent = this;
 
         // We don't want the quest system to consider this NPC as interacted with
-        //QuestEventManager.Current.NPCInteracted(this);
+        if ( Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
+            QuestEventManager.Current.NPCInteracted(this);
 
         Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
@@ -1002,6 +1003,7 @@ public class EntityAliveSDX : EntityTrader
             player.Companions.Remove(this);
             player.Buffs.RemoveCustomVar($"hired_{entityId}");
         }
+
 
         bWillRespawn = false;
         if (this.NavObject != null)
