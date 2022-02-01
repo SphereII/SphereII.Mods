@@ -336,6 +336,7 @@ public class EntityAliveSDX : EntityTrader
         // do we have an attack or revenge target? don't have time to talk, bro
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
+        
 
         return new[]
         {
@@ -1277,7 +1278,16 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-  
+  public override void OnEntityDeath()
+    {
+        Log.Out($"{entityName} ({entityId}) has died.");
+        Log.Out("Active Buffs:");
+        foreach( var buff in Buffs.ActiveBuffs)
+        {
+            Log.Out($" > {buff.BuffName}");
+        }
+        base.OnEntityDeath();
+    }
     protected override void dropItemOnDeath()
     {
         // Don't drop your toolbelt

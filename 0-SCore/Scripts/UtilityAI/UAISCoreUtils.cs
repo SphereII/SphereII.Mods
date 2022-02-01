@@ -69,6 +69,42 @@ namespace UAI
             _context.Self.moveHelper.SetMoveTo(position, true);
         }
 
+        public static void TurnToFaceEntity(Context _context, EntityAlive priorityEntity = null)
+        {
+            if (_context.Self.IsSleeping)
+                return;
+
+            var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
+            if (entitiesInBounds.Count > 0)
+            {
+                Entity lookEntity = null;
+
+                foreach (var entity in entitiesInBounds)
+                {
+                    // Prioritize your leader over non-leader players
+                    if (priorityEntity != null && entity.entityId == priorityEntity.entityId)
+                    {
+                        lookEntity = entity;
+                        break;
+                    }
+
+                    if (entity is EntityPlayerLocal || entity is EntityPlayer)
+                    {
+                        if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
+                            continue;
+
+                        if (_context.Self.GetActivationCommands(new Vector3i(_context.Self.position), lookEntity as EntityAlive).Length > 0)
+                            lookEntity = entity;
+                    }
+                }
+
+                if (lookEntity != null)
+                {
+                    SCoreUtils.SetLookPosition(_context, lookEntity);
+                }
+
+            }
+        }
         public static void HideWeapon(Context _context)
         {
             if (_context.Self.inventory.holdingItemIdx != _context.Self.inventory.DUMMY_SLOT_IDX)

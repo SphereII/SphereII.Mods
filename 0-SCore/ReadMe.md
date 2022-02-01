@@ -10,6 +10,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.0.32.x
+
+[ Debug Information ]
+	- Added Logging for when NPC has died, it will display its active buffs in the log file
+
+[ NPC Fixes ]
+	- Fixed an issue where NPCs would get confused when two players were nearby
+	- Fixed an issue where NPCs wouldn't talk to you without a very long delay after a fight
+
 Version: 20.0.30.x
 
 [ Configuration Change ]
