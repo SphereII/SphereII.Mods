@@ -738,21 +738,7 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-        var player = leader as EntityPlayer;
-        if (player && AddNPCToCompanion && IsAlive())
-        {
-            if (player.Companions.IndexOf(this) < 0)
-            {
-                player.Companions.Add(this);
-                int num2 = player.Companions.IndexOf(this);
-                var v = Constants.TrackedFriendColors[num2 % Constants.TrackedFriendColors.Length];
-                if (this.NavObject != null)
-                {
-                    this.NavObject.UseOverrideColor = true;
-                    this.NavObject.OverrideColor = v;
-                }
-            }
-        }
+     
         // Recheck the cache to make sure the owner is updated.
         expireLeaderCache--;
         if (expireLeaderCache < 0)
@@ -769,9 +755,11 @@ public class EntityAliveSDX : EntityTrader
         IsEntityUpdatedInUnloadedChunk = true;
         bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
+        var player = leader as EntityPlayer;
 
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
+            case EntityUtilities.Orders.Patrol:
             case EntityUtilities.Orders.Follow:
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
@@ -788,12 +776,27 @@ public class EntityAliveSDX : EntityTrader
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
                     TeleportToPlayer(leader);
+
+                if (player && AddNPCToCompanion && IsAlive())
+                {
+                    if (player.Companions.IndexOf(this) < 0)
+                    {
+                        player.Companions.Add(this);
+                        int num2 = player.Companions.IndexOf(this);
+                        var v = Constants.TrackedFriendColors[num2 % Constants.TrackedFriendColors.Length];
+                        if (this.NavObject != null)
+                        {
+                            this.NavObject.UseOverrideColor = true;
+                            this.NavObject.OverrideColor = v;
+                        }
+                    }
+                }
                 break;
             case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
             case EntityUtilities.Orders.Loot:
-            case EntityUtilities.Orders.Patrol:
             default:
+                player.Companions.Remove(this);
                 break;
         }
     }

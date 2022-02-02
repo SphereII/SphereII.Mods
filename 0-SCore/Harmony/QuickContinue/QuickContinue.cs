@@ -13,6 +13,13 @@ public class SCore_QuickLoad
     {
         private static void Postfix(XUiC_SteamLogin __instance)
         {
+            var autoStart = false;
+            for (var i = 0; i < Environment.GetCommandLineArgs().Length; i++)
+                if (Environment.GetCommandLineArgs()[i].EqualsCaseInsensitive("-autostart"))
+                    autoStart = true;
+
+            if (!autoStart) return;
+
             Log.Out("SphereII Quick Continue Modlet is activated. Game is going into Offline mode. Multi-player disabled as steam was not detected.");
             var method = __instance.GetType().GetMethod("BtnOffline_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
             method?.Invoke(__instance, new object[] { null, null });
