@@ -711,7 +711,12 @@ public static class EntityUtilities
         {
             if (currentEntity.Buffs.HasCustomVar("Leader"))
             {
-                leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
+                int leaderId = (int)currentEntity.Buffs.GetCustomVar("Leader");
+                // This is a guard against some code, somewhere, getting the cvar value without
+                // checking to see if it exists first. If so, the cvar exists with a value of 0.
+                if (leaderId > 0)
+                    leader = GameManager.Instance.World.GetEntity(leaderId);
+
                 // Something happened to our leader.
                 if (leader == null)
                 {
@@ -819,7 +824,13 @@ public static class EntityUtilities
         if (myEntity == null) return null;
 
         if (myEntity.Buffs.HasCustomVar("Owner"))
-            leader = GameManager.Instance.World.GetEntity((int)myEntity.Buffs.GetCustomVar("Owner"));
+        {
+            int leaderId = (int)myEntity.Buffs.GetCustomVar("Owner");
+            // This is a guard against some code, somewhere, getting the cvar value without
+            // checking to see if it exists first. If so, the cvar exists with a value of 0.
+            if (leaderId > 0)
+                leader = GameManager.Instance.World.GetEntity(leaderId);
+        }
 
         return leader;
     }
