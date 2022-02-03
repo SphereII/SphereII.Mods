@@ -207,8 +207,10 @@ namespace UAI
             // If we are on a mission, don't execute this teleport; let the one on entityaliveSDX handle it.
             var entityAlive = _context.Self as EntityAliveSDX;
             if (entityAlive != null)
-                entityAlive.TeleportToPlayer(leader, true);
-
+            {
+                if ( !entityAlive.IsOnMission())
+                    entityAlive.TeleportToPlayer(leader, false);
+            }
         }
 
         public static bool HasBuff(Context _context, string buff)

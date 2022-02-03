@@ -1091,7 +1091,7 @@ public class EntityAliveSDX : EntityTrader
 
             // If my target distance is still way off from the player, teleport randomly. That means the bread crumb isn't accurate
             var distance2 = Vector3.Distance(myPosition, player.position);
-            if (distance2 > 20f)
+            if (distance2 > 40f)
                 randomPosition = true;
 
             if (randomPosition)
@@ -1108,7 +1108,7 @@ public class EntityAliveSDX : EntityTrader
         SphereCache.RemovePaths(entityId);
 
         this.SetPosition(myPosition, true);
-        StartCoroutine(validateTeleport(target, randomPosition));
+       StartCoroutine(validateTeleport(target, randomPosition));
 
     }
     private float getAltitude(Vector3 pos)
@@ -1123,7 +1123,7 @@ public class EntityAliveSDX : EntityTrader
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 2;
+        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 1;
         if (y > position.y)
         {
             var myPosition = position;
