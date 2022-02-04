@@ -56,7 +56,7 @@ namespace UAI
                 return;
             }
 
-       
+
         }
 
         public void CheckProximityToPosition(Context _context)
@@ -71,31 +71,34 @@ namespace UAI
             }
 
             SCoreUtils.SetLookPosition(_context, _position);
-        
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
-            {
-                // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
-                var difference = Vector3.Distance(entityAlive.position, _position);
-                if (difference < 2f)
-                    return;
 
-                // If there's not a lot of distance to go, don't re-path.
-                var distance = Vector3.Distance(_context.Self.position, entityAlive.position);
-                if (distance < 2f)
-                    return;
-                
+            // We've reached the target's position.
+            var distance = Vector3.Distance(_context.Self.position, _position);
+            if (distance < 1f)
+            {
+                _context.Self.navigator.clearPath();
+                Stop(_context);
+                return;
             }
+
+            //// if there's not much distance between where we are aiming for, and where the entity now is, keep going.
+            //var difference = Vector3.Distance(entityAlive.position, _position);
+            //if (difference < 2f)
+            //    return;
+
+
 
             // Update our position
             _position = entityAlive.position;
 
-            if (SCoreUtils.CanSee(_context.Self, entityAlive))
-                _context.Self.moveHelper.SetMoveTo(_position, true);
-           else
+            if (_context.Self.navigator.noPathAndNotPlanningOne())
                 SCoreUtils.FindPath(_context, _position, run);
+
+            _context.Self.moveHelper.SetMoveTo(_position, true);
+
         }
 
-     
+
 
     }
 }
