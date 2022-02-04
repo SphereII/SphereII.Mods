@@ -9,10 +9,6 @@ public class MinEventActionNotifyTeamTeleport : MinEventActionTargetedBase
         var leader = _params.Self as EntityPlayer;
         if (leader == null) return;
 
-        var totalHired = 0;
-        var totalCleared = 0;
-        var removeList = new List<string>();
-
         foreach (var cvar in leader.Buffs.CVars)
         {
             if (cvar.Key.StartsWith("hired_"))
@@ -20,11 +16,7 @@ public class MinEventActionNotifyTeamTeleport : MinEventActionTargetedBase
                 var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
                 if (entity)
                 {
-                    if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
-                    {
-                        removeList.Add(cvar.Key);
-                        continue;
-                    }
+                    if (entity.IsDead()) continue;
 
                     var distance = entity.GetDistance(leader);
                     if (distance > 60)
@@ -43,18 +35,8 @@ public class MinEventActionNotifyTeamTeleport : MinEventActionTargetedBase
                     }
 
                 }
-                else // Clean up the invalid entries
-                {
-                    removeList.Add(cvar.Key);
-                }
 
             }
         }
-
-        foreach (var cvar in removeList)
-            leader.Buffs.CVars.Remove(cvar);
-
-        if (totalHired == totalCleared)
-            leader.Buffs.RemoveCustomVar("EntityID");
     }
 }
