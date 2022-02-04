@@ -46,7 +46,10 @@ namespace UAI
             if (_context.Self.noisePlayer)
             {
                 if (_context.Self.noisePlayerVolume >= _context.Self.noiseWake)
+                {
+                    _context.Self.SetInvestigatePosition(_context.Self.noisePlayer.position, 1200, true);
                     return 1;
+                }
             }
 
             return 0f;
