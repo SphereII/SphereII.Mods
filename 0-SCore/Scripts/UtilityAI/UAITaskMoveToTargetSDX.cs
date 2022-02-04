@@ -37,7 +37,7 @@ namespace UAI
             if (entityAlive != null && entityAlive.IsAlive())
             {
                 int num = _context.Self.CalcInvestigateTicks(Constants.cEnemySenseMemory * 20, entityAlive);
-                _context.Self.SetInvestigatePosition(_position, 60);
+                _context.Self.SetInvestigatePosition(_position, 1200);
             }
             base.Stop(_context);
         }

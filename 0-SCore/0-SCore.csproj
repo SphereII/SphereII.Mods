@@ -228,6 +228,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearStaleHires.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeamTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionGuardHere.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
