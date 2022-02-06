@@ -269,6 +269,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanHear.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />

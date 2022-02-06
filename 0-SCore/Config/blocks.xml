@@ -45,8 +45,8 @@
 				<property name="LockPrefab" value="#@modfolder(Locks):Resources/Locks.unity3d?Lockset01" />
 				
 				<!-- 4 types of locks based on difficult. Easier to most difficult. -->
-				<property name="MaxGiveAmount" value="16,14,12,10" />
-				<property name="BreakTime" value=".5,.4,.3,.2" />
+				<property name="MaxGiveAmount" value="10,8,6,4" />
+				<property name="BreakTime" value="1.2,1.0,.8,.6" />
 			</property>
 
 
