@@ -109,7 +109,9 @@ namespace UAI
 
                     //}
                     var range = itemActionRanged.GetRange(itemActionData);
-                    distance = Utils.FastMax(0.8f, range - 0.35f);
+                    //distance = Utils.FastMax(0.8f, range - 0.35f);
+                    distance = Utils.FastMax(0.8f, range);
+
                 }
             }
             var minDistance = distance * distance;
@@ -120,10 +122,14 @@ namespace UAI
             // not within range? qq
             if (a.sqrMagnitude > minDistance)
             {
+                Log.Out($"Min Distance: {a.sqrMagnitude > minDistance} {a.sqrMagnitude} : {minDistance}");
                 // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
                 if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
                     _context.Self.moveHelper.SetMoveTo(entityAlive.position, true);
             }
+
+            if (a.sqrMagnitude < 0.5)
+                _context.Self.moveHelper.SetMoveTo(entityAlive.position + Vector3.back, true);
 
             // Face the target right before hitting them.
             if (entityAlive != null)

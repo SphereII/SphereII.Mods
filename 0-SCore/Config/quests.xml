@@ -54,8 +54,9 @@
 
       <reward type="Exp" value="2500" />
       <reward type="Item" id="casinoCoin" value="330" />
+		<reward type="Quest" id="quest_whiteRiverCitizen1"/>
 
-      <!--<reward type="LootItem" id="groupQuestTools" ischosen="true" isfixed="true" value="1"/>-->
+		<!--<reward type="LootItem" id="groupQuestTools" ischosen="true" isfixed="true" value="1"/>-->
       <!--<reward type="LootItem" id="groupQuestArmor,groupQuestMedical" ischosen="true" isfixed="true" value="1"/>-->
       <reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
       <!--<reward type="LootItem" id="groupQuestWeapons" ischosen="true" value="1"/>-->

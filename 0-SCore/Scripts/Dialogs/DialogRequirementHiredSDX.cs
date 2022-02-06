@@ -9,14 +9,13 @@
         if (entityId == 0)
             return false;
 
-        var myEntity = player.world.GetEntity(entityId) as EntityAliveSDX;
-        if (myEntity == null) return false;
+        var isTame = true;
+        if ( EntityUtilities.GetLeaderOrOwner(entityId) == null )
+            isTame = false;
 
-        var isTame = false;
         if (base.Value.EqualsCaseInsensitive("not"))
-            isTame = !EntityUtilities.isTame(entityId, player);
-        else
-            isTame = EntityUtilities.isTame(entityId, player);
+            return !isTame;
+
         return isTame;
     }
 }

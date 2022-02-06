@@ -1,6 +1,7 @@
 ﻿using Lockpicking;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -51,9 +52,19 @@ public class SphereII_Locks
 
         if (string.IsNullOrEmpty(LockPrefab))
             return;
-        LockPickAsset = DataLoader.LoadAsset<GameObject>(LockPrefab);
-        lockPick = Object.Instantiate(LockPickAsset);
+      
+        try
+        {
+            LockPickAsset = DataLoader.LoadAsset<GameObject>(LockPrefab);
+            lockPick = Object.Instantiate(LockPickAsset);
+        }
+        catch( Exception ex)
+        {
+            Log.Out($"LockPrefab not valid. Falling back to vanilla.");
+            return;
+        }
         Disable();
+        
 
         // Marked transforms
         transforms = new List<string> { "Baseplate1", "Baseplate2", "ButtonInner", "ButtonInner", "ButtonOuter", "Padlock1_low" };

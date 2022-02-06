@@ -37,7 +37,7 @@ namespace UAI
             if (entityAlive != null && entityAlive.IsAlive())
             {
                 int num = _context.Self.CalcInvestigateTicks(Constants.cEnemySenseMemory * 20, entityAlive);
-                _context.Self.SetInvestigatePosition(_position, 60);
+                _context.Self.SetInvestigatePosition(_position, 1200);
             }
             base.Stop(_context);
         }
@@ -56,7 +56,7 @@ namespace UAI
                 return;
             }
 
-       
+
         }
 
         public void CheckProximityToPosition(Context _context)
@@ -71,31 +71,30 @@ namespace UAI
             }
 
             SCoreUtils.SetLookPosition(_context, _position);
-        
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
-            {
-                // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
-                var difference = Vector3.Distance(entityAlive.position, _position);
-                if (difference < 2f)
-                    return;
 
-                // If there's not a lot of distance to go, don't re-path.
-                var distance = Vector3.Distance(_context.Self.position, entityAlive.position);
-                if (distance < 2f)
-                    return;
-                
+            // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
+            var difference = Vector3.Distance(_context.Self.position, entityAlive.position);
+            if (difference < 1)
+            {
+                Stop(_context);
+                return;
+            }
+            // Where we are heading is too different.
+            var difference2 = Vector3.Distance(entityAlive.position, _position);
+            if (difference2 > 2)
+            {
+                _position = entityAlive.position;
+                _context.Self.navigator.clearPath();
+                SCoreUtils.FindPath(_context, _position, run);
+                return;
             }
 
             // Update our position
-            _position = entityAlive.position;
+            _context.Self.moveHelper.SetMoveTo(_position, true);
 
-            if (SCoreUtils.CanSee(_context.Self, entityAlive))
-                _context.Self.moveHelper.SetMoveTo(_position, true);
-           else
-                SCoreUtils.FindPath(_context, _position, run);
         }
 
-     
+
 
     }
 }

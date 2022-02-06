@@ -711,7 +711,12 @@ public static class EntityUtilities
         {
             if (currentEntity.Buffs.HasCustomVar("Leader"))
             {
-                leader = GameManager.Instance.World.GetEntity((int)currentEntity.Buffs.GetCustomVar("Leader"));
+                int leaderId = (int)currentEntity.Buffs.GetCustomVar("Leader");
+                // This is a guard against some code, somewhere, getting the cvar value without
+                // checking to see if it exists first. If so, the cvar exists with a value of 0.
+                if (leaderId > 0)
+                    leader = GameManager.Instance.World.GetEntity(leaderId);
+
                 // Something happened to our leader.
                 if (leader == null)
                 {
@@ -819,27 +824,54 @@ public static class EntityUtilities
         if (myEntity == null) return null;
 
         if (myEntity.Buffs.HasCustomVar("Owner"))
-            leader = GameManager.Instance.World.GetEntity((int)myEntity.Buffs.GetCustomVar("Owner"));
+        {
+            int leaderId = (int)myEntity.Buffs.GetCustomVar("Owner");
+            // This is a guard against some code, somewhere, getting the cvar value without
+            // checking to see if it exists first. If so, the cvar exists with a value of 0.
+            if (leaderId > 0)
+                leader = GameManager.Instance.World.GetEntity(leaderId);
+        }
 
         return leader;
     }
 
-    public static void ClearHired(int leaderID)
+    public static void CheckForDanglingHires(int leaderID)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
         if (leader == null) return;
 
+        var totalHired = 0;
+        var totalCleared = 0;
         var removeList = new List<string>();
         foreach (var cvar in leader.Buffs.CVars)
         {
             if (cvar.Key.StartsWith("hired_"))
             {
+                totalHired++; 
+                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+                if (entity == null)
+                {
+                    totalCleared++;
+                    removeList.Add(cvar.Key);
+                    continue;
+                }
+                var leader2 = EntityUtilities.GetLeaderOrOwner(entity.entityId);
+                if ( leader2 && leader2.entityId == leaderID)
+                {
+                    // Still hired.
+                    continue;
+                }
+                totalCleared++;
                 removeList.Add(cvar.Key);
+
             }
         }
 
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
+
+        if (totalHired == totalCleared)
+            leader.Buffs.RemoveCustomVar("EntityID");
     }
     public static void Despawn(int leaderID)
     {
@@ -907,7 +939,7 @@ public static class EntityUtilities
                         continue;
                     }
 
-                    bool canRespawn = entity.Buffs.HasCustomVar("respawn");
+                    bool canRespawn = entity.Buffs.HasCustomVar("respawn") && entity.Buffs.GetCustomVar("respawn") > 0;
                     if (_respawnReason == RespawnType.Died && !canRespawn)
                     {
                         continue;
@@ -958,6 +990,7 @@ public static class EntityUtilities
         // Set up a link from the hired NPC to the player.
         leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
+        leaderEntity.Buffs.SetCustomVar("EntityID", LeaderID);
 
         // Cache the leader.
         if (SphereCache.LeaderCache.ContainsKey(EntityID))

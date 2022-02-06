@@ -71,6 +71,8 @@ namespace Harmony.Blocks
 
                 // For hired entities, take a move penalty, but no damage.
                 var entityAlive = _targetEntity as global::EntityAlive;
+                if (entityAlive == null) return true;
+
                 if (EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) != null )
                 {
                     if (__instance.MovementFactor != 1f)

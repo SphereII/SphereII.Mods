@@ -48,36 +48,40 @@ namespace UAI
           
             // Check if a player is in your bounds, and face them if they are.
             // ...But only if you're not asleep.
-            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId);
-            if (!_context.Self.IsSleeping)
-            {
-                var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
-                if (entitiesInBounds.Count > 0)
-                {
-                    Entity lookEntity = null;
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
 
-                    foreach (var entity in entitiesInBounds)
-                    {
-                        // Prioritize your leader over non-leader players
-                        if (leader != null && entity.entityId == leader.entityId)
-                        {
-                            lookEntity = entity;
-                            break;
-                        }
+            // Check if a player is in your bounds, and face them if they are.
+            SCoreUtils.TurnToFaceEntity(_context, leader);
 
-                        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-                        {
-                            if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
-                                continue;
+            //if (!_context.Self.IsSleeping)
+            //{
+            //    var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
+            //    if (entitiesInBounds.Count > 0)
+            //    {
+            //        Entity lookEntity = null;
 
-                            lookEntity = entity;
-                        }
-                    }
+            //        foreach (var entity in entitiesInBounds)
+            //        {
+            //            // Prioritize your leader over non-leader players
+            //            if (leader != null && entity.entityId == leader.entityId)
+            //            {
+            //                lookEntity = entity;
+            //                break;
+            //            }
 
-                    if (lookEntity != null)
-                        SCoreUtils.SetLookPosition(_context, lookEntity);
-                }
-            }
+            //            if (entity is EntityPlayerLocal || entity is EntityPlayer)
+            //            {
+            //                if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
+            //                    continue;
+
+            //                lookEntity = entity;
+            //            }
+            //        }
+
+            //        if (lookEntity != null)
+            //            SCoreUtils.SetLookPosition(_context, lookEntity);
+            //    }
+            //}
 
 
             _currentTimeout--;

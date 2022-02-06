@@ -336,6 +336,7 @@ public class EntityAliveSDX : EntityTrader
         // do we have an attack or revenge target? don't have time to talk, bro
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
+        
 
         return new[]
         {
@@ -368,8 +369,11 @@ public class EntityAliveSDX : EntityTrader
         uiforPlayer.xui.Dialog.Respondent = this;
 
         // We don't want the quest system to consider this NPC as interacted with
-        //QuestEventManager.Current.NPCInteracted(this);
+        if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
+        {
+            return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
 
+        }
         Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
 
@@ -734,21 +738,7 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-        var player = leader as EntityPlayer;
-        if (player && AddNPCToCompanion && IsAlive())
-        {
-            if (player.Companions.IndexOf(this) < 0)
-            {
-                player.Companions.Add(this);
-                int num2 = player.Companions.IndexOf(this);
-                var v = Constants.TrackedFriendColors[num2 % Constants.TrackedFriendColors.Length];
-                if (this.NavObject != null)
-                {
-                    this.NavObject.UseOverrideColor = true;
-                    this.NavObject.OverrideColor = v;
-                }
-            }
-        }
+     
         // Recheck the cache to make sure the owner is updated.
         expireLeaderCache--;
         if (expireLeaderCache < 0)
@@ -765,9 +755,11 @@ public class EntityAliveSDX : EntityTrader
         IsEntityUpdatedInUnloadedChunk = true;
         bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
+        var player = leader as EntityPlayer;
 
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
+            case EntityUtilities.Orders.Patrol:
             case EntityUtilities.Orders.Follow:
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
@@ -784,12 +776,27 @@ public class EntityAliveSDX : EntityTrader
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
                     TeleportToPlayer(leader);
+
+                if (player && AddNPCToCompanion && IsAlive())
+                {
+                    if (player.Companions.IndexOf(this) < 0)
+                    {
+                        player.Companions.Add(this);
+                        int num2 = player.Companions.IndexOf(this);
+                        var v = Constants.TrackedFriendColors[num2 % Constants.TrackedFriendColors.Length];
+                        if (this.NavObject != null)
+                        {
+                            this.NavObject.UseOverrideColor = true;
+                            this.NavObject.OverrideColor = v;
+                        }
+                    }
+                }
                 break;
             case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
             case EntityUtilities.Orders.Loot:
-            case EntityUtilities.Orders.Patrol:
             default:
+                player.Companions.Remove(this);
                 break;
         }
     }
@@ -1003,6 +1010,7 @@ public class EntityAliveSDX : EntityTrader
             player.Buffs.RemoveCustomVar($"hired_{entityId}");
         }
 
+
         bWillRespawn = false;
         if (this.NavObject != null)
         {
@@ -1083,7 +1091,7 @@ public class EntityAliveSDX : EntityTrader
 
             // If my target distance is still way off from the player, teleport randomly. That means the bread crumb isn't accurate
             var distance2 = Vector3.Distance(myPosition, player.position);
-            if (distance2 > 20f)
+            if (distance2 > 40f)
                 randomPosition = true;
 
             if (randomPosition)
@@ -1100,7 +1108,7 @@ public class EntityAliveSDX : EntityTrader
         SphereCache.RemovePaths(entityId);
 
         this.SetPosition(myPosition, true);
-        StartCoroutine(validateTeleport(target, randomPosition));
+       StartCoroutine(validateTeleport(target, randomPosition));
 
     }
     private float getAltitude(Vector3 pos)
@@ -1115,7 +1123,7 @@ public class EntityAliveSDX : EntityTrader
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 2;
+        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 1;
         if (y > position.y)
         {
             var myPosition = position;
@@ -1273,7 +1281,16 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-  
+  public override void OnEntityDeath()
+    {
+        Log.Out($"{entityName} ({entityId}) has died.");
+        Log.Out("Active Buffs:");
+        foreach( var buff in Buffs.ActiveBuffs)
+        {
+            Log.Out($" > {buff.BuffName}");
+        }
+        base.OnEntityDeath();
+    }
     protected override void dropItemOnDeath()
     {
         // Don't drop your toolbelt

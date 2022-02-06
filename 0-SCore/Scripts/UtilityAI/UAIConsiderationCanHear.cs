@@ -24,6 +24,12 @@ namespace UAI
             if (targetEntity == null)
                 return 0f;
 
+            // If the entity has an investigation position, set this to be true.
+            // This consideration is only used to know if the NPC can hear the player or not.
+            // However, the sound is so short lived, it won't ever be reliable unless the player is making a lot of repeatable sounds.
+            if (_context.Self.HasInvestigatePosition)
+                return 1f;
+
             // Taken from PlayerStealth's Tick()
             float distance = targetEntity.GetDistance(_context.Self);
 
@@ -46,7 +52,10 @@ namespace UAI
             if (_context.Self.noisePlayer)
             {
                 if (_context.Self.noisePlayerVolume >= _context.Self.noiseWake)
+                {
+                    _context.Self.SetInvestigatePosition(_context.Self.noisePlayer.position, 1200, true);
                     return 1;
+                }
             }
 
             return 0f;

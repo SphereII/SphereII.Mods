@@ -30,6 +30,8 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     public static bool CanDamage(EntityAlive self, Entity target)
     {
+        if (target.IsDead()) return false;
+
         // Enemy animals can not follow these rules. We also can't use CanDamageEntity here,
         // because that has a Harmony patch that calls this method again. Instead, reproduce the
         // logic in EntityEnemyAnimal.CanDamageEntity.

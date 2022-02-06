@@ -66,16 +66,14 @@ public class NetPackageGotoPOISDX : NetPackage
         {
             for (int i = 0; i < 5; i++)
             {
-              //  Debug.Log($"Checking Position {this.position}");
+                //  Debug.Log($"Checking Position {this.position}");
                 //var prefabInstance = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetClosestPOIToWorldPos(this.questTags, new Vector2(position.x, position.y), null, -1, false, BiomeFilterTypes.AnyBiome, "");
-                
                 PrefabInstance  prefabInstance = QuestUtils.FindPrefab(poiFilter, position, ref usedPositions, biomeFilterType, biomeFilter);
                //new Vector2((float)prefabInstance.boundingBoxPosition.x + (float)prefabInstance.boundingBoxSize.x / 2f, (float)prefabInstance.boundingBoxPosition.z + (float)prefabInstance.boundingBoxSize.z / 2f);
                 if (prefabInstance != null)
                 {
-                    //   Debug.Log($"Found Prefab {prefabInstance.name} at {prefabInstance.boundingBoxPosition}");
-                    // SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, prefabInstance.boundingBoxPosition.x, prefabInstance.boundingBoxPosition.z, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);
-                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, (int)position.x, (int)position.y, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);var num2 = (int)GameManager.Instance.World.GetHeightAt(position.x, position.y);
+                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, prefabInstance.boundingBoxPosition.x, prefabInstance.boundingBoxPosition.z, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);
+                    //SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, (int)position.x, (int)position.y, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);var num2 = (int)GameManager.Instance.World.GetHeightAt(position.x, position.y);
 
                     return;
                 }
@@ -89,8 +87,9 @@ public class NetPackageGotoPOISDX : NetPackage
         {
             for (int j = 0; j < quest.Objectives.Count; j++)
             {
+                Log.Out($"Objective position: {this.position}");
                 var num2 = (int)GameManager.Instance.World.GetHeightAt(position.x, position.y);
-                ((ObjectiveRandomPOIGoto)quest.Objectives[j]).FinalizePoint(new Vector3(this.position.x, num2, this.position.y), this.size);
+                ((ObjectiveGotoPOISDX)quest.Objectives[j]).FinalizePoint(new Vector3(this.position.x, num2, this.position.y), this.size);
             }
         }
     }
