@@ -25,7 +25,7 @@ namespace UAI
             {
                 // Check the range on the item action
                 var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
-                var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range - 0.35f) : 1.095f);
+                var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range) : 1.095f);
                 var minDistance = distance * distance;
                 var a = entityAlive.position - _context.Self.position;
                 // if within range, attack!

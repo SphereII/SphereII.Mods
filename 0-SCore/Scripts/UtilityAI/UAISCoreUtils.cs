@@ -182,6 +182,7 @@ namespace UAI
                 return false;
 
             CheckForClosedDoor(_context);
+        
             return _context.Self.moveHelper.IsBlocked;
         }
 

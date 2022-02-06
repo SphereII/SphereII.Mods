@@ -72,28 +72,24 @@ namespace UAI
 
             SCoreUtils.SetLookPosition(_context, _position);
 
-            // We've reached the target's position.
-            var distance = Vector3.Distance(_context.Self.position, _position);
-            if (distance < 1f)
+            // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
+            var difference = Vector3.Distance(_context.Self.position, entityAlive.position);
+            if (difference < 1)
             {
-                _context.Self.navigator.clearPath();
                 Stop(_context);
                 return;
             }
-
-            //// if there's not much distance between where we are aiming for, and where the entity now is, keep going.
-            //var difference = Vector3.Distance(entityAlive.position, _position);
-            //if (difference < 2f)
-            //    return;
-
-
+            // Where we are heading is too different.
+            var difference2 = Vector3.Distance(entityAlive.position, _position);
+            if (difference2 > 2)
+            {
+                _position = entityAlive.position;
+                _context.Self.navigator.clearPath();
+                SCoreUtils.FindPath(_context, _position, run);
+                return;
+            }
 
             // Update our position
-            _position = entityAlive.position;
-
-            if (_context.Self.navigator.noPathAndNotPlanningOne())
-                SCoreUtils.FindPath(_context, _position, run);
-
             _context.Self.moveHelper.SetMoveTo(_position, true);
 
         }

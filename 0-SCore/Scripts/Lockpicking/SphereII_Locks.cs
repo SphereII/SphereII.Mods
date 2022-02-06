@@ -52,13 +52,17 @@ public class SphereII_Locks
 
         if (string.IsNullOrEmpty(LockPrefab))
             return;
-        if (!File.Exists(LockPrefab))
+      
+        try
         {
-            Log.Out("LockPick Prefab missing. Falling back to vanilla...");
+            LockPickAsset = DataLoader.LoadAsset<GameObject>(LockPrefab);
+            lockPick = Object.Instantiate(LockPickAsset);
+        }
+        catch( Exception ex)
+        {
+            Log.Out($"LockPrefab not valid. Falling back to vanilla.");
             return;
         }
-        LockPickAsset = DataLoader.LoadAsset<GameObject>(LockPrefab);
-        lockPick = Object.Instantiate(LockPickAsset);
         Disable();
         
 
