@@ -27,7 +27,30 @@ namespace UAI
             SCoreUtils.SetCrouching(_context);
             this.attackTimeout = 0;
 
-            base.Start(_context);
+            EntityAlive entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            if (entityAlive != null)
+            {
+                _context.Self.SetLookPosition(_context.Self.CanSee(entityAlive) ? entityAlive.getHeadPosition() : Vector3.zero);
+                if (_context.Self.bodyDamage.HasLimbs)
+                {
+                    _context.Self.RotateTo(entityAlive.position.x, entityAlive.position.y, entityAlive.position.z, 30f, 30f);
+                }
+                this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+            }
+
+            if (_context.ActionData.Target.GetType() == typeof(Vector3))
+            {
+                this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+                Vector3 vector = (Vector3)_context.ActionData.Target;
+                _context.Self.SetLookPosition(_context.Self.CanSee(vector) ? vector : Vector3.zero);
+                if (_context.Self.bodyDamage.HasLimbs)
+                {
+                    _context.Self.RotateTo(vector.x, vector.y, vector.z, 30f, 30f);
+                }
+            }
+
+            _context.ActionData.Started = true;
+            _context.ActionData.Executing = true;
         }
 
         public override void Update(Context _context)
@@ -36,6 +59,7 @@ namespace UAI
             if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
+            Vector3 position = Vector3.zero;
             // if the NPC is on the ground, don't attack.
             //switch (_context.Self.bodyDamage.CurrentStun)
             //{
@@ -67,10 +91,22 @@ namespace UAI
                     Stop(_context);
                     return;
                 }
+                position = entityAlive.position;
             }
 
             if (_context.ActionData.Target is Vector3 vector)
-                SCoreUtils.SetLookPosition(_context, vector);
+            {
+                position = vector;
+                _context.Self.SetLookPosition(_context.Self.CanSee(position) ? position : Vector3.zero);
+                var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
+                if ( targetType.Equals(BlockValue.Air))
+                {
+                    _context.Self.SetLookPosition(Vector3.zero);
+
+                    this.Stop(_context);
+                    return;
+                }
+            }
 
             // Reloading
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
@@ -81,9 +117,8 @@ namespace UAI
             if (attackTimeout > 0)
                 return;
 
-            //EntityUtilities.Stop(_context.Self.entityId);
-            ItemActionRanged.ItemActionDataRanged itemActionData = null;
             // Check the range on the item action
+            ItemActionRanged.ItemActionDataRanged itemActionData = null;
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
             var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range - 0.35f) : 1.095f);
             if (itemAction is ItemActionRanged itemActionRanged)
@@ -91,23 +126,6 @@ namespace UAI
                 itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
                 if (itemActionData != null)
                 {
-                    //if (sphereTest)
-                    //{
-                    //    // Empty, no rounds left in the chamber
-                    //    if (itemActionData.invData.itemValue.Meta == 0)
-                    //    {
-                    //        _context.Self.OnReloadStart();
-                    //        itemActionData.isReloading = true;
-                    //        //itemActionRanged.ReloadGun(itemActionData);
-                    //        return;
-                    //    }
-                    //    // Are we reloading?
-                    //    if (itemActionData.isReloading) return;
-
-                    //    // Is an action running?
-                    //    if (itemAction.IsActionRunning(itemActionData)) return;
-
-                    //}
                     var range = itemActionRanged.GetRange(itemActionData);
                     //distance = Utils.FastMax(0.8f, range - 0.35f);
                     distance = Utils.FastMax(0.8f, range);
@@ -115,41 +133,36 @@ namespace UAI
                 }
             }
             var minDistance = distance * distance;
-            var a = entityAlive.position - _context.Self.position;
+            var a = position - _context.Self.position;
 
-
-
-            // not within range? qq
+            // not within range? 
             if (a.sqrMagnitude > minDistance)
             {
-                Log.Out($"Min Distance: {a.sqrMagnitude > minDistance} {a.sqrMagnitude} : {minDistance}");
                 // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
                 if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
-                    _context.Self.moveHelper.SetMoveTo(entityAlive.position, true);
+                    _context.Self.moveHelper.SetMoveTo(position, true);
             }
 
             if (a.sqrMagnitude < 0.5)
-                _context.Self.moveHelper.SetMoveTo(entityAlive.position + Vector3.back, true);
+                _context.Self.moveHelper.SetMoveTo(position + Vector3.back, true);
 
-            // Face the target right before hitting them.
-            if (entityAlive != null)
-                SCoreUtils.SetLookPosition(_context, entityAlive);
+            if (_context.Self.bodyDamage.HasLimbs)
+                _context.Self.RotateTo(position.x, position.y, position.z, 30f, 30f);
 
             // Action Index = 1 is Use, 0 is Attack.
             if (_actionIndex > 0)
             {
                 if (!_context.Self.Use(false)) return;
                 _context.Self.Use(true);
-                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
-//                if (itemActionData != null)
-                    //itemActionData.invData.itemValue.Meta--;
             }
             else
             {
                 if (!_context.Self.Attack(false)) return;
                 _context.Self.Attack(true);
-                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
             }
+
+            if (entityAlive != null)
+                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
 
             this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
 
