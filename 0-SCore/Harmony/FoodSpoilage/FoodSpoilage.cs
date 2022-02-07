@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.IO;
 using UnityEngine;
 
 /**
@@ -50,6 +51,53 @@ public class SphereII_FoodSpoilage
     private static readonly string AdvFeatureClass = "FoodSpoilage";
     private static readonly string Feature = "FoodSpoilage";
 
+    [HarmonyPatch(typeof(ItemValue))]
+    [HarmonyPatch("Read")]
+    public class SphereII_itemValue_Read
+    {
+        /// <summary>
+        /// The vanilla code reads the Meta value as a ushort, and we need the int value.
+        /// </summary>
+        /// <param name="_br"></param>
+        /// <param name="__instance"></param>
+        public static void Postfix(BinaryReader _br, ref ItemValue __instance)
+        {
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                return;
+
+            try
+            {
+                __instance.Meta = _br.ReadInt32();
+                // This is to match the logic in the original, presumably to avoid overflow
+                if (__instance.Meta < 0)
+                    __instance.Meta = -1;
+            }
+            catch (Exception e)
+            {
+                // Failsafe for first start up
+                Log.Warning($"Error when reading Meta value: {e}");
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ItemValue))]
+    [HarmonyPatch("Write")]
+    public class SphereII_ItemValue_Write
+    {
+        /// <summary>
+        /// The vanilla code writes the Meta value as a ushort, we need to save the int value.
+        /// </summary>
+        /// <param name="_bw"></param>
+        /// <param name="__instance"></param>
+        public static void Postfix(BinaryWriter _bw, ItemValue __instance)
+        {
+            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                return;
+
+            _bw.Write(__instance.Meta);
+        }
+    }
+
     // hook into the ItemStack, which should cover all types of containers. This will run in the update task.
     [HarmonyPatch(typeof(XUiC_ItemStack))]
     [HarmonyPatch("Update")]
@@ -78,7 +126,7 @@ public class SphereII_FoodSpoilage
                     float DegradationMax = 1000f;
                     if (itemClass.Properties.Contains("SpoilageMax"))
                         DegradationMax = itemClass.Properties.GetFloat("SpoilageMax");
-                    
+
                     float PerCent = 1f - Mathf.Clamp01(__instance.ItemStack.itemValue.UseTimes / DegradationMax);
                     int TierColor = 7 + (int)Math.Round(8 * PerCent);
                     if (TierColor < 0)
@@ -155,8 +203,6 @@ public class SphereII_FoodSpoilage
                 var worldTime = GameManager.Instance.World.GetWorldTime();
 
                 // ItemValue.Meta will hold the world time + how many ticks until the next spoilage.
-                // However, when read from disk, anything over ushort.MaxValue is converted to -1,
-                // so we have to handle that. Until there's a better solution, just start over.
                 var nextTick = __instance.ItemStack.itemValue.Meta;
                 if (nextTick <= 0)
                 {
