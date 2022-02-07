@@ -72,13 +72,14 @@
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
+    <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
     <Compile Include="Harmony\MiniTurret\shouldIgnoreTarget.cs" />
     <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
-    <Compile Include="Harmony\NPCFeatures\EntityAlivePatcherAwardKill.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityAlivePatcherAwardKill.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveStartingEquipment.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCJumpHeight.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
@@ -269,7 +270,6 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
-    <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanHear.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsInside.cs" />

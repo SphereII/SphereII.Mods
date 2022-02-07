@@ -36,7 +36,6 @@ public static class EntityUtilities
         Guard  = 9
     }
 
-
     public static void Traverse(GameObject obj)
     {
         var advFeatureClass = "AdvancedTroubleshootingFeatures";
@@ -833,6 +832,12 @@ public static class EntityUtilities
         }
 
         return leader;
+    }
+
+    public static bool IsHired(int EntityID)
+    {
+        if (EntityUtilities.GetLeaderOrOwner(EntityID) == null) return false;
+        return true;
     }
 
     public static void CheckForDanglingHires(int leaderID)

@@ -42,7 +42,10 @@ namespace UAI
             {
                 this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
                 Vector3 vector = (Vector3)_context.ActionData.Target;
-                _context.Self.SetLookPosition(_context.Self.CanSee(vector) ? vector : Vector3.zero);
+                _context.Self.IsBreakingBlocks = true;
+                BlockUtilitiesSDX.addParticles("", new Vector3i(vector));
+                var block = GameManager.Instance.World.GetBlock(new Vector3i(vector));
+                _context.Self.SetLookPosition(vector );
                 if (_context.Self.bodyDamage.HasLimbs)
                 {
                     _context.Self.RotateTo(vector.x, vector.y, vector.z, 30f, 30f);
@@ -53,6 +56,15 @@ namespace UAI
             _context.ActionData.Executing = true;
         }
 
+        public override void Stop(Context _context)
+        {
+            if (_context.ActionData.Target is Vector3 vector)
+            {
+                _context.Self.IsBreakingBlocks = false;
+                BlockUtilitiesSDX.removeParticles(new Vector3i(vector));
+            }
+            base.Stop(_context);
+        }
         public override void Update(Context _context)
         {
 
@@ -97,9 +109,9 @@ namespace UAI
             if (_context.ActionData.Target is Vector3 vector)
             {
                 position = vector;
-                _context.Self.SetLookPosition(_context.Self.CanSee(position) ? position : Vector3.zero);
+                _context.Self.SetLookPosition( position );
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
-                if ( targetType.Equals(BlockValue.Air))
+                if (targetType.Equals(BlockValue.Air))
                 {
                     _context.Self.SetLookPosition(Vector3.zero);
 
@@ -120,7 +132,7 @@ namespace UAI
             // Check the range on the item action
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
-            var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range - 0.35f) : 1.095f);
+            var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range) : 1.095f);
             if (itemAction is ItemActionRanged itemActionRanged)
             {
                 itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
@@ -150,15 +162,25 @@ namespace UAI
                 _context.Self.RotateTo(position.x, position.y, position.z, 30f, 30f);
 
             // Action Index = 1 is Use, 0 is Attack.
-            if (_actionIndex > 0)
+            switch (_actionIndex)
             {
-                if (!_context.Self.Use(false)) return;
-                _context.Self.Use(true);
-            }
-            else
-            {
-                if (!_context.Self.Attack(false)) return;
-                _context.Self.Attack(true);
+                case 0:
+                    if (!_context.Self.Attack(false)) return;
+                    _context.Self.Attack(true);
+                    break;
+                case 1:
+                    if (!_context.Self.Use(false)) return;
+                    _context.Self.Use(true);
+                    break;
+                default:
+                    var entityAliveSDX = _context.Self as EntityAliveSDX;
+                    if (entityAliveSDX)
+                    {
+                        if (!entityAliveSDX.ExecuteAction(false, _actionIndex)) return;
+                        entityAliveSDX.ExecuteAction(true, _actionIndex);
+                    }
+                    break;
+
             }
 
             if (entityAlive != null)

@@ -182,7 +182,28 @@ namespace UAI
                 return false;
 
             CheckForClosedDoor(_context);
-        
+
+            if (_context.Self.moveHelper.BlockedTime > 0.35f && _context.Self.moveHelper.CanBreakBlocks)
+            {
+                Vector3i blockPos = Vector3i.zero;
+                if (_context.Self.moveHelper != null && _context.Self.moveHelper.HitInfo != null)
+                {
+                    blockPos = _context.Self.moveHelper.HitInfo.hit.blockPos;
+                    if (GameManager.Instance.World.GetBlock(blockPos).Equals(BlockValue.Air))
+                    {
+                        return false;
+                    }
+
+                }
+                float num = _context.Self.moveHelper.CalcBlockedDistanceSq();
+                float num2 = _context.Self.m_characterController.GetRadius() + 0.6f;
+                if (num <= num2 * num2)
+                {
+                    if ( blockPos != Vector3i.zero )
+                        _context.ConsiderationData.WaypointTargets.Add(blockPos.ToVector3());
+                    return true;
+                }
+            }
             return _context.Self.moveHelper.IsBlocked;
         }
 
@@ -530,6 +551,9 @@ namespace UAI
             //  if (!(_context.Self.moveHelper.BlockedTime >= 0.1f)) return false;
             if (!_context.Self.moveHelper.IsBlocked) return false;
 
+            // If they are not human, and are not hired, don't let them open doors.
+            // This allows pets to open doors
+            if (!EntityUtilities.IsHuman(_context.Self.entityId) || !EntityUtilities.IsHired(_context.Self.entityId)) return false;
 
             var blockPos = _context.Self.moveHelper.HitInfo.hit.blockPos;
             var block = GameManager.Instance.World.GetBlock(blockPos);

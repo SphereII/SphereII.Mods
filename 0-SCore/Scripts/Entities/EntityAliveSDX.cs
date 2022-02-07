@@ -12,6 +12,7 @@
  *      <property name="Class" value="EntityAliveSDX, SCore" />
  */
 
+using Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -106,7 +107,7 @@ public class EntityAliveSDX : EntityTrader
                 return entityName;
 
             // Don't return the name when on a mission.
-            if (IsOnMission()) return "";
+          //  if (IsOnMission()) return "";
 
             if (string.IsNullOrEmpty(_strTitle))
                 return Localization.Get(_strMyName);
@@ -336,7 +337,7 @@ public class EntityAliveSDX : EntityTrader
         // do we have an attack or revenge target? don't have time to talk, bro
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return new EntityActivationCommand[0];
-        
+
 
         return new[]
         {
@@ -452,7 +453,7 @@ public class EntityAliveSDX : EntityTrader
 
         // Check if there's a loot container or not already attached to store its stuff.
         DisplayLog(" Checking Entity's Loot Container");
-        if (lootContainer == null )
+        if (lootContainer == null)
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
             lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
@@ -724,7 +725,7 @@ public class EntityAliveSDX : EntityTrader
         {
             Owner = null;
             IsEntityUpdatedInUnloadedChunk = false;
-            bWillRespawn = false; 
+            bWillRespawn = false;
             return;
         }
 
@@ -738,7 +739,7 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
-     
+
         // Recheck the cache to make sure the owner is updated.
         expireLeaderCache--;
         if (expireLeaderCache < 0)
@@ -751,12 +752,7 @@ public class EntityAliveSDX : EntityTrader
         // Force the leader to have the hired entity id
         leader.Buffs.SetCustomVar($"hired_{entityId}", (float)entityId);
 
-        // This needs to be set for the entities to be still alive, so the player can teleport them
-        IsEntityUpdatedInUnloadedChunk = true;
-        bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
-
         var player = leader as EntityPlayer;
-
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
             case EntityUtilities.Orders.Patrol:
@@ -772,6 +768,10 @@ public class EntityAliveSDX : EntityTrader
                     if (Buffs.HasCustomVar("onMission"))
                         SendOnMission(false);
                 }
+
+                // This needs to be set for the entities to be still alive, so the player can teleport them
+                IsEntityUpdatedInUnloadedChunk = true;
+                bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
@@ -796,6 +796,10 @@ public class EntityAliveSDX : EntityTrader
             case EntityUtilities.Orders.Wander:
             case EntityUtilities.Orders.Loot:
             default:
+                // This needs to be set for the entities to be still alive, so the player can teleport them
+                IsEntityUpdatedInUnloadedChunk = false;
+                bWillRespawn = false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+
                 player.Companions.Remove(this);
                 break;
         }
@@ -957,7 +961,7 @@ public class EntityAliveSDX : EntityTrader
         return damage;
     }
 
-  
+
     public new void SetRevengeTarget(EntityAlive _other)
     {
         if (IsOnMission())
@@ -1063,8 +1067,9 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool IsAttackValid()
     {
-        // If they are on a mission, don't attack. 
-        if (IsOnMission()) return false;
+            // If they are on a mission, don't attack. 
+        if (IsOnMission())         return false;
+    
         return base.IsAttackValid();
     }
     public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
@@ -1108,7 +1113,7 @@ public class EntityAliveSDX : EntityTrader
         SphereCache.RemovePaths(entityId);
 
         this.SetPosition(myPosition, true);
-       StartCoroutine(validateTeleport(target, randomPosition));
+        StartCoroutine(validateTeleport(target, randomPosition));
 
     }
     private float getAltitude(Vector3 pos)
@@ -1281,11 +1286,39 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-  public override void OnEntityDeath()
+    // General ExecuteAction that takes an action ID.
+    private bool bLastAttackReleased;
+    public bool ExecuteAction(bool _bAttackReleased, int actionIndex)
+    {
+        if (!_bAttackReleased)
+        {
+            if (this.emodel && this.emodel.avatarController && this.emodel.avatarController.IsAnimationAttackPlaying())
+            {
+                return false;
+            }
+            if (!this.IsAttackValid())
+            {
+                return false;
+            }
+        }
+        if (this.bLastAttackReleased && this.GetSoundAttack() != null)
+        {
+            this.PlayOneShot(this.GetSoundAttack(), false);
+        }
+        this.bLastAttackReleased = _bAttackReleased;
+        this.attackingTime = 60;
+        ItemAction itemAction = this.inventory.holdingItem.Actions[actionIndex];
+        if (itemAction != null)
+        {
+            itemAction.ExecuteAction(this.inventory.holdingItemData.actionData[actionIndex], _bAttackReleased);
+        }
+        return true;
+    }
+    public override void OnEntityDeath()
     {
         Log.Out($"{entityName} ({entityId}) has died.");
         Log.Out("Active Buffs:");
-        foreach( var buff in Buffs.ActiveBuffs)
+        foreach (var buff in Buffs.ActiveBuffs)
         {
             Log.Out($" > {buff.BuffName}");
         }
@@ -1310,7 +1343,7 @@ public class EntityAliveSDX : EntityTrader
     }
     protected override Vector3i dropCorpseBlock()
     {
-        var bagPosition =  new Vector3i( this.position + base.transform.up );
+        var bagPosition = new Vector3i(this.position + base.transform.up);
         if (lootContainer == null) return base.dropCorpseBlock();
 
         if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
@@ -1334,6 +1367,14 @@ public class EntityAliveSDX : EntityTrader
 
     }
 
+    protected override void playStepSound(string stepSound)
+    {
+        if (IsOnMission()) return;
+        if (HasAnyTags(FastTags.Parse("floating"))) return;
+
+            base.playStepSound(stepSound);
+
+    }
     //public override void OnReloadStart()
     //{
     //    base.OnReloadStart();
@@ -1385,127 +1426,127 @@ public class EntityAliveSDX : EntityTrader
     //}
 
     private bool shouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain)
-{
-    BlockShape shape = this.world.GetBlock(_x, _y, _z).Block.shape;
-    if (shape.IsSolidSpace && !shape.IsTerrain())
     {
-        return true;
-    }
-    if (pushOutOfTerrain && shape.IsSolidSpace && shape.IsTerrain())
-    {
-        BlockShape shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
-        if (shape2.IsSolidSpace && shape2.IsTerrain())
+        BlockShape shape = this.world.GetBlock(_x, _y, _z).Block.shape;
+        if (shape.IsSolidSpace && !shape.IsTerrain())
         {
             return true;
         }
-    }
-    return false;
-}
-private bool pushOutOfBlocks(float _x, float _y, float _z)
-{
-    int num = Utils.Fastfloor(_x);
-    int num2 = Utils.Fastfloor(_y);
-    int num3 = Utils.Fastfloor(_z);
-    float num4 = _x - (float)num;
-    float num5 = _z - (float)num3;
-    bool result = false;
-    if (this.shouldPushOutOfBlock(num, num2, num3, false) || (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
-    {
-        bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) && !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
-        bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) && !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
-        bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
-        bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
-        byte b = byte.MaxValue;
-        float num6 = 9999f;
-        if (flag2 && num4 < num6)
+        if (pushOutOfTerrain && shape.IsSolidSpace && shape.IsTerrain())
         {
-            num6 = num4;
-            b = 0;
-        }
-        if (flag3 && 1.0 - (double)num4 < (double)num6)
-        {
-            num6 = 1f - num4;
-            b = 1;
-        }
-        if (flag4 && num5 < num6)
-        {
-            num6 = num5;
-            b = 4;
-        }
-        if (flag5 && 1f - num5 < num6)
-        {
-            b = 5;
-        }
-        float num7 = 0.1f;
-        if (b == 0)
-        {
-            this.motion.x = -num7;
-        }
-        if (b == 1)
-        {
-            this.motion.x = num7;
-        }
-        if (b == 4)
-        {
-            this.motion.z = -num7;
-        }
-        if (b == 5)
-        {
-            this.motion.z = num7;
-        }
-        if (b != 255)
-        {
-            result = true;
-        }
-    }
-    return result;
-}
-
-private bool CheckNonSolidVertical(Vector3i blockPos, int maxY, int verticalSpace)
-{
-    for (int i = 0; i < maxY; i++)
-    {
-        if (!this.world.GetBlock(blockPos.x, blockPos.y + i + 1, blockPos.z).Block.shape.IsSolidSpace)
-        {
-            bool flag = true;
-            for (int j = 1; j < verticalSpace; j++)
-            {
-                if (this.world.GetBlock(blockPos.x, blockPos.y + i + 1 + j, blockPos.z).Block.shape.IsSolidSpace)
-                {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag)
+            BlockShape shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
+            if (shape2.IsSolidSpace && shape2.IsTerrain())
             {
                 return true;
             }
         }
+        return false;
     }
-    return false;
-}
-public virtual void CheckStuck()
-{
-    this.IsStuck = false;
-    if (!this.IsFlyMode.Value)
+    private bool pushOutOfBlocks(float _x, float _y, float _z)
     {
-        float num = this.boundingBox.min.y + 0.5f;
-        this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z + base.depth * 0.3f);
-        this.IsStuck = (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
-        this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
-        this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) || this.IsStuck);
-        if (!this.IsStuck)
+        int num = Utils.Fastfloor(_x);
+        int num2 = Utils.Fastfloor(_y);
+        int num3 = Utils.Fastfloor(_z);
+        float num4 = _x - (float)num;
+        float num5 = _z - (float)num3;
+        bool result = false;
+        if (this.shouldPushOutOfBlock(num, num2, num3, false) || (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
         {
-            int x = Utils.Fastfloor(this.position.x);
-            int num2 = Utils.Fastfloor(num);
-            int z = Utils.Fastfloor(this.position.z);
-            if (this.shouldPushOutOfBlock(x, num2, z, true) && this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
+            bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) && !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
+            bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) && !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
+            bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
+            bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
+            byte b = byte.MaxValue;
+            float num6 = 9999f;
+            if (flag2 && num4 < num6)
             {
-                this.IsStuck = true;
-                this.motion = new Vector3(0f, 1.6f, 0f);
-                Log.Warning($"{EntityName} ({entityId}) is stuck. Unsticking.");
+                num6 = num4;
+                b = 0;
+            }
+            if (flag3 && 1.0 - (double)num4 < (double)num6)
+            {
+                num6 = 1f - num4;
+                b = 1;
+            }
+            if (flag4 && num5 < num6)
+            {
+                num6 = num5;
+                b = 4;
+            }
+            if (flag5 && 1f - num5 < num6)
+            {
+                b = 5;
+            }
+            float num7 = 0.1f;
+            if (b == 0)
+            {
+                this.motion.x = -num7;
+            }
+            if (b == 1)
+            {
+                this.motion.x = num7;
+            }
+            if (b == 4)
+            {
+                this.motion.z = -num7;
+            }
+            if (b == 5)
+            {
+                this.motion.z = num7;
+            }
+            if (b != 255)
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    private bool CheckNonSolidVertical(Vector3i blockPos, int maxY, int verticalSpace)
+    {
+        for (int i = 0; i < maxY; i++)
+        {
+            if (!this.world.GetBlock(blockPos.x, blockPos.y + i + 1, blockPos.z).Block.shape.IsSolidSpace)
+            {
+                bool flag = true;
+                for (int j = 1; j < verticalSpace; j++)
+                {
+                    if (this.world.GetBlock(blockPos.x, blockPos.y + i + 1 + j, blockPos.z).Block.shape.IsSolidSpace)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public virtual void CheckStuck()
+    {
+        this.IsStuck = false;
+        if (!this.IsFlyMode.Value)
+        {
+            float num = this.boundingBox.min.y + 0.5f;
+            this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z + base.depth * 0.3f);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
+            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) || this.IsStuck);
+            if (!this.IsStuck)
+            {
+                int x = Utils.Fastfloor(this.position.x);
+                int num2 = Utils.Fastfloor(num);
+                int z = Utils.Fastfloor(this.position.z);
+                if (this.shouldPushOutOfBlock(x, num2, z, true) && this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
+                {
+                    this.IsStuck = true;
+                    this.motion = new Vector3(0f, 1.6f, 0f);
+                    Log.Warning($"{EntityName} ({entityId}) is stuck. Unsticking.");
+                }
             }
         }
     }
-}
 }

@@ -9,6 +9,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
 [ Change Log ]
+Version: 20.0.38
+
+[ NPC Fixes ]
+	NPCMOD-SP-0072  Hired NPC names disappear from life bars when you enter a vehicle
+	NPCMOD-SP-0076  Limit opening of doors to IsHuman or IsHired
+	NPCMOD-SP-0073  Hired NPC footsteps can be heard when you hop on a bike and travel
+					- Also disable footsteps when flying tags is used
+	NPCMOD-SP-0075  Potentially fixed:  NPCs will get stuck on certain blocks (like trees) 
+
+	Hired NPCs which are ordered to Stay will unload when a chunk is unloaded, and re-load back in.
+	Merged Food Spoilage patch
+
 
 Version: 20.0.33.1824
 

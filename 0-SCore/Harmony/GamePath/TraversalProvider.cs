@@ -134,16 +134,16 @@ namespace Harmony
                         ___heightsUsed = num7 + 1;
                         array[num7] = hitData;
                     }
-                    //else if (block2 is BlockTrunk || block2 is BlockTrunkTip)
-                    //{
-                    //    hitData.point.y = vector.y + 0.03f;
-                    //    hitData.blockerFlags = 4111;
-                    //    AstarVoxelGrid.HitData[] array4 = ___heights;
-                    //    int num7 = ___heightsUsed;
-                    //    ___heightsUsed = num7 + 1;
-                    //    array4[num7] = hitData;
-                    //    continue;
-                    //}
+                    else if (block2 is BlockModelTree )
+                    {
+                        hitData.point.y = vector.y + 0.03f;
+                        hitData.blockerFlags = 4111;
+                        AstarVoxelGrid.HitData[] array4 = ___heights;
+                        int num7 = ___heightsUsed;
+                        ___heightsUsed = num7 + 1;
+                        array4[num7] = hitData;
+                        continue;
+                    }
                     else
                     {
                         if (num6 > 0.95f)
