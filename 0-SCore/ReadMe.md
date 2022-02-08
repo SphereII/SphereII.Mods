@@ -9,6 +9,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
 [ Change Log ]
+Version: 20.0.39
+
+[ NPC Fixes ]
+	Initial implementation of Break Blocks functionality.
+
+[ Block Changes ]
+	- Added the ability to trigger SpawnCube when placed by a player.
+
+	Sample XML, which will spawn an empty handed nurse on placement, and ordered to stay:
+		<block name="TestSpawnCube">
+			<property name="Extends" value="SpawnCube"/>
+			<property name="Config" value="ec=npcNurseEmptyHand;buff=buffOrderStay;pc=0" />
+		</block>
+
 Version: 20.0.38
 
 [ NPC Fixes ]

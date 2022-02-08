@@ -166,6 +166,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 var EntityID = EntityGroups.GetRandomFromGroup(entityGroup, ref ClassID);
                 if (EntityID == 0) // Invalid group.
                     return;
+
                 myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3()) as EntityAlive;
             }
             else
@@ -215,12 +216,13 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             for (var i = nearbyEntities.Count - 1; i >= 0; i--)
             {
                 var x = nearbyEntities[i] as EntityAlive;
+
                 if (x == null) continue;
                 if (x.entityClass == myEntity.entityId) continue;
 
+                // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
                 if (Task.ToLower() == "stay")
                     x.Buffs.AddBuff("buffOrderStay");
-                    
                 if (Task.ToLower() == "wander")
                     x.Buffs.AddBuff("buffOrderWander");
                 if (Task.ToLower() == "guard")
@@ -231,8 +233,11 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
 
                 if (!string.IsNullOrEmpty(Buff))
                     x.Buffs.AddBuff(Buff);
-            }
 
+                // Center the entity to its block position.
+                x.SetPosition(EntityUtilities.CenterPosition(_blockPos));
+            }
+            
 
         }
         catch (Exception ex)
@@ -241,14 +246,31 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         }
     }
 
+    public override BlockValue OnBlockPlaced(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, GameRandom _rnd)
+    {
+        var blockValue= base.OnBlockPlaced(_world, _clrIdx, _blockPos, _blockValue, _rnd);
+        var tileEntitySign = _world.GetTileEntity(_clrIdx, _blockPos) as TileEntitySign;
+        if (tileEntitySign != null)
+        {
+            if (Properties.Values.ContainsKey("Config"))
+            {
+                tileEntitySign.SetText(Properties.Values["Config"]);
+                CheckForSpawn(_world, _clrIdx, _blockPos, _blockValue, true);
+            }
+        }
+        return blockValue;
+    }
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
         var tileEntitySign = _world.GetTileEntity(_chunk.ClrIdx, _blockPos) as TileEntitySign;
         if (tileEntitySign != null)
             if (Properties.Values.ContainsKey("Config"))
+            { 
                 tileEntitySign.SetText(Properties.Values["Config"]);
-        CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue);
+                CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue, true);
+            }
+        
     }
 
     public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)

@@ -299,7 +299,7 @@
 			<property name="FilterTags" value="fdecor,fsigns,fother"/>
 			<property name="SortOrder1" value="70s0"/>
 			<drop event="Fall" count="0" prob="0"/>
-			<property name="Config" value="ec=zombieBoe;buff=buffOrderStay;pc=0" />
+			<property name="Collide" value="sight" />
 		</block>
 
 
