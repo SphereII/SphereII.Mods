@@ -9,6 +9,9 @@ public static class EntityUtilities
     private static readonly bool blDisplayLog = false;
     private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
 
+    private static List<FastTags> _HumanTags = null;
+    private static List<FastTags> _UseFactionsTags = null;
+
     // Control the need of the entity to help equip weapons or items to use.
     public enum Need
     {
@@ -88,11 +91,29 @@ public static class EntityUtilities
         if (myEntity == null)
             return false;
 
-        // Read the ConfigBlock to detect what constitutes a human, or rather, what can think
-        var Tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "HumanTags").Split(',');
-        foreach (var Tag in Tags)
+        if (_HumanTags == null)
+            IntitializeHumanTags();
+
+        foreach (var tag in _HumanTags)
         {
-            if (myEntity.HasAnyTags(FastTags.Parse(Tag)))
+            if (myEntity.HasAnyTags(tag))
+                return true;
+        }
+
+        return false;
+    }
+
+    public static bool UseFactions(EntityAlive entity)
+    {
+        if (entity == null)
+            return false;
+
+        if (_UseFactionsTags == null)
+            IntitializeUseFactionsTags();
+
+        foreach (var tag in _UseFactionsTags)
+        {
+            if (entity.HasAnyTags(tag))
                 return true;
         }
 
@@ -1811,5 +1832,29 @@ public static class EntityUtilities
         DisplayLog(strOutput);
 
         return strOutput;
+    }
+
+    private static void IntitializeHumanTags()
+    {
+        _HumanTags = new List<FastTags>();
+
+        var tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "HumanTags").Split(',');
+
+        for (var i = 0; i < tags.Length; i++)
+        {
+            _HumanTags.Add(FastTags.Parse(tags[i]));
+        }
+    }
+
+    private static void IntitializeUseFactionsTags()
+    {
+        _UseFactionsTags = new List<FastTags>();
+
+        var tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "UseFactionsTags").Split(',');
+
+        for (var i = 0; i < tags.Length; i++)
+        {
+            _UseFactionsTags.Add(FastTags.Parse(tags[i]));
+        }
     }
 }

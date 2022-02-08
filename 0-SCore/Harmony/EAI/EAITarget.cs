@@ -11,8 +11,10 @@ namespace Harmony.EAI
         {
             if (!__result) return;
 
-            // Only "humans" should use faction-based targeting
-            if (!EntityUtilities.IsHuman(__instance.theEntity.entityId)) return;
+            // Only "humans" and entities with Use Factions tags should use faction-based targeting
+            if (!EntityUtilities.IsHuman(__instance.theEntity.entityId)
+                && !EntityUtilities.UseFactions(__instance.theEntity))
+                return;
 
             // If its a vehicle.. umm.. no.
             if (_e is EntityVehicle)
@@ -45,7 +47,14 @@ namespace Harmony.EAI
             // This patches the check for all entities, so if we're not supposed to use faction
             // targeting for everything, stop now. Otherwise, do the faction check.
             if (!Configuration.CheckFeatureStatus("AdvancedNPCFeatures", "AllEntitiesUseFactionTargeting"))
-                return;
+            {
+                // Even if *all* entities don't use faction targeting, this entity still should
+                // if it has one of the UseFactions tags. Only stop now if it doesn't.
+                if (!EntityUtilities.UseFactions(__instance.theEntity))
+                {
+                    return;
+                }
+            }
 
             var myRelationship = FactionManager.Instance.GetRelationshipTier(__instance.theEntity, _e);
             switch (myRelationship)
