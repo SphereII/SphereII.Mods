@@ -24,6 +24,7 @@ public static class SphereCache
     public static HashSet<Vector2> caveMap = new HashSet<Vector2>();
     public static Dictionary<int, Entity> LeaderCache = new Dictionary<int, Entity>();
 
+    public static Dictionary<int, Vector3i> BreakingBlockCache = new Dictionary<int, Vector3i>();
     public static Vector3i[] FindRandomPoints(int count)
     {
         Vector3i _minSize;

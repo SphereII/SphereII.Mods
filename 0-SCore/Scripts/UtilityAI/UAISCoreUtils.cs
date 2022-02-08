@@ -183,27 +183,7 @@ namespace UAI
 
             CheckForClosedDoor(_context);
 
-            if (_context.Self.moveHelper.BlockedTime > 0.35f && _context.Self.moveHelper.CanBreakBlocks)
-            {
-                Vector3i blockPos = Vector3i.zero;
-                if (_context.Self.moveHelper != null && _context.Self.moveHelper.HitInfo != null)
-                {
-                    blockPos = _context.Self.moveHelper.HitInfo.hit.blockPos;
-                    if (GameManager.Instance.World.GetBlock(blockPos).Equals(BlockValue.Air))
-                    {
-                        return false;
-                    }
-
-                }
-                float num = _context.Self.moveHelper.CalcBlockedDistanceSq();
-                float num2 = _context.Self.m_characterController.GetRadius() + 0.6f;
-                if (num <= num2 * num2)
-                {
-                    if ( blockPos != Vector3i.zero )
-                        _context.ConsiderationData.WaypointTargets.Add(blockPos.ToVector3());
-                    return true;
-                }
-            }
+          
             return _context.Self.moveHelper.IsBlocked;
         }
 
@@ -812,7 +792,7 @@ namespace UAI
 
         private static readonly Dictionary<string, XmlElement> _storedElements = new Dictionary<string, XmlElement>();
 
-        private static int GetHitMaskByWeaponBuff(EntityAlive entity)
+        public static int GetHitMaskByWeaponBuff(EntityAlive entity)
         {
             // Raycasts should always collide with these types of blocks.
             // This is 0x42, which is the "base" value used if you call the

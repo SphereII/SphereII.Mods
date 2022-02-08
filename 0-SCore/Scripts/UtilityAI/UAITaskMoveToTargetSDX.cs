@@ -36,8 +36,8 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null && entityAlive.IsAlive())
             {
-                int num = _context.Self.CalcInvestigateTicks(Constants.cEnemySenseMemory * 20, entityAlive);
-                _context.Self.SetInvestigatePosition(_position, 1200);
+                var num = _context.Self.CalcInvestigateTicks(Constants.cEnemySenseMemory * 20, entityAlive);
+                _context.Self.SetInvestigatePosition(_position, num);
             }
             base.Stop(_context);
         }
@@ -48,15 +48,20 @@ namespace UAI
             SCoreUtils.CheckForClosedDoor(_context);
             CheckProximityToPosition(_context);
 
+            if (_context.ActionData.Target.GetType() == typeof(Vector3))
+            {
+                if (_context.Self.getNavigator().noPathAndNotPlanningOne())
+                {
+                    this.Stop(_context);
+                }
+            }
+
             if (SCoreUtils.IsBlocked(_context))
             {
-                // _position = _position = RandomPositionGenerator.CalcTowards(_context.Self, 2,2, 3, _position);
-                //SCoreUtils.FindPath(_context, _position, run);
                 Stop(_context);
                 return;
             }
-
-
+         
         }
 
         public void CheckProximityToPosition(Context _context)
@@ -72,26 +77,32 @@ namespace UAI
 
             SCoreUtils.SetLookPosition(_context, _position);
 
-            // if there's not much distance between where we are aiming for, and where the entity now is, keep going.
-            var difference = Vector3.Distance(_context.Self.position, entityAlive.position);
-            if (difference < 1)
+            if (!_context.Self.navigator.noPathAndNotPlanningOne())
             {
-                Stop(_context);
-                return;
+                // The entity hasn't moved very much, keep going.
+                if (Vector3.Distance(entityAlive.position, _position) < 2f)
+                    return;
+
+                // I'm close enough to the entity.
+                if (Vector3.Distance(_context.Self.position, entityAlive.position) < 2f)
+                    return;
             }
-            // Where we are heading is too different.
-            var difference2 = Vector3.Distance(entityAlive.position, _position);
-            if (difference2 > 2)
-            {
-                _position = entityAlive.position;
-                _context.Self.navigator.clearPath();
+            
+            _position = entityAlive.position;
+            if ( SCoreUtils.CanSee(_context.Self, entityAlive) )
+                _context.Self.moveHelper.SetMoveTo(_position, true);
+            else
                 SCoreUtils.FindPath(_context, _position, run);
-                return;
-            }
 
-            // Update our position
-            _context.Self.moveHelper.SetMoveTo(_position, true);
+            //// Our target has moved too much.
+            //if (Vector3.Distance(entityAlive.position, _position) > 2f)
+            //{
+            //    _position = entityAlive.position;
+            //    _context.Self.navigator.clearPath();
+            //    SCoreUtils.FindPath(_context, _position, run);
+            //}
 
+            //_context.Self.moveHelper.SetMoveTo(_position, true);
         }
 
 

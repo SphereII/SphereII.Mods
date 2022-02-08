@@ -58,9 +58,10 @@ namespace UAI
 
         public override void Stop(Context _context)
         {
+            _context.Self.IsBreakingBlocks = false;
+
             if (_context.ActionData.Target is Vector3 vector)
             {
-                _context.Self.IsBreakingBlocks = false;
                 BlockUtilitiesSDX.removeParticles(new Vector3i(vector));
             }
             base.Stop(_context);
@@ -110,11 +111,10 @@ namespace UAI
             {
                 position = vector;
                 _context.Self.SetLookPosition( position );
+                _context.Self.SetRotation(vector);
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
                 if (targetType.Equals(BlockValue.Air))
                 {
-                    _context.Self.SetLookPosition(Vector3.zero);
-
                     this.Stop(_context);
                     return;
                 }
@@ -161,6 +161,7 @@ namespace UAI
             if (_context.Self.bodyDamage.HasLimbs)
                 _context.Self.RotateTo(position.x, position.y, position.z, 30f, 30f);
 
+        
             // Action Index = 1 is Use, 0 is Attack.
             switch (_actionIndex)
             {
