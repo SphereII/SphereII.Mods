@@ -52,10 +52,18 @@ namespace Harmony.NPCFeatures
             {
                 // New feature flag, specific to this feature.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
-                    return true;
+                {
+                    // Even if *all* entities don't use faction damage rules, this entity should
+                    // if it has one of the UseFactions tags. Only stop now if it doesn't.
+                    if (!EntityUtilities.UseFactions(__instance))
+                    {
+                        return true;
+                    }
+                }
 
                 if (_damageSource.damageType == EnumDamageTypes.Suicide)
                     return true;
+
                 // We have to use a different damge test for players, due to multiplayer.
                 // There is no NetPackage for setting a revenge target. So, if the player is a
                 // revenge target of the damage source, it won't be set locally, and it won't be

@@ -120,6 +120,12 @@
 				<property name="NPCSpeedFix" value="false" />
 				<property name="HumanTags"  value="human,bandit,survivor,npc,trader" />
 				<!-- Tags that translate that the entity is alive and has a brain -->
+				<property name="UseFactionsTags"  value="human,bandit,survivor,npc,trader" />
+				<!--
+					Tags that translate that the entity should use factions when determining
+					whether to target others. This does not necessarily mean the entity is human,
+					or even sentient, and it is independent of UAI or C# entity type.
+				-->
 				<property name="FactionRelationshipCVars" value="false" />
 				<!-- Enables the addition of faction relationship cvars (see FactionRelationshipCVars.cs)  -->
 				<property name="AllEntitiesUseFactionTargeting" value="false" />
