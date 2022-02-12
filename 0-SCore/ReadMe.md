@@ -9,6 +9,50 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
 [ Change Log ]
+
+Version: 20.2.43.147
+
+	- Version bump to catch up to the Alpha 20.2
+
+[ NPC Fixes ]
+
+	- Due to the refactoring for the damage to block code, some issues are listed as potentially fixed only.
+
+	- NPCMOD-FT-0038        NPCs be given the ability to damage blocks
+
+		Tested:
+				<action name="MeleeAttackBlock" weight="3">
+					<task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+					<consideration class="PathBlockedSDX, SCore"  />
+					<consideration class="TargetType" type="Block"/>
+				</action>
+		- Recommended that NotPathBlockedSDX, SCore for approach-style tasks
+	
+	- NPCMOD-SP-0071        Hired NPC names show up twice above their heads ( Potentially )
+	- NPCMOD-SP-0062        Melee NPCs run max distance away from their target then begin their approach ( Potentially )
+	- NPCMOD-SP-0075        NPCs will get stuck on certain blocks (like trees) ( Potentially )
+	- NPCMOD-SP-0048        NPCs can talk to the player while fighting, until they are hit by an enemy
+		- Added a call to the UAI System IsEnemyNearBy() call (10 distance).
+	- NPCMOD-DEDI-0006    NPCs can be hired by another player after you've hired them and log out
+		- Changed the GetLeaderOrOwner() call to just check for existence of cvars as a gap solution, 
+			rather than expecting the entity to be online in order for it to be valid.
+
+	- Added a new fun task ( Work in Progress. Don't use in production )
+				<!-- Allows the entity to place a timed charge on a door -->
+				<action name="DoorBuster" weight="4">
+					<task class="BreakBlock, SCore" action_index="0"/>
+					<consideration class="PathBlockedSDX, SCore"  />
+					<consideration class="TargetType" type="BlockDoorSecure"/>
+				</action>
+
+	- Many, many UAI tweaks, cleaning up old code, ironing out behaviours.
+	- Gound work for expanding the available ItemActions 2,3,4.
+	- Added MeleeSDX to allow non-EntityEnemy's target blocks effectively.
+
+[ UI ]
+	- Fixed the NPCStatWindow to update properly
+	- Fixed Respondent Name to display
+
 Version: 20.0.39
 
 [ NPC Fixes ]

@@ -18,38 +18,31 @@ namespace UAI
             if (Parameters.ContainsKey("action_index")) _actionIndex = int.Parse(Parameters["action_index"]);
             if (Parameters.ContainsKey("buff_throttle")) _buffThrottle = Parameters["buff_throttle"];
             if (Parameters.ContainsKey("target_timeout")) _targetTimeout = int.Parse(Parameters["target_timeout"]);
-
         }
 
         public override void Start(Context _context)
         {
             // Reset crouching.
             SCoreUtils.SetCrouching(_context);
-            this.attackTimeout = 0;
+            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
 
             EntityAlive entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
-                _context.Self.SetLookPosition(_context.Self.CanSee(entityAlive) ? entityAlive.getHeadPosition() : Vector3.zero);
-                if (_context.Self.bodyDamage.HasLimbs)
-                {
-                    _context.Self.RotateTo(entityAlive.position.x, entityAlive.position.y, entityAlive.position.z, 30f, 30f);
-                }
-                this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+                _context.Self.SetLookPosition( entityAlive.getHeadPosition());
+                _context.Self.RotateTo(entityAlive, 30f, 30f);
+                _context.Self.SetAttackTarget(entityAlive, 1200);
             }
 
             if (_context.ActionData.Target.GetType() == typeof(Vector3))
             {
-                this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
                 Vector3 vector = (Vector3)_context.ActionData.Target;
+                // Center the vector so its looking directly at the middle.
+                vector = EntityUtilities.CenterPosition(vector);
                 _context.Self.IsBreakingBlocks = true;
-                BlockUtilitiesSDX.addParticles("", new Vector3i(vector));
-                var block = GameManager.Instance.World.GetBlock(new Vector3i(vector));
                 _context.Self.SetLookPosition(vector );
-                if (_context.Self.bodyDamage.HasLimbs)
-                {
-                    _context.Self.RotateTo(vector.x, vector.y, vector.z, 30f, 30f);
-                }
+                _context.Self.RotateTo(vector.x, vector.y, vector.z, 45f, 45f);
+                EntityUtilities.Stop(_context.Self.entityId);
             }
 
             _context.ActionData.Started = true;
@@ -59,51 +52,46 @@ namespace UAI
         public override void Stop(Context _context)
         {
             _context.Self.IsBreakingBlocks = false;
-
-            if (_context.ActionData.Target is Vector3 vector)
-            {
-                BlockUtilitiesSDX.removeParticles(new Vector3i(vector));
-            }
+            _context.Self.IsBreakingDoors = false;
             base.Stop(_context);
         }
+
         public override void Update(Context _context)
         {
 
             if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
+            attackTimeout--;
+            if (attackTimeout > 0)
+                return;
+
+            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
+
             Vector3 position = Vector3.zero;
-            // if the NPC is on the ground, don't attack.
-            //switch (_context.Self.bodyDamage.CurrentStun)
-            //{
-            //    case EnumEntityStunType.Getup:
-            //    case EnumEntityStunType.Kneel:
-            //    case EnumEntityStunType.Prone:
-            //        return;
-            //}
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
-                // Am I the target?
+                // Am I the target? Check if I have an attack or revenge target
                 if (entityAlive.entityId == _context.Self.entityId)
                 {
-                    // Am I being attacked? 
+                    //  Am I being attacked? 
                     var attacker = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId) as EntityAlive;
                     if (attacker == null)
                     {
-                        Stop(_context);
-                        return;
+                        entityAlive = attacker;
                     }
-
-                    entityAlive = attacker;
                 }
                 if (entityAlive.IsDead())
                 {
-                    SCoreUtils.SetLookPosition(_context, Vector3.forward);
                     Stop(_context);
                     return;
                 }
+
+                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
+                _context.Self.RotateTo(entityAlive, 30f, 30f);
+
                 position = entityAlive.position;
             }
 
@@ -111,7 +99,6 @@ namespace UAI
             {
                 position = vector;
                 _context.Self.SetLookPosition( position );
-                _context.Self.SetRotation(vector);
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
                 if (targetType.Equals(BlockValue.Air))
                 {
@@ -125,10 +112,6 @@ namespace UAI
                 return;
 
 
-            attackTimeout--;
-            if (attackTimeout > 0)
-                return;
-
             // Check the range on the item action
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
@@ -139,7 +122,6 @@ namespace UAI
                 if (itemActionData != null)
                 {
                     var range = itemActionRanged.GetRange(itemActionData);
-                    //distance = Utils.FastMax(0.8f, range - 0.35f);
                     distance = Utils.FastMax(0.8f, range);
 
                 }
@@ -147,7 +129,7 @@ namespace UAI
             var minDistance = distance * distance;
             var a = position - _context.Self.position;
 
-            // not within range? 
+            //not within range ?
             if (a.sqrMagnitude > minDistance)
             {
                 // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
@@ -155,13 +137,6 @@ namespace UAI
                     _context.Self.moveHelper.SetMoveTo(position, true);
             }
 
-            if (a.sqrMagnitude < 0.5)
-                _context.Self.moveHelper.SetMoveTo(position + Vector3.back, true);
-
-            if (_context.Self.bodyDamage.HasLimbs)
-                _context.Self.RotateTo(position.x, position.y, position.z, 30f, 30f);
-
-        
             // Action Index = 1 is Use, 0 is Attack.
             switch (_actionIndex)
             {
@@ -181,16 +156,7 @@ namespace UAI
                         entityAliveSDX.ExecuteAction(true, _actionIndex);
                     }
                     break;
-
             }
-
-            if (entityAlive != null)
-                _context.Self.SetAttackTarget(entityAlive, _targetTimeout);
-
-            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
-
-            // Reset the attackTimeout, and allow another task to run.
-            //  Stop(_context);
         }
     }
 }

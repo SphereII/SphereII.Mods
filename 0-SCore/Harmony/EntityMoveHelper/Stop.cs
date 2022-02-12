@@ -16,7 +16,7 @@ namespace Harmony.EntityMoveHelper
     {
         public static void Postfix(ref global::EntityMoveHelper __instance, ref global::EntityAlive ___entity)
         {
-            ___entity.speedForward = 0f;
+             ___entity.speedForward = 0f;
         }
     }
 }

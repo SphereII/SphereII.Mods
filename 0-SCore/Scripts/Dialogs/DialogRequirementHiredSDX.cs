@@ -9,9 +9,16 @@
         if (entityId == 0)
             return false;
 
-        var isTame = true;
-        if ( EntityUtilities.GetLeaderOrOwner(entityId) == null )
-            isTame = false;
+        var currentNPC = GameManager.Instance.World.GetEntity(entityId) as EntityAlive;
+        if (currentNPC == null) return false;
+
+        var isTame = false;
+        
+        if ( currentNPC.Buffs.HasCustomVar("Leader") && currentNPC.Buffs.GetCustomVar("Leader") > 0 )
+            isTame = true;
+
+        if (currentNPC.Buffs.HasCustomVar("Owner") && currentNPC.Buffs.GetCustomVar("Owner") > 0)
+            isTame = true;
 
         if (base.Value.EqualsCaseInsensitive("not"))
             return !isTame;

@@ -74,19 +74,14 @@ namespace Harmony.Blocks
 
 
                 if (!tileEntitySecureDoor.IsLocked() || tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                {
-                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-                    return false;
-                }
+                    return true;
 
 
                 if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                {
-                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-                    return false;
-                }
+                    return true;
 
                 if (tileEntitySecureDoor.IsLocked())
+                {
                     // 1 == try to open locked door.
                     if (_indexInBlockActivationCommands == 1)
                     {
@@ -107,12 +102,13 @@ namespace Harmony.Blocks
                         XUiC_PickLocking.Open(playerUI, tileEntitySecureDoor, _blockValue, _blockPos);
                         return false;
                     }
-
+                }
                 return true;
             }
         }
 
 
+        // This resets for the quest activations
         [HarmonyPatch(typeof(TileEntityLootContainer))]
         [HarmonyPatch("Reset")]
         public class SCoreTileEntityReset

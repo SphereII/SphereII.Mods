@@ -22,12 +22,14 @@ namespace Harmony.EAI
                 __result = false;
                 return;
             }
+
             // Checks if we are allies, either share a leader, or is our leader.
             if (EntityTargetingUtilities.IsAlly(__instance.theEntity, _e))
             {
                 __result = false;
                 return;
             }
+
 
             // Do we have a revenge target? Are they the ones attacking us?
             if (EntityTargetingUtilities.IsCurrentRevengeTarget(__instance.theEntity, _e))

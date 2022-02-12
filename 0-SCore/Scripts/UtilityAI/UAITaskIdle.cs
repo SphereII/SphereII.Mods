@@ -29,7 +29,6 @@ namespace UAI
 
             EntityUtilities.Stop(_context.Self.entityId);
 
-
             var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
             if (enemy != null && enemy.IsAlive())
             {

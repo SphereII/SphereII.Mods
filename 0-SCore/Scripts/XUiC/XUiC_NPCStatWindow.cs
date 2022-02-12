@@ -10,7 +10,7 @@ using UnityEngine;
 
 
 // Usage:  controller="NPCStatWindow, SCore"
-internal class XUiC_NPCStatWindow : XUiController
+public class XUiC_NPCStatWindow : XUiController
 {
     XUiV_Label npcFirstName;
     public override void Init()
@@ -20,12 +20,13 @@ internal class XUiC_NPCStatWindow : XUiController
 
     public override bool GetBindingValue(ref string value, string bindingName)
     {
+        if (bindingName == null) return base.GetBindingValue(ref value, bindingName); 
+
         // These bindings only exist under our special class
         if (this.entityAliveSDX)
         {
             // We'll use this later.
             var leader = EntityUtilities.GetLeaderOrOwner(entityAliveSDX.entityClass) as EntityAlive;
-
             switch (bindingName)
             {
                 case "npcnametitle":
@@ -177,6 +178,8 @@ internal class XUiC_NPCStatWindow : XUiController
                     {
                         value = this.NPC.NPCInfo.Portrait;
                     }
+                    if (string.IsNullOrWhiteSpace(value))
+                        value = "npcPortraitGeneric";
                     break;
                 // From XUiC_SkillListWindow
                 case "skillpointsavailable":
@@ -190,17 +193,17 @@ internal class XUiC_NPCStatWindow : XUiController
                         value = "false";
 
                     break;
+                default:
+                    value = "";
+                    return true;
 
             }
 
         }
 
-        if (string.IsNullOrEmpty(value))
-            return false;
         return true;
     }
-
-
+   
     public override void Update(float _dt)
     {
         if (base.ViewComponent.IsVisible && Time.time > this.updateTime)
@@ -214,14 +217,15 @@ internal class XUiC_NPCStatWindow : XUiController
         }
         base.Update(_dt);
     }
-
+  
     public override void OnOpen()
     {
-        base.OnOpen();
         this.IsDirty = true;
         this.player = base.xui.playerUI.entityPlayer;
         this.NPC = base.xui.Dialog.Respondent;
         this.entityAliveSDX = this.NPC as EntityAliveSDX;
+        base.OnOpen();
+        base.RefreshBindings(false);
     }
 
     private EntityPlayer player;

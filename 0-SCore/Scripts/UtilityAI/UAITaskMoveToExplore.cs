@@ -93,7 +93,7 @@ namespace UAI
             // Nothing to loot.
             if (tileLootContainer.items == null) return;
 
-            SCoreUtils.SetLookPosition(_context,blockPos);
+         //   SCoreUtils.SetLookPosition(_context,blockPos);
             
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
@@ -116,7 +116,7 @@ namespace UAI
             if (!_context.Self.onGround)
                 return false;
 
-            SCoreUtils.SetLookPosition(_context, _vector);
+        //    SCoreUtils.SetLookPosition(_context, _vector);
 
             var lookRay = new Ray(_context.Self.position, _context.Self.GetLookVector());
             if (!Voxel.Raycast(_context.Self.world, lookRay, 3f, false, false))

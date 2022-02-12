@@ -39,7 +39,7 @@ namespace UAI
             // Sets up the original position of the leader.
             _position = _leader.position;
 
-            SCoreUtils.SetLookPosition(_context, _leader);
+         //   SCoreUtils.SetLookPosition(_context, _leader);
             SCoreUtils.FindPath(_context, _position, true);
         }
 
@@ -77,7 +77,7 @@ namespace UAI
             // If we are close to the leader, stop.
             if (distanceToLeader > _distance && distanceToLeader < _distance * 2)
             {
-                SCoreUtils.SetLookPosition(_context, _leader);
+             //   SCoreUtils.SetLookPosition(_context, _leader);
                 Stop(_context);
                 return;
             }

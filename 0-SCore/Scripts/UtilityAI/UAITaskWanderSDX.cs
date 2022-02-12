@@ -18,10 +18,17 @@ namespace UAI
             }
         }
 
+        public override void Stop(Context _context)
+        {
+            _context.Self.moveHelper.CanBreakBlocks = true;
+            base.Stop(_context);
 
+        }
         public override void Start(Context _context)
         {
             SCoreUtils.SetCrouching(_context);
+
+            _context.Self.moveHelper.CanBreakBlocks = false;
 
             // Start the action here, since we are just over-riding start, and not calling the base, as the base is calculating a hard coded 10 block path.
             _context.ActionData.Started = true;
@@ -63,7 +70,7 @@ namespace UAI
             var distance = Vector3.Distance(_context.Self.position, _position);
             if (distance < 0.5f)
             {
-                SCoreUtils.SetLookPosition(_context, _position);
+            //    SCoreUtils.SetLookPosition(_context, _position);
                 Stop(_context);
             }
 

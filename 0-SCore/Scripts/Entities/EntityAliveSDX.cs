@@ -90,12 +90,12 @@ public class EntityAliveSDX : EntityTrader
 
     public string Title
     {
-        get { return _strTitle; }
+        get { return Localization.Get(_strTitle); }
     }
 
     public string FirstName
     {
-        get { return _strMyName; }
+        get { return Localization.Get(_strMyName); }
     }
 
     public override string EntityName
@@ -191,7 +191,20 @@ public class EntityAliveSDX : EntityTrader
 
     public override float GetEyeHeight()
     {
-        return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
+        if (this.walkType == 4)
+        {
+            return 0.15f;
+        }
+        if (this.walkType == 8)
+        {
+            return 0.6f;
+        }
+        if (!this.IsCrouching)
+        {
+            return base.height * 0.8f;
+        }
+        return base.height * 0.5f;
+       // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
     }
 
     public override void SetModelLayer(int _layerId, bool _force = false)
@@ -261,6 +274,7 @@ public class EntityAliveSDX : EntityTrader
             var center = StringParsers.ParseVector3(strCenter);
             ConfigureBoundaryBox(box, center);
         }
+
     }
 
     protected override float getNextStepSoundDistance()
@@ -355,6 +369,7 @@ public class EntityAliveSDX : EntityTrader
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
         if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
+        if (SCoreUtils.IsEnemyNearby(this, 10f)) return false;
 
         Buffs.SetCustomVar("Persist", 1);
 
@@ -788,6 +803,8 @@ public class EntityAliveSDX : EntityTrader
                         {
                             this.NavObject.UseOverrideColor = true;
                             this.NavObject.OverrideColor = v;
+                            this.NavObject.DisplayName = EntityName;
+
                         }
                     }
                 }
@@ -1307,6 +1324,7 @@ public class EntityAliveSDX : EntityTrader
         }
         this.bLastAttackReleased = _bAttackReleased;
         this.attackingTime = 60;
+
         ItemAction itemAction = this.inventory.holdingItem.Actions[actionIndex];
         if (itemAction != null)
         {

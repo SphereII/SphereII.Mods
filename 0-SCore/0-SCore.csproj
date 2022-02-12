@@ -70,6 +70,7 @@
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
     <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
+    <Compile Include="Harmony\ItemActions\ItemClass.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
+    <Compile Include="Harmony\XUIC\XUiController.cs" />
     <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
     <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
     <Compile Include="Harmony\ZombieFeatures\HeadshotOnly.cs" />
@@ -200,7 +202,9 @@
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
     <Compile Include="Scripts\Features\Configuration.cs" />
+    <Compile Include="Scripts\ItemAction\ItemActionMeleeSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
+    <Compile Include="Scripts\ItemAction\SimulateActionsLibrary.cs" />
     <Compile Include="Scripts\Items\ItemActionEntryResharpenSDX.cs" />
     <Compile Include="Scripts\Items\ItemsUtilities.cs" />
     <Compile Include="Scripts\Lockpicking\Cipher.cs" />
@@ -270,6 +274,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationTrapped.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanHear.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanSeeTarget.cs" />
@@ -304,6 +309,7 @@
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetTileEntity.cs" />
     <Compile Include="Scripts\UtilityAI\UAISCoreUtils.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskBreakBlocks.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskGuard.cs" />
