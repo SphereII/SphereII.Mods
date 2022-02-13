@@ -5,23 +5,8 @@ namespace Harmony.TileEntities
 {
     public class TileEntitySignGif
     {
-        //[HarmonyPatch(typeof(TileEntitySign))]
-        //[HarmonyPatch("SetBlockEntityData")]
-        //public class SCoreTileEntitySign_SetBlockEntityData
-        //{
-        //    public static bool Prefix(TileEntitySign __instance, BlockEntityData _blockEntityData)
-        //    {
-        //        //if (_blockEntityData != null && _blockEntityData.bHasTransform && _blockEntityData.transform != null)
-        //        //{
-        //        //    if (!GameManager.IsDedicatedServer)
-        //        //    {
-        //        //     //   if (_blockEntityData.transform.GetComponentInChildren<TextMesh>() == null)
-        //        //       //     _blockEntityData.transform.gameObject.AddComponent<TextMesh>();
-        //        //    }
-        //        //}
-        //        return true;
-        //    }
-        //}
+
+        private static readonly bool enableExtendedSigns = Configuration.CheckFeatureStatus("AdvancedPlayerFeatures", "ExtendedSigns");
 
         [HarmonyPatch(typeof(TileEntitySign))]
         [HarmonyPatch("SetText")]
@@ -33,40 +18,38 @@ namespace Harmony.TileEntities
                     return true;
 
                 if (___smartTextMesh == null) return true;
-                if (_text.StartsWith("http"))
+                if (enableExtendedSigns)
                 {
-                    var wrapper = ___smartTextMesh.transform.parent.transform.GetComponent<ImageWrapper>();
-                    if (wrapper == null)
-                        wrapper = ___smartTextMesh.transform.parent.transform.gameObject.AddComponent<ImageWrapper>();
-
-                    // Check for supported url, and do some converting if necessary
-                    if (!wrapper.ValidURL(ref _text))
+                    if (_text.StartsWith("http"))
                     {
-                        Debug.Log("ImageWrapper: Only supported files: .gif, .gifs, .jpg, and .png");
+                        var wrapper = ___smartTextMesh.transform.parent.transform.GetComponent<ImageWrapper>();
+                        if (wrapper == null)
+                            wrapper = ___smartTextMesh.transform.parent.transform.gameObject.AddComponent<ImageWrapper>();
+
+                        // Check for supported url, and do some converting if necessary
+                        if (!wrapper.ValidURL(ref _text))
+                        {
+                            Debug.Log("ImageWrapper: Only supported files: .gif, .gifs, .jpg, and .png");
+                            return true;
+                        }
+
+                        if (wrapper.IsNewURL(_text))
+                        {
+                            wrapper.Pause();
+                            wrapper.Init(_text);
+
+                            __instance.SetModified();
+                        }
+
+                        ___smartTextMesh.gameObject.SetActive(false);
                         return true;
                     }
-
-                    if (wrapper.IsNewURL(_text))
-                    {
-                        wrapper.Pause();
-                        wrapper.Init(_text);
-
-                        __instance.SetModified();
-                    }
-
-                    ___smartTextMesh.gameObject.SetActive(false);
-                }
-                else
-                {
-                    var wrapper = ___smartTextMesh.transform.parent.transform.GetComponent<ImageWrapper>();
-                    if (wrapper != null)
-                    {
-                        //    wrapper.Reset();
-                    }
-
-                    ___smartTextMesh.gameObject.SetActive(true);
                 }
 
+                var wrapper2 = ___smartTextMesh.transform.parent.transform.GetComponent<ImageWrapper>();
+                if (wrapper2 != null)
+                    GameObject.Destroy(wrapper2);
+                
                 return true;
             }
         }

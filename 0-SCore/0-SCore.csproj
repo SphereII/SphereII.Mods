@@ -193,6 +193,7 @@
     <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
+    <Compile Include="Scripts\Entities\EntitySDXShared.cs" />
     <Compile Include="Scripts\Entities\EntitySwimingSDX.cs" />
     <Compile Include="Scripts\Entities\EntityTargetingUtilities.cs" />
     <Compile Include="Scripts\Entities\EntityUtilities.cs" />
@@ -249,6 +250,7 @@
     <Compile Include="Scripts\MusicBoxes\MusicBox.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />
+    <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveBuffSDX.cs" />

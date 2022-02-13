@@ -57,19 +57,6 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         return new BlockActivationCommand[0];
     }
 
-    public string GetValue(string signText, string key)
-    {
-        foreach (var text in signText.Split(';'))
-        {
-            var parse = text.Split('=');
-            if (parse.Length == 2)
-                if (parse[0].ToLower() == key.ToLower())
-                    return parse[1];
-        }
-
-        return "";
-    }
-
     public string SetValue(string signText, string key, string value)
     {
         var newSign = "";
@@ -108,7 +95,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             return;
 
         var signText = tileEntitySign.GetText();
-        var entityClassID = GetValue(signText, "entityid");
+        var entityClassID = PathingCubeParser.GetValue(signText, "entityid");
 
         // If there's already an entityID, check 
         if (!string.IsNullOrEmpty(entityClassID))
@@ -134,14 +121,14 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             // task = Tasks:        Wander, Stay
             // pc : Pathing Code:  pc=3
             // Sign String:     ec=zombieBoe;task=Stay;pc=4
-            var entityClass = GetValue(signText, "ec");
-            var entityGroup = GetValue(signText, "eg");
-            var Task = GetValue(signText, "task");
-            var Buff = GetValue(signText, "buff");
-            var PathingCode = GetValue(signText, "pc");
+            var entityClass = PathingCubeParser.GetValue(signText, "ec");
+            var entityGroup = PathingCubeParser.GetValue(signText, "eg");
+            var Task = PathingCubeParser.GetValue(signText, "task");
+            var Buff = PathingCubeParser.GetValue(signText, "buff");
+            var PathingCode = PathingCubeParser.GetValue(signText, "pc");
 
             // Set up a throttle time
-            var ThrottleTime = GetValue(signText, "time");
+            var ThrottleTime = PathingCubeParser.GetValue(signText, "time");
 
             // Default the float throttle time to be in the past; this will get updated if its parsed correctly.
             float throttleTime = GameManager.Instance.World.GetWorldTime() + 100;

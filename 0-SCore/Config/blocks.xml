@@ -69,6 +69,8 @@
 				<!-- Damages the player if they hit something with their bare hands. -->
 
 				<property name="VehicleNoTake" value="false" />
+
+				<property name="ExtendedSigns" value="true" />
 			</property>
 
 			<property class="AdvancedZombieFeatures">

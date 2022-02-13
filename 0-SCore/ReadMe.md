@@ -10,6 +10,67 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.2.44
+
+	- Added toggle to turn on and off Advanced signs (0-SCore/Config/blocks.xml) to turn off gif / img support 
+	- Moved Sign reading data to a universal class to allow EntityAliveSDX to re-use code
+	- Added EntityAliveSDX to read from a nearby Pathing Cube
+		Using the PathingCube (or PathingCube2) blocks, you can place an invisible sign near a sleeper
+		Once placed, you can configure it as follows
+			Task=stay  [ wander, guard, follow ] 
+				- This will give the nearby EntityAliveSDX a starting order. 
+
+				Example, you could put in Task=stay for NPCs that you want to behave like a turret
+
+				Internally, the above tasks gives SCore's based-buffs  ( buffOrderStay, buffOrderWander, etc)
+				Task can also be used to specify a general buff.
+
+		Example: https://youtu.be/IuK_sN3WHZ4
+
+	- Fixed a null ref where NPC following a NPC leader
+		With this error fixed, the old herd spawner now works. This spawner is a special EntityClass that you can add to your sleeper volume, or in entitygroups, and will spawn multiple entities.
+		This can be used, for example, to set up a Solider Group, which could have an officer, along with a few grunts. The soldiers will follow the officer around as they would if hired by a player.
+
+		For this to work, you must give them the NPCHired, or equivalent, UAI. These do not need to be hirable by the player, but must contain the follow tasks.
+
+		When you spawn in the SoldierPackMelee entity, it'll spawn the leader and followers.
+
+		Example: https://youtu.be/OSlfwuX9r6Y
+
+		EntityClasses.xml example:
+
+		<append xpath="/entity_classes">
+			<entity_class name="spawnerStub">
+				<property name="Mesh" value="Gore/gore_block1_bonesPrefab"/>
+				<property name="ModelType" value="Custom"/>
+				<property name="Prefab" value="Backpack"/>
+				<property name="Class" value="EntityAliveEventSpawnerSDX, SCore"/>
+				<property name="Parent" value="Animals"/>
+				<property name="TimeStayAfterDeath" value="1"/>
+				<property name="IsEnemyEntity" value="false"/>
+				<property name="LootListOnDeath" value="banditLoot"/>
+				<property name="Faction" value="animals"/>
+			</entity_class>
+		
+			<!-- the Leader is spawned in first, then the Followers. The Followers set their Leader cvar to that of the Leader. -->
+			<entity_class name="SoldierPackMelee" extends="spawnerStub">
+				<property name="Prefab" value="Backpack"/>
+				<property class="SpawnSettings" >
+				<property name="Leader" value="survivorOfficerDPistol" />
+				<!-- Params 2,3. This means that 2 to 3 of each of the followers will be spawned. -->
+				<property name="Followers" value="survivorSoldier1Club,survivorSoldier2Knife,survivorSoldier4Machete" param1="2,3"/>
+				</property>
+			</entity_class>
+
+			<entity_class name="SoldierPackRanged" extends="spawnerStub">
+				<property name="Prefab" value="Backpack"/>
+				<property class="SpawnSettings" >
+				<property name="Leader" value="survivorOfficerTRifle" />
+				<property name="Followers" value="survivorOfficerAK47,survivorOfficerSMG,survivorSoldier1TRifle,survivorSoldier3AK47" />
+				</property>
+			</entity_class>
+		</append>
+
 Version: 20.2.43.147
 
 	- Version bump to catch up to the Alpha 20.2

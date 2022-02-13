@@ -232,7 +232,7 @@ public class EntityAliveSDX : EntityTrader
 
         if (_entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
             isAlwaysAwake = true;
-
+     
         if (_entityClass.Properties.Values.ContainsKey("Titles"))
         {
             var text = _entityClass.Properties.Values["Titles"];
@@ -541,19 +541,19 @@ public class EntityAliveSDX : EntityTrader
 
     public void SetupAutoPathingBlocks()
     {
+        // If we already have a pathing code, don't re-scan.
         if (Buffs.HasCustomVar("PathingCode") && (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
             return;
 
         // Check if pathing blocks are defined.
         var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
         if (blocks.Count == 0)
-            return;
+            blocks = new List<string> { "PathingCube" };
 
         //Scan for the blocks in the area
         var pathingVectors = ModGeneralUtilities.ScanForTileEntityInChunksListHelper(position, blocks, entityId);
         if (pathingVectors == null || pathingVectors.Count == 0)
             return;
-
 
         // Find the nearest block, and if its a sign, read its code.
         var target = ModGeneralUtilities.FindNearestBlock(position, pathingVectors);
@@ -562,13 +562,37 @@ public class EntityAliveSDX : EntityTrader
 
         // Since signs can have multiple codes, splite with a ,, parse each one.
         var text = tileEntitySign.GetText();
-        foreach (var temp in text.Split(','))
-        {
-            if (!StringParsers.TryParseFloat(temp, out var code)) continue;
 
-            Buffs.AddCustomVar("PathingCode", code);
-            return;
+        // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
+        var Task = PathingCubeParser.GetValue(text, "task");
+        if (!string.IsNullOrEmpty(Task))
+        {
+            if (Task.ToLower() == "stay")
+                Buffs.AddBuff("buffOrderStay");
+            else if (Task.ToLower() == "wander")
+                Buffs.AddBuff("buffOrderWander");
+            else if (Task.ToLower() == "guard")
+                Buffs.AddBuff("buffOrderGuard");
+            else if (Task.ToLower() == "follow")
+                Buffs.AddBuff("buffOrderFollow");
+            else 
+                Buffs.AddBuff(Task);
         }
+
+        // Set up the pathing code.
+        var PathingCode = PathingCubeParser.GetValue(text, "pc");
+        if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
+            Buffs.SetCustomVar("PathingCode", pathingCode);
+
+        isAlwaysAwake = true;
+
+        //foreach (var temp in text.Split(','))
+        //{
+        //    if (!StringParsers.TryParseFloat(temp, out var code)) continue;
+
+        //    Buffs.AddCustomVar("PathingCode", code);
+        //    return;
+        //}
     }
 
     // Saves the buff and quest information
@@ -816,8 +840,8 @@ public class EntityAliveSDX : EntityTrader
                 // This needs to be set for the entities to be still alive, so the player can teleport them
                 IsEntityUpdatedInUnloadedChunk = false;
                 bWillRespawn = false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
-
-                player.Companions.Remove(this);
+                if (player)
+                    player.Companions.Remove(this);
                 break;
         }
     }
