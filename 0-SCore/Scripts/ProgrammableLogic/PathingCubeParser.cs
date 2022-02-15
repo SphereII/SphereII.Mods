@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    public static  class PathingCubeParser
-    {
-    public static  string GetValue(string signText, string key)
+public static class PathingCubeParser
+{
+    public static string GetValue(string signText, string key)
     {
         foreach (var text in signText.Split(';'))
         {

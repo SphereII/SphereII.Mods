@@ -230,9 +230,17 @@ public class EntityAliveSDX : EntityTrader
             _strMyName = names[index];
         }
 
+
+        // By default, make the sleepers to always be awake, this solves the issue where entities in a Passive volume does not wake up fully
+        // ie, buffs are not firing, but the uai is.
+        isAlwaysAwake = false;
         if (_entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
-            isAlwaysAwake = true;
-     
+            isAlwaysAwake = StringParsers.ParseBool(_entityClass.Properties.Values["SleeperInstantAwake"], 0, -1, true);
+
+        if (_entityClass.Properties.Values.ContainsKey("IsAlwaysAwake"))
+            isAlwaysAwake = StringParsers.ParseBool(_entityClass.Properties.Values["IsAlwaysAwake"], 0, -1, true);
+
+
         if (_entityClass.Properties.Values.ContainsKey("Titles"))
         {
             var text = _entityClass.Properties.Values["Titles"];
@@ -551,7 +559,7 @@ public class EntityAliveSDX : EntityTrader
             blocks = new List<string> { "PathingCube" };
 
         //Scan for the blocks in the area
-        var pathingVectors = ModGeneralUtilities.ScanForTileEntityInChunksListHelper(position, blocks, entityId);
+        var pathingVectors = ModGeneralUtilities.ScanForTileEntityInChunksListHelper(position, blocks, entityId, 4);
         if (pathingVectors == null || pathingVectors.Count == 0)
             return;
 
@@ -562,6 +570,7 @@ public class EntityAliveSDX : EntityTrader
 
         // Since signs can have multiple codes, splite with a ,, parse each one.
         var text = tileEntitySign.GetText();
+        Log.Out($"Reading {text} for {entityId}");
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var Task = PathingCubeParser.GetValue(text, "task");
@@ -580,6 +589,8 @@ public class EntityAliveSDX : EntityTrader
         }
 
         // Set up the pathing code.
+        Buffs.SetCustomVar("PathingCode", -1f);
+
         var PathingCode = PathingCubeParser.GetValue(text, "pc");
         if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
             Buffs.SetCustomVar("PathingCode", pathingCode);
@@ -849,7 +860,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override void OnUpdateLive()
     {
-
+        CheckNoise();
         LeaderUpdate();
         CheckStuck();
         SetupAutoPathingBlocks();
@@ -1415,6 +1426,32 @@ public class EntityAliveSDX : EntityTrader
         if (HasAnyTags(FastTags.Parse("floating"))) return;
 
             base.playStepSound(stepSound);
+
+    }
+
+    public void CheckNoise()
+    {
+        // if they arn't sleeping, don't bother scanning for players.
+        if (!IsSleeping) return;
+
+        float num9 = EAIManager.CalcSenseScale();
+        Bounds bb = new Bounds(position, new Vector3(15, 15, 15));
+        List<Entity> entityTempList = new List<Entity>();
+        world.GetEntitiesInBounds(typeof(EntityPlayer), bb, entityTempList);
+        for (int j = 0; j < entityTempList.Count; j++)
+        {
+            EntityPlayer entityAlive = (EntityPlayer)entityTempList[j];
+            var noiseLevel = entityAlive.Buffs.GetCustomVar("_noiseLevel");
+            float distance = GetDistance(entityAlive);
+            float num11 = noiseLevel * (1f + num9 * aiManager.feralSense);
+            num11 /= distance * 0.6f + 0.4f;
+            // Stealth walking is between 2 and 3. Walking without stealth is 4+
+            if (num11 > 4) // wake up! 
+            {
+                ConditionalTriggerSleeperWakeUp();
+                return;
+            }
+        }
 
     }
     //public override void OnReloadStart()

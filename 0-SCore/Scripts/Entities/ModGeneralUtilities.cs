@@ -314,7 +314,7 @@ public static class ModGeneralUtilities
 
 
     // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
-    public static List<Vector3> ScanForTileEntityInChunksListHelper(Vector3 centerPosition, List<string> lstBlocks, int EntityID = -1)
+    public static List<Vector3> ScanForTileEntityInChunksListHelper(Vector3 centerPosition, List<string> lstBlocks, int EntityID = -1, float maxDistance = -1)
     {
         if (lstBlocks == null || lstBlocks.Count == 0)
             lstBlocks = new List<string> { "PathingCube" };
@@ -349,6 +349,11 @@ public static class ModGeneralUtilities
                         var tileEntity = tileEntities.list[k];
                         TargetBlockPosition = tileEntity.ToWorldPos();
 
+                        if (maxDistance > 0)
+                        {
+                            if (myEntity.GetDistanceSq(TargetBlockPosition) > maxDistance)
+                                continue;
+                        }
                         // If it's a sign, check to see if there's a code on it.
                         var tileEntitySign = tileEntity as TileEntitySign;
                         if (tileEntitySign != null)

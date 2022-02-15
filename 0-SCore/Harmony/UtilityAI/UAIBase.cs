@@ -48,6 +48,18 @@ namespace Harmony.UtilityAI
 
 
         [HarmonyPatch(typeof(UAIBase))]
+        [HarmonyPatch("Update")]
+        public static class UAIBase_Update
+        {
+            public static bool Prefix(Context _context)
+            {
+                if (_context.Self.IsSleeping) return false;
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(UAIBase))]
         [HarmonyPatch("chooseAction")]
         public static class UAIBase_considerAction
         {

@@ -276,6 +276,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsSleeping.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTrapped.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanHear.cs" />

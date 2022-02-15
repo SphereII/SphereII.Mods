@@ -10,6 +10,21 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.2.45
+	- Added IsAlwaysAwake to be false. This allows Sleeping NPCs to be fully awake on spawn in.
+		XML Property can be toggled with the following line:
+			<property name="SleeperInstantAwake" value="false" />
+			<property name="SleeperInstantAwake" value="true" />
+
+	- Reduced the Auto-scan for pathing cubes to be a lot smaller (about a block away)
+	- Default PathingCode is -1, so avoid this number, as its equivalent to not having a code.
+	- Gave sleeping NPCs hearing for a threhold to wake them up.
+	- Disable UAI when NPCs are sleeping
+
+	- Slightly changed the consideration for InWeaponRange, to take in effect if it should shoot a player, if it could see it, but not reach it.
+[ XUI ]
+	- Added a few more bindings to npc stat window
+
 Version: 20.2.44
 
 	- Added toggle to turn on and off Advanced signs (0-SCore/Config/blocks.xml) to turn off gif / img support 

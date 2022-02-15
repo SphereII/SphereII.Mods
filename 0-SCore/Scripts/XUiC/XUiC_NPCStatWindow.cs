@@ -12,7 +12,6 @@ using UnityEngine;
 // Usage:  controller="NPCStatWindow, SCore"
 public class XUiC_NPCStatWindow : XUiController
 {
-    XUiV_Label npcFirstName;
     public override void Init()
     {
         base.Init();
@@ -20,15 +19,34 @@ public class XUiC_NPCStatWindow : XUiController
 
     public override bool GetBindingValue(ref string value, string bindingName)
     {
-        if (bindingName == null) return base.GetBindingValue(ref value, bindingName); 
+        if (bindingName == null) return base.GetBindingValue(ref value, bindingName);
 
+        
         // These bindings only exist under our special class
         if (this.entityAliveSDX)
         {
+            var faction = EntityUtilities.GetFactionRelationship(entityAliveSDX, player);
+
             // We'll use this later.
             var leader = EntityUtilities.GetLeaderOrOwner(entityAliveSDX.entityClass) as EntityAlive;
             switch (bindingName)
             {
+                case "isdislike":
+                    value = "false";
+                    if (faction <= (int)FactionManager.Relationship.Dislike)
+                        value = "true";
+                    break;
+                case "isneutral":
+                    value = "false";
+                    if (faction >= (int)FactionManager.Relationship.Neutral)
+                        value = "true";
+                    break;
+                case "islike":
+                    value = "false";
+                    if (faction >= (int)FactionManager.Relationship.Like)
+                        value = "true";
+                    break;
+
                 case "npcnametitle":
                     value = Localization.Get(entityAliveSDX.Title);
                     break;

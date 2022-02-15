@@ -205,7 +205,7 @@ namespace UAI
             var entityAlive = _context.Self as EntityAliveSDX;
             if (entityAlive != null)
             {
-                if ( !entityAlive.IsOnMission())
+                if (!entityAlive.IsOnMission())
                     entityAlive.TeleportToPlayer(leader, false);
             }
         }
@@ -247,6 +247,30 @@ namespace UAI
             return false;
         }
 
+        public static bool CanShoot(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1)
+        {
+            var headPosition = sourceEntity.getHeadPosition();
+            var headPosition2 = targetEntity.getHeadPosition();
+            var direction = headPosition2 - headPosition;
+            var seeDistance = maxDistance;
+            if (maxDistance > -1)
+                seeDistance = maxDistance;
+            else
+                seeDistance = sourceEntity.GetSeeDistance();
+
+            if (direction.magnitude > seeDistance)
+                return false;
+
+            var ray = new Ray(headPosition, direction);
+            ray.origin += direction.normalized * 0.2f;
+
+            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
+            {
+                return true;
+            }
+
+            return false;
+        }
         public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1)
         {
             // If they are dead, you can't see them anymore...
@@ -255,15 +279,11 @@ namespace UAI
 
             // If the entity isn't very close to us, make sure they are in our viewcone.
             var distance = sourceEntity.GetDistanceSq(targetEntity);
-            if ( distance > 100)
+            if (distance > 100)
             {
                 if (!sourceEntity.IsInViewCone(targetEntity.position))
                     return false;
             }
-
-            // Check to see if its in our "See" cache
-            if (sourceEntity.CanSee(targetEntity))
-                return true;
 
             // This may have caused them to path incorrect, so make sure they are fairly close.
             // Are we already targetting each other?
@@ -281,12 +301,11 @@ namespace UAI
                     return true;
             }
 
-
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
             var seeDistance = maxDistance;
-            if ( maxDistance > -1)
+            if (maxDistance > -1)
                 seeDistance = maxDistance;
             else
                 seeDistance = sourceEntity.GetSeeDistance();
@@ -308,23 +327,52 @@ namespace UAI
                 var component = hitRootTransform.GetComponent<EntityAlive>();
                 if (component != null && component.IsAlive() && targetEntity == component)
                 {
+                    // Check to see if its in our "See" cache
+                    if (sourceEntity.CanSee(targetEntity))
+                        return true;
+
+           
+
                     // Don't wake up the sleeping zombies if the leader is crouching.
                     var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
                     if (leader != null && leader.IsCrouching && component.IsSleeping)
                         return false;
 
+                    // if they are fairly far away, do a view cone check
                     if (sourceEntity.GetDistanceSq(targetEntity) > 30)
                     {
-                        if (!sourceEntity.IsInViewCone(targetEntity.position)) return false;
+                        if (!sourceEntity.IsInViewCone(targetEntity.position)) 
+                            return false;
                     }
-                    /// Add the entity to our CanSee Cache, which expires.
-                    sourceEntity.SetCanSee(targetEntity);
-                    return true;
-                }
-            }
 
+
+                    // If the target is the player, check to see if they are stealth
+                    var player = target as EntityPlayer;
+                    if (player != null)
+                    {
+                        var distance2 = sourceEntity.GetDistance(player);
+                        if (!sourceEntity.CanSeeStealth(distance2, player.Stealth.lightLevel))
+                            return false;
+                    }
+
+                    // If the leader is the player, use the player's stealth check against the presumed NPC.
+                    if (leader != null)
+                    {
+                        var player2 = leader as EntityPlayer;
+                        var distance2 = sourceEntity.GetDistance(leader);
+                        if (leader is EntityPlayer && !sourceEntity.CanSeeStealth(distance2, player2.Stealth.lightLevel))
+                            return false;
+                    }
+                }
+                /// Add the entity to our CanSee Cache, which expires.
+                sourceEntity.SetCanSee(targetEntity);
+                return true;
+            }
             return false;
         }
+
+
+
 
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
@@ -417,7 +465,7 @@ namespace UAI
                             }
 
                             // Search for the tile entity's block name to see if its filtered.
-                            if ( !string.IsNullOrEmpty(blockNames))
+                            if (!string.IsNullOrEmpty(blockNames))
                             {
                                 if (!blockNames.Contains(tileEntity.blockValue.Block.GetBlockName()))
                                     continue;

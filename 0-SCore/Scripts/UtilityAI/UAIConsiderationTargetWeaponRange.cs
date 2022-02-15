@@ -27,11 +27,17 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(target);
             var result = 0f;
             if (entityAlive != null)
+            {
+                if (!SCoreUtils.CanShoot(_context.Self, entityAlive))
+                {
+                    return 0f;
+                }
                 result = _context.Self.GetDistance(entityAlive);
-
+            }
             if (target is Vector3 vector3)
                 result = (_context.Self.position - vector3).magnitude;
 
+            
             var range = _context.Self.inventory.holdingItem.Actions[action_index].Range;
             if (_context.Self.inventory.holdingItem.Actions[action_index] is ItemActionRanged itemActionRanged)
             {
