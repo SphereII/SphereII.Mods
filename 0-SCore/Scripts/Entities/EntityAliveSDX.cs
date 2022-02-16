@@ -860,7 +860,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override void OnUpdateLive()
     {
-        CheckNoise();
+        //CheckNoise();
         LeaderUpdate();
         CheckStuck();
         SetupAutoPathingBlocks();

@@ -27,23 +27,21 @@
 
     public override bool CanExecute()
     {
-        EntityUtilities.ChangeHandholdItem(theEntity.entityId, EntityUtilities.Need.Ranged);
-
         if (this.theEntity.inventory.holdingItem.Actions == null)
             return false;
 
-        ItemActionRanged itemActionRanged = this.theEntity.inventory.holdingItem.Actions[0] as ItemActionRanged;
+        ItemActionRanged itemActionRanged = this.theEntity.inventory.holdingItem.Actions[itemActionType] as ItemActionRanged;
         if (itemActionRanged == null)
             return false;
 
-        if (this.theEntity.inventory.holdingItemItemValue.Meta <= 0)
-        {
-            if (itemActionRanged.CanReload(this.theEntity.inventory.holdingItemData.actionData[0]))
-            {
-                itemActionRanged.ReloadGun(this.theEntity.inventory.holdingItemData.actionData[0]);
-            }
-            return false;
-        }
+        //if (this.theEntity.inventory.holdingItemItemValue.Meta <= 0)
+        //{
+        //    if (itemActionRanged.CanReload(this.theEntity.inventory.holdingItemData.actionData[1]))
+        //    {
+        //        itemActionRanged.ReloadGun(this.theEntity.inventory.holdingItemData.actionData[1]);
+        //    }
+        //    return false;
+        //}
         if (this.attackTimeout > 0)
         {
             this.attackTimeout--;

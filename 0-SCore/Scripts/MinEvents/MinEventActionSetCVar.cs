@@ -14,6 +14,7 @@ public class MinEventActionSetCVar : MinEventActionTargetedBase
             //if (targets[j].Buffs.HasCustomVar(cvar)) continue;
             targets[j].Buffs.SetCustomVar(cvar, _params.Self.entityId);
         }
+        _params.Self.Buffs.SetCustomVar("EntityID", _params.Self.entityId);
     }
 
     public override bool ParseXmlAttribute(XmlAttribute _attribute)

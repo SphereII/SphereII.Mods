@@ -227,7 +227,8 @@ public class XUiC_NPCStatWindow : XUiController
         if (base.ViewComponent.IsVisible && Time.time > this.updateTime)
         {
             this.updateTime = Time.time + 0.25f;
-            base.RefreshBindings(this.IsDirty);
+            if ( entityAliveSDX)
+                base.RefreshBindings(this.IsDirty);
             if (this.IsDirty)
             {
                 this.IsDirty = false;
@@ -242,8 +243,12 @@ public class XUiC_NPCStatWindow : XUiController
         this.player = base.xui.playerUI.entityPlayer;
         this.NPC = base.xui.Dialog.Respondent;
         this.entityAliveSDX = this.NPC as EntityAliveSDX;
+        if ( this.entityAliveSDX == null )
+        {
+            OnClose();
+            return;
+        }
         base.OnOpen();
-        base.RefreshBindings(false);
     }
 
     private EntityPlayer player;

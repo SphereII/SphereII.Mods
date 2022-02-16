@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+﻿using GamePath;
+using HarmonyLib;
 using UAI;
 
 namespace Harmony.ZombieFeatures
 {
-    internal class EntityFlyingEAITasks
+    public class EntityFlyingEAITasks
     {
         [HarmonyPatch(typeof(EntityHornet))]
         [HarmonyPatch("Init")]
@@ -33,6 +34,30 @@ namespace Harmony.ZombieFeatures
                     __instance.aiManager?.UpdateDebugName();
                     return true;
                 }
+
+                var useAIPackages = EntityClass.list[__instance.entityClass].UseAIPackages;
+                if (!useAIPackages)
+                {
+                    __instance.aiManager.Update();
+                }
+                else
+                {
+                    UAIBase.Update(___utilityAIContext);
+                }
+                PathInfo path = PathFinderThread.Instance.GetPath(__instance.entityId);
+                if (path.path != null)
+                {
+                    bool flag = true;
+                    if (!useAIPackages)
+                    {
+                        flag = __instance.aiManager.CheckPath(path);
+                    }
+                    if (flag)
+                    {
+                        __instance.navigator.SetPath(path, path.speed);
+                    }
+                }
+                __instance.navigator.UpdateNavigation();
 
                 if (__instance.GetAttackTarget() != null)
                     __instance.SetRevengeTarget(__instance.GetAttackTarget());
@@ -81,6 +106,30 @@ namespace Harmony.ZombieFeatures
                     return true;
                 }
 
+                var useAIPackages = EntityClass.list[__instance.entityClass].UseAIPackages;
+                if (!useAIPackages)
+                {
+                    __instance.aiManager.Update();
+                }
+                else
+                {
+                    UAIBase.Update(___utilityAIContext);
+                }
+                PathInfo path = PathFinderThread.Instance.GetPath(__instance.entityId);
+                if (path.path != null)
+                {
+                    bool flag = true;
+                    if (!useAIPackages)
+                    {
+                        flag = __instance.aiManager.CheckPath(path);
+                    }
+                    if (flag)
+                    {
+                        __instance.navigator.SetPath(path, path.speed);
+                    }
+                }
+                __instance.navigator.UpdateNavigation();
+
                 if (__instance.GetAttackTarget() != null)
                     __instance.SetRevengeTarget(__instance.GetAttackTarget());
 
@@ -90,8 +139,10 @@ namespace Harmony.ZombieFeatures
 
                 __instance.moveHelper.UpdateMoveHelper();
                 ___lookHelper.onUpdateLook();
-                if (__instance.distraction != null && (__instance.distraction.IsDead() || __instance.distraction.IsMarkedForUnload())) __instance.distraction = null;
-                if (__instance.pendingDistraction != null && (__instance.pendingDistraction.IsDead() || __instance.pendingDistraction.IsMarkedForUnload())) __instance.pendingDistraction = null;
+                if (__instance.distraction != null && (__instance.distraction.IsDead() || __instance.distraction.IsMarkedForUnload())) 
+                    __instance.distraction = null;
+                if (__instance.pendingDistraction != null && (__instance.pendingDistraction.IsDead() || __instance.pendingDistraction.IsMarkedForUnload())) 
+                    __instance.pendingDistraction = null;
 
                 return true;
             }
