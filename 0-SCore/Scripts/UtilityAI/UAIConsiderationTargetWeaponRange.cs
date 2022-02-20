@@ -28,10 +28,7 @@ namespace UAI
             var result = 0f;
             if (entityAlive != null)
             {
-                if (!SCoreUtils.CanShoot(_context.Self, entityAlive))
-                {
-                    return 0f;
-                }
+              
                 result = _context.Self.GetDistance(entityAlive);
             }
             if (target is Vector3 vector3)
@@ -43,7 +40,8 @@ namespace UAI
             {
                 if (_context.Self.inventory.holdingItemData.actionData[action_index] is ItemActionRanged.ItemActionDataRanged itemActionData)
                 {
-
+                    if (!SCoreUtils.CanShoot(_context.Self, entityAlive))
+                        return 0f;
                     range = itemActionRanged.GetRange(itemActionData);
                 }
             }

@@ -285,6 +285,10 @@ namespace UAI
                     return false;
             }
 
+            // Check to see if its in our "See" cache
+            if (sourceEntity.CanSee(targetEntity))
+                return true;
+
             // This may have caused them to path incorrect, so make sure they are fairly close.
             // Are we already targetting each other?
             var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
