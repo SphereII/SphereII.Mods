@@ -12,6 +12,6 @@ public class MinEventActionGuardThere : MinEventActionTargetedBase
         if (entityAliveSDX == null) return;
 
         entityAliveSDX.guardPosition = _params.Self.position;
-        entityAliveSDX.guardLookPosition = _params.Self.GetForwardVector();
+        entityAliveSDX.guardLookPosition = _params.Self.position + _params.Self.GetLookVector();
     }
 }

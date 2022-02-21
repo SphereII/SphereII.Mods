@@ -724,7 +724,11 @@ public class EntityAliveSDX : EntityTrader
         {
             if (this.LocalPlayerIsOwner() && this.Owner != null)
             {
-                this.NavObject = NavObjectManager.Instance.RegisterNavObject("ally", this.emodel.GetModelTransform(), "");
+                if (EntityClass.list[this.entityClass].NavObject != "")
+                    this.NavObject = NavObjectManager.Instance.RegisterNavObject(EntityClass.list[this.entityClass].NavObject, this, "");
+                else
+                    this.NavObject = NavObjectManager.Instance.RegisterNavObject("ally", this, "");
+
                 this.NavObject.UseOverrideColor = true;
                 this.NavObject.OverrideColor = Color.cyan;
                 this.NavObject.DisplayName = EntityName;

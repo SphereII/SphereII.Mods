@@ -133,6 +133,7 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
