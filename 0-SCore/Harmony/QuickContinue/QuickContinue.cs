@@ -1,6 +1,8 @@
 using HarmonyLib;
 using System;
+using System.Collections;
 using System.Reflection;
+using UnityEngine;
 
 public class SCore_QuickLoad
 {
@@ -50,6 +52,8 @@ public class SCore_QuickLoad
                 var method = __instance.GetType().GetMethod("btnQuit_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
                 method?.Invoke(__instance, new object[] { null, null });
             }
+
+
         }
     }
 

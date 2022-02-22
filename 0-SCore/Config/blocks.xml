@@ -305,7 +305,16 @@
 		</block>
 
 
+		<block name="TestSpawnCube">
+			<property name="Extends" value="SpawnCube"/>
+			<property name="Class" value="SpawnCube2SDX, SCore" />
+			<property name="Config" value="ec=npcNurseEmptyHand;task=stay;pc=0" />
+		</block>
 
-
+		<block name="TestSpawnCube2">
+			<property name="Extends" value="SpawnCube"/>
+			<property name="Class" value="SpawnCube2SDX, SCore" />
+			<property name="Config" value="ec=npcNurseClub;buff=buffOrderStay;pc=0" />
+		</block>
 	</append>
 </configs>
