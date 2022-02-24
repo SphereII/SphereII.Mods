@@ -1007,9 +1007,9 @@ public static class EntityUtilities
         return leader;
     }
 
-    public static void SetLeader(int EntityID, int LeaderID)
+    public static void SetLeader(int EntityID, int LeaderID, bool defaultFollow = true)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         var leaderEntity = GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive;
         if (myEntity == null || leaderEntity == null) return;
 
@@ -1027,10 +1027,10 @@ public static class EntityUtilities
         myEntity.moveSpeed = leaderEntity.moveSpeed;
         myEntity.moveSpeedAggro = leaderEntity.moveSpeedAggro;
         myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-        SetCurrentOrder(EntityID, Orders.Follow);
+        if ( defaultFollow)
+            SetCurrentOrder(EntityID, Orders.Follow);
 
-        (GameManager.Instance.World.GetEntity(LeaderID) as EntityAlive).AddOwnedEntity(myEntity);
-
+        leaderEntity.AddOwnedEntity(myEntity);
     }
 
     public static void SetOwner(int EntityID, int LeaderID)
@@ -1044,9 +1044,9 @@ public static class EntityUtilities
         }
     }
 
-    public static void SetLeaderAndOwner(int EntityID, int LeaderID)
+    public static void SetLeaderAndOwner(int EntityID, int LeaderID, bool defaultOrder = true)
     {
-        SetLeader(EntityID, LeaderID);
+        SetLeader(EntityID, LeaderID, defaultOrder);
         SetOwner(EntityID, LeaderID);
     }
 

@@ -161,10 +161,10 @@
 
 				<!-- On each entity spawn, when set to true, will print all the transforms and scripts on an entity -->
 				<property name="ComponentMapper" value="false" />
-				<property name="UtilityAILogging" value="false" />
+				<property name="UtilityAILogging" value="true" />
 				<!-- Only displays Start and Stop for AI tasks -->
-				<property name="UtilityAILoggingMin" value="false" />
-				<property name="UtilityAILoggingTask" value="false" />
+				<property name="UtilityAILoggingMin" value="true" />
+				<property name="UtilityAILoggingTask" value="true" />
 
 			</property>
 

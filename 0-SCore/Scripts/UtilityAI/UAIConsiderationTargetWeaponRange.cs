@@ -40,9 +40,10 @@ namespace UAI
             {
                 if (_context.Self.inventory.holdingItemData.actionData[action_index] is ItemActionRanged.ItemActionDataRanged itemActionData)
                 {
-                    if (!SCoreUtils.CanShoot(_context.Self, entityAlive))
-                        return 0f;
                     range = itemActionRanged.GetRange(itemActionData);
+
+                    if (!SCoreUtils.CanShoot(_context.Self, entityAlive, range))
+                        return 0f;
                 }
             }
             if (result <= range )

@@ -10,6 +10,25 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.2.55.x
+	- Fixed issue with bad ray cast, causing NPCs to shoot through doors and walls
+	- Multiple fixes to the BlockSpawnCube2SDX. This cube will allow you to spawn in a one-time entity.
+		Example Usage:
+	        <property name="Class" value="SpawnCube2SDX, SCore" />
+			<!-- Will spawn NPC furiousRamsayBristonStart_FR, give them the buffOrderStay, pathing cube 0, and auto-assigns yourself as their leader -->
+            <property name="Config" value="ec=FuriousRamsayBristonStart_FR;buff=buffOrderStay;pc=0;leader=true" />
+			
+			<!-- Will spawn the NPC and ordered to Stay. They do not have a pathing code, no leader -->
+			<property name="Config" value="ec=FuriousRamsayBristonStart_FR;task=stay" />
+
+
+		Note: There is a delay of about 5 seconds on MP servers for the leader to be auto-assigned.
+
+	- Added support for new cvar called FailOnDistance.
+		- If this cvar is set on the player, all hired NPCs will use this FailOnDistance range, rather than the one hard coded in the utilityai.
+		- If this cvar is set on the NPC, then that NPC will use that range, instead of the one on the player or utilityai.
+
+
 Version: 20.2.45
 	- Added IsAlwaysAwake to be false. This allows Sleeping NPCs to be fully awake on spawn in.
 		XML Property can be toggled with the following line:

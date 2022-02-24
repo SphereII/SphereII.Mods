@@ -21,6 +21,16 @@ namespace UAI
             if (leader == null)
                 return 1f;
 
+            // If the player has a fail on distance, use that.
+            var distance = EntityUtilities.GetCVarValue(leader.entityId, "FailOnDistance");
+            if (distance > 0)
+                _maxDistance = distance;
+
+            // If the entity has a fail on distance, use that.
+            distance = EntityUtilities.GetCVarValue(_context.Self.entityId, "FailOnDistance");
+            if (distance > 0)
+                _maxDistance = distance;
+
             // if the leader is too far away, then fail this consideration, aborting the task.
             var distanceToLeader = Vector3.Distance(_context.Self.position, leader.position);
             if (distanceToLeader > _maxDistance)

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Platform;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-internal class BlockSpawnCube2SDX : Block
+internal class BlockSpawnCube2SDX : BlockMotionSensor
 {
-
-    private int OwnerEntityID = -1;
-
+    private int OwnerID = -1;
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+
         if (!Properties.Values.ContainsKey("Config")) return;
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
 
@@ -20,23 +20,29 @@ internal class BlockSpawnCube2SDX : Block
         if (string.IsNullOrEmpty(text)) return;
 
         // Match the rotation, and create the stub for the entity
-        EntityCreationData entityCreationData = new EntityCreationData();
+        var entityCreationData = new EntityCreationData();
         entityCreationData.id = -1;
         entityCreationData.entityClass = text.GetHashCode();
         entityCreationData.pos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
-        entityCreationData.rot = new Vector3(0f, (float)(45 * (_blockValue.rotation & 3)), 0f);
+
+        // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
+        var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
+        var blockEntity = ((Chunk)_world.GetChunkFromWorldPos(_blockPos)).GetBlockEntity(_blockPos);
+        if (blockEntity != null && blockEntity.bHasTransform)
+            rotation = blockEntity.transform.rotation.eulerAngles;
+
+        entityCreationData.rot = rotation;
         _chunk.AddEntityStub(entityCreationData);
 
         // Set up the tick delay to be pretty short, as we'll just destroy the block anyway.
-        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, 5UL);
-
+        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, 10UL);
     }
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)).Count == 0)
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            ChunkCluster chunkCluster = _world.ChunkClusters[_clrIdx];
+            var chunkCluster = _world.ChunkClusters[_clrIdx];
             if (chunkCluster == null) return false;
 
             if ((Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos) == null) return false;
@@ -56,13 +62,15 @@ internal class BlockSpawnCube2SDX : Block
             var setLeader = PathingCubeParser.GetValue(signText, "leader");
 
             // Match the rotation of the block for the entity, so it faces in the same direction.
-            Vector3 transformPos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
-            Vector3 rotation = new Vector3(0f, (float)(45 * (_blockValue.rotation & 3)), 0f);
-            var entity = EntityFactory.CreateEntity(text.GetHashCode(), transformPos, rotation) as EntityAlive;
+            var transformPos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
 
-            // Set up ownership
-            if (OwnerEntityID != -1 && !string.IsNullOrEmpty(setLeader))
-                EntityUtilities.SetLeader(entity.entityId, OwnerEntityID);
+            // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
+            var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
+            var blockEntity = ((Chunk)_world.GetChunkFromWorldPos(_blockPos)).GetBlockEntity(_blockPos);
+            if (blockEntity != null && blockEntity.bHasTransform)
+                rotation = blockEntity.transform.rotation.eulerAngles;
+
+            var entity = EntityFactory.CreateEntity(text.GetHashCode(), transformPos, rotation) as EntityAlive;
 
             // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
             if (Task.ToLower() == "stay")
@@ -87,17 +95,24 @@ internal class BlockSpawnCube2SDX : Block
             entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             GameManager.Instance.World.SpawnEntityInWorld(entity);
 
+            // We are using the tile entity to transfer the owner ID from the client to the player.
+            var tileEntity = _world.GetTileEntity(0, _blockPos) as TileEntityPoweredTrigger;
+            if (tileEntity != null)
+            {
+                var persistentPlayerList = GameManager.Instance.GetPersistentPlayerList();
+                var playerData = persistentPlayerList.GetPlayerData(tileEntity.GetOwner());
+                OwnerID = playerData.EntityId;
+
+            }
+            // Set up ownership, but only after the entity is spawned.
+            if (OwnerID > 0 && !string.IsNullOrEmpty(setLeader))
+                EntityUtilities.SetLeaderAndOwner(entity.entityId, (int)OwnerID, false);
+
             // Destroy the block after creating the entity.
             DamageBlock(_world, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
+
         }
         return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
-
-
-    public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
-    {
-        if (Properties.Values.ContainsKey("Config"))
-            this.OwnerEntityID = _ea.entityId;
-        base.PlaceBlock(_world, _result, _ea);
-    }
+   
 }

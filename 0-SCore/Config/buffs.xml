@@ -20,6 +20,9 @@
 			<stack_type value="ignore"/>
 			<duration value="1" />
 			<effect_group>
+				<!-- Allows modders to change the FailOnDistance on a per-entity level through a cvar for UAI
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="FailOnDistance" operation="set" value="10"/>
+				-->
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
 				<triggered_effect trigger="onSelfBuffStart" action="GuardThere, SCore"/> <!-- makes the entity stay in the position-->
 			</effect_group>

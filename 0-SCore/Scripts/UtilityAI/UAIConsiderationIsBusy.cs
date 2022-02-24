@@ -11,8 +11,9 @@
     {
         public override float GetScore(Context _context, object target)
         {
-            _context.Self.emodel.avatarController.TryGetBool("IsBusy", out var isBusy);
-            return isBusy ? 1f : 0f;
+            if (_context.Self.emodel.avatarController.TryGetBool("IsBusy", out bool isBusy) )
+                return isBusy ? 1f : 0f;
+            return 0f;
         }
     }
 }

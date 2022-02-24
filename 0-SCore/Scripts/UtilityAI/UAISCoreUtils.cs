@@ -291,15 +291,15 @@ namespace UAI
 
             // This may have caused them to path incorrect, so make sure they are fairly close.
             // Are we already targetting each other?
-            var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
-            if (target != null)
-            {
-                if (distance < 20)
-                    return true;
-            }
+            //var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
+            //if (target != null)
+            //{
+            //    if (distance < 20)
+            //        return true;
+            //}
 
-            target = EntityUtilities.GetAttackOrRevengeTarget(sourceEntity.entityId);
-            if (target != null)
+            var target = EntityUtilities.GetAttackOrRevengeTarget(sourceEntity.entityId);
+            if (target != null && targetEntity.entityId == target.entityId)
             {
                 if (distance < 20)
                     return true;
@@ -335,8 +335,6 @@ namespace UAI
                     if (sourceEntity.CanSee(targetEntity))
                         return true;
 
-           
-
                     // Don't wake up the sleeping zombies if the leader is crouching.
                     var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
                     if (leader != null && leader.IsCrouching && component.IsSleeping)
@@ -367,10 +365,13 @@ namespace UAI
                         if (leader is EntityPlayer && !sourceEntity.CanSeeStealth(distance2, player2.Stealth.lightLevel))
                             return false;
                     }
+                    /// Add the entity to our CanSee Cache, which expires.
+                    sourceEntity.SetCanSee(targetEntity);
+                    return true;
+
                 }
-                /// Add the entity to our CanSee Cache, which expires.
-                sourceEntity.SetCanSee(targetEntity);
-                return true;
+
+
             }
             return false;
         }
