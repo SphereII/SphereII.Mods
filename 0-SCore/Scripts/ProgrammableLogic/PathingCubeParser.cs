@@ -9,6 +9,9 @@ public static class PathingCubeParser
 {
     public static string GetValue(string signText, string key)
     {
+        if ( string.IsNullOrEmpty( signText ) )
+            return string.Empty; 
+
         foreach (var text in signText.Split(';'))
         {
             var parse = text.Split('=');

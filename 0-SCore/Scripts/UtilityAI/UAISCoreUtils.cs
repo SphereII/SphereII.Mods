@@ -266,6 +266,10 @@ namespace UAI
 
             if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
             {
+                if (GameUtils.IsBlockOrTerrain(Voxel.voxelRayHitInfo.tag))
+                {
+                    return false;
+                }
                 return true;
             }
 
@@ -423,8 +427,12 @@ namespace UAI
 
         public static List<Vector3> ScanForTileEntities(Context _context, string _targetTypes = "")
         {
+            return ScanForTileEntities(_context.Self, _targetTypes);
+        }
+        public static List<Vector3> ScanForTileEntities(EntityAlive Self, string _targetTypes = "")
+        {
             var paths = new List<Vector3>();
-            var blockPosition = _context.Self.GetBlockPosition();
+            var blockPosition = Self.GetBlockPosition();
             var chunkX = World.toChunkXZ(blockPosition.x);
             var chunkZ = World.toChunkXZ(blockPosition.z);
 
@@ -434,7 +442,7 @@ namespace UAI
             {
                 for (var j = -1; j < 2; j++)
                 {
-                    var chunk = (Chunk)_context.Self.world.GetChunkSync(chunkX + j, chunkZ + i);
+                    var chunk = (Chunk)Self.world.GetChunkSync(chunkX + j, chunkZ + i);
                     if (chunk == null) continue;
 
                     var tileEntities = chunk.GetTileEntities();
@@ -484,7 +492,7 @@ namespace UAI
 
 
             // sort the paths to keep the closes one.
-            paths.Sort(new SCoreUtils.NearestPathSorter(_context.Self));
+            paths.Sort(new SCoreUtils.NearestPathSorter(Self));
             return paths;
         }
 

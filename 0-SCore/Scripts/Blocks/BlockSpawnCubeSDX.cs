@@ -13,7 +13,6 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         new BlockActivationCommand("Trigger", "trigger", true)
     };
 
-
     public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
         if (_blockValue.ischild)
@@ -85,6 +84,20 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         return newSign;
     }
 
+    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    {
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            var chunkCluster = _world.ChunkClusters[_clrIdx];
+            if (chunkCluster == null) return false;
+
+            if ((Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos) == null) return false;
+
+            if (!Properties.Values.ContainsKey("Config")) return false;
+        }
+        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+
+    }
     public void CheckForSpawn(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool force = false)
     {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)

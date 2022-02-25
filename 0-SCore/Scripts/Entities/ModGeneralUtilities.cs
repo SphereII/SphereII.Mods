@@ -388,6 +388,42 @@ public static class ModGeneralUtilities
         return localLists;
     }
 
+    public static List<Vector3> ScanAutoConfigurationBlocks(Vector3 centerPosition, List<string> lstBlocks, int MaxDistance = 4)
+    {
+        if (lstBlocks.Count == 0)
+            return null;
+
+        var localLists = new List<Vector3>();
+
+        var TargetBlockPosition = new Vector3i();
+
+        for (var x = (int)centerPosition.x - MaxDistance; x <= centerPosition.x + MaxDistance; x++)
+        {
+            for (var z = (int)centerPosition.z - MaxDistance; z <= centerPosition.z + MaxDistance; z++)
+            {
+                for (var y = (int)centerPosition.y - MaxDistance; y <= centerPosition.y + MaxDistance; y++)
+                {
+                    TargetBlockPosition.x = x;
+                    TargetBlockPosition.y = y;
+                    TargetBlockPosition.z = z;
+
+                    var block = GameManager.Instance.World.GetBlock(TargetBlockPosition);
+                    if (block.ischild)
+                        continue;
+
+                    // if its not a listed block, then keep searching.
+                    if (!lstBlocks.Contains(block.Block.GetBlockName()))
+                        continue;
+
+                    if (GameManager.Instance.World.GetTileEntity(0, TargetBlockPosition) is TileEntitySign tileEntitySign)
+                        localLists.Add(TargetBlockPosition.ToVector3());
+                }
+            }
+        }
+
+        return localLists;
+    }
+
     // The method will scan a distance of MaxDistance around the entity, finding the nearest block that matches in the list.
     public static List<Vector3> ScanForBlockInListHelper(Vector3 centerPosition, List<string> lstBlocks, int MaxDistance, int EntityID = -1)
     {

@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.2.56.x
+
+	- Added more enhancements for SpawnCube2SDX. See blocks.xml for examples on advanced configuration.
+	- Fixed issue with Sleepers not getting the correct buffs on waking up.
+	- Fixed issue with Attack UAI being locked when target was still visible but not accessible.
+
 Version: 20.2.55.x
 	- Fixed issue with bad ray cast, causing NPCs to shoot through doors and walls
 	- Multiple fixes to the BlockSpawnCube2SDX. This cube will allow you to spawn in a one-time entity.

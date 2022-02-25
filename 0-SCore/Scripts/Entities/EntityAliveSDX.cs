@@ -107,7 +107,7 @@ public class EntityAliveSDX : EntityTrader
                 return entityName;
 
             // Don't return the name when on a mission.
-          //  if (IsOnMission()) return "";
+            //  if (IsOnMission()) return "";
 
             if (string.IsNullOrEmpty(_strTitle))
                 return Localization.Get(_strMyName);
@@ -204,7 +204,7 @@ public class EntityAliveSDX : EntityTrader
             return base.height * 0.8f;
         }
         return base.height * 0.5f;
-       // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
+        // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
     }
 
     public override void SetModelLayer(int _layerId, bool _force = false)
@@ -556,12 +556,11 @@ public class EntityAliveSDX : EntityTrader
         // Check if pathing blocks are defined.
         var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
         if (blocks.Count == 0)
-            blocks = new List<string> { "PathingCube" };
+            blocks = new List<string> { "PathingCube", "PathingCube2" };
 
         //Scan for the blocks in the area
-        var pathingVectors = ModGeneralUtilities.ScanForTileEntityInChunksListHelper(position, blocks, entityId, 4);
-        if (pathingVectors == null || pathingVectors.Count == 0)
-            return;
+        var pathingVectors = ModGeneralUtilities.ScanAutoConfigurationBlocks(position, blocks, 10);
+        if (pathingVectors == null || pathingVectors.Count == 0) return;
 
         // Find the nearest block, and if its a sign, read its code.
         var target = ModGeneralUtilities.FindNearestBlock(position, pathingVectors);
@@ -570,23 +569,27 @@ public class EntityAliveSDX : EntityTrader
 
         // Since signs can have multiple codes, splite with a ,, parse each one.
         var text = tileEntitySign.GetText();
-        Log.Out($"Reading {text} for {entityId}");
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var Task = PathingCubeParser.GetValue(text, "task");
         if (!string.IsNullOrEmpty(Task))
         {
+            Log.Out($"SetupAutoPathingBlocks for: {entityName} ( {entityId} ) : Task: {Task}");
+            // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
             if (Task.ToLower() == "stay")
-                Buffs.AddBuff("buffOrderStay");
-            else if (Task.ToLower() == "wander")
-                Buffs.AddBuff("buffOrderWander");
-            else if (Task.ToLower() == "guard")
-                Buffs.AddBuff("buffOrderGuard");
-            else if (Task.ToLower() == "follow")
-                Buffs.AddBuff("buffOrderFollow");
-            else 
-                Buffs.AddBuff(Task);
+                Buffs.AddBuff("buffOrderStay", -1, false);
+            if (Task.ToLower() == "wander")
+                Buffs.AddBuff("buffOrderWander", -1, false);
+            if (Task.ToLower() == "guard")
+                Buffs.AddBuff("buffOrderGuard", -1, false);
+            if (Task.ToLower() == "follow")
+                Buffs.AddBuff("buffOrderFollow", -1, false);
         }
+
+        var Buff = PathingCubeParser.GetValue(text, "buff");
+        foreach (var buff in Buff.Split(','))
+            Buffs.AddBuff(buff, -1, false);
+
 
         // Set up the pathing code.
         Buffs.SetCustomVar("PathingCode", -1f);
@@ -594,8 +597,6 @@ public class EntityAliveSDX : EntityTrader
         var PathingCode = PathingCubeParser.GetValue(text, "pc");
         if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
             Buffs.SetCustomVar("PathingCode", pathingCode);
-
-        isAlwaysAwake = true;
 
         //foreach (var temp in text.Split(','))
         //{
@@ -861,16 +862,12 @@ public class EntityAliveSDX : EntityTrader
         }
     }
 
-
     public override void OnUpdateLive()
     {
         //CheckNoise();
         LeaderUpdate();
         CheckStuck();
         SetupAutoPathingBlocks();
-
-        if (Buffs.HasCustomVar("PathingCode") && Buffs.GetCustomVar("PathingCode") == -1)
-            EntityUtilities.SetCurrentOrder(entityId, EntityUtilities.Orders.Stay);
 
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
         if (!sleepingOrWakingUp && isAlwaysAwake)
@@ -1123,9 +1120,9 @@ public class EntityAliveSDX : EntityTrader
 
     public override bool IsAttackValid()
     {
-            // If they are on a mission, don't attack. 
-        if (IsOnMission())         return false;
-    
+        // If they are on a mission, don't attack. 
+        if (IsOnMission()) return false;
+
         return base.IsAttackValid();
     }
     public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
@@ -1429,7 +1426,7 @@ public class EntityAliveSDX : EntityTrader
         if (IsOnMission()) return;
         if (HasAnyTags(FastTags.Parse("floating"))) return;
 
-            base.playStepSound(stepSound);
+        base.playStepSound(stepSound);
 
     }
 

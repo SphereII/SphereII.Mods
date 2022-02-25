@@ -161,10 +161,10 @@
 
 				<!-- On each entity spawn, when set to true, will print all the transforms and scripts on an entity -->
 				<property name="ComponentMapper" value="false" />
-				<property name="UtilityAILogging" value="true" />
+				<property name="UtilityAILogging" value="false" />
 				<!-- Only displays Start and Stop for AI tasks -->
-				<property name="UtilityAILoggingMin" value="true" />
-				<property name="UtilityAILoggingTask" value="true" />
+				<property name="UtilityAILoggingMin" value="false" />
+				<property name="UtilityAILoggingTask" value="false" />
 
 			</property>
 
@@ -314,7 +314,27 @@
 		<block name="TestSpawnCube2">
 			<property name="Extends" value="SpawnCube"/>
 			<property name="Class" value="SpawnCube2SDX, SCore" />
-			<property name="Config" value="ec=npcNurseClub;buff=buffOrderStay;pc=0" />
+			<property name="Config" value="eg=ZombiesAll;buff=buffOrderStay;pc=0" />
 		</block>
+
+		<block name="TestSpawnCube3">
+			<property name="Extends" value="SpawnCube"/>
+			<property name="Class" value="SpawnCube2SDX, SCore" />
+
+			<!-- Rather than using Config, you can optionally set the EntityGroup -->
+			<property name="EntityGroup" value="ZombiesForestDowntown" />
+			<!-- Range of spawn from the block pos -->
+			<property name="SpawnRadius" value="5" />
+			<property name="SpawnArea" value="15" />
+			<!-- Spawn 2 each tick -->
+			<property name="NumberToSpawn" value="2" />
+			<!-- Total number of ticksbefore the block self-destructs -->
+			<property name="MaxSpawned" value="10" />
+
+			<!-- How many ticks between the spawn times-->
+			<!-- NumberToSpawn spawns each time it block ticks. -->
+			<property name="TickRate" value="10" />
+		</block>
+
 	</append>
 </configs>

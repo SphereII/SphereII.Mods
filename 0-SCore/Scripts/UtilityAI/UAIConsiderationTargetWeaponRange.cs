@@ -27,10 +27,8 @@ namespace UAI
             var entityAlive = UAIUtils.ConvertToEntityAlive(target);
             var result = 0f;
             if (entityAlive != null)
-            {
-              
-                result = _context.Self.GetDistance(entityAlive);
-            }
+               result = _context.Self.GetDistance(entityAlive);
+
             if (target is Vector3 vector3)
                 result = (_context.Self.position - vector3).magnitude;
 
@@ -46,8 +44,10 @@ namespace UAI
                         return 0f;
                 }
             }
-            if (result <= range )
+
+            if (result <= range)
                 return 1f;
+
             return 0f;
         }
     }

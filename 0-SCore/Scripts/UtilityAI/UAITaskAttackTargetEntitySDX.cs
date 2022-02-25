@@ -62,12 +62,6 @@ namespace UAI
             if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
-            attackTimeout--;
-            if (attackTimeout > 0)
-                return;
-
-            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
-
             Vector3 position = Vector3.zero;
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
@@ -135,7 +129,14 @@ namespace UAI
                 // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
                 if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
                     _context.Self.moveHelper.SetMoveTo(position, true);
+                Stop(_context);
             }
+
+            attackTimeout--;
+            if (attackTimeout > 0)
+                return;
+
+            this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
 
             // Action Index = 1 is Use, 0 is Attack.
             switch (_actionIndex)
