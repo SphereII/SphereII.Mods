@@ -31,41 +31,39 @@ namespace UAI
         }
         public override void Stop(Context _context)
         {
+            // If we have the activity buff, just wait until it wears off
+            if (_context.Self.Buffs.HasBuff(_buff)) return;
+
             SphereCache.RemovePath(_context.Self.entityId, _vector);
             BlockUtilitiesSDX.removeParticles(new Vector3i(_vector));
-
             base.Stop(_context);
         }
         public override void Update(Context _context)
         {
+            // If we have the activity buff, just wait until it wears off
+            if (_context.Self.Buffs.HasBuff(_buff)) return;
+
+            // If we had it, and it's gone, then we are done with this location.
+            if ( hadBuff)
+            {
+                Stop(_context);
+                return;
+            }
+
             if (SCoreUtils.IsBlocked(_context))
                 ForceStop(_context);
 
             if ( _leader)
                 SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
 
-            var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-            if (enemy != null && enemy.IsAlive())
-            {
-                ForceStop(_context);
-                return;
-            }
-
             if (SCoreUtils.CheckContainer(_context, _vector))
             {
                 // If the NPC does not have the buff anymore, check to see if they ever had it for this task
                 if (!_context.Self.Buffs.HasBuff(_buff))
                 {
-                    // We don't have the buff anymore, but we did before. This pathing is complete.
-                    if ( hadBuff)
-                    {
-                        Stop(_context);
-                        return;
-                    }
                     _context.Self.Buffs.AddBuff(_buff);
                     hadBuff = true;
                 }
-                return;
             }
 
            base.Update(_context);
@@ -77,28 +75,30 @@ namespace UAI
             var paths = SphereCache.GetPaths(_context.Self.entityId);
             if (paths == null || paths.Count == 0)
             {
-                paths = SCoreUtils.ScanForTileEntities(_context, _targetTypes);
-                if (paths.Count == 0)
-                {
-                    Stop(_context);
-                    return;
-                }
-                SphereCache.AddPaths(_context.Self.entityId, paths);
+                Stop(_context);
+                return;
             }
-
-            
             if (distance == 0)
                 distance = 4f;
 
+            hadBuff = false;
             // sort
             paths.Sort(new SCoreUtils.NearestPathSorter(_context.Self));
             _vector = paths[0];
-            if ( (_context.Self.position - _vector).sqrMagnitude > 500)
+            if (paths.Count > 5 )
             {
-                SphereCache.RemovePaths(_context.Self.entityId);
-                ForceStop(_context);
-                return;
+                var index = _context.Self.rand.RandomRange(0, 4);
+                _vector = paths[index];
             }
+            
+            //if ( (_context.Self.position - _vector).sqrMagnitude > 500)
+            //{
+            //    Log.Out($"TaskLoot(): Start:  Force Stopping due to Tile Entity being too far away {_vector} {_targetTypes}");
+
+            //    SphereCache.RemovePaths(_context.Self.entityId);
+            //    ForceStop(_context);
+            //    return;
+            //}
             if (!GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled) )
                 BlockUtilitiesSDX.addParticles("", new Vector3i(_vector));
 

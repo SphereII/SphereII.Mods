@@ -810,7 +810,7 @@ public class EntityAliveSDX : EntityTrader
         var player = leader as EntityPlayer;
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
-            case EntityUtilities.Orders.Patrol:
+            case EntityUtilities.Orders.Loot:
             case EntityUtilities.Orders.Follow:
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
@@ -849,9 +849,9 @@ public class EntityAliveSDX : EntityTrader
                     }
                 }
                 break;
+            case EntityUtilities.Orders.Patrol:
             case EntityUtilities.Orders.Stay:
             case EntityUtilities.Orders.Wander:
-            case EntityUtilities.Orders.Loot:
             default:
                 // This needs to be set for the entities to be still alive, so the player can teleport them
                 IsEntityUpdatedInUnloadedChunk = false;

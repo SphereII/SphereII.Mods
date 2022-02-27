@@ -237,7 +237,9 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 // Center the entity to its block position.
                 x.SetPosition(EntityUtilities.CenterPosition(_blockPos));
             }
-            
+
+            // Destroy the block after spawn.
+            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
 
         }
         catch (Exception ex)
