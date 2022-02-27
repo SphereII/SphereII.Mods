@@ -202,7 +202,8 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 {
                     var persistentPlayerList = GameManager.Instance.GetPersistentPlayerList();
                     var playerData = persistentPlayerList.GetPlayerData(tileEntity.GetOwner());
-                    OwnerID = playerData.EntityId;
+                    if( playerData != null)
+                        OwnerID = playerData.EntityId;
 
                     // Set up ownership, but only after the entity is spawned.
                     if (OwnerID > 0 && !string.IsNullOrEmpty(setLeader))

@@ -25,32 +25,12 @@
       <property name="DisplayType" value="blockTerrain"/>
     </block>
 
-    <block name="terrWaterSpawner">
-      <property name="Extends" value="metalTrussingRampOld" param1="DescriptionKey"/>
-      <property name="CustomIcon" value="metalTrussingRampOld"/>
-      <property name="CreativeMode" value="Dev"/>
-      <property name="Class" value="MortSpawner, SCore"/>
-      <property name="StabilitySupport" value="false"/>
-      <property name="Shape" value="Ext3dModel"/>
-      <property name="Texture" value="293"/>
-      <property name="Model" value="#Entities/LootContainers?birdnestPrefab.prefab"/>
-      <property name="Shape" value="ModelEntity"/>
-
-      <property name="HandleFace" value="Bottom"/>
-      <property name="EntityGroup" value="AnimalSwiming"/>
-      <property name="FilterTags" value="fdesign"/>
-      <property name="Collide" value="sight"/>
-      <property name="LootList" value="LootList"/>
-
-      <property name="TickRate" value="1000" />
-      <!-- 1 day = 24000 ticks (for 60min day) -->
-      <property name="SpawnRadius" value="10" />
-      <property name="SpawnArea" value="5" />
-      <property name="NumberToSpawn" value="2" />
-      <property name="MaxSpawned" value="2" />
-      <property name="CheckArea" value="20" />
-
-    </block>
+	  <block name="terrWaterSpawner">
+		  <property name="Extends" value="SpawnCube"/>
+		  <property name="Class" value="SpawnCube2SDX, SCore" />
+		  <property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0" />
+	  </block>
+  
   </append>
 
 </configs>

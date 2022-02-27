@@ -11,33 +11,32 @@ internal class MecanimSDX : AvatarController
     // Our transforms for key elements
     public Transform bipedTransform;
     public Transform modelTransform;
-    private readonly int AttackIdleIndexes;
+    private int AttackIdleIndexes;
 
 
     // Indexes used to add more variety to state machines
-    private readonly int AttackIndexes;
+    private int AttackIndexes;
 
     // If set to true, logging will be very verbose for troubleshooting
-    private readonly bool blDisplayLog = false;
-    private readonly int CrouchIndexes;
-    private readonly int DeathIndexes;
-    private readonly int EatingIndexes;
-    private readonly int ElectrocutionIndexes;
-    private readonly int HarvestIndexes;
-    private readonly int IdleIndexes;
-    private readonly int JumpIndexes;
-    private readonly bool Jumping = false;
-    private readonly int PainIndexes;
-    private readonly int RagingIndexes;
-    private readonly int RandomIndexes;
-    private readonly string RightHand = "RightHand";
-    private readonly int RunIndexes;
-    private readonly int SleeperIndexes;
-    private readonly int SpecialAttackIndexes;
-    private readonly int SpecialSecondIndexes;
-    private readonly int StunIndexes;
-    private readonly int WalkIndexes;
-
+    private bool blDisplayLog = false;
+    private int CrouchIndexes;
+    private int DeathIndexes;
+    private int EatingIndexes;
+    private int ElectrocutionIndexes;
+    private int HarvestIndexes;
+    private int IdleIndexes;
+    private  int JumpIndexes;
+    private  bool Jumping = false;
+    private  int RagingIndexes;
+    private  int RandomIndexes;
+    private  string RightHand = "RightHand";
+    private  int RunIndexes;
+    private  int SleeperIndexes;
+    private  int SpecialAttackIndexes;
+    private  int SpecialSecondIndexes;
+    private  int StunIndexes;
+    private  int WalkIndexes;
+    private int PainIndexes;
     // Animator support method to keep our current state
     protected AnimatorStateInfo currentBaseState;
     protected Transform head;
@@ -68,14 +67,13 @@ internal class MecanimSDX : AvatarController
     protected float timeAttackAnimationPlaying;
     protected float timeSpecialAttackPlaying;
 
-    private MecanimSDX()
+   
+
+    private new void Awake()
     {
+        Log("Method: " + MethodBase.GetCurrentMethod().Name);
+
         entity = transform.gameObject.GetComponent<EntityAlive>();
-        if ( entity == null )
-        {
-            Debug.Log($"Error trying to get EnttyAlive script");
-            return;
-        }
         var entityClass = EntityClass.list[entity.entityClass];
 
         // this.AttackHash = this.GenerateLists(entityClass, "AttackAnimations");
@@ -101,12 +99,6 @@ internal class MecanimSDX : AvatarController
         jumpTag = Animator.StringToHash("Jump");
 
         if (entityClass.Properties.Values.ContainsKey("RightHandJointName")) RightHand = entityClass.Properties.Values["RightHandJointName"];
-    }
-
-
-    private new void Awake()
-    {
-        Log("Method: " + MethodBase.GetCurrentMethod().Name);
         Log("Initializing " + entity.name);
         try
         {

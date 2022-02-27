@@ -559,7 +559,7 @@ public class EntityAliveSDX : EntityTrader
             blocks = new List<string> { "PathingCube", "PathingCube2" };
 
         //Scan for the blocks in the area
-        var pathingVectors = ModGeneralUtilities.ScanAutoConfigurationBlocks(position, blocks, 10);
+        var pathingVectors = ModGeneralUtilities.ScanAutoConfigurationBlocks(position, blocks, 2);
         if (pathingVectors == null || pathingVectors.Count == 0) return;
 
         // Find the nearest block, and if its a sign, read its code.
@@ -867,7 +867,7 @@ public class EntityAliveSDX : EntityTrader
         //CheckNoise();
         LeaderUpdate();
         CheckStuck();
-        SetupAutoPathingBlocks();
+       // SetupAutoPathingBlocks();
 
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
         if (!sleepingOrWakingUp && isAlwaysAwake)

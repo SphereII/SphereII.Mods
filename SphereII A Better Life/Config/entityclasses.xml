@@ -2,23 +2,22 @@
 	<append xpath="/entity_classes">
 		<entity_class name="PassiveFish"   extends="animalChicken">
 			<property name="Mesh" value="Animals/Stag/STAG" />
-
-      <!-- The swiming class is an extended flying class-->
+			<property name="Prefab" value="NPC"/>
+			<!-- The swiming class is an extended flying class-->
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="AvatarController" value="MecanimSDX, SCore" />
 			<property name="MaxHealth" value="25" />
 			<property name="Weight" value="70" />
 			<property name="RotateToGround" value="true" />
-
 			<property name="MapIcon" value="ui_game_symbol_bicycle" />
 			<property name="EntityType" value="Player"/>
 
-      <!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
+			<!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
 			<property name="ModelType" value="Standard" />
 			<property name="HasRagdoll" value="false" />
 			<property name="PhysicsBody" value="chicken" />
 			<property name="RootMotion" value="false" />
-			<property name="Immunity" value="sickness;disease;bleeding;wellness" /> 
+			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
 			<property name="EntityType" value="Animal"/>
 			<property name="AIPathCostScale" value="100, 100"/>
 			<property name="AITask-1" value="SwimSDX, SCore"/>
@@ -27,7 +26,7 @@
 			<property name="AITask-4" value="Look"/>
 			<property name="AITask-5" value="Wander"/>
 			<property name="IsEnemyEntity" value="false"/>
-<!--				<property name="IsAgressive" value="false" />
+			<!--				<property name="IsAgressive" value="false" />
 			<property name="FlockSize" value="0" />
 			<property name="MaxHeight" value="90" />
 			<property name="FollowPlayer" value="False" /> -->
@@ -38,22 +37,29 @@
 			<property name="SoundDeath" value="" />
 			<property name="SoundSense" value="" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
 			<property name="MaxViewAngle" value="210"/>
-			<property name="SightRange" value="30"/> <!-- distance in m -->
+			<property name="SightRange" value="30"/>
+			<!-- distance in m -->
 			<property name="SightLightThreshold" value="-2,150"/>
 
-			<property name="SleeperWakeupSightDetectionMin" value="-40,5"/> <!-- Indiv.Random. sight capability - "I see you" light value at point blank -->
-			<property name="SleeperWakeupSightDetectionMax" value="340,480"/> <!-- Indiv.Random. "I see you" light value at "SightRange" -->
-			<property name="SleeperSenseSightDetectionMin" value="-10,0"/> <!-- same for groaning, not waking -->
+			<property name="SleeperWakeupSightDetectionMin" value="-40,5"/>
+			<!-- Indiv.Random. sight capability - "I see you" light value at point blank -->
+			<property name="SleeperWakeupSightDetectionMax" value="340,480"/>
+			<!-- Indiv.Random. "I see you" light value at "SightRange" -->
+			<property name="SleeperSenseSightDetectionMin" value="-10,0"/>
+			<!-- same for groaning, not waking -->
 			<property name="SleeperSenseSightDetectionMax" value="200,300"/>
 
-			<property name="SleeperNoiseSenseThreshold" value="3,8"/> <!-- Indiv.Random. hearing capability - "I hear something" noise value -->
+			<property name="SleeperNoiseSenseThreshold" value="3,8"/>
+			<!-- Indiv.Random. hearing capability - "I hear something" noise value -->
 			<property name="SleeperNoiseWakeThreshold" value="9,12"/>
 
-			<property name="SleeperSmellSenseThreshold" value="20,50"/> <!-- Indiv.Random. smell capability - "I smell something" player smell value -->
-			<property name="SoundSleeperSenseChance" value=".5"/> <!-- the chance to play "SoundSleeperSense" when "SleeperSmellSenseThreshold" is triggered -->
+			<property name="SleeperSmellSenseThreshold" value="20,50"/>
+			<!-- Indiv.Random. smell capability - "I smell something" player smell value -->
+			<property name="SoundSleeperSenseChance" value=".5"/>
+			<!-- the chance to play "SoundSleeperSense" when "SleeperSmellSenseThreshold" is triggered -->
 
 			<!-- Gameplay -->
 			<property name="MaxTurnSpeed" value="420"/>
@@ -68,15 +74,16 @@
 
 			<effect_group name="Base Effects">
 				<passive_effect name="HealthMax" operation="base_set" value="50"/>
-				<passive_effect name="HealthMax" operation="perc_add" value="0"/> <!-- Animal HP scale -->
+				<passive_effect name="HealthMax" operation="perc_add" value="0"/>
+				<!-- Animal HP scale -->
 			</effect_group>
 		</entity_class>
-		
+
 		<entity_class name="fishStingRay" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
 			<property name="Tags" value="entity,npc"/>
 		</entity_class>
@@ -86,7 +93,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/> 
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
 		</entity_class>
 
@@ -95,7 +102,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="5"/> 
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="5"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
 		</entity_class>
 
@@ -103,7 +110,7 @@
 			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/> 
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 		</entity_class>
 
 		<entity_class name="fishClownfish" extends="PassiveFish" >
@@ -111,8 +118,8 @@
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/> 	
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 		</entity_class>
 	</append>
-	
+
 </configs>
