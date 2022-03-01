@@ -104,14 +104,27 @@ namespace Harmony.NPCFeatures
         [HarmonyPatch("Hit")]
         public class ItemActionAttackHit
         {
-            private static bool Prefix(ItemActionAttack __instance, WorldRayHitInfo hitInfo, int _attackerEntityId)
+            private static bool Prefix(
+                ItemActionAttack __instance,
+                WorldRayHitInfo hitInfo,
+                int _attackerEntityId,
+                ItemActionAttack.AttackHitInfo _attackDetails)
             {
                 if (hitInfo?.tag == null) return false;
 
                 var entity = ItemActionAttack.FindHitEntityNoTagCheck(hitInfo, out var text3);
                 if (entity == null) return true;
 
-                return !EntityUtilities.IsAnAlly(entity.entityId, _attackerEntityId);
+                if (EntityUtilities.IsAnAlly(entity.entityId, _attackerEntityId))
+                {
+                    // This prevents the "infinite harvest bug"
+                    _attackDetails.bBlockHit = false;
+                    _attackDetails.bHarvestTool = false;
+                    _attackDetails.itemsToDrop = null;
+
+                    return false;
+                }
+                return true;
             }
         }
 
