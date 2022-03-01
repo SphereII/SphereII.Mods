@@ -10,6 +10,10 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.2.60.742
+
+	- Merged khzmusik's fix for infinite resource bug
+
  Version: 20.2.57.x
 	- Loot task work.
 	- SpawnCube breaks after trigger now.
