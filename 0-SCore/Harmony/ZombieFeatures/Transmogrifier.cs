@@ -32,6 +32,21 @@ namespace Harmony.ZombieFeatures
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
 
+                var entityClass = __instance.EntityClass;
+                if (entityClass.Properties.Values.ContainsKey("RandomWalkTypes"))
+                {
+                    var Ranges = new List<int>();
+
+                    foreach (var text in entityClass.Properties.Values["RandomWalkTypes"].Split(','))
+                        Ranges.Add(StringParsers.ParseSInt32(text));
+
+                    var random = new Random();
+                    var randomIndex = random.Next(0, Ranges.Count);
+                    ___walkType = Ranges[randomIndex];
+                    AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
+                    return;
+                }
+
                 if (___walkType != 4 && ___walkType != 8 && __instance is EntityZombie)
                 {
                     // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution. The 9 in the default int[9] indicates how many walk types you've specified.
@@ -48,19 +63,7 @@ namespace Harmony.ZombieFeatures
                     return;
                 }
 
-                var entityClass = __instance.EntityClass;
-                if (entityClass.Properties.Values.ContainsKey("RandomWalkTypes"))
-                {
-                    var Ranges = new List<int>();
-
-                    foreach (var text in entityClass.Properties.Values["RandomWalkTypes"].Split(','))
-                        Ranges.Add(StringParsers.ParseSInt32(text));
-
-                    var random = new Random();
-                    var randomIndex = random.Next(0, Ranges.Count);
-                    ___walkType = Ranges[randomIndex];
-                    AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
-                }
+            
             }
         }
     }
