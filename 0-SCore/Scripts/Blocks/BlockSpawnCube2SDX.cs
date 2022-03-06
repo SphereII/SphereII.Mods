@@ -75,7 +75,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
         // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
         var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
-        var blockEntity = ((Chunk)_world.GetChunkFromWorldPos(_blockPos)).GetBlockEntity(_blockPos);
+        var blockEntity = _chunk.GetBlockEntity(_blockPos);
         if (blockEntity != null && blockEntity.bHasTransform)
             rotation = blockEntity.transform.rotation.eulerAngles;
 
