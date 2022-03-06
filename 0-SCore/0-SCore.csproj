@@ -238,6 +238,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeamTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionGuardHere.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetFactionRelationship.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOrder.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeam.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionPlayerLevelSDX.cs" />
