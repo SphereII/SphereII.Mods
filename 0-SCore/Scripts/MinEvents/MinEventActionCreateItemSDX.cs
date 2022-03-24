@@ -1,8 +1,8 @@
 ﻿using System.Xml;
 using UnityEngine;
 
-// <triggered_effect trigger="onSelfBuffRemove" action="CreateItem" item="drinkJarCoffee" count="2"/>
-// <triggered_effect trigger="onSelfBuffRemove" action="CreateItem" lootgroup="2" count="1" />
+// <triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" item="drinkJarCoffee" count="2"/>
+// <triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" lootgroup="2" count="1" />
 
 public class MinEventActionCreateItemSDX : MinEventActionBase
 {

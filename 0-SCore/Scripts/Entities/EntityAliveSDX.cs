@@ -537,13 +537,16 @@ public class EntityAliveSDX : EntityTrader
         try
         {
             Buffs.Read(_br);
+
+            // Disabled due to Potential Performance issues
+            Progression.Read(_br, this);
         }
         catch (Exception)
         {
             //  fail safe to protect game saves
         }
 
-        Progression.Read(_br, this);
+      
     }
 
 
@@ -623,13 +626,15 @@ public class EntityAliveSDX : EntityTrader
         try
         {
             Buffs.Write(_bw);
+            // Disabled due to Potential Performance issues
+          //  Progression.Write(_bw);
         }
         catch (Exception)
         {
             // fail safe to protect game saves
         }
 
-        Progression.Write(_bw);
+       
     }
 
     public void GiveQuest(string strQuest)
@@ -766,6 +771,9 @@ public class EntityAliveSDX : EntityTrader
 
         // If its dynamic spawn, don't let them stay.
         if (GetSpawnerSource() == EnumSpawnerSource.Dynamic) return false;
+
+        // If its biome spawn, don't let them stay.
+        if (GetSpawnerSource() == EnumSpawnerSource.Biome) return false;
         return true;
     }
 
@@ -996,6 +1004,9 @@ public class EntityAliveSDX : EntityTrader
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
+
+        if (IsOnMission()) return 0;
+
         if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
             return 0;
 
@@ -1158,7 +1169,7 @@ public class EntityAliveSDX : EntityTrader
                 myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
             }
             //// Find the ground.
-            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
         }
 
         motion = Vector3.zero;
@@ -1181,8 +1192,8 @@ public class EntityAliveSDX : EntityTrader
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z) + 1;
-        if (y > position.y)
+        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z);
+        if (position.y < y)
         {
             var myPosition = position;
 
@@ -1203,7 +1214,7 @@ public class EntityAliveSDX : EntityTrader
             // Find the ground.
 
             motion = Vector3.zero;
-            navigator.clearPath();
+            navigator?.clearPath();
             this.SetPosition(myPosition, true);
         }
         this.isTeleporting = false;

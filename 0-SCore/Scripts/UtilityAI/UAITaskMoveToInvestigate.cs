@@ -56,38 +56,6 @@ namespace UAI
         public override void Start(Context _context)
         {
             SetRandomPosition(_context);
-            //var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-            //EntityPlayer entityPlayer = entityAlive as EntityPlayer;
-            //if (entityAlive != null)
-            //{
-            //    _position = entityAlive.position;
-
-            //    // if we are fairly close, we want to home in a bit tigther
-            //    var sqrMagnitude2 = (_position - _context.Self.position).sqrMagnitude;
-            //    if (sqrMagnitude2 > 90f)
-            //        _position = RandomPositionGenerator.CalcTowards(_context.Self, 2, 2, 2, _position);
-
-            //    if (sqrMagnitude2 > 150f)
-            //        _position = RandomPositionGenerator.CalcTowards(_context.Self, 5, 5, 5, _position);
-            //}
-
-            //if (_context.ActionData.Target is Vector3 vector)
-            //    _position = vector;
-
-            //// If we already know we have a place, let's go there.
-            //if (_context.Self.HasInvestigatePosition)
-            //{
-            //    var sqrMagnitude = (_context.Self.InvestigatePosition - _context.Self.position).sqrMagnitude;
-            //    if (sqrMagnitude > 2f)
-            //        _position = _context.Self.InvestigatePosition;
-            //}
-
-            //// If we are hunting a player, use their bread crumbs
-            //if (entityPlayer != null)
-            //{
-            //    _position = entityPlayer.GetBreadcrumbPos(2);
-            //    _context.Self.SetInvestigatePosition(_position, 1200, true);
-            //}
 
             var speed = _context.Self.GetMoveSpeed();
             if (run)

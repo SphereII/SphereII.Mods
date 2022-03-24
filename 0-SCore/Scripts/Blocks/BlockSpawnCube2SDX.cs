@@ -11,7 +11,6 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     private int _numberToSpawn = 1;
     private int _spawnRadius = 0;
     private int _spawnArea = 15;
-    private int _spawnCount = 0;
 
     private string _entityGroup = "";
     private string _signText = "";
@@ -43,6 +42,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     }
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
+        Log.Out("OnBlockAdded");
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         
@@ -211,12 +211,14 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 }
            
             }
+            GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
+
+            // Add the next scheduled update based on the tickrate
+            _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)_tickRate);
+
 
         }
 
-        // Add the next scheduled update based on the tickrate
-        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)_tickRate);
-        GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
 
         return true;
     }

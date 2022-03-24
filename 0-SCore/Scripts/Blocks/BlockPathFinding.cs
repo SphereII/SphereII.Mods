@@ -22,7 +22,7 @@ internal class BlockPathFinding : BlockPlayerSign
         var playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(tileEntitySign.GetOwner());
         var flag = tileEntitySign.LocalPlayerIsOwner();
         var flag2 = !tileEntitySign.LocalPlayerIsOwner() && (playerData != null && playerData.ACL != null) && playerData.ACL.Contains(internalLocalUserIdentifier);
-        this.cmds[0].enabled = true;
+        this.cmds[0].enabled = (tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || flag); 
         this.cmds[1].enabled = (!tileEntitySign.IsLocked() && (flag || flag2));
         this.cmds[2].enabled = (tileEntitySign.IsLocked() && flag);
         this.cmds[3].enabled = ((!tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) && tileEntitySign.HasPassword() && tileEntitySign.IsLocked()) || flag);

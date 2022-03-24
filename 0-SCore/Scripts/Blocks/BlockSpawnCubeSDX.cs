@@ -40,7 +40,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
 
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        if (_world.IsEditor() || _entityFocusing.IsGodMode.Value)
+        if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
             return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
         return "";
     }
@@ -50,7 +50,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
     {
         var tileEntitySign = (TileEntitySign)_world.GetTileEntity(_clrIdx, _blockPos);
         if (tileEntitySign == null) return new BlockActivationCommand[0];
-        if (_world.IsEditor() || _entityFocusing.IsGodMode.Value) return cmds;
+        if (_world.IsEditor() || GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled)) return cmds;
 
         //        Debug.Log("No commands.");
         return new BlockActivationCommand[0];

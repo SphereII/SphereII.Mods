@@ -9,7 +9,7 @@ namespace Harmony.NPCFeatures
      * This class includes a Harmony patches to EntityAlive to provide more features for NPCs, including blocking EntityAliveFarmingAnimalSDX from attacking blocks,
      * to disabling the damage to an ally,  etc
      */
-    public class EntityAlivePatcher
+    public class UtilsDrawLine
     {
         private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
         private static readonly string Feature = "EnhancedFeatures";

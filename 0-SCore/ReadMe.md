@@ -9,6 +9,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
 [ Change Log ]
+Version: 20.2.83.1240
+	
+	- Performance Tweaks:
+		- Disabled DrawLine in Utils from raycasting path finding
+		- Disabled Progression on NPCs
+	- Updated Pathing Cube to disallow non-owners to edit
+	- Similar change to the SpawnCube with above change
+	- Added TimeToDie for EntityEnemySDX
+	- Added DialogAction for AddItemSDX, SCore
 
 Version: 20.2.60.742
 

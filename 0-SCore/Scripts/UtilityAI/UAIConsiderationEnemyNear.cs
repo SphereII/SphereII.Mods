@@ -23,6 +23,8 @@ namespace UAI
 
         public override float GetScore(Context _context, object target)
         {
+ 
+
             return SCoreUtils.IsEnemyNearby(_context, distance) ? 1f : 0f;
         }
     }
