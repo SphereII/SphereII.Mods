@@ -9,6 +9,17 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
 [ Change Log ]
+
+Version: 20.3.84.x
+
+	- When driving in a vehicle, NPCs will no longer teleport to you after a distance, but does a SetPosition() on a tighter range
+	- NPCMOD-FT-0045 : Added DespawnNPC MinEffect: <triggered_effect trigger="onSelfBuffRemove" action="DespawnNPC, SCore" />
+	- Added new Property for entities, which controls if they run "leader checks" for increase performance. Defaults to True.
+		<property name="Hirable" value="false" />
+	- Added new Property for entities, which controls if they can give or process quests. Defaults to true.
+		<property name="IsQuestGiver" value="false" />
+
+
 Version: 20.2.83.1240
 	
 	- Performance Tweaks:

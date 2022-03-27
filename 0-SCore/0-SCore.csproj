@@ -232,6 +232,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionGiveQuestSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionGuardClear.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionGuardThere.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionDespawnNPC.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionHideNPCSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />

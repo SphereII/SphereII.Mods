@@ -42,6 +42,9 @@ public class EntityAliveSDX : EntityTrader
     public EntityAlive Owner;
     public bool isTeleporting = false;
 
+    public bool isHirable = true;
+    public bool isQuestGiver = true;
+
     // Read the configuration to see if the hired NPCs should join the player's group.
     public bool AddNPCToCompanion = Configuration.CheckFeatureStatus("AdvancedNPCFeatures", "DisplayCompanions");
 
@@ -150,6 +153,7 @@ public class EntityAliveSDX : EntityTrader
     {
         if (send)
         {
+
             var enemy = GetRevengeTarget();
             if (enemy != null)
             {
@@ -217,6 +221,12 @@ public class EntityAliveSDX : EntityTrader
     {
         base.CopyPropertiesFromEntityClass();
         var _entityClass = EntityClass.list[entityClass];
+
+        if ( _entityClass.Properties.Values.ContainsKey("Hirable"))
+            isHirable = StringParsers.ParseBool(_entityClass.Properties.Values["Hirable"], 0, -1, true);
+
+        if (_entityClass.Properties.Values.ContainsKey("IsQuestGiver"))
+            isQuestGiver = StringParsers.ParseBool(_entityClass.Properties.Values["IsQuestGiver"], 0, -1, true);
 
         flEyeHeight = EntityUtilities.GetFloatValue(entityId, "EyeHeight");
 
@@ -397,6 +407,10 @@ public class EntityAliveSDX : EntityTrader
         {
             return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
 
+        }
+        if ( !isQuestGiver)
+        {
+            return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
         }
         Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
@@ -823,7 +837,17 @@ public class EntityAliveSDX : EntityTrader
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
                 {
-                    SendOnMission(true);
+                 //   if (!Buffs.HasCustomVar("onMission"))
+                        SendOnMission(true);
+                    var distanceToLeader2 = GetDistance(leader);
+                    if (distanceToLeader2 > 10)
+                    {
+                        var _position = leader.GetPosition();
+                        _position.y += 5;
+                        SetPosition(_position);
+                    }
+                        
+
                 }
                 else
                 {
@@ -873,7 +897,9 @@ public class EntityAliveSDX : EntityTrader
     public override void OnUpdateLive()
     {
         //CheckNoise();
-        LeaderUpdate();
+        if (isHirable)
+            LeaderUpdate();
+
         CheckStuck();
        // SetupAutoPathingBlocks();
 
@@ -904,14 +930,16 @@ public class EntityAliveSDX : EntityTrader
         if (NPCInfo == null)
             return;
 
-        // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
-        if (_tileEntityTrader == null)
+        if (isQuestGiver)
         {
-            _tileEntityTrader = new TileEntityTrader(null);
-            _tileEntityTrader.entityId = entityId;
-            _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
+            // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
+            if (_tileEntityTrader == null)
+            {
+                _tileEntityTrader = new TileEntityTrader(null);
+                _tileEntityTrader.entityId = entityId;
+                _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
+            }
         }
-
         if (!this.isEntityRemote)
         {
             if (this.emodel)
@@ -1109,6 +1137,12 @@ public class EntityAliveSDX : EntityTrader
 
     public override void OnUpdatePosition(float _partialTicks)
     {
+        if ( !isHirable)
+        {
+            base.OnUpdatePosition(_partialTicks);
+            return;
+        }
+
         if (this.position.y <= 0)
         {
             var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
@@ -1142,7 +1176,8 @@ public class EntityAliveSDX : EntityTrader
 
         if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay) return;
         if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return;
-
+     
+       
         var target2i = new Vector2(target.position.x, target.position.z);
         var mine2i = new Vector2(position.x, position.z);
         var distance = Vector2.Distance(target2i, mine2i);
@@ -1241,9 +1276,15 @@ public class EntityAliveSDX : EntityTrader
         ToggleTraderID(true);
 
     }
-
+   
     public override void MarkToUnload()
     {
+        if ( !isHirable)
+        {
+            base.MarkToUnload();
+            return;
+        }
+
         // Only prevent despawning if owned.
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
         // make sure they are alive first.
