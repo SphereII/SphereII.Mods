@@ -187,7 +187,7 @@
           https://github.com/Auburns/FastNoise/releases
       -->
 				<property name="Logging" value="false"/>
-				<property name="CaveEnabled" value="false"/>
+				<property name="CaveEnabled" value="true"/>
 
 				<!-- Legacy is the original style.  Sebastian is an alternative, FastNosieSIMD -->
 				<property name="GenerationType" value="Legacy" />

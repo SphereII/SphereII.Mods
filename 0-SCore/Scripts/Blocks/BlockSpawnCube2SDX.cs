@@ -217,6 +217,8 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         foreach (var entity in GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)))
             ApplySignData(entity as EntityAlive, _blockPos);
 
+        DestroySelf(_blockPos, _blockValue);
+
         return true;
     }
 

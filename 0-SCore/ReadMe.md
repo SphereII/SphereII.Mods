@@ -10,7 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version:20 3.100.1044
+Version: 20.3.100.1629
+	- Fixed SpawnCube2 issue on dedi where preview was not being cleared.
+	- Fixed GotoPOISDX to prefer exact names, rather than wild card
+	
+Version: 20 3.100.1044
 	- Reverted Sebastian Cave changes, and changed default to Legacy
 	- Added working cave entrances
 	- Widened cave system to allow more room, and some chaos.
