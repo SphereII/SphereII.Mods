@@ -20,6 +20,12 @@ public static class QuestUtils
             }
             return null;
         }
+
+        // Filter the prefab list if there's an exact name
+        var filteredPrefabs = listOfPrefabs.FindAll(instance => instance.name == poiName);
+        if (filteredPrefabs.Count > 0)
+            listOfPrefabs = filteredPrefabs;
+
         // Find the closes Prefab
         var prefab = QuestUtils.FindClosesPrefabs(startPosition, listOfPrefabs, usedPOILocations, biomeFilterType, biomeFilter);
         if (prefab == null)

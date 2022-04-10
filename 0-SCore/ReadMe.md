@@ -8,7 +8,28 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Harmony | Many harmony scripts to make small adjustments to the game. These scripts, for the most part, can be turned on and off via the blocks.xml|
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
+
 [ Change Log ]
+Version:20 3.100.1044
+	- Reverted Sebastian Cave changes, and changed default to Legacy
+	- Added working cave entrances
+	- Widened cave system to allow more room, and some chaos.
+	- Fixed cave spawning of zombies.
+		- Spawning may be a bit sparse, due to the many levels of the cave systems and max zombies.
+		Suggestions on fleshing it out more would be to add in SpawnCubes to the blockplaceholders that spawn more zombies.
+	- Fixed double spawns on SpawnCube on dedi
+	- Turned off SmarterEntities by default in blocks.xml, to get rid of the path node warnings.
+		- Max revisit later if functionality has changed due to turning it off.
+	- Turned off Sound when NPC is on a mission.
+
+
+Version: 20.3.93.840
+	- Reduced the height position of the SetPosition() to calm their leader when on a mission.
+	- Overrode ProcessDamageResponse() not to process damage if NPC is on a mission
+	- Overrode IsImmuneToLegdamage, returning true if OnMission.
+	- Fixed possible null ref in IsInertEntity()
+	- Updated MarkToUnload to go to base class when NPC is ordered to Stay or Patrol. 
+		- This is an attempt to fix the disappearing NPCs at the bases.
 
 Version: 20.3.84.x
 

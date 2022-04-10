@@ -52,10 +52,12 @@ public static class LegacyCaveSystem
                 break;
         }
 
+
         fastNoise = SphereCache.GetFastNoise(chunk);
 
         var DepthFromTerrain = 8;
         var currentLevel = 0;
+
         while (DepthFromTerrain < tHeight || MaxLevels > currentLevel)
         {
             AddLevel(chunk, fastNoise, DepthFromTerrain);
@@ -66,14 +68,105 @@ public static class LegacyCaveSystem
         // Decorate is done via another patch in Caves.cs
     }
 
+    public static void PlaceCaveEntrance(Chunk chunk)
+    {
+        var chunkPos = chunk.GetWorldPos();
+
+        var caveEntrance = Vector3i.zero;
+        for (var x = 0; x < SphereCache.caveEntrances.Count; x++)
+        {
+            var Entrance = SphereCache.caveEntrances[x];
+            for (var chunkX = 0; chunkX < 16; chunkX++)
+            {
+                for (var chunkZ = 0; chunkZ < 16; chunkZ++)
+                {
+                    var worldX = chunkPos.x + chunkX;
+                    var worldZ = chunkPos.z + chunkZ;
+                    if (Entrance.x == worldX && worldZ == Entrance.z)
+                    {
+                        caveEntrance = Entrance;
+                        break;
+                    }
+                }
+            }
+        }
+        // No cave entrance on this chunk.
+        if (caveEntrance == Vector3i.zero) return;
+
+        for (var chunkX = 0; chunkX < 16; chunkX++)
+        {
+            for (var chunkZ = 0; chunkZ < 16; chunkZ++)
+            {
+                var worldX = chunkPos.x + chunkX;
+                var worldZ = chunkPos.z + chunkZ;
+                if (caveEntrance.x == worldX && caveEntrance.z == worldZ)
+                {
+                    int terrainHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
+                    var destination = new Vector3i(2, terrainHeight, 2);
+                    // Move it around for a bit of variety
+                    for (var travel = 0; travel < 10; travel++)
+                    {
+                        PlaceAround(chunk, destination);
+                        destination.y--;
+                        destination.x++;
+                    }
+                    for (var travel = 0; travel < 10; travel++)
+                    {
+                        PlaceAround(chunk, destination);
+                        destination.y--;
+                        destination.z++;
+                    }
+                    return;
+                }
+
+            }
+        }
+    }
+
+    public static void PlaceBlock(Chunk chunk, Vector3i position)
+    {
+        // Make sure the position is in bounds, and not currently air. no sense in changing it
+        if (position.x > 15 || position.z > 15) return;
+        if (position.x < 0 || position.z < 0) return;
+        if (chunk.GetBlock(position.x, position.y, position.z).isair) return;
+
+        chunk.SetBlockRaw(position.x, position.y, position.z, caveAir);
+        chunk.SetDensity(position.x, position.y, position.z, MarchingCubes.DensityAir);
+    }
+
+    // Generate a prefab to push around.
+    public static void CreateEmptyPrefab(Chunk chunk, Vector3i position)
+    {
+        var prefab = new Prefab(new Vector3i(3, 3, 3));
+        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
+    }
+
+    // Changes the blocks. This works better when doing the cave openings, vs the prefab
+    public static void PlaceAround(Chunk chunk, Vector3i position)
+    {
+        PlaceBlock(chunk, position);
+        PlaceBlock(chunk, position + Vector3i.right);
+        PlaceBlock(chunk, position + Vector3i.left);
+
+        PlaceBlock(chunk, position + Vector3i.forward);
+        PlaceBlock(chunk, position + Vector3i.forward + Vector3i.right);
+        PlaceBlock(chunk, position + Vector3i.forward + Vector3i.left);
+
+        PlaceBlock(chunk, position + Vector3i.back);
+        PlaceBlock(chunk, position + Vector3i.back + Vector3i.right);
+        PlaceBlock(chunk, position + Vector3i.back + Vector3i.left);
+
+    }
 
     // Builds a cave area section
     public static void AddLevel(Chunk chunk, FastNoise fastNoise, int DepthFromTerrain = 10)
     {
         var chunkPos = chunk.GetWorldPos();
+
         var caveThresholdXZ = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveThresholdXZ"));
         var caveThresholdY = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveThresholdY"));
         for (var chunkX = 0; chunkX < 16; chunkX++)
+        {
             for (var chunkZ = 0; chunkZ < 16; chunkZ++)
             {
                 var worldX = chunkPos.x + chunkX;
@@ -85,6 +178,7 @@ public static class LegacyCaveSystem
                 var SurfaceBlock = chunk.GetBlock(chunkX, tHeight, chunkZ);
                 if (SurfaceBlock.Block.GetBlockName() == "terrSnowTrap" && DepthFromTerrain == 8)
                     DepthFromTerrain = 5;
+
 
                 var targetDepth = tHeight - DepthFromTerrain;
 
@@ -101,7 +195,6 @@ public static class LegacyCaveSystem
                 var display = "Noise: " + Math.Abs(noise) + " noise2: " + Math.Abs(noise2) + " Chunk Position: " + chunkX + "." + targetDepth + "." + chunkZ + " World Pos: " + worldX + "." + worldZ +
                               " Terrain Heigth: " + tHeight + " Depth From Terrain: " + DepthFromTerrain;
                 AdvLogging.DisplayLog(AdvFeatureClass, display);
-                var targetPos = Vector3i.zero;
                 if (Math.Abs(noise) < caveThresholdXZ)
                 {
                     //// Drop a level
@@ -114,20 +207,14 @@ public static class LegacyCaveSystem
                     if (targetDepth < 5)
                         targetDepth--;
 
-                    display = "Noise Below ThresholdXZ: " + noise + " Threadhold: " + noise2 + " Target Depth: " + targetDepth;
-                    AdvLogging.DisplayLog(AdvFeatureClass, display);
+                    // if its already air, don't bother creating a prefab
+                    if (chunk.GetBlock(chunkX, targetDepth, chunkZ).isair) continue;
 
-                    chunk.SetBlockRaw(chunkX, targetDepth, chunkZ, caveAir);
-                    chunk.SetDensity(chunkX, targetDepth, chunkZ, MarchingCubes.DensityAir);
-
-                    // Make each cave height 5 blocks.
-                    for (var caveHeight = 0; caveHeight < 4; caveHeight++)
-                    {
-                        chunk.SetBlockRaw(chunkX, targetDepth + caveHeight, chunkZ, caveAir);
-                        chunk.SetDensity(chunkX, targetDepth + caveHeight, chunkZ, MarchingCubes.DensityAir);
-                    }
+                    var position = new Vector3i(worldX, targetDepth, worldZ);
+                    CreateEmptyPrefab(chunk, position);
                 }
             }
+        }
     }
 
     // Helper method is check the prefab decorator first to see if its there, then create it if it does not exist.
@@ -157,31 +244,12 @@ public static class LegacyCaveSystem
 
         var chunkPos = chunk.GetWorldPos();
 
-        // Check if a cave entrance exists in this chunk.
-        var caveEntrance = Vector3i.zero;
-        for (var x = 0; x < SphereCache.caveEntrances.Count; x++)
-        {
-            var Entrance = SphereCache.caveEntrances[x];
-            if (chunkPos.x < Entrance.x && chunkPos.x + 16 > Entrance.x)
-                if (chunkPos.z < Entrance.z && chunkPos.z + 16 > Entrance.z)
-                {
-                    caveEntrance = Entrance;
-                    break;
-                }
-        }
+        PlaceCaveEntrance(chunk);
 
         fastNoise = SphereCache.GetFastNoise(chunk);
 
         AdvLogging.DisplayLog(AdvFeatureClass, "Decorating new Cave System...");
         var _random = GameManager.Instance.World.GetGameRandom();
-
-        // non-Random caves need an opening that isn't predefined in the cache.
-        var caveType = Configuration.GetPropertyValue(AdvFeatureClass, "CaveType");
-        if (caveType != "Random" && _random.RandomRange(0, 100) < 2)
-        {
-            caveEntrance.x = _random.RandomRange(1, 15);
-            caveEntrance.z = _random.RandomRange(1, 15);
-        }
 
         // Place Prefabs
         var MaxPrefab = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxPrefabPerChunk"));
@@ -285,42 +353,6 @@ public static class LegacyCaveSystem
                     var under = chunk.GetBlock(chunkX, y - 1, chunkZ);
                     var above = chunk.GetBlock(chunkX, y + 1, chunkZ);
 
-
-                    // If there's a cave entrance on this chunk, find the top air block, and build the cave entrance from it.
-                    if (caveEntrance != Vector3i.zero)
-                        if (caveEntrance.x == worldX && caveEntrance.z == worldZ)
-                        {
-                            var destination = caveEntrance;
-                            var prefab = FindOrCreatePrefab("caveOpening02");
-                            if (prefab != null)
-                            {
-                                destination.y = tHeight;
-                                AdvLogging.DisplayLog(AdvFeatureClass, "Placing Cave Entrance: " + caveEntrance);
-
-                                for (var x = 0; x < 10; x++)
-                                {
-                                    prefab = prefab.Clone();
-                                    prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, false, false);
-                                    prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
-                                    destination.y--;
-
-                                    // Use noise to give the tunnel a bit of a natural look
-                                    var noise2 = fastNoise.GetNoise(destination.x, destination.z);
-                                    if (noise2 < 0.0)
-                                        destination.x++;
-                                    if (noise2 > 0.2)
-                                        destination.x++;
-
-                                    if (noise2 < 0.1)
-                                        destination.z++;
-                                    if (noise2 > 0.3)
-                                        destination.z--;
-                                }
-                            }
-
-                            caveEntrance = Vector3i.zero;
-                        }
-
                     // Check the floor for possible decoration
                     if (under.Block.shape.IsTerrain())
                     {
@@ -342,22 +374,6 @@ public static class LegacyCaveSystem
                     }
                 }
             }
-
-
-        // chunk.NeedsRegeneration = true;
     }
 
-    // We want to place prefabs in isolated blocks, meaning that its just a single air block that is mostly covered with terrain. 
-    // Since its not a usable space to the player, its a decent choice for spawning.
-    public static bool IsIsolatedBlock(Chunk chunk, Vector3i center)
-    {
-        var counter = 0;
-        foreach (var side in Vector3i.AllDirections)
-            if (chunk.GetBlock(center + side).Block.shape.IsTerrain())
-                counter++;
-        //  Debug.Log("Isolated Block: " + center + ": Counter: " + counter + " Total Possible: " + Vector3i.AllDirections.Length );
-        if (counter == 5)
-            return true;
-        return false;
-    }
 }

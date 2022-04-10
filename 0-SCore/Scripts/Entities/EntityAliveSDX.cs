@@ -843,7 +843,7 @@ public class EntityAliveSDX : EntityTrader
                     if (distanceToLeader2 > 10)
                     {
                         var _position = leader.GetPosition();
-                        _position.y += 5;
+                        _position.y += 2;
                         SetPosition(_position);
                     }
                         
@@ -1028,6 +1028,21 @@ public class EntityAliveSDX : EntityTrader
             NPCInfo.TraderID = _defaultTraderID;
         else
             NPCInfo.TraderID = 0;
+    }
+
+    public override void ProcessDamageResponse(DamageResponse _dmResponse)
+    {
+        if (IsOnMission()) return;
+        base.ProcessDamageResponse(_dmResponse);
+    }
+
+    public override bool IsImmuneToLegDamage
+    {
+        get
+        {
+            if (IsOnMission()) return true;
+            return base.IsImmuneToLegDamage;
+        }
     }
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
@@ -1290,6 +1305,15 @@ public class EntityAliveSDX : EntityTrader
         // make sure they are alive first.
         if (leader != null && IsAlive())
         {
+            switch (EntityUtilities.GetCurrentOrder(entityId))
+            {
+                case EntityUtilities.Orders.Patrol:
+                case EntityUtilities.Orders.Stay:
+                    MarkToUnload();
+                    return;
+                default:
+                    break;
+            }
             // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
             if (_traderArea == null)
                 _traderArea = world.GetTraderAreaAt(new Vector3i(position));
@@ -1506,6 +1530,12 @@ public class EntityAliveSDX : EntityTrader
             }
         }
 
+    }
+
+    public override void PlayOneShot(string clipName, bool sound_in_head = false)
+    {
+        if (IsOnMission()) return;
+        base.PlayOneShot(clipName, sound_in_head);
     }
     //public override void OnReloadStart()
     //{

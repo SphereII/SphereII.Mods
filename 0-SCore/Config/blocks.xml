@@ -83,7 +83,7 @@
 
 				<!-- Give them random walks. -->
 
-				<property name="SmarterEntities" value="true" />
+				<property name="SmarterEntities" value="false" />
 				<!-- gives trap avoidance to entities. -->
 			</property>
 
@@ -187,10 +187,10 @@
           https://github.com/Auburns/FastNoise/releases
       -->
 				<property name="Logging" value="false"/>
-				<property name="CaveEnabled" value="false"/>
+				<property name="CaveEnabled" value="true"/>
 
-				<!-- Legacy is the original style.  Sebastian is an alternative -->
-				<property name="GenerationType" value="Sebastian" />
+				<!-- Legacy is the original style.  Sebastian is an alternative, FastNosieSIMD -->
+				<property name="GenerationType" value="Legacy" />
 				<!-- Generate cave system only in mountains (above terrain height 100, or random through the map. All for every chunk has a cave system ) -->
 				<!-- Deep Mountains will produce up to 100 levels, or until it reaches bedrock. This could cause lag during generation and an FPS drop. -->
 				<property name="CaveType" value="All" />
@@ -207,9 +207,9 @@
 
 				<!-- RigidMulti, Billow, or FBM-->
 				<!-- Default is RigidMulti-->
-				<property name="FractalType" value="RigidMulti" />
+				<property name="FractalType" value="FBM" />
 
-				<!-- Celluar, Cubic, CubicFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Value, ValueFractal, WhiteNoise -->
+				<!-- Cellular, Cubic, CubicFractal, Perlin, PerlinFractal, Simplex, SimplexFractal, Value, ValueFractal, WhiteNoise -->
 				<!-- Default is a SimplexFractal -->
 				<property name="NoiseType" value="SimplexFractal" />
 
@@ -227,7 +227,7 @@
 
 				<!--https://leatherbee.org/index.php/2018/10/24/perlin-and-simplex-noise/#:~:text=Lacunarity%20and%20gain%20measure%20how,amplitude%20of%20the%20previous%20octave. -->
 				<!-- Small adjustments are recommended. Large adjustments are.... inconsistent. -->
-				<property name="Octaves" value="10"/>
+				<property name="Octaves" value="3"/>
 				<property name="Lacunarity" value="1"/>
 				<property name="Gain" value="0.5"/>
 				<property name="Frequency" value="0.09"/>
@@ -308,7 +308,7 @@
 		<block name="TestSpawnCube">
 			<property name="Extends" value="SpawnCube"/>
 			<property name="Class" value="SpawnCube2SDX, SCore" />
-			<property name="Config" value="ec=npcNurseEmptyHand;task=stay;pc=0" />
+			<property name="Config" value="ec=npcNurseEmptyHand;task=stay;pc=0;leader=yes" />
 		</block>
 
 		<block name="TestSpawnCube2">

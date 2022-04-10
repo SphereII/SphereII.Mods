@@ -12,7 +12,7 @@ namespace Harmony.WorldGen
 
         private static readonly float depth = 30;
 
-    
+
         // Make the world darker underground
         [HarmonyPatch(typeof(SkyManager))]
         [HarmonyPatch("Update")]
@@ -204,45 +204,49 @@ namespace Harmony.WorldGen
                 var j = 0;
                 while (j < 5)
                 {
-                    var biomeSpawnEntityGroupData = biomeSpawnEntityGroupList.list[num2];
-                    if (biomeSpawnEntityGroupData.daytime == EDaytime.Any || biomeSpawnEntityGroupData.daytime == edaytime)
+                    BiomeSpawnEntityGroupData biomeSpawnEntityGroupData2 = biomeSpawnEntityGroupList.list[num2];
+                    if ((_chunkBiomeSpawnData.groupsEnabledFlags & 1 << num2) != 0 && (biomeSpawnEntityGroupData2.daytime == EDaytime.Any || biomeSpawnEntityGroupData2.daytime == edaytime))
                     {
-                        var flag2 = EntityGroups.IsEnemyGroup(biomeSpawnEntityGroupData.entityGroupRefName);
+                        bool flag2 = EntityGroups.IsEnemyGroup(biomeSpawnEntityGroupData2.entityGroupRefName);
                         if (!flag2 || _bSpawnEnemyEntities)
                         {
-                            var num3 = biomeSpawnEntityGroupData.maxCount;
-                            if (flag2) num3 = EntitySpawner.ModifySpawnCountByGameDifficulty(num3);
-                            entityGroupName = biomeSpawnEntityGroupData.entityGroupRefName + "_" + biomeSpawnEntityGroupData.daytime.ToStringCached() + "_" + caveType;
-                            // var respawnLockedUntilWorldTime = _chunkBiomeSpawnData.GetRespawnLockedUntilWorldTime(entityGroupName);
-                            // if (respawnLockedUntilWorldTime <= 0UL || GameManager.Instance.World.worldTime >= respawnLockedUntilWorldTime)
-                            // {
-                            //     if (respawnLockedUntilWorldTime > 0UL) _chunkBiomeSpawnData.ClearRespawnLocked(entityGroupName);
-                            //     if (_chunkBiomeSpawnData.GetEntitiesSpawned(entityGroupName) < num3)
-                            //     {
-                            //         num = num2;
-                            //         break;
-                            //     }
-                            // }
+                            int num4 = biomeSpawnEntityGroupData2.maxCount;
+                            if (flag2)
+                            {
+                                num4 = EntitySpawner.ModifySpawnCountByGameDifficulty(num4);
+                            }
+                            entityGroupName = biomeSpawnEntityGroupData2.entityGroupRefName + "_" + biomeSpawnEntityGroupData2.daytime.ToStringCached<EDaytime>();
+                            ulong respawnDelayWorldTime = _chunkBiomeSpawnData.GetRespawnDelayWorldTime(entityGroupName);
+                            if (respawnDelayWorldTime > 0UL)
+                            {
+                                if (GameManager.Instance.World.worldTime < respawnDelayWorldTime)
+                                {
+                                    break;
+                                }
+                                _chunkBiomeSpawnData.ClearRespawn(entityGroupName);
+                            }
+                            if (_chunkBiomeSpawnData.GetEntitiesSpawned(entityGroupName) < num4)
+                            {
+                                num = num2;
+                                break;
+                            }
                         }
                     }
-
                     j++;
                     num2 = (num2 + 1) % biomeSpawnEntityGroupList.list.Count;
                 }
 
                 if (num < 0)
-                    //Debug.Log("max spawn reached: " + entityGroupName);
                     return;
                 var bb = new Bounds(vector, new Vector3(4f, 2.5f, 4f));
                 GameManager.Instance.World.GetEntitiesInBounds(typeof(Entity), bb, spawnNearList);
                 var count = spawnNearList.Count;
                 spawnNearList.Clear();
                 if (count > 0)
-                    //Debug.Log("Spawn Count is maxed for ");
                     return;
-                var biomeSpawnEntityGroupData2 = biomeSpawnEntityGroupList.list[num];
-                var randomFromGroup = EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData2.entityGroupRefName, ref lastClassId);
-                var spawnDeadChance = biomeSpawnEntityGroupData2.spawnDeadChance;
+                var biomeSpawnEntityGroupData3 = biomeSpawnEntityGroupList.list[num];
+                var randomFromGroup = EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData3.entityGroupRefName, ref lastClassId);
+                var spawnDeadChance = biomeSpawnEntityGroupData3.spawnDeadChance;
                 _chunkBiomeSpawnData.IncEntitiesSpawned(entityGroupName);
                 var entity = EntityFactory.CreateEntity(randomFromGroup, vector);
                 entity.SetSpawnerSource(EnumSpawnerSource.Dynamic, _chunkBiomeSpawnData.chunk.Key, entityGroupName);
@@ -270,7 +274,6 @@ namespace Harmony.WorldGen
                     return;
 
                 SphereCache.GenerateCaveChunks();
-
                 var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
                 switch (configurationType)
                 {
@@ -280,6 +283,12 @@ namespace Harmony.WorldGen
                     case "Sebastian":
                         Sebastian.AddCaveToChunk(_chunk);
                         break;
+                    //case "FastNosieSIMD":
+                    //    TerrainGeneratorSIMD_Caves.GenerateChunk(_chunk);
+                    //    break;
+                    //case "SIMDCaveTunnler":
+                    //    SIMDCaveTunnler.AddCaveToChunk(_chunk);
+                    //    break;
                     default:
                         break;
                 }
@@ -348,5 +357,5 @@ namespace Harmony.WorldGen
         }
     }
 
-  
+
 }

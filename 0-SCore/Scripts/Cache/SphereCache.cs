@@ -152,7 +152,7 @@ public static class SphereCache
                     var entranceX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.x, randomChunkPosition.x + caveRadius * 16));
                     var entranceZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(randomChunkPosition.z, randomChunkPosition.z + caveRadius * 16));
                     var entrance = new Vector3i(entranceX, x, entranceZ);
-                    caveEntrances.Add(new Vector3i(entranceX, x, entranceZ));
+                    caveEntrances.Add(new Vector3i(entranceX, 1, entranceZ));
                     display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
                     AdvLogging.DisplayLog(AdvFeatureClass, display);
                     Debug.Log(display);

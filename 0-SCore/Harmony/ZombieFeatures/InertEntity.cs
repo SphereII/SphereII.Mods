@@ -24,6 +24,7 @@ namespace Harmony.ZombieFeatures
             if (alive is EntitySupplyCrate) return false;
 
             var entityClass = EntityClass.list[alive.entityClass];
+            if ( entityClass == null) return false;
             if (!entityClass.Properties.Values.ContainsKey("EntityActiveWhen")) return false;
 
             var strActive = entityClass.Properties.Values["EntityActiveWhen"];

@@ -70,6 +70,16 @@ namespace UAI
         // Contains logic to determine if the NPC should be move towards its leader, etc.
         public void CheckProximityToLeader(Context _context)
         {
+            // If we lost our leader, check to see if we have one. If we don't, end the task.
+            if (_leader == null)
+            {
+                _leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
+                if ( _leader == null )
+                {
+                    Stop(_context);
+                   return;
+                }
+            }
             SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
 
             var distanceToLeader = Vector3.Distance(_context.Self.position, _leader.position);

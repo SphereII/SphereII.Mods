@@ -34,7 +34,6 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             _signText = Properties.Values["Config"];
 
     }
-
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         return "";
@@ -42,10 +41,10 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     }
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        Log.Out("OnBlockAdded");
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        
+        if (GameManager.Instance.IsEditMode()) return;
+
         var entityId = -1;
         var text = PathingCubeParser.GetValue(_signText, "ec");
         if (string.IsNullOrEmpty(text))
@@ -53,14 +52,14 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             var group = PathingCubeParser.GetValue(_signText, "eg");
             if (string.IsNullOrEmpty(group))
             {
-                if ( string.IsNullOrEmpty(_entityGroup))
+                if (string.IsNullOrEmpty(_entityGroup))
                     return;
                 group = _entityGroup;
             }
             var ClassID = 0;
             entityId = EntityGroups.GetRandomFromGroup(group, ref ClassID);
             if (entityId == 0) // Invalid group.
-                return ;
+                return;
         }
         else
         {
@@ -87,20 +86,65 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
 
         // Set up the tick delay to be pretty short, as we'll just destroy the block anyway.
-        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)_tickRate);
+        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)1UL);
     }
 
     private void DestroySelf(Vector3i _blockPos, BlockValue _blockValue)
     {
-        //Log.Out($"Destroying {_blockPos} after {_blockValue.meta} Spawns.");
-        DamageBlock(GameManager.Instance.World, 0,_blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
+        DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
+    }
+       
+    public void ApplySignData(EntityAlive entity, Vector3i _blockPos)
+    {
+        // Read the sign for expected values.
+        var Task = PathingCubeParser.GetValue(_signText, "task");
+        var Buff = PathingCubeParser.GetValue(_signText, "buff");
+        var PathingCode = PathingCubeParser.GetValue(_signText, "pc");
+        var setLeader = PathingCubeParser.GetValue(_signText, "leader");
+
+        if (Task.ToLower() == "stay")
+            entity.Buffs.AddBuff("buffOrderStay");
+        if (Task.ToLower() == "wander")
+            entity.Buffs.AddBuff("buffOrderWander");
+        if (Task.ToLower() == "guard")
+            entity.Buffs.AddBuff("buffOrderGuard");
+        if (Task.ToLower() == "follow")
+            entity.Buffs.AddBuff("buffOrderFollow");
+
+        foreach (var buff in Buff.Split(','))
+            entity.Buffs.AddBuff(buff);
+
+        // Set up the pathing cube if available
+        if (!string.IsNullOrEmpty(PathingCode))
+        {
+            if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
+                entity.Buffs.SetCustomVar("PathingCode", pathingCode);
+        }
+
+
+        
+        // We are using the tile entity to transfer the owner ID from the client to the player.
+        var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredTrigger;
+        if (tileEntity != null)
+        {
+            var persistentPlayerList = GameManager.Instance.GetPersistentPlayerList();
+            var playerData = persistentPlayerList.GetPlayerData(tileEntity.GetOwner());
+            if (playerData != null)
+                OwnerID = playerData.EntityId;
+
+            // Set up ownership, but only after the entity is spawned.
+            if (OwnerID > 0 && !string.IsNullOrEmpty(setLeader))
+            {
+                EntityUtilities.SetLeaderAndOwner(entity.entityId, (int)OwnerID, false);
+            }
+        }
     }
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)).Count == 0)
         {
-            if (_blockValue.meta >= _maxSpawned  )
+            if (_blockValue.meta >= _maxSpawned)
             {
                 DestroySelf(_blockPos, _blockValue);
                 return false;
@@ -110,117 +154,70 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
             if ((Chunk)chunkCluster.GetChunkFromWorldPos(_blockPos) == null) return false;
 
-            // Read the sign for expected values.
-            var Task = PathingCubeParser.GetValue(_signText, "task");
-            var Buff = PathingCubeParser.GetValue(_signText, "buff");
-            var PathingCode = PathingCubeParser.GetValue(_signText, "pc");
-            var setLeader = PathingCubeParser.GetValue(_signText, "leader");
-
-            for (var i = 0; i < _numberToSpawn; i++)
+            var entityId = -1;
+            var text = PathingCubeParser.GetValue(_signText, "ec");
+            if (string.IsNullOrEmpty(text))
             {
-                var entityId = -1;
-                var text = PathingCubeParser.GetValue(_signText, "ec");
-                if (string.IsNullOrEmpty(text))
+
+                var group = PathingCubeParser.GetValue(_signText, "eg");
+                if (string.IsNullOrEmpty(group))
                 {
-
-                    var group = PathingCubeParser.GetValue(_signText, "eg");
-                    if (string.IsNullOrEmpty(group))
+                    if (string.IsNullOrEmpty(_entityGroup))
                     {
-                        if (string.IsNullOrEmpty(_entityGroup))
-                        {
-                            DestroySelf(_blockPos, _blockValue);
-                            return false; 
-                        }
-                        group = _entityGroup;
-                    }
-
-                    var ClassID = 0;
-                    entityId = EntityGroups.GetRandomFromGroup(group, ref ClassID);
-                    if (entityId == 0) // Invalid group.
-                    {
-                        // Destroy the block after creating the entity.
                         DestroySelf(_blockPos, _blockValue);
                         return false;
                     }
+                    group = _entityGroup;
                 }
-                else
+
+                var ClassID = 0;
+                entityId = EntityGroups.GetRandomFromGroup(group, ref ClassID);
+                if (entityId == 0) // Invalid group.
                 {
-                    entityId = text.GetHashCode();
+                    // Destroy the block after creating the entity.
+                    DestroySelf(_blockPos, _blockValue);
+                    return false;
                 }
-
-                // Match the rotation of the block for the entity, so it faces in the same direction.
-                var transformPos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
-                if ( _spawnRadius > 0)
-                {
-                    var areaSize = new Vector3(_spawnArea, _spawnArea, _spawnArea);
-
-                    int x;
-                    int y;
-                    int z;
-                    if (!GameManager.Instance.World.FindRandomSpawnPointNearPosition(_blockPos, 15, out x, out y, out z, areaSize, true)) 
-                        continue;
-
-                    transformPos.x = x;
-                    transformPos.y = y;
-                    transformPos.z = z;
-                }
-                // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
-                var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
-                var blockEntity = ((Chunk)_world.GetChunkFromWorldPos(_blockPos)).GetBlockEntity(_blockPos);
-                if (blockEntity != null && blockEntity.bHasTransform)
-                    rotation = blockEntity.transform.rotation.eulerAngles;
-
-                var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
-
-                // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
-                if (Task.ToLower() == "stay")
-                    entity.Buffs.AddBuff("buffOrderStay");
-                if (Task.ToLower() == "wander")
-                    entity.Buffs.AddBuff("buffOrderWander");
-                if (Task.ToLower() == "guard")
-                    entity.Buffs.AddBuff("buffOrderGuard");
-                if (Task.ToLower() == "follow")
-                    entity.Buffs.AddBuff("buffOrderFollow");
-
-                foreach (var buff in Buff.Split(','))
-                    entity.Buffs.AddBuff(buff);
-
-                // Set up the pathing cube if available
-                if (!string.IsNullOrEmpty(PathingCode))
-                {
-                    if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
-                        entity.Buffs.SetCustomVar("PathingCode", pathingCode);
-                }
-
-                entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-                GameManager.Instance.World.SpawnEntityInWorld(entity);
-                _blockValue.meta++;
-
-                // We are using the tile entity to transfer the owner ID from the client to the player.
-                var tileEntity = _world.GetTileEntity(0, _blockPos) as TileEntityPoweredTrigger;
-                if (tileEntity != null)
-                {
-                    var persistentPlayerList = GameManager.Instance.GetPersistentPlayerList();
-                    var playerData = persistentPlayerList.GetPlayerData(tileEntity.GetOwner());
-                    if( playerData != null)
-                        OwnerID = playerData.EntityId;
-
-                    // Set up ownership, but only after the entity is spawned.
-                    if (OwnerID > 0 && !string.IsNullOrEmpty(setLeader))
-                        EntityUtilities.SetLeaderAndOwner(entity.entityId, (int)OwnerID, false);
-                }
-           
             }
+            else
+            {
+                entityId = text.GetHashCode();
+            }
+
+            // Match the rotation of the block for the entity, so it faces in the same direction.
+            var transformPos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
+            if (_spawnRadius > 0)
+            {
+                var areaSize = new Vector3(_spawnArea, _spawnArea, _spawnArea);
+
+                int x;
+                int y;
+                int z;
+                if (!GameManager.Instance.World.FindRandomSpawnPointNearPosition(_blockPos, 15, out x, out y, out z, areaSize, true))
+                {
+                    return true;
+                }
+                transformPos.x = x;
+                transformPos.y = y;
+                transformPos.z = z;
+            }
+            // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
+            var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
+            var blockEntity = ((Chunk)_world.GetChunkFromWorldPos(_blockPos)).GetBlockEntity(_blockPos);
+            if (blockEntity != null && blockEntity.bHasTransform)
+                rotation = blockEntity.transform.rotation.eulerAngles;
+
+            var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
+            entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+            GameManager.Instance.World.SpawnEntityInWorld(entity);
+            _blockValue.meta++;
             GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
-
-            // Add the next scheduled update based on the tickrate
-            _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)_tickRate);
-
-
         }
 
+        foreach (var entity in GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)))
+            ApplySignData(entity as EntityAlive, _blockPos);
 
         return true;
     }
-   
+
 }

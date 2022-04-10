@@ -15,7 +15,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("sphereii")]
 [assembly: AssemblyProduct("SCore")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,8 +39,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyVersion("20.0.*")]
 
-[assembly: AssemblyVersion("20.2.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
-[assembly: AssemblyFileVersion("20.2.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
+
+[assembly: AssemblyVersion("20.3.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
+[assembly: AssemblyFileVersion("20.3.<#= this.RevisionNumber #>.<#= this.BuildNumberHour #><#= this.BuildNumberMinute #>")]
 <#+
     int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2022,1,1)).TotalDays + 1;
     int BuildNumberHour = (int)DateTime.Now.Hour;

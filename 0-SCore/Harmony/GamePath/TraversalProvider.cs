@@ -75,7 +75,7 @@ namespace Harmony
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                __instance.cutCorners = false;
+              //  __instance.cutCorners = false;
                 ___heightsUsed = 0;
                 int num = 0;
                 Vector3 vector = position;
@@ -157,7 +157,8 @@ namespace Harmony
                                     block = GetBlock(chunkFromWorldPos, x, vector3i.y, z);
                                     type2 = block.type;
                                     block2 = block.Block;
-                                    hitData.point.y = num8 + 1.01f;
+                                    num4 = num8 + 1.01f;
+                                    hitData.point.y = num4;
                                 }
                             }
                             int num7;
