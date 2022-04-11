@@ -1309,7 +1309,7 @@ public class EntityAliveSDX : EntityTrader
             {
                 case EntityUtilities.Orders.Patrol:
                 case EntityUtilities.Orders.Stay:
-                    MarkToUnload();
+                    base.MarkToUnload();
                     return;
                 default:
                     break;
