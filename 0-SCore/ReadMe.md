@@ -11,8 +11,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
-Version: 20.3.101.x
-	- Fixed recursive method that was causing crashes
+Version: 20.3.101.172
+	- Fixed recursive method that was causing crashes on MarkToUnload()
+	- Modified TileEntityAlwaysActive patch.
+		If any TileEntity has this XML property, it will be Always On.
+			<property name="AlwaysActive" value="true" />
+		This feature can be used on any other TileEntities to distribute a buff similar to the CampFire's warming buff.
+		
+		Note: This excludes Forge and Workstation Tile Entities.
+	- Disabled the IsQuestGiver on the Entities
 
 Version: 20.3.100.1629
 	- Fixed SpawnCube2 issue on dedi where preview was not being cleared.

@@ -222,7 +222,7 @@ public class EntityAliveSDX : EntityTrader
         base.CopyPropertiesFromEntityClass();
         var _entityClass = EntityClass.list[entityClass];
 
-        if ( _entityClass.Properties.Values.ContainsKey("Hirable"))
+        if (_entityClass.Properties.Values.ContainsKey("Hirable"))
             isHirable = StringParsers.ParseBool(_entityClass.Properties.Values["Hirable"], 0, -1, true);
 
         if (_entityClass.Properties.Values.ContainsKey("IsQuestGiver"))
@@ -408,10 +408,10 @@ public class EntityAliveSDX : EntityTrader
             return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
 
         }
-        if ( !isQuestGiver)
-        {
-            return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
-        }
+        //if (!isQuestGiver)
+        //{
+        //    return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
+        //}
         Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
 
@@ -560,7 +560,7 @@ public class EntityAliveSDX : EntityTrader
             //  fail safe to protect game saves
         }
 
-      
+
     }
 
 
@@ -641,14 +641,14 @@ public class EntityAliveSDX : EntityTrader
         {
             Buffs.Write(_bw);
             // Disabled due to Potential Performance issues
-          //  Progression.Write(_bw);
+            //  Progression.Write(_bw);
         }
         catch (Exception)
         {
             // fail safe to protect game saves
         }
 
-       
+
     }
 
     public void GiveQuest(string strQuest)
@@ -837,8 +837,8 @@ public class EntityAliveSDX : EntityTrader
                 // if our leader is attached, that means they are attached to a vehicle
                 if (leader.AttachedToEntity != null)
                 {
-                 //   if (!Buffs.HasCustomVar("onMission"))
-                        SendOnMission(true);
+                    //   if (!Buffs.HasCustomVar("onMission"))
+                    SendOnMission(true);
                     var distanceToLeader2 = GetDistance(leader);
                     if (distanceToLeader2 > 10)
                     {
@@ -846,7 +846,7 @@ public class EntityAliveSDX : EntityTrader
                         _position.y += 2;
                         SetPosition(_position);
                     }
-                        
+
 
                 }
                 else
@@ -901,7 +901,7 @@ public class EntityAliveSDX : EntityTrader
             LeaderUpdate();
 
         CheckStuck();
-       // SetupAutoPathingBlocks();
+        // SetupAutoPathingBlocks();
 
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
         if (!sleepingOrWakingUp && isAlwaysAwake)
@@ -930,7 +930,7 @@ public class EntityAliveSDX : EntityTrader
         if (NPCInfo == null)
             return;
 
-        if (isQuestGiver)
+       // if (isQuestGiver)
         {
             // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
             if (_tileEntityTrader == null)
@@ -1152,7 +1152,7 @@ public class EntityAliveSDX : EntityTrader
 
     public override void OnUpdatePosition(float _partialTicks)
     {
-        if ( !isHirable)
+        if (!isHirable)
         {
             base.OnUpdatePosition(_partialTicks);
             return;
@@ -1191,8 +1191,8 @@ public class EntityAliveSDX : EntityTrader
 
         if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Stay) return;
         if (EntityUtilities.GetCurrentOrder(entityId) == EntityUtilities.Orders.Guard) return;
-     
-       
+
+
         var target2i = new Vector2(target.position.x, target.position.z);
         var mine2i = new Vector2(position.x, position.z);
         var distance = Vector2.Distance(target2i, mine2i);
@@ -1291,39 +1291,43 @@ public class EntityAliveSDX : EntityTrader
         ToggleTraderID(true);
 
     }
-   
+
+
+    // Cleaned up this method to try to avoid the disappearing NPCs.
+    //Original logic was meant to protect the trader's from unloading NPCs when they entered a trader area.
     public override void MarkToUnload()
     {
-        if ( !isHirable)
-        {
-            base.MarkToUnload();
-            return;
-        }
+        //if ( !isHirable)
+        //{
+        //    base.MarkToUnload();
+        //    return;
+        //}
 
-        // Only prevent despawning if owned.
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        // make sure they are alive first.
-        if (leader != null && IsAlive())
-        {
-            switch (EntityUtilities.GetCurrentOrder(entityId))
-            {
-                case EntityUtilities.Orders.Patrol:
-                case EntityUtilities.Orders.Stay:
-                    base.MarkToUnload();
-                    return;
-                default:
-                    break;
-            }
-            // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
-            if (_traderArea == null)
-                _traderArea = world.GetTraderAreaAt(new Vector3i(position));
+        //// Only prevent despawning if owned.
+        //var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        //// make sure they are alive first.
+        //if (leader != null && IsAlive())
+        //{
+        //    switch (EntityUtilities.GetCurrentOrder(entityId))
+        //    {
+        //        case EntityUtilities.Orders.Patrol:
+        //        case EntityUtilities.Orders.Stay:
+        //            base.MarkToUnload();
+        //            return;
+        //        default:
+        //            break;
+        //    }
+        // Something asked us to despawn. Check if we are in a trader area. If we are, ignore the request.
+        //if (_traderArea == null)
+        //    _traderArea = world.GetTraderAreaAt(new Vector3i(position));
 
-            if (_traderArea != null)
-            {
-                IsDespawned = false;
-                return;
-            }
-        }
+        //if (_traderArea != null)
+        //{
+            
+        //    IsDespawned = false;
+        //    return;
+        //}
+        ////  }
 
         base.MarkToUnload();
     }
