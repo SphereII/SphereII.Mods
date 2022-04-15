@@ -169,6 +169,7 @@ public class EntityAliveSDX : EntityTrader
             // rescale to make it invisible.
             transform.localScale = new Vector3(0, 0, 0);
             emodel.SetVisible(false, false);
+            enabled = false;
             Buffs.AddCustomVar("onMission", 1f);
 
             // Turn off the compass
@@ -185,11 +186,12 @@ public class EntityAliveSDX : EntityTrader
             transform.localScale = scale;
 
             emodel.SetVisible(true, true);
+            enabled = true;
             Buffs.RemoveCustomVar("onMission");
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
             isIgnoredByAI = false;
-            SetupDebugNameHUD(true);
+           // SetupDebugNameHUD(true);
         }
     }
 
@@ -920,8 +922,15 @@ public class EntityAliveSDX : EntityTrader
             emodel.avatarController.SetBool("IsOnGround", onGround || isSwimming);
         }
 
-        base.OnUpdateLive();
+        // To catch a null ref.
+        try
+        {
+            base.OnUpdateLive();
+        }
+        catch(Exception ex)
+        {
 
+        }
         // Allow EntityAliveSDX to get buffs from blocks
         if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             UpdateBlockRadiusEffects();
@@ -1111,6 +1120,26 @@ public class EntityAliveSDX : EntityTrader
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
             EntityUtilities.SetLeaderAndOwner(entityId, 0);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
+
+            var bagPosition = new Vector3i(this.position + base.transform.up);
+
+            // Check to see if we have our backpack container.
+            var className = "BackpackNPC";
+            EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+            if (entityClass == null)
+                className = "Backpack";
+
+            var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
+
+            EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
+
+            entityCreationData.entityName = Localization.Get(this.EntityName);
+            entityCreationData.id = -1;
+            entityCreationData.lootContainer = lootContainer;
+            GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+            entityBackpack.OnEntityUnload();
+            this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+
         }
 
         // Remove them from the companions of the player.
@@ -1121,7 +1150,6 @@ public class EntityAliveSDX : EntityTrader
             player.Buffs.RemoveCustomVar($"hired_{entityId}");
         }
 
-
         bWillRespawn = false;
         if (this.NavObject != null)
         {
@@ -1129,6 +1157,14 @@ public class EntityAliveSDX : EntityTrader
             this.NavObject = null;
         }
         SetupDebugNameHUD(false);
+
+        this.lootContainer = null;
+        this.lootListAlive = null;
+        this.lootListOnDeath = null;
+        this.isCollided = false;
+        this.nativeCollider = null;
+        this.physicsCapsuleCollider = null;
+
         base.SetDead();
     }
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
@@ -1475,31 +1511,31 @@ public class EntityAliveSDX : EntityTrader
         }
         return;
     }
-    protected override Vector3i dropCorpseBlock()
-    {
-        var bagPosition = new Vector3i(this.position + base.transform.up);
-        if (lootContainer == null) return base.dropCorpseBlock();
+    //protected override Vector3i dropCorpseBlock()
+    //{
+    //    var bagPosition = new Vector3i(this.position + base.transform.up);
+    //    if (lootContainer == null) return base.dropCorpseBlock();
 
-        if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
+    //    if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
 
-        // Check to see if we have our backpack container.
-        var className = "BackpackNPC";
-        EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
-        if (entityClass == null)
-            className = "Backpack";
+    //    // Check to see if we have our backpack container.
+    //    var className = "BackpackNPC";
+    //    EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+    //    if (entityClass == null)
+    //        className = "Backpack";
 
-        var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
-        EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
-        entityCreationData.entityName = Localization.Get(this.EntityName);
+    //    var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
+    //    EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
+    //    entityCreationData.entityName = Localization.Get(this.EntityName);
 
-        entityCreationData.id = -1;
-        entityCreationData.lootContainer = lootContainer;
-        GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-        entityBackpack.OnEntityUnload();
-        this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
-        return bagPosition;
+    //    entityCreationData.id = -1;
+    //    entityCreationData.lootContainer = lootContainer;
+    //    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+    //    entityBackpack.OnEntityUnload();
+    //    this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+    //    return bagPosition;
 
-    }
+    //}
 
     protected override void playStepSound(string stepSound)
     {

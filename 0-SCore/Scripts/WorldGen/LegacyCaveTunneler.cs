@@ -243,13 +243,41 @@ public static class LegacyCaveSystem
             return;
 
         var chunkPos = chunk.GetWorldPos();
+        int terrainHeight = chunk.GetTerrainHeight(8, 8);
+
+        fastNoise = SphereCache.GetFastNoise(chunk);
+      //  var noise = fastNoise.GetNoise(chunkPos.x,terrainHeight, chunkPos.z);
+        var _random = GameManager.Instance.World.GetGameRandom();
+
+        
+        var caveType = Configuration.GetPropertyValue(AdvFeatureClass, "CaveType");
+        switch (caveType)
+        {
+            case "DeepMountains":
+                // If the chunk is lower than 100 at the terrain, don't generate a cave here.
+                if (terrainHeight < 80)
+                    return;
+                break;
+            case "Mountains":
+                // If the chunk is lower than 100 at the terrain, don't generate a cave here.
+                if (terrainHeight < 80)
+                    return;
+                break;
+            case "All":
+                // Generate caves on every single chunk in the world.
+                break;
+            case "Random":
+            default:
+                // If the chunk isn't in the cache, don't generate.
+                if (!SphereCache.caveChunks.Contains(chunkPos))
+                    return;
+                break;
+        }
 
         PlaceCaveEntrance(chunk);
 
-        fastNoise = SphereCache.GetFastNoise(chunk);
 
         AdvLogging.DisplayLog(AdvFeatureClass, "Decorating new Cave System...");
-        var _random = GameManager.Instance.World.GetGameRandom();
 
         // Place Prefabs
         var MaxPrefab = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxPrefabPerChunk"));
@@ -257,7 +285,8 @@ public static class LegacyCaveSystem
         {
             // Random chance to place a prefab to try to sparse them out.
             _random.SetSeed(chunk.GetHashCode());
-            if (_random.RandomRange(0, 10) > 1) continue;
+            if ( MaxPrefab < 2)
+                if (_random.RandomRange(0, 10) > 1) continue;
             // Grab a random range slightly smaller than the chunk. This is to help pad them away from each other.
             var x = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
             var z = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
@@ -270,24 +299,32 @@ public static class LegacyCaveSystem
             if (Max < 1)
                 Max = 20;
 
-            var SanityCheck = Max - 10 + 10;
-            if (SanityCheck <= 0)
-            {
-                Debug.Log("\t*************************");
-                Debug.Log("\t Sanity Check Failed for Random Range");
-                Debug.Log("\t Chunk: " + chunk.GetHashCode());
-                Debug.Log("\t Chunk Height: " + Max);
-            }
-
             var y = _random.RandomRange(0, Max);
 
             if (y < 10)
-                y = 10;
+                y = 5;
 
-            var destination = chunk.ToWorldPos(new Vector3i(x, y, z));
-            //Debug.Log("Placing POI: " + chunk.GetHashCode() + " at " + destination + " MaxPrefab: " + MaxPrefab + " Current: " + a);
+            var prefabDestination = Vector3i.zero;
+            for (int checkLocation = 0; checkLocation < 10; checkLocation++)
+            {
+                var checkX = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
+                var checkZ = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
+                if (Max <= 30)
+                    Max = height;
 
+                int checkY = GameManager.Instance.World.GetGameRandom().RandomRange(30, Max);
+                if (y < 30)
+                    checkY = GameManager.Instance.World.GetGameRandom().RandomRange(2, 30);
 
+                var b = chunk.GetBlock(checkX, checkY, checkZ);
+
+                if (b.isair)
+                {
+                    prefabDestination = chunk.ToWorldPos(new Vector3i(checkX, checkY, checkZ));
+                    y = checkY;
+                    break;
+                }
+            }
             // Decide what kind of prefab to spawn in.
             string strPOI;
             if (y < 30)
@@ -298,35 +335,38 @@ public static class LegacyCaveSystem
             var newPrefab = FindOrCreatePrefab(strPOI);
             if (newPrefab != null)
             {
-                var prefab = newPrefab.Clone();
-                prefab.RotateY(true, _random.RandomRange(4));
+                if( prefabDestination != Vector3i.zero)
+                { 
+                    var prefab = newPrefab.Clone();
+                    prefab.RotateY(true, _random.RandomRange(4));
 
-                AdvLogging.DisplayLog(AdvFeatureClass, "Placing Prefab " + strPOI + " at " + destination);
+                    AdvLogging.DisplayLog(AdvFeatureClass, "Placing Prefab " + strPOI + " at " + prefabDestination);
 
-                try
-                {
-                    // Winter Project counter-sinks all prefabs -8 into the ground. However, for underground spawning, we want to avoid this, as they are already deep enough
-                    // Instead, temporarily replace the tag with a custom one, so that the Harmony patch for the CopyIntoLocal of the winter project won't execute.
-                    var temp = prefab.Tags;
-                    prefab.Tags = POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
-                    prefab.yOffset = 0;
-                    prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, destination, true);
-                    var entityInstanceIds = new List<int>();
-                    prefab.CopyEntitiesIntoChunkStub(chunk, destination, entityInstanceIds, true);
+                    try
+                    {
+                        // Winter Project counter-sinks all prefabs -8 into the ground. However, for underground spawning, we want to avoid this, as they are already deep enough
+                        // Instead, temporarily replace the tag with a custom one, so that the Harmony patch for the CopyIntoLocal of the winter project won't execute.
+                        var temp = prefab.Tags;
+                        prefab.Tags = POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
+                        prefab.yOffset = 0;
+                        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, prefabDestination, true);
+                        var entityInstanceIds = new List<int>();
+                        prefab.CopyEntitiesIntoChunkStub(chunk, prefabDestination, entityInstanceIds, true);
 
-                    // Trying to track a crash in something.
-                    //prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, true, true);
-                    // Restore any of the tags that might have existed before.
-                    prefab.Tags = temp;
-                    //  prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Log("Warning: Could not copy over prefab: " + strPOI + " " + ex);
+                        // Trying to track a crash in something.
+                        //prefab.CopyIntoLocal(GameManager.Instance.World.ChunkClusters[0], destination, true, true);
+                        // Restore any of the tags that might have existed before.
+                        prefab.Tags = temp;
+                        //  prefab.SnapTerrainToArea(GameManager.Instance.World.ChunkClusters[0], destination);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log("Warning: Could not copy over prefab: " + strPOI + " " + ex);
+                    }
                 }
             }
-        }
 
+        }
         // Decorate decorate the cave spots with blocks. Shrink the chunk loop by 1 on its edges so we can safely check surrounding blocks.
         for (var chunkX = 1; chunkX < 15; chunkX++)
             for (var chunkZ = 1; chunkZ < 15; chunkZ++)
@@ -343,12 +383,13 @@ public static class LegacyCaveSystem
 
                 // Move from the bottom up, leaving the last few blocks untouched.
                 //for (int y = tHeight; y > 5; y--)
-                for (var y = 5; y < tHeight - 10; y++)
+                for (var y = 5; y < tHeight - 2; y++)
                 {
                     var b = chunk.GetBlock(chunkX, y, chunkZ);
 
                     if (b.type != caveAir.type)
                         continue;
+
 
                     var under = chunk.GetBlock(chunkX, y - 1, chunkZ);
                     var above = chunk.GetBlock(chunkX, y + 1, chunkZ);
@@ -357,7 +398,7 @@ public static class LegacyCaveSystem
                     if (under.Block.shape.IsTerrain())
                     {
                         var blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomCaveDecoration, _random, worldX, worldZ);
-
+                       
                         // Place alternative blocks down deeper
                         if (y < 30)
                             blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, _random, worldX, worldZ);

@@ -193,7 +193,7 @@
 				<property name="GenerationType" value="Legacy" />
 				<!-- Generate cave system only in mountains (above terrain height 100, or random through the map. All for every chunk has a cave system ) -->
 				<!-- Deep Mountains will produce up to 100 levels, or until it reaches bedrock. This could cause lag during generation and an FPS drop. -->
-				<property name="CaveType" value="All" />
+				<property name="CaveType" value="Random" />
 				<!-- Mountains, Random, All, DeepMountains -->
 
 				<!-- Default is up to 5 levels, depending on depth of terrain. Note: This value is ignored if DeepMountains is selected -->
@@ -236,6 +236,14 @@
 				<!-- removed chiko 10 for investigation -->
 				<property name="MaxPrefabPerChunk" value="1" />
 				<property name="PrefabSister" value="garage_02,remnant_oldwest_06,cemetery_01,abandoned_house_01,house_burnt_06,vacant_lot_01,mp_waste_bldg_05_grey,oldwest_coal_factory,diner_03" />
+			</property>
+
+			<!-- Turns on support for the PlantGrowingSDX, SCore features for more advanced crop -->
+			<property class="CropManagement" >
+				<property name="Logging" value="false"/>
+				<property name="CropEnable" value="false"/>
+				<property name="CheckInterval" value="600" />
+				<property name="MaxPipeLength" value="500" />
 			</property>
 		</block>
 
@@ -304,6 +312,7 @@
 			<property name="Collide" value="sight" />
 		</block>
 
+	
 
 		<block name="TestSpawnCube">
 			<property name="Extends" value="SpawnCube"/>
@@ -336,5 +345,9 @@
 			<property name="TickRate" value="10" />
 		</block>
 
+
 	</append>
+	
+	
+
 </configs>

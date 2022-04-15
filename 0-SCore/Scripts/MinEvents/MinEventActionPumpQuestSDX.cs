@@ -39,7 +39,7 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
             Log.Out($"Quest: {quest.ID} POI: {quest.GetPOIName()} Position: {quest.Position}");
             if (quest.ID == questName)
             {
-                quest.GetPositionData(out var pos, Quest.PositionDataTypes.Location);
+                quest.GetPositionData(out var pos, Quest.PositionDataTypes.POIPosition);
                 //quest.GetPositionData(out var pos, Quest.PositionDataTypes.POIPosition);
                 //quest.GetPositionData(out var pos, Quest.PositionDataTypes.Activate);
                 entityPlayer.Teleport(pos);
