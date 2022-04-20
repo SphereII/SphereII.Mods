@@ -28,7 +28,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (this.Properties.Values.ContainsKey("PlantGrowing.Wilt"))
             this.wiltedPlant = ItemClass.GetItem(this.Properties.Values["PlantGrowing.Wilt"], false).ToBlockValue();
     }
- 
+
 
     // Records the plant when placed as a seed
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
@@ -44,7 +44,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             return false;
 
         if (requireWater == false) return true;
-        
+
         return CropManager.Instance.IsNearWater(_blockPos);
     }
 
@@ -70,7 +70,22 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         CropManager.Instance.Add(_blockPos, waterRange);
     }
 
-  
+    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    {
+        if (requireWater)
+        {
+            var plantData = CropManager.Instance.GetPlant(_blockPos);
+            if (plantData != null && plantData.CanStay() == false)
+            {
+                // This Removes unregisters the block if it cannot stay, such as if it can't find water, etc.
+                // It'll call CheckPlantAlive() and re-scan for water before it dies.
+                plantData.Remove();
+                return false;
+            }
+        }
+
+        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+    }
     public override bool CheckPlantAlive(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
     {
         // Allow the plant to follow the basic rules.
@@ -81,7 +96,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (CropManager.Instance.IsNearWater(_blockPos)) return true;
 
         // Only wilt if the property is set.
-        if ( willWilt)
+        if (willWilt)
         {
             Wilt(_world, _clrIdx, _blockPos, _blockValue);
             return false;

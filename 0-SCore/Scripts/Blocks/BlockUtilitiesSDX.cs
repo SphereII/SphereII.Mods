@@ -88,6 +88,16 @@ public static class BlockUtilitiesSDX
             new ParticleEffect(strParticleName, position.ToVector3() + Vector3.up, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
     }
 
+    public static void addParticlesCentered(string strParicleName, Vector3i position)
+    {
+        var strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+        if (!ParticleEffect.IsAvailable(strParticleName))
+            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+
+        var centerPosition = EntityUtilities.CenterPosition(position);
+        GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
+              new ParticleEffect(strParticleName, centerPosition, 1f, Color.white, "", null, false));
+    }
     public static void removeParticles(Vector3i position)
     {
         GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);

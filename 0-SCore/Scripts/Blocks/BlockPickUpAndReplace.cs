@@ -2,12 +2,13 @@
 {
     // By default, all blocks using this class will have a take delay of 15 seconds, unless over-ridden by the XML.
     private float fTakeDelay = 6f;
-
+    private string itemNames = "meleeToolRepairT1ClawHammer";
     public override void Init()
     {
         base.Init();
 
         if (Properties.Values.ContainsKey("TakeDelay")) fTakeDelay = StringParsers.ParseFloat(Properties.Values["TakeDelay"]);
+        if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
     }
 
     // Override the on Block activated, so we can pop up our timer
@@ -60,27 +61,34 @@
 
         var newTakeTime = fTakeDelay;
 
-        // If the entity is holding a crow bar or hammer, then reduce the take time.
-        if (_player.inventory.holdingItem.Name == "CrowBar" || _player.inventory.holdingItem.Name == "meleeToolClawHammer")
-            // Make sure the item can still be used
-            if (_player.inventory.holdingItemItemValue.MaxUseTimes > 0)
-            {
-                // Bump the Use time by one.
-                var itemValue = _player.inventory.holdingItemItemValue;
+        foreach (var item in itemNames.Split(','))
+        {
+            // If the entity is holding a crow bar or hammer, then reduce the take time.
+            if (_player.inventory.holdingItem.Name == item )
+            { 
+                // Make sure the item can still be used
+                if (_player.inventory.holdingItemItemValue.MaxUseTimes > 0)
+                {
+                    // Bump the Use time by one.
+                    var itemValue = _player.inventory.holdingItemItemValue;
 
 
-                // Calculate the degradation value.
-                itemValue.UseTimes += (int)EffectManager.GetValue(PassiveEffects.DegradationPerUse, itemValue, 1f, _player);
-                _player.inventory.holdingItemData.itemValue = itemValue;
+                    // Calculate the degradation value.
+                    itemValue.UseTimes += (int)EffectManager.GetValue(PassiveEffects.DegradationPerUse, itemValue, 1f, _player);
+                    _player.inventory.holdingItemData.itemValue = itemValue;
 
-                // Automatically reduce the take delay by half if you have a crow bar or claw hammer.
-                newTakeTime = fTakeDelay / 2;
+                    // Automatically reduce the take delay by half if you have a crow bar or claw hammer.
+                    newTakeTime = fTakeDelay / 2;
 
-                // Reduce time based on the quality.
-                newTakeTime -= itemValue.Quality;
-                if (newTakeTime < 1)
-                    newTakeTime = 1;
+                    // Reduce time based on the quality.
+                    newTakeTime -= itemValue.Quality;
+                    if (newTakeTime < 1)
+                        newTakeTime = 1;
+                    break;
+                }
             }
+        }    
+
 
         xuiC_Timer.SetTimer(newTakeTime, timerEventData);
     }

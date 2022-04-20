@@ -1,0 +1,60 @@
+﻿<configs>
+	<!-- Turning on Crops-->
+	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='CropEnable']/@value">true</set>
+
+	<!-- Change interval to every 5 minutes -->
+	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='CheckInterval']/@value">60</set>
+	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='Logging']/@value">true</set>
+
+	<!-- Changing all crops to using the PlantGrowingSDX class -->
+	<set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='Class']/@value">PlantGrowingSDX, SCore</set>
+	
+	<!-- Setting up defaults -->
+	<append xpath="/blocks/block[@name='cropsGrowingMaster']">
+			<property name="RequireWater" value="true" /> <!-- If the crop needs water to survive. Default: false -->
+			<property name="WaterRange" value="5" />  <!-- how far away that block can be from a water source: Default is 5 -->
+			<property name="PlantGrowing.Wilt" value="treeDeadPineLeaf"/> <!-- The block the crop downgrades too if its dead. Default: Air-->
+	</append>
+	<set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='PlantGrowing.GrowthRate']/@value">10</set>
+
+	<!-- For testing, this rate (in minutes) should be set no lower than 2 -->
+
+	<!-- Water System -->
+	<!-- Sets the class for the metalPipes to be the WaterPipeSDX. This is used as a flag to see if it can carry water or not. -->
+	<append xpath="/blocks/block[starts-with(@name, 'metalPipe')]">
+		<property name="Class" value="WaterPipeSDX, SCore" />
+	</append>
+	
+	<!-- Farming Plot hooks -->
+	<append xpath="/blocks/block[@name='farmPlotBlock']">
+		<property name="Class" value="FarmPlotSDX, SCore" />
+	</append>
+
+	<!-- Updates the valve to be a water source, which can be fed from pipes to provide water like a liquid block -->
+	<!-- A WaterSourceSDX is not a direct water source. Instead, it triggers searching for pipes which, hopefully, connect up to a BlockLiquidV2 -->
+	<set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Class']/@value">WaterSourceSDX, SCore</set>
+
+	<append xpath="/blocks">
+		<block name="cropControlPanelBase01">
+			<property name="Extends" value="controlPanelBase01"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="Entities/Industrial/controlPanelBase_02Prefab"/>
+			<property name="CustomIcon" value="controlPanelBase01" />
+			<property name="Class" value="CropControlPanel, SCore" />
+			<property name="ControlPanelName" value="debugcontrolpanel" />
+			<property name="ActivateSound" value="button4"/>
+		</block>
+
+		<block name="roboPlanter" >
+			<property name="Extends" value="controlPanelBase01"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="Entities/Industrial/controlPanelBase_02Prefab"/>
+			<property name="CustomIcon" value="controlPanelBase01" />
+			<property name="Class" value="Robot, SCore" />
+			<property name="ControlPanelName" value="debugcontrolpanel" />
+			<property name="ActivateSound" value="button4"/>
+			<property name="Crop" value="plantedPumpkin1" />
+		</block>
+			  
+	</append>
+</configs>

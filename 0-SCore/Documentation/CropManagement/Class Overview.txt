@@ -1,0 +1,12 @@
+﻿
+Natural Water Source:
+	A water source is any BlockLiquidV2, such as water from a bucket, a POI water block, or any other direct water source in the world.
+
+BlockWaterSourceSDX:
+	This block can act like a water source block, if it's connected through a series of BlockWaterPipeSDX blocks. It has the same range and features of a natural water source.
+	Think of this block as a sprinkler or water distributor.
+
+BlockWaterPipeSDX:
+	This block allows water to be read over distance if they are all connected together.
+
+

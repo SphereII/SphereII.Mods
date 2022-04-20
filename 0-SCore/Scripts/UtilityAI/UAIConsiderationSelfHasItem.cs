@@ -44,6 +44,22 @@ namespace UAI
             {
                 foreach( var ID in items.Split(','))
                 {
+                    if (ID.Contains("*"))
+                    {
+                        var startsWith = ID.Split('*')[0];
+                        var endsWith = ID.Split('*')[1];
+
+                        if (_context.Self.lootContainer != null)
+                        {
+                            foreach (var items in _context.Self.lootContainer.items)
+                            {
+                                var itemName = items.itemValue.ItemClass.GetItemName();
+                                if (itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
+                                    return 1f;
+                            }
+                        }
+                        return 0f;
+                    }
                     var item = ItemClass.GetItem(ID);
                     if (item != null)
                     {

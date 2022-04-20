@@ -13,7 +13,6 @@ namespace UAI
             if (parameters.ContainsKey("TargetType")) _targetTypes = parameters["TargetType"];
         }
 
-
         public override float GetScore(Context _context, object target)
         {
             var paths = SphereCache.GetPaths(_context.Self.entityId);

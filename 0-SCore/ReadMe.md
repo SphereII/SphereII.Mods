@@ -10,6 +10,36 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+
+Version: 20.3.110.1815
+	[ Blocks ]
+		BlockTakeAndReplace has a new property to allow you to specify which item is allowed. This is a comma delimited list.
+			<property name="HoldingItem" value="meleeToolRepairT1ClawHammer" />
+			<property name="HoldingItem" value="meleeToolRepairT1ClawHammer,meleeStoneTool" />
+
+		Updated BlockUtilities to add particles centered to the block, instead of at the edge.
+
+	[ Crop Management ]
+		- Added new Blocks for support:
+			BlockCropControlPanel - Used to debug and control the pipe system
+			BlockFarmPlotSDX - Used to update the vanilla's FarmPlots
+		-Added new FarmPlotData to hold FarmPlot information
+		-Added PlantData to hold plant data
+		-Added Pipe class to hold piping information
+		-Added FarmPlotManager and WaterPipeManager to handle their tasks.
+			- Removed pipe management from crop
+
+	[ Utility AI]
+		- Added IsNearFarm consideration 
+		- Added UAITaskFarming task
+
+	[ Modlet ]
+		Added new Bloom's Family Farming modlet to the SphereII.Mods repo
+		This modlet contains XML to turn on and manage the crop management system with examples
+		Also includes a prefab called BloomTest01
+			- From menu, go into Prefab Tools and load up BloomTest01, then Play test.
+		Added SphereiiFlat world to be used for durability testing.
+
 Version: 20.3.105.1149
 
 	[ Quests ]

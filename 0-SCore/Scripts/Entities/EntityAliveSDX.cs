@@ -191,7 +191,7 @@ public class EntityAliveSDX : EntityTrader
             if (this.NavObject != null)
                 this.NavObject.IsActive = true;
             isIgnoredByAI = false;
-           // SetupDebugNameHUD(true);
+            // SetupDebugNameHUD(true);
         }
     }
 
@@ -927,7 +927,7 @@ public class EntityAliveSDX : EntityTrader
         {
             base.OnUpdateLive();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
 
         }
@@ -939,7 +939,7 @@ public class EntityAliveSDX : EntityTrader
         if (NPCInfo == null)
             return;
 
-       // if (isQuestGiver)
+        // if (isQuestGiver)
         {
             // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
             if (_tileEntityTrader == null)
@@ -1116,33 +1116,38 @@ public class EntityAliveSDX : EntityTrader
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
         if (leader)
         {
-            // Remove the cvar.
             leader.Buffs.RemoveCustomVar($"hired_{entityId}");
             EntityUtilities.SetLeaderAndOwner(entityId, 0);
             GameManager.ShowTooltip(leader, $"Oh no! {EntityName} has died. :(");
 
-            var bagPosition = new Vector3i(this.position + base.transform.up);
+            if (lootContainer != null)
+            {
+                bool isBackpackEmpty = lootContainer.IsEmpty();
+                if (!isBackpackEmpty)
+                {
+                    var bagPosition = new Vector3i(this.position + base.transform.up);
 
-            // Check to see if we have our backpack container.
-            var className = "BackpackNPC";
-            EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
-            if (entityClass == null)
-                className = "Backpack";
+                    var className = "BackpackNPC";
+                    EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+                    if (entityClass == null)
+                        className = "Backpack";
 
-            var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
+                    var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
 
-            EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
+                    EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
 
-            entityCreationData.entityName = Localization.Get(this.EntityName);
-            entityCreationData.id = -1;
-            entityCreationData.lootContainer = lootContainer;
-            GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-            entityBackpack.OnEntityUnload();
-            this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+                    entityCreationData.entityName = Localization.Get(this.EntityName);
+                    entityCreationData.id = -1;
+                    entityCreationData.lootContainer = lootContainer;
 
+                    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+
+                    entityBackpack.OnEntityUnload();
+                    this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+                }
+            }
         }
 
-        // Remove them from the companions of the player.
         var player = leader as EntityPlayer;
         if (leader)
         {
@@ -1167,6 +1172,7 @@ public class EntityAliveSDX : EntityTrader
 
         base.SetDead();
     }
+
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         if (_attackTarget != null)
@@ -1359,7 +1365,7 @@ public class EntityAliveSDX : EntityTrader
 
         //if (_traderArea != null)
         //{
-            
+
         //    IsDespawned = false;
         //    return;
         //}

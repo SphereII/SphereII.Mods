@@ -135,17 +135,22 @@
     </Compile>
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockCropControlPanel.cs" />
+    <Compile Include="Scripts\Blocks\BlockFarmPlotSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockMortSpawner.cs" />
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="Scripts\Blocks\BlockRobot.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockUtilitiesSDX.cs" />
-    <Compile Include="Scripts\Blocks\BlockWaterPipeSDX.cs" />
+    <Compile Include="Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
+    <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
+    <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />
@@ -159,9 +164,10 @@
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
+    <Compile Include="Scripts\DataClasses\FarmPlotData.cs" />
+    <Compile Include="Scripts\DataClasses\Pipe.cs" />
     <Compile Include="Scripts\DataClasses\PipeData.cs" />
     <Compile Include="Scripts\DataClasses\PlantData.cs" />
-    <Compile Include="Scripts\DataClasses\WaterData.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
@@ -234,6 +240,8 @@
     <Compile Include="Scripts\Lockpicking\LockObjectRotation.cs" />
     <Compile Include="Scripts\Lockpicking\LocksetAudio.cs" />
     <Compile Include="Scripts\Lockpicking\SphereII_Locks.cs" />
+    <Compile Include="Scripts\Managers\FarmPlotManager.cs" />
+    <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />
@@ -297,6 +305,8 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearPlant.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearFarm.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsSleeping.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTrapped.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
@@ -340,6 +350,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskIdle.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLoot.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToExplore.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToHealTargetSDX.cs" />
@@ -381,6 +392,7 @@
     <Content Include="Config\utilityai.xml" />
     <Content Include="Config\XUi\windows.xml" />
     <Content Include="Config\XUi\xui.xml" />
+    <Content Include="Documentation\CropManagement\Class Overview.txt" />
     <Content Include="Documentation\CropManagement\FarmWithPipesAndWater.PNG" />
     <Content Include="Documentation\Notes\AutomaticVersioning.txt" />
     <Content Include="ModInfo.xml" />

@@ -142,7 +142,9 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer && GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)).Count == 0)
+        Vector3 myVector = new Vector3(1, 2, 1);
+
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             if (_blockValue.meta >= _maxSpawned)
             {
@@ -208,14 +210,15 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 rotation = blockEntity.transform.rotation.eulerAngles;
 
             var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
+
             entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             GameManager.Instance.World.SpawnEntityInWorld(entity);
+
+            ApplySignData(entity as EntityAlive, _blockPos);
+
             _blockValue.meta++;
             GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
         }
-
-        foreach (var entity in GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), Vector3.one * 2f)))
-            ApplySignData(entity as EntityAlive, _blockPos);
 
         DestroySelf(_blockPos, _blockValue);
 

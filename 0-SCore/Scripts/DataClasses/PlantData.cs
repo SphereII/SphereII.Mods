@@ -1,13 +1,15 @@
-﻿public class PlantData
+﻿using UnityEngine;
+public class PlantData
 {
+    private static readonly string AdvFeatureClass = "CropManagement";
+
     public Vector3i BlockPos { get; set; } = Vector3i.zero;
     public Vector3i WaterPos { get; set; } = Vector3i.zero;
     public BlockValue blockValue { get; set; } = BlockValue.Air;
     
     private bool _requireWater = false;
     private int _waterRange = 5;
-
-    
+    public bool Visited = false;
     public PlantData(Vector3i _blockPos) : this(_blockPos, Vector3i.zero) { }
     public PlantData(Vector3i _blockPos, Vector3i _waterPos)
     {
@@ -36,17 +38,32 @@
 
     public void Consume()
     {
+
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Last Checked: {BlockPos} {WaterPos} Checked at: {LastCheck} Maintained at: {LastMaintained} Current Time: {GameManager.Instance.World.GetWorldTime()} Difference: {LastCheck - GameManager.Instance.World.GetWorldTime()}");
+
         if (!RequiresWater()) return;
         if (WaterPos == Vector3i.zero) return;
 
+        // If its raining, don't consume water.
+        if ((double)WeatherManager.Instance.GetCurrentRainfallValue() > 0.25)
+        {
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Using Rain Water for {BlockPos}.");
+            return;
+        }
+        
         // Damage the water block to simulate usage.
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
         if (waterBlock.Block is BlockLiquidv2 water )
         {
-            if ( waterBlock.damage <= waterBlock.Block.MaxDamage)
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {WaterPos} {waterBlock.Block.GetBlockName()}");
+            waterBlock.damage++;
+            if (waterBlock.damage <= waterBlock.Block.MaxDamage)
                 GameManager.Instance.World.SetBlockRPC(0, WaterPos, waterBlock);
             else
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, $"Water is completely consumed here: {WaterPos}");
                 GameManager.Instance.World.SetBlockRPC(0, WaterPos, BlockValue.Air);
+            }
         }
     }
     public void Remove()
@@ -59,6 +76,9 @@
             block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, blockValue);
         }
     }
+
+    public ulong LastCheck { get; set; } = 0ul;
+    public float LastMaintained { get; set; } = 0f;
     public bool RequiresWater()
     {
         return _requireWater;
@@ -71,19 +91,18 @@
         
         // search for a direct water source.
         var newWaterSource = ScanForWater(BlockPos);
-
-        // Check what kind of block we have found.
-        if(CropManager.Instance.IsWaterSource(newWaterSource))
+        if(WaterPipeManager.Instance.IsDirectWaterSource(newWaterSource))
         {
             WaterPos = newWaterSource;
             return true;
         }
 
-        // If this is a water source, check its piping to make sure its connected od BlockLiquidv2
-        var waterSourceBlock = GameManager.Instance.World.GetBlock(newWaterSource);
-        if ( waterSourceBlock.Block is BlockWaterSourceSDX)
-            newWaterSource = CropManager.Instance.WaterData.GetWaterSource(newWaterSource);
+        // If there's no water source
+        if (newWaterSource == Vector3i.zero)
+            newWaterSource = BlockPos;
 
+        // If this is an indirect water source, check its piping to make sure its connected to a BlockLiquidv2 or legit water source
+        newWaterSource = WaterPipeManager.Instance.GetWaterForPosition(newWaterSource);
         if (newWaterSource == Vector3i.zero) // No water source connected?
             return false;
 
@@ -106,12 +125,7 @@
                     var waterCheck = new Vector3i(_blockPos.x + x, y, _blockPos.z + z);
 
                     // If it's a straight up water block, grab it.
-                    if (_world.IsWater(waterCheck))
-                        return waterCheck;
-
-                    // we did find a water source though, so let's see if we can use it.
-                    var blockValue = GameManager.Instance.World.GetBlock(waterCheck);
-                    if (blockValue.Block is BlockWaterSourceSDX)
+                    if (WaterPipeManager.Instance.IsWaterSource(waterCheck))
                         return waterCheck;
                 }
             }
