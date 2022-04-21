@@ -22,6 +22,13 @@ public class PlantData
             _waterRange = int.Parse(blockValue.Block.Properties.Values["WaterRange"]);
     }
 
+    public void Manage()
+    {
+        Log.Out($"Checking for bugs at {BlockPos}");
+        Visited = true;
+        LastMaintained = GameManager.Instance.World.GetWorldTime();
+
+    }
     public void RegisterPlant()
     {
         blockValue = GameManager.Instance.World.GetBlock(BlockPos);
@@ -39,7 +46,7 @@ public class PlantData
     public void Consume()
     {
 
-        AdvLogging.DisplayLog(AdvFeatureClass, $"Last Checked: {BlockPos} {WaterPos} Checked at: {LastCheck} Maintained at: {LastMaintained} Current Time: {GameManager.Instance.World.GetWorldTime()} Difference: {LastCheck - GameManager.Instance.World.GetWorldTime()}");
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Last Checked: {BlockPos} {WaterPos} Checked at: {LastCheck} Maintained at: {LastMaintained} Current Time: {GameManager.Instance.World.GetWorldTime()} Difference: {GameManager.Instance.World.GetWorldTime() - LastCheck}");
 
         if (!RequiresWater()) return;
         if (WaterPos == Vector3i.zero) return;

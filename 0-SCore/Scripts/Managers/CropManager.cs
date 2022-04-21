@@ -117,8 +117,8 @@ public class CropManager
         foreach (var neighbor in Vector3i.AllDirections)
         {
             var blockPos = position + neighbor;
-            if (CropMap.ContainsKey(position) && CropMap[position].Visited == false)
-                return CropMap[position];
+            if (CropMap.ContainsKey(blockPos) && CropMap[blockPos].Visited == false)
+                return CropMap[blockPos];
         }
         return null;
     }

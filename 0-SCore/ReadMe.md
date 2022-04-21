@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.3.111.x
+	
+	[ Crop Management ]
+		- Fixes for the UAI Task for planting/ checking
+		- NPCs will be able to:
+			a) Look in their inventory to find seeds
+			b) Plant those seeds
+			c) Once all seeds are gone, they maintain the crops
+				- Checking for bugs ( SCore doesn't have bugs, but the plants may)
+				- Potentially watering the crops, avoiding water waste
+			d) Harvest crops when they are ready, and store crops in their inventory.
+				- Any seeds harvested will be replanted.
 
 Version: 20.3.110.1815
 	[ Blocks ]
@@ -28,6 +40,7 @@ Version: 20.3.110.1815
 		-Added Pipe class to hold piping information
 		-Added FarmPlotManager and WaterPipeManager to handle their tasks.
 			- Removed pipe management from crop
+
 
 	[ Utility AI]
 		- Added IsNearFarm consideration 

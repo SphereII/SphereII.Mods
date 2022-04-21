@@ -11,18 +11,22 @@ namespace UAI
         private int range = 50;
         private bool hadBuff = false;
         private FarmPlotData _farmData;
+        private PlantData plantData;
         private float timeOut = 100f;
+        private string seed = "planted*1";
+        private bool _hasSeed = false;
         protected override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buff")) _buff = Parameters["buff"];
+            if (Parameters.ContainsKey("seed")) seed = Parameters["seed"];
         }
         public override void Stop(Context _context)
         {
             // If we have the activity buff, just wait until it wears off
             if (_context.Self.Buffs.HasBuff(_buff)) return;
 
-   
+
             BlockUtilitiesSDX.removeParticles(new Vector3i(_vector));
             base.Stop(_context);
         }
@@ -39,11 +43,11 @@ namespace UAI
                 if (_farmData != null)
                 {
                     var seedName = string.Empty;
-                    foreach( var stack in _context.Self.lootContainer.items)
+                    foreach (var stack in _context.Self.lootContainer.items)
                     {
                         if (stack.IsEmpty()) continue;
                         var itemname = stack.itemValue.ItemClass.GetItemName();
-                        if ( itemname.StartsWith("planted") && itemname.EndsWith("1"))
+                        if (itemname.StartsWith("planted") && itemname.EndsWith("1"))
                         {
                             seedName = itemname;
                             stack.count--;
@@ -74,6 +78,13 @@ namespace UAI
                         }
                     }
                 }
+                if (plantData != null )
+                {
+                        plantData.Manage();
+                }
+                
+
+
                 Stop(_context);
                 return;
             }
@@ -102,18 +113,62 @@ namespace UAI
 
         }
 
+        private bool HasSeed(Context _context)
+        {
+            var startsWith = "";
+            var endsWith = "";
+            if (seed.Contains("*"))
+            {
+                startsWith = seed.Split('*')[0];
+                endsWith = seed.Split('*')[1];
+            }
+
+            if (_context.Self.lootContainer != null)
+            {
+                foreach (var items in _context.Self.lootContainer.items)
+                {
+                    if (items.IsEmpty()) continue;
+                    var itemName = items.itemValue.ItemClass.GetItemName();
+                    if (itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
+                    {
+                        if ( items.count > 0)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         public override void Start(Context _context)
         {
             hadBuff = false;
             timeOut = 100f;
 
+            _farmData = null;
+            plantData = null;
+            _hasSeed = HasSeed(_context);
             var position = new Vector3i(_context.Self.position);
-            _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
-            if (_farmData == null)
-                _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
-         
-            _vector = _farmData.GetBlockPos();
+
+            // If the NPC has any seeds in its inventory, then look for empty farm plots that need tending
+            if (_hasSeed)
+            {
+                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
+                if (_farmData == null)
+                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
+
+                if ( _farmData != null)
+                    _vector = _farmData.GetBlockPos();
+            }
+            else
+            {
+                plantData = CropManager.Instance.GetPlantDataNearby(position);
+                if (plantData == null)
+                    plantData = CropManager.Instance.GetClosesUnmaintained(position, range);
+
+                if (plantData != null)
+                    _vector = plantData.BlockPos;
+            }
+
             SCoreUtils.FindPath(_context, _vector, false);
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;

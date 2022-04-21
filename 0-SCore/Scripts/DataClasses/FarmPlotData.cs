@@ -50,7 +50,8 @@ public class FarmPlotData
             else
             {
                 Log.Out("Harvesting...");
-                harvestItems = currentBlock.Block.itemsToDrop[EnumDropEvent.Harvest];
+                currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Harvest, out harvestItems);
+
                 replant = true;
             }
         }
@@ -62,18 +63,24 @@ public class FarmPlotData
             // if we don't have any seeds, check if our harvest gave us anything.
             if ( string.IsNullOrEmpty(blockName))
             {
-                if (harvestItems == null)
-                    return null;
-                foreach (var item in harvestItems)
+                if (harvestItems != null)
                 {
-                    if (item.name.StartsWith("planted") && item.name.EndsWith("1"))
+                    foreach (var item in harvestItems)
                     {
-                        Log.Out("using Seed from inventory.");
-                        blockName = item.name;
-                        break;
+                        if (item.name.StartsWith("planted") && item.name.EndsWith("1"))
+                        {
+                            Log.Out("using Seed from inventory.");
+                            blockName = item.name;
+                            break;
+                        }
                     }
                 }
             }
+
+            // Nothing to plant.
+            if (string.IsNullOrEmpty(blockName))
+                return harvestItems;
+
             Log.Out($"Planting {blockName}");
             var cropBlock = Block.GetBlockByName(blockName);
             var blockValue = cropBlock.ToBlockValue();
