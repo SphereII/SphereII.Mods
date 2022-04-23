@@ -26,7 +26,7 @@ Version: 20.3.113.106
 
 	[ Crop Management ]
 		- Improved the valve system to be a bit more reliable
-		- Fied BloomTest01 Prefab used for testing: 
+		- Fixed BloomTest01 Prefab used for testing: 
 			- Includes water tower, valves, pipes, and farm plots
 	
 	[ UAI ]
