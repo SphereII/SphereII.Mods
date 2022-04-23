@@ -64,6 +64,37 @@ public class FarmPlotManager
         }
         return null;
     }
+
+    public FarmPlotData GetFarmPlotsNearbyWithPlants(Vector3i position)
+    {
+        foreach (var neighbor in Vector3i.AllDirections)
+        {
+            var blockPos = position + neighbor;
+            if (FarmPlots.ContainsKey(blockPos) && FarmPlots[blockPos].HasPlant() && FarmPlots[blockPos].Visited == false)
+                return FarmPlots[blockPos];
+        }
+        return null;
+    }
+    public FarmPlotData GetClosesUnmaintainedWithPlants(Vector3i position, float range = 50)
+    {
+        float distance = range * range;
+        FarmPlotData farmData = null;
+        foreach (var entry in GetCloseFarmPlots(position, range))
+        {
+            if (entry.HasPlant() == false) continue;
+            if (entry.Visited) continue;
+
+            var distance2 = Vector3.Distance(position, entry.GetBlockPos());
+            if (distance > distance2)
+            {
+                distance = distance2;
+                farmData = entry;
+            }
+        }
+        if (farmData == null)
+            ResetPlantsInRange(position, range);
+        return farmData;
+    }
     public FarmPlotData GetClosesUnmaintained(Vector3i position, float range = 50)
     {
         float distance = range * range;

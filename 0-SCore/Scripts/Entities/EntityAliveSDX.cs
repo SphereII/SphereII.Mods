@@ -293,6 +293,7 @@ public class EntityAliveSDX : EntityTrader
             var box = StringParsers.ParseVector3(strBoundaryBox);
             var center = StringParsers.ParseVector3(strCenter);
             ConfigureBoundaryBox(box, center);
+
         }
 
     }

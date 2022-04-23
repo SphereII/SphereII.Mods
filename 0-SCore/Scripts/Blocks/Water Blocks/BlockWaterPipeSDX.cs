@@ -9,16 +9,20 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
     // This allows for the water logic to pass through it.
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
+        WaterPipeManager.Instance.ClearPipes();
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
     public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
     {
+        WaterPipeManager.Instance.ClearPipes();
         base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
     }
 
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
     {
+        WaterPipeManager.Instance.ClearPipes();
+
         base.PlaceBlock(_world, _result, _ea);
     }
     public override void OnNeighborBlockChange(WorldBase world, int _clrIdx, Vector3i _myBlockPos, BlockValue _myBlockValue, Vector3i _blockPosThatChanged, BlockValue _newNeighborBlockValue, BlockValue _oldNeighborBlockValue)
@@ -33,6 +37,10 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
             if (block.Block is BlockWaterPipeSDX)
                 pipeCount++;
         }
+
+
+        if ( _newNeighborBlockValue.isair)
+            WaterPipeManager.Instance.ClearPipes();
 
         if (pipeCount < 2)
             WaterPipeManager.Instance.ClearPipes();

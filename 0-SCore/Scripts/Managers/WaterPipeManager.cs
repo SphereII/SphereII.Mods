@@ -53,7 +53,7 @@ public class WaterPipeManager
     }
      public bool IsValveOff(Vector3i position)
     {
-        return WaterValve.ContainsKey(position);
+        return WaterValve.ContainsValue(position);
     }
     public int GetMaxPipeCount()
     {

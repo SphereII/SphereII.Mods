@@ -5,10 +5,7 @@
 				<task class="Farming, SCore" run="false" buff="IsGathering"/>
 				<!-- Default distance is 10 if distance is not specified.-->
 				<consideration class="IsNearFarm, SCore" distance="50" />
-
-				<!-- If we have an item in our inventory that matches the wild card -->
-				<!--consideration class="SelfHasItem, SCore" item="planted*1" /-->
-				
+			
 				<!-- Don't do farming if the enemies are dear by-->
 				<consideration class="EnemyNotNear, SCore" distance="15"/>
 			</action>

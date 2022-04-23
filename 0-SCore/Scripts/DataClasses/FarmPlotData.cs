@@ -24,6 +24,17 @@ public class FarmPlotData
         Visited = true;
     }
 
+    public bool HasPlant()
+    {
+        if (CropManager.Instance.Get(BlockPos) != null)
+            return true;
+
+        if (CropManager.Instance.Get(BlockPos + Vector3i.up) != null)
+            return true;
+
+        return false;
+
+    }
     public void Reset()
     {
         Visited = false;
@@ -50,8 +61,22 @@ public class FarmPlotData
             else
             {
                 Log.Out("Harvesting...");
+                if (harvestItems != null)
+                    harvestItems.Clear();
+
                 currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Harvest, out harvestItems);
 
+                // Including the breaking of the plant here.
+                currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Destroy, out var harvestItems2);
+                if (harvestItems != null && harvestItems2 != null)
+                {
+                        foreach (var item in harvestItems2)
+                            harvestItems.Add(item);
+
+                }
+                Log.Out("Removing fully grown plant.");
+                //GameManager.Instance.World.SetBlockRPC(plantPos, BlockValue.Air);
+                GameManager.Instance.World.SetBlock(0, plantPos, BlockValue.Air, false, false);
                 replant = true;
             }
         }

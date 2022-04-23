@@ -87,6 +87,8 @@ public class BlockCropControlPanel : Block
                 WaterPipeManager.Instance.ToggleWaterValve(_blockPos, position, turnOn);
         }
 
+        WaterPipeManager.Instance.ClearPipes();
+
         WaterPipeManager.Instance.GetWaterForPosition(_blockPos);
     }
     public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)

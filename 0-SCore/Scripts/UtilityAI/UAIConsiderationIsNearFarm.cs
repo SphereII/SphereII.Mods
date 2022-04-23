@@ -6,7 +6,7 @@ namespace UAI
 {
     public class UAIConsiderationIsNearFarm : UAIConsiderationTargetType
     {
-        private int distance = 10;
+        private int distance = 50;
         public override void Init(Dictionary<string, string> parameters)
         {
             base.Init(parameters);
@@ -22,6 +22,14 @@ namespace UAI
                 return 1f;
 
             farmPlot = FarmPlotManager.Instance.GetClosesUnmaintained(position, distance);
+            if (farmPlot != null)
+                return 1f;
+
+            farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
+            if (farmPlot != null)
+                return 1f;
+
+            farmPlot = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
             if (farmPlot != null)
                 return 1f;
 

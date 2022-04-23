@@ -344,13 +344,13 @@
     <Compile Include="Scripts\UtilityAI\UAISCoreUtils.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskBreakBlocks.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskGuard.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskIdle.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSelf.cs" />
-    <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLoot.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToExplore.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToHealTargetSDX.cs" />

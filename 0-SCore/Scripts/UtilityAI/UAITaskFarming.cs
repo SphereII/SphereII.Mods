@@ -34,12 +34,17 @@ namespace UAI
         {
             timeOut--;
 
+            _context.Self.SetLookPosition(_vector);
+            _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 30f, 30f);
+
+
             // If we have the activity buff, just wait until it wears off
             if (_context.Self.Buffs.HasBuff(_buff)) return;
 
             // If we had it, and it's gone, then we are done with this location.
             if (hadBuff)
             {
+                // If we are dealing with a farm plot, then we want to manage that a bit. Plant a seed, harvest, etc.
                 if (_farmData != null)
                 {
                     var seedName = string.Empty;
@@ -49,28 +54,24 @@ namespace UAI
                         var itemname = stack.itemValue.ItemClass.GetItemName();
                         if (itemname.StartsWith("planted") && itemname.EndsWith("1"))
                         {
+                            Log.Out($"Found a seed: {seedName}");
                             seedName = itemname;
                             stack.count--;
                             break;
                         }
-
                     }
 
                     var items = _farmData.Manage(seedName);
-                    if (items != null)
+                    var lootContainer = _context.Self.lootContainer;
+                    if (items != null && lootContainer != null)
                     {
                         foreach (var item in items)
                         {
                             Log.Out($"Collecting: {item.name}");
                             int num = Utils.FastMax(0, item.minCount);
                             ItemStack itemStack = new ItemStack(ItemClass.GetItem(item.name, false), num);
-                            ItemStack @is = itemStack.Clone();
-                            var lootContainer = _context.Self.lootContainer;
-                            if (lootContainer != null)
-                            {
-                                if (_context.Self.lootContainer.AddItem(itemStack))
-                                    _context.Self.PlayOneShot("item_plant_pickup", false);
-                            }
+                            if (_context.Self.lootContainer.AddItem(itemStack))
+                                _context.Self.PlayOneShot("item_plant_pickup", false);
 
                             // Sort and reduce duplicates.
                             ItemStack[] slots = StackSortUtil.CombineAndSortStacks(lootContainer.items, 0);
@@ -78,13 +79,6 @@ namespace UAI
                         }
                     }
                 }
-                if (plantData != null )
-                {
-                        plantData.Manage();
-                }
-                
-
-
                 Stop(_context);
                 return;
             }
@@ -104,11 +98,8 @@ namespace UAI
                 return;
             }
 
-            EntityUtilities.Stop(_context.Self.entityId);
+           // EntityUtilities.Stop(_context.Self.entityId);
             _context.Self.Buffs.AddBuff(_buff);
-            _context.Self.SetLookPosition(_vector);
-            _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 30f, 30f);
-
             hadBuff = true;
 
         }
@@ -131,7 +122,7 @@ namespace UAI
                     var itemName = items.itemValue.ItemClass.GetItemName();
                     if (itemName.StartsWith(startsWith) && itemName.EndsWith(endsWith))
                     {
-                        if ( items.count > 0)
+                        if (items.count > 0)
                             return true;
                     }
                 }
@@ -139,6 +130,8 @@ namespace UAI
             return false;
         }
 
+
+        // Yes. This is gross. I've done worse.
         public override void Start(Context _context)
         {
             hadBuff = false;
@@ -156,18 +149,28 @@ namespace UAI
                 if (_farmData == null)
                     _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
 
-                if ( _farmData != null)
-                    _vector = _farmData.GetBlockPos();
+
             }
             else
             {
-                plantData = CropManager.Instance.GetPlantDataNearby(position);
-                if (plantData == null)
-                    plantData = CropManager.Instance.GetClosesUnmaintained(position, range);
+                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
+                if (_farmData == null)
+                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
 
-                if (plantData != null)
-                    _vector = plantData.BlockPos;
+                //plantData = CropManager.Instance.GetPlantDataNearby(position);
+                //if (plantData == null)
+                //    plantData = CropManager.Instance.GetClosesUnmaintained(position, range);
+
+                //if (plantData != null)
+                //    _vector = plantData.BlockPos;
             }
+            if (_farmData == null)
+            {
+                hadBuff = true;
+                Stop(_context);
+                return;
+            }
+            _vector = _farmData.GetBlockPos();
 
             SCoreUtils.FindPath(_context, _vector, false);
             _context.ActionData.Started = true;

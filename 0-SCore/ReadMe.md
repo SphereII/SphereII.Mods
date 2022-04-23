@@ -10,6 +10,29 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.3.113.106
+
+	Demo and water / crop overview: https://youtu.be/ApcwwfexxWU
+
+	"Bloom's Family Farming" Modlet contains sample XML configuration to:
+		- Turn on water requirement feature
+		- Update all crops to require water
+		- Updated metalPipe's to water pipe class
+		- Added My Farmer NPC ( Uses Nurse model from 1-NPCCore (required))
+		- Added Crop Control Panel
+		-Add Farm UAI
+
+		- Use this Modlet with the latest SCore and latest 1-NPCCore for a complete test environment.
+
+	[ Crop Management ]
+		- Improved the valve system to be a bit more reliable
+		- Fied BloomTest01 Prefab used for testing: 
+			- Includes water tower, valves, pipes, and farm plots
+	
+	[ UAI ]
+		- Improved Farming Task
+			- Farmer task now harvests and replants crops
+
 Version: 20.3.111.x
 	
 	[ Crop Management ]
