@@ -19,6 +19,10 @@
 
 	<!-- For testing, this rate (in minutes) should be set no lower than 2 -->
 
+
+	<append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
+	
+	
 	<!-- Water System -->
 	<!-- Sets the class for the metalPipes to be the WaterPipeSDX. This is used as a flag to see if it can carry water or not. -->
 	<append xpath="/blocks/block[starts-with(@name, 'metalPipe')]">
@@ -26,13 +30,14 @@
 	</append>
 	
 	<!-- Farming Plot hooks -->
-	<append xpath="/blocks/block[@name='farmPlotBlock']">
+	<append xpath="/blocks/block[starts-with(@name, 'farmPlot')]">
 		<property name="Class" value="FarmPlotSDX, SCore" />
 	</append>
 
 	<!-- Updates the valve to be a water source, which can be fed from pipes to provide water like a liquid block -->
 	<!-- A WaterSourceSDX is not a direct water source. Instead, it triggers searching for pipes which, hopefully, connect up to a BlockLiquidV2 -->
 	<set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Class']/@value">WaterSourceSDX, SCore</set>
+	<set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Model']/@value">#@modfolder:Resources/gupSprinklerBlock.unity3d?gupLargeSprinkler.prefab</set>
 
 	<append xpath="/blocks">
 		<block name="cropControlPanelBase01">
@@ -44,17 +49,25 @@
 			<property name="ControlPanelName" value="debugcontrolpanel" />
 			<property name="ActivateSound" value="button4"/>
 		</block>
-
-		<block name="roboPlanter" >
-			<property name="Extends" value="controlPanelBase01"/>
+		<block name="gupSprinklerBlock">
+			<property name="Material" value="Mmetal"/>
+			<property name="Class" value="WaterSourceSDX, SCore" />
+			
+			<property name="IsTerrainDecoration" value="true"/>
 			<property name="Shape" value="ModelEntity"/>
-			<property name="Model" value="Entities/Industrial/controlPanelBase_02Prefab"/>
-			<property name="CustomIcon" value="controlPanelBase01" />
-			<property name="Class" value="Robot, SCore" />
-			<property name="ControlPanelName" value="debugcontrolpanel" />
-			<property name="ActivateSound" value="button4"/>
-			<property name="Crop" value="plantedPumpkin1" />
+			<property name="Model" value="#@modfolder:Resources/gupSprinklerBlock.unity3d?gupLargeSprinkler.prefab"/>
+			<property name="Place" value="TowardsPlacerInverted"/>
+			<property name="OnlySimpleRotations" value="true"/>
+			<property name="MultiBlockDim" value="1,7,1" />
+			<property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+			<property name="CustomIcon" value="VMRotateSign" />
+			<property name="Stabilitysupport" value="true"/>
+			<property name="CreativeMode" value="Player"/>
+			<property name="Stacknumber" value="10"/>
+			<property name="Group" value="Basics,Building"/>
+			<property name="DescriptionKey" value="torchGroupDesc"/>
+			<property name="FilterTags" value="fdecor,felectrical"/>
+			<property name="SortOrder1" value="70a0"/>
 		</block>
-			  
 	</append>
 </configs>

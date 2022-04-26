@@ -50,7 +50,6 @@
     <Compile Include="Harmony\Animation\EmodelBaseLookAtUpdate.cs" />
     <Compile Include="Harmony\Animation\ModelBaseInitCommon.cs" />
     <Compile Include="Harmony\Atmosphere\Spook.cs" />
-    <Compile Include="Harmony\Blocks\BlockPlantGrowing.cs" />
     <Compile Include="Harmony\Blocks\BlockSecureLoot.cs" />
     <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />

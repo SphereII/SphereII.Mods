@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.4.116.1950
+	
+	[ Blocks ]
+		- Re-added crop trample
+			Add  fcropsDestroy to the FilterTags to enable:
+
+			<!-- To make all crops destroy on touch -->
+			 <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
+
+		- Added Guppycur's sprinkler to Bloom's Family Farming
+		- Added the Farmer NPC back for MyFarmer entity in Bloom's
+
 Version: 20.3.113.106
 
 	Demo and water / crop overview: https://youtu.be/ApcwwfexxWU

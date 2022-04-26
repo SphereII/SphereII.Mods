@@ -1,9 +1,10 @@
 ﻿<config>
 	<append xpath="/entity_classes" >
-		<entity_class name="MyFarmer" extends="npcNurseEmptyHand">
-			<property name="Tags" value="entity,female,npc,melee,cp,DRMid"/>
+		<entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
+			<property name="Tags" value="entity,male,npc,melee,cp,DRMid"/>
 			<property name="Faction" value="whiteriver"/>
-			<property name="Names" value="Farmer Joe" />
+			<property name="Names" value="Farmer Frankie" />
+			<property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
 			<property name="AIPackages" value="NPCFarming"/>
 		</entity_class>
 	</append>

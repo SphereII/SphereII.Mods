@@ -1,4 +1,5 @@
 using HarmonyLib;
+using System;
 
 namespace Harmony.Blocks
 {
@@ -11,7 +12,7 @@ namespace Harmony.Blocks
      * 
      * Usage XML: 
      * Adding to existing blocks:
-     * <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'fcrops')]/@value">,fcropsDestroy</append>
+     * <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
      * Adding to new blocks:
      * <property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy" />
      */
@@ -19,11 +20,11 @@ namespace Harmony.Blocks
     {
         private static readonly string DestructibleTag = "fCropsDestroy";
 
-        [HarmonyPatch(typeof(Block))]
-        [HarmonyPatch("Init")]
+        [HarmonyPatch(typeof(BlockPlantGrowing))]
+        [HarmonyPatch("LateInit")]
         public class Init
         {
-            public static void Postfix(ref Block __instance)
+            public static void Postfix(ref BlockPlantGrowing __instance)
             {
                 // Check if the destructible tag is on the block, which triggers the ONEntityCollidedWithBlock
                 if (__instance?.FilterTags != null && __instance.FilterTags.ContainsCaseInsensitive(DestructibleTag))
@@ -31,33 +32,27 @@ namespace Harmony.Blocks
             }
         }
 
-        //[HarmonyPatch(typeof(Block))]
-        //[HarmonyPatch("OnEntityCollidedWithBlock")]
-        //public class SCoreBlock_OnEntityCollidedWithBlock
-        //{
-        //    public static bool Prefix(Block __instance, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, Entity _entity)
-        //    {
-        //        if (_entity == null)
-        //            return false;
+        [HarmonyPatch(typeof(Block))]
+        [HarmonyPatch("OnEntityCollidedWithBlock")]
+        public class SCoreBlock_OnEntityCollidedWithBlock
+        {
+            public static bool Prefix(Block __instance, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, Entity _entity)
+            {
+                // If it's not a plant, do what you do best.
+                if (_blockValue.Block is BlockPlantGrowing )
+                {
+                    // Don't process if its a player.
+                    if (_entity is EntityPlayerLocal)
+                      return true;
 
-        //        // Don't process if its a player.
-        //        if (_entity is EntityPlayerLocal)
-        //            return false;
+                    if (__instance == null) return true;
+                    if (__instance.FilterTags != null && __instance.FilterTags.ContainsCaseInsensitive(DestructibleTag))
+                        __instance.DamageBlock(_world, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, (_entity != null) ? _entity.entityId : -1, false, false);
 
-        //        try
-        //        {
-        //            if (__instance.FilterTags != null && __instance.FilterTags.ContainsCaseInsensitive(DestructableTag))
-        //                __instance.DamageBlock(_world, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, (_entity != null) ? _entity.entityId : -1, false, false);
-        //        }
-        //        catch(Exception ex)
-        //        {
-        //            return false;
-        //        }
-        //        return false;
-
-
-        //    }
-        //}
+                }
+                return true;
+            }
+        }
 
         // Let the NPCs pass by traps without being hurt.
         [HarmonyPatch(typeof(BlockDamage))]

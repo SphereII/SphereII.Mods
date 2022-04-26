@@ -22,7 +22,6 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
     {
         WaterPipeManager.Instance.ClearPipes();
-
         base.PlaceBlock(_world, _result, _ea);
     }
     public override void OnNeighborBlockChange(WorldBase world, int _clrIdx, Vector3i _myBlockPos, BlockValue _myBlockValue, Vector3i _blockPosThatChanged, BlockValue _newNeighborBlockValue, BlockValue _oldNeighborBlockValue)
@@ -37,7 +36,6 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
             if (block.Block is BlockWaterPipeSDX)
                 pipeCount++;
         }
-
 
         if ( _newNeighborBlockValue.isair)
             WaterPipeManager.Instance.ClearPipes();
