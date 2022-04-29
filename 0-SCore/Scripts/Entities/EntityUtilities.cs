@@ -1495,14 +1495,14 @@ public static class EntityUtilities
         }
 
         // Remove it from the cache.
-        SphereCache.RemovePath(EntityID, tMin);
-
-        result = GameManager.Instance.World.FindSupportingBlockPos(tMin);
-        // Center the pathing position.
-        result.x = Utils.Fastfloor(result.x) + 0.5f;
-        result.y = Utils.Fastfloor(result.y) + 0.5f;
-        result.z = Utils.Fastfloor(result.z) + 0.5f;
-        return result;
+        // SphereCache.RemovePath(EntityID, tMin);
+        return tMin;
+        //result = GameManager.Instance.World.FindSupportingBlockPos(tMin);
+        //// Center the pathing position.
+        //result.x = Utils.Fastfloor(result.x) + 0.5f;
+        //result.y = Utils.Fastfloor(result.y) + 0.5f;
+        //result.z = Utils.Fastfloor(result.z) + 0.5f;
+        //return result;
     }
 
     public static void OpenDoor(int EntityID, Vector3i blockPos, bool forceLock = false)

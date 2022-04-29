@@ -10,8 +10,39 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.4.116.1950
+Version: 20.4.119.941
 	
+
+Version: 20.4.116.1950
+	[ NPC ]
+		- Added Chunk visible feature for the NPCs.
+			When the chunk is not visible, the NPC's gravity will be turned off.
+			When thec hunk is visible, the NPC's gravity will be turned on.
+			This is a potential fix for NPCs disappearing at bases, with the theory that they are falling out of the world.
+			Thanks to closer_ex
+
+	[ UAI ]
+		- New Utility AI task. 
+			- Look for a PathingCode on the NPC, and start patrolling about between all the codes.
+			- NPC will scan for all PathingCubes nearby for a code that matches its Cvar PathingCode.
+
+			- Optional buff will fire when the NPC reaches its target point.
+				- Task will not end until the buff expires
+				- Once buff expires, NPC will go to its next location.
+				- If you want an NPC to walk to a point, and stand there for 10 seconds, have the buff's duration set to 10.
+
+
+			Basic Example:
+
+			<action name="Patrol" weight="3" entity_filter="IsSelf" >
+				<task class="Patrol, SCore" run="false" buff="IsGathering"/>
+
+				<consideration class="HasPathingCode, SCore" />
+				<consideration class="EnemyNotNear, SCore" distance="15"/>
+			</action>
+
+			Setting pc=5 on a SpawnCube will set nearby NPC to path to cubes with the number 5.
+
 	[ Blocks ]
 		- Re-added crop trample
 			Add  fcropsDestroy to the FilterTags to enable:

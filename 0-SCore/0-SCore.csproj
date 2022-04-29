@@ -304,6 +304,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasPathingCode.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearPlant.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearFarm.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsSleeping.cs" />
@@ -345,6 +346,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskBreakBlocks.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskPatrol.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskGuard.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskLearn.cs" />

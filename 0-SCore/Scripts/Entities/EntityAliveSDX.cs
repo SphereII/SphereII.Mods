@@ -90,6 +90,8 @@ public class EntityAliveSDX : EntityTrader
     // will still run and work, and we can re-set it.
     private Vector3 scale;
 
+    // Toggle gravity on and off depending on if the chunk is visible.
+    private ChunkCluster.OnChunkVisibleDelegate chunkClusterVisibleDelegate;
 
     public string Title
     {
@@ -319,9 +321,25 @@ public class EntityAliveSDX : EntityTrader
             // Set in EntityAlive.TriggerSleeperPose() - resetting here
             IsSleeping = false;
         }
+
+        this.chunkClusterVisibleDelegate = new ChunkCluster.OnChunkVisibleDelegate(this.OnChunkDisplayed);
+
+        GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates += this.chunkClusterVisibleDelegate;
         base.OnAddedToWorld();
     }
 
+    // This is an attempt at turning off gravity for the entity when chunks are no longer visible. The hope is that it will resolve the disappearing NPCs.
+    public void OnChunkDisplayed(long _key, bool _bDisplayed)
+    {
+        if (this.emodel == null) return;
+        var modelTransform = this.emodel.GetModelTransform();
+        if (modelTransform == null) return;
+        foreach( var rigid in modelTransform.GetComponentsInChildren<Rigidbody>() )
+        {
+            rigid.useGravity = _bDisplayed;
+        }
+
+    }
     public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center)
     {
         var component = gameObject.GetComponent<BoxCollider>();
@@ -1340,6 +1358,9 @@ public class EntityAliveSDX : EntityTrader
     //Original logic was meant to protect the trader's from unloading NPCs when they entered a trader area.
     public override void MarkToUnload()
     {
+
+        GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= this.chunkClusterVisibleDelegate;
+
         //if ( !isHirable)
         //{
         //    base.MarkToUnload();
