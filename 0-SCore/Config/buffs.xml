@@ -10,6 +10,10 @@
 			</effect_group>
 		</buff>
 
+		<buff name="buffTeleportCooldown" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="5"/>
+		</buff>
 
 		<buff name="buffAttackCoolDown" hidden="true">
 			<stack_type value="ignore"/>
