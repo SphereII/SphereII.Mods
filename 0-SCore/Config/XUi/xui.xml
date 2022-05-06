@@ -9,5 +9,6 @@
     <window_group name="LockPicking" >
       <window name="windowLockPicking"/>
     </window_group>
+
   </append>
 </configs>

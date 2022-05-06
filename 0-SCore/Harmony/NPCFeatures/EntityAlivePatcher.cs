@@ -50,17 +50,21 @@ namespace Harmony.NPCFeatures
         {
             private static bool Prefix(global::EntityAlive __instance, ref int __result, DamageSource _damageSource)
             {
-                // New feature flag, specific to this feature.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
+
+                // allow an override for the action stuff. If its set here, then use faction targeting.
+                if (!EntityUtilities.CheckProperty(__instance.entityId, "AllEntitiesUseFactionTargeting"))
                 {
-                    // Even if *all* entities don't use faction damage rules, this entity should
-                    // if it has one of the UseFactions tags. Only stop now if it doesn't.
-                    if (!EntityUtilities.UseFactions(__instance))
+                    // New feature flag, specific to this feature.
+                    if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
                     {
-                        return true;
+                        // Even if *all* entities don't use faction damage rules, this entity should
+                        // if it has one of the UseFactions tags. Only stop now if it doesn't.
+                        if (!EntityUtilities.UseFactions(__instance))
+                        {
+                            return true;
+                        }
                     }
                 }
-
                 if (_damageSource.damageType == EnumDamageTypes.Suicide)
                     return true;
 

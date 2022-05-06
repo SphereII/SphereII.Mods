@@ -10,10 +10,22 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.4.119.941
-	
+Version: 20.4.126.2131
+	[ NPC ]
+		- Allowed override on a per-entity base for 
+				<property name="AllEntitiesUseFactionTargeting" value="true" />
+	[ Portals ]
+		- Preliminary code for setting Portals ready for testing. Portals are fancy signs. Add the same Text to two Portals, and they will be linked.
+			- In the case of multiple named portals, the first one discovered will be used.
 
-Version: 20.4.116.1950
+			Video Example: https://youtu.be/cvYxVzY_lO4
+
+			2 Portal Blocks have been defined in blocks.xml, using models provided by guppycur
+				guppyPortalMagic
+				guppyFuturePortal
+		
+
+Version: 20.4.119.941
 	[ NPC ]
 		- Added Chunk visible feature for the NPCs.
 			When the chunk is not visible, the NPC's gravity will be turned off.
@@ -42,6 +54,9 @@ Version: 20.4.116.1950
 			</action>
 
 			Setting pc=5 on a SpawnCube will set nearby NPC to path to cubes with the number 5.
+
+
+Version: 20.4.116.1950
 
 	[ Blocks ]
 		- Re-added crop trample

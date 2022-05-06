@@ -140,7 +140,9 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
+    <Compile Include="Scripts\Blocks\BlockPrefabPlacer.cs" />
     <Compile Include="Scripts\Blocks\BlockRobot.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="Scripts\Lockpicking\LocksetAudio.cs" />
     <Compile Include="Scripts\Lockpicking\SphereII_Locks.cs" />
     <Compile Include="Scripts\Managers\FarmPlotManager.cs" />
+    <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
