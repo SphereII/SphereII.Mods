@@ -400,12 +400,13 @@
 			<property name="SortOrder2" value="0050"/>
 			<property name="DescriptionKey" value="guppyPortal_desc"/>
 		</block>
-
+<!--
 		<block name="PrefabPlacerPortal">
 			<property name="Extends" value="PrefabPlacerMaster"/>
 			<property name="Prefab" value ="PortalPrefab"/>
 			<property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
 		</block>
+-->
 	</append>
 	
 	
