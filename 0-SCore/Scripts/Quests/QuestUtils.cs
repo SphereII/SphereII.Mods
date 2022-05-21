@@ -102,5 +102,397 @@ public static class QuestUtils
 
         return prefab;
     }
+
+    /// <summary>
+    /// Gets a random POI near a trader. This is meant to be a replacement for
+    /// <see cref="DynamicPrefabDecorator.GetRandomPOINearTrader"/>,
+    /// except it also handles search distance and POI tags used to include or exclude the prefab.
+    /// </summary>
+    /// <param name="trader"></param>
+    /// <param name="questTag"></param>
+    /// <param name="difficulty"></param>
+    /// <param name="usedPoiLocations"></param>
+    /// <param name="entityIdForQuests"></param>
+    /// <param name="biomeFilterType"></param>
+    /// <param name="biomeFilter"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
+    /// <returns></returns>
+    public static PrefabInstance GetRandomPOINearTrader(
+        EntityTrader trader,
+        float? minSearchDistance,
+        float? maxSearchDistance,
+        QuestTags questTag,
+        byte difficulty,
+        List<Vector2> usedPoiLocations = null,
+        int entityIdForQuests = -1,
+        BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
+        string biomeFilter = "",
+        POITags? includeTags = null,
+        POITags? excludeTags = null)
+    {
+        if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+        {
+            Log.Out("PrefabUtilities.GetRandomPOINearTrader:");
+            Log.Out($"    minSearchDistance={minSearchDistance}, maxSearchDistance={maxSearchDistance}");
+        }
+
+        World world = GameManager.Instance.World;
+
+        int minDistanceTier = minSearchDistance == null ? 0 : GetTraderPrefabListTier(minSearchDistance.Value);
+        int maxDistanceTier = maxSearchDistance == null ? 2 : GetTraderPrefabListTier(maxSearchDistance.Value);
+
+        if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+        {
+            Log.Out($"    minDistanceTier={minDistanceTier}, maxDistanceTier={maxDistanceTier}");
+        }
+
+        for (int distanceTier = minDistanceTier; distanceTier <= maxDistanceTier; distanceTier++)
+        {
+            List<PrefabInstance> prefabsForTrader = QuestEventManager.Current.GetPrefabsForTrader(
+                trader.traderArea,
+                difficulty,
+                distanceTier,
+                world.GetGameRandom());
+
+            if (prefabsForTrader != null)
+            {
+                // GetPrefabsForTrader shuffles the prefabs before returning them, so we can just
+                // iterate through the list and still send players to "random" POIs
+                for (int j = 0; j < prefabsForTrader.Count; j++)
+                {
+                    PrefabInstance prefabInstance = prefabsForTrader[j];
+                    if (ValidPrefabForQuest(
+                        trader,
+                        prefabInstance,
+                        questTag,
+                        usedPoiLocations,
+                        entityIdForQuests,
+                        biomeFilterType,
+                        biomeFilter,
+                        includeTags,
+                        excludeTags,
+                        minSearchDistance,
+                        maxSearchDistance))
+                    {
+                        return prefabInstance;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Gets a random POI near an entity's position. This is meant to be a replacement for
+    /// <see cref="DynamicPrefabDecorator.GetRandomPOINearWorldPos"/>
+    /// except it accepts the quest giver instead of the world position, and it also handles
+    /// POI tags used to include or exclude the prefab.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="minSearchDistance"></param>
+    /// <param name="maxSearchDistance"></param>
+    /// <param name="questTag"></param>
+    /// <param name="difficulty"></param>
+    /// <param name="usedPOILocations"></param>
+    /// <param name="entityIDforQuests"></param>
+    /// <param name="biomeFilterType"></param>
+    /// <param name="biomeFilter"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
+    /// <returns></returns>
+    public static PrefabInstance GetRandomPOINearEntityPos(
+        Entity entity,
+        float minSearchDistance,
+        float maxSearchDistance,
+        QuestTags questTag,
+        byte difficulty,
+        List<Vector2> usedPOILocations = null,
+        int entityIDforQuests = -1,
+        BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
+        string biomeFilter = "",
+        POITags? includeTags = null,
+        POITags? excludeTags = null)
+    {
+        List<PrefabInstance> prefabsByDifficultyTier = QuestEventManager.Current.GetPrefabsByDifficultyTier(difficulty);
+        if (prefabsByDifficultyTier == null)
+        {
+            return null;
+        }
+
+        World world = GameManager.Instance.World;
+
+        // GetPrefabsByDifficultyTier does NOT shuffle the prefabs before returning them, so try
+        // 50 times to get a valid prefab from a random position in the list
+        for (int i = 0; i < 50; i++)
+        {
+            int index = world.GetGameRandom().RandomRange(prefabsByDifficultyTier.Count);
+            PrefabInstance prefabInstance = prefabsByDifficultyTier[index];
+
+            if (!ValidPrefabForQuest(
+                entity,
+                prefabInstance,
+                questTag,
+                usedPOILocations,
+                entityIDforQuests,
+                biomeFilterType,
+                biomeFilter,
+                includeTags,
+                excludeTags,
+                minSearchDistance,
+                maxSearchDistance))
+            {
+                continue;
+            }
+
+            return prefabInstance;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// The trader prefab list has three distance tiers per trader area:
+    /// 0 is <= 500, 1 is <= 1500, and 2 is everything else.
+    /// </summary>
+    /// <param name="distance"></param>
+    /// <returns></returns>
+    public static int GetTraderPrefabListTier(float distance)
+    {
+        if (distance <= 500f)
+            return 0;
+
+        if (distance <= 1500f)
+            return 1;
+
+        return 2;
+    }
+
+    /// <summary>
+    /// Returns true if the prefab is valid for a quest. Uses all utility validation methods.
+    /// </summary>
+    /// <param name="questGiver"></param>
+    /// <param name="prefab"></param>
+    /// <param name="questTag"></param>
+    /// <param name="usedPoiLocations"></param>
+    /// <param name="entityIdForQuests"></param>
+    /// <param name="biomeFilterType"></param>
+    /// <param name="biomeFilter"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
+    /// <param name="minSearchDistance"></param>
+    /// <param name="maxSearchDistance"></param>
+    /// <returns></returns>
+    public static bool ValidPrefabForQuest(
+        Entity questGiver,
+        PrefabInstance prefab,
+        QuestTags questTag,
+        List<Vector2> usedPoiLocations = null,
+        int entityIdForQuests = -1,
+        BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
+        string biomeFilter = "",
+        POITags? includeTags = null,
+        POITags? excludeTags = null,
+        float? minSearchDistance = null,
+        float? maxSearchDistance = null)
+    {
+        if (!prefab.prefab.bSleeperVolumes)
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} has no sleeper volumes");
+            }
+            return false;
+        }
+
+        if (!prefab.prefab.GetQuestTag(questTag))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} does not have quest tag {questTag}");
+            }
+            return false;
+        }
+
+        Vector2 poiLocation = new Vector2(prefab.boundingBoxPosition.x, prefab.boundingBoxPosition.z);
+
+        if (usedPoiLocations != null && usedPoiLocations.Contains(poiLocation))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} has already been used");
+            }
+            return false;
+        }
+
+        QuestEventManager.POILockoutReasonTypes lockoutReason = QuestEventManager
+            .Current
+            .CheckForPOILockouts(entityIdForQuests, poiLocation);
+
+        if (lockoutReason != QuestEventManager.POILockoutReasonTypes.None)
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} is locked out: {lockoutReason}");
+            }
+            return false;
+        }
+
+        if (!MeetsBiomeRequirements(poiLocation, questGiver, biomeFilterType, biomeFilter))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} does not meet biome requirements: {biomeFilterType} {biomeFilter}");
+            }
+            return false;
+        }
+
+        if (!HasPOITags(prefab, includeTags))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} does not have tags {includeTags}");
+            }
+            return false;
+        }
+
+        if (HasPOITags(prefab, excludeTags))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} has excluded tags {includeTags}");
+            }
+            return false;
+        }
+
+        if (!MeetsDistanceRequirements(prefab, questGiver, minSearchDistance, maxSearchDistance))
+        {
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            {
+                Log.Out($"Prefab {prefab.name} is not within min {minSearchDistance} and max {maxSearchDistance}");
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// If min and/or max search distance is provided, returns true if the prefab is within that
+    /// search distance from the quest giver.
+    /// </summary>
+    /// <param name="questGiver"></param>
+    /// <param name="prefab"></param>
+    /// <param name="minSearchDistance"></param>
+    /// <param name="maxSearchDistance"></param>
+    /// <returns></returns>
+    public static bool MeetsDistanceRequirements(
+        PrefabInstance prefab,
+        Entity questGiver,
+        float? minSearchDistance,
+        float? maxSearchDistance)
+    {
+        if (minSearchDistance == null && maxSearchDistance == null)
+            return true;
+
+        Vector2 worldPos = new Vector2(questGiver.position.x, questGiver.position.z);
+
+        Vector2 prefabCenter = new Vector2(
+            prefab.boundingBoxPosition.x + prefab.boundingBoxSize.x / 2f,
+            prefab.boundingBoxPosition.z + prefab.boundingBoxSize.z / 2f);
+
+        // Work with the square of the distance to avoid taking square roots
+        float sqrDistance = (worldPos - prefabCenter).sqrMagnitude;
+
+        if (minSearchDistance.HasValue &&
+            sqrDistance < (minSearchDistance.Value * minSearchDistance.Value))
+        {
+            return false;
+        }
+
+        if (maxSearchDistance.HasValue &&
+            sqrDistance < (maxSearchDistance.Value * maxSearchDistance.Value))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// Returns true if the POI at the specified location meets the biome filter requirements.
+    /// </summary>
+    /// <param name="poiLocation"></param>
+    /// <param name="questGiver"></param>
+    /// <param name="biomeFilterType"></param>
+    /// <param name="biomeFilter"></param>
+    /// <returns></returns>
+    public static bool MeetsBiomeRequirements(
+        Vector2 poiLocation,
+        Entity questGiver,
+        BiomeFilterTypes biomeFilterType,
+        string biomeFilter)
+    {
+        if (biomeFilterType == BiomeFilterTypes.AnyBiome)
+        {
+            return true;
+        }
+
+        IBiomeProvider biomeProvider = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider();
+
+        BiomeDefinition poiBiome = biomeProvider.GetBiomeAt((int)poiLocation.x, (int)poiLocation.y);
+
+        if (biomeFilterType == BiomeFilterTypes.OnlyBiome && poiBiome.m_sBiomeName != biomeFilter)
+        {
+            return false;
+        }
+        else if (biomeFilterType == BiomeFilterTypes.ExcludeBiome)
+        {
+            string[] biomes = biomeFilter.Split(new char[] { ',' });
+
+            bool inBiome = false;
+
+            for (int i = 0; i < biomes.Length; i++)
+            {
+                if (poiBiome.m_sBiomeName == biomes[i])
+                {
+                    inBiome = true;
+                    break;
+                }
+            }
+
+            if (inBiome)
+            {
+                return false;
+            }
+        }
+        else if (biomeFilterType == BiomeFilterTypes.SameBiome && questGiver != null)
+        {
+            var questGiverBiome = biomeProvider.GetBiomeAt(
+                (int)questGiver.position.x,
+                (int)questGiver.position.z);
+
+            if (poiBiome != questGiverBiome && biomeFilter != "" && poiBiome.m_sBiomeName != biomeFilter)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// If the POI tags are provided, returns true if the prefab contains any of those tags.
+    /// </summary>
+    /// <param name="prefabInstance"></param>
+    /// <param name="tags"></param>
+    /// <returns></returns>
+    public static bool HasPOITags(PrefabInstance prefabInstance, POITags? tags)
+    {
+        if (tags == null)
+            return true;
+
+        return prefabInstance.prefab.Tags.Test_AnySet(tags.Value);
+    }
 }
 
