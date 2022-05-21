@@ -35,22 +35,22 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     /// <summary>
     /// A prefab must have at least one of these POI tags to be included in the search for POIs.
     /// </summary>
-    public POITags? IncludeTags { get; internal set; }
+    public POITags IncludeTags { get; internal set; } = POITags.none;
 
     /// <summary>
     /// If a prefab has any of these POI tags, it is excluded from the search for POIs.
     /// </summary>
-    public POITags? ExcludeTags { get; internal set; }
+    public POITags ExcludeTags { get; internal set; } = POITags.none;
 
     /// <summary>
     /// The maximum distance to search. POIs outside this distance will not be returned.
     /// </summary>
-    public float? MaxSearchDistance { get; internal set; }
+    public float MaxSearchDistance { get; internal set; } = -1;
 
     /// <summary>
     /// The minimum distance to search. POIs inside this distance will not be returned.
     /// </summary>
-    public float? MinSearchDistance { get; internal set; }
+    public float MinSearchDistance { get; internal set; } = -1;
 
     /// <summary>
     /// Parses additional properties from the dynamic properties.
@@ -123,7 +123,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
             return position;
         }
 
-        EntityAlive entityAlive = ownerNPC ?? (EntityAlive)OwnerQuest.OwnerJournal.OwnerPlayer;
+        EntityAlive questOwner = ownerNPC ?? (EntityAlive)OwnerQuest.OwnerJournal.OwnerPlayer;
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -131,36 +131,36 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
 
             // Modified so it won't call the method if the "trader" has no TraderArea.
             // Core NPCs descend from traders, and this will allow them to give POI quests.
-            if (entityAlive is EntityTrader trader && trader.traderArea != null)
+            if (questOwner is EntityTrader trader && trader.traderArea != null)
             {
                 prefabInstance = QuestUtils.GetRandomPOINearTrader(
                     trader,
-                    MinSearchDistance,
-                    MaxSearchDistance,
                     OwnerQuest.QuestTags,
                     OwnerQuest.QuestClass.DifficultyTier,
+                    IncludeTags,
+                    ExcludeTags,
+                    MinSearchDistance,
+                    MaxSearchDistance,
                     usedPoiLocations,
                     entityIdForQuests,
                     biomeFilterType,
-                    biomeFilter,
-                    IncludeTags,
-                    ExcludeTags);
+                    biomeFilter);
             }
             else
             {
                 prefabInstance = QuestUtils.GetRandomPOINearEntityPos(
-                    entityAlive,
-                    // The values used in vanilla are the square of the distance; adjusted here
-                    MinSearchDistance ?? 50,
-                    MaxSearchDistance ?? 2000,
+                    questOwner,
                     OwnerQuest.QuestTags,
                     OwnerQuest.QuestClass.DifficultyTier,
+                    IncludeTags,
+                    ExcludeTags,
+                    // The values used in vanilla are the square of the distance; adjusted here
+                    MinSearchDistance >= 0 ? MinSearchDistance : 50,
+                    MaxSearchDistance >= 0 ? MaxSearchDistance : 2000,
                     usedPoiLocations,
                     entityIdForQuests,
                     biomeFilterType,
-                    biomeFilter,
-                    IncludeTags,
-                    ExcludeTags);
+                    biomeFilter);
             }
 
             if (prefabInstance == null)
@@ -211,18 +211,17 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
         else
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
-                NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(
-                    entityAlive.entityId,
+                NetPackageManager.GetPackage<NetPackageRandomTaggedPOIGotoSDX>().Setup(
+                    questOwner.entityId,
                     OwnerQuest.QuestTags,
                     OwnerQuest.QuestCode,
-                    NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI,
                     OwnerQuest.QuestClass.DifficultyTier,
-                    0,
-                    -1,
-                    0f,
-                    0f,
-                    0f,
-                    -1f,
+                    IncludeTags,
+                    ExcludeTags,
+                    MinSearchDistance,
+                    MaxSearchDistance,
+                    0, -1, // POI boundingBoxPosition
+                    0f, 0f, 0f, // POI boundingBoxSize
                     biomeFilterType,
                     biomeFilter),
                 false);

@@ -120,16 +120,16 @@ public static class QuestUtils
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearTrader(
         EntityTrader trader,
-        float? minSearchDistance,
-        float? maxSearchDistance,
         QuestTags questTag,
         byte difficulty,
+        POITags includeTags,
+        POITags excludeTags,
+        float minSearchDistance,
+        float maxSearchDistance,
         List<Vector2> usedPoiLocations = null,
         int entityIdForQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
-        string biomeFilter = "",
-        POITags? includeTags = null,
-        POITags? excludeTags = null)
+        string biomeFilter = "")
     {
         if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
         {
@@ -139,8 +139,8 @@ public static class QuestUtils
 
         World world = GameManager.Instance.World;
 
-        int minDistanceTier = minSearchDistance == null ? 0 : GetTraderPrefabListTier(minSearchDistance.Value);
-        int maxDistanceTier = maxSearchDistance == null ? 2 : GetTraderPrefabListTier(maxSearchDistance.Value);
+        int minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
+        int maxDistanceTier = maxSearchDistance < 0 ? 2 : GetTraderPrefabListTier(maxSearchDistance);
 
         if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
         {
@@ -166,12 +166,12 @@ public static class QuestUtils
                         trader,
                         prefabInstance,
                         questTag,
+                        includeTags,
+                        excludeTags,
                         usedPoiLocations,
                         entityIdForQuests,
                         biomeFilterType,
                         biomeFilter,
-                        includeTags,
-                        excludeTags,
                         minSearchDistance,
                         maxSearchDistance))
                     {
@@ -191,29 +191,29 @@ public static class QuestUtils
     /// POI tags used to include or exclude the prefab.
     /// </summary>
     /// <param name="entity"></param>
-    /// <param name="minSearchDistance"></param>
-    /// <param name="maxSearchDistance"></param>
     /// <param name="questTag"></param>
     /// <param name="difficulty"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
+    /// <param name="minSearchDistance"></param>
+    /// <param name="maxSearchDistance"></param>
     /// <param name="usedPOILocations"></param>
     /// <param name="entityIDforQuests"></param>
     /// <param name="biomeFilterType"></param>
     /// <param name="biomeFilter"></param>
-    /// <param name="includeTags"></param>
-    /// <param name="excludeTags"></param>
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearEntityPos(
         Entity entity,
-        float minSearchDistance,
-        float maxSearchDistance,
         QuestTags questTag,
         byte difficulty,
+        POITags includeTags,
+        POITags excludeTags,
+        float minSearchDistance,
+        float maxSearchDistance,
         List<Vector2> usedPOILocations = null,
         int entityIDforQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
-        string biomeFilter = "",
-        POITags? includeTags = null,
-        POITags? excludeTags = null)
+        string biomeFilter = "")
     {
         List<PrefabInstance> prefabsByDifficultyTier = QuestEventManager.Current.GetPrefabsByDifficultyTier(difficulty);
         if (prefabsByDifficultyTier == null)
@@ -234,12 +234,12 @@ public static class QuestUtils
                 entity,
                 prefabInstance,
                 questTag,
+                includeTags,
+                excludeTags,
                 usedPOILocations,
                 entityIDforQuests,
                 biomeFilterType,
                 biomeFilter,
-                includeTags,
-                excludeTags,
                 minSearchDistance,
                 maxSearchDistance))
             {
@@ -274,12 +274,12 @@ public static class QuestUtils
     /// <param name="questGiver"></param>
     /// <param name="prefab"></param>
     /// <param name="questTag"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
     /// <param name="usedPoiLocations"></param>
     /// <param name="entityIdForQuests"></param>
     /// <param name="biomeFilterType"></param>
     /// <param name="biomeFilter"></param>
-    /// <param name="includeTags"></param>
-    /// <param name="excludeTags"></param>
     /// <param name="minSearchDistance"></param>
     /// <param name="maxSearchDistance"></param>
     /// <returns></returns>
@@ -287,14 +287,14 @@ public static class QuestUtils
         Entity questGiver,
         PrefabInstance prefab,
         QuestTags questTag,
+        POITags includeTags,
+        POITags excludeTags,
         List<Vector2> usedPoiLocations = null,
         int entityIdForQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
         string biomeFilter = "",
-        POITags? includeTags = null,
-        POITags? excludeTags = null,
-        float? minSearchDistance = null,
-        float? maxSearchDistance = null)
+        float minSearchDistance = -1,
+        float maxSearchDistance = -1)
     {
         if (!prefab.prefab.bSleeperVolumes)
         {
@@ -389,10 +389,10 @@ public static class QuestUtils
     public static bool MeetsDistanceRequirements(
         PrefabInstance prefab,
         Entity questGiver,
-        float? minSearchDistance,
-        float? maxSearchDistance)
+        float minSearchDistance,
+        float maxSearchDistance)
     {
-        if (minSearchDistance == null && maxSearchDistance == null)
+        if (minSearchDistance < 0 && maxSearchDistance < 0)
             return true;
 
         Vector2 worldPos = new Vector2(questGiver.position.x, questGiver.position.z);
@@ -404,14 +404,14 @@ public static class QuestUtils
         // Work with the square of the distance to avoid taking square roots
         float sqrDistance = (worldPos - prefabCenter).sqrMagnitude;
 
-        if (minSearchDistance.HasValue &&
-            sqrDistance < (minSearchDistance.Value * minSearchDistance.Value))
+        if (minSearchDistance >= 0 &&
+            sqrDistance < (minSearchDistance * minSearchDistance))
         {
             return false;
         }
 
-        if (maxSearchDistance.HasValue &&
-            sqrDistance < (maxSearchDistance.Value * maxSearchDistance.Value))
+        if (maxSearchDistance >= 0 &&
+            sqrDistance < (maxSearchDistance * maxSearchDistance))
         {
             return false;
         }
@@ -482,17 +482,17 @@ public static class QuestUtils
     }
 
     /// <summary>
-    /// If the POI tags are provided, returns true if the prefab contains any of those tags.
+    /// If POI tags are provided, returns true if the prefab contains any of those tags.
     /// </summary>
     /// <param name="prefabInstance"></param>
     /// <param name="tags"></param>
     /// <returns></returns>
-    public static bool HasPOITags(PrefabInstance prefabInstance, POITags? tags)
+    public static bool HasPOITags(PrefabInstance prefabInstance, POITags tags)
     {
-        if (tags == null)
+        if (tags.IsEmpty)
             return true;
 
-        return prefabInstance.prefab.Tags.Test_AnySet(tags.Value);
+        return prefabInstance.prefab.Tags.Test_AnySet(tags);
     }
 }
 
