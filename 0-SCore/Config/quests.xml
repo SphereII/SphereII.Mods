@@ -69,4 +69,15 @@
     
     </quest>
   </append>
+
+	<!-- TODO Remove when done testing RandomTaggedPOIGotoSDX -->
+	<set xpath="//objective[@type='RandomPOIGoto']/@type">RandomTaggedPOIGotoSDX, SCore</set>
+	<append xpath="//quest[contains(@id,'fetch')]/objective[@type='RandomTaggedPOIGotoSDX, SCore']">
+		<property name="include_tags" value="countryresidential,wilderness,somecustomtag" />
+		<property name="distance" value="1400 - 1600" />
+	</append>
+	<append xpath="//quest[contains(@id,'clear')]/objective[@type='RandomTaggedPOIGotoSDX, SCore']">
+		<property name="exclude_tags" value="countryresidential,someothercustomtag" />
+		<property name="distance" value="250" />
+	</append>
 </configs>

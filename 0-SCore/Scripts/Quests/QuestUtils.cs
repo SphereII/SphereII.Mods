@@ -104,6 +104,23 @@ public static class QuestUtils
     }
 
     /// <summary>
+    /// Whether logging is enabled. Defaults to true if the debug menu is enabled.
+    /// Can be set to temporarily override in code for testing, e.g. on the server.
+    /// </summary>
+    public static bool LoggingEnabled
+    {
+        get
+        {
+            return _loggingEnabled.HasValue ? _loggingEnabled.Value : GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled);
+        }
+        set
+        {
+            _loggingEnabled = value;
+        }
+    }
+    private static bool? _loggingEnabled;
+
+    /// <summary>
     /// Gets a random POI near a trader. This is meant to be a replacement for
     /// <see cref="DynamicPrefabDecorator.GetRandomPOINearTrader"/>,
     /// except it also handles search distance and POI tags used to include or exclude the prefab.
@@ -131,10 +148,11 @@ public static class QuestUtils
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
         string biomeFilter = "")
     {
-        if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+        if (LoggingEnabled)
         {
-            Log.Out("PrefabUtilities.GetRandomPOINearTrader:");
+            Log.Out($"PrefabUtilities.GetRandomPOINearTrader for {questTag}:");
             Log.Out($"    minSearchDistance={minSearchDistance}, maxSearchDistance={maxSearchDistance}");
+            Log.Out($"    includeTags={includeTags}, excludeTags={excludeTags}");
         }
 
         World world = GameManager.Instance.World;
@@ -142,7 +160,7 @@ public static class QuestUtils
         int minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
         int maxDistanceTier = maxSearchDistance < 0 ? 2 : GetTraderPrefabListTier(maxSearchDistance);
 
-        if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+        if (LoggingEnabled)
         {
             Log.Out($"    minDistanceTier={minDistanceTier}, maxDistanceTier={maxDistanceTier}");
         }
@@ -298,7 +316,7 @@ public static class QuestUtils
     {
         if (!prefab.prefab.bSleeperVolumes)
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
                 Log.Out($"Prefab {prefab.name} has no sleeper volumes");
             }
@@ -307,7 +325,7 @@ public static class QuestUtils
 
         if (!prefab.prefab.GetQuestTag(questTag))
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
                 Log.Out($"Prefab {prefab.name} does not have quest tag {questTag}");
             }
@@ -318,7 +336,7 @@ public static class QuestUtils
 
         if (usedPoiLocations != null && usedPoiLocations.Contains(poiLocation))
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
                 Log.Out($"Prefab {prefab.name} has already been used");
             }
@@ -331,7 +349,7 @@ public static class QuestUtils
 
         if (lockoutReason != QuestEventManager.POILockoutReasonTypes.None)
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
                 Log.Out($"Prefab {prefab.name} is locked out: {lockoutReason}");
             }
@@ -340,36 +358,30 @@ public static class QuestUtils
 
         if (!MeetsBiomeRequirements(poiLocation, questGiver, biomeFilterType, biomeFilter))
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} does not meet biome requirements: {biomeFilterType} {biomeFilter}");
+                Log.Out($"Prefab {prefab.name} does not meet biome requirements: type={biomeFilterType}, filter={biomeFilter}");
             }
             return false;
         }
 
-        if (!HasPOITags(prefab, includeTags))
+        if (!MeetsTagRequirements(prefab, includeTags, excludeTags))
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} does not have tags {includeTags}");
-            }
-            return false;
-        }
-
-        if (HasPOITags(prefab, excludeTags))
-        {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-            {
-                Log.Out($"Prefab {prefab.name} has excluded tags {includeTags}");
+                var includeTagsText = includeTags.IsEmpty ? string.Empty : $"must include {includeTags}; ";
+                var excludeTagsText = excludeTags.IsEmpty ? string.Empty : $"must exclude {excludeTags}; ";
+                Log.Out($"Prefab {prefab.name} fails tag requirements: {includeTagsText}{excludeTagsText}prefab tags are{prefab.prefab.Tags}");
             }
             return false;
         }
 
         if (!MeetsDistanceRequirements(prefab, questGiver, minSearchDistance, maxSearchDistance))
         {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+            if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} is not within min {minSearchDistance} and max {maxSearchDistance}");
+                var minSearchText = minSearchDistance > 0 ? $" minimum distance {minSearchDistance} and" : string.Empty;
+                Log.Out($"Prefab {prefab.name} is not within{minSearchText} maximum distance {maxSearchDistance}");
             }
             return false;
         }
@@ -397,9 +409,7 @@ public static class QuestUtils
 
         Vector2 worldPos = new Vector2(questGiver.position.x, questGiver.position.z);
 
-        Vector2 prefabCenter = new Vector2(
-            prefab.boundingBoxPosition.x + prefab.boundingBoxSize.x / 2f,
-            prefab.boundingBoxPosition.z + prefab.boundingBoxSize.z / 2f);
+        Vector2 prefabCenter = prefab.GetCenterXZ();
 
         // Work with the square of the distance to avoid taking square roots
         float sqrDistance = (worldPos - prefabCenter).sqrMagnitude;
@@ -411,7 +421,7 @@ public static class QuestUtils
         }
 
         if (maxSearchDistance >= 0 &&
-            sqrDistance < (maxSearchDistance * maxSearchDistance))
+            sqrDistance > (maxSearchDistance * maxSearchDistance))
         {
             return false;
         }
@@ -482,17 +492,29 @@ public static class QuestUtils
     }
 
     /// <summary>
-    /// If POI tags are provided, returns true if the prefab contains any of those tags.
+    /// Returns true if the POI meets the POI tag requirements.
+    /// If include tags are provided, it must have one or more of those tags;
+    /// if exclude tags are provided, it cannot have any of those tags.
     /// </summary>
     /// <param name="prefabInstance"></param>
-    /// <param name="tags"></param>
+    /// <param name="includeTags"></param>
+    /// <param name="excludeTags"></param>
     /// <returns></returns>
-    public static bool HasPOITags(PrefabInstance prefabInstance, POITags tags)
+    public static bool MeetsTagRequirements(PrefabInstance prefabInstance, POITags includeTags, POITags excludeTags)
     {
-        if (tags.IsEmpty)
-            return true;
+        if (!includeTags.IsEmpty &&
+            !prefabInstance.prefab.Tags.Test_AnySet(includeTags))
+        {
+            return false;
+        }
 
-        return prefabInstance.prefab.Tags.Test_AnySet(tags);
+        if (!excludeTags.IsEmpty &&
+            prefabInstance.prefab.Tags.Test_AnySet(excludeTags))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
 

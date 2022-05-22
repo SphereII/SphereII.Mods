@@ -43,14 +43,14 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     public POITags ExcludeTags { get; internal set; } = POITags.none;
 
     /// <summary>
-    /// The maximum distance to search. POIs outside this distance will not be returned.
-    /// </summary>
-    public float MaxSearchDistance { get; internal set; } = -1;
-
-    /// <summary>
     /// The minimum distance to search. POIs inside this distance will not be returned.
     /// </summary>
     public float MinSearchDistance { get; internal set; } = -1;
+
+    /// <summary>
+    /// The maximum distance to search. POIs outside this distance will not be returned.
+    /// </summary>
+    public float MaxSearchDistance { get; internal set; } = -1;
 
     /// <summary>
     /// Parses additional properties from the dynamic properties.
@@ -127,6 +127,9 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
+            // TODO Unset when done testing
+            QuestUtils.LoggingEnabled = true;
+
             PrefabInstance prefabInstance;
 
             // Modified so it won't call the method if the "trader" has no TraderArea.
@@ -165,16 +168,15 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
 
             if (prefabInstance == null)
             {
+                Log.Warning($"Unable to find POI for quest {OwnerQuest.QuestTags}!");
                 return Vector3.zero;
             }
 
-            Vector2 prefabCenter = new Vector2(
-                prefabInstance.boundingBoxPosition.x + prefabInstance.boundingBoxSize.x / 2f,
-                prefabInstance.boundingBoxPosition.z + prefabInstance.boundingBoxSize.z / 2f);
-
+            // This is taken from the vanilla ObjectiveRandomPOIGoto - but when is it ever the case?
+            Vector2 prefabCenter = prefabInstance.GetCenterXZ();
             if (prefabCenter.x == -0.1f && prefabCenter.y == -0.1f)
             {
-                Log.Error("ObjectiveRandomGoto: No POI found.");
+                Log.Error("ObjectiveRandomTaggedPOIGotoSDX: No POI found.");
                 return Vector3.zero;
             }
 
@@ -261,8 +263,8 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
         ObjectiveRandomTaggedPOIGotoSDX obj = (ObjectiveRandomTaggedPOIGotoSDX)objective;
         obj.IncludeTags = IncludeTags;
         obj.ExcludeTags = ExcludeTags;
-        obj.MaxSearchDistance = MaxSearchDistance;
         obj.MinSearchDistance = MinSearchDistance;
+        obj.MaxSearchDistance = MaxSearchDistance;
     }
 
     /// <summary>

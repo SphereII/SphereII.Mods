@@ -48,6 +48,9 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
+            // TODO Unset when done testing
+            QuestUtils.LoggingEnabled = true;
+
             EntityAlive questOwner = GameManager.Instance.World.GetEntity(entityId) as EntityAlive;
             PrefabInstance prefabInstance;
             List<Vector2> usedPoiLocations;
