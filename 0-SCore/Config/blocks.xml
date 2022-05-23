@@ -348,6 +348,9 @@
 		<block name="portalMaster">
 			<property name="Class" value="Portal, SCore" />
 			<property name="CooldownBuff" value="buffTeleportCooldown" />
+			<property name="Delay" value="2000" />
+			<property name="Location" value="Portal01" />
+			
 			<property name="Material" value="Mstone"/>
 			<property name="Shape" value="ModelEntity"/>
 			<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
@@ -371,6 +374,7 @@
 			<property name="DisplayType" value="blockMulti"/>
 			<property name="MultiBlockDim" value="3,3,3"/>
 			<property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
+			<property name="Location" value="Portal01" />
 		</block>
 		<block name="guppyFuturePortal">
 			<property name="Extends" value="portalMaster"/>
@@ -378,7 +382,7 @@
 			<property name="MultiBlockDim" value="3,3,3"/>
 			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
 		</block>
-		
+		<!--
 		<block name="PrefabPlacerMaster">
 			<property name="Class" value="PrefabPlacer, SCore" />
 			<property name="Prefab" value ="PortalPrefab"/>
@@ -400,13 +404,14 @@
 			<property name="SortOrder2" value="0050"/>
 			<property name="DescriptionKey" value="guppyPortal_desc"/>
 		</block>
-<!--
+-->
+		<!--
 		<block name="PrefabPlacerPortal">
 			<property name="Extends" value="PrefabPlacerMaster"/>
 			<property name="Prefab" value ="PortalPrefab"/>
 			<property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
 		</block>
--->
+		-->
 	</append>
 	
 	

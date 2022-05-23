@@ -102,6 +102,16 @@ public class PortalManager
         }
 		return Vector3i.zero;
     }
+
+	public Vector3i GetDestination(string location)
+	{
+		if (PortalMap.ContainsValue(location))
+		{
+			var myKey = PortalMap.FirstOrDefault(x => x.Value == location).Key;
+			return myKey;
+		}
+		return Vector3i.zero;
+	}
 	public void RemovePosition( Vector3i position)
     {
 		PortalMap.Remove(position);

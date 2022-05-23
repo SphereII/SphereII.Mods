@@ -19,27 +19,42 @@ namespace Harmony.Faction
         [HarmonyPatch("Update")]
         public class FactionUpdate
         {
-            // Loops around the instructions and removes the return condition.
-            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+
+            public static bool Prefix(FactionManager __instance, ref float ___saveTime, ThreadManager.ThreadInfo ___dataSaveThreadInfo)
             {
-                // Grab all the instructions
-                var codes = new List<CodeInstruction>(instructions);
+                if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer || GameManager.Instance.World == null || GameManager.Instance.World.Players == null || GameManager.Instance.World.Players.Count == 0 )
+                    return false;
 
-                var counter = 0;
-                foreach (var t in codes)
+                ___saveTime -= Time.deltaTime;
+                if (___saveTime <= 0f && (___dataSaveThreadInfo == null || ___dataSaveThreadInfo.HasTerminated()))
                 {
-                    if (t.opcode != OpCodes.Brfalse) continue;
-                    if (counter == 4)
-                    {
-                        t.opcode = OpCodes.Brtrue;
-                        break;
-                    }
-
-                    counter++;
+                    ___saveTime = 60f;
+                    __instance.Save();
                 }
-
-                return codes.AsEnumerable();
+                return false;
             }
+
+            //// Loops around the instructions and removes the return condition.
+            //private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            //{
+            //    // Grab all the instructions
+            //    var codes = new List<CodeInstruction>(instructions);
+
+            //    var counter = 0;
+            //    foreach (var t in codes)
+            //    {
+            //        if (t.opcode != OpCodes.Brfalse) continue;
+            //        if (counter == 4)
+            //        {
+            //            t.opcode = OpCodes.Brtrue;
+            //            break;
+            //        }
+
+            //        counter++;
+            //    }
+
+            //    return codes.AsEnumerable();
+            //}
         }
 
         // Fixing casting bug

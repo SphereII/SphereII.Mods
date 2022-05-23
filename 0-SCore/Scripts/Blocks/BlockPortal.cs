@@ -11,12 +11,22 @@ public class BlockPortal : BlockPlayerSign
 {
 
     private string buffCooldown = "buffTeleportCooldown";
-
+    private int delay = 1000;
+    private string location;
     public override void Init()
     {
         if (Properties.Values.ContainsKey("CooldownBuff"))
             buffCooldown = Properties.Values["CooldownBuff"];
-     
+
+        if (Properties.Values.ContainsKey("Delay"))
+        {
+            var delayString = Properties.Values["Delay"];
+            delay = StringParsers.ParseSInt32(delayString);
+        }
+
+        if (Properties.Values.ContainsKey("Location"))
+            location = Properties.Values["Location"];
+
         base.Init();
     }
 
@@ -46,27 +56,40 @@ public class BlockPortal : BlockPlayerSign
     {
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
         PortalManager.Instance.AddPosition(_blockPos);
+        if (string.IsNullOrEmpty(location)) return;
+
+        TileEntitySign tileEntitySign = world.GetTileEntity(0, _blockPos) as TileEntitySign;
+        if (tileEntitySign == null) return;
+
+        tileEntitySign.SetText(location);
     }
 
-    public override bool OnEntityCollidedWithBlock(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, Entity _entity)
-    {
-        TeleportPlayer(_entity as EntityAlive, _blockPos);
-        return base.OnEntityCollidedWithBlock(_world, _clrIdx, _blockPos, _blockValue, _entity);
-    }
-    public override void OnEntityWalking(WorldBase _world, int _x, int _y, int _z, BlockValue _blockValue, Entity entity)
-    {
-        TeleportPlayer(entity as EntityAlive, new Vector3i(_x, _y, _z));
-        base.OnEntityWalking(_world, _x, _y, _z, _blockValue, entity);
-    }
+ 
+    //public override bool OnEntityCollidedWithBlock(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, Entity _entity)
+    //{
+    //    TeleportPlayer(_entity as EntityAlive, _blockPos);
+    //    return base.OnEntityCollidedWithBlock(_world, _clrIdx, _blockPos, _blockValue, _entity);
+    //}
+    //public override void OnEntityWalking(WorldBase _world, int _x, int _y, int _z, BlockValue _blockValue, Entity entity)
+    //{
+    //    TeleportPlayer(entity as EntityAlive, new Vector3i(_x, _y, _z));
+    //    base.OnEntityWalking(_world, _x, _y, _z, _blockValue, entity);
+    //}
     public void TeleportPlayer(EntityAlive _player, Vector3i _blockPos)
     {
         if (_player.Buffs.HasBuff(buffCooldown)) return;
         _player.Buffs.AddBuff(buffCooldown);
 
+        Task task = Task.Delay(delay)
+             .ContinueWith(t => Teleport(_player, _blockPos));
+
+    }
+    
+    private void Teleport(EntityAlive _player, Vector3i _blockPos)
+    {
         var destination = PortalManager.Instance.GetDestination(_blockPos);
         if (destination != Vector3i.zero)
             _player.SetPosition(destination);
-
     }
 
     public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
@@ -93,7 +116,8 @@ public class BlockPortal : BlockPlayerSign
             case 1:
                 if (GameManager.Instance.IsEditMode() || !tileEntitySign.IsLocked() || tileEntitySign.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
-                    return this.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                    if (string.IsNullOrEmpty(location))
+                        return this.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
                 }
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
                 return false;
@@ -108,7 +132,8 @@ public class BlockPortal : BlockPlayerSign
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, "containerUnlocked");
                 return true;
             case 4:
-                XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player as EntityPlayerLocal), tileEntitySign);
+                if ( string.IsNullOrEmpty(location))
+                    XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player as EntityPlayerLocal), tileEntitySign);
                 return true;
             default:
                 return false;
@@ -126,7 +151,7 @@ public class BlockPortal : BlockPlayerSign
         bool flag = tileEntitySign.LocalPlayerIsOwner();
         bool flag2 = !tileEntitySign.LocalPlayerIsOwner() && (playerData != null && playerData.ACL != null) && playerData.ACL.Contains(internalLocalUserIdentifier);
         this.cmds[0].enabled = true;
-        this.cmds[1].enabled = true;
+        this.cmds[1].enabled = string.IsNullOrEmpty(location);
         this.cmds[2].enabled = (!tileEntitySign.IsLocked() && (flag || flag2));
         this.cmds[3].enabled = (tileEntitySign.IsLocked() && flag);
         this.cmds[4].enabled = ((!tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) && tileEntitySign.HasPassword() && tileEntitySign.IsLocked()) || flag);

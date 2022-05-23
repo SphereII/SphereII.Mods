@@ -171,6 +171,7 @@
     <Compile Include="Scripts\DataClasses\PlantData.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionTeleport.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionGiveQuestSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddItemSDX.cs" />
@@ -259,6 +260,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearStaleHires.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeamTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionResetTargetsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetCVar.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Scripts\Quests\QuestActionReplaceEntitySDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionSpawnEntitySDX.cs" />
     <Compile Include="Scripts\Quests\QuestUtils.cs" />
+    <Compile Include="Scripts\Quests\RewardGiveBuff.cs" />
     <Compile Include="Scripts\Quests\RewardGiveCvarDMT.cs" />
     <Compile Include="Scripts\Quests\RewardGiveNPCSDX.cs" />
     <Compile Include="Scripts\Quests\RewardItemSDX.cs" />

@@ -10,6 +10,41 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.143.1141
+
+	[ Quests ]
+		Added in GiveBuff as quest award
+			<reward type="GiveBuff, SCore" id="yourbuff" />
+
+	[ Portals ]
+		- Removed OnBlockCollided, and OnWalk on triggers. Players must interact with it now.
+		- Added 2 second delay before teleport begins, starting after cooldown buff is specified.
+			<property name="CooldownBuff" value="buffTeleportCooldown" />
+			<property name="Delay" value="1000" /> <!-- Micro seconds, whole numbers only. Default is 1000ms  -->
+
+		- Added XML configuration for fixed portals
+			<property name="Location" value="Portal01" />
+
+	[ MinEvent ]
+		- Added new MinEvent to teleport the player to a certain location
+			<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
+
+	[ Dialog ]
+		- Added new Dialog action to trigger a teleport. It supports the following, most of which is not tested.
+
+			Teleports to a Portal
+			<action type="Teleport, SCore" id="Portal01" />
+ 
+			Teleports to the player's current bedroll
+			<action type="Teleport, SCore" id="Bedroll" />
+  
+			Teleports to the player's landclaim
+			<action type="Teleport, SCore" id="Landclaim" />
+  
+			Teleports to the player's backpack
+			<action type="Teleport, SCore" id="Backpack" />
+	
+
 Version: 20.4.126.2131
 	[ NPC ]
 		- Allowed override on a per-entity base for 
