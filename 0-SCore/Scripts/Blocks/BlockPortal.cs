@@ -7,12 +7,26 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
+/*
+ * Property name value buffRequiresBuffName but if "" then not required.
+
+You could have a hidden true portal name like $playernamePortalOne but displays as PortalOne
+
+Feature request: destination blocks.  No teleporting capabilities, just used as a destination.
+
+Give buff value equals property that gives a buff when used. Then I can specify different visual scenes whole transporting 
+
+*/
 public class BlockPortal : BlockPlayerSign
 {
 
     private string buffCooldown = "buffTeleportCooldown";
     private int delay = 1000;
     private string location;
+    private bool display = false;
+
+    private string displayBuff = "";
     public override void Init()
     {
         if (Properties.Values.ContainsKey("CooldownBuff"))
@@ -26,6 +40,13 @@ public class BlockPortal : BlockPlayerSign
 
         if (Properties.Values.ContainsKey("Location"))
             location = Properties.Values["Location"];
+
+        if (Properties.Values.ContainsKey("Display"))
+             display = StringParsers.ParseBool(Properties.Values["Display"]);
+
+        if (Properties.Values.ContainsKey("DisplayBuff"))
+            displayBuff = Properties.Values["DisplayBuff"];
+
 
         base.Init();
     }
@@ -186,11 +207,24 @@ public class BlockPortal : BlockPlayerSign
 
         base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
 
-        // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.
-        _ebcd.bHasTransform = true;
+        //TileEntitySign tileEntitySign = (TileEntitySign)_world.GetTileEntity(_cIdx, _blockPos);
+        //if (tileEntitySign != null )
+        //{
+        //    var text = tileEntitySign.GetText();
+        //    PortalManager.Instance.AddPosition(_blockPos, text);
+        //}
+        
+            // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.
+            _ebcd.bHasTransform = true;
     }
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
+        if (display == false) return "";
+
+        if ( !string.IsNullOrEmpty(displayBuff))
+        {
+            if (_entityFocusing.Buffs.HasBuff(displayBuff) == false) return $"{Localization.Get("teleportto")}...";
+        }
         var text = "";
 
         PortalManager.Instance.AddPosition(_blockPos);

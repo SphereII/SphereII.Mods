@@ -6,6 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class PortalItem
+{
+	public Vector3i Position;
+	public string Source;
+	public string Destination;
+
+	public PortalItem(Vector3i position, string signData)
+    {
+		Position = position;
+		Source = signData;
+		Destination = signData;
+		foreach (var config in signData.Split(','))
+        {
+			if ( config.StartsWith("source="))
+				Source = config.Split('=')[1];
+			if (config.StartsWith("destination="))
+				Destination = config.Split('=')[1];
+		}
+
+	}
+}
 public class PortalManager
 {
 	private const float SAVE_TIME_SEC = 60f;
@@ -16,6 +37,8 @@ public class PortalManager
 	
 	private Dictionary<Vector3i, string> PortalMap = new Dictionary<Vector3i, string>();
 	private static PortalManager instance = null;
+
+
     public static PortalManager Instance
     {
         get
@@ -31,6 +54,7 @@ public class PortalManager
     public void Init()
     {
 		Log.Out("Starting Portal Manager...");
+		ModEvents.GameStartDone.RegisterHandler(new Action(Load));
 		Load();
     }
    	public void Display()
@@ -81,7 +105,12 @@ public class PortalManager
 		var destination = GetDestination(source);
 		if (destination == Vector3i.zero) return Localization.Get("portal_not_configured");
 		if (PortalMap.TryGetValue(destination, out string destinationName))
-			return destinationName;
+        {
+			var item = new PortalItem(destination, destinationName);
+			return item.Destination;
+			//return destinationName;
+		}
+			
 		return Localization.Get("portal_not_configured");
     }
 	public Vector3i GetDestination( Vector3i source )
@@ -89,14 +118,19 @@ public class PortalManager
 		if ( PortalMap.ContainsKey(source))
         {
 			var sourceName = PortalMap[source];
+			var item = new PortalItem(source,  sourceName);
+			if (item.Destination == "NA") return Vector3i.zero;
+
 			// Loop around every teleport position, matchng up the name.
-			foreach( var position in PortalMap)
+			foreach ( var portal in PortalMap)
             {
-				if (position.Value.Equals(sourceName))
+				var portalItem = new PortalItem(portal.Key, portal.Value);
+				if ( item.Destination == portalItem.Source )
+				//if (portal.Value.Equals(sourceName))
                 {
 					// don't teleport to the same location.
-					if (source == position.Key) continue;
-					return position.Key;
+					if (source == portal.Key) continue;
+					return portal.Key;
                 }
             }
         }
@@ -107,6 +141,7 @@ public class PortalManager
 	{
 		if (PortalMap.ContainsValue(location))
 		{
+		
 			var myKey = PortalMap.FirstOrDefault(x => x.Value == location).Key;
 			return myKey;
 		}
@@ -173,6 +208,8 @@ public class PortalManager
 
 	public void Load()
 	{
+		Log.Out("Reading Portal Data...");
+		PortalMap.Clear();
 		string path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
 		if (Directory.Exists(GameIO.GetSaveGameDir()) && File.Exists(path))
 		{

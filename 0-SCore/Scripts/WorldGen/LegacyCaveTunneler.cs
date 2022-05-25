@@ -312,6 +312,10 @@ public static class LegacyCaveSystem
                 if (Max <= 30)
                     Max = height;
 
+
+                if (Max <= 30)
+                    return;
+
                 int checkY = GameManager.Instance.World.GetGameRandom().RandomRange(30, Max);
                 if (y < 30)
                     checkY = GameManager.Instance.World.GetGameRandom().RandomRange(2, 30);

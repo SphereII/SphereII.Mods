@@ -10,6 +10,33 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+
+Version: 20.5.145.728
+
+	[ Caves ]
+		- Added sanity check against a negative value for max range - Chasing possible bug with vehicle + cave connection
+
+	[ Portals ]
+		- New configuration option for blocks.xml entry for portals
+
+			If the Display property is false, nothing will show up to the user when they are looking at the portal.
+			<property name="Display" value="true" /> 
+
+			If the Display is set to true, and the player has the buff "buffyours", they will see "Teleport To <Portal Destination>"
+			<property name="DisplayBuff" value="buffyours" />
+
+			If Display is set to true, but the player does not have the buff, they will see "Telport To..."
+
+		- New <property name="Location" value="" /> Changes
+			If the value is simply Portal01, then it will act as a two-way portal to the other Portal with the same name.
+			MinEffect and Dialog teleport triggers use this syntax as well.
+
+			- New syntax:
+				<property name="Location" value="source=Portal01,destination=Portal02" />  I am Portal01, but I send the player to Portal02
+				<property name="Location" value="source=Portal01,destination=NA" />  I am Portal01, but I have no destination. I am a one way portal (people can port to me, but not from me)
+
+		- Fixed an issue with PortalMaps not being cleared from one game to another
+
 Version: 20.5.143.1141
 
 	[ Quests ]
@@ -44,6 +71,12 @@ Version: 20.5.143.1141
 			Teleports to the player's backpack
 			<action type="Teleport, SCore" id="Backpack" />
 	
+	[ Faction Manager ]
+		- Fixed null ref for faction manager's update call
+
+	[ XML ]
+		- Commented out the error with the PortalPrefab
+
 
 Version: 20.4.126.2131
 	[ NPC ]
