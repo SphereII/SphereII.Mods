@@ -10,6 +10,19 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.146.1672
+
+	[ Portals ]
+		- Added Powered Portals. May need model work to add the 'electrical connection.'
+			<block name="samplePortal04">
+				<property name="Extends" value="portalMaster"/>
+				<property name="Class" value="PoweredPortal, SCore" />
+				<property name="DisplayType" value="blockMulti"/>
+				<property name="MultiBlockDim" value="3,3,3"/>
+				<property name="Model" value="Entities/Electrical/power_switchPrefab"/>
+				<!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+				<property name="Display" value="true" />
+			</block>
 
 Version: 20.5.145.728
 

@@ -69,14 +69,18 @@ public class PortalManager
 	public void AddPosition( Vector3i position )
     {
 		// If this sign isn't registered, try to register it now.
+		var tileEntity = GameManager.Instance.World.GetTileEntity(0, position) as TileEntityPoweredPortal;
+		var text = "";
+		if (tileEntity != null)
+			text = tileEntity.GetText();
+		
 		var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, position) as TileEntitySign;
-		if (tileEntitySign != null)
-		{
-			var text = tileEntitySign.GetText();
-			if (string.IsNullOrEmpty(text)) return;
+		if ( tileEntitySign != null)
+			text = tileEntity.GetText();
 
-			PortalManager.Instance.AddPosition(position, text);
-		}
+		if (string.IsNullOrEmpty(text)) return;
+		PortalManager.Instance.AddPosition(position, text);
+
 	}
 	public void AddPosition(Vector3i position, string name)
     {

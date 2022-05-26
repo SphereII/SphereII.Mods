@@ -106,6 +106,7 @@
     <Compile Include="Harmony\Standard\ModInitModCode.cs" />
     <Compile Include="Harmony\Standard\XMLDebugging.cs" />
     <Compile Include="Harmony\TileEntities\PoweredWorkstations.cs" />
+    <Compile Include="Harmony\TileEntities\TileEntity.cs" />
     <Compile Include="Harmony\TileEntities\TileEntityAlwaysActive.cs" />
     <Compile Include="Harmony\TileEntities\TileEntitySignGif.cs" />
     <Compile Include="Harmony\UI\FilterGameWorld.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
     <Compile Include="Scripts\Blocks\BlockPrefabPlacer.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="Scripts\Signs\AnimatedGifPlayer.cs" />
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
+    <Compile Include="Scripts\TileEntities\TileEntityPoweredPortal.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
     <Compile Include="Scripts\UnitTests\CanDamageChecks.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\IUAITargetFilter.cs" />
