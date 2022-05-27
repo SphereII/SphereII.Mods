@@ -149,6 +149,11 @@ public class BlockPoweredPortal : BlockPowered
     //}
     public void TeleportPlayer(EntityAlive _player, Vector3i _blockPos)
     {
+        var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
+        if (tileEntity == null) return;
+        if (!tileEntity.IsPowered) return;
+
+
         if (_player.Buffs.HasBuff(buffCooldown)) return;
         _player.Buffs.AddBuff(buffCooldown);
 
@@ -161,7 +166,15 @@ public class BlockPoweredPortal : BlockPowered
     {
         var destination = PortalManager.Instance.GetDestination(_blockPos);
         if (destination != Vector3i.zero)
+        {
+            // Check if the destination is powered.
+            var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+            if (tileEntity == null) return;
+
+            if (!tileEntity.IsPowered) return;
+
             _player.SetPosition(destination);
+        }
     }
 
     public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
@@ -256,6 +269,9 @@ public class BlockPoweredPortal : BlockPowered
         if (_ebcd == null || _ebcd.transform == null)
             return;
 
+        var tileEntity = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPoweredPortal;
+        if (tileEntity == null) return;
+
         var isOn = false;
         var animator = _ebcd.transform.GetComponentInChildren<Animator>();
         if (animator == null) return;
@@ -263,6 +279,14 @@ public class BlockPoweredPortal : BlockPowered
             isOn = true;
         else
             isOn = false;
+
+        // If not powered, don't animate.
+        if (!tileEntity.IsPowered)
+        {
+            animator.SetBool("portalOn", false);
+            animator.SetBool("portalOff", true);
+            return;
+        }
 
         animator.SetBool("portalOn", isOn);
         animator.SetBool("portalOff", !isOn);

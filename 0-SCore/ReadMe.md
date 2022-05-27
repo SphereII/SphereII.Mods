@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.147.746
+	[ Portals ]
+		- Fixed null reference when using Legacy portal in PortalManager
+		- Added IsPowered check to Teleport method, and to animate method
+		- Added check to confirm destination is powered and available before teleporting.
+
 Version: 20.5.146.1672
 
 	[ Portals ]

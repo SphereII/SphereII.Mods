@@ -76,7 +76,7 @@ public class PortalManager
 		
 		var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, position) as TileEntitySign;
 		if ( tileEntitySign != null)
-			text = tileEntity.GetText();
+			text = tileEntitySign.GetText();
 
 		if (string.IsNullOrEmpty(text)) return;
 		PortalManager.Instance.AddPosition(position, text);
@@ -143,12 +143,21 @@ public class PortalManager
 
 	public Vector3i GetDestination(string location)
 	{
-		if (PortalMap.ContainsValue(location))
+		foreach (var portal in PortalMap)
 		{
-		
-			var myKey = PortalMap.FirstOrDefault(x => x.Value == location).Key;
-			return myKey;
+			var portalItem = new PortalItem(portal.Key, portal.Value);
+			if (location == portalItem.Destination)
+			{
+				return portal.Key;
+			}
 		}
+
+		//if (PortalMap.ContainsValue(location))
+		//{
+		
+		//	var myKey = PortalMap.FirstOrDefault(x => x.Value == location).Key;
+		//	return myKey;
+		//}
 		return Vector3i.zero;
 	}
 	public void RemovePosition( Vector3i position)
