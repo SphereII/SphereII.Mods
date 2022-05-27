@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -148,13 +148,6 @@ public static class QuestUtils
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
         string biomeFilter = "")
     {
-        if (LoggingEnabled)
-        {
-            Log.Out($"PrefabUtilities.GetRandomPOINearTrader for {questTag}:");
-            Log.Out($"    minSearchDistance={minSearchDistance}, maxSearchDistance={maxSearchDistance}");
-            Log.Out($"    includeTags={includeTags}, excludeTags={excludeTags}");
-        }
-
         World world = GameManager.Instance.World;
 
         int minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
@@ -318,7 +311,7 @@ public static class QuestUtils
         {
             if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} has no sleeper volumes");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} has no sleeper volumes");
             }
             return false;
         }
@@ -327,7 +320,7 @@ public static class QuestUtils
         {
             if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} does not have quest tag {questTag}");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
             }
             return false;
         }
@@ -338,7 +331,7 @@ public static class QuestUtils
         {
             if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} has already been used");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} has already been used");
             }
             return false;
         }
@@ -351,7 +344,7 @@ public static class QuestUtils
         {
             if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} is locked out: {lockoutReason}");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} is locked out: {lockoutReason}");
             }
             return false;
         }
@@ -360,7 +353,7 @@ public static class QuestUtils
         {
             if (LoggingEnabled)
             {
-                Log.Out($"Prefab {prefab.name} does not meet biome requirements: type={biomeFilterType}, filter={biomeFilter}");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} does not meet biome requirements: type={biomeFilterType}, filter={biomeFilter}");
             }
             return false;
         }
@@ -371,7 +364,7 @@ public static class QuestUtils
             {
                 var includeTagsText = includeTags.IsEmpty ? string.Empty : $"must include {includeTags}; ";
                 var excludeTagsText = excludeTags.IsEmpty ? string.Empty : $"must exclude {excludeTags}; ";
-                Log.Out($"Prefab {prefab.name} fails tag requirements: {includeTagsText}{excludeTagsText}prefab tags are{prefab.prefab.Tags}");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} fails tag requirements: {includeTagsText}{excludeTagsText}prefab tags are{prefab.prefab.Tags}");
             }
             return false;
         }
@@ -381,7 +374,7 @@ public static class QuestUtils
             if (LoggingEnabled)
             {
                 var minSearchText = minSearchDistance > 0 ? $" minimum distance {minSearchDistance} and" : string.Empty;
-                Log.Out($"Prefab {prefab.name} is not within{minSearchText} maximum distance {maxSearchDistance}");
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} is not within{minSearchText} maximum distance {maxSearchDistance}");
             }
             return false;
         }
@@ -517,4 +510,3 @@ public static class QuestUtils
         return true;
     }
 }
-

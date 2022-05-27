@@ -1,5 +1,5 @@
 ﻿<configs>
-  <append xpath="/quests">
+  <insertBefore xpath='/quests/quest_list[1]'>
     <quest id="sphereii_gotoPoiTest">
       <property name="name_key" value="quest_tier1_fetch" />
       <property name="subtitle_key" value="quest_fetch_subtitle" />
@@ -68,16 +68,78 @@
       <reward type="Exp" value="1000" />
     
     </quest>
-  </append>
 
-	<!-- TODO Remove when done testing RandomTaggedPOIGotoSDX -->
-	<set xpath="//objective[@type='RandomPOIGoto']/@type">RandomTaggedPOIGotoSDX, SCore</set>
-	<append xpath="//quest[contains(@id,'fetch')]/objective[@type='RandomTaggedPOIGotoSDX, SCore']">
-		<property name="include_tags" value="countryresidential,wilderness,somecustomtag" />
-		<property name="distance" value="1400 - 1600" />
-	</append>
-	<append xpath="//quest[contains(@id,'clear')]/objective[@type='RandomTaggedPOIGotoSDX, SCore']">
-		<property name="exclude_tags" value="countryresidential,someothercustomtag" />
-		<property name="distance" value="250" />
-	</append>
+    <!--
+      Sample quest using RandomTaggedPOIGotoSDX to specify POI tags.
+      This quest will send players only to POIs that have the "residential" or "countryresidential"
+      tags, and will not send players to POIs that have either the "industrial" or "rural" tags.
+      The POIs that meet these criteria will be homes in residential districts of cities or towns.
+    -->
+    <quest id="score_tier1_clear_residence">
+      <property name="name_key" value="Clear Residence" />
+      <property name="subtitle_key" value="Clear a residence" />
+      <property name="description_key" value="Clear all the zombies in the residence." />
+      <property name="icon" value="ui_game_symbol_quest" />
+      <property name="repeatable" value="true" />
+      <property name="category_key" value="quest" />
+      <property name="offer_key" value="Someone used to live there." />
+      <property name="difficulty" value="medium" />
+      <property name="difficulty_tier" value="1" />
+      <property name="statement_key" value="Clear all the zombies in the residence." />
+      <property name="response_key" value="Clear Residence ([DECEA3]{poi.distance} {poi.direction}[-])" />
+      <property name="login_rally_reset" value="true" />
+      <property name="completiontype" value="TurnIn" />
+      <property name="completion_key" value="That man's home was his castle, but it wasn't much of a fortress." />
+
+      <!-- Custom objective -->
+      <objective type="RandomTaggedPOIGotoSDX, SCore">
+        <property name="phase" value="1" />
+        <!-- Include POIs only if they have any of these tags -->
+        <property name="include_tags" value="residential,countryresidential" />
+        <!-- Exclude POIs if they have any of these tags -->
+        <property name="exclude_tags" value="industrial,rural" />
+        <property name="nav_object" value="quest" />
+      </objective>
+
+      <objective type="RallyPoint">
+        <property name="phase" value="2" />
+        <property name="nav_object" value="rally" />
+      </objective>
+
+      <objective type="ClearSleepers">
+        <property name="phase" value="3" />
+        <property name="nav_object" value="sleeper_volume" />
+      </objective>
+
+      <objective type="POIStayWithin">
+        <property name="phase" value="3" />
+        <property name="radius" value="25" />
+      </objective>
+
+      <objective type="ReturnToNPC">
+        <property name="phase" value="4" />
+        <property name="nav_object" value="return_to_trader" />
+      </objective>
+
+      <objective type="InteractWithNPC">
+        <property name="phase" value="4" />
+        <property name="nav_object" value="return_to_trader" />
+      </objective>
+
+      <reward type="Exp" value="3000" />
+      <reward type="Item" id="casinoCoin" value="800" />
+
+      <reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
+      <reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
+      <reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
+      <reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
+      <reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
+    </quest>
+  </insertBefore>
+
+	<!-- Uncomment to add test quests to trader quest list -->
+  <!-- <insertAfter xpath="//quest_list[@id='trader_quests']/quest[@id='tier1_clear']">
+    <quest id="sphereii_gotoPoiTest" />
+    <quest id="score_tier1_clear_residence" />
+  </insertAfter> -->
 </configs>
