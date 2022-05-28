@@ -94,11 +94,18 @@
       <!-- Custom objective -->
       <objective type="RandomTaggedPOIGotoSDX, SCore">
         <property name="phase" value="1" />
+        <property name="nav_object" value="quest" />
+
         <!-- Include POIs only if they have any of these tags -->
         <property name="include_tags" value="residential,countryresidential" />
+
         <!-- Exclude POIs if they have any of these tags -->
         <property name="exclude_tags" value="industrial,rural" />
-        <property name="nav_object" value="quest" />
+
+        <!-- You can also specify the minimum and maximum distance from the quest giver, in in-game meters: -->
+        <!-- <property name="distance" value="400-1000" /> -->
+        <!-- ...or just the maximum distance: -->
+        <!-- <property name="distance" value="1000" /> -->
       </objective>
 
       <objective type="RallyPoint">
