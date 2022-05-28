@@ -379,8 +379,7 @@
 			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
 		</block>
 		
-		<!-- TODO SphereII pushed this prematurely - commenting out to avoid console errors during tesing -->
-		<!--<block name="PrefabPlacerMaster">
+		<block name="PrefabPlacerMaster">
 			<property name="Class" value="PrefabPlacer, SCore" />
 			<property name="Prefab" value ="PortalPrefab"/>
 			<property name="Material" value="Mstone"/>
@@ -400,7 +399,7 @@
 			<property name="SortOrder1" value="70r2"/>
 			<property name="SortOrder2" value="0050"/>
 			<property name="DescriptionKey" value="guppyPortal_desc"/>
-		</block>-->
+		</block>
 <!--
 		<block name="PrefabPlacerPortal">
 			<property name="Extends" value="PrefabPlacerMaster"/>
