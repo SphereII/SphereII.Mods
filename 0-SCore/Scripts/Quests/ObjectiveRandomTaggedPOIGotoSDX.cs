@@ -127,9 +127,6 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            // TODO Unset when done testing
-            QuestUtils.LoggingEnabled = true;
-
             PrefabInstance prefabInstance;
 
             // Modified so it won't call the method if the "trader" has no TraderArea.

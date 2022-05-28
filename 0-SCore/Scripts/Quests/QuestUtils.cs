@@ -109,14 +109,8 @@ public static class QuestUtils
     /// </summary>
     public static bool LoggingEnabled
     {
-        get
-        {
-            return _loggingEnabled.HasValue ? _loggingEnabled.Value : GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled);
-        }
-        set
-        {
-            _loggingEnabled = value;
-        }
+        get => _loggingEnabled ?? GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled);
+        set => _loggingEnabled = value;
     }
     private static bool? _loggingEnabled;
 
@@ -152,11 +146,6 @@ public static class QuestUtils
 
         int minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
         int maxDistanceTier = maxSearchDistance < 0 ? 2 : GetTraderPrefabListTier(maxSearchDistance);
-
-        if (LoggingEnabled)
-        {
-            Log.Out($"    minDistanceTier={minDistanceTier}, maxDistanceTier={maxDistanceTier}");
-        }
 
         for (int distanceTier = minDistanceTier; distanceTier <= maxDistanceTier; distanceTier++)
         {

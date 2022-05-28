@@ -33,7 +33,6 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public override int GetLength()
     {
-        // Coped from NetPackageQuestGotoPoint - is this right?
         return 8;
     }
 
@@ -48,9 +47,6 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            // TODO Unset when done testing
-            QuestUtils.LoggingEnabled = true;
-
             EntityAlive questOwner = GameManager.Instance.World.GetEntity(entityId) as EntityAlive;
             PrefabInstance prefabInstance;
             List<Vector2> usedPoiLocations;
@@ -124,9 +120,6 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
             return;
         }
-
-        // TODO This package is never sent from the server to the client -
-        // is this code necessary at all?
 
         Quest quest = primaryPlayer.QuestJournal.FindActiveQuest(questCode);
         if (quest == null)
