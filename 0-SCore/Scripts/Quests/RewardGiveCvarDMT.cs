@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 
+
+// <reward type="GiveCvarDMT, SCore" id="yourcvar" value="1" />
 public class RewardGiveCvarDMT : BaseReward
 {
     public RewardGiveCvarDMT()

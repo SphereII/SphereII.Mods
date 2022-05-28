@@ -10,6 +10,15 @@
 			</effect_group>
 		</buff>
 
+		<buff name="buffTeleportTest" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
+			</effect_group>
+		</buff>
+
+		
 		<buff name="buffTeleportCooldown" hidden="true">
 			<stack_type value="ignore"/>
 			<duration value="5"/>

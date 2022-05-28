@@ -10,6 +10,93 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.147.746
+	[ Portals ]
+		- Fixed null reference when using Legacy portal in PortalManager
+		- Added IsPowered check to Teleport method, and to animate method
+		- Added check to confirm destination is powered and available before teleporting.
+
+Version: 20.5.146.1672
+
+	[ Portals ]
+		- Added Powered Portals. May need model work to add the 'electrical connection.'
+			<block name="samplePortal04">
+				<property name="Extends" value="portalMaster"/>
+				<property name="Class" value="PoweredPortal, SCore" />
+				<property name="DisplayType" value="blockMulti"/>
+				<property name="MultiBlockDim" value="3,3,3"/>
+				<property name="Model" value="Entities/Electrical/power_switchPrefab"/>
+				<!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+				<property name="Display" value="true" />
+			</block>
+
+Version: 20.5.145.728
+
+	[ Caves ]
+		- Added sanity check against a negative value for max range - Chasing possible bug with vehicle + cave connection
+
+	[ Portals ]
+		- New configuration option for blocks.xml entry for portals
+
+			If the Display property is false, nothing will show up to the user when they are looking at the portal.
+			<property name="Display" value="true" /> 
+
+			If the Display is set to true, and the player has the buff "buffyours", they will see "Teleport To <Portal Destination>"
+			<property name="DisplayBuff" value="buffyours" />
+
+			If Display is set to true, but the player does not have the buff, they will see "Telport To..."
+
+		- New <property name="Location" value="" /> Changes
+			If the value is simply Portal01, then it will act as a two-way portal to the other Portal with the same name.
+			MinEffect and Dialog teleport triggers use this syntax as well.
+
+			- New syntax:
+				<property name="Location" value="source=Portal01,destination=Portal02" />  I am Portal01, but I send the player to Portal02
+				<property name="Location" value="source=Portal01,destination=NA" />  I am Portal01, but I have no destination. I am a one way portal (people can port to me, but not from me)
+
+		- Fixed an issue with PortalMaps not being cleared from one game to another
+
+Version: 20.5.143.1141
+
+	[ Quests ]
+		Added in GiveBuff as quest award
+			<reward type="GiveBuff, SCore" id="yourbuff" />
+
+	[ Portals ]
+		- Removed OnBlockCollided, and OnWalk on triggers. Players must interact with it now.
+		- Added 2 second delay before teleport begins, starting after cooldown buff is specified.
+			<property name="CooldownBuff" value="buffTeleportCooldown" />
+			<property name="Delay" value="1000" /> <!-- Micro seconds, whole numbers only. Default is 1000ms  -->
+
+		- Added XML configuration for fixed portals
+			<property name="Location" value="Portal01" />
+
+	[ MinEvent ]
+		- Added new MinEvent to teleport the player to a certain location
+			<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
+
+	[ Dialog ]
+		- Added new Dialog action to trigger a teleport. It supports the following, most of which is not tested.
+
+			Teleports to a Portal
+			<action type="Teleport, SCore" id="Portal01" />
+ 
+			Teleports to the player's current bedroll
+			<action type="Teleport, SCore" id="Bedroll" />
+  
+			Teleports to the player's landclaim
+			<action type="Teleport, SCore" id="Landclaim" />
+  
+			Teleports to the player's backpack
+			<action type="Teleport, SCore" id="Backpack" />
+	
+	[ Faction Manager ]
+		- Fixed null ref for faction manager's update call
+
+	[ XML ]
+		- Commented out the error with the PortalPrefab
+
+
 Version: 20.4.126.2131
 	[ NPC ]
 		- Allowed override on a per-entity base for 

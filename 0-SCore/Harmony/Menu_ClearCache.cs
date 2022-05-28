@@ -14,9 +14,6 @@ namespace Harmony
             SphereCache.PathingCache.Clear();
             SphereCache.caveChunks.Clear();
             SphereCache.caveEntrances.Clear();
-
-     
-
         }
     }
 }
