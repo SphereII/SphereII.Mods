@@ -1600,6 +1600,20 @@ public class EntityAliveSDX : EntityTrader
 
     }
 
+    public override void AwardKill(EntityAlive killer)
+    {
+        if (killer != null && killer != this)
+        {
+            EntityPlayer entityPlayer = killer as EntityPlayer;
+            if (entityPlayer)
+            {
+                if ( !entityPlayer.isEntityRemote)
+                    SCoreQuestEventManager.Instance.EntityAliveKilled(EntityClass.list[entityClass].entityClassName);
+            }
+        }
+        base.AwardKill(killer);
+    }
+
     public override void PlayOneShot(string clipName, bool sound_in_head = false)
     {
         if (IsOnMission()) return;

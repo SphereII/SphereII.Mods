@@ -7,7 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+public class BlockPortal: BlockPoweredPortal
+{
 
+}
 /*
  * Property name value buffRequiresBuffName but if "" then not required.
 
@@ -18,7 +21,7 @@ Feature request: destination blocks.  No teleporting capabilities, just used as 
 Give buff value equals property that gives a buff when used. Then I can specify different visual scenes whole transporting 
 
 */
-public class BlockPortal : BlockPlayerSign
+public class BlockPortal2 : BlockPlayerSign
 {
 
     private string buffCooldown = "buffTeleportCooldown";

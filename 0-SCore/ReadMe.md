@@ -10,7 +10,48 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version:20.5.149.1038
+	[ Portals ]
+		- When a new portal is added, it checks if the source location already exists, and how many times. If there's already 2, the portal is marked as invalid, and is not linked in.
+			- Operates on first set basis. New portals will NOT over-write existing portal locations. They must be removed before they can be re-assigned.
+		- Sunsetting Portal, SCore blocks. It'll now pass through to PoweredPortal, SCore
+			- Note: Portal2, SCore exists in code to replicate the original code, but not intended to be used.
+
+		- The difference between a Powered Portal and non-Powered Portal is the RequiredPower value.
+			<property name="RequiredPower" value="7"/>
+			When the property is not set, it defaults to -1, and the portal does not need power to operate.
+			Set to 0 to disable a portal from getting power through extends.
+
+		MinEffectTeleport and DialogActionTeleport should accept  location="destination=portal2". 
+			- Source is not set up for these methods, unless someone has a use-case.
+
+		- If a PoweredPortal requires power, then the destination must be powered to go there.
+			- If its not powered, teleport does not occur.
+
+		Added new samplePortal01b block. Source is samplePortal01cb, but destination is samplePortal01b
+			- Add buff buffTeleportTest to teleport to this portal
+
+	[ Quests ]
+		- Added SCoreQuestEventManager to manage custom events for future quests
+		- Added ObjectiveEntityAliveSDXKill, modelled off ObjectiveAnimalKill
+			<objective type="EntityAliveSDXKill, SCore" id="npcHarley" value="2" phase="3"/>
+			- Example in quests.xml
+
+		- Merged khzmusik's quest changes
+			Adds an objective that is a drop-in replacement for RandomPOIGoto except you can specify:
+
+			tags a POI must have to be included in the search, in the "include_tags" property
+			tags a POI cannot have to be included in the search, in the "exclude_tags" property
+			A distance from the quest giver, as either a max distance or range (in-game meters)
+			All of the properties from RandomPOIGoto are also supported.
+
+			A sample quest is included.
+
+			For servers, a new Net Package implementation is included.
+
+
 Version: 20.5.147.746
+
 	[ Portals ]
 		- Fixed null reference when using Legacy portal in PortalManager
 		- Added IsPowered check to Teleport method, and to animate method

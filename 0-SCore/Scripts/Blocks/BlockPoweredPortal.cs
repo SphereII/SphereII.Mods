@@ -15,7 +15,6 @@ public class BlockPoweredPortal : BlockPowered
     private int delay = 1000;
     private string location;
     private bool display = false;
-
     private string displayBuff = "";
 
     public BlockPoweredPortal()
@@ -41,7 +40,6 @@ public class BlockPoweredPortal : BlockPowered
 
         if (Properties.Values.ContainsKey("DisplayBuff"))
             displayBuff = Properties.Values["DisplayBuff"];
-
 
         base.Init();
     }
@@ -151,8 +149,7 @@ public class BlockPoweredPortal : BlockPowered
     {
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return;
-        if (!tileEntity.IsPowered) return;
-
+        if (requiredPower > 0 && !tileEntity.IsPowered) return;
 
         if (_player.Buffs.HasBuff(buffCooldown)) return;
         _player.Buffs.AddBuff(buffCooldown);
@@ -171,7 +168,7 @@ public class BlockPoweredPortal : BlockPowered
             var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
             if (tileEntity == null) return;
 
-            if (!tileEntity.IsPowered) return;
+            if (requiredPower > 0 && !tileEntity.IsPowered) return;
 
             _player.SetPosition(destination);
         }
@@ -306,7 +303,10 @@ public class BlockPoweredPortal : BlockPowered
         if (tileEntity != null)
         {
             var text = tileEntity.GetText();
-            PortalManager.Instance.AddPosition(_blockPos, text);
+            if (PortalManager.Instance.CountLocations(text) < 2)
+                PortalManager.Instance.AddPosition(_blockPos, text);
+            else
+                tileEntity.SetText("Invalid Location");
         }
 
         // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.

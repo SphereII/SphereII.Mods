@@ -66,6 +66,17 @@ public class PortalManager
         }
     }
 
+	public int CountLocations( string source )
+    {
+		var counter = 0;
+		foreach (var temp in PortalMap)
+		{
+			var item = new PortalItem(temp.Key, temp.Value);
+			if (item.Source == source)
+				counter++;
+		}
+		return counter;
+	}
 	public void AddPosition( Vector3i position )
     {
 		// If this sign isn't registered, try to register it now.
@@ -86,6 +97,11 @@ public class PortalManager
     {
 		if (string.IsNullOrEmpty(name)) return;
 
+		if ( CountLocations(name) == 2)
+        {
+			// Location already exists.
+			return;
+        }
 		if (PortalMap.ContainsKey(position))
 		{
 			// Already in there, so no need to re-add.
@@ -143,22 +159,33 @@ public class PortalManager
 
 	public Vector3i GetDestination(string location)
 	{
+		var destinationItem = new PortalItem(Vector3i.zero, location);
+		var destination = Vector3i.zero;
 		foreach (var portal in PortalMap)
 		{
 			var portalItem = new PortalItem(portal.Key, portal.Value);
 			if (location == portalItem.Destination)
 			{
-				return portal.Key;
+				destination = portal.Key;
+				break;
 			}
+			if (destinationItem.Destination == portalItem.Destination)
+			{
+				destination = portal.Key;
+				break;
+			}
+
 		}
 
-		//if (PortalMap.ContainsValue(location))
-		//{
-		
-		//	var myKey = PortalMap.FirstOrDefault(x => x.Value == location).Key;
-		//	return myKey;
-		//}
+		if (destination == Vector3i.zero) return destination;
+
+		// If the portal needs power, make sure its on.
+		var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+		if (tileEntity == null) return Vector3i.zero; // Dead portal
+		if (tileEntity.RequiredPower <= 0 ) return destination;
+		if (tileEntity.IsPowered) return destination;
 		return Vector3i.zero;
+
 	}
 	public void RemovePosition( Vector3i position)
     {

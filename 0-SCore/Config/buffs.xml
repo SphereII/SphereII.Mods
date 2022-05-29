@@ -14,7 +14,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1"/>
 			<effect_group>
-				<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
+				<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="destination=samplePortal01b" />
 			</effect_group>
 		</buff>
 

@@ -1,5 +1,5 @@
 ﻿//       				<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
-
+//       				<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="destination=Portal01" />
 
 using System.Collections.Generic;
 using System.Xml;
