@@ -283,11 +283,13 @@
     <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestGotoPointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomGotoSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomPOIGotoSDX.cs" />
+    <Compile Include="Scripts\Quests\ObjectiveRandomTaggedPOIGotoSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionPlaySound.cs" />
