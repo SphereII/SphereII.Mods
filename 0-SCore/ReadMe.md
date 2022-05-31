@@ -10,6 +10,34 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+
+Version: 20.5.151.934
+	
+	[ Lock Picks ]
+		- Added a new property to be read from Doors. If set to false, the doors are not pickable, and revert to vanilla
+			<property name="Pickable" value="false" />
+
+		- If the door has an Owner ( Player-placed), the door will not be pickable.
+
+	[ Quests ]
+		- Added new EntityEnemySDX objective
+			<objective type="EntityEnemySDXKill, SCore" id="npcHarleyEmptyHand" value="2" phase="3"/>
+
+	[ Food Spoilage ]
+		- No code changes, documentation only:
+			- Added an example items.xml entry to show how to specify food spoilage on the food items. Turning on the food spoilage in the blocks.xml does not fully activate food spoilage.
+			- The blocks.xml needs to enable the food spoilage, and the foot items must contain new properties to allow spoiling.
+			- khzmusik has an excellent modlet for this: https://gitlab.com/karlgiesing/7d2d-a20-modlets/-/tree/main/khzmusik_Food_Spoilage
+
+	[ Portals ]
+		- Added a check to see if the teleport request is either legacy support or the newer style.
+			- This should fix the MinEvent Teleport and other one-way teleports.
+			- If a location= only contains a single value, it's determined to be legacy
+			- It will check all the portals for destination=, and then check its source=
+
+	[ Dialogs ]
+		- Added in a crude extend option which will be expanded more. I wouldn't use this yet, if I were you.
+
 Version:20.5.149.1038
 	[ Portals ]
 		- When a new portal is added, it checks if the source location already exists, and how many times. If there's already 2, the portal is marked as invalid, and is not linked in.

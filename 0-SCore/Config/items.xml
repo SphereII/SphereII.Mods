@@ -79,5 +79,21 @@
         <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyRelatedFactionsSDX, SCore" target="self" faction="undead" value="100" related="bandits,whiteriver,duke" scale="0.5" />
       </effect_group>
     </item>
+
+	<!-- Example of an item that can spoil, when the foot spoilage is turned on 
+		  <item name="foodSpoilageTest">
+			  <property name="Extends" value="foodShamSandwich"/>
+			  <property name="DisplayType" value="melee"/>
+			  <property name="Tags" value="perkMasterChef"/> 	 
+
+			  <property name="Spoilable" value="true" />
+			  <property name="SpoiledItem" value="foodRottingFlesh" />   
+			  <property name="TickPerLoss" value="500" /> 	 
+
+			  <property name="ShowQuality" value="false"/>
+			  <property name="SpoilageMax" value="1000" />
+			  <property name="SpoilagePerTick" value="1" />
+		  </item>
+    -->
   </append>
 </configs>

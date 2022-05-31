@@ -287,6 +287,7 @@
     <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
+    <Compile Include="Scripts\Quests\ObjectiveEntityEnemySDXKill.cs" />
     <Compile Include="Scripts\Quests\ObjectiveEntityAliveSDXKill.cs" />
     <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomGotoSDX.cs" />

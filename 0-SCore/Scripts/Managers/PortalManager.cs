@@ -160,6 +160,10 @@ public class PortalManager
 	public Vector3i GetDestination(string location)
 	{
 		var destinationItem = new PortalItem(Vector3i.zero, location);
+
+		// If the source and destination is the same, then this means its a legacy teleport location, likely coming from a teleport from minevents where its only one way
+		var legacy = destinationItem.Source == destinationItem.Destination;
+
 		var destination = Vector3i.zero;
 		foreach (var portal in PortalMap)
 		{
@@ -175,6 +179,11 @@ public class PortalManager
 				break;
 			}
 
+			if (legacy && location == portalItem.Source)
+			{
+				destination = portal.Key;
+				break;
+			}
 		}
 
 		if (destination == Vector3i.zero) return destination;

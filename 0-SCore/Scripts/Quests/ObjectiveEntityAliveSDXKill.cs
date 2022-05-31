@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class ObjectiveEntityAliveSDXKill : BaseObjective
 {
-    private string localizedName = "";
+    public string localizedName = "";
     private int neededKillCount;
     private string[] otherEntityAliveSDX;
     public override BaseObjective.ObjectiveValueTypes ObjectiveValueType
@@ -61,7 +61,7 @@ public class ObjectiveEntityAliveSDXKill : BaseObjective
         SCoreQuestEventManager.Instance.EntityAliveSDXKill -= Current_EntityAliveSDX;
     }
 
-    private void Current_EntityAliveSDX(string name)
+    public void Current_EntityAliveSDX(string name)
     {
         if (base.Complete)
         {

@@ -72,12 +72,22 @@ namespace Harmony.Blocks
                 if (tileEntitySecureDoor == null)
                     return true;
 
-
                 if (!tileEntitySecureDoor.IsLocked() || tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                     return true;
 
-
                 if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                    return true;
+
+
+                var pickable = true;
+                // If it has a pickable property and its set to false, don't let them pick it.
+                if (__instance.Properties.Contains("Pickable"))
+                    StringParsers.TryParseBool(__instance.Properties.Values["Pickable"], out pickable);
+
+                if (pickable == false) return true;
+
+                // Door has an owner, don't allow picking.
+                if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() != null)
                     return true;
 
                 if (tileEntitySecureDoor.IsLocked())
