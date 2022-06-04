@@ -403,6 +403,9 @@
 			<property name="MultiBlockDim" value="3,3,3"/>
 			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
 			<property name="Location" value="source=samplePortal02,destination=samplePortal03" />  <!-- I am Portal02, I go to Portal03 -->
+			<property name="RequiredPower" value="0" />
+			<!-- Does not require power to operate -->
+
 			<property name="Display" value="true" />
 		</block>
 
@@ -413,6 +416,9 @@
 			<property name="MultiBlockDim" value="3,3,3"/>
 			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
 			<property name="Location" value="source=samplePortal03,destination=NA" />  <!-- I am Portal03, I go to NA, which is not created, thus not anywhere-->
+			<property name="RequiredPower" value="0" />
+			<!-- Does not require power to operate -->
+
 			<property name="Display" value="true" />
 		</block>
 
@@ -423,6 +429,20 @@
 			<property name="MultiBlockDim" value="3,3,3"/>
 			<property name="Model" value="Entities/Electrical/power_switchPrefab"/>
 			<!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+			<property name="Display" value="true" />
+		</block>
+
+		<block name="samplePortal05">
+			<property name="Extends" value="portalMaster"/>
+			<property name="Class" value="PoweredPortal, SCore" />
+			<property name="DisplayType" value="blockMulti"/>
+			<property name="MultiBlockDim" value="3,3,3"/>
+			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+			<!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02-->
+			<property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02" />
+			<property name="RequiredPower" value="0" />
+			<!-- Does not require power to operate -->
+
 			<property name="Display" value="true" />
 		</block>
 		<!--

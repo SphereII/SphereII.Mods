@@ -11,6 +11,19 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.5.155.1247
+
+	[ Portals ]
+		- Added ability to define a Prefab's nameon the location line. Full example in blocks.xml as samplePortal05.
+		- If the destination= portal isn't registered, and the prefab is defined on the location line, the Portal Manager
+			will search inside of the first prefab instance it finds, with that name, with that portal.
+
+			<!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02 -->
+			<property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02" />
+		
+		- Fixed a bug where requiredPower wasn't being accurately checked.
+
+
 Version: 20.5.151.934
 	
 	[ Lock Picks ]
