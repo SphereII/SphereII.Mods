@@ -11,6 +11,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.5.155.1359:
+
+	[ Quests ]
+		Fixed a bug with ObjectiveEntityEnemySDXKill not recording.
+
 Version: 20.5.155.1247
 
 	[ Portals ]
@@ -22,7 +27,7 @@ Version: 20.5.155.1247
 			<property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02" />
 		
 		- Fixed a bug where requiredPower wasn't being accurately checked.
-
+		- Made Portals be ChunkObservers
 
 Version: 20.5.151.934
 	

@@ -35,8 +35,8 @@ public class SCoreQuestEventManager
 
     public void EntityEnemyKilled(string className)
     {
-        if (EntityAliveSDXKill != null)
-            EntityAliveSDXKill(className);
+        if (EntityEnemySDXKill != null)
+            EntityEnemySDXKill(className);
     }
 }
 
