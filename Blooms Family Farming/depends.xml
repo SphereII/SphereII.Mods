@@ -1,0 +1,13 @@
+<!--
+	In V4 of the ModLauncher, a depends.xml can be read from a Modlet's folder,
+	that is, in the same folder as ModInfo.xml, that can define other modlets that the
+	ModLauncher will download automatically.
+	
+	Note: 
+		This only applies to modlet's that the ModLauncher itself can download
+		It does not support loading modlets from other sources, such as Nexus.
+	
+-->
+<depends>
+	<depend name="0-SCore" /> <!-- This modlet will download 0-SCore, if its not available -->
+</depends>

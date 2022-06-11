@@ -57,7 +57,7 @@ public class DialogActionTeleport : DialogActionAddBuff
         }
 
         if (destination == Vector3i.zero) return;
-        player.Teleport(destination);
+        player.SetPosition(destination);
     }
 
 }

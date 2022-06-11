@@ -11,6 +11,32 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 
+Version: 20.5.162.1349
+
+	[ Portals ]
+		- Reproduced and fixed teleporting through buff / dialog and landing on a roof
+		- Added samplePortal06 which acts like a non-powered, player-editable test portal.
+
+	[ Storage ]
+		- Highly Experimental Feature
+		- New property in blocks.xml to turn this highly experimental feature on.
+			<property class="AdvancedRecipes" >
+				<property name="ReadFromContainers" value="true"/>
+				<property name="Distance" value="30" />  <!-- This is not 30 blocks, but rather a distance between you and the container. This is roughly about 6 or 7 blocks.-->
+			</property>
+
+		- When set to true, this highly experimental feature will read from containers around the player, pulling items out, to be used in crafting recipes.
+			- If crafting is cancelled, this highly experimental feature will dump the ingredients into the player backpack, rather than their original location.
+
+		- With regards to testing this highly experimental feature, high concentrations of containers may induce lag. We may need to put in limits on how many containers it will check.
+
+		Note: This is highly experimental feature. 
+
+	[ Food Spoilage ]
+		- If the container's Preserve bonus is set to -99, no food spoilage will occur.
+			<property name="PreserveBonus" value="-99" />
+
+
 Version: 20.5.155.1359:
 
 	[ Quests ]

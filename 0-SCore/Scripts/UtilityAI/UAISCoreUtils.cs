@@ -429,7 +429,7 @@ namespace UAI
         {
             return ScanForTileEntities(_context.Self, _targetTypes);
         }
-        public static List<Vector3> ScanForTileEntities(EntityAlive Self, string _targetTypes = "")
+        public static List<Vector3> ScanForTileEntities(EntityAlive Self, string _targetTypes = "", bool ignoreTouch = false)
         {
             var paths = new List<Vector3>();
             var blockPosition = Self.GetBlockPosition();
@@ -468,11 +468,11 @@ namespace UAI
                                     continue;
                                 // If the loot containers were already touched, don't path to them.
                                 case TileEntityType.Loot:
-                                    if (((TileEntityLootContainer)tileEntity).bTouched)
+                                    if (((TileEntityLootContainer)tileEntity).bTouched && ignoreTouch == false)
                                         continue;
                                     break;
                                 case TileEntityType.SecureLoot:
-                                    if (((TileEntitySecureLootContainer)tileEntity).bTouched)
+                                    if (((TileEntitySecureLootContainer)tileEntity).bTouched && ignoreTouch == false)
                                         continue;
                                     break;
                             }

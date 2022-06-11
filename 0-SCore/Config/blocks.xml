@@ -33,7 +33,11 @@
 				<property name="LowOutput" value="true"/>
 				<!-- Removes the extra lines in the log out like AdvancedTroubleshootingFeatures :: UtilityAILogging -->
 			</property>
-
+			
+			<property class="AdvancedRecipes" >
+				<property name="ReadFromContainers" value="false"/>
+				<property name="Distance" value="30" />  <!-- This is not 30 blocks, but rather a distance between you and the container. This is roughly about 6 or 7 blocks.-->
+			</property>
 
 			<property class="AdvancedLockpicking" >
 				<!-- This feature is only available when this modlet is loaded. -->
@@ -445,6 +449,18 @@
 
 			<property name="Display" value="true" />
 		</block>
+
+		<block name="samplePortal06">
+			<property name="Extends" value="portalMaster"/>
+			<property name="Class" value="PoweredPortal, SCore" />
+			<property name="DisplayType" value="blockMulti"/>
+			<property name="MultiBlockDim" value="3,3,3"/>
+			<property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+			<property name="RequiredPower" value="0" />
+			<property name="Display" value="true" />
+			<property name="Delay" value="200" />
+		</block>
+		
 		<!--
 		<block name="PrefabPlacerMaster">
 			<property name="Class" value="PrefabPlacer, SCore" />

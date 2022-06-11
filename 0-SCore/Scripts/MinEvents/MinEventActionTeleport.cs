@@ -10,6 +10,7 @@ public class MinEventActionTeleport : MinEventActionTargetedBase
     private string location;
     public override void Execute(MinEventParams _params)
     {
+       // var player = GameManager.Instance.GetPersistentLocalPlayer();
         var player = _params.Self as EntityPlayer;
         if (player == null) return;
 
@@ -17,7 +18,9 @@ public class MinEventActionTeleport : MinEventActionTargetedBase
         var destination = PortalManager.Instance.GetDestination(location);
         if ( destination == Vector3i.zero) return; // No portal
 
-        player.Teleport(destination);
+        player.SetPosition(destination);
+
+        //player.Teleport(destination);
     }
 
     public override bool ParseXmlAttribute(XmlAttribute _attribute)

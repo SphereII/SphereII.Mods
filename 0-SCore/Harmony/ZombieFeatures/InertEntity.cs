@@ -29,6 +29,9 @@ namespace Harmony.ZombieFeatures
 
             var strActive = entityClass.Properties.Values["EntityActiveWhen"];
 
+            if (strActive.ToLower() == "never")
+                return true;
+
             return strActive.ToLower() == "night" && alive.world.IsDaytime();
         }
 
@@ -50,6 +53,9 @@ namespace Harmony.ZombieFeatures
             {
                 if (!IsInert(__instance)) return true;
 
+
+                // null safety check
+                if (__instance.emodel == null || __instance.emodel.avatarController == null || __instance.emodel.avatarController.GetAnimator() == null) return false;
                 if (__instance.WorldTimeBorn + 15 > __instance.world.worldTime)
                 {
                     __instance.emodel.avatarController.GetAnimator().enabled = true;
