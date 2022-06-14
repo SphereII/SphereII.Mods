@@ -311,7 +311,7 @@
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredPortal.cs" />
-    <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstation.cs" />
+    <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstationSdx.cs" />
     <Compile Include="Scripts\UnitTests\CanDamageChecks.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\IUAITargetFilter.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsAlly.cs" />

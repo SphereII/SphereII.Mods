@@ -36,7 +36,7 @@
 			
 			<property class="AdvancedRecipes" >
 				<property name="ReadFromContainers" value="false"/>
-				<property name="Distance" value="30" />  <!-- This is not 30 blocks, but rather a distance between you and the container. This is roughly about 6 or 7 blocks.-->
+				<property name="Distance" value="10" />  <!-- reasonable block range seems to be around 10. -->
 			</property>
 
 			<property class="AdvancedLockpicking" >

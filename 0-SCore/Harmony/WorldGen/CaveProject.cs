@@ -279,6 +279,7 @@ namespace Harmony.WorldGen
                 {
                     case "Legacy":
                         LegacyCaveSystem.AddCaveToChunk(_chunk);
+                        //CaveSystemV2.AddCaveToChunk(_chunk);
                         break;
                     case "Sebastian":
                         Sebastian.AddCaveToChunk(_chunk);
