@@ -10,6 +10,13 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.165.1145
+	[ Portals ]
+		- Fixed a bug with the dialog teleport
+
+	[ Storage ]
+		- Reduced default range from 30 to 10
+
 
 Version: 20.5.162.1349
 
