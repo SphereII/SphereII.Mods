@@ -127,7 +127,17 @@ public class PortalManager
 
     public bool IsLinked(Vector3i source)
     {
-        if (GetDestination(source) == Vector3i.zero) return false;
+        var destination = GetDestination(source);
+        if (destination == Vector3i.zero) return false;
+
+        var block = GameManager.Instance.World.GetBlock(source).Block as BlockPoweredPortal;
+        if ( block != null )
+            block.ToggleAnimator(source, true);
+
+        block = GameManager.Instance.World.GetBlock(destination).Block as BlockPoweredPortal;
+        if (block != null)
+            block.ToggleAnimator(destination, true);
+
         return true;
 
     }

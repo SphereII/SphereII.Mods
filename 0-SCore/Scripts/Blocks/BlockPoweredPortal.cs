@@ -218,7 +218,7 @@ public class BlockPoweredPortal : BlockPowered
             case 0:
                 if (GameManager.Instance.IsEditMode() || !tileEntity.IsLocked() || tileEntity.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
-                    if ( requiredPower == 0 )
+                    if ( requiredPower <= 0 )
                         TeleportPlayer(_player, _blockPos);
 
                     if ( requiredPower > 0 && tileEntity.IsPowered)
@@ -272,7 +272,7 @@ public class BlockPoweredPortal : BlockPowered
         return this.cmds;
     }
 
-    public void ToggleAnimator(Vector3i blockPos)
+    public void ToggleAnimator(Vector3i blockPos, bool force = false)
     {
         var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(blockPos).GetBlockEntity(blockPos);
         if (_ebcd == null || _ebcd.transform == null)
@@ -281,13 +281,13 @@ public class BlockPoweredPortal : BlockPowered
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return;
 
-        var isOn = false;
+        var isOn = force;
         var animator = _ebcd.transform.GetComponentInChildren<Animator>();
         if (animator == null) return;
-        if (PortalManager.Instance.IsLinked(blockPos))
-            isOn = true;
-        else
-            isOn = false;
+        //if (PortalManager.Instance.IsLinked(blockPos))
+        //    isOn = true;
+        //else
+        //    isOn = false;
 
         if (requiredPower > 0)
         {
@@ -339,8 +339,6 @@ public class BlockPoweredPortal : BlockPowered
         var text = "";
 
         PortalManager.Instance.AddPosition(_blockPos);
-        ToggleAnimator(_blockPos);
-
         if ( PortalManager.Instance.IsLinked(_blockPos))
         {
             var destination = PortalManager.Instance.GetDestinationName(_blockPos);

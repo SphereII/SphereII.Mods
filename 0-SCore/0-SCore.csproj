@@ -96,6 +96,7 @@
     <Compile Include="Harmony\PrefabFeatures\RemoveTraderProtection.cs" />
     <Compile Include="Harmony\Progression\EntityAliveSDXProgressionHooks.cs" />
     <Compile Include="Harmony\Progression\Progression.cs" />
+    <Compile Include="Harmony\Quests\QuestEventManager.cs" />
     <Compile Include="Harmony\QuickContinue\QuickContinue.cs" />
     <Compile Include="Harmony\Recipes\IngredientsFromContainers.cs" />
     <Compile Include="Harmony\SoundFeatures\AudioClientPlay.cs" />

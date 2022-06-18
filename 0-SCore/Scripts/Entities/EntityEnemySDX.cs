@@ -95,17 +95,17 @@ public class EntityEnemySDX : EntityEnemy
         return true;
     }
 
-    public override void AwardKill(EntityAlive killer)
-    {
-        if (killer != null && killer != this)
-        {
-            EntityPlayer entityPlayer = killer as EntityPlayer;
-            if (entityPlayer)
-            {
-                if (!entityPlayer.isEntityRemote)
-                    SCoreQuestEventManager.Instance.EntityEnemyKilled(EntityClass.list[entityClass].entityClassName);
-            }
-        }
-        base.AwardKill(killer);
-    }
+    //public override void AwardKill(EntityAlive killer)
+    //{
+    //    if (killer != null && killer != this)
+    //    {
+    //        EntityPlayer entityPlayer = killer as EntityPlayer;
+    //        if (entityPlayer)
+    //        {
+    //            if (!entityPlayer.isEntityRemote)
+    //                SCoreQuestEventManager.Instance.EntityEnemyKilled(EntityClass.list[entityClass].entityClassName);
+    //        }
+    //    }
+    //    base.AwardKill(killer);
+    //}
 }
