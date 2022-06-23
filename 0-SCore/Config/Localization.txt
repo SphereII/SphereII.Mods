@@ -26,3 +26,4 @@ portal_not_configured,"Not Configured"
 portal_configure,"Not Connected"
 portalActivate, "Activate Portal"
 ObjectiveEntityAliveSDXKill_keyword,Kill {0}:
+teleporttoNeedPower,"Needs Power"

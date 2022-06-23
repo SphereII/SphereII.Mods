@@ -274,7 +274,7 @@ public class BlockPoweredPortal : BlockPowered
 
     public void ToggleAnimator(Vector3i blockPos, bool force = false)
     {
-        var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(blockPos).GetBlockEntity(blockPos);
+        var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(blockPos)?.GetBlockEntity(blockPos);
         if (_ebcd == null || _ebcd.transform == null)
             return;
 
@@ -284,25 +284,31 @@ public class BlockPoweredPortal : BlockPowered
         var isOn = force;
         var animator = _ebcd.transform.GetComponentInChildren<Animator>();
         if (animator == null) return;
+
+        var currentState = animator.GetBool("portalOn");
         //if (PortalManager.Instance.IsLinked(blockPos))
         //    isOn = true;
         //else
         //    isOn = false;
 
-        if (requiredPower > 0)
+        if ( force || requiredPower <= 0 )
         {
-            // If not powered, don't animate.
-            if (!tileEntity.IsPowered)
-            {
-                animator.SetBool("portalOn", false);
-                animator.SetBool("portalOff", true);
-                return;
-            }
+            if (currentState == isOn) return;
+
+            animator.SetBool("portalOn", isOn);
+            animator.SetBool("portalOff", !isOn);
         }
         else
         {
-            animator.SetBool("portalOn", isOn);
-            animator.SetBool("portalOff", !isOn);
+            if (currentState == tileEntity.IsPowered) return;
+            animator.SetBool("portalOn", tileEntity.IsPowered);
+            animator.SetBool("portalOff", !tileEntity.IsPowered);
+//            return;
+
+            //// If not powered, don't animate.
+            //if (tileEntity.IsPowered)
+            //{
+            //}
         }
     }
     public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
@@ -319,10 +325,10 @@ public class BlockPoweredPortal : BlockPowered
         if (tileEntity != null)
         {
             var text = tileEntity.GetText();
-            if (PortalManager.Instance.CountLocations(text) < 2)
-                PortalManager.Instance.AddPosition(_blockPos, text);
-            else
-                tileEntity.SetText("Invalid Location");
+            //if (PortalManager.Instance.CountLocations(text) < 2)
+            PortalManager.Instance.AddPosition(_blockPos, text);
+            //else
+            //    tileEntity.SetText("Invalid Location");
         }
 
         // Re-show the transform. This won't have a visual effect, but fixes when you pick up the block, the outline of the block persists.
@@ -331,6 +337,17 @@ public class BlockPoweredPortal : BlockPowered
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         if (display == false) return "";
+
+        if ( requiredPower > 0 )
+        {
+            var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
+            if (tileEntity == null) return "";
+            if (tileEntity.IsPowered == false)
+            {
+                ToggleAnimator(_blockPos, false);
+                return $"{Localization.Get("teleporttoNeedPower")}...";
+            }
+        }
 
         if ( !string.IsNullOrEmpty(displayBuff))
         {

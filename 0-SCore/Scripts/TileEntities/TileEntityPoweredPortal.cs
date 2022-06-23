@@ -13,8 +13,9 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	private PlatformUserIdentifierAbs ownerID;
 	private List<PlatformUserIdentifierAbs> allowedUserIds;
 	private string password;
+    private bool isPowered;
 
-	public TileEntityPoweredPortal(Chunk _chunk) : base(_chunk)
+    public TileEntityPoweredPortal(Chunk _chunk) : base(_chunk)
     {
         this.allowedUserIds = new List<PlatformUserIdentifierAbs>();
         this.isLocked = true;
@@ -30,7 +31,11 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	public void SetText(string _text, bool _syncData = true)
 	{
 		this.signText = _text;
-	//	setModified();
+		var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
+		if ( block != null )
+			block.ToggleAnimator(localChunkPos, IsPowered);
+		if ( _syncData)
+			setModified();
 	}
 
 	public override void read(PooledBinaryReader _br, StreamModeRead _eStreamMode)
@@ -82,6 +87,40 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	{
 		return this.entityId;
 	}
+
+	//public new bool IsPowered
+	//{
+	//	get
+	//	{
+	//		var isOn = isPowered;
+	//		if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+	//		{
+	//			if (PowerItem != null)
+	//				isOn = PowerItem.IsPowered;
+	//		}
+
+	//		var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
+	//		if ( block != null )
+	//				block.ToggleAnimator(localChunkPos, isOn);
+	//		return isOn;
+
+
+	//	}
+	//}
+	////public override bool Activate(bool activated)
+	//{
+	//	World world = GameManager.Instance.World;
+	//	BlockValue block = this.chunk.GetBlock(base.localChunkPos);
+	//	return block.Block.ActivateBlock(world, base.GetClrIdx(), base.ToWorldPos(), block, activated, activated);
+	//}
+
+	//public void SetModified()
+	//   {
+	//	var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
+	//	if ( block != null )
+	//		block.ToggleAnimator(localChunkPos, IsPowered);
+	//	setModified();
+	//   }
 
 	public override TileEntityType GetTileEntityType()
 	{
