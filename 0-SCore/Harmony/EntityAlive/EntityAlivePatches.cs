@@ -49,7 +49,7 @@ namespace Harmony.EntityAlive
             {
                 // If we want to also verify the entity is using UAI, check this value:
                 // EntityClass.list[__instance.entityClass].UseAIPackages
-                if (__instance is EntityAliveSDX)
+                if (__instance is EntityAliveSDX || __instance is EntityEnemySDX)
                 {
                     __instance.ConditionalTriggerSleeperWakeUp();
                 }

@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.174.218
+
+	[ Sleepers ]
+	
+		- Added the EntityEnemeySDX to the SetSleeperActive(). This was already being done for EntityAliveSDX.
+
 Version: 20.5.169.98
 
 	[ Portals ]
