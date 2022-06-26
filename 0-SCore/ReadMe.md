@@ -10,6 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version:  20.5.177.1415
+
+	[ Sleepers ]
+		- Merged pull request to wake up sleepers automatically in Active sleeper volumes.
+
 Version: 20.5.174.1938
 
 	[ Portals ]
