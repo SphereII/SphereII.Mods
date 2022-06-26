@@ -137,6 +137,13 @@
 				<property name="AllEntitiesUseFactionTargeting" value="false" />
 				<!-- If true, all entities in the game use faction-based targeting -->
 
+				<property name="AttackVolumeInstantAwake" value="true" />
+				<!--
+					If true, sleeper NPCs will instantly wake up in "attack" sleeper volumes, even
+					if "SleeperInstantAwake" is false. Sleepers in other types of sleeper volumes
+					("passive" and "active"), and non-sleeper NPCs, will not be affected.
+				-->
+
 				<property name="DisplayCompanions" value="true" />
 			</property>
 
