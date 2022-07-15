@@ -28,6 +28,22 @@ public class WaterPipeManager
         }
     }
 
+    public int GetWaterDamage(Vector3i WaterPos)
+    {
+
+        var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
+        var value = -1;
+        if (waterBlock.Block.Properties.Contains("WaterDamage"))
+            value = waterBlock.Block.Properties.GetInt("WaterDamage");
+        else
+            value = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "WaterDamage"));
+
+        if (value < 0)
+            value = 1;
+        return value; 
+
+    }
+
     public Vector3i GetWaterForPosition(Vector3i position)
     {
         if (Pipes.ContainsKey(position))
@@ -109,7 +125,7 @@ public class WaterPipeManager
         if (blockValue.Block is BlockLiquidv2) return true;
 
         // Treat bedrock as a water block.
-        if (blockValue.Block.GetBlockName() == "terrBedrock") return true;
+     //   if (blockValue.Block.GetBlockName() == "terrBedrock") return true;
 
         if (blockValue.Block.Properties.Contains("WaterSource"))
         {

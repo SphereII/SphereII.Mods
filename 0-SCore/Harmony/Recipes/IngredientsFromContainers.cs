@@ -111,6 +111,7 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
                 var player = __instance.xui.playerUI.entityPlayer;
+
                 _items.AddRange(EnhancedRecipeLists.SearchNearbyContainers(player));
                 return true;
             }

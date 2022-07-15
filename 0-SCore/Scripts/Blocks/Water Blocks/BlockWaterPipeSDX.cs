@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 public class BlockWaterPipeSDX : BlockBaseWaterSystem
 {
 
+    //protected BlockValue brokenPipe;
+
+    //public override void LateInit()
+    //{
+    //    base.LateInit();
+    //    if (this.Properties.Values.ContainsKey("BrokenPipe"))
+    //        brokenPipe = ItemClass.GetItem(this.Properties.Values["BrokenPipe"], false).ToBlockValue();
+    //}
+
     // This allows for the water logic to pass through it.
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         WaterPipeManager.Instance.ClearPipes();
+        BlockUtilitiesSDX.removeParticles(_blockPos);
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
@@ -37,7 +47,7 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
                 pipeCount++;
         }
 
-        if ( _newNeighborBlockValue.isair)
+        if (_newNeighborBlockValue.isair)
             WaterPipeManager.Instance.ClearPipes();
 
         if (pipeCount < 2)
@@ -46,6 +56,33 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
             WaterPipeManager.Instance.GetWaterForPosition(_myBlockPos);
 
     }
+
+    //public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
+    //{
+    //    if (this.brokenPipe.isair)
+    //        return false;
+
+    //    if ((float)_blockValue.meta2and1 < 1f)
+    //    {
+    //        if (_rnd.RandomRange(2) == 0)
+    //        {
+    //            _blockValue.meta2and1 += 1;
+    //            _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+    //        }
+    //        return true;
+    //    }
+    //    _blockValue.meta2and1 = 0;
+
+    //    _blockValue.type = this.brokenPipe.type;
+    //    BlockValue blockValue = BlockPlaceholderMap.Instance.Replace(_blockValue, _world.GetGameRandom(), _blockPos.x, _blockPos.z, false, QuestTags.none);
+    //    blockValue.rotation = _blockValue.rotation;
+    //    blockValue.meta = _blockValue.meta;
+    //    blockValue.meta2 = 0;
+    //    _blockValue = blockValue;
+    //    if (_ticksIfLoaded <= this.GetTickRate() || !_blockValue.Block.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded - this.GetTickRate(), _rnd))
+    //        _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+    //    return true;
+    //}
 
 }
 

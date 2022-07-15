@@ -57,13 +57,22 @@ public class PlantData
             AdvLogging.DisplayLog(AdvFeatureClass, $"Using Rain Water for {BlockPos}.");
             return;
         }
-        
+
         // Damage the water block to simulate usage.
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
         if (waterBlock.Block is BlockLiquidv2 water )
         {
             AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {WaterPos} {waterBlock.Block.GetBlockName()}");
-            waterBlock.damage++;
+
+            // Check the global value of damaging water for this growth cycle
+            var damage = WaterPipeManager.Instance.GetWaterDamage(WaterPos);
+
+            // If the blant block itself has its own water damage, use it instead.
+            if (blockValue.Block.Properties.Contains("WaterDamage"))
+                damage = blockValue.Block.Properties.GetInt("WaterDamage");
+
+            // Grab the damage value from a) the water block itself, or b) the globa one
+            waterBlock.damage += damage;
             if (waterBlock.damage <= waterBlock.Block.MaxDamage)
                 GameManager.Instance.World.SetBlockRPC(0, WaterPos, waterBlock);
             else

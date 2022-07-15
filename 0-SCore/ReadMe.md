@@ -10,6 +10,25 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.194.1350
+
+	[ Crop Management ]
+		- Disabled unlimited water from bedrock block
+			- If desired to have bedrock as an unlimited water source, add the following property to the bedrock block:
+				<property name="WaterSource" value="true" />
+
+		- Added new property to global crop data that determines how much damage to a water block happens when a crop consumes.
+			- This property is defined in the CropManagement block of the SCore's configuration block.
+			- Individual plants can over-ride this property if they have it defined on their block.
+				- This is done on a block by block basis. If your plant has 3 growth cycles, you will have to define it for each block, with various possible amounts.
+			- Default is 1.
+			
+			<property name="WaterDamage" value="1" />
+
+		- If a water source has a the WaterSource property, it is considered an unlimited source of water, so be mindful of this.
+
+		- When a water pipe is removed, and the particle is still enabled, the particle will now be removed.
+
 Version:  20.5.177.1415
 
 	[ Sleepers ]
