@@ -9,7 +9,8 @@ using UnityEngine;
 
 public enum SCoreTileEntity
 {
-    TileEntityPoweredPortal = 200
+    TileEntityPoweredPortal = 200,
+    TileEntityAoE = 201
 }
 
 
@@ -28,6 +29,12 @@ namespace Harmony.TileEntities
                 { 
                         __result = new TileEntityPoweredPortal(_chunk);
                         return false;
+                }
+
+                if (type == (TileEntityType)SCoreTileEntity.TileEntityAoE)
+                {
+                    __result = new TileEntityPoweredPortal(_chunk);
+                    return false;
                 }
                 return true;
             }

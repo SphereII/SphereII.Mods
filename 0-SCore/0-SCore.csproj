@@ -144,6 +144,7 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockAoE.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="Scripts\Signs\AnimatedGifPlayer.cs" />
     <Compile Include="Scripts\Signs\ImageWrapper.cs" />
     <Compile Include="Scripts\SoundData\SoundDataNodeClass.cs" />
+    <Compile Include="Scripts\TileEntities\TileEntityAoE.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredPortal.cs" />
     <Compile Include="Scripts\TileEntities\TileEntityPoweredWorkstationSdx.cs" />
     <Compile Include="Scripts\UnitTests\CanDamageChecks.cs" />

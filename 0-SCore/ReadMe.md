@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.207.98
+
+	[ Block ]
+
+		New Block to throw an AoE at all times. Full example xml in Config/blocks.xml.
+
+			Example:
+			<block name="sphereiiAoETest">
+				<property name="Class" value="DecoAoE, SCore" />
+				<property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
+
+
 Version: 20.5.194.1350
 
 	[ Crop Management ]

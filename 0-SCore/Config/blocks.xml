@@ -502,6 +502,26 @@
 			<property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
 		</block>
 		-->
+
+		<block name="sphereiiAoETest">
+			<property name="Class" value="DecoAoE, SCore" />
+			<property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
+			<property name="Material" value="Mwood_weak"/>
+			<property name="Tags" value="coalBurnedDmg"/>
+			<property name="StabilitySupport" value="false"/>
+			<property name="Shape" value="Ext3dModel"/>
+			<property name="Texture" value="293"/>
+			<property name="Mesh" value="models"/>
+			<property name="Model" value="OutdoorDecor/ember_pile_1" param1="main_mesh"/>
+			<property name="IsTerrainDecoration" value="true"/>
+			<property name="ParticleName" value="ember_pile"/>
+			<property name="ParticleOffset" value="0,0,0"/>
+			<property name="BuffsWhenWalkedOn" value="buffBurningEnvironment"/>
+			<property name="Collide" value="melee,bullet,arrow,rocket"/>
+			<property name="VehicleHitScale" value="999"/>
+			<property name="FilterTags" value="MC_outdoor,SC_decor"/>
+		</block>
+
 	</append>
 	
 	
