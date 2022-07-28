@@ -5,7 +5,7 @@ namespace Harmony.Blocks
     /**
      * * Adding to new blocks:
      * *
-     * <property name="ParticleName" value="#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+     * <property name="ParticleName" value="#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X" />
      */
     public class Particles
     {

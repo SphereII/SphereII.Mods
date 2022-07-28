@@ -80,7 +80,21 @@
       </effect_group>
     </item>
 
-	<!-- Example of an item that can spoil, when the foot spoilage is turned on 
+	  <item name="sphereTorch">
+		  <property name="Extends" value="meleeToolTorch" />
+		  <effect_group name="Allow target block to catch on fire." tiered="false">
+			  <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" />
+		  </effect_group>
+      </item>
+
+	  <item name="sphereExtinguish">
+		  <property name="Extends" value="meleeToolShovelT0StoneShovel" />
+		  <effect_group name="Allow target block extinguish" tiered="false">
+			  <triggered_effect trigger="onSelfDamagedBlock" action="RemoveFire, SCore" target="positionAOE" range="2"/> <!-- range is int, 2 blocks in all direction will have fire removed. -->
+		  </effect_group>
+	  </item>
+
+	  <!-- Example of an item that can spoil, when the foot spoilage is turned on 
 		  <item name="foodSpoilageTest">
 			  <property name="Extends" value="foodShamSandwich"/>
 			  <property name="DisplayType" value="melee"/>

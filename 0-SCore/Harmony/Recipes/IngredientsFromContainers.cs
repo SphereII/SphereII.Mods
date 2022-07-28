@@ -35,7 +35,6 @@ namespace SCore.Harmony.Recipes
                     var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                     if (tileEntity == null) continue;
 
-                    Log.Out(tileEntity.ToString());
                     switch (tileEntity.GetTileEntityType())
                     {
                         case TileEntityType.Loot:

@@ -53,6 +53,8 @@
     <Compile Include="Harmony\Blocks\BlockSecureLoot.cs" />
     <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
+    <Compile Include="Harmony\Blocks\ChangeThisWaterBlock.cs" />
+    <Compile Include="Harmony\Blocks\OnEntityWalkingPatchFire.cs" />
     <Compile Include="Harmony\Blocks\Particles.cs" />
     <Compile Include="Harmony\Dialog\DialogClose.cs" />
     <Compile Include="Harmony\Dialog\DialogFromXML.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Harmony\ErrorHandling\NoExceptionHijack.cs" />
     <Compile Include="Harmony\Faction\FactionRelationshipCVars.cs" />
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
+    <Compile Include="Harmony\Fire\Explosion.cs" />
     <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
@@ -249,10 +252,14 @@
     <Compile Include="Scripts\Lockpicking\LocksetAudio.cs" />
     <Compile Include="Scripts\Lockpicking\SphereII_Locks.cs" />
     <Compile Include="Scripts\Managers\FarmPlotManager.cs" />
+    <Compile Include="Scripts\Managers\FireManager - Copy.cs" />
+    <Compile Include="Scripts\Managers\FireManager.cs" />
     <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionRemoveFire.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAddFireDamage.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionChangeFactionSDX2.cs" />

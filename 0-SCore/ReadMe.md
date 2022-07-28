@@ -10,6 +10,48 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.209.1414
+
+	[ Fire Manager ]
+		- Added initial implementation for lighting blocks on fire.
+
+			- When a block is added to the FireManager, it is added to a loop that checks:
+				-> Is it still flammable?
+				-> Has it been extinguished?
+				-> Does damage on the block
+				-> If damage exceeds the block, it gets downgraded, or replaced with air. (uses block placeholder)
+				-> Once all blocks are checked and calculated, it updates the chunks.
+
+		What makes a block flammable or not?
+
+			If it's a child, it won't catch fire. If its air, water, or is near water, it will not catch fire.		
+			
+			If the block has a tag of 'inflammable', it will not be burnable.
+
+			If the block has a tag of 'flammable', it will be marked as burnable. 
+				<append xpath="/blocks/block[@name='terrGravel']/property[@name='Tags']/@value">,flammable</append>
+        
+			If there is not tag, and passes the other checks, it'll check the block material from materials.xml.
+				if its DamageCategory is wood, or if its SurfaceCategory is plant, it will be flammable.
+
+		- New config entry in Config/blocks.xml
+		- New Harmony patch on OnEntityWalking, which checks if the block is burning and delivers a buff to an entityalive that walks through it.
+		- New Harmony patch to Explosion to include blocks affected by them to catch fire.
+
+		- New test items:
+			sphereTorch - When a block is struck, it is lit on fire.
+			sphereExtinguish - When a block is struck, blocks in a range of 2 of the strike position is considered extinguished.
+
+	[ Triggered Effect ]
+		- Added two new triggered effects to provide support for Fire Manager
+
+			<!-- When an item has this triggered effect hits a block that is flammable, the block will catch fire -->
+			<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" />
+
+			<!-- When an item has this triggered effect hits a block that is on fire, the fire still be extinguished. -->
+			<triggered_effect trigger="onSelfDamagedBlock" action="RemoveFire, SCore" />
+
+
 Version: 20.5.207.98
 
 	[ Block ]
