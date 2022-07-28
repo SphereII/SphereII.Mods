@@ -264,10 +264,10 @@
 			<property class="FireManagement" >
 				<property name="Logging" value="false"/>
 				<property name="FireEnable" value="false"/> 				<!-- Enables the feature -->
-				<property name="CheckInterval" value="10" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
+				<property name="CheckInterval" value="20" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
 				<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
 				<property name="BuffOnFire" value="buffIsOnFire" /> <!-- The buff that is applied to the entity alive when they step into the flames -->
-				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis01-LighterFire" /> <!-- Fire particle to use -->
+				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
 				<!-- Alternative included particles -->
 				<!--
 				<property name="FireParticle" value="p_onFire" />

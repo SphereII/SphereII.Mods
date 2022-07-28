@@ -10,6 +10,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.209.1530
+
+	[ Fire Manager ]
+		- Applying Fire Particle on hit, instead of delayed
+		- Adjusted the CheckInterval from 10 to 20
+		- Updated fire particle from guppycur
+		- Updated default fire particle to be Heavy
+
+
 Version: 20.5.209.1414
 
 	[ Fire Manager ]
@@ -49,7 +58,7 @@ Version: 20.5.209.1414
 			<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" />
 
 			<!-- When an item has this triggered effect hits a block that is on fire, the fire still be extinguished. -->
-			<triggered_effect trigger="onSelfDamagedBlock" action="RemoveFire, SCore" />
+			<triggered_effect trigger="onSelfDamagedBlock" action="RemoveFire, SCore" target="positionAOE" range="5"/>
 
 
 Version: 20.5.207.98

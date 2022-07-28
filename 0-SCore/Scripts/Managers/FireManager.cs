@@ -16,6 +16,7 @@ public class FireManager
     private float fireDamage = 1f;
     private GameRandom random;
 
+    private string particle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
 
     private const string saveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
@@ -102,7 +103,6 @@ public class FireManager
         Log.Out($"Checking Blocks for Fire: {FireMap.Count} Blocks registered.  Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
 
-        var particle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
         var Changes = new List<BlockChangeInfo>();
         var neighbors = new List<Vector3i>();
 
@@ -261,6 +261,9 @@ public class FireManager
     public void Add(Vector3i _blockPos)
     {
         if (!isFlammable(_blockPos)) return;
+
+        if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
+            BlockUtilitiesSDX.addParticlesCentered(particle, _blockPos);
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
         FireMap.TryAdd(_blockPos, block);
