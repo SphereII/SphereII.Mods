@@ -10,6 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.210.1020
+	[ Fire ]
+		- Fixed an issue with the particles not working at all. Great job, SphereII.
+
+
 Version: 20.5.210.859
 	
 	[ Fire ]

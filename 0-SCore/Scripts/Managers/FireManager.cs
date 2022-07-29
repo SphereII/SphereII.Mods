@@ -68,19 +68,13 @@ public class FireManager
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         var expiry = worldTime + 600;
-        if (ExtinguishPositions.ContainsKey(_blockPos))
+        if (!ExtinguishPositions.ContainsKey(_blockPos))
             ExtinguishPositions[_blockPos] = expiry;
-        else
-            ExtinguishPositions.TryAdd(_blockPos, expiry);
 
         var wasBurning = isBurning(_blockPos);
         Remove(_blockPos);
         if ( wasBurning)
             BlockUtilitiesSDX.addParticlesCentered(smokeParticle, _blockPos);
-        // Add the smoke particle
-        //if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
-        //    
-
     }
 
     // Poor man's timed cache
@@ -163,9 +157,6 @@ public class FireManager
             neighbors.AddRange(CheckNeighbors(pos));
 
             FireMap[pos] = block;
-            if (!GameManager.Instance.HasBlockParticleEffect(pos))
-                BlockUtilitiesSDX.addParticlesCentered(fireParticle, pos);
-
         }
 
         // Send all the changes in one shot

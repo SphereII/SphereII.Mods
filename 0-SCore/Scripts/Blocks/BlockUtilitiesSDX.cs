@@ -97,12 +97,10 @@ public static class BlockUtilitiesSDX
 
         var centerPosition = EntityUtilities.CenterPosition(position);
 
-        if (!GameManager.Instance.World.IsRemote())
-        {
             var blockValue = GameManager.Instance.World.GetBlock(position);
             GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
                 new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
-        }
+
         //var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
         //GameManager.Instance.SpawnParticleEffectServer(particle, -1);
     }
@@ -110,7 +108,7 @@ public static class BlockUtilitiesSDX
 
     public static void removeParticles(Vector3i position)
     {
-        while ( GameManager.Instance.HasBlockParticleEffect(position))
+
             GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
     }
 }
