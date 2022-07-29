@@ -16,8 +16,8 @@ public class FireManager
     private float fireDamage = 1f;
     private GameRandom random;
 
-    private string particle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
-
+    private string fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
+    private string smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
     private const string saveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
 
@@ -63,6 +63,7 @@ public class FireManager
     }
 
 
+    // General call to remove the fire from a block, and add an extinguished counter, so blocks can be temporarily immune to restarting.
     public void Extinguish(Vector3i _blockPos)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
@@ -72,8 +73,17 @@ public class FireManager
         else
             ExtinguishPositions.TryAdd(_blockPos, expiry);
 
+        var wasBurning = isBurning(_blockPos);
         Remove(_blockPos);
+        if ( wasBurning)
+            BlockUtilitiesSDX.addParticlesCentered(smokeParticle, _blockPos);
+        // Add the smoke particle
+        //if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
+        //    
+
     }
+
+    // Poor man's timed cache
     public void CheckExtinguishedPosition()
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
@@ -81,13 +91,18 @@ public class FireManager
         {
             Remove(position.Key);
             if (position.Value < worldTime)
+            {
                 ExtinguishPositions.TryRemove(position.Key, out var _);
+                BlockUtilitiesSDX.removeParticles(position.Key);
+            }
         }
     }
     public void FireUpdate()
     {
+        // No fires, no updates.
         if (FireMap.Count == 0) return;
 
+        // Make sure to only run it once
         lock (locker)
         {
             currentTime -= Time.deltaTime;
@@ -100,7 +115,6 @@ public class FireManager
     public void CheckBlocks()
     {
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
-        Log.Out($"Checking Blocks for Fire: {FireMap.Count} Blocks registered.  Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
 
         var Changes = new List<BlockChangeInfo>();
@@ -150,7 +164,7 @@ public class FireManager
 
             FireMap[pos] = block;
             if (!GameManager.Instance.HasBlockParticleEffect(pos))
-                BlockUtilitiesSDX.addParticlesCentered(particle, pos);
+                BlockUtilitiesSDX.addParticlesCentered(fireParticle, pos);
 
         }
 
@@ -263,7 +277,7 @@ public class FireManager
         if (!isFlammable(_blockPos)) return;
 
         if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
-            BlockUtilitiesSDX.addParticlesCentered(particle, _blockPos);
+            BlockUtilitiesSDX.addParticlesCentered(fireParticle, _blockPos);
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
         FireMap.TryAdd(_blockPos, block);

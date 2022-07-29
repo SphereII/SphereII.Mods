@@ -7,6 +7,14 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams _params)
     {
+        var position = _params.Position;
+        if (Voxel.voxelRayHitInfo.bHitValid)
+        {
+            var hitInfo = Voxel.voxelRayHitInfo;
+            if (hitInfo == null) return;
+            position = hitInfo.hit.blockPos;
+        }
+
         int range = (int)maxRange;
         for (int x = -range; x <= range; x++)
         {
@@ -14,8 +22,8 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
             {
                 for (int y = -range; y <= range; y++)
                 {
-                    var vector = new Vector3i(_params.Position.x + x, _params.Position.y + y, _params.Position.z + z);
-                    FireManager.Instance.Extinguish(vector);
+                    var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
+                        FireManager.Instance.Extinguish(vector);
 
                 }
             }

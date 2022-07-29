@@ -94,6 +94,7 @@
 		  </effect_group>
 	  </item>
 
+	 
 	  <!-- Example of an item that can spoil, when the foot spoilage is turned on 
 		  <item name="foodSpoilageTest">
 			  <property name="Extends" value="foodShamSandwich"/>

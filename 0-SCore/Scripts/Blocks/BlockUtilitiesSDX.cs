@@ -96,13 +96,21 @@ public static class BlockUtilitiesSDX
             ParticleEffect.RegisterBundleParticleEffect(strParticleName);
 
         var centerPosition = EntityUtilities.CenterPosition(position);
-        GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
-              new ParticleEffect(strParticleName, centerPosition, 1f, Color.white, "", null, false));
+
+        if (!GameManager.Instance.World.IsRemote())
+        {
+            var blockValue = GameManager.Instance.World.GetBlock(position);
+            GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
+                new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
+        }
+        //var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
+        //GameManager.Instance.SpawnParticleEffectServer(particle, -1);
     }
        
 
     public static void removeParticles(Vector3i position)
     {
-        GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
+        while ( GameManager.Instance.HasBlockParticleEffect(position))
+            GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
     }
 }

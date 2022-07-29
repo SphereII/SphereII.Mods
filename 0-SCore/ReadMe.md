@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.210.859
+	
+	[ Fire ]
+		- Fixed MinEvent on the RemoveFire damage to work at aim point, rather than the barrel of extinguisher
+		- Put in a potential fix for dedi particles. Unlikely to work.
+
 Version: 20.5.209.1530
 
 	[ Fire Manager ]
