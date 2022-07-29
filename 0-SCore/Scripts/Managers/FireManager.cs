@@ -15,6 +15,7 @@ public class FireManager
     private float currentTime = 0f;
     private float fireDamage = 1f;
     private GameRandom random;
+    private float heatMapStrength = 0f;
 
     private string fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
     private string smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
@@ -55,11 +56,16 @@ public class FireManager
             fireDamage = StringParsers.ParseFloat(strDamage);
         currentTime = -1;
 
+        var heatMap = Configuration.GetPropertyValue(AdvFeatureClass, "HeatMapStrength");
+        if (!string.IsNullOrWhiteSpace(heatMap))
+            heatMapStrength = StringParsers.ParseFloat(heatMap);
+
         Log.Out("Starting Fire Manager");
         Log.Out($" :: Fire Interval Check time: {checkTime}");
         Load();
-
+        CheckBlocks();
         ModEvents.GameUpdate.RegisterHandler(new Action(this.FireUpdate));
+        ModEvents.GameShutdown.RegisterHandler(new Action(this.Save));
     }
 
 
@@ -115,6 +121,7 @@ public class FireManager
         var neighbors = new List<Vector3i>();
 
         var alternate = false;
+
         // Check if any of the extinguished positions can be re-ignited, and clears them.
         CheckExtinguishedPosition();
 
@@ -128,13 +135,17 @@ public class FireManager
             }
 
             var block = GameManager.Instance.World.GetBlock(pos);
-            if (alternate)
+            if (alternate) // This follows the game rules more but is a heavier FPS hitter.
             {
                 block.Block.DamageBlock(GameManager.Instance.World, 0, pos, block, (int)fireDamage, -1);
             }
             else
             {
-                block.damage += (int)fireDamage;
+                if (block.Block.Properties.Contains("FireDamage"))
+                    block.damage += block.Block.Properties.GetInt("FireDamage");
+                else
+                    block.damage += (int)fireDamage;
+
                 if (block.damage >= block.Block.MaxDamage)
                 {
                     BlockValue blockValue2 = block.Block.DowngradeBlock;
@@ -151,12 +162,22 @@ public class FireManager
                 Remove(pos);
                 continue;
             }
+
+            if ( heatMapStrength != 0  )
+                GameManager.Instance.World.aiDirector.NotifyActivity(EnumAIDirectorChunkEvent.Campfire, pos, block.Block.HeatMapStrength, (ulong)block.Block.HeatMapTime);
+
             //    
 
             // If we are damaging a block, allow the fire to spread.
             neighbors.AddRange(CheckNeighbors(pos));
 
             FireMap[pos] = block;
+
+            //if ( GameManager.Instance.HasBlockParticleEffect(pos))
+            //{
+            //    var temp = GameManager.Instance.GetBlockParticleEffect(pos);
+            //    //Log.Out($"Particle on: {temp.name} at {pos}");
+            //}
         }
 
         // Send all the changes in one shot
@@ -166,6 +187,7 @@ public class FireManager
         foreach (var pos in neighbors)
             Add(pos);
 
+        
         Save();
     }
 
@@ -212,8 +234,12 @@ public class FireManager
 
         if (blockValue.Block.HasAnyFastTags(FastTags.Parse("flammable"))) return true;
         var blockMaterial = blockValue.Block.blockMaterial;
-        if (blockMaterial.DamageCategory == "wood") return true;
-        if (blockMaterial.SurfaceCategory == "plant") return true;
+
+        var matDamage = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialDamage");
+        if ( matDamage.Contains(blockMaterial.DamageCategory)) return true;
+
+        var matSurface = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialSurface");
+        if (matSurface.Contains(blockMaterial.SurfaceCategory)) return true;
 
         return false;
     }
@@ -223,16 +249,16 @@ public class FireManager
         // Save the burning blocks.
         var writeOut = "";
         foreach (var temp in FireMap)
-            writeOut += $"{temp};";
+            writeOut += $"{temp.Key};";
         writeOut = writeOut.TrimEnd(';');
         _bw.Write(writeOut);
 
         // Save the blocks we've put out and put in a dampner
-        writeOut = "";
+        var writeOut2 = "";
         foreach (var temp in ExtinguishPositions.Keys)
-            writeOut += $"{temp};";
-        writeOut = writeOut.TrimEnd(';');
-        _bw.Write(writeOut);
+            writeOut2 += $"{temp};";
+        writeOut2 = writeOut2.TrimEnd(';');
+        _bw.Write(writeOut2);
     }
 
     public void Read(BinaryReader _br)
@@ -259,7 +285,8 @@ public class FireManager
     public void Remove(Vector3i _blockPos)
     {
         BlockUtilitiesSDX.removeParticles(_blockPos);
-        FireMap.TryRemove(_blockPos, out var block);
+        if ( FireMap.TryRemove(_blockPos, out var block) )
+            BlockUtilitiesSDX.addParticlesCentered(smokeParticle, _blockPos);
     }
 
     // Add flammable blocks to the Fire Map
@@ -267,8 +294,10 @@ public class FireManager
     {
         if (!isFlammable(_blockPos)) return;
 
-        if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
-            BlockUtilitiesSDX.addParticlesCentered(fireParticle, _blockPos);
+       BlockUtilitiesSDX.addParticlesCentered(fireParticle, _blockPos);
+
+        if (GameManager.Instance.World.IsWithinTraderArea(_blockPos))
+            return;
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
         FireMap.TryAdd(_blockPos, block);

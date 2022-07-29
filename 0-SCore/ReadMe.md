@@ -10,6 +10,29 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.210.1950
+
+	[ Fire ]
+		- Changed default buff when you step into the fire to be buffBurningMolotov 
+		- Added new particle from guppycur ( commented in Config/blocks.xml )
+
+		- Fire will not be added to trader-protected zones. We have to protect Jen.
+
+		- Added new Config/blocks.xml properties to configure materials and surface categories to xml. Case sensitive.
+			Example, and default:
+				<property name="MaterialDamage" value="wood, cloth" /> <!-- Checks the material's damage category to see if it should ignite  -->
+				<property name="MaterialSurface" value="wood, cloth" /> <!-- Checks the material's surface category to see if it should ignite -->
+
+		- Added new Config/blocks.xml to configure heat per burning block. Default is 1. Setting to 0 disables it.
+			<property name="HeatMapStrength" value="1"/> 			<!-- Determines how much each block contributes to heat -->
+
+		- Added new block's property to control how much fire damage the block is to take. Integer.
+			This over-rides the default global configuration.
+
+			<property name="FireDamage" value="40" />
+
+
+
 Version: 20.5.210.1020
 	[ Fire ]
 		- Fixed an issue with the particles not working at all. Great job, SphereII.
