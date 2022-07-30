@@ -3,7 +3,7 @@
 public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
 {
 
-//  		<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" />
+//  		<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore"  />
 
     public override void Execute(MinEventParams _params)
     {

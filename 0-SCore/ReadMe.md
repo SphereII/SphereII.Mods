@@ -10,6 +10,58 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.211.1016
+
+	[ Fire ]
+
+		- Added new Config/blocks.xml entry to allow filtering Material ID.				
+			<property name="MaterialID" value="Mplants, Mcorn" /> 	<!-- Checks the material's id to see if it should ignite  -->
+
+		- Order of Material Checks, in terms of priority:
+			ID
+			DamageCategory
+			DamageSurface
+
+		- New block properties have been exposed, over-riding global defaults for FireParticle / SmokeParticle
+			<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" />
+			<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+
+			Using NoParticle will skip the particle effect:
+				<property name="FireParticle" value="NoParticle" />
+				<property name="SmokeParticle" value="NoParticle" />
+
+			To mass add custom particles above to blocks, consider using an xpath similar to this:
+
+			<!-- Search for all blocks that have a Material property called Mcloth, and add in the properties to that block -->
+			<append xpath="/blocks/block[ property[@name='Material' and @value='Mcloth'] ]">
+				<property name="FireParticle" value=#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy"" />	
+				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+			</append>
+
+		- Add new NetPackage in attempt for particles on dedi. Needs testing.
+
+		- Added new MinEvent called AddFireDamageCascade. Defaults to block type.
+			This minevent works similar to the Extinguish Minevent, in which multiple blocks of the same type around the target is affected. Rather than extinguish, it ignites those blocks instantly.
+
+			Supported formats:
+
+				<!-- The same type of block -->
+				<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="Type" />
+
+				<!-- Shares the same material -->
+				<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="Material" />
+
+				<!-- Shares the same material damage classification -->
+				<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="MaterialDamage" />
+
+				<!-- Shares the same material surface classification -->
+				<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="MaterialSurface" />
+
+			Example, if you hit a curtain block, it will catch fire. In addition, all curtain blocks in the range of 4 are also immediately lit.
+
+
+
+
 Version: 20.5.210.1950
 
 	[ Fire ]

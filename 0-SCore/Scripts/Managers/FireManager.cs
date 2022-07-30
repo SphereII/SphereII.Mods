@@ -79,8 +79,15 @@ public class FireManager
 
         var wasBurning = isBurning(_blockPos);
         Remove(_blockPos);
-        if ( wasBurning)
-            BlockUtilitiesSDX.addParticlesCentered(smokeParticle, _blockPos);
+        if (wasBurning)
+        {
+            var block = GameManager.Instance.World.GetBlock(_blockPos);
+            var targetParticle = fireParticle;
+            if (block.Block.Properties.Contains("SmokeParticle"))
+                targetParticle = block.Block.Properties.GetString("SmokeParticle");
+
+            BlockUtilitiesSDX.addParticlesCenteredNetwork(targetParticle, _blockPos);
+        }
     }
 
     // Poor man's timed cache
@@ -93,7 +100,7 @@ public class FireManager
             if (position.Value < worldTime)
             {
                 ExtinguishPositions.TryRemove(position.Key, out var _);
-                BlockUtilitiesSDX.removeParticles(position.Key);
+                BlockUtilitiesSDX.removeParticlesNetPackage(position.Key);
             }
         }
     }
@@ -235,6 +242,9 @@ public class FireManager
         if (blockValue.Block.HasAnyFastTags(FastTags.Parse("flammable"))) return true;
         var blockMaterial = blockValue.Block.blockMaterial;
 
+        var matID = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialID");
+        if (matID.Contains(blockMaterial.id)) return true;
+
         var matDamage = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialDamage");
         if ( matDamage.Contains(blockMaterial.DamageCategory)) return true;
 
@@ -284,9 +294,9 @@ public class FireManager
     }
     public void Remove(Vector3i _blockPos)
     {
-        BlockUtilitiesSDX.removeParticles(_blockPos);
+        BlockUtilitiesSDX.removeParticlesNetPackage(_blockPos);
         if ( FireMap.TryRemove(_blockPos, out var block) )
-            BlockUtilitiesSDX.addParticlesCentered(smokeParticle, _blockPos);
+            BlockUtilitiesSDX.addParticlesCenteredNetwork(smokeParticle, _blockPos);
     }
 
     // Add flammable blocks to the Fire Map
@@ -294,12 +304,18 @@ public class FireManager
     {
         if (!isFlammable(_blockPos)) return;
 
-       BlockUtilitiesSDX.addParticlesCentered(fireParticle, _blockPos);
+        var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+        var targetParticle = fireParticle;
+        if (block.Block.Properties.Contains("FireParticle"))
+            targetParticle = block.Block.Properties.GetString("FireParticle");
+
+        BlockUtilitiesSDX.addParticlesCenteredNetwork(targetParticle, _blockPos);
 
         if (GameManager.Instance.World.IsWithinTraderArea(_blockPos))
             return;
 
-        var block = GameManager.Instance.World.GetBlock(_blockPos);
+
         FireMap.TryAdd(_blockPos, block);
     }
 

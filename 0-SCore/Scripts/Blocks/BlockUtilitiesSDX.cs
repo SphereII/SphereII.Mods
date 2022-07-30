@@ -92,23 +92,66 @@ public static class BlockUtilitiesSDX
         if (strParticleName == null || strParticleName == "")
             strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
+        if (strParticleName == "NoParticle")
+            return;
+
         if (!ParticleEffect.IsAvailable(strParticleName))
             ParticleEffect.RegisterBundleParticleEffect(strParticleName);
 
         var centerPosition = EntityUtilities.CenterPosition(position);
 
             var blockValue = GameManager.Instance.World.GetBlock(position);
-            GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
-                new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
+            //GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
+            //    new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
 
-        //var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
-        //GameManager.Instance.SpawnParticleEffectServer(particle, -1);
+        var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
+        GameManager.Instance.SpawnParticleEffectServer(particle, -1);
     }
-       
+
+    public static void addParticlesCenteredNetwork(string strParticleName, Vector3i position)
+    {
+        if (strParticleName == null || strParticleName == "")
+            strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+
+        if (strParticleName == "NoParticle")
+            return;
+
+        if (!ParticleEffect.IsAvailable(strParticleName))
+            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+
+        var centerPosition = EntityUtilities.CenterPosition(position);
+
+        var blockValue = GameManager.Instance.World.GetBlock(position);
+        var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
+        if (!GameManager.IsDedicatedServer)
+        {
+            GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position, particle);        
+        }
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageParticleEffect>().Setup(particle, -1), false);
+            return;
+        }
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageParticleEffect>().Setup(particle, -1), false, -1, -1, -1, -1);
+
+    }
+
+    public static void removeParticlesNetPackage(Vector3i position)
+    {
+        if (!GameManager.IsDedicatedServer)
+        {
+            removeParticles(position);
+        }
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false);
+            return;
+        }
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false, -1, -1, -1, -1);
+    }
 
     public static void removeParticles(Vector3i position)
     {
-
             GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
     }
 }

@@ -258,6 +258,7 @@
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAddFireDamageCascade.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRemoveFire.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddFireDamage.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="Scripts\NetPackage\NetPackageQuestGotoPointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveEntityEnemySDXKill.cs" />
