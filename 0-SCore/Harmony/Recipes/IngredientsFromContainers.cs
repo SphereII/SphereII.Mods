@@ -176,20 +176,22 @@ namespace SCore.Harmony.Recipes
                         if (lootTileEntity == null) continue;
 
                         int num = itemStack.count * _multiplier;
-                        for (int x = 0; x < num; x++)
+                        if (0 <= num)
+                        // for (int x = 0; x < num; x++)
                         {
-                            if (lootTileEntity == null) break;
+                            // if (lootTileEntity == null) break;
                             for (int y = 0; y < lootTileEntity.items.Length; y++)
                             {
                                 var item = lootTileEntity.items[y];
                                 if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
                                 {
                                     totalCount += item.count;
-                                    if (totalCount > num)
+                                    if (totalCount >= num)
                                         return true;
                                 }
                             }
-                            break;
+                            // This breaks the loop always?
+                            // break;
                         }
                     }
 
@@ -211,26 +213,37 @@ namespace SCore.Harmony.Recipes
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
                 foreach (var itemStack in _itemStacks)
                 {
+                    // counter quantity needed from item
+                    int q = itemStack.count * _multiplier;
                     foreach (var tileEntity in tileEntities)
                     {
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
                         if (lootTileEntity == null) continue;
 
-                        int num = itemStack.count * _multiplier;
-                        for (int x = 0; x < num; x++)
+                        for (int y = 0; y < lootTileEntity.items.Length; y++)
                         {
-                            if (lootTileEntity == null) break;
-                            for (int y = 0; y < lootTileEntity.items.Length; y++)
+                            var item = lootTileEntity.items[y];
+                            // checks if the item is correct and counter not zero
+                            if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass & q != 0)
                             {
-                                var item = lootTileEntity.items[y];
-                                if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                                //if more or equal items available remove needed items
+                                if (item.count >= q)
                                 {
-                                    lootTileEntity.items[y].count--;
-                                    if (lootTileEntity.items[y].count < 1)
-                                        lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+                                    item.count = item.count - q;
+                                    q = 0;
                                 }
+                                // if less items available substact items and reduce counter until no items are left in the stack
+                                else if (item.count < q)
+                                {
+                                    while (item.count != 0)
+                                    {
+                                        lootTileEntity.items[y].count--;
+                                        q--;
+                                    }
+                                }
+                                //if (lootTileEntity.items[y].count == 0)
+                                //    lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
                             }
-                            break;
                         }
                     }
 
