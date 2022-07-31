@@ -168,14 +168,28 @@ namespace SCore.Harmony.Recipes
 
                 var totalCount = 0;
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
+
                 foreach (var itemStack in _itemStacks)
                 {
+                    int num = itemStack.count * _multiplier;
+                    // check player inventory for material
+                    var slots = ___localPlayer.bag.GetSlots();
+                    foreach (var slot in slots)
+                    {
+                        if (slot == null)
+                            continue;
+                        if (slot.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                        {
+                            num = num - slot.count;
+                        }
+                    }
+                    // check storage boxes
                     foreach (var tileEntity in tileEntities)
                     {
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
                         if (lootTileEntity == null) continue;
 
-                        int num = itemStack.count * _multiplier;
+                        
                         if (0 <= num)
                         // for (int x = 0; x < num; x++)
                         {
@@ -209,12 +223,23 @@ namespace SCore.Harmony.Recipes
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-
+                
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item
                     int q = itemStack.count * _multiplier;
+                    //check player inventory for materials and reduce counter
+                    foreach (var slot in ___localPlayer.bag.GetSlots()) 
+                    {
+                        if (slot == null)
+                            continue;
+                        if (slot.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                        {
+                            q = q - slot.count;
+                        }
+                    }
+                    // check storage boxes
                     foreach (var tileEntity in tileEntities)
                     {
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
