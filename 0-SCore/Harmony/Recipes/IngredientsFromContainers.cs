@@ -168,10 +168,11 @@ namespace SCore.Harmony.Recipes
 
                 var totalCount = 0;
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
+                int num = 0;
 
                 foreach (var itemStack in _itemStacks)
                 {
-                    int num = itemStack.count * _multiplier;
+                    num = itemStack.count * _multiplier;
                     // check player inventory for material
                     var slots = ___localPlayer.bag.GetSlots();
                     foreach (var slot in slots)
@@ -242,15 +243,17 @@ namespace SCore.Harmony.Recipes
                     // check storage boxes
                     foreach (var tileEntity in tileEntities)
                     {
+                        if (q <= 0) break;
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
                         if (lootTileEntity == null) continue;
-
                         for (int y = 0; y < lootTileEntity.items.Length; y++)
                         {
                             var item = lootTileEntity.items[y];
+                            Debug.LogWarning(q);
                             // checks if the item is correct and counter not zero
                             if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass & q != 0)
                             {
+
                                 //if more or equal items available remove needed items
                                 if (item.count >= q)
                                 {
@@ -266,11 +269,15 @@ namespace SCore.Harmony.Recipes
                                         q--;
                                     }
                                 }
+                                else if (q <= 0) break;
+                                Debug.LogWarning(q);
                                 //if (lootTileEntity.items[y].count == 0)
                                 //    lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
                             }
+                            else break;
                         }
                     }
+                    if (q <= 0) break;
 
                 }
 
