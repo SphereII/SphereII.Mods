@@ -16,7 +16,6 @@ namespace SCore.Harmony.Recipes
 
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
-
         public static List<TileEntity> GetTileEntities(EntityAlive player)
         {
             var distance = 30f;
@@ -34,7 +33,6 @@ namespace SCore.Harmony.Recipes
                 {
                     var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                     if (tileEntity == null) continue;
-
                     switch (tileEntity.GetTileEntityType())
                     {
                         case TileEntityType.Loot:
@@ -77,7 +75,6 @@ namespace SCore.Harmony.Recipes
                         if (lootTileEntity == null) break;
                         _items.AddRange(lootTileEntity.GetItems());
                         break;
-
                     case TileEntityType.SecureLootSigned:
                     case TileEntityType.SecureLoot:
 
@@ -96,10 +93,8 @@ namespace SCore.Harmony.Recipes
                 }
 
             }
-
             return _items;
         }
-
         [HarmonyPatch(typeof(XUiC_RecipeList))]
         [HarmonyPatch("BuildRecipeInfosList")]
         public class BuildRecipeInfosList
@@ -168,48 +163,24 @@ namespace SCore.Harmony.Recipes
 
                 var totalCount = 0;
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
-                int num = 0;
 
                 foreach (var itemStack in _itemStacks)
                 {
-                    num = itemStack.count * _multiplier;
-                    // check player inventory for material
+                    int num = itemStack.count * _multiplier;
+                    // check player inventory
                     var slots = ___localPlayer.bag.GetSlots();
-                    foreach (var slot in slots)
-                    {
-                        if (slot == null)
-                            continue;
-                        if (slot.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                        {
-                            num = num - slot.count;
-                        }
-                    }
-                    // check storage boxes
+                    totalCount = totalCount + slots
+                        .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                        .Sum(y=>y.count);
+                    // check container
                     foreach (var tileEntity in tileEntities)
                     {
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
-                        if (lootTileEntity == null) continue;
-
-                        
-                        if (0 <= num)
-                        // for (int x = 0; x < num; x++)
-                        {
-                            // if (lootTileEntity == null) break;
-                            for (int y = 0; y < lootTileEntity.items.Length; y++)
-                            {
-                                var item = lootTileEntity.items[y];
-                                if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                                {
-                                    totalCount += item.count;
-                                    if (totalCount >= num)
-                                        return true;
-                                }
-                            }
-                            // This breaks the loop always?
-                            // break;
-                        }
+                        totalCount = totalCount + lootTileEntity.items
+                            .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                            .Sum(y => y.count);
+                        if (totalCount >= num) return true;
                     }
-
                 }
                 return false;
             }
@@ -224,133 +195,47 @@ namespace SCore.Harmony.Recipes
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-                
+
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item
                     int q = itemStack.count * _multiplier;
                     //check player inventory for materials and reduce counter
-                    foreach (var slot in ___localPlayer.bag.GetSlots()) 
-                    {
-                        if (slot == null)
-                            continue;
-                        if (slot.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                        {
-                            q = q - slot.count;
-                        }
-                    }
+                    var slots = ___localPlayer.bag.GetSlots();
+                    q = q - slots
+                        .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                        .Sum(y => y.count);
+
                     // check storage boxes
                     foreach (var tileEntity in tileEntities)
                     {
                         if (q <= 0) break;
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
                         if (lootTileEntity == null) continue;
-                        for (int y = 0; y < lootTileEntity.items.Length; y++)
+                        foreach (var item in lootTileEntity.items.Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass))
                         {
-                            var item = lootTileEntity.items[y];
-                            Debug.LogWarning(q);
-                            // checks if the item is correct and counter not zero
-                            if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass & q != 0)
+                            //if more or equal items available remove needed items
+                            if (item.count >= q)
                             {
-
-                                //if more or equal items available remove needed items
-                                if (item.count >= q)
-                                {
-                                    item.count = item.count - q;
-                                    q = 0;
-                                }
-                                // if less items available substact items and reduce counter until no items are left in the stack
-                                else if (item.count < q)
-                                {
-                                    while (item.count != 0)
-                                    {
-                                        lootTileEntity.items[y].count--;
-                                        q--;
-                                    }
-                                }
-                                else if (q <= 0) break;
-                                Debug.LogWarning(q);
-                                //if (lootTileEntity.items[y].count == 0)
-                                //    lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+                                item.count = item.count - q;
+                                q = 0;
                             }
-                            else break;
+                            // if less items available substact items and reduce counter until no items are left in the stack
+                            else if (item.count < q)
+                            {
+                                while (item.count != 0)
+                                {
+                                    item.count--;
+                                    q--;
+                                }
+                            }
+                            else return true;
                         }
                     }
-                    if (q <= 0) break;
-
                 }
-
-                //var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
-                //foreach (var itemStack in _itemStacks)
-                //{
-                //    foreach (var tileEntity in tileEntities)
-                //    {
-                //        for (int i = 0; i < _itemStacks.Count; i++)
-                //        {
-                //            int num = _itemStacks[i].count * _multiplier;
-                //            for (int x = 0; x < num; x++)
-                //            {
-                //                switch (tileEntity.GetTileEntityType())
-                //                {
-                //                    case TileEntityType.Loot:
-                //                        var lootTileEntity = tileEntity as TileEntityLootContainer;
-                //                        if (lootTileEntity == null) break;
-                //                        if (lootTileEntity.HasItem(itemStack.itemValue))
-                //                        {
-                //                            for (int y = 0; y < lootTileEntity.items.Length; y++)
-                //                            {
-                //                                if (lootTileEntity.items[y].itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                //                                {
-                //                                    lootTileEntity.items[y].count--;
-                //                                    if (lootTileEntity.items[y].count < 1)
-                //                                        lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
-                //                                }
-                //                            }
-                //                        }
-
-                //                        break;
-
-                //                        //    case TileEntityType.SecureLootSigned:
-                //                        //    case TileEntityType.SecureLoot:
-
-                //                        //        var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
-                //                        //        if (secureTileEntity == null) break;
-
-                //                        //        PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-                //                        //        if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false)
-                //                        //            break;
-
-                //                        //        if (secureTileEntity.HasItem(itemStack.itemValue))
-                //                        //        {
-                //                        //            for (int y = 0; y < lootTileEntity.items.Length; y++)
-                //                        //            {
-                //                        //                if (lootTileEntity.items[y].itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                //                        //                {
-                //                        //                    lootTileEntity.items[y].count--;
-                //                        //                    if (lootTileEntity.items[y].count < 1)
-                //                        //                        lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
-                //                        //                }
-                //                        //            }
-                //                        //            lootTileEntity.RemoveItem(itemStack.itemValue);
-                //                        //        }
-                //                        //        break;
-
-                //                        //}
-
-                //                }
-
-                //            }
-
-                //        }
-                //    }
-
-                //}
-
                 return true;
             }
-
-
         }
     }
 }
