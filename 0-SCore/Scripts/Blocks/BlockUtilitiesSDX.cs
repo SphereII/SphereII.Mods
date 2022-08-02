@@ -98,12 +98,13 @@ public static class BlockUtilitiesSDX
         if (!ParticleEffect.IsAvailable(strParticleName))
             ParticleEffect.RegisterBundleParticleEffect(strParticleName);
 
+        if (GameManager.Instance.HasBlockParticleEffect(position)) 
+            return;
+
         var centerPosition = EntityUtilities.CenterPosition(position);
-
         var blockValue = GameManager.Instance.World.GetBlock(position);
-
         var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
-        GameManager.Instance.SpawnParticleEffectServer(particle, -1);
+        GameManager.Instance.SpawnBlockParticleEffect(position, particle);
     }
 
     public static void addParticlesCenteredNetwork(string strParticleName, Vector3i position)
@@ -120,12 +121,12 @@ public static class BlockUtilitiesSDX
         var centerPosition = EntityUtilities.CenterPosition(position);
         var particle = new ParticleEffect(strParticleName, centerPosition, Quaternion.LookRotation(position, Vector3.up), 1f, Color.white);
 
-        
+
 
         //if (!GameManager.IsDedicatedServer)
         {
             BlockUtilitiesSDX.SCoreParticles[position] = GameManager.Instance.SpawnParticleEffectClient(particle, -1);
-            
+
         }
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -139,11 +140,11 @@ public static class BlockUtilitiesSDX
     private static Dictionary<Vector3i, Transform> SCoreParticles = new Dictionary<Vector3i, Transform>();
     public static void removeParticlesNetPackage(Vector3i position)
     {
-        if ( BlockUtilitiesSDX.SCoreParticles.TryGetValue(position, out Transform particle) )
+        if (BlockUtilitiesSDX.SCoreParticles.TryGetValue(position, out Transform particle))
         {
             RemoveParticleEffectServer(position, -1);
         }
-        
+
         ////removeParticles(position);
 
         //if (!GameManager.IsDedicatedServer)
@@ -180,7 +181,7 @@ public static class BlockUtilitiesSDX
     {
         //return this.spawnParticleEffect(_pe, _entityThatCausedIt);
         //removeParticles(new Vector3i(_pe.pos));
-        if ( BlockUtilitiesSDX.SCoreParticles.ContainsKey(position))
+        if (BlockUtilitiesSDX.SCoreParticles.ContainsKey(position))
         {
             GameObject.Destroy(BlockUtilitiesSDX.SCoreParticles[position].gameObject);
             BlockUtilitiesSDX.SCoreParticles.Remove(position);
@@ -189,7 +190,5 @@ public static class BlockUtilitiesSDX
     public static void removeParticles(Vector3i position)
     {
         GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
-        if ( BlockUtilitiesSDX.SCoreParticles.ContainsKey(position))
-            BlockUtilitiesSDX.SCoreParticles.Remove(position);
     }
 }

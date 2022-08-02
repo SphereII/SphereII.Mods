@@ -16,10 +16,6 @@ namespace Harmony
 
             var harmony = new HarmonyLib.Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-
-
-            //SCoreModEvents.Init();
-
         }
     }
 }

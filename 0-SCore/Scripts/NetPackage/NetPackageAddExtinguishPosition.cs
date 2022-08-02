@@ -1,16 +1,21 @@
-﻿
-public class NetPackageRemoveParticleEffect : NetPackage
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+public class NetPackageAddExtinguishPosition : NetPackage
 {
     private Vector3i position;
     private int entityThatCausedIt;
 
-    public NetPackageRemoveParticleEffect Setup(Vector3i _position, int _entityThatCausedIt)
+    public NetPackageAddExtinguishPosition Setup(Vector3i _position, int _entityThatCausedIt)
     {
         this.position = _position;
         this.entityThatCausedIt = _entityThatCausedIt;
         return this;
     }
-
 
     public override void read(PooledBinaryReader _br)
     {
@@ -23,11 +28,11 @@ public class NetPackageRemoveParticleEffect : NetPackage
         base.write(_bw);
         _bw.Write((int)this.position.x);
         _bw.Write((int)this.position.y);
-        _bw.Write((int)this.position.z); 
+        _bw.Write((int)this.position.z);
         _bw.Write(this.entityThatCausedIt);
     }
 
-     public override int GetLength()
+    public override int GetLength()
     {
         return 20;
     }
@@ -43,7 +48,8 @@ public class NetPackageRemoveParticleEffect : NetPackage
         {
             return;
         }
-        FireManager.Instance.ClearPos(position);
+
+        FireManager.Instance.extinguish(position);
     }
 }
 

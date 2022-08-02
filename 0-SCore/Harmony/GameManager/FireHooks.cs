@@ -11,30 +11,14 @@ namespace SCore.Harmony.GameManagerPatches
     {
 
         // Allows the spread of the particles to catch things on fire.
-        [HarmonyPatch(typeof(GameManager))]
-        [HarmonyPatch("SaveAndCleanupWorld")]
-        public class GameManagerSaveAndCleanupWorld
-        {
-            public static void Postfix()
-            {
-                if (FireManager.Instance != null)
-                {
-                    Log.Out("Cleaning up Fire Manager");
-                    if (FireManager.Instance.Enabled == false) return;
-                    FireManager.Instance.CleanUp();
-                }
-
-            }
-        }
-
-        // Allows the spread of the particles to catch things on fire.
         [HarmonyPatch(typeof(GameStateManager))]
         [HarmonyPatch("StartGame")]
         public class GameStateManagerStartGame
         {
             public static void Postfix()
             {
-                FireManager.Instance.Init();
+                FireManager.Init();
+
             }
         }
     }

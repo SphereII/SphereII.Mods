@@ -296,6 +296,9 @@
     <Compile Include="Scripts\MonoBehaviour\LeaderCollision.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBox.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageAddFirePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestGotoPointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />

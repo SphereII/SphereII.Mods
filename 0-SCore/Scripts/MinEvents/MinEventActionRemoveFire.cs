@@ -18,7 +18,7 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
                 position = hitInfo.hit.blockPos;
             }
         }
-     
+
 
         int range = (int)maxRange;
         for (int x = -range; x <= range; x++)
@@ -28,7 +28,11 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
                 for (int y = -range; y <= range; y++)
                 {
                     var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
+                    if (FireManager.Instance.isBurning(vector))
+                    {
+                        FireManager.Instance.Remove(vector);
                         FireManager.Instance.Extinguish(vector);
+                    }
 
                 }
             }

@@ -10,6 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.214.1558
+	[ Ingredients From Container patches by matteo ]
+	
+		https://github.com/SphereII/SphereII.Mods/pull/46
+			changed some stuff to linq for better readabilty.
+
+		Note: Please report any kind of performance slows downs.	
+
+	[ Fire Manager ]
+		- Updated to use NetPackages.
+			-> Particles should work on Fires, extingusihes, and auto-expire
+
+		- Added new NetPackages to distribute the server's data to client's
+
 Version: 20.5.214.743
 	
 	[ Ingredients From Container Patches by matteo ]
