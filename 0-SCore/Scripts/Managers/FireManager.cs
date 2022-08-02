@@ -14,13 +14,16 @@ public class FireManager
     private float checkTime = 120f;
     private float currentTime = 0f;
     private float fireDamage = 1f;
-    private GameRandom random;
+    private float smokeTime = 60f;
+    private GameRandom random = new GameRandom();
     private float heatMapStrength = 0f;
 
-    private string fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
-    private string smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
+    public string fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
+    public string smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
     private const string saveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
+
+    private static BlockValue burntGround = new BlockValue((uint)Block.GetBlockByName("terrBurntForestGround").blockID);
 
     public bool Enabled { private set; get; }
     public static FireManager Instance
@@ -30,10 +33,14 @@ public class FireManager
             if (instance == null)
             {
                 instance = new FireManager();
-                instance.Init();
             }
             return instance;
         }
+    }
+
+    public void Init(ClientInfo _cInfo, RespawnType _respawnReason, Vector3i _pos)
+    {
+        Init();
     }
     public void Init()
     {
@@ -60,12 +67,24 @@ public class FireManager
         if (!string.IsNullOrWhiteSpace(heatMap))
             heatMapStrength = StringParsers.ParseFloat(heatMap);
 
+        var smoke = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeTime");
+        if (!string.IsNullOrWhiteSpace(smoke))
+            smokeTime = StringParsers.ParseFloat(smoke);
+
         Log.Out("Starting Fire Manager");
         Log.Out($" :: Fire Interval Check time: {checkTime}");
+
+
+        fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
+        smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
+
+        // Register the particle effects before anything. This is causing the Unknown Particle warnings. 
+        ParticleEffect.RegisterBundleParticleEffect(fireParticle);
+        ParticleEffect.RegisterBundleParticleEffect(smokeParticle);
+
         Load();
-        CheckBlocks();
+
         ModEvents.GameUpdate.RegisterHandler(new Action(this.FireUpdate));
-        ModEvents.GameShutdown.RegisterHandler(new Action(this.Save));
     }
 
 
@@ -73,20 +92,21 @@ public class FireManager
     public void Extinguish(Vector3i _blockPos)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
-        var expiry = worldTime + 600;
+        var expiry = worldTime + smokeTime;
         if (!ExtinguishPositions.ContainsKey(_blockPos))
             ExtinguishPositions[_blockPos] = expiry;
 
         var wasBurning = isBurning(_blockPos);
-        Remove(_blockPos);
         if (wasBurning)
         {
+            Remove(_blockPos);
             var block = GameManager.Instance.World.GetBlock(_blockPos);
-            var targetParticle = fireParticle;
+            var _smokeParticle = smokeParticle;
             if (block.Block.Properties.Contains("SmokeParticle"))
-                targetParticle = block.Block.Properties.GetString("SmokeParticle");
+                _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
 
-            BlockUtilitiesSDX.addParticlesCenteredNetwork(targetParticle, _blockPos);
+            if (!block.isair)
+                BlockUtilitiesSDX.addParticlesCenteredNetwork(_smokeParticle, _blockPos);
         }
     }
 
@@ -97,7 +117,7 @@ public class FireManager
         foreach (var position in ExtinguishPositions)
         {
             Remove(position.Key);
-            if (position.Value < worldTime)
+            if (position.Value < worldTime || GameManager.Instance.World.GetBlock(position.Key + Vector3i.down).isair)
             {
                 ExtinguishPositions.TryRemove(position.Key, out var _);
                 BlockUtilitiesSDX.removeParticlesNetPackage(position.Key);
@@ -106,14 +126,16 @@ public class FireManager
     }
     public void FireUpdate()
     {
-        // No fires, no updates.
-        if (FireMap.Count == 0) return;
-
         // Make sure to only run it once
         lock (locker)
         {
             currentTime -= Time.deltaTime;
             if (currentTime > 0f) return;
+
+
+
+            // No fires, no updates.
+            if (FireMap.Count == 0) return;
 
             CheckBlocks();
         }
@@ -124,13 +146,16 @@ public class FireManager
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
 
+        CheckExtinguishedPosition();
+
         var Changes = new List<BlockChangeInfo>();
         var neighbors = new List<Vector3i>();
 
+
         var alternate = false;
 
-        // Check if any of the extinguished positions can be re-ignited, and clears them.
-        CheckExtinguishedPosition();
+        ChunkCluster chunkCluster = GameManager.Instance.World.ChunkClusters[0];
+        if (chunkCluster == null) return;
 
         foreach (var posDict in FireMap)
         {
@@ -141,50 +166,62 @@ public class FireManager
                 continue;
             }
 
+            // Get block specific damages
             var block = GameManager.Instance.World.GetBlock(pos);
+            if (block.Block.Properties.Contains("FireDamage"))
+                block.damage += block.Block.Properties.GetInt("FireDamage");
+            else
+                block.damage += (int)fireDamage;
+
             if (alternate) // This follows the game rules more but is a heavier FPS hitter.
             {
                 block.Block.DamageBlock(GameManager.Instance.World, 0, pos, block, (int)fireDamage, -1);
             }
             else
             {
-                if (block.Block.Properties.Contains("FireDamage"))
-                    block.damage += block.Block.Properties.GetInt("FireDamage");
-                else
-                    block.damage += (int)fireDamage;
-
                 if (block.damage >= block.Block.MaxDamage)
                 {
+                    block.Block.SpawnDestroyParticleEffect(GameManager.Instance.World, block, pos, 1f, block.Block.tintColor, -1);
                     BlockValue blockValue2 = block.Block.DowngradeBlock;
-                    blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2, GameManager.Instance.World.GetGameRandom(), pos.x, pos.z, false, QuestTags.none);
+
+                    // Check if there's another placeholder for this block.
+                    if (!blockValue2.isair)
+                        blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2, GameManager.Instance.World.GetGameRandom(), pos.x, pos.z, false, QuestTags.none);
                     blockValue2.rotation = block.rotation;
                     blockValue2.meta = block.meta;
                     block = blockValue2;
+
+                    // If there is terrain under it, convert it to burnt ground.
+                    var blockBelow = GameManager.Instance.World.GetBlock(pos + Vector3i.down);
+                    if (blockBelow.Block.shape.IsTerrain())
+                        Changes.Add(new BlockChangeInfo(0, pos, burntGround));
+
                 }
+
                 Changes.Add(new BlockChangeInfo(0, pos, block));
             }
-            // Since the block could be damaged or replaced by the above, we want to check to see if we need to remove it or not.
-            if (!isFlammable(pos) || block.isair)
+
+            // If the new block has changed, check to make sure the new block is flammable. Note: it checks the blockValue, not blockPos, since the change hasn't been commited yet.
+            if (!isFlammable(block) || block.isair)
             {
-                Remove(pos);
+                BlockUtilitiesSDX.removeParticlesNetPackage(pos);
+                //Extinguish(pos);
                 continue;
             }
 
-            if ( heatMapStrength != 0  )
-                GameManager.Instance.World.aiDirector.NotifyActivity(EnumAIDirectorChunkEvent.Campfire, pos, block.Block.HeatMapStrength, (ulong)block.Block.HeatMapTime);
+            if (!GameManager.Instance.HasBlockParticleEffect(pos))
+            {
+                var _fireParticle = fireParticle;
+                if (block.Block.Properties.Contains("FireParticle"))
+                    _fireParticle = block.Block.Properties.GetString("FireParticle");
 
-            //    
-
+                BlockUtilitiesSDX.addParticlesCenteredNetwork(_fireParticle, pos);
+            }
             // If we are damaging a block, allow the fire to spread.
             neighbors.AddRange(CheckNeighbors(pos));
 
             FireMap[pos] = block;
 
-            //if ( GameManager.Instance.HasBlockParticleEffect(pos))
-            //{
-            //    var temp = GameManager.Instance.GetBlockParticleEffect(pos);
-            //    //Log.Out($"Particle on: {temp.name} at {pos}");
-            //}
         }
 
         // Send all the changes in one shot
@@ -194,7 +231,6 @@ public class FireManager
         foreach (var pos in neighbors)
             Add(pos);
 
-        
         Save();
     }
 
@@ -224,32 +260,40 @@ public class FireManager
         }
         return false;
     }
-    public bool isFlammable(Vector3i BlockPos)
-    {
-        if (ExtinguishPositions.ContainsKey(BlockPos)) return false;
-        
-        // If its already burning, then don't do any other check
-        if (isBurning(BlockPos)) return true;
 
-        var blockValue = GameManager.Instance.World.GetBlock(BlockPos);
+    public bool isFlammable(BlockValue blockValue)
+    {
         if (blockValue.Block.HasAnyFastTags(FastTags.Parse("inflammable"))) return false;
         if (blockValue.ischild) return false;
         if (blockValue.isair) return false;
         if (blockValue.isWater) return false;
-        if (IsNearWater(BlockPos)) return false;
-
 
         if (blockValue.Block.HasAnyFastTags(FastTags.Parse("flammable"))) return true;
         var blockMaterial = blockValue.Block.blockMaterial;
 
         var matID = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialID");
         if (matID.Contains(blockMaterial.id)) return true;
-
         var matDamage = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialDamage");
-        if ( matDamage.Contains(blockMaterial.DamageCategory)) return true;
+        if (matDamage.Contains(blockMaterial.DamageCategory)) return true;
 
         var matSurface = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialSurface");
         if (matSurface.Contains(blockMaterial.SurfaceCategory)) return true;
+
+        return false;
+
+    }
+    public bool isFlammable(Vector3i BlockPos)
+    {
+        if (ExtinguishPositions.ContainsKey(BlockPos)) return false;
+        // If its already burning, then don't do any other check
+        if (isBurning(BlockPos)) return true;
+
+        if (IsNearWater(BlockPos)) return false;
+
+        // Check the block value.
+        var blockValue = GameManager.Instance.World.GetBlock(BlockPos);
+        if (isFlammable(blockValue))
+            return true;
 
         return false;
     }
@@ -282,7 +326,6 @@ public class FireManager
             Add(vector);
         }
 
-
         // Read extinguished blocks.
         var extingished = _br.ReadString();
         foreach (var position in extingished.Split(';'))
@@ -294,29 +337,32 @@ public class FireManager
     }
     public void Remove(Vector3i _blockPos)
     {
+        if (!FireMap.ContainsKey(_blockPos)) return;
         BlockUtilitiesSDX.removeParticlesNetPackage(_blockPos);
-        if ( FireMap.TryRemove(_blockPos, out var block) )
-            BlockUtilitiesSDX.addParticlesCenteredNetwork(smokeParticle, _blockPos);
+        FireMap.TryRemove(_blockPos, out var block);
     }
 
     // Add flammable blocks to the Fire Map
     public void Add(Vector3i _blockPos)
     {
+        if (GameManager.Instance.World.IsWithinTraderArea(_blockPos))
+            return;
+
         if (!isFlammable(_blockPos)) return;
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
 
-        var targetParticle = fireParticle;
+        var _fireParticle = fireParticle;
         if (block.Block.Properties.Contains("FireParticle"))
-            targetParticle = block.Block.Properties.GetString("FireParticle");
+            _fireParticle = block.Block.Properties.GetString("FireParticle");
 
-        BlockUtilitiesSDX.addParticlesCenteredNetwork(targetParticle, _blockPos);
+        BlockUtilitiesSDX.addParticlesCenteredNetwork(_fireParticle, _blockPos);
 
-        if (GameManager.Instance.World.IsWithinTraderArea(_blockPos))
-            return;
-
-
-        FireMap.TryAdd(_blockPos, block);
+        if (FireMap.TryAdd(_blockPos, block))
+        {
+            if (heatMapStrength != 0)
+                GameManager.Instance.World?.aiDirector?.NotifyActivity(EnumAIDirectorChunkEvent.Campfire, _blockPos, block.Block.HeatMapStrength, (ulong)block.Block.HeatMapTime);
+        }
     }
 
     public bool isBurning(Vector3i _blockPos)
@@ -366,7 +412,6 @@ public class FireManager
                 {
                     using (PooledBinaryReader pooledBinaryReader = MemoryPools.poolBinaryReader.AllocSync(false))
                     {
-                        Log.Out("Reading From file");
                         pooledBinaryReader.SetBaseStream(fileStream);
                         this.Read(pooledBinaryReader);
                     }
@@ -387,6 +432,42 @@ public class FireManager
                     }
                 }
             }
+        }
+    }
+
+    public void CleanUp()
+    {
+        Log.Out("Fire Manager Clean up");
+        this.WaitOnSave();
+        this.Save();
+        this.WaitOnSave();
+        FireMap.Clear();
+        ExtinguishPositions.Clear();
+
+    }
+
+    public void Reset()
+    {
+        Log.Out("Removing all blocks that are on fire and smoke.");
+        lock (locker)
+        {
+            foreach (var position in FireMap.Keys)
+                Remove(position);
+
+            foreach (var position in ExtinguishPositions.Keys)
+                BlockUtilitiesSDX.removeParticlesNetPackage(position);
+
+            FireMap.Clear();
+            ExtinguishPositions.Clear();
+            Save();
+        }
+    }
+    private void WaitOnSave()
+    {
+        if (this.dataSaveThreadInfo != null)
+        {
+            this.dataSaveThreadInfo.WaitForEnd();
+            this.dataSaveThreadInfo = null;
         }
     }
 }

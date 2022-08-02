@@ -33,7 +33,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public override int GetLength()
     {
-        return 8;
+        return 20;
     }
 
     public override void ProcessPackage(World _world, GameManager _callbacks)

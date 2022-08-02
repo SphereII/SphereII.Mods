@@ -1,12 +1,12 @@
 ﻿
-public class NetPackageRemoveParticleEffect : NetPackageParticleEffect
+public class NetPackageRemoveParticleEffect : NetPackage
 {
     private Vector3i position;
     private int entityThatCausedIt;
 
     public NetPackageRemoveParticleEffect Setup(Vector3i _position, int _entityThatCausedIt)
     {
-        position = _position;
+        this.position = _position;
         this.entityThatCausedIt = _entityThatCausedIt;
         return this;
     }
@@ -14,19 +14,23 @@ public class NetPackageRemoveParticleEffect : NetPackageParticleEffect
 
     public override void read(PooledBinaryReader _br)
     {
-        this.position = StreamUtils.ReadVector3i(_br);
+        this.position = new Vector3i((float)_br.ReadInt32(), (float)_br.ReadInt32(), (float)_br.ReadInt32());
         this.entityThatCausedIt = _br.ReadInt32();
     }
-
 
     public override void write(PooledBinaryWriter _bw)
     {
         base.write(_bw);
-        StreamUtils.Write(_bw, this.position);
+        _bw.Write((int)this.position.x);
+        _bw.Write((int)this.position.y);
+        _bw.Write((int)this.position.z); 
         _bw.Write(this.entityThatCausedIt);
     }
 
-
+     public override int GetLength()
+    {
+        return 20;
+    }
 
     public override void ProcessPackage(World _world, GameManager _callbacks)
     {
@@ -35,7 +39,12 @@ public class NetPackageRemoveParticleEffect : NetPackageParticleEffect
             return;
         }
 
-        _world.GetGameManager().RemoveBlockParticleEffect(position);
+        if (!_world.IsRemote())
+        {
+            BlockUtilitiesSDX.RemoveParticleEffectServer(this.position, this.entityThatCausedIt);
+            return;
+        }
+       BlockUtilitiesSDX.RemoveParticleEffectClient(this.position, this.entityThatCausedIt);
     }
 }
 

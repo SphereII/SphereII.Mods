@@ -56,6 +56,8 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
+        if (!this.bIsUnderwater)
+            ForceDespawn();
         // Debug.Log("Position: " + this.position.ToString());
         //Debug.Log("Spawning Fish: " + this.entityName);
     }

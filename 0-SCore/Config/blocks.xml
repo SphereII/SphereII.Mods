@@ -266,6 +266,7 @@
 				<property name="FireEnable" value="false"/> 				<!-- Enables the feature -->
 				<property name="HeatMapStrength" value="1"/> 			<!-- Determines how much each block contributes to heat -->
 				<property name="CheckInterval" value="20" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
+				<property name="SmokeTime" value="60" />					<!-- How many seconds before the smoke disipates -->
 				<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
 				<property name="BuffOnFire" value="buffBurningMolotov" /> <!-- The buff that is applied to the entity alive when they step into the flames -->
 				<property name="MaterialID" value="Mplants, Mcorn" /> 	<!-- Checks the material's id to see if it should ignite  -->
@@ -537,8 +538,6 @@
 			<property name="Mesh" value="models"/>
 			<property name="Model" value="OutdoorDecor/ember_pile_1" param1="main_mesh"/>
 			<property name="IsTerrainDecoration" value="true"/>
-			<property name="ParticleName" value="ember_pile"/>
-			<property name="ParticleOffset" value="0,0,0"/>
 			<property name="BuffsWhenWalkedOn" value="buffBurningEnvironment"/>
 			<property name="Collide" value="melee,bullet,arrow,rocket"/>
 			<property name="VehicleHitScale" value="999"/>

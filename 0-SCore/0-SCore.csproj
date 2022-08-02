@@ -72,8 +72,10 @@
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
     <Compile Include="Harmony\Fire\Explosion.cs" />
     <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
+    <Compile Include="Harmony\GameManager\FireHooks.cs" />
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
+    <Compile Include="Harmony\ModEvents.cs" />
     <Compile Include="Harmony\ItemActions\ItemClass.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />

@@ -10,6 +10,41 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.214.743
+	
+	[ Ingredients From Container Patches by matteo ]
+	
+		https://github.com/SphereII/SphereII.Mods/pull/45
+			fixed some issues with items not being removed correctly.
+		
+	[ Entity Swiming ]
+		- Pushed a fix to avoid spawning fish randomly in the world.
+
+	[ Fire ]
+		Note: Fire System is being refactored to fix a variety of issues.
+
+		- Fixed particles not showing on dedi / P2P clients.
+
+		- Changed Fire Instance start to ModEvent for GameStartDone.
+
+		- Added Cleanup call to clear possibly stale data on client restart.
+
+		- Added Reset() to clear all existing game blocks that are on fire or smoldering.
+		- Added new console command called:  fireclear
+			-> Removes all recorded blocks that were on fire or extinguished, and removes their particles.
+
+		- Fixed an issue with the NetPackageRemoveParticleEffect() with a useless write call.
+
+		- Explosions that cause BlockDamage -1, will extingish fires. BlockDamage other than -1 will set fires.
+			<property name="Explosion.BlockDamage" value="-1"/>
+
+		- Added new property to Config/blocks.xml to control the amount of smoke time at the end of a fire, in seconds.
+			<property name="SmokeTime" value="60" />
+
+		- Removed smoke particles from fires that burn themselves out. Reserving them now when you intentionally extinguish them.
+
+		- Modified MinEvent FireDamage / FireDamageCascade to support ranged targets.
+
 Version: 20.5.211.1016
 
 	[ Fire ]

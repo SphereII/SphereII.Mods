@@ -8,12 +8,17 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
     public override void Execute(MinEventParams _params)
     {
         var position = _params.Position;
-        if (Voxel.voxelRayHitInfo.bHitValid)
+
+        if (targetType != TargetTypes.positionAOE)
         {
-            var hitInfo = Voxel.voxelRayHitInfo;
-            if (hitInfo == null) return;
-            position = hitInfo.hit.blockPos;
+            if (Voxel.voxelRayHitInfo.bHitValid)
+            {
+                var hitInfo = Voxel.voxelRayHitInfo;
+                if (hitInfo == null) return;
+                position = hitInfo.hit.blockPos;
+            }
         }
+     
 
         int range = (int)maxRange;
         for (int x = -range; x <= range; x++)

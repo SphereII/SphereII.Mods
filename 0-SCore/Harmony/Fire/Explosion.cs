@@ -15,13 +15,17 @@ namespace SCore.Harmony.Fire
         [HarmonyPatch("AttackBlocks")]
         public class SCoreExplosion_AttackBlocks
         {
-            public static void Postfix(Explosion __instance)
+            public static void Postfix(Explosion __instance, ExplosionData ___explosionData)
             {
                 if (FireManager.Instance.Enabled == false) return;
 
                 foreach (var position in __instance.ChangedBlockPositions)
-                    FireManager.Instance.Add(position.Key);
-                
+                {
+                    if (___explosionData.BlockDamage == -1f)
+                        FireManager.Instance.Extinguish(position.Key);
+                    else
+                        FireManager.Instance.Add(position.Key);
+                }
             }
         }
     }

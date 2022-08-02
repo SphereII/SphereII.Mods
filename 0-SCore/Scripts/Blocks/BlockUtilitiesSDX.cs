@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-
+using System.Collections.Generic;
 public static class BlockUtilitiesSDX
 {
     public static void AddRadiusEffect(string strItemClass, ref Block myBlock)
@@ -100,9 +100,7 @@ public static class BlockUtilitiesSDX
 
         var centerPosition = EntityUtilities.CenterPosition(position);
 
-            var blockValue = GameManager.Instance.World.GetBlock(position);
-            //GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
-            //    new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white));
+        var blockValue = GameManager.Instance.World.GetBlock(position);
 
         var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
         GameManager.Instance.SpawnParticleEffectServer(particle, -1);
@@ -120,12 +118,14 @@ public static class BlockUtilitiesSDX
             ParticleEffect.RegisterBundleParticleEffect(strParticleName);
 
         var centerPosition = EntityUtilities.CenterPosition(position);
+        var particle = new ParticleEffect(strParticleName, centerPosition, Quaternion.LookRotation(position, Vector3.up), 1f, Color.white);
 
-        var blockValue = GameManager.Instance.World.GetBlock(position);
-        var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
-        if (!GameManager.IsDedicatedServer)
+        
+
+        //if (!GameManager.IsDedicatedServer)
         {
-            GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position, particle);        
+            BlockUtilitiesSDX.SCoreParticles[position] = GameManager.Instance.SpawnParticleEffectClient(particle, -1);
+            
         }
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -136,22 +136,60 @@ public static class BlockUtilitiesSDX
 
     }
 
+    private static Dictionary<Vector3i, Transform> SCoreParticles = new Dictionary<Vector3i, Transform>();
     public static void removeParticlesNetPackage(Vector3i position)
     {
+        if ( BlockUtilitiesSDX.SCoreParticles.TryGetValue(position, out Transform particle) )
+        {
+            RemoveParticleEffectServer(position, -1);
+        }
+        
+        ////removeParticles(position);
+
+        //if (!GameManager.IsDedicatedServer)
+        //{
+        //    removeParticles(position);
+        //}
+        //if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        //{
+        //    SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false);
+        //    return;
+        //}
+        //SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false, -1, -1, -1, -1);
+    }
+
+    public static void RemoveParticleEffectServer(Vector3i position, int _entityId)
+    {
+        if (GameManager.Instance.World == null)
+        {
+            return;
+        }
         if (!GameManager.IsDedicatedServer)
         {
-            removeParticles(position);
+            RemoveParticleEffectClient(position, _entityId);
         }
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false);
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, _entityId), false);
             return;
         }
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, -1), false, -1, -1, -1, -1);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(position, _entityId), false, -1, _entityId, -1, -1);
     }
 
+    public static void RemoveParticleEffectClient(Vector3i position, int _entityThatCausedIt)
+    {
+        //return this.spawnParticleEffect(_pe, _entityThatCausedIt);
+        //removeParticles(new Vector3i(_pe.pos));
+        if ( BlockUtilitiesSDX.SCoreParticles.ContainsKey(position))
+        {
+            GameObject.Destroy(BlockUtilitiesSDX.SCoreParticles[position].gameObject);
+            BlockUtilitiesSDX.SCoreParticles.Remove(position);
+        }
+    }
     public static void removeParticles(Vector3i position)
     {
-            GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
+        GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
+        if ( BlockUtilitiesSDX.SCoreParticles.ContainsKey(position))
+            BlockUtilitiesSDX.SCoreParticles.Remove(position);
     }
 }

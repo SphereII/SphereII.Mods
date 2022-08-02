@@ -28,51 +28,55 @@ public class MinEventActionAddFireDamageCascade : MinEventActionRemoveBuff
     public override void Execute(MinEventParams _params)
     {
 
-        if (Voxel.voxelRayHitInfo.bHitValid)
+        var position = _params.Position;
+        if (targetType != TargetTypes.positionAOE)
         {
-            var hitInfo = Voxel.voxelRayHitInfo;
-            if (hitInfo == null) return;
-
-            var position = hitInfo.hit.blockPos;
-            var targetBlock = GameManager.Instance.World.GetBlock(position);
-
-            int range = (int)maxRange;
-            for (int x = -range; x <= range; x++)
+            if (Voxel.voxelRayHitInfo.bHitValid)
             {
-                for (int z = -range; z <= range; z++)
-                {
-                    for (int y = -range; y <= range; y++)
-                    {
-                        var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
-                        var neighborBlock = GameManager.Instance.World.GetBlock(vector);
-                        switch( filterType)
-                        {
-                            case FilterTypeCascade.Type:
-                                if (neighborBlock.type == targetBlock.type)
-                                    FireManager.Instance.Add(vector);
-                                break;
-                            case FilterTypeCascade.Material:
-                                if (neighborBlock.Block.blockMaterial.id == targetBlock.Block.blockMaterial.id)
-                                    FireManager.Instance.Add(vector);
-                                break;
-                            case FilterTypeCascade.MaterialDamage:
-                                if (neighborBlock.Block.blockMaterial.DamageCategory == targetBlock.Block.blockMaterial.DamageCategory)
-                                    FireManager.Instance.Add(vector);
-                                break;
-                            case FilterTypeCascade.MaterialSurface:
-                                if (neighborBlock.Block.blockMaterial.SurfaceCategory == targetBlock.Block.blockMaterial.SurfaceCategory)
-                                    FireManager.Instance.Add(vector);
-                                break;
-                            default:
-                                break;
+                var hitInfo = Voxel.voxelRayHitInfo;
+                if (hitInfo == null) return;
+                position = hitInfo.hit.blockPos;
+            }
+        }
+        var targetBlock = GameManager.Instance.World.GetBlock(new Vector3i(position));
 
-                        }
+        int range = (int)maxRange;
+        for (int x = -range; x <= range; x++)
+        {
+            for (int z = -range; z <= range; z++)
+            {
+                for (int y = -range; y <= range; y++)
+                {
+                    var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
+                    var neighborBlock = GameManager.Instance.World.GetBlock(vector);
+                    switch (filterType)
+                    {
+                        case FilterTypeCascade.Type:
+                            if (neighborBlock.type == targetBlock.type)
+                                FireManager.Instance.Add(vector);
+                            break;
+                        case FilterTypeCascade.Material:
+                            if (neighborBlock.Block.blockMaterial.id == targetBlock.Block.blockMaterial.id)
+                                FireManager.Instance.Add(vector);
+                            break;
+                        case FilterTypeCascade.MaterialDamage:
+                            if (neighborBlock.Block.blockMaterial.DamageCategory == targetBlock.Block.blockMaterial.DamageCategory)
+                                FireManager.Instance.Add(vector);
+                            break;
+                        case FilterTypeCascade.MaterialSurface:
+                            if (neighborBlock.Block.blockMaterial.SurfaceCategory == targetBlock.Block.blockMaterial.SurfaceCategory)
+                                FireManager.Instance.Add(vector);
+                            break;
+                        default:
+                            break;
 
                     }
+
                 }
             }
         }
     }
+
 
     public override bool ParseXmlAttribute(XmlAttribute _attribute)
     {
@@ -82,7 +86,7 @@ public class MinEventActionAddFireDamageCascade : MinEventActionRemoveBuff
             string name = _attribute.Name;
             if (name != null)
             {
-                if (name == "filter" )
+                if (name == "filter")
                 {
                     filterType = EnumUtils.Parse<FilterTypeCascade>(_attribute.Value, true);
                     return true;

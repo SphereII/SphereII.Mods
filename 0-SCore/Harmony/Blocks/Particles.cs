@@ -15,12 +15,14 @@ namespace Harmony.Blocks
         {
             public static void Postfix(ref Block __instance)
             {
-                if (!__instance.Properties.Values.ContainsKey("ParticleName"))
-                    return;
-
-                var strParticleName = __instance.Properties.Values["ParticleName"];
-                if (!ParticleEffect.IsAvailable(strParticleName))
-                    ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                var strParticleName = "";
+                if (__instance.Properties.Values.ContainsKey("ParticleName"))
+                {
+                    strParticleName = __instance.Properties.Values["ParticleName"];
+                    if (!ParticleEffect.IsAvailable(strParticleName))
+                        ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                }
+            
             }
         }
     }
