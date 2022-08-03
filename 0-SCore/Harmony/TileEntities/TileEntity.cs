@@ -33,7 +33,7 @@ namespace Harmony.TileEntities
 
                 if (type == (TileEntityType)SCoreTileEntity.TileEntityAoE)
                 {
-                    __result = new TileEntityPoweredPortal(_chunk);
+                    __result = new TileEntityAoE(_chunk);
                     return false;
                 }
                 return true;

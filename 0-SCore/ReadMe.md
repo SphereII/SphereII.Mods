@@ -10,6 +10,16 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.215.1628
+
+	[ TileEntity AOE ]
+		- Fixed an invalid cast from bad copy and paste job.
+
+	[ Fire Manager ]
+		- Added debug output to MinEffects, enabled via turning Logging on in the FireManagement
+
+
+
 Version: 20.5.214.1558
 	[ Ingredients From Container patches by matteo ]
 	

@@ -3,6 +3,9 @@
 public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
 {
 
+    private static readonly string AdvFeatureClass = "FireManagement";
+
+
     //  		<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="5" />
 
     public override void Execute(MinEventParams _params)
@@ -17,6 +20,9 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
                 position = hitInfo.hit.blockPos;
             }
         }
+
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {_params.Self.position} Range: {maxRange}");
+
         int range = (int)maxRange;
         for (int x = -range; x <= range; x++)
         {
