@@ -10,6 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.215.1938
+	[ Fire Manager ]
+
+		- Removed verbose log output
+
 Version: 20.5.215.1628
 
 	[ TileEntity AOE ]

@@ -433,7 +433,6 @@ public class FireManager
         pooledExpandableMemoryStream.Position = 0L;
         StreamUtils.WriteStreamToFile(pooledExpandableMemoryStream, text);
         MemoryPools.poolMemoryStream.FreeSync(pooledExpandableMemoryStream);
-        Log.Out($"Fire Manager {text} Saving: {FireMap.Count}");
 
         return -1;
     }
