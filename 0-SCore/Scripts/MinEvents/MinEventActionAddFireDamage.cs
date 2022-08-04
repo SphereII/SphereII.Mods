@@ -1,12 +1,13 @@
-﻿using System.Xml;
-
+﻿using System.Threading.Tasks;
+using System.Xml;
+using UnityEngine;
 public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
 {
 
     private static readonly string AdvFeatureClass = "FireManagement";
+    private float delayTime = 0;
 
-
-    //  		<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="5" />
+    //  		<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="5" delayTime="10" />
 
     public override void Execute(MinEventParams _params)
     {
@@ -21,8 +22,14 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
             }
         }
 
-        AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {_params.Self.position} Range: {maxRange}");
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {_params.Self.position} Range: {maxRange}  Delay: {delayTime}");
+        
+        Task task = Task.Delay((int)delayTime)
+             .ContinueWith(t => AddFire(position));
+    }
 
+    public void AddFire(Vector3 position)
+    {
         int range = (int)maxRange;
         for (int x = -range; x <= range; x++)
         {
@@ -38,4 +45,22 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
         }
     }
 
+    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    {
+        var flag = base.ParseXmlAttribute(_attribute);
+        if (!flag)
+        {
+            var name = _attribute.Name;
+            if (name != null)
+            {
+                if (name == "delayTime")
+                {
+                    delayTime = StringParsers.ParseFloat(_attribute.Value);
+                    return true;
+                }
+            }
+        }
+
+        return flag;
+    }
 }

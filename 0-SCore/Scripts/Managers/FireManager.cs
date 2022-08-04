@@ -139,12 +139,17 @@ public class FireManager
                 continue;
             }
 
-            // Get block specific damages
             var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+            // Get block specific damages
+            var damage = (int)fireDamage;
             if (block.Block.Properties.Contains("FireDamage"))
-                block.damage += block.Block.Properties.GetInt("FireDamage");
-            else
-                block.damage += (int)fireDamage;
+                damage = block.Block.Properties.GetInt("FireDamage");
+            
+            if (block.Block.blockMaterial.Properties.Contains("FireDamage"))
+                damage = block.Block.blockMaterial.Properties.GetInt("FireDamage");
+
+            block.damage += damage;
 
             if (alternate) // This follows the game rules more but is a heavier FPS hitter.
             {
@@ -390,6 +395,9 @@ public class FireManager
         if (block.Block.Properties.Contains("SmokeParticle"))
             _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
 
+        if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
+            _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
+
         if (!block.isair)
             BlockUtilitiesSDX.addParticlesCentered(_smokeParticle, _blockPos);
 
@@ -404,6 +412,9 @@ public class FireManager
         var _fireParticle = fireParticle;
         if (block.Block.Properties.Contains("FireParticle"))
             _fireParticle = block.Block.Properties.GetString("FireParticle");
+
+        if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
+            _fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
 
         BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
 

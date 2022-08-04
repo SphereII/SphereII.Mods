@@ -10,7 +10,30 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version:
+Version: 20.5.216.1632
+
+	[ Fire Manager ]
+
+		- Expanded SmokeParticle, FireParticle, and FireDamage to be read from the block's material entry.
+
+			<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
+			<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Fire particle to use -->
+			<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
+
+			Priority Order:  
+				Material Entry
+				Block Entry
+				Global Entry
+
+		- Added a delayTime to the MinEffectAddFireDamage. 
+			
+			The value is in milliseconds. Default is 0, with no delay.
+
+			<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="5" delayTime="1000" /> <!-- 1 second before fire starts -->
+		
+		
+
+Version: 20.5.216.1451
 
 	[ Entity ]
 		- New MinEffect to spawn an entity. The actual spawn location is hit position + 1 block up.
