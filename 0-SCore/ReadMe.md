@@ -10,6 +10,16 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version:
+
+	[ Entity ]
+		- New MinEffect to spawn an entity. The actual spawn location is hit position + 1 block up.
+		
+			For example, adding this to the ammo of a cross bolt will spawn an entity at the hit location.
+
+			<triggered_effect trigger="onProjectileImpact" action="SpawnEntityAtPoint, SCore" SpawnGroup="ZombiesBurntForest"  />
+
+
 Version: 20.5.215.1938
 	[ Fire Manager ]
 
