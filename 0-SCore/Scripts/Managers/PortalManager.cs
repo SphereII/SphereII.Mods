@@ -23,7 +23,7 @@ public class PortalItem
                 Source = config.Split('=')[1];
             if (config.StartsWith("destination="))
                 Destination = config.Split('=')[1];
-            if ( config.StartsWith("prefab="))
+            if (config.StartsWith("prefab="))
                 Prefab = config.Split('=')[1];
         }
 
@@ -131,7 +131,7 @@ public class PortalManager
         if (destination == Vector3i.zero) return false;
 
         var block = GameManager.Instance.World.GetBlock(source).Block as BlockPoweredPortal;
-        if ( block != null )
+        if (block != null)
             block.ToggleAnimator(source, true);
 
         block = GameManager.Instance.World.GetBlock(destination).Block as BlockPoweredPortal;
@@ -159,6 +159,7 @@ public class PortalManager
     // Portal blocks
     public Vector3i GetDestination(Vector3i source)
     {
+
         if (PortalMap.ContainsKey(source))
         {
             var sourceName = PortalMap[source];
@@ -250,140 +251,140 @@ public class PortalManager
     //        return prefabInstance.boundingBoxPosition;
 
 
-// Dialog / Buff teleportation.
-public Vector3i GetDestination(string location)
-{
-    var destinationItem = new PortalItem(Vector3i.zero, location);
-
-    // If the source and destination is the same, then this means its a legacy teleport location, likely coming from a teleport from minevents where its only one way
-    var legacy = destinationItem.Source == destinationItem.Destination;
-
-    var destination = Vector3i.zero;
-    foreach (var portal in PortalMap)
+    // Dialog / Buff teleportation.
+    public Vector3i GetDestination(string location)
     {
-        var portalItem = new PortalItem(portal.Key, portal.Value);
-        if (location == portalItem.Destination)
+        var destinationItem = new PortalItem(Vector3i.zero, location);
+
+        // If the source and destination is the same, then this means its a legacy teleport location, likely coming from a teleport from minevents where its only one way
+        var legacy = destinationItem.Source == destinationItem.Destination;
+
+        var destination = Vector3i.zero;
+        foreach (var portal in PortalMap)
         {
-            destination = portal.Key;
-            break;
-        }
-        if (destinationItem.Destination == portalItem.Destination)
-        {
-            destination = portal.Key;
-            break;
-        }
-
-        if (legacy && location == portalItem.Source)
-        {
-            destination = portal.Key;
-            break;
-        }
-    }
-    // If the destination is zero here, check if its a prefab
-    if (destination == Vector3i.zero)
-    {
-        return CheckForPrefabLocation(destinationItem);
-    }
-    // If the portal needs power, make sure its on.
-    var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
-    if (tileEntity == null) return Vector3i.zero; // Dead portal
-    if (tileEntity.RequiredPower <= 0) return destination;
-    if (tileEntity.IsPowered) return destination;
-    return Vector3i.zero;
-
-}
-public void RemovePosition(Vector3i position)
-{
-    PortalMap.Remove(position);
-    Save();
-}
-public void Write(BinaryWriter _bw)
-{
-    _bw.Write(PortalManager.Version);
-    var writeOut = "";
-    foreach (var temp in PortalMap)
-        writeOut = $"{temp.Key}:{temp.Value};";
-
-    writeOut = writeOut.TrimEnd(';');
-    _bw.Write(writeOut);
-}
-
-public void Read(BinaryReader _br)
-{
-    _br.ReadByte();
-    var positions = _br.ReadString();
-    foreach (var position in positions.Split(';'))
-    {
-        PortalMap.Add(StringParsers.ParseVector3i(position.Split(':')[0]), position.Split(':')[1]);
-    }
-}
-
-private int saveDataThreaded(ThreadManager.ThreadInfo _threadInfo)
-{
-    PooledExpandableMemoryStream pooledExpandableMemoryStream = (PooledExpandableMemoryStream)_threadInfo.parameter;
-    string text = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
-    if (!Directory.Exists(GameIO.GetSaveGameDir()))
-    {
-        return -1;
-    }
-    if (File.Exists(text))
-    {
-        File.Copy(text, string.Format("{0}/{1}", GameIO.GetSaveGameDir(), $"{saveFile}.bak"), true);
-    }
-    pooledExpandableMemoryStream.Position = 0L;
-    StreamUtils.WriteStreamToFile(pooledExpandableMemoryStream, text);
-    MemoryPools.poolMemoryStream.FreeSync(pooledExpandableMemoryStream);
-    return -1;
-}
-
-public void Save()
-{
-    if (this.dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_PortalDataSave"))
-    {
-        PooledExpandableMemoryStream pooledExpandableMemoryStream = MemoryPools.poolMemoryStream.AllocSync(true);
-        using (PooledBinaryWriter pooledBinaryWriter = MemoryPools.poolBinaryWriter.AllocSync(false))
-        {
-            pooledBinaryWriter.SetBaseStream(pooledExpandableMemoryStream);
-            this.Write(pooledBinaryWriter);
-        }
-        this.dataSaveThreadInfo = ThreadManager.StartThread("silent_PortalDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, System.Threading.ThreadPriority.Normal, pooledExpandableMemoryStream, null, false);
-    }
-}
-
-public void Load()
-{
-    Log.Out("Reading Portal Data...");
-    PortalMap.Clear();
-    string path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
-    if (Directory.Exists(GameIO.GetSaveGameDir()) && File.Exists(path))
-    {
-        try
-        {
-            using (FileStream fileStream = File.OpenRead(path))
+            var portalItem = new PortalItem(portal.Key, portal.Value);
+            if (location == portalItem.Destination)
             {
-                using (PooledBinaryReader pooledBinaryReader = MemoryPools.poolBinaryReader.AllocSync(false))
-                {
-                    pooledBinaryReader.SetBaseStream(fileStream);
-                    this.Read(pooledBinaryReader);
-                }
+                destination = portal.Key;
+                break;
+            }
+            if (destinationItem.Destination == portalItem.Destination)
+            {
+                destination = portal.Key;
+                break;
+            }
+
+            if (legacy && location == portalItem.Source)
+            {
+                destination = portal.Key;
+                break;
             }
         }
-        catch (Exception)
+        // If the destination is zero here, check if its a prefab
+        if (destination == Vector3i.zero)
         {
-            path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), $"{saveFile}.bak");
-            if (File.Exists(path))
+            return CheckForPrefabLocation(destinationItem);
+        }
+        // If the portal needs power, make sure its on.
+        var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+        if (tileEntity == null) return Vector3i.zero; // Dead portal
+        if (tileEntity.RequiredPower <= 0) return destination;
+        if (tileEntity.IsPowered) return destination;
+        return Vector3i.zero;
+
+    }
+    public void RemovePosition(Vector3i position)
+    {
+        PortalMap.Remove(position);
+        Save();
+    }
+    public void Write(BinaryWriter _bw)
+    {
+        _bw.Write(PortalManager.Version);
+        var writeOut = "";
+        foreach (var temp in PortalMap)
+            writeOut += $"{temp.Key}:{temp.Value};";
+
+        writeOut = writeOut.TrimEnd(';');
+        _bw.Write(writeOut);
+    }
+
+    public void Read(BinaryReader _br)
+    {
+        
+        _br.ReadByte();
+        var positions = _br.ReadString();
+        foreach (var position in positions.Split(';'))
+        {
+            PortalMap.Add(StringParsers.ParseVector3i(position.Split(':')[0]), position.Split(':')[1]);
+        }
+    }
+
+    private int saveDataThreaded(ThreadManager.ThreadInfo _threadInfo)
+    {
+        PooledExpandableMemoryStream pooledExpandableMemoryStream = (PooledExpandableMemoryStream)_threadInfo.parameter;
+        string text = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
+        if (!Directory.Exists(GameIO.GetSaveGameDir()))
+        {
+            return -1;
+        }
+        if (File.Exists(text))
+        {
+            File.Copy(text, string.Format("{0}/{1}", GameIO.GetSaveGameDir(), $"{saveFile}.bak"), true);
+        }
+        pooledExpandableMemoryStream.Position = 0L;
+        StreamUtils.WriteStreamToFile(pooledExpandableMemoryStream, text);
+        MemoryPools.poolMemoryStream.FreeSync(pooledExpandableMemoryStream);
+        return -1;
+    }
+
+    public void Save()
+    {
+        if (this.dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_PortalDataSave"))
+        {
+            PooledExpandableMemoryStream pooledExpandableMemoryStream = MemoryPools.poolMemoryStream.AllocSync(true);
+            using (PooledBinaryWriter pooledBinaryWriter = MemoryPools.poolBinaryWriter.AllocSync(false))
             {
-                using (FileStream fileStream2 = File.OpenRead(path))
+                pooledBinaryWriter.SetBaseStream(pooledExpandableMemoryStream);
+                this.Write(pooledBinaryWriter);
+            }
+            this.dataSaveThreadInfo = ThreadManager.StartThread("silent_PortalDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, System.Threading.ThreadPriority.Normal, pooledExpandableMemoryStream, null, false);
+        }
+    }
+
+    public void Load()
+    {
+        Log.Out("Reading Portal Data...");
+        string path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
+        if (Directory.Exists(GameIO.GetSaveGameDir()) && File.Exists(path))
+        {
+            try
+            {
+                using (FileStream fileStream = File.OpenRead(path))
                 {
-                    using (PooledBinaryReader pooledBinaryReader2 = MemoryPools.poolBinaryReader.AllocSync(false))
+                    using (PooledBinaryReader pooledBinaryReader = MemoryPools.poolBinaryReader.AllocSync(false))
                     {
-                        pooledBinaryReader2.SetBaseStream(fileStream2);
-                        this.Read(pooledBinaryReader2);
+                        pooledBinaryReader.SetBaseStream(fileStream);
+                        this.Read(pooledBinaryReader);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), $"{saveFile}.bak");
+                if (File.Exists(path))
+                {
+                    using (FileStream fileStream2 = File.OpenRead(path))
+                    {
+                        using (PooledBinaryReader pooledBinaryReader2 = MemoryPools.poolBinaryReader.AllocSync(false))
+                        {
+                            pooledBinaryReader2.SetBaseStream(fileStream2);
+                            this.Read(pooledBinaryReader2);
+                        }
                     }
                 }
             }
         }
     }
-}
 }
 

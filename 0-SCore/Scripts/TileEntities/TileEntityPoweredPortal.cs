@@ -31,7 +31,10 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	public void SetText(string _text, bool _syncData = true)
 	{
 		this.signText = _text;
+
+
 		var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
+
 		if ( block != null )
 			block.ToggleAnimator(localChunkPos, IsPowered);
 		if ( _syncData)

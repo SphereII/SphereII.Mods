@@ -16,7 +16,7 @@ public class BlockPoweredPortal : BlockPowered
     private string location;
     private bool display = false;
     private string displayBuff = "";
-    public ChunkManager.ChunkObserver ChunkObserver;
+//    public ChunkManager.ChunkObserver ChunkObserver;
 
 
     public BlockPoweredPortal()
@@ -55,7 +55,7 @@ public class BlockPoweredPortal : BlockPowered
         {
                 tileEntity.SetOwner(PlatformManager.InternalLocalUserIdentifier);
         }
-        ChunkObserver = GameManager.Instance.AddChunkObserver(_result.blockPos, true, 1, -1);
+     //   ChunkObserver = GameManager.Instance.AddChunkObserver(_result.blockPos, true, 1, -1);
     }
 
     public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
@@ -115,8 +115,8 @@ public class BlockPoweredPortal : BlockPowered
     {
         base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
         PortalManager.Instance.AddPosition(_blockPos);
-        if ( ChunkObserver == null )
-            ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
+     //   if ( ChunkObserver == null )
+     //       ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
     }
 
     public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
@@ -136,8 +136,8 @@ public class BlockPoweredPortal : BlockPowered
             bNeedsTemperature = true
         });
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
-        if (ChunkObserver == null)
-            ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
+    //    if (ChunkObserver == null)
+   //         ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
 
     }
 
@@ -274,6 +274,8 @@ public class BlockPoweredPortal : BlockPowered
 
     public void ToggleAnimator(Vector3i blockPos, bool force = false)
     {
+        if (GameManager.IsDedicatedServer) return;
+
         var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(blockPos)?.GetBlockEntity(blockPos);
         if (_ebcd == null || _ebcd.transform == null)
             return;
@@ -313,8 +315,12 @@ public class BlockPoweredPortal : BlockPowered
     }
     public override void OnBlockEntityTransformAfterActivated(WorldBase _world, Vector3i _blockPos, int _cIdx, BlockValue _blockValue, BlockEntityData _ebcd)
     {
+        if (GameManager.IsDedicatedServer) return;
+
         if (_ebcd == null)
             return;
+
+        if (_blockValue.ischild) return;
 
         // Hide the sign, so its not visible. Without this, it errors out.
         _ebcd.bHasTransform = false;

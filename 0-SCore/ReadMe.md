@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.218.174
+
+	[ Fire Manager ]
+		- Added a call to update dynamic mesh so a burned down prefab looks as you'd expect.
+		- Merged in ocbMaurice's light changes.
+			- These will turn on and off lights from the fire to improve performance
+
+	[ Portals ]
+		- Disabled ChunkObserver setting for Portals, as it was causing an error on the dedicated servers
+
+
+
 Version: 20.5.216.1632
 
 	[ Fire Manager ]

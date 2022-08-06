@@ -13,6 +13,8 @@ public class FireManager
     public static ConcurrentDictionary<Vector3i, float> ExtinguishPositions = new ConcurrentDictionary<Vector3i, float>();
     private float checkTime = 120f;
     private float currentTime = 0f;
+    private float checkTimeLights = 0.8f;
+    private float currentTimeLights = 0f;
     private float fireDamage = 1f;
     private float smokeTime = 60f;
     private GameRandom random = new GameRandom();
@@ -76,6 +78,9 @@ public class FireManager
         // Read the FireManager
         FireManager.Instance.Load();
 
+        if ( !GameManager.IsDedicatedServer)
+            ModEvents.GameUpdate.RegisterHandler(new Action(FireManager.Instance.LightsUpdate));
+
         ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
 
         // Only run the Update on the server, then just distribute the data to the clients using NetPackages.
@@ -86,7 +91,74 @@ public class FireManager
         }
     }
 
+    #region LightCode
+    public void LightsUpdate()
+    {
 
+        ShutoffLights();
+
+        // Make sure to only run it once
+        lock (locker)
+        {
+            currentTimeLights -= Time.deltaTime;
+            if (currentTimeLights > 0f) return;
+            currentTimeLights = checkTimeLights;
+
+            CheckLights();
+        }
+    }
+
+    static readonly int MaxLights = 32;
+
+    static readonly HashSet<Light> Shutoff =
+        new HashSet<Light>();
+
+
+    public void ShutoffLights()
+    {
+        if (Shutoff.Count == 0) return;
+        if (GameManager.Instance.IsPaused()) return;
+        Shutoff.RemoveWhere(light => light == null);
+        foreach (var light in Shutoff)
+        {
+            light.intensity -= Time.deltaTime;
+            // Log.Out("Toning down {0}", light.intensity);
+            if (light.intensity > 0f) continue;
+            // Log.Out("Culling light out of this world");
+            light.gameObject.transform.parent = null;
+            UnityEngine.Object.Destroy(light.gameObject);
+        }
+        Shutoff.RemoveWhere(light => light.intensity <= 0f);
+    }
+
+    public void CheckLights()
+    {
+        if (GameManager.Instance.IsPaused()) return;
+        // ToDo: avoid unnecessary allocations (re-use objects)
+        var allLights = UnityEngine.Object.FindObjectsOfType<Light>();
+        if (allLights.Length <= MaxLights) return;
+        List<Light> curLights = new List<Light>();
+        for (int n = 0; n < allLights.Length; n += 1)
+        {
+            if (allLights[n].name != "FireLight") continue;
+            if (Shutoff.Contains(allLights[n])) continue;
+            curLights.Add(allLights[n]);
+        }
+
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Detect currently {curLights.Count} lights, {Shutoff.Count} being culled");
+        // Do nothing if we are (or will be) within limits
+        if (curLights.Count <= MaxLights) return;
+        // Otherwise choose more lights to shutoff
+        while (curLights.Count >= MaxLights)
+        {
+            int idx = random.RandomRange(curLights.Count);
+            if (Shutoff.Contains(curLights[idx])) continue;
+            // Log.Out("Selected {0} for culling", idx);
+            Shutoff.Add(curLights[idx]);
+            curLights.RemoveAt(idx);
+        }
+    }
+    #endregion
 
     // Poor man's timed cache
     public void CheckExtinguishedPosition()
@@ -184,6 +256,9 @@ public class FireManager
             // If the new block has changed, check to make sure the new block is flammable. Note: it checks the blockValue, not blockPos, since the change hasn't been commited yet.
             if (!isFlammable(block) || block.isair)
             {
+                // queue up the change
+                DynamicMeshManager.Instance.AddChunk(_blockPos, true);
+
                 Extinguish(_blockPos);
                 continue;
             }
