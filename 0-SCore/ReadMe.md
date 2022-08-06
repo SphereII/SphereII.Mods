@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.218.1914
+
+	[ Fire Manager ]
+		- Fixed a null ref when fire manager is first started when DyanmicMesh system isn't online
+
+		- Added optional feature where randomized fire and smoke particles can be used, using a comma-seperated format.
+			If this property is not defined on the Configuration block, it uses default Fire/Smoke particle.
+
+			Example in Config/blocks.xml, but also here:
+
+					<property name="RandomFireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis03-Cartoon,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis04-SlowFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight" />
+
 Version: 20.5.218.174
 
 	[ Fire Manager ]

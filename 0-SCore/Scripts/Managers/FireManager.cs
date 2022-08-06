@@ -257,7 +257,8 @@ public class FireManager
             if (!isFlammable(block) || block.isair)
             {
                 // queue up the change
-                DynamicMeshManager.Instance.AddChunk(_blockPos, true);
+                if ( DynamicMeshManager.Instance != null)
+                    DynamicMeshManager.Instance.AddChunk(_blockPos, true);
 
                 Extinguish(_blockPos);
                 continue;
@@ -265,10 +266,7 @@ public class FireManager
 
             if (!GameManager.Instance.HasBlockParticleEffect(_blockPos))
             {
-                var _fireParticle = fireParticle;
-                if (block.Block.Properties.Contains("FireParticle"))
-                    _fireParticle = block.Block.Properties.GetString("FireParticle");
-
+                var _fireParticle = GetRandomFireParticle(_blockPos);
                 BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
             }
             // If we are damaging a block, allow the fire to spread.
@@ -285,6 +283,51 @@ public class FireManager
             Add(pos);
 
         Save();
+    }
+
+
+    private string GetRandomFireParticle(Vector3i _blockPos)
+    {
+        var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+        var _fireParticle = fireParticle;
+        if (block.Block.Properties.Contains("FireParticle"))
+            _fireParticle = block.Block.Properties.GetString("FireParticle");
+
+        if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
+            _fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
+
+        string randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
+        if (!string.IsNullOrEmpty(randomFire))
+        {
+            var fireParticles = randomFire.Split(',');
+            int randomIndex = random.RandomRange(0, fireParticles.Length);
+            _fireParticle = fireParticles[randomIndex];
+
+        }
+        return _fireParticle;
+    }
+
+    private string GetRandomSmokeParticle(Vector3i _blockPos)
+    {
+        var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+        var _smokeParticle = smokeParticle;
+        if (block.Block.Properties.Contains("SmokeParticle"))
+            _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
+
+        if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
+            _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
+
+        string randomSmoke = Configuration.GetPropertyValue(AdvFeatureClass, "RandomSmokeParticle");
+        if (!string.IsNullOrEmpty(randomSmoke))
+        {
+            var smokeParticles = randomSmoke.Split(',');
+            int randomIndex = random.RandomRange(0, smokeParticles.Length);
+            _smokeParticle = smokeParticles[randomIndex];
+
+        }
+        return _smokeParticle;
     }
 
     // Check to see if the nearby blocks can catch fire.
@@ -466,12 +509,14 @@ public class FireManager
             ExtinguishPositions[_blockPos] = expiry;
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
-        var _smokeParticle = smokeParticle;
-        if (block.Block.Properties.Contains("SmokeParticle"))
-            _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
 
-        if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
-            _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
+        var _smokeParticle = GetRandomSmokeParticle(_blockPos);
+        //var _smokeParticle = smokeParticle;
+        //if (block.Block.Properties.Contains("SmokeParticle"))
+        //    _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
+
+        //if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
+        //    _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
 
         if (!block.isair)
             BlockUtilitiesSDX.addParticlesCentered(_smokeParticle, _blockPos);
@@ -484,12 +529,24 @@ public class FireManager
     {
         var block = GameManager.Instance.World.GetBlock(_blockPos);
 
-        var _fireParticle = fireParticle;
-        if (block.Block.Properties.Contains("FireParticle"))
-            _fireParticle = block.Block.Properties.GetString("FireParticle");
+        //var _fireParticle = fireParticle;
+        //if (block.Block.Properties.Contains("FireParticle"))
+        //    _fireParticle = block.Block.Properties.GetString("FireParticle");
 
-        if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
-            _fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
+        //if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
+        //    _fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
+
+        //string randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
+        //if( !string.IsNullOrEmpty(randomFire) )
+        //{
+        //    var fireParticles = randomFire.Split(',');
+        //    int randomIndex = random.RandomRange(0, fireParticles.Length);
+        //    _fireParticle = fireParticles[randomIndex];
+
+        //}
+
+
+        var _fireParticle = GetRandomFireParticle(_blockPos);
 
         BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
 
