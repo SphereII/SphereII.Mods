@@ -171,7 +171,7 @@ namespace SCore.Harmony.Recipes
                     var slots = ___localPlayer.bag.GetSlots();
                     totalCount = totalCount + slots
                         .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                        .Sum(y=>y.count);
+                        .Sum(y => y.count);
                     // check container
                     foreach (var tileEntity in tileEntities)
                     {
@@ -192,11 +192,14 @@ namespace SCore.Harmony.Recipes
         {
             public static bool Prefix(IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
             {
+                Log.Out("Remove Items()");
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
+
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
+                Log.Out($"Tile Entities: {tileEntities.Count}.  Item Stacks: {_itemStacks.Count}");
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item
@@ -213,25 +216,76 @@ namespace SCore.Harmony.Recipes
                         if (q <= 0) break;
                         var lootTileEntity = tileEntity as TileEntityLootContainer;
                         if (lootTileEntity == null) continue;
-                        foreach (var item in lootTileEntity.items.Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass))
+
+                        // If there's no items in this container, skip.
+                        if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
+
+                        int num = itemStack.count * _multiplier;
+                        if (lootTileEntity == null) break;
+                        for (int y = 0; y < lootTileEntity.items.Length; y++)
                         {
-                            //if more or equal items available remove needed items
-                            if (item.count >= q)
+                            var item = lootTileEntity.items[y];
+                            if (item.IsEmpty()) continue;
+                            if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
                             {
-                                item.count = item.count - q;
-                                q = 0;
-                            }
-                            // if less items available substact items and reduce counter until no items are left in the stack
-                            else if (item.count < q)
-                            {
-                                while (item.count != 0)
+                                // If we can completely satisfy the result, let's do that.
+                                if (item.count >= q)
                                 {
-                                    item.count--;
-                                    q--;
+                                    item.count -= q;
+                                    q = 0;
                                 }
+                                else
+                                {
+                                    // Otherwise, let's just count down until we meet the requirement.
+                                    while (q >= 0)
+                                    {
+                                        item.count--;
+                                        q--;
+                                        if (item.count <= 0)
+                                            break;
+                                    }
+                                }
+
+                                //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
+                                if (item.count < 1)
+                                    lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+                                else
+                                    lootTileEntity.UpdateSlot(y, item);
+                                lootTileEntity.SetModified();
                             }
-                            else return true;
                         }
+
+
+
+                        //foreach (var item in lootTileEntity.items.Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass))
+                        //{
+                        //    if ( item.count == q)
+                        //    {
+                        //        lootTileEntity.RemoveItem(item.itemValue);
+                        //        q = 0;
+                        //        break;
+                        //    }
+
+                        //    //if more or equal items available remove needed items
+                        //    if (item.count >= q)
+                        //    {
+                        //        item.count = item.count - q;
+                        //        q = 0;
+                        //    }
+                        //    // if less items available substact items and reduce counter until no items are left in the stack
+                        //    else if (item.count < q)
+                        //    {
+                        //        while (item.count != 0)
+                        //        {
+                        //            item.count--;
+                        //            q--;
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        return true;
+                        //    }
+                        //}
                     }
                 }
                 return true;

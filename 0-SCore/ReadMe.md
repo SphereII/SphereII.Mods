@@ -10,6 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.220.1149
+
+	[ Remote Containers ]
+		- Fixed an issue where items were not being removed from the container.
+
 Version: 20.5.218.1914
 
 	[ Fire Manager ]

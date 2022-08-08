@@ -22,7 +22,7 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
             }
         }
 
-        AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {_params.Self.position} Range: {maxRange}  Delay: {delayTime}");
+       // AdvLogging.DisplayLog(AdvFeatureClass, $"Executing AddFireDamage() at {position}  Self: {_params.Self.position} Range: {maxRange}  Delay: {delayTime}");
         
         Task task = Task.Delay((int)delayTime)
              .ContinueWith(t => AddFire(position));
