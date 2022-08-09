@@ -111,43 +111,170 @@ namespace SCore.Harmony.Recipes
             }
         }
 
-        [HarmonyPatch(typeof(XUiM_PlayerInventory))]
-        [HarmonyPatch("GetAllItemStacks")]
-        public class GetAllItemStacks
+        //[HarmonyPatch(typeof(XUiM_PlayerInventory))]
+        //[HarmonyPatch("GetAllItemStacks")]
+        //public class GetAllItemStacks
+        //{
+        //    public static void Postfix(ref List<ItemStack> __result, EntityPlayerLocal ___localPlayer)
+        //    {
+        //        // Check if this feature is enabled.
+        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //            return;
+        //        __result.AddRange(EnhancedRecipeLists.SearchNearbyContainers(___localPlayer));
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(XUiM_PlayerInventory))]
+        //[HarmonyPatch("GetItemCount")]
+        //[HarmonyPatch(new[] { typeof(ItemValue) })]
+        //public class GetItemCount
+        //{
+        //    public static void Postfix(ref int __result, EntityPlayerLocal ___localPlayer, ItemValue _itemValue)
+        //    {
+        //        // Check if this feature is enabled.
+        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+        //            return;
+
+        //        foreach (var item in EnhancedRecipeLists.SearchNearbyContainers(___localPlayer))
+        //        {
+        //            if (item == null) continue;
+        //            if (item.IsEmpty()) continue;
+        //            if (item.itemValue == null) continue;
+        //            if ((!item.itemValue.HasModSlots || !item.itemValue.HasMods()) && item.itemValue.type == _itemValue.type)
+        //                __result += item.count;
+
+        //        }
+
+        //    }
+        //}
+
+        // replaces getitemcount
+        [HarmonyPatch(typeof(XUiC_IngredientEntry))]
+        [HarmonyPatch("GetBindingValue")]
+        public class GetBindingValue
         {
-            public static void Postfix(ref List<ItemStack> __result, EntityPlayerLocal ___localPlayer)
+            public static bool Prefix(XUiC_IngredientEntry __instance, ref bool __result, ref string value, string bindingName, CachedStringFormatter<int> ___needcountFormatter, CachedStringFormatter<int> ___havecountFormatter, bool ___materialBased, ItemStack ___ingredient, string ___material, XUiC_RecipeCraftCount ___craftCountControl, CachedStringFormatterXuiRgbaColor ___itemicontintcolorFormatter)
             {
-                // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
-                __result.AddRange(EnhancedRecipeLists.SearchNearbyContainers(___localPlayer));
+                    return true;
+                bool flag = ___ingredient != null;
+                switch (bindingName)
+                {
+                    case "haveneedcount":
+                        {
+                            string text = (flag ? ___needcountFormatter.Format(___ingredient.count * ___craftCountControl.Count) : "");
+                            int value1 = 0;
+                            XUiC_WorkstationMaterialInputGrid childByType = __instance.WindowGroup.Controller.GetChildByType<XUiC_WorkstationMaterialInputGrid>();
+                            if (childByType != null)
+                            {
+                                if (___materialBased)
+                                {
+                                    value = (flag ? (___havecountFormatter.Format(childByType.GetWeight(___material)) + "/" + text) : "");
+                                }
+                                else
+                                {
+                                    value = (flag ? (___havecountFormatter.Format(__instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
+                                }
+                            }
+                            else
+                            {
+                                XUiC_WorkstationInputGrid childByType2 = __instance.WindowGroup.Controller.GetChildByType<XUiC_WorkstationInputGrid>();
+                                if (childByType2 != null)
+                                {
+                                    value = (flag ? (___havecountFormatter.Format(childByType2.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
+                                }
+                                else
+                                {
+                                    value = (flag ? (___havecountFormatter.Format(__instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
+                                    if (flag)
+                                    {
+                                        value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
+                                        ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer).ToArray();
+                                        for (int k = 0; k < array.Length; k++)
+                                        {
+                                            if (array[k] != null && array[k].itemValue.type != 0 && ___ingredient.itemValue.type == array[k].itemValue.type)
+                                            {
+                                                value1 += array[k].count;
+                                            }
+                                        }
+                                        value = (flag ? (___havecountFormatter.Format(value1) + "/" + text) : "");
+                                    }
+                                }
+                            }
+                            __result = true;
+                            return false;
+                        }
+                    default:
+                        return true;
+                }
             }
         }
 
-        [HarmonyPatch(typeof(XUiM_PlayerInventory))]
-        [HarmonyPatch("GetItemCount")]
-        [HarmonyPatch(new[] { typeof(ItemValue) })]
-        public class GetItemCount
+        // replaces GetAllItemStacks
+        [HarmonyPatch(typeof(XUiC_RecipeCraftCount))]
+        [HarmonyPatch("calcMaxCraftable")]
+        public class calcMaxCraftable
         {
-            public static void Postfix(ref int __result, EntityPlayerLocal ___localPlayer, ItemValue _itemValue)
+            public static int Postfix(int __result, Recipe ___recipe, XUiC_RecipeCraftCount __instance)
             {
-                // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
+                    return __result;
 
-                foreach (var item in EnhancedRecipeLists.SearchNearbyContainers(___localPlayer))
+
+                EntityPlayerLocal player = __instance.xui.playerUI.entityPlayer;
+                //ItemStack[] array = __instance.xui.PlayerInventory.GetAllItemStacks().ToArray();
+                ItemStack[] array1 = SearchNearbyContainers(player).ToArray();
+                ItemStack[] array2 = player.bag.GetSlots();
+                ItemStack[] array = array1.Union(array2).ToArray();
+                var recipe = ___recipe;
+                if (recipe == null)
                 {
-                    if (item == null) continue;
-                    if (item.IsEmpty()) continue;
-                    if (item.itemValue == null) continue;
-                    if ((!item.itemValue.HasModSlots || !item.itemValue.HasMods()) && item.itemValue.type == _itemValue.type)
-                        __result += item.count;
-
+                    return 1;
                 }
 
+                for (int i = 0; i < recipe.ingredients.Count; i++)
+                {
+                    ItemStack itemStack = recipe.ingredients[i];
+                    if (itemStack != null && itemStack.itemValue.HasQuality)
+                    {
+                        return 1;
+                    }
+                }
+                int num = int.MaxValue;
+                int craftingTier = (int)EffectManager.GetValue(PassiveEffects.CraftingTier, null, 1f, __instance.xui.playerUI.entityPlayer, recipe, recipe.tags);
+                for (int j = 0; j < recipe.ingredients.Count; j++)
+                {
+                    ItemStack itemStack2 = recipe.ingredients[j];
+                    if (itemStack2 == null || itemStack2.itemValue.type == 0)
+                    {
+                        continue;
+                    }
+
+                    int num2 = itemStack2.count;
+                    float num3 = ((!recipe.UseIngredientModifier) ? ((float)num2) : ((float)(int)EffectManager.GetValue(PassiveEffects.CraftingIngredientCount, null, num2, __instance.xui.playerUI.entityPlayer, recipe, FastTags.Parse(itemStack2.itemValue.ItemClass.GetItemName()), calcEquipment: true, calcHoldingItem: true, calcProgression: true, calcBuffs: true, craftingTier)));
+                    int num4 = 0;
+                    for (int k = 0; k < array.Length; k++)
+                    {
+                        if (array[k] != null && array[k].itemValue.type != 0 && itemStack2.itemValue.type == array[k].itemValue.type)
+                        {
+                            num4 += array[k].count;
+                        }
+                    }
+                    int num5 = Mathf.CeilToInt((float)num4 / num3);
+                    if (Mathf.FloorToInt(num3 * (float)num5) > num4)
+                    {
+                        num5--;
+                    }
+
+                    num = Mathf.Min(num5, num);
+                    if (num == 0)
+                    {
+                        break;
+                    }
+                }
+                return Mathf.Clamp(num, 1, 10000);
             }
         }
-
 
         [HarmonyPatch(typeof(XUiM_PlayerInventory))]
         [HarmonyPatch("HasItems")]
