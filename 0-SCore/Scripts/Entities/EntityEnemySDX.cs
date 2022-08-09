@@ -17,6 +17,7 @@ using Random = System.Random;
 public class EntityEnemySDX : EntityEnemy
 {
     public float flEyeHeight = -1f;
+    public bool isAlwaysAwake;
     public Random random = new Random();
     public ulong timeToDie;
 
@@ -51,6 +52,14 @@ public class EntityEnemySDX : EntityEnemy
     public override void OnUpdateLive()
     {
         base.OnUpdateLive();
+
+        // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
+        if (!sleepingOrWakingUp && isAlwaysAwake)
+        {
+            IsSleeping = true;
+            ConditionalTriggerSleeperWakeUp();
+        }
+
         if (!this.isEntityRemote)
         {
             if (!this.IsDead() && this.world.worldTime >= this.timeToDie && !this.attackTarget)
@@ -59,6 +68,7 @@ public class EntityEnemySDX : EntityEnemy
             }
         }
     }
+
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
@@ -78,6 +88,12 @@ public class EntityEnemySDX : EntityEnemy
                 this.timeToDie = GameUtils.DayTimeToWorldTime(num4, num, 0);
             }
         }
+
+        if (isAlwaysAwake)
+        {
+            // Set in EntityAlive.TriggerSleeperPose() - resetting here
+            IsSleeping = false;
+        }
     }
     public override bool IsSavedToFile()
     {
@@ -93,6 +109,21 @@ public class EntityEnemySDX : EntityEnemy
         // If its biome spawn, don't let them stay.
         if (GetSpawnerSource() == EnumSpawnerSource.Biome) return false;
         return true;
+    }
+
+    public override void CopyPropertiesFromEntityClass()
+    {
+        base.CopyPropertiesFromEntityClass();
+        var _entityClass = EntityClass.list[entityClass];
+
+        flEyeHeight = EntityUtilities.GetFloatValue(entityId, "EyeHeight");
+
+        isAlwaysAwake = false;
+        if (_entityClass.Properties.Values.ContainsKey("SleeperInstantAwake"))
+            isAlwaysAwake = StringParsers.ParseBool(_entityClass.Properties.Values["SleeperInstantAwake"], 0, -1, true);
+
+        if (_entityClass.Properties.Values.ContainsKey("IsAlwaysAwake"))
+            isAlwaysAwake = StringParsers.ParseBool(_entityClass.Properties.Values["IsAlwaysAwake"], 0, -1, true);
     }
 
     //public override void AwardKill(EntityAlive killer)
