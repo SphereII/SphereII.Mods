@@ -10,6 +10,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.221.934
+
+	[ Remote Containers ]
+		- Merged fixes from matteo
+
+	[ EntityEnemySDX ]
+		- Merged fix for IsAlwaysAwake
+
+
 Version: 20.5.220.1149
 
 	[ Remote Containers ]
