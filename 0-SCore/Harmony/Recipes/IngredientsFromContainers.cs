@@ -1,19 +1,14 @@
 ﻿using HarmonyLib;
 using Platform;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UAI;
 using UnityEngine;
 
 namespace SCore.Harmony.Recipes
 {
-
     public class EnhancedRecipeLists
     {
-
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
         public static List<TileEntity> GetTileEntities(EntityAlive player)
@@ -33,31 +28,33 @@ namespace SCore.Harmony.Recipes
                 {
                     var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                     if (tileEntity == null) continue;
-                    switch (tileEntity.GetTileEntityType())
-                    {
-                        case TileEntityType.Loot:
-                            var lootTileEntity = tileEntity as TileEntityLootContainer;
-                            if (lootTileEntity == null) break;
-                            tileEntities.Add(tileEntity);
-                            break;
+                    if (!Broadcastmanager.HasInstance || Broadcastmanager.Instance.Check(tileEntity.ToWorldPos()))
+                        {
+                            switch (tileEntity.GetTileEntityType())
+                            {
+                                case TileEntityType.Loot:
+                                    var lootTileEntity = tileEntity as TileEntityLootContainer;
+                                    if (lootTileEntity == null) break;
+                                    tileEntities.Add(tileEntity);
+                                    break;
 
-                        case TileEntityType.SecureLootSigned:
-                        case TileEntityType.SecureLoot:
+                                case TileEntityType.SecureLootSigned:
+                                case TileEntityType.SecureLoot:
 
-                            var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
-                            if (secureTileEntity == null) break;
+                                    var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
+                                    if (secureTileEntity == null) break;
 
-                            PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-                            if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false)
-                                break;
+                                    PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
+                                    if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false)
+                                        break;
 
-                            tileEntities.Add(tileEntity);
-                            break;
+                                    tileEntities.Add(tileEntity);
+                                    break;
 
-                        default:
-                            break;
-                    }
-
+                                default:
+                                    break;
+                            }
+                        }
                 }
             }
             return tileEntities;
@@ -220,6 +217,10 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return __result;
 
+                var disablereceiver = Configuration.GetPropertyValue(AdvFeatureClass, "disablereceiver");
+                Debug.LogWarning(disablereceiver);
+                if (disablereceiver.Contains(__instance.xui.currentWorkstation)) return __result;
+
 
                 EntityPlayerLocal player = __instance.xui.playerUI.entityPlayer;
                 //ItemStack[] array = __instance.xui.PlayerInventory.GetAllItemStacks().ToArray();
@@ -381,41 +382,73 @@ namespace SCore.Harmony.Recipes
                                 lootTileEntity.SetModified();
                             }
                         }
-
-
-
-                        //foreach (var item in lootTileEntity.items.Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass))
-                        //{
-                        //    if ( item.count == q)
-                        //    {
-                        //        lootTileEntity.RemoveItem(item.itemValue);
-                        //        q = 0;
-                        //        break;
-                        //    }
-
-                        //    //if more or equal items available remove needed items
-                        //    if (item.count >= q)
-                        //    {
-                        //        item.count = item.count - q;
-                        //        q = 0;
-                        //    }
-                        //    // if less items available substact items and reduce counter until no items are left in the stack
-                        //    else if (item.count < q)
-                        //    {
-                        //        while (item.count != 0)
-                        //        {
-                        //            item.count--;
-                        //            q--;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        return true;
-                        //    }
-                        //}
                     }
                 }
                 return true;
+            }
+        }
+
+        // Add new field to loot containers
+        [HarmonyPatch(typeof(XUiC_LootWindow))]
+        [HarmonyPatch("GetBindingValue")]
+        public class XUiC_LootWindow_GetBindingValue
+        {
+            static bool Prefix(
+                XUiC_LootWindow __instance,
+                ref string _value,
+                string _bindingName,
+                ref bool __result)
+            {               
+                switch (_bindingName)
+                {
+                    case "broadcastManager":
+                        {
+                            _value = false.ToString();
+                            if (Broadcastmanager.HasInstance) _value = Broadcastmanager.Instance.Check(__instance.GetLootBlockPos()).ToString();
+                            __result = true;
+                            return false;
+                        }
+                    case "broadcastManagern":
+                        {
+                            _value = false.ToString();
+                            if (Broadcastmanager.HasInstance) _value = (!Broadcastmanager.Instance.Check(__instance.GetLootBlockPos())).ToString(); 
+                            __result = true;
+                            return false;
+                        }
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        // LootContainer Button Pressed
+        [HarmonyPatch(typeof(XUiC_ContainerStandardControls))]
+        [HarmonyPatch("Init")]
+        public class XUiC_ContainerStandardControls_Init
+        {
+            static void Prefix(XUiC_ContainerStandardControls __instance)
+            {
+                XUiController childById = __instance.GetChildById("btnBroadcast");
+                if (childById != null) childById.OnPress += Grab_OnPress;
+                
+                childById = __instance.GetChildById("btnBroadcastn");
+                if (childById != null) childById.OnPress += Grab_OnPress;
+            }
+
+            private static void Grab_OnPress(XUiController _sender, int _mouseButton)
+            {
+                if (!Broadcastmanager.HasInstance) return;
+                XUiC_LootWindow childByType = _sender.WindowGroup.Controller.GetChildByType<XUiC_LootWindow>();
+                if (Broadcastmanager.Instance.Check(_sender.xui.lootContainer.ToWorldPos()))
+                {
+                    Broadcastmanager.Instance.remove(_sender.xui.lootContainer.ToWorldPos());
+                    childByType.RefreshBindings();
+                }
+                else 
+                {
+                    Broadcastmanager.Instance.add(_sender.xui.lootContainer.ToWorldPos());
+                    childByType.RefreshBindings();                    
+                }
             }
         }
     }
