@@ -12,7 +12,7 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 [ Change Log ]
 Version: 20.5.223.110
 	[ Broadcast feature ]
-		- New Broadcast Manager feature by matteo
+		- New Broadcast Manager feature by matteo ( https://youtu.be/BGPSIc5HUgg )
 		- New NetPackages to support broadcast feature
 
 	[ Remote Containers ]
