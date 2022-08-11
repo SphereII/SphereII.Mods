@@ -396,7 +396,7 @@ namespace SCore.Harmony.Recipes
             }
         }
 
-        // Add new field to loot containers
+        // Make buttons visible in lootcontainers
         // Original code from OCB7D2D/OcbPinRecipes modified for 2 buttons.
         [HarmonyPatch(typeof(XUiC_LootWindow))]
         [HarmonyPatch("GetBindingValue")]
