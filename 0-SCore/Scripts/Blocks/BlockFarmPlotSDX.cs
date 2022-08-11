@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    public  class BlockFarmPlotSDX : Block
-    {
+public class BlockFarmPlotSDX : Block
+{
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         FarmPlotManager.Instance.Remove(_blockPos);

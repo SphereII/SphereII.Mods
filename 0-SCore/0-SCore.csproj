@@ -72,6 +72,7 @@
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
     <Compile Include="Harmony\Fire\Explosion.cs" />
     <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
+    <Compile Include="Harmony\GameManager\BroadcastHook.cs" />
     <Compile Include="Harmony\GameManager\FireHooks.cs" />
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
@@ -149,7 +150,7 @@
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
     <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
-    <Compile Include="Scripts\Blocks\BlockAoE.cs" />
+    <Compile Include="Scripts\Blocks\BlockDecoAoE.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Scripts\Lockpicking\LockObjectRotation.cs" />
     <Compile Include="Scripts\Lockpicking\LocksetAudio.cs" />
     <Compile Include="Scripts\Lockpicking\SphereII_Locks.cs" />
+    <Compile Include="Scripts\Managers\Broadcastmanager.cs" />
     <Compile Include="Scripts\Managers\FarmPlotManager.cs" />
     <Compile Include="Scripts\Managers\FireManager - Copy.cs" />
     <Compile Include="Scripts\Managers\FireManager.cs" />
@@ -297,7 +299,9 @@
     <Compile Include="Scripts\MonoBehaviour\LeaderCollision.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBox.cs" />
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageAddBroadcastePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageRemoveBroadcastPosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddFirePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />
@@ -581,6 +585,7 @@
     <None Include="Resources\PathSmoke.unity3d" />
     <None Include="Resources\PathSmokeParticle.unity3d" />
     <None Include="Resources\PathSmokeParticle_X.prefab" />
+    <None Include="Scripts\Blocks\Readme.md" />
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup />
