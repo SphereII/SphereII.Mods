@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-    public class NetPackageRemoveBroadcastPosition : NetPackage
+//copy of NetPackageRemoveFirePosition
+public class NetPackageRemoveBroadcastPosition : NetPackage
     {
     private Vector3i position;
     private int entityThatCausedIt;

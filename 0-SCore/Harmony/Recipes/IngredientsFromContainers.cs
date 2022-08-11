@@ -28,33 +28,36 @@ namespace SCore.Harmony.Recipes
                 {
                     var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                     if (tileEntity == null) continue;
+                    // Check if Broadcastmanager is running if running check if lootcontainer is in Broadcastmanager dictionary
+                    // note: Broadcastmanager.Instance.Check()) throws nullref if Broadcastmanager is not running.
+                    // works because Hasinstance is being checked first in the or.
                     if (!Broadcastmanager.HasInstance || Broadcastmanager.Instance.Check(tileEntity.ToWorldPos()))
+                    {
+                        switch (tileEntity.GetTileEntityType())
                         {
-                            switch (tileEntity.GetTileEntityType())
-                            {
-                                case TileEntityType.Loot:
-                                    var lootTileEntity = tileEntity as TileEntityLootContainer;
-                                    if (lootTileEntity == null) break;
-                                    tileEntities.Add(tileEntity);
+                            case TileEntityType.Loot:
+                                var lootTileEntity = tileEntity as TileEntityLootContainer;
+                                if (lootTileEntity == null) break;
+                                tileEntities.Add(tileEntity);
+                                break;
+
+                            case TileEntityType.SecureLootSigned:
+                            case TileEntityType.SecureLoot:
+
+                                var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
+                                if (secureTileEntity == null) break;
+
+                                PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
+                                if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false)
                                     break;
 
-                                case TileEntityType.SecureLootSigned:
-                                case TileEntityType.SecureLoot:
+                                tileEntities.Add(tileEntity);
+                                break;
 
-                                    var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
-                                    if (secureTileEntity == null) break;
-
-                                    PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-                                    if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false)
-                                        break;
-
-                                    tileEntities.Add(tileEntity);
-                                    break;
-
-                                default:
-                                    break;
-                            }
+                            default:
+                                break;
                         }
+                    }
                 }
             }
             return tileEntities;
@@ -146,6 +149,7 @@ namespace SCore.Harmony.Recipes
         //}
 
         // replaces getitemcount
+        // mostly a copy of the original code.
         [HarmonyPatch(typeof(XUiC_IngredientEntry))]
         [HarmonyPatch("GetBindingValue")]
         public class GetBindingValue
@@ -185,6 +189,7 @@ namespace SCore.Harmony.Recipes
                                     value = (flag ? (___havecountFormatter.Format(__instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
                                     if (flag)
                                     {
+                                        // added to add items from lootcontainers
                                         value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
                                         ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer).ToArray();
                                         for (int k = 0; k < array.Length; k++)
@@ -208,22 +213,25 @@ namespace SCore.Harmony.Recipes
         }
 
         // replaces GetAllItemStacks
+        // mostly a copy of the original code
         [HarmonyPatch(typeof(XUiC_RecipeCraftCount))]
         [HarmonyPatch("calcMaxCraftable")]
         public class calcMaxCraftable
         {
             public static int Postfix(int __result, Recipe ___recipe, XUiC_RecipeCraftCount __instance)
             {
+                // check if remotecrafting is enabled if not skip the patch
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return __result;
 
+                // disables remote crafting on workstations as in Blocks.xml
                 var disablereceiver = Configuration.GetPropertyValue(AdvFeatureClass, "disablereceiver");
                 Debug.LogWarning(disablereceiver);
                 if (disablereceiver.Contains(__instance.xui.currentWorkstation)) return __result;
 
 
+                // add remote lootcontainers
                 EntityPlayerLocal player = __instance.xui.playerUI.entityPlayer;
-                //ItemStack[] array = __instance.xui.PlayerInventory.GetAllItemStacks().ToArray();
                 ItemStack[] array1 = SearchNearbyContainers(player).ToArray();
                 ItemStack[] array2 = player.bag.GetSlots();
                 ItemStack[] array = array1.Union(array2).ToArray();
@@ -389,6 +397,7 @@ namespace SCore.Harmony.Recipes
         }
 
         // Add new field to loot containers
+        // Original code from OCB7D2D/OcbPinRecipes modified for 2 buttons.
         [HarmonyPatch(typeof(XUiC_LootWindow))]
         [HarmonyPatch("GetBindingValue")]
         public class XUiC_LootWindow_GetBindingValue
@@ -398,12 +407,13 @@ namespace SCore.Harmony.Recipes
                 ref string _value,
                 string _bindingName,
                 ref bool __result)
-            {               
+            {
                 switch (_bindingName)
                 {
                     case "broadcastManager":
                         {
                             _value = false.ToString();
+                            //check if Broadcastmanager is running. when running and !lootcontainer in dic enable button
                             if (Broadcastmanager.HasInstance) _value = Broadcastmanager.Instance.Check(__instance.GetLootBlockPos()).ToString();
                             __result = true;
                             return false;
@@ -411,7 +421,8 @@ namespace SCore.Harmony.Recipes
                     case "broadcastManagern":
                         {
                             _value = false.ToString();
-                            if (Broadcastmanager.HasInstance) _value = (!Broadcastmanager.Instance.Check(__instance.GetLootBlockPos())).ToString(); 
+                            //check if Broadcastmanager is running. when running and lootcontainer in dic enable button
+                            if (Broadcastmanager.HasInstance) _value = (!Broadcastmanager.Instance.Check(__instance.GetLootBlockPos())).ToString();
                             __result = true;
                             return false;
                         }
@@ -422,6 +433,7 @@ namespace SCore.Harmony.Recipes
         }
 
         // LootContainer Button Pressed
+        // Original code from OCB7D2D/OcbPinRecipes modified for 2 buttons.
         [HarmonyPatch(typeof(XUiC_ContainerStandardControls))]
         [HarmonyPatch("Init")]
         public class XUiC_ContainerStandardControls_Init
@@ -430,24 +442,29 @@ namespace SCore.Harmony.Recipes
             {
                 XUiController childById = __instance.GetChildById("btnBroadcast");
                 if (childById != null) childById.OnPress += Grab_OnPress;
-                
+
                 childById = __instance.GetChildById("btnBroadcastn");
                 if (childById != null) childById.OnPress += Grab_OnPress;
             }
 
             private static void Grab_OnPress(XUiController _sender, int _mouseButton)
             {
+                //Check if Broadcastmanager is running
                 if (!Broadcastmanager.HasInstance) return;
                 XUiC_LootWindow childByType = _sender.WindowGroup.Controller.GetChildByType<XUiC_LootWindow>();
                 if (Broadcastmanager.Instance.Check(_sender.xui.lootContainer.ToWorldPos()))
                 {
+                    // Remove from Broadcastmanager dictionary
                     Broadcastmanager.Instance.remove(_sender.xui.lootContainer.ToWorldPos());
+                    // update lootcontainer window
                     childByType.RefreshBindings();
                 }
-                else 
+                else
                 {
+                    // Add to Broadcastmanager dictionary
                     Broadcastmanager.Instance.add(_sender.xui.lootContainer.ToWorldPos());
-                    childByType.RefreshBindings();                    
+                    // update lootcontainer window
+                    childByType.RefreshBindings();
                 }
             }
         }

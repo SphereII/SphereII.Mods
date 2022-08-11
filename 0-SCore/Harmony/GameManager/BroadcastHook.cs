@@ -10,7 +10,7 @@ namespace SCore.Harmony.GameManagerPatches
     public class GameManagerPatch_BC
     {
 
-        // Allows the spread of the particles to catch things on fire.
+        // copy of firehook
         [HarmonyPatch(typeof(GameStateManager))]
         [HarmonyPatch("StartGame")]
         public class GameStateManagerStartGame

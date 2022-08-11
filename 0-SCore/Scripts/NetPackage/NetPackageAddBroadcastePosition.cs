@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+//copy of NetPackageAddFirePosition
 public class NetPackageAddBroadcastPosition : NetPackage
 {
     private Vector3i position;
