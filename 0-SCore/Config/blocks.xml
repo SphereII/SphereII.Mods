@@ -35,9 +35,15 @@
 			</property>
 			
 			<property class="AdvancedRecipes" >
-				<property name="ReadFromContainers" value="false"/>
+				<property name="ReadFromContainers" value="false"/> <!-- Enable Remote Crafting Feature Experimental -->
+				<property name="BroadcastManage" value="false"/>	<!-- Enable Broadcast Feature Experimental -->
+				<property name="disablereceiver" value="forge, tbd" /> <!-- disable remote crafing on named workstations -->
 				<property name="Distance" value="10" />  <!-- reasonable block range seems to be around 10. -->
 			</property>
+
+      <property class="Broadcastmanager" >
+        <property name="Broadcastmanage" value="true"/>
+      </property>
 
 			<property class="AdvancedLockpicking" >
 				<!-- This feature is only available when this modlet is loaded. -->
@@ -266,7 +272,6 @@
 				<property name="FireEnable" value="false"/> 				<!-- Enables the feature -->
 				<property name="HeatMapStrength" value="1"/> 			<!-- Determines how much each block contributes to heat -->
 				<property name="CheckInterval" value="20" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
-				<property name="SmokeTime" value="60" />					<!-- How many seconds before the smoke disipates -->
 				<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
 				<property name="BuffOnFire" value="buffBurningMolotov" /> <!-- The buff that is applied to the entity alive when they step into the flames -->
 				<property name="MaterialID" value="Mplants, Mcorn" /> 	<!-- Checks the material's id to see if it should ignite  -->
@@ -275,14 +280,6 @@
 				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Fire particle to use -->
 
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
-
-				<!--
-				<property name="RandomFireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis03-Cartoon,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis04-SlowFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight" />
-				
-				<property name="RandomSmokeParticle" value="... /> 
-				-->
-				<!-- Fire particle to use -->
-
 				<!-- Alternative included particles -->
 				<!--
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />
@@ -546,6 +543,8 @@
 			<property name="Mesh" value="models"/>
 			<property name="Model" value="OutdoorDecor/ember_pile_1" param1="main_mesh"/>
 			<property name="IsTerrainDecoration" value="true"/>
+			<property name="ParticleName" value="ember_pile"/>
+			<property name="ParticleOffset" value="0,0,0"/>
 			<property name="BuffsWhenWalkedOn" value="buffBurningEnvironment"/>
 			<property name="Collide" value="melee,bullet,arrow,rocket"/>
 			<property name="VehicleHitScale" value="999"/>
