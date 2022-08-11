@@ -226,7 +226,7 @@ namespace SCore.Harmony.Recipes
 
                 // disables remote crafting on workstations as in Blocks.xml
                 var disablereceiver = Configuration.GetPropertyValue(AdvFeatureClass, "disablereceiver");
-                Debug.LogWarning(disablereceiver);
+                //Debug.LogWarning(disablereceiver);
                 if (disablereceiver.Contains(__instance.xui.currentWorkstation)) return __result;
 
 
