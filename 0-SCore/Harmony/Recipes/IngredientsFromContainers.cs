@@ -397,7 +397,7 @@ namespace SCore.Harmony.Recipes
         }
 
         // Make buttons visible in lootcontainers
-        // Original code from OCB7D2D/OcbPinRecipes modified for 2 buttons.
+        // Original code from OCB7D2D/OcbPinRecipes
         [HarmonyPatch(typeof(XUiC_LootWindow))]
         [HarmonyPatch("GetBindingValue")]
         public class XUiC_LootWindow_GetBindingValue
@@ -412,17 +412,7 @@ namespace SCore.Harmony.Recipes
                 {
                     case "broadcastManager":
                         {
-                            _value = false.ToString();
-                            //check if Broadcastmanager is running. when running and !lootcontainer in dic enable button
-                            if (Broadcastmanager.HasInstance) _value = Broadcastmanager.Instance.Check(__instance.GetLootBlockPos()).ToString();
-                            __result = true;
-                            return false;
-                        }
-                    case "broadcastManagern":
-                        {
-                            _value = false.ToString();
-                            //check if Broadcastmanager is running. when running and lootcontainer in dic enable button
-                            if (Broadcastmanager.HasInstance) _value = (!Broadcastmanager.Instance.Check(__instance.GetLootBlockPos())).ToString();
+                            _value =  Broadcastmanager.HasInstance.ToString();
                             __result = true;
                             return false;
                         }
@@ -442,9 +432,6 @@ namespace SCore.Harmony.Recipes
             {
                 XUiController childById = __instance.GetChildById("btnBroadcast");
                 if (childById != null) childById.OnPress += Grab_OnPress;
-
-                childById = __instance.GetChildById("btnBroadcastn");
-                if (childById != null) childById.OnPress += Grab_OnPress;
             }
 
             private static void Grab_OnPress(XUiController _sender, int _mouseButton)
@@ -456,15 +443,43 @@ namespace SCore.Harmony.Recipes
                 {
                     // Remove from Broadcastmanager dictionary
                     Broadcastmanager.Instance.remove(_sender.xui.lootContainer.ToWorldPos());
-                    // update lootcontainer window
-                    childByType.RefreshBindings();
                 }
                 else
                 {
                     // Add to Broadcastmanager dictionary
                     Broadcastmanager.Instance.add(_sender.xui.lootContainer.ToWorldPos());
-                    // update lootcontainer window
-                    childByType.RefreshBindings();
+                }
+            }
+        }
+
+        //change button color
+        [HarmonyPatch(typeof(XUiV_Button))]
+        [HarmonyPatch("UpdateData")]
+        public class UpdateData
+        {
+            static void Prefix(XUiV_Button __instance)
+            {
+                //Check if Broadcastmanager is running
+                if (!Broadcastmanager.HasInstance) return;
+                //Check if lootContainer is valid
+                if (__instance.xui.lootContainer is null) return;
+                //Check what sprite is being loaded
+                if (__instance.CurrentSpriteName == "ui_game_symbol_bc")
+                {
+                    //do nothing on hover
+                    if (!__instance.CurrentColor.Equals(__instance.HoverSpriteColor))
+                        {
+                        if (!Broadcastmanager.Instance.Check(__instance.xui.lootContainer.ToWorldPos()))
+                        {
+                            // set disabled color
+                            __instance.CurrentColor = Color.gray;
+                        }
+                        else
+                        {
+                            //set to white
+                            __instance.CurrentColor = __instance.DefaultSpriteColor;
+                        } 
+                    }
                 }
             }
         }
