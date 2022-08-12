@@ -28,3 +28,4 @@ portalActivate, "Activate Portal"
 ObjectiveEntityAliveSDXKill_keyword,Kill {0}:
 teleporttoNeedPower,"Needs Power"
 xuiPinGrab, "Broadcast"
+ObjectiveBlockDestroy_keyword,Destroy {0}:,Le Destroy {0}

@@ -1,187 +1,212 @@
 ﻿<configs>
-  <insertBefore xpath='/quests/quest_list[1]'>
-    <quest id="sphereii_gotoPoiTest">
-      <property name="name_key" value="quest_tier1_fetch" />
-      <property name="subtitle_key" value="quest_fetch_subtitle" />
-      <property name="description_key" value="quest_fetch_description" />
-      <property name="icon" value="ui_game_symbol_quest" />
-      <property name="repeatable" value="true" />
-      <property name="category_key" value="challenge" />
-      <property name="difficulty" value="medium" />
-      <property name="difficulty_tier" value="1" />
-      <property name="offer_key" value="quest_tier1_fetch_offer" />
-      <property name="statement_key" value="quest_fetch_statement" />
-      <property name="response_key" value="quest_fetch_response" />
-      <property name="login_rally_reset" value="true" />
+	<insertBefore xpath='/quests/quest_list[1]'>
+		<quest id="sphereii_gotoPoiTest">
+			<property name="name_key" value="quest_tier1_fetch" />
+			<property name="subtitle_key" value="quest_fetch_subtitle" />
+			<property name="description_key" value="quest_fetch_description" />
+			<property name="icon" value="ui_game_symbol_quest" />
+			<property name="repeatable" value="true" />
+			<property name="category_key" value="challenge" />
+			<property name="difficulty" value="medium" />
+			<property name="difficulty_tier" value="1" />
+			<property name="offer_key" value="quest_tier1_fetch_offer" />
+			<property name="statement_key" value="quest_fetch_statement" />
+			<property name="response_key" value="quest_fetch_response" />
+			<property name="login_rally_reset" value="true" />
 
-      <property name="completiontype" value="TurnIn" />
-      <property name="completion_key" value="quest_fetch_completion" />
+			<property name="completiontype" value="TurnIn" />
+			<property name="completion_key" value="quest_fetch_completion" />
 
-      <objective type="GotoPOISDX, SCore" value="10-6000" phase="1">
-        <property name="completion_distance" value="50" />
-        <property name="phase" value="1" />
-        <property name="PrefabName" value="store_gun_01" />
-        <property name="nav_object" value="quest" />
-      </objective>
-      
-      <objective type="RallyPoint">
-        <property name="phase" value="2" />
-        <property name="nav_object" value="rally" />
-      </objective>
+			<objective type="GotoPOISDX, SCore" value="10-6000" phase="1">
+				<property name="completion_distance" value="50" />
+				<property name="phase" value="1" />
+				<property name="PrefabName" value="store_gun_01" />
+				<property name="nav_object" value="quest" />
+			</objective>
 
-      <objective type="FetchFromContainer">
-        <property name="phase" value="3" />
-        <property name="quest_item_ID" value="1" />
-        <property name="item_count" value="1" />
-        <property name="default_container" value="cntFetchQuestSatchel" />
-        <property name="nav_object" value="fetch_container" />
-      </objective>
+			<objective type="RallyPoint">
+				<property name="phase" value="2" />
+				<property name="nav_object" value="rally" />
+			</objective>
 
-      <objective type="POIStayWithin">
-        <property name="phase" value="3" />
-        <property name="radius" value="25" />
-      </objective>
+			<objective type="FetchFromContainer">
+				<property name="phase" value="3" />
+				<property name="quest_item_ID" value="1" />
+				<property name="item_count" value="1" />
+				<property name="default_container" value="cntFetchQuestSatchel" />
+				<property name="nav_object" value="fetch_container" />
+			</objective>
 
-      <objective type="ReturnToNPC">
-        <property name="phase" value="4" />
-        <property name="nav_object" value="return_to_trader" />
-      </objective>
+			<objective type="POIStayWithin">
+				<property name="phase" value="3" />
+				<property name="radius" value="25" />
+			</objective>
 
-      <objective type="InteractWithNPC">
-        <property name="phase" value="4" />
-        <property name="nav_object" value="return_to_trader" />
-      </objective>
+			<objective type="ReturnToNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
 
-      <reward type="Exp" value="2500" />
-      <reward type="Item" id="casinoCoin" value="330" />
-		<reward type="Quest" id="quest_whiteRiverCitizen1"/>
+			<objective type="InteractWithNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
 
-		<!--<reward type="LootItem" id="groupQuestTools" ischosen="true" isfixed="true" value="1"/>-->
-      <!--<reward type="LootItem" id="groupQuestArmor,groupQuestMedical" ischosen="true" isfixed="true" value="1"/>-->
-      <reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
-      <!--<reward type="LootItem" id="groupQuestWeapons" ischosen="true" value="1"/>-->
-      <reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
-      <reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
-      
-      
+			<reward type="Exp" value="2500" />
+			<reward type="Item" id="casinoCoin" value="330" />
+			<reward type="Quest" id="quest_whiteRiverCitizen1"/>
 
-      <reward type="Exp" value="1000" />
-    
-    </quest>
+			<!--<reward type="LootItem" id="groupQuestTools" ischosen="true" isfixed="true" value="1"/>-->
+			<!--<reward type="LootItem" id="groupQuestArmor,groupQuestMedical" ischosen="true" isfixed="true" value="1"/>-->
+			<reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
+			<!--<reward type="LootItem" id="groupQuestWeapons" ischosen="true" value="1"/>-->
+			<reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
+			<reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
 
-  <quest id="challenge_killsomeNPCs">
-		  <property name="name_key" value="challenge_silenceofthelambs"/>
-		  <property name="subtitle_key" value="challenge_silenceofthelambs_subtitle"/>
-		  <property name="description_key" value="challenge_silenceofthelambs_offer"/>
-		  <property name="icon" value="ui_game_symbol_zombie"/>
-		  <property name="repeatable" value="true"/>
-		  <property name="category_key" value="challenge"/>
-		  <property name="offer_key" value="challenge_silenceofthelambs_offer"/>
-		  <property name="difficulty" value="insane"/>
-		  <property name="completiontype" value="TurnIn"/>
 
-		  <objective type="RandomGoto" value="500-800" phase="1">
-			  <property name="completion_distance" value="50"/>
-			  <property name="nav_object" value="quest" />
-		  </objective>
 
-		  <objective type="RallyPoint">
-			  <property name="start_mode" value="Create"/>
-			  <property name="phase" value="2"/>
-			  <property name="nav_object" value="rally" />
-		  </objective>
+			<reward type="Exp" value="1000" />
 
-		  <action type="SpawnEnemy" id="npcHarleyEmptyHand" value="2" phase="3"/>
-		  <objective type="EntityAliveSDXKill, SCore" id="npcHarleyEmptyHand" value="2" phase="3"/>
+		</quest>
 
-		  <objective type="InteractWithNPC">
-			  <property name="phase" value="4"/>
-		  </objective>
+		<quest id="challenge_killsomeNPCs">
+			<property name="name_key" value="challenge_silenceofthelambs"/>
+			<property name="subtitle_key" value="challenge_silenceofthelambs_subtitle"/>
+			<property name="description_key" value="challenge_silenceofthelambs_offer"/>
+			<property name="icon" value="ui_game_symbol_zombie"/>
+			<property name="repeatable" value="true"/>
+			<property name="category_key" value="challenge"/>
+			<property name="offer_key" value="challenge_silenceofthelambs_offer"/>
+			<property name="difficulty" value="insane"/>
+			<property name="completiontype" value="TurnIn"/>
 
-		  <reward type="Exp" value="500"/>
-		  <!-- You can define a range of rewards like <reward type="Item" id="casinoCoin" value="200-500"/> -->
-		  <reward type="Item" id="casinoCoin" value="350"/>
-	  </quest>
-    <!--
+			<objective type="RandomGoto" value="500-800" phase="1">
+				<property name="completion_distance" value="50"/>
+				<property name="nav_object" value="quest" />
+			</objective>
+
+			<objective type="RallyPoint">
+				<property name="start_mode" value="Create"/>
+				<property name="phase" value="2"/>
+				<property name="nav_object" value="rally" />
+			</objective>
+
+			<action type="SpawnEnemy" id="npcHarleyEmptyHand" value="2" phase="3"/>
+			<objective type="EntityAliveSDXKill, SCore" id="npcHarleyEmptyHand" value="2" phase="3"/>
+
+			<objective type="InteractWithNPC">
+				<property name="phase" value="4"/>
+			</objective>
+
+			<reward type="Exp" value="500"/>
+			<!-- You can define a range of rewards like <reward type="Item" id="casinoCoin" value="200-500"/> -->
+			<reward type="Item" id="casinoCoin" value="350"/>
+		</quest>
+		<!--
       Sample quest using RandomTaggedPOIGotoSDX to specify POI tags.
       This quest will send players only to POIs that have the "residential" or "countryresidential"
       tags, and will not send players to POIs that have either the "industrial" or "rural" tags.
       The POIs that meet these criteria will be homes in residential districts of cities or towns.
     -->
-    <quest id="score_tier1_clear_residence">
-      <property name="name_key" value="Clear Residence" />
-      <property name="subtitle_key" value="Clear a residence" />
-      <property name="description_key" value="Clear all the zombies in the residence." />
-      <property name="icon" value="ui_game_symbol_quest" />
-      <property name="repeatable" value="true" />
-      <property name="category_key" value="quest" />
-      <property name="offer_key" value="Someone used to live there." />
-      <property name="difficulty" value="medium" />
-      <property name="difficulty_tier" value="1" />
-      <property name="statement_key" value="Clear all the zombies in the residence." />
-      <property name="response_key" value="Clear Residence ([DECEA3]{poi.distance} {poi.direction}[-])" />
-      <property name="login_rally_reset" value="true" />
-      <property name="completiontype" value="TurnIn" />
-      <property name="completion_key" value="That man's home was his castle, but it wasn't much of a fortress." />
+		<quest id="score_tier1_clear_residence">
+			<property name="name_key" value="Clear Residence" />
+			<property name="subtitle_key" value="Clear a residence" />
+			<property name="description_key" value="Clear all the zombies in the residence." />
+			<property name="icon" value="ui_game_symbol_quest" />
+			<property name="repeatable" value="true" />
+			<property name="category_key" value="quest" />
+			<property name="offer_key" value="Someone used to live there." />
+			<property name="difficulty" value="medium" />
+			<property name="difficulty_tier" value="1" />
+			<property name="statement_key" value="Clear all the zombies in the residence." />
+			<property name="response_key" value="Clear Residence ([DECEA3]{poi.distance} {poi.direction}[-])" />
+			<property name="login_rally_reset" value="true" />
+			<property name="completiontype" value="TurnIn" />
+			<property name="completion_key" value="That man's home was his castle, but it wasn't much of a fortress." />
 
-      <!-- Custom objective -->
-      <objective type="RandomTaggedPOIGotoSDX, SCore">
-        <property name="phase" value="1" />
-        <property name="nav_object" value="quest" />
+			<!-- Custom objective -->
+			<objective type="RandomTaggedPOIGotoSDX, SCore">
+				<property name="phase" value="1" />
+				<property name="nav_object" value="quest" />
 
-        <!-- Include POIs only if they have any of these tags -->
-        <property name="include_tags" value="residential,countryresidential" />
+				<!-- Include POIs only if they have any of these tags -->
+				<property name="include_tags" value="residential,countryresidential" />
 
-        <!-- Exclude POIs if they have any of these tags -->
-        <property name="exclude_tags" value="industrial,rural" />
+				<!-- Exclude POIs if they have any of these tags -->
+				<property name="exclude_tags" value="industrial,rural" />
 
-        <!-- You can also specify the minimum and maximum distance from the quest giver, in in-game meters: -->
-        <!-- <property name="distance" value="400-1000" /> -->
-        <!-- ...or just the maximum distance: -->
-        <!-- <property name="distance" value="1000" /> -->
-      </objective>
+				<!-- You can also specify the minimum and maximum distance from the quest giver, in in-game meters: -->
+				<!-- <property name="distance" value="400-1000" /> -->
+				<!-- ...or just the maximum distance: -->
+				<!-- <property name="distance" value="1000" /> -->
+			</objective>
 
-      <objective type="RallyPoint">
-        <property name="phase" value="2" />
-        <property name="nav_object" value="rally" />
-      </objective>
+			<objective type="RallyPoint">
+				<property name="phase" value="2" />
+				<property name="nav_object" value="rally" />
+			</objective>
 
-      <objective type="ClearSleepers">
-        <property name="phase" value="3" />
-        <property name="nav_object" value="sleeper_volume" />
-      </objective>
+			<objective type="ClearSleepers">
+				<property name="phase" value="3" />
+				<property name="nav_object" value="sleeper_volume" />
+			</objective>
 
-      <objective type="POIStayWithin">
-        <property name="phase" value="3" />
-        <property name="radius" value="25" />
-      </objective>
+			<objective type="POIStayWithin">
+				<property name="phase" value="3" />
+				<property name="radius" value="25" />
+			</objective>
 
-      <objective type="ReturnToNPC">
-        <property name="phase" value="4" />
-        <property name="nav_object" value="return_to_trader" />
-      </objective>
+			<objective type="ReturnToNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
 
-      <objective type="InteractWithNPC">
-        <property name="phase" value="4" />
-        <property name="nav_object" value="return_to_trader" />
-      </objective>
+			<objective type="InteractWithNPC">
+				<property name="phase" value="4" />
+				<property name="nav_object" value="return_to_trader" />
+			</objective>
 
-      <reward type="Exp" value="3000" />
-      <reward type="Item" id="casinoCoin" value="800" />
+			<reward type="Exp" value="3000" />
+			<reward type="Item" id="casinoCoin" value="800" />
 
-      <reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
-      <reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
-      <reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
-      <reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
-      <reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
-    </quest>
-  </insertBefore>
+			<reward type="LootItem" id="groupQuestAmmo" ischosen="true" value="1" />
+			<reward type="LootItem" id="groupQuestSchematics" ischosen="true" value="1" />
+			<reward type="LootItem" id="groupQuestMods" ischosen="true" value="1" />
+			<reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
+			<reward type="LootItem" id="groupQuestAmmo,groupQuestSchematics,groupQuestMods" ischosen="true" value="1" />
+		</quest>
+
+		<quest id="quest_scoreDestroyBlocks">
+			<property name="group_name_key" value="destroy blocks"/>
+			<property name="name_key" value="Destroy blocks"/>
+			<property name="subtitle_key" value="Destroy Blocks"/>
+			<property name="description_key" value="Destroy blocks"/>
+			<property name="icon" value="ui_game_symbol_map_house"/>
+			<property name="category_key" value="quest"/>
+			<property name="difficulty" value="veryeasy"/>
+			<property name="shareable" value="false"/>
+
+			<objective type="FetchKeep" id="resourceWood" value="10" phase="1">
+				<modifier type="TrackBlocks">
+					<property name="block_index_name" value="quest_wood"/>
+					<property name="nav_object" value="quest_resource"/>
+					<property name="track_distance" value="20"/>
+				</modifier>
+			</objective>
+			<objective type="Craft" id="frameShapes:VariantHelper" value="1" phase="2"/>
+			<objective type="BlockPlace" id="frameShapes:VariantHelper" value="1" phase="2"/>
+			<objective type="BlockDestroySDX, SCore" id="frameShapes" value="1" phase="2"/>
+
+			<reward type="Exp" value="50"/>
+			<reward type="Quest" id="quest_BasicSurvival8"/>
+		</quest>
+	</insertBefore>
 
 	<!-- Uncomment to add test quests to trader quest list -->
-  <!-- <insertAfter xpath="//quest_list[@id='trader_quests']/quest[@id='tier1_clear']">
+	<!-- <insertAfter xpath="//quest_list[@id='trader_quests']/quest[@id='tier1_clear']">
     <quest id="sphereii_gotoPoiTest" />
     <quest id="score_tier1_clear_residence" />
   </insertAfter> -->
-  
-  
+
+
 </configs>

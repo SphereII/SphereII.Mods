@@ -227,7 +227,8 @@ namespace SCore.Harmony.Recipes
                 // disables remote crafting on workstations as in Blocks.xml
                 var disablereceiver = Configuration.GetPropertyValue(AdvFeatureClass, "disablereceiver");
                 //Debug.LogWarning(disablereceiver);
-                if (disablereceiver.Contains(__instance.xui.currentWorkstation)) return __result;
+                if ( !string.IsNullOrEmpty(__instance.xui.currentWorkstation))
+                    if (disablereceiver.Contains(__instance.xui.currentWorkstation)) return __result;
 
 
                 // add remote lootcontainers
