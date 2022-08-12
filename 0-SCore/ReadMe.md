@@ -10,6 +10,17 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.224.1021
+
+	[ Broadcast feature ]
+		- Fixed an issue with a null ref when the xui.currentworkstation is empty
+
+	[ Quests ]
+		- Added new ObjectiveBlockDestroySDX, SCore. Example in Config/quests.xml
+
+			<objective type="BlockDestroySDX, SCore" id="frameShapes" value="1" phase="2"/>
+
+		
 Version: 20.5.223.110
 	[ Broadcast feature ]
 		- New Broadcast Manager feature by matteo ( https://youtu.be/BGPSIc5HUgg )
