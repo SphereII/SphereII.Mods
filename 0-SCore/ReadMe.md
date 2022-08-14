@@ -10,6 +10,14 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.226.1940
+
+	[ Fire Manager ]
+		- Fixed an issue with the FireManager not tracking fires on dedi correctly
+		- Fixed an issue where melee attack does not set fires correctly (only partially applying fire )
+		- Updated default Config/blocks.xml's entry for what is flammable or not.
+
+
 Version: 20.5.226.1035
 	
 	[ Fire Manager ]

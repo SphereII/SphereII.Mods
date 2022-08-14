@@ -44,11 +44,6 @@ public class NetPackageAddFirePosition : NetPackage
             return;
         }
 
-        if (!_world.IsRemote())
-        {
-            return;
-        }
-
         FireManager.Instance.add(position);
     }
 }

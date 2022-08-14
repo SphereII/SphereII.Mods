@@ -101,6 +101,8 @@ public static class BlockUtilitiesSDX
         if (GameManager.Instance.HasBlockParticleEffect(position)) 
             return;
 
+        if (GameManager.IsDedicatedServer) return;
+
         var centerPosition = EntityUtilities.CenterPosition(position);
         var blockValue = GameManager.Instance.World.GetBlock(position);
         var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
@@ -112,6 +114,7 @@ public static class BlockUtilitiesSDX
    
     public static void removeParticles(Vector3i position)
     {
+        if (GameManager.IsDedicatedServer) return;
         GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);
     }
 }

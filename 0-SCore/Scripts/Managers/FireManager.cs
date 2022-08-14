@@ -249,9 +249,9 @@ public class FireManager
 
                 if (!block.isair)
                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(_blockPos, -1), false, -1, -1, -1, -1);
-
-
-                block.Block.IsCheckCollideWithEntity = true;
+                else
+                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(_blockPos, -1), false, -1, -1, -1, -1);
+               
 
                 Changes.Add(new BlockChangeInfo(0, _blockPos, block));
             }
@@ -441,7 +441,7 @@ public class FireManager
 
     public void ClearPos(Vector3i _blockPos)
     {
-        if (!GameManager.IsDedicatedServer)
+     //   if (!GameManager.IsDedicatedServer)
             BlockUtilitiesSDX.removeParticles(_blockPos);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -456,7 +456,7 @@ public class FireManager
         if (!isFlammable(_blockPos))
             return;
 
-        if (!GameManager.IsDedicatedServer)
+     //   if (!GameManager.IsDedicatedServer)
             add(_blockPos);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -472,7 +472,7 @@ public class FireManager
     // General call to remove the fire from a block, and add an extinguished counter, so blocks can be temporarily immune to restarting.
     public void Extinguish(Vector3i _blockPos, int entityID = -1)
     {
-        if (!GameManager.IsDedicatedServer)
+  //      if (!GameManager.IsDedicatedServer)
             extinguish(_blockPos, entityID);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -484,7 +484,7 @@ public class FireManager
     }
     public void Remove(Vector3i _blockPos, int entityID = -1)
     {
-        if (!GameManager.IsDedicatedServer)
+   //     if (!GameManager.IsDedicatedServer)
             remove(_blockPos);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)

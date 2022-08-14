@@ -11,6 +11,8 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams _params)
     {
+        if (FireManager.Instance.Enabled == false) return;
+
         var position = _params.Position;
         if (targetType != TargetTypes.positionAOE)
         {

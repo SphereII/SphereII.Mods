@@ -39,6 +39,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         return "";
 
     }
+
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
@@ -121,8 +122,6 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 entity.Buffs.SetCustomVar("PathingCode", pathingCode);
         }
 
-
-        
         // We are using the tile entity to transfer the owner ID from the client to the player.
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredTrigger;
         if (tileEntity != null)
@@ -210,7 +209,11 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 rotation = blockEntity.transform.rotation.eulerAngles;
 
             var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
-
+            if ( entity == null )
+            {
+                Log.Out($"No entity created: {_signText}");
+                return false;
+            }
             entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             GameManager.Instance.World.SpawnEntityInWorld(entity);
 
