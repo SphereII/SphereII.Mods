@@ -28,6 +28,9 @@ namespace SCore.Harmony.Recipes
                 {
                     var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                     if (tileEntity == null) continue;
+
+//                    if (tileEntity.blockValue.Block.Tags.Test_AnySet(FastTags.Parse("notsharedstorage"))) continue;
+
                     // Check if Broadcastmanager is running if running check if lootcontainer is in Broadcastmanager dictionary
                     // note: Broadcastmanager.Instance.Check()) throws nullref if Broadcastmanager is not running.
                     // works because Hasinstance is being checked first in the or.

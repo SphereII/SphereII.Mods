@@ -250,6 +250,9 @@ public class FireManager
                 if (!block.isair)
                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(_blockPos, -1), false, -1, -1, -1, -1);
 
+
+                block.Block.IsCheckCollideWithEntity = true;
+
                 Changes.Add(new BlockChangeInfo(0, _blockPos, block));
             }
 

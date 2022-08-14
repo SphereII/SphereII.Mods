@@ -55,6 +55,7 @@
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
     <Compile Include="Harmony\Blocks\ChangeThisWaterBlock.cs" />
     <Compile Include="Harmony\Blocks\OnEntityWalkingPatchFire.cs" />
+    <Compile Include="Harmony\EntityAlive\UpdateCurrentBlockposAndValueFire.cs" />
     <Compile Include="Harmony\Blocks\Particles.cs" />
     <Compile Include="Harmony\Dialog\DialogClose.cs" />
     <Compile Include="Harmony\Dialog\DialogFromXML.cs" />

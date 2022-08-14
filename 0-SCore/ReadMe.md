@@ -10,6 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.226.1035
+	
+	[ Fire Manager ]
+		- Moved fire buff on walk to Entityalive patch rather than block
+		- Fire hurts now.
+
+	[ Config/blocks.xml ]
+		- Cleaned up an old Broadcastmanager node.
+
+Version: 20.5.224.1353
+	[ Broadcast feature ]
+		- Update from matteo, removing second button, updating sprites
+
+
 Version: 20.5.224.1021
 
 	[ Broadcast feature ]

@@ -50,6 +50,8 @@ namespace Harmony.Blocks
                         __instance.DamageBlock(_world, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, (_entity != null) ? _entity.entityId : -1, false, false);
 
                 }
+
+           
                 return true;
             }
         }

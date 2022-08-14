@@ -41,10 +41,6 @@
 				<property name="Distance" value="10" />  <!-- reasonable block range seems to be around 10. -->
 			</property>
 
-      <property class="Broadcastmanager" >
-        <property name="Broadcastmanage" value="true"/>
-      </property>
-
 			<property class="AdvancedLockpicking" >
 				<!-- This feature is only available when this modlet is loaded. -->
 				<property name="RequiredModlet" value="Locks" />
