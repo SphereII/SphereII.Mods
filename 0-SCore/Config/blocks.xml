@@ -36,9 +36,22 @@
 			
 			<property class="AdvancedRecipes" >
 				<property name="ReadFromContainers" value="false"/> <!-- Enable Remote Crafting Feature Experimental -->
-				<property name="BroadcastManage" value="false"/>	<!-- Enable Broadcast Feature Experimental -->
-				<property name="disablereceiver" value="forge, tbd" /> <!-- disable remote crafing on named workstations -->
-				<property name="Distance" value="10" />  <!-- reasonable block range seems to be around 10. -->
+				<property name="Distance" value="10" />	<!-- reasonable block range seems to be around 10. -->
+				<property name="Debug" value="false" />	<!-- shows name of opened container/workstation in log -->
+				<!-- Not needed for remote Crafting -->
+				<property name="BroadcastManage" value="false"/> <!-- Enable Broadcast Feature Experimental -->
+				<property name="InvertBroadcast" value="false"/> <!-- enables broadcasting for all but selected containers-->
+				<!-- disable remote crafing on named workstations case sensitive-->
+				<property name="disablereceiver" value="forge, tbd" /> 
+				<!-- disable remote crafing from named containers. case sensitive e.g storageCrate, birdNest -->
+				<property name="disablesender" value="" />	
+				<!-- disable remote crafing on workstation from certain containers. case sensitive e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
+				<!-- sections are separated by ";" workstation and containers by ":" containers are separated by "," -->
+				<property name="nottoWorkstation" value=""/> 
+				<!-- enables remote crafing on workstations only from named containers. case sensitive e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
+				<!-- binds are separated by ";" workstation and containers by ":" containers are separated by "," -->
+				<property name="bindtoWorkstation" value=""/>
+				<property name="enforcebindtoWorkstation" value="false"/> <!-- disables remote crafting if not bound -->
 			</property>
 
 			<property class="AdvancedLockpicking" >
