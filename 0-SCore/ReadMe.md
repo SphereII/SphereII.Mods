@@ -10,6 +10,14 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.227.925
+	
+	[ Remote Recipes ]
+		- Merged changes from matteo
+			added features requested by pipermac...
+			updated searchnearbycontainers since checks are already done by gettileentities.
+			changed some methods to use searchnearbycontainers instead of gettileentities.
+
 Version:  20.5.227.95
 	
 	[ SpawnCube2SDX ]
