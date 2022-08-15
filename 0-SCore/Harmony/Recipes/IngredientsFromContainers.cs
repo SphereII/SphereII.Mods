@@ -42,7 +42,7 @@ namespace SCore.Harmony.Recipes
                                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                                 if (lootTileEntity == null) break;
                                 // if sending disabled skip container
-                                if (disabledsender.Any(x => x.Trim() == lootTileEntity.lootListName)) break;
+                                if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
                                 if (!string.IsNullOrEmpty(nottoWorkstation)) if(notToWorkstation(nottoWorkstation, player,  tileEntity))goto default;
                                 if (!string.IsNullOrEmpty(bindtoWorkstation)) 
                                 {
@@ -59,7 +59,7 @@ namespace SCore.Harmony.Recipes
                                 PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
                                 if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false) break;
                                 // if sending disabled skip container
-                                if (disabledsender.Any(x => x.Trim() == secureTileEntity.lootListName)) break;
+                                if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
                                 if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
                                 if (!string.IsNullOrEmpty(bindtoWorkstation))
                                 {
@@ -76,17 +76,28 @@ namespace SCore.Harmony.Recipes
             }
             return tileEntities;
         }
+        public static bool disableSender(string[] value, TileEntity tileEntity)
+        {
+            var lootTileEntity = tileEntity as TileEntityLootContainer;
+            bool invertdisable = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Invertdisable"));
+            if (!invertdisable)
+            {
+                if (value.Any(x => x.Trim() == lootTileEntity.lootListName)) return true;
+            }
+            else if (!value.Any(x => x.Trim() == lootTileEntity.lootListName)) return true;
 
+            return false;
+        }
         public static bool bindToWorkstation(string value, EntityAlive player, TileEntity tileEntity)
         {
             bool result = false;
             var playerLocal = player as EntityPlayerLocal;
             var lootTileEntity = tileEntity as TileEntityLootContainer;
             // bind storage to workstation
-            if (value.Split(';').Where(x => x.Split(':')[0].Trim() == playerLocal.PlayerUI.xui.currentWorkstation)
+            if (value.Split(';').Where(x => x.Split(':')[0].Split(',').Any(ws=>ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 .Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = true;
             // bind storage to other workstations if allowed
-            if (!value.Split(';').Any(x => x.Split(':')[0].Trim() == playerLocal.PlayerUI.xui.currentWorkstation)
+            if (!value.Split(';').Any(x => x.Split(':')[0].Split(',').Any(ws=>ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 && !bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
             {
                 if (value.Split(';').Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = false;
@@ -101,9 +112,9 @@ namespace SCore.Harmony.Recipes
             var lootTileEntity = tileEntity as TileEntityLootContainer;
             foreach (var bind in value.Split(';'))
             {
-                string workstation = bind.Split(':')[0];
+                var workstation = bind.Split(':')[0].Split(',');
                 var disablebinding = bind.Split(':')[1].Split(',');
-                if ((workstation == playerLocal.PlayerUI.xui.currentWorkstation) && (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
+                if ((workstation.Any(ws=> ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) && (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
             }
             return result;
         }
@@ -468,9 +479,9 @@ namespace SCore.Harmony.Recipes
                             // check if sending is allowed and disable button
                             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
                             var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
-                            if (__instance.xui.lootContainer != null)
+                            if (__instance.xui.lootContainer != null && Broadcastmanager.HasInstance)
                             {
-                                if (disabledsender.Any(x => x.Trim() == __instance.xui.lootContainer.lootListName)) _value = false.ToString();
+                                if (disabledsender[0] != null) if (disableSender(disabledsender, __instance.xui.lootContainer)) _value = false.ToString();
                                 if (!string.IsNullOrEmpty(bindToWorkstation[0]))
                                 {
                                     int counter = 0;
@@ -482,6 +493,7 @@ namespace SCore.Harmony.Recipes
                                     if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation"))) _value = false.ToString();
                                 }
                             }
+                            Debug.LogWarning(_value);
                             __result = true;
                             return false;
                         }
