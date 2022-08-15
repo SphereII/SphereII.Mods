@@ -118,6 +118,7 @@
     <Compile Include="Harmony\TileEntities\PoweredWorkstations.cs" />
     <Compile Include="Harmony\TileEntities\TileEntity.cs" />
     <Compile Include="Harmony\TileEntities\TileEntityAlwaysActive.cs" />
+    <Compile Include="Harmony\TileEntities\TileEntityPreserveOwnership.cs" />
     <Compile Include="Harmony\TileEntities\TileEntitySignGif.cs" />
     <Compile Include="Harmony\UI\FilterGameWorld.cs" />
     <Compile Include="Harmony\UI\TargetBar.cs" />

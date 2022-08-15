@@ -10,13 +10,25 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.5.226.1940
+Version:  20.5.227.95
+	
+	[ SpawnCube2SDX ]
+		- Added Harmony patch to preserve ownership during upgrades / downgrades
+			-> Downgrade / Upgrade targets must use the same SpawnCube2SDX class
+				<property name="Class" value="SpawnCube2SDX, SCore" />
+			-> Config property line can be ommitted, or blanked, for non-spawning spawnCube.
+				
+
+
+
+Version: 20.5.226.2037
 
 	[ Fire Manager ]
 		- Fixed an issue with the FireManager not tracking fires on dedi correctly
 		- Fixed an issue where melee attack does not set fires correctly (only partially applying fire )
 		- Updated default Config/blocks.xml's entry for what is flammable or not.
-
+		- Added protection gate for MinEffects when fire manager is off line.
+		
 
 Version: 20.5.226.1035
 	

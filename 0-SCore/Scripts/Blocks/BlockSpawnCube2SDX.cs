@@ -39,7 +39,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         return "";
 
     }
-
+   
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
@@ -94,7 +94,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
     {
         DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
     }
-       
+
     public void ApplySignData(EntityAlive entity, Vector3i _blockPos)
     {
         // Read the sign for expected values.
@@ -209,7 +209,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 rotation = blockEntity.transform.rotation.eulerAngles;
 
             var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
-            if ( entity == null )
+            if (entity == null)
             {
                 Log.Out($"No entity created: {_signText}");
                 return false;
