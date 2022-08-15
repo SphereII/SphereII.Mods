@@ -20,7 +20,7 @@ namespace SCore.Harmony.Blocks
                 {
                     var buff = Configuration.GetPropertyValue("FireManagement", "BuffOnFire");
                     if (!string.IsNullOrEmpty(buff))
-                        __instance.Buffs.AddBuffNetwork(buff);
+                        __instance.Buffs.AddBuff(buff);
                 }
             }
         }

@@ -10,6 +10,17 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.5.227.1659
+
+	[ Fire Manager ]
+		- Updated the code to set fire to players to use AddBuff instead of AddBuffNetwork
+
+	[ SpawnCube2SDX ]
+		- Added two new mineffect to set and clear owner of the SpawnCube2SDX
+
+			<triggered_effect trigger="onSelfDamagedBlock" action="ClearOwner, SCore" />
+			<triggered_effect trigger="onSelfDamagedBlock" action="SetOwner, SCore" />
+
 Version: 20.5.227.925
 	
 	[ Remote Recipes ]
