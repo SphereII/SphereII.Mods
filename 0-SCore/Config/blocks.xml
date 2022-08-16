@@ -45,11 +45,12 @@
 				<property name="disablereceiver" value="forge, tbd" /> 
 				<!-- disable remote crafing from named containers. case sensitive e.g storageCrate, birdNest -->
 				<property name="disablesender" value="" />	
-				<!-- disable remote crafing on workstation from certain containers. case sensitive e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
-				<!-- sections are separated by ";" workstation and containers by ":" containers are separated by "," -->
+				<property name="Invertdisable" value="false"/> <!-- enables sending only from workstations in disablesender-->
+				<!-- disable remote crafing on workstation from certain containers. e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
+				<!-- sections are separated by ";" workstation and containers by ":" containers are separated by ",". workstations can be grouped by "," e.g workbench,campfire:birdNest,storageCrate -->
 				<property name="nottoWorkstation" value=""/> 
-				<!-- enables remote crafing on workstations only from named containers. case sensitive e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
-				<!-- binds are separated by ";" workstation and containers by ":" containers are separated by "," -->
+				<!-- enables remote crafing on workstations only from named containers. e.g workbench:storageCrate, birdNest;campfire:birdNest,storageCrate -->
+				<!-- binds are separated by ";" workstation and containers by ":" containers are separated by ",". workstations can be grouped by "," e.g workbench,campfire:birdNest,storageCrate -->
 				<property name="bindtoWorkstation" value=""/>
 				<property name="enforcebindtoWorkstation" value="false"/> <!-- disables remote crafting if not bound -->
 			</property>
