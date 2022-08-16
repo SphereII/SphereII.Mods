@@ -383,14 +383,12 @@ namespace SCore.Harmony.Recipes
         {
             public static bool Prefix(IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
             {
-                Log.Out("Remove Items()");
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
 
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
-                Log.Out($"Tile Entities: {tileEntities.Count}.  Item Stacks: {_itemStacks.Count}");
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item

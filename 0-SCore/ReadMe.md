@@ -10,6 +10,26 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 
+
+	[ Fire Manager ]
+		- Added new buff Requirement to determine if you were close to a fire block
+			<requirement name="RequirementIsNearFire, SCore" range="5" />
+
+		- Added a new MinEffect to determine how many burning blocks are within the player.
+			<triggered_effect trigger="onSelfBuffUpdate" action="CheckFireProximity, SCore" range="5"  />		
+
+			-> This sets a cvar called _closeFires with how many burning blocks are near by.
+		
+		- Added sound effects for fire.
+
+	[ Remote Storage ]
+    	- Added Invert feature to disabledsender
+			-> If Enabled only mentioned containers share inventory
+        - Added grouping of workstations to nottoworkstation and bindtoworkstation
+			-> It is now possible to group multiple workstations to a group of storages
+
+
 Version: 20.5.227.1659
 
 	[ Fire Manager ]

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Collections.Concurrent;
+using Audio;
+
 public class FireManager
 {
     private static readonly string AdvFeatureClass = "FireManagement";
@@ -175,6 +177,45 @@ public class FireManager
         }
     }
 
+    public ConcurrentDictionary<Vector3i, BlockValue> GetFireMap()
+    {
+        return FireMap;
+    }
+
+    public int CloseFires( Vector3i position, int range = 5)
+    {
+        int count = 0;
+        for (int x = position.x - range; x <= position.x + range; x++)
+        {
+            for (int z = position.z - range; z <= position.z + range; z++)
+            {
+                for (int y = position.y - 2; y <= position.y + 2; y++)
+                {
+                    var localPosition = new Vector3i(x, y, z);
+                    if (isBurning(localPosition)) count++;
+                }
+            }
+        }
+        return count;
+
+    }
+    public bool IsPositionCloseToFire(Vector3i position, int range = 5)
+    {
+        for(int x = position.x - range; x <= position.x + range; x++)
+        {
+            for (int z = position.z - range; z <= position.z + range; z++)
+            {
+                for (int y = position.y - 2; y <= position.y + 2; y++)
+                {
+                    var localPosition = new Vector3i(x, y, z);
+                    if (isBurning(localPosition)) return true;
+                }
+            }
+        }
+    
+        return false;
+    }
+
     public void FireUpdate()
     {
         // Make sure to only run it once
@@ -248,10 +289,13 @@ public class FireManager
                 }
 
                 if (!block.isair)
+                {
                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(_blockPos, -1), false, -1, -1, -1, -1);
+                }
                 else
+                {
                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(_blockPos, -1), false, -1, -1, -1, -1);
-               
+                }
 
                 Changes.Add(new BlockChangeInfo(0, _blockPos, block));
             }
@@ -500,6 +544,8 @@ public class FireManager
     {
         if (!FireMap.ContainsKey(_blockPos)) return;
 
+        Manager.BroadcastStop(_blockPos, "FireMediumLoop");
+
         BlockUtilitiesSDX.removeParticles(_blockPos);
         FireMap.TryRemove(_blockPos, out var block);
     }
@@ -512,6 +558,8 @@ public class FireManager
             ExtinguishPositions[_blockPos] = expiry;
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+        Manager.BroadcastStop(_blockPos, "FireMediumLoop");
 
         var _smokeParticle = GetRandomSmokeParticle(_blockPos);
         //var _smokeParticle = smokeParticle;
@@ -548,6 +596,7 @@ public class FireManager
 
         //}
 
+        Manager.BroadcastPlay(_blockPos, "FireMediumLoop");
 
         var _fireParticle = GetRandomFireParticle(_blockPos);
 

@@ -173,6 +173,7 @@
     <Compile Include="Scripts\Buffs\RequirementIsUnderground.cs" />
     <Compile Include="Scripts\Buffs\RequirementLookingAt.cs" />
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementIsNearFire.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionCheckFireProximity.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearOwner.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOwner.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddFireDamageCascade.cs" />
