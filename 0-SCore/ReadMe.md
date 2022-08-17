@@ -10,7 +10,16 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 
+Version: 20.6.229.2113
+	[ Fire Manager ]
+		- Hot fix to prevent crashing when adding sound (like trees)
+
+		- Exposed new properties in Config/blocks.xml
+				<property name="SmokeTime" value="60" />					<!-- How long the smoke will stay on a block. -->
+				<property name="FireSound" value="FireMediumLoop" />		<!-- Sound Data Node to use. Can be over-ridden by individual block -->
+		- FireSound can be over-written on a block by basis.		
+
+Version: 20.5.228.1520
 
 	[ Fire Manager ]
 		- Added new buff Requirement to determine if you were close to a fire block

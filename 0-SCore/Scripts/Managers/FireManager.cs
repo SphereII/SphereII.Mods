@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using System.Collections.Concurrent;
 using Audio;
+using System.Threading;
 
 public class FireManager
 {
@@ -22,10 +23,13 @@ public class FireManager
     private GameRandom random = new GameRandom();
     private float heatMapStrength = 0f;
 
+    public string fireSound;
+    public string smokeSound;
     public string fireParticle;
     public string smokeParticle;
     private const string saveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
+    static Thread mainThread = Thread.CurrentThread;
 
     private static BlockValue burntGround;
 
@@ -47,6 +51,8 @@ public class FireManager
             FireManager.Instance.Enabled = false;
             return;
         }
+
+
         FireManager.Instance.random = GameManager.Instance.World.GetGameRandom();
 
         FireManager.Instance.Enabled = true;
@@ -66,6 +72,14 @@ public class FireManager
         var smoke = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeTime");
         if (!string.IsNullOrWhiteSpace(smoke))
             FireManager.Instance.smokeTime = StringParsers.ParseFloat(smoke);
+
+        var strFireSound = Configuration.GetPropertyValue(AdvFeatureClass, "FireSound");
+        if (!string.IsNullOrWhiteSpace(strFireSound))
+            FireManager.Instance.fireSound = strFireSound;
+
+        var strSmokeSound = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeSound");
+        if (!string.IsNullOrWhiteSpace(strSmokeSound))
+            FireManager.Instance.smokeSound = strSmokeSound;
 
         Log.Out("Starting Fire Manager");
 
@@ -332,7 +346,25 @@ public class FireManager
         Save();
     }
 
+    private string GetFireSound( Vector3i _blockPos)
+    {
+        var block = GameManager.Instance.World.GetBlock(_blockPos);
 
+        var _fireSound = fireSound;
+        if (block.Block.Properties.Contains("FireSound"))
+            _fireSound = block.Block.Properties.GetString("FireSound");
+        return _fireSound;
+    }
+
+    private string GetSmokeSound(Vector3i _blockPos)
+    {
+        var block = GameManager.Instance.World.GetBlock(_blockPos);
+
+        var _smokeSound = fireSound;
+        if (block.Block.Properties.Contains("SmokeSound"))
+            _smokeSound = block.Block.Properties.GetString("SmokeSound");
+        return _smokeSound;
+    }
     private string GetRandomFireParticle(Vector3i _blockPos)
     {
         var block = GameManager.Instance.World.GetBlock(_blockPos);
@@ -544,7 +576,11 @@ public class FireManager
     {
         if (!FireMap.ContainsKey(_blockPos)) return;
 
-        Manager.BroadcastStop(_blockPos, "FireMediumLoop");
+
+        var fireSound = GetFireSound(_blockPos);
+
+        if (Thread.CurrentThread == mainThread)
+            Manager.BroadcastStop(_blockPos, fireSound);
 
         BlockUtilitiesSDX.removeParticles(_blockPos);
         FireMap.TryRemove(_blockPos, out var block);
@@ -559,7 +595,9 @@ public class FireManager
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
 
-        Manager.BroadcastStop(_blockPos, "FireMediumLoop");
+        var fireSound = GetFireSound(_blockPos);
+        if (Thread.CurrentThread == mainThread)
+            Manager.BroadcastStop(_blockPos, fireSound);
 
         var _smokeParticle = GetRandomSmokeParticle(_blockPos);
         //var _smokeParticle = smokeParticle;
@@ -580,23 +618,9 @@ public class FireManager
     {
         var block = GameManager.Instance.World.GetBlock(_blockPos);
 
-        //var _fireParticle = fireParticle;
-        //if (block.Block.Properties.Contains("FireParticle"))
-        //    _fireParticle = block.Block.Properties.GetString("FireParticle");
-
-        //if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
-        //    _fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
-
-        //string randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
-        //if( !string.IsNullOrEmpty(randomFire) )
-        //{
-        //    var fireParticles = randomFire.Split(',');
-        //    int randomIndex = random.RandomRange(0, fireParticles.Length);
-        //    _fireParticle = fireParticles[randomIndex];
-
-        //}
-
-        Manager.BroadcastPlay(_blockPos, "FireMediumLoop");
+        var fireSound = GetFireSound(_blockPos);
+        if (Thread.CurrentThread == mainThread)
+            Manager.BroadcastPlay(_blockPos, fireSound);
 
         var _fireParticle = GetRandomFireParticle(_blockPos);
 

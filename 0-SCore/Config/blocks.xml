@@ -290,7 +290,8 @@
 				<property name="HeatMapStrength" value="1"/> 			<!-- Determines how much each block contributes to heat -->
 				<property name="CheckInterval" value="20" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
 				<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
-				<property name="SmokeTime" value="60" />
+				<property name="SmokeTime" value="60" />					<!-- How long the smoke will stay on a block. -->
+				<property name="FireSound" value="FireMediumLoop" />		<!-- Sound Data Node to use. Can be over-ridden by individual block -->
 				<property name="BuffOnFire" value="buffBurningMolotov" /> <!-- The buff that is applied to the entity alive when they step into the flames -->
 				<property name="MaterialID" value="Mplants, Mcorn" /> 	<!-- Checks the material's id to see if it should ignite  -->
 				<property name="MaterialDamage" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" /> <!-- Checks the material's damage category to see if it should ignite  -->
