@@ -289,6 +289,9 @@ public class FireManager
                     block.Block.SpawnDestroyParticleEffect(GameManager.Instance.World, block, _blockPos, 1f, block.Block.tintColor, -1);
                     BlockValue blockValue2 = block.Block.DowngradeBlock;
 
+                    if (block.Block.Properties.Values.ContainsKey("FireDowngradeBlock"))
+                        blockValue2 = Block.GetBlockValue(block.Block.Properties.Values["FireDowngradeBlock"], false);
+
                     // Check if there's another placeholder for this block.
                     if (!blockValue2.isair)
                         blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2, GameManager.Instance.World.GetGameRandom(), _blockPos.x, _blockPos.z, false, QuestTags.none);

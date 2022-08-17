@@ -10,6 +10,22 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.229.1018
+
+	[ Fire Manager ]
+		- Added optional cvar flag to MinEffect for CheckFirePRoxity. By default, this is _closeFires
+			<triggered_effect trigger="onSelfBuffUpdate" action="CheckFireProximity, SCore" range="5" cvar="_closeFires" />_
+		- This allows you to specify different cvars for different ranges
+
+		- Added support for a FireDowngradeBlock property on a block.
+			<property name="FireDowngradeBlock" value="terrSnow" />
+
+			-> This will downgrade a block that is damaged by fire only.
+			-> If set, the downgraded block will go through the blockplaceholders for other options.
+			-> If the new block is flammable, it will remain on fire.
+			-> If the new block is not flammable, it will get extinguished.
+
+
 Version: 20.6.229.2113
 
 	[ Fire Manager ]
