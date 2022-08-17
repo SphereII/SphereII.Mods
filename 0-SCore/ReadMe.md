@@ -11,6 +11,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 [ Change Log ]
 Version: 20.6.229.2113
+
+	[ Fire Manager ]
+		- Fixed an issue where zombies do not catch fire walking through fire.
+
+
+Version: 20.6.229.2113
 	[ Fire Manager ]
 		- Hot fix to prevent crashing when adding sound (like trees)
 
