@@ -10,7 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.6.229.1018
+Version:  20.6.230.86
+
+	[ Remote Storage ]
+      - Fixed Bug where items with ItemQuality where not removed from containers from matteo
+
+	[ Fire Manager ]
+		- Removed test code that turned terrain into burn forest when burned.
+		- Updated Explosion patch.
+			<property name="Explosion.BlockDamage" value="0"/>  <!-- Setting it to 0 neither starts nor puts out a fire -->
+			<property name="Explosion.BlockDamage" value="-1"/>  <!-- extinguishes. Value less than 0 -->
+			<property name="Explosion.BlockDamage" value="1"/>  <!-- lights fire. Value higher than 0 -->
+
+				
+Version: 20.6.229.1021
 
 	[ Fire Manager ]
 		- Added optional cvar flag to MinEffect for CheckFirePRoxity. By default, this is _closeFires

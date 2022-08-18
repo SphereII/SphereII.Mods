@@ -300,9 +300,9 @@ public class FireManager
                     block = blockValue2;
 
                     // If there is terrain under it, convert it to burnt ground.
-                    var blockBelow = GameManager.Instance.World.GetBlock(_blockPos + Vector3i.down);
-                    if (blockBelow.Block.shape.IsTerrain())
-                        Changes.Add(new BlockChangeInfo(0, _blockPos, burntGround));
+                    //var blockBelow = GameManager.Instance.World.GetBlock(_blockPos + Vector3i.down);
+                    //if (blockBelow.Block.shape.IsTerrain())
+                    //    Changes.Add(new BlockChangeInfo(0, _blockPos, burntGround));
                 }
 
                 if (!block.isair)

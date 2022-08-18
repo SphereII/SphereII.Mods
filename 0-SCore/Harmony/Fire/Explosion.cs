@@ -21,7 +21,11 @@ namespace SCore.Harmony.Fire
 
                 foreach (var position in __instance.ChangedBlockPositions)
                 {
-                    if (___explosionData.BlockDamage == -1f)
+                    // BlockDamage set to 0 does nothing.
+                    if (___explosionData.BlockDamage == 0) return;
+
+                    // Negative block damages extinguishes
+                    if (___explosionData.BlockDamage < 0f)
                         FireManager.Instance.Extinguish(position.Key);
                     else
                         FireManager.Instance.Add(position.Key);
