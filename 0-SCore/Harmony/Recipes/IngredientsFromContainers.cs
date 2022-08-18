@@ -413,7 +413,6 @@ namespace SCore.Harmony.Recipes
                                     if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation"))) _value = false.ToString();
                                 }
                             }
-                            Debug.LogWarning(_value);
                             __result = true;
                             return false;
                         }
