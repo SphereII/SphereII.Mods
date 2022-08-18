@@ -38,6 +38,7 @@ namespace Harmony.ZombieFeatures
                 {
                     __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
                     GameManager.Instance.World.SpawnEntityInWorld(entity);
+                    __instance.ForceDespawn();
                     return;
                 }
 
@@ -45,6 +46,8 @@ namespace Harmony.ZombieFeatures
                 var entityID = EntityClass.FromString(strSpawnGroup);
                 entity = EntityFactory.CreateEntity(entityID, __instance.position);
                 if (entity != null) GameManager.Instance.World.SpawnEntityInWorld(entity);
+
+                __instance.ForceDespawn();
             }
         }
     }

@@ -88,8 +88,8 @@ public class FireManager
         burntGround = new BlockValue((uint)Block.GetBlockByName("terrBurntForestGround").blockID);
 
         // Register the particle effects before anything. This is causing the Unknown Particle warnings. 
-        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.fireParticle);
-        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.smokeParticle);
+      //  ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.fireParticle);
+//        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.smokeParticle);
 
         // Read the FireManager
         FireManager.Instance.Load();

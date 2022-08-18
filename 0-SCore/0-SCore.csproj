@@ -139,7 +139,7 @@
     <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
-    <Compile Include="Properties\AssemblyInfo1.cs">
+    <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AssemblyInfo.tt</DependentUpon>
@@ -687,4 +687,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
 </Project>

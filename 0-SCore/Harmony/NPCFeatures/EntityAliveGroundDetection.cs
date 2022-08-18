@@ -13,6 +13,7 @@ namespace Harmony.NPCFeatures
                 case EntityZombie _:
                 case EntityPlayerLocal _:
                 case EntityPlayer _:
+                case EntityVulture _:
                     return;
             }
 

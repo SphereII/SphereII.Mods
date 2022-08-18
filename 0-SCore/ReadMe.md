@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.230.1610
+
+	[ Entity Alive Patch ]
+		- Fixed an issue where entity's using the Vulture class were stuck in their jump pose.
+
+		- Added a ForceDespawn() call to the SpawnOnDeath() feature.
+
+	[ Fire Manager ]
+		- Moved registering of particles to the Block.Init()
+			-> Checks the block and material for FireParticle and SmokeParticle.
+
+
 Version:  20.6.230.86
 
 	[ Remote Storage ]
