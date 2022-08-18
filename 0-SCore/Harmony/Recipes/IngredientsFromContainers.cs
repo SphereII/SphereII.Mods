@@ -167,18 +167,18 @@ namespace SCore.Harmony.Recipes
             }
         }
 
-        //[HarmonyPatch(typeof(XUiM_PlayerInventory))]
-        //[HarmonyPatch("GetAllItemStacks")]
-        //public class GetAllItemStacks
-        //{
-        //    public static void Postfix(ref List<ItemStack> __result, EntityPlayerLocal ___localPlayer)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-        //            return;
-        //        __result.AddRange(EnhancedRecipeLists.SearchNearbyContainers(___localPlayer));
-        //    }
-        //}
+        [HarmonyPatch(typeof(XUiM_PlayerInventory))]
+        [HarmonyPatch("GetAllItemStacks")]
+        public class GetAllItemStacks
+        {
+            public static void Postfix(ref List<ItemStack> __result, EntityPlayerLocal ___localPlayer)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return;
+                __result.AddRange(EnhancedRecipeLists.SearchNearbyContainers(___localPlayer));
+            }
+        }
 
         //[HarmonyPatch(typeof(XUiM_PlayerInventory))]
         //[HarmonyPatch("GetItemCount")]
@@ -265,84 +265,6 @@ namespace SCore.Harmony.Recipes
                     default:
                         return true;
                 }
-            }
-        }
-
-        // replaces GetAllItemStacks
-        // mostly a copy of the original code
-        [HarmonyPatch(typeof(XUiC_RecipeCraftCount))]
-        [HarmonyPatch("calcMaxCraftable")]
-        public class calcMaxCraftable
-        {
-            public static int Postfix(int __result, Recipe ___recipe, XUiC_RecipeCraftCount __instance)
-            {
-                // check if remotecrafting is enabled if not skip the patch
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return __result;
-
-                //if debug enabled show worstation name
-                if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
-                    if (!string.IsNullOrEmpty(__instance.xui.currentWorkstation)) Debug.Log("Current workstation name: " + __instance.xui.currentWorkstation);
-
-                // disables remote crafting on workstations as in Blocks.xml
-                var disablereceiver = Configuration.GetPropertyValue(AdvFeatureClass, "disablereceiver").Split(',');
-                //Debug.LogWarning(disablereceiver);
-                if (!string.IsNullOrEmpty(__instance.xui.currentWorkstation))
-                    if (disablereceiver.Any(x => x.Trim() == __instance.xui.currentWorkstation.ToString())) return __result;
-
-
-                // add remote lootcontainers
-                EntityPlayerLocal player = __instance.xui.playerUI.entityPlayer;
-                ItemStack[] array1 = SearchNearbyContainers(player).ToArray();
-                ItemStack[] array2 = player.bag.GetSlots();
-                ItemStack[] array = array1.Union(array2).ToArray();
-                var recipe = ___recipe;
-                if (recipe == null)
-                {
-                    return 1;
-                }
-
-                for (int i = 0; i < recipe.ingredients.Count; i++)
-                {
-                    ItemStack itemStack = recipe.ingredients[i];
-                    if (itemStack != null && itemStack.itemValue.HasQuality)
-                    {
-                        return 1;
-                    }
-                }
-                int num = int.MaxValue;
-                int craftingTier = (int)EffectManager.GetValue(PassiveEffects.CraftingTier, null, 1f, __instance.xui.playerUI.entityPlayer, recipe, recipe.tags);
-                for (int j = 0; j < recipe.ingredients.Count; j++)
-                {
-                    ItemStack itemStack2 = recipe.ingredients[j];
-                    if (itemStack2 == null || itemStack2.itemValue.type == 0)
-                    {
-                        continue;
-                    }
-
-                    int num2 = itemStack2.count;
-                    float num3 = ((!recipe.UseIngredientModifier) ? ((float)num2) : ((float)(int)EffectManager.GetValue(PassiveEffects.CraftingIngredientCount, null, num2, __instance.xui.playerUI.entityPlayer, recipe, FastTags.Parse(itemStack2.itemValue.ItemClass.GetItemName()), calcEquipment: true, calcHoldingItem: true, calcProgression: true, calcBuffs: true, craftingTier)));
-                    int num4 = 0;
-                    for (int k = 0; k < array.Length; k++)
-                    {
-                        if (array[k] != null && array[k].itemValue.type != 0 && itemStack2.itemValue.type == array[k].itemValue.type)
-                        {
-                            num4 += array[k].count;
-                        }
-                    }
-                    int num5 = Mathf.CeilToInt((float)num4 / num3);
-                    if (Mathf.FloorToInt(num3 * (float)num5) > num4)
-                    {
-                        num5--;
-                    }
-
-                    num = Mathf.Min(num5, num);
-                    if (num == 0)
-                    {
-                        break;
-                    }
-                }
-                return Mathf.Clamp(num, 1, 10000);
             }
         }
 
@@ -491,7 +413,6 @@ namespace SCore.Harmony.Recipes
                                     if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation"))) _value = false.ToString();
                                 }
                             }
-                            Debug.LogWarning(_value);
                             __result = true;
                             return false;
                         }
