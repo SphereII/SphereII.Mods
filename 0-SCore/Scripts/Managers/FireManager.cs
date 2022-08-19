@@ -452,10 +452,12 @@ public class FireManager
         var matID = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialID");
         if (matID.Contains(blockMaterial.id)) return true;
         var matDamage = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialDamage");
-        if (matDamage.Contains(blockMaterial.DamageCategory)) return true;
+        if ( !string.IsNullOrEmpty(matDamage))
+            if (matDamage.Contains(blockMaterial.DamageCategory)) return true;
 
         var matSurface = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialSurface");
-        if (matSurface.Contains(blockMaterial.SurfaceCategory)) return true;
+        if (!string.IsNullOrEmpty(matSurface))
+            if (matSurface.Contains(blockMaterial.SurfaceCategory)) return true;
 
         return false;
 
@@ -583,9 +585,11 @@ public class FireManager
         var fireSound = GetFireSound(_blockPos);
 
         if (Thread.CurrentThread == mainThread)
+        {
             Manager.BroadcastStop(_blockPos, fireSound);
 
-        BlockUtilitiesSDX.removeParticles(_blockPos);
+            BlockUtilitiesSDX.removeParticles(_blockPos);
+        }
         FireMap.TryRemove(_blockPos, out var block);
     }
 
@@ -600,19 +604,20 @@ public class FireManager
 
         var fireSound = GetFireSound(_blockPos);
         if (Thread.CurrentThread == mainThread)
+        {
             Manager.BroadcastStop(_blockPos, fireSound);
 
-        var _smokeParticle = GetRandomSmokeParticle(_blockPos);
-        //var _smokeParticle = smokeParticle;
-        //if (block.Block.Properties.Contains("SmokeParticle"))
-        //    _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
+            var _smokeParticle = GetRandomSmokeParticle(_blockPos);
+            //var _smokeParticle = smokeParticle;
+            //if (block.Block.Properties.Contains("SmokeParticle"))
+            //    _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
 
-        //if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
-        //    _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
+            //if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
+            //    _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
 
-        if (!block.isair)
-            BlockUtilitiesSDX.addParticlesCentered(_smokeParticle, _blockPos);
-
+            if (!block.isair)
+                BlockUtilitiesSDX.addParticlesCentered(_smokeParticle, _blockPos);
+        }
     }
 
 
@@ -623,12 +628,11 @@ public class FireManager
 
         var fireSound = GetFireSound(_blockPos);
         if (Thread.CurrentThread == mainThread)
+        {
             Manager.BroadcastPlay(_blockPos, fireSound);
-
-        var _fireParticle = GetRandomFireParticle(_blockPos);
-
-        BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
-
+            var _fireParticle = GetRandomFireParticle(_blockPos);
+            BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
+        }
         if (FireMap.TryAdd(_blockPos, block))
         {
             if (heatMapStrength != 0)

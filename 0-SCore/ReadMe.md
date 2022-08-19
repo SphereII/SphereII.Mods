@@ -10,6 +10,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.231.98
+
+	[ Entity Alive Patch ]
+		- Moved SpawnOnDeath() to a prefix rather than postfix, to remove ragdoll
+
+	[ Fire Manager ]
+		- Fixed a threading issue where a zombie hand attack would crash if it tried to add fire.
+		- Fixed an issue where a Material does not have MaterialDamage setting (error reported by magejosh)
+
 Version: 20.6.230.1610
 
 	[ Entity Alive Patch ]

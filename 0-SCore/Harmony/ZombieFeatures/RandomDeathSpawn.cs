@@ -16,10 +16,10 @@ namespace Harmony.ZombieFeatures
         [HarmonyPatch("OnEntityDeath")]
         public class EntityAliveOnEntityDeath
         {
-            public static void Postfix(global::EntityAlive __instance)
+            public static bool Prefix(global::EntityAlive __instance)
             {
                 var entityClass = EntityClass.list[__instance.entityClass];
-                if (!entityClass.Properties.Values.ContainsKey("SpawnOnDeath")) return;
+                if (!entityClass.Properties.Values.ContainsKey("SpawnOnDeath")) return true;
 
                 // Spawn location
                 Vector3i blockPos;
@@ -39,7 +39,7 @@ namespace Harmony.ZombieFeatures
                     __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
                     GameManager.Instance.World.SpawnEntityInWorld(entity);
                     __instance.ForceDespawn();
-                    return;
+                    return true;
                 }
 
                 // If no group, then assume its an entity
@@ -48,6 +48,7 @@ namespace Harmony.ZombieFeatures
                 if (entity != null) GameManager.Instance.World.SpawnEntityInWorld(entity);
 
                 __instance.ForceDespawn();
+                return true;
             }
         }
     }
