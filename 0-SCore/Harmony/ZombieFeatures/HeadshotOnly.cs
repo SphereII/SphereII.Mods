@@ -44,7 +44,7 @@ namespace Harmony.ZombieFeatures
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, " Headshot Mode Active: Headshot! ");
                     // Apply a damage multiplier for the head shot, and bump the dismember bonus for the head shot
-                    // This will allow the heads to go explode off, which according to legend, if the only want to truly kill a zombie.
+                    // This will allow the head to splode of, which accordingly to legendary legend, is the only went to truly kill a zombie.
                     _damageSource.DamageMultiplier = 1f;
                     // _strength = 1;
                     _damageSource.DismemberChance = 0.8f;

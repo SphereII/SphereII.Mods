@@ -10,6 +10,30 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.233.1938
+
+	[ Entity Alive Patch ]
+		- Added new cvar check to disable SpawnOnDeath
+			-> If a particular entity has a cvar called: NoSpawnOnDeath, then it will skip the SpawnOnDeath
+
+	[ Headshot Only Patch ]
+		- Fixed typos
+
+	[ Fire Manager ]
+		- If SmokeTime is set to 0 or below, no smoke will be placed.
+
+	[ 0-SCore Development ]
+		- Re-visited AssemblyInfo.tt and fixed up a issues, simplyfing it and adding leading 0s
+
+	[ SpawnCubeSDX ]
+		- Added new property called keep=0. This will keep the spawn block from destorying itself, which was affecting water spawned entities.
+
+		<block name="terrWaterSpawner">
+		  <property name="Extends" value="SpawnCube"/>
+		  <property name="Class" value="SpawnCube2SDX, SCore" />
+		  <property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0;keep=0" />
+	  </block>
+
 Version: 20.6.231.98
 
 	[ Entity Alive Patch ]

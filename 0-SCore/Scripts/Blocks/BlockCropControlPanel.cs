@@ -6,11 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Block that allows you to control the water pipes and systems in the enhanced farming features.
+/// </summary>
 public class BlockCropControlPanel : Block
 {
     private string controlPanelName = "CropControlPanel";
     private string activateSound;
 
+    /// <summary>
+    /// Default control options for the Control panel:
+    /// Enable Debugging
+    /// Disable Debugging
+    /// turnonWater: Allows water to flow past
+    /// turnoffWater: Blocks water from flowing past
+    /// </summary>
     private BlockActivationCommand[] cmds = new BlockActivationCommand[]
     {
         new BlockActivationCommand("debugcontrol_enable", "electric_switch", true, false),
@@ -42,6 +52,13 @@ public class BlockCropControlPanel : Block
         }
         return neighbors;
     }
+    
+    /// <summary>
+    /// Reads in the following Properties from the blocks.xml entry:
+    /// 
+    /// ControlPanelName: Used for display purposes
+    /// ActivateSound: The sound used to activate the block
+    /// </summary>
     public override void Init()
     {
         base.Init();

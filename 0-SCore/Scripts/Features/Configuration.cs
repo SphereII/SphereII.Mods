@@ -2,6 +2,14 @@
 
 public static class Configuration
 {
+  
+    //public static object GetCustomMenu()
+    //{
+    //    var strNamespace = "";
+    //    var strClass = "";
+    //    var myClassType = Type.GetType(String.Format("{0}.{1}", strNamespace, strClass));
+
+    //}
     public static bool CheckFeatureStatus(string strFeature)
     {
         var ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");

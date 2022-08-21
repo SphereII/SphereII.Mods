@@ -366,6 +366,7 @@ public class FireManager
         var _smokeSound = fireSound;
         if (block.Block.Properties.Contains("SmokeSound"))
             _smokeSound = block.Block.Properties.GetString("SmokeSound");
+
         return _smokeSound;
     }
     private string GetRandomFireParticle(Vector3i _blockPos)
@@ -409,6 +410,8 @@ public class FireManager
             _smokeParticle = smokeParticles[randomIndex];
 
         }
+
+
         return _smokeParticle;
     }
 
@@ -451,12 +454,13 @@ public class FireManager
 
         var matID = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialID");
         if (matID.Contains(blockMaterial.id)) return true;
+
         var matDamage = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialDamage");
-        if ( !string.IsNullOrEmpty(matDamage))
+        if ( !string.IsNullOrEmpty(matDamage) && blockMaterial.DamageCategory != null )
             if (matDamage.Contains(blockMaterial.DamageCategory)) return true;
 
         var matSurface = Configuration.GetPropertyValue(AdvFeatureClass, "MaterialSurface");
-        if (!string.IsNullOrEmpty(matSurface))
+        if (!string.IsNullOrEmpty(matSurface) && blockMaterial.SurfaceCategory != null)
             if (matSurface.Contains(blockMaterial.SurfaceCategory)) return true;
 
         return false;
@@ -608,14 +612,7 @@ public class FireManager
             Manager.BroadcastStop(_blockPos, fireSound);
 
             var _smokeParticle = GetRandomSmokeParticle(_blockPos);
-            //var _smokeParticle = smokeParticle;
-            //if (block.Block.Properties.Contains("SmokeParticle"))
-            //    _smokeParticle = block.Block.Properties.GetString("SmokeParticle");
-
-            //if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
-            //    _smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
-
-            if (!block.isair)
+            if (!block.isair && smokeTime > 0)
                 BlockUtilitiesSDX.addParticlesCentered(_smokeParticle, _blockPos);
         }
     }

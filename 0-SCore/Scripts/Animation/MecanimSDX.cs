@@ -3,6 +3,9 @@ using System.Reflection;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// Custom class for humanoid animators. Deprecated.
+/// </summary>
 internal class MecanimSDX : AvatarController
 {
     public float CheckDelay = 5f;

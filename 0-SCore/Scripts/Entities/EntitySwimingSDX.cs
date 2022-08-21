@@ -56,18 +56,34 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
-        if (!this.bIsUnderwater)
-            ForceDespawn();
         // Debug.Log("Position: " + this.position.ToString());
         //Debug.Log("Spawning Fish: " + this.entityName);
     }
 
+    public override void OnUpdateLive()
+    {
+        base.OnUpdateLive();
+
+        if ( world.GetBlock(GetBlockPosition()).Block is BlockLiquidv2)
+        {
+            Log.Out($"{EntityName} Is in water.");
+        }
+        else
+        {
+            Log.Out($"{EntityName} Is NOT in water.");
+            ForceDespawn();
+        }
+      //  if (!this.bIsUnderwater)
+        //    ForceDespawn();
+
+    }
 
     // While the fish are birds, we do want to adjust the way point settings, so they are not attracted to the air, but rather the water.
     public override void AdjustWayPoint()
     {
         var num = 255;
         var localWaypoint = new Vector3i(Waypoint);
+
         // if waypoint is in the air, keep dropping it until it's out of the air, and into the water.
         while (world.GetBlock(localWaypoint).type == BlockValue.Air.type && num > 0)
         {

@@ -92,7 +92,9 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
     private void DestroySelf(Vector3i _blockPos, BlockValue _blockValue)
     {
-        DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
+        var keep = PathingCubeParser.GetValue(_signText, "keep");
+        if ( string.IsNullOrEmpty(keep) )
+            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
     }
 
     public void ApplySignData(EntityAlive entity, Vector3i _blockPos)

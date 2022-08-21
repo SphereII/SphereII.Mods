@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Custom Animation Class for animals. Deprecated.
+/// </summary>
 internal class AvatarAnimalControllerSDX : AvatarAnimalController
 {
     private Transform rightHand;

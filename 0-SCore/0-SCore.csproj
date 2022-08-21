@@ -24,8 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>SCore.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -139,11 +138,6 @@
     <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AssemblyInfo.tt</DependentUpon>
-    </Compile>
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockCropControlPanel.cs" />
@@ -521,7 +515,7 @@
     <Content Include="Prefabs\sphereii_deepcaves_01.xml" />
     <Content Include="Properties\AssemblyInfo.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AssemblyInfo1.cs</LastGenOutput>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Lockpicking\README.txt.txt" />
   </ItemGroup>
