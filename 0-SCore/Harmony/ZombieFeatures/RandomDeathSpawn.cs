@@ -56,6 +56,15 @@ namespace Harmony.ZombieFeatures
                 var entity = EntityFactory.CreateEntity(EntityGroups.GetRandomFromGroup(strSpawnGroup, ref classID), __instance.position);
                 if (entity != null)
                 {
+                    var alivefromGroup = entity as global::EntityAlive; //Newly spawned entity from group
+                    if (alivefromGroup) //Variety of methods to add the cvar to the new entity in a variety of cases
+                    {
+                        if (alivefromGroup.Buffs.HasCustomVar("spawn2ndLife"))
+                            alivefromGroup.Buffs.SetCustomVar("spawn2ndLife", 1);
+                        else 
+                            alivefromGroup.Buffs.AddCustomVar("spawn2ndLife", 1);
+                    }
+
                     __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
                     GameManager.Instance.World.SpawnEntityInWorld(entity);
                     __instance.ForceDespawn();

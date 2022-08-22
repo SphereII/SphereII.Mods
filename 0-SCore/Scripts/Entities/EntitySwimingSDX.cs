@@ -64,18 +64,10 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
     {
         base.OnUpdateLive();
 
-        if ( world.GetBlock(GetBlockPosition()).Block is BlockLiquidv2)
+        if (!IsInWater())
         {
-            Log.Out($"{EntityName} Is in water.");
-        }
-        else
-        {
-            Log.Out($"{EntityName} Is NOT in water.");
             ForceDespawn();
         }
-      //  if (!this.bIsUnderwater)
-        //    ForceDespawn();
-
     }
 
     // While the fish are birds, we do want to adjust the way point settings, so they are not attracted to the air, but rather the water.

@@ -10,6 +10,21 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.234.911
+
+	[ EntityAlive Patch ]
+		- Added a chunk of Guppycode I missed
+
+	[ SpawnCubeSDX ]
+		- If the keep variable is on the Config line (the value does not matter.. keep=0), then it will not self-destroy
+			-> When keep is available, it'll set a scheduled update into the future.
+
+	[ Entity Swimming ]
+		- Fixed an issue where fish were outside of water
+
+	[ A Better Life ]
+		- Adjusted spawn rate in the biomes.xml for fish spawns.
+
 Version: 20.6.233.1938
 
 	[ Entity Alive Patch ]
