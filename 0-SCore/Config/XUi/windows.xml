@@ -19,5 +19,6 @@
 				visible="{broadcastManager}"
 				sound="[paging_click]" />
 	</append>
-	
+
+
 </configs>

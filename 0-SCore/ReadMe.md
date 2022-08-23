@@ -10,6 +10,25 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.235.1604
+
+	[ ObjectiveBlockDestroySDX ]
+		-> Added support for a comma-delimited list for the block names that are valid.
+			<objective type="BlockDestroySDX, SCore" id="woodChair1,officeChair01VariantHelper,woodChair1Broken" value="1" phase="2"/>
+		
+		-> Added support for comma-delimited list of tags. If the objective's ID does not match any known block, the objective will assume the id is a potential comma-delimited list of tags.
+			<objective type="BlockDestroySDX, SCore" id="ore,deepOre" value="1" phase="2"/>
+
+		-> Note: Order of checks is: comma-delimited block name, block name, comma-delimited tag. This is important because some tags will match a block name (terrGravel, wha u doin')
+
+		-> Note: Count is unified, so a woodChair1 and woodChair1Broken counts as 2 towards this objective 
+
+	[ XUI Menu ]
+		-> Added a Config/XUi_Menu/windows-Template.xm to expose over-ride options using w00kie n00kie's Custom Game Option mod: https://gitlab.com/wookienookie/CustomGameOptions.git
+			-> other settings can be exposed with just XML settings. Some documentation exists in the windows.xml on how to map the settings to the xui.
+			-> This file is just a template file. Using it as-is is NOT recommended, as it will not display properply.
+		-> This is an optional feature that will not work without the CustomGameOptions.
+
 Version: 20.6.234.911
 
 	[ EntityAlive Patch ]

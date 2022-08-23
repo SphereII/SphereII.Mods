@@ -49,6 +49,7 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
             return;
 
         getNavigator().setCanDrown(false);
+       
         //base.getNavigator().setInWater(true);
     }
     //}
@@ -66,7 +67,7 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
 
         if (!IsInWater())
         {
-            ForceDespawn();
+            MarkToUnload();
         }
     }
 

@@ -1,0 +1,67 @@
+﻿<configs>
+	<!-- 
+		The following window format exposes the configuration file from the Config/blocks.xml to w00kie n00kie's Custom Game Options mod
+				https://gitlab.com/wookienookie/CustomGameOptions.git
+
+			Format of SCore Naming example:
+					<block name="ConfigFeatureBlock">
+						<property class="AdvancedPlayerFeatures" >
+							<property name="AntiNerdPole" value="false" />
+			
+				name would be, without spaces:
+						Custom AdvancedPlayerFeatures AntiNerdPole
+	-->
+
+	<set xpath="/windows/window[@name='newContinueGame']/rect[@name='tabs']/rect[@name='tabsHeader']/grid[@name='tabButtons']/@cols">7</set>
+	<append xpath="/windows/window[@name='newContinueGame']/rect[@name='tabs']/rect[@name='tabsContents']" >
+		<rect tab_key="xuiSCoreGameOptions">
+			<grid style="scroll" pos="6,-40" rows="13" cell_width="525" cell_height="45" arrangement="vertical" >
+
+				<gameoption name="CustomFoodSpoilageFoodSpoilage" title="goCustomFoodSpoilageFoodSpoilage" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false" />
+
+				<!-- Player Features -->
+				<gameoption name="CustomAdvancedPlayerFeaturesAntiNerdPole" title="goCustomAdvancedPlayerFeaturesAntiNerdPole" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedPlayerFeaturesVehicleNoTake" title="goCustomAdvancedPlayerFeaturesVehicleNoTake" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedPlayerFeaturesOneBlockCrouch" title="goCustomAdvancedPlayerFeaturesOneBlockCrouch" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedPlayerFeaturesSoftHands" title="goCustomAdvancedPlayerFeaturesSoftHands" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedPlayerFeaturesExtendedSigns" title="goCustomAdvancedPlayerFeaturesExtendedSigns" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+
+				<!-- Zombie Features -->
+				<gameoption name="CustomAdvancedZombieFeaturesHeadshotOnly" title="goCustomAdvancedZombieFeaturesHeadshotOnly" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedZombieFeaturesRandomSize" title="goCustomAdvancedZombieFeaturesRandomSize" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedZombieFeaturesRandomWalk" title="goCustomAdvancedZombieFeaturesRandomWalk" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+
+				<!-- UI Options -->
+				<gameoption name="CustomAdvancedUIDisableXPIconNotification" title="goCustomAdvancedUIDisableXPIconNotification" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+
+				<!-- Cave System -->
+				<gameoption name="CustomCaveConfigurationCaveEnabled" title="goCustomCaveConfigurationCaveEnabled" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomCaveConfigurationCaveType" title="goCustomCaveConfigurationCaveType" value_wrap="false" value_type="string" values="All, Random, Mountains, DeepMountains" display_names="" value_localization_prefix="" default_value="All" />
+
+				<!-- Water System -->
+				<gameoption name="CustomCropManagementCropEnable" title="goCustomCropManagementCropEnable" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+
+				<!-- Fire System -->
+				<gameoption name="CustomFireManagementFireEnable" title="goCustomFireManagementFireEnable" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomFireManagementCheckInterval" title="goCustomFireManagementCheckInterval" value_wrap="false" value_type="int" values="" display_names="" value_localization_prefix="" is_textinput="true" default_value="20"/>
+				<gameoption name="CustomFireManagementFireDamage" title="goCustomFireManagementFireDamage" value_wrap="false" value_type="int" values="" display_names="" value_localization_prefix="" is_textinput="true" default_value="50"/>
+				<gameoption name="CustomFireManagementSmokeTime" title="goCustomFireManagementSmokeTime" value_wrap="false" value_type="int" values="" display_names="" value_localization_prefix="" is_textinput="true" default_value="60"/>
+
+				<!-- Fun Features -->
+				<gameoption name="CustomThemeSpook" title="goCustomThemeSpook" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+			</grid>
+		</rect>
+		<rect tab_key="xuiSCoreDebugGameOptions">
+			<grid style="scroll" pos="6,-40" rows="13" cell_width="525" cell_height="45" arrangement="vertical" >
+				<gameoption name="CustomErrorHandlingNoExceptionHijack" title="goCustomErrorHandlingNoExceptionHijack" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+
+				<gameoption name="CustomAdvancedTroubleshootingFeaturesVerboseXMLParser" title="goCustomAdvancedTroubleshootingFeaturesVerboseXMLParser" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedTroubleshootingFeaturesPhysicsBody" title="goCustomAdvancedTroubleshootingFeaturesPhysicsBody" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedTroubleshootingFeaturesAnimatorMapper" title="goCustomAdvancedTroubleshootingFeaturesAnimatorMapper" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+				<gameoption name="CustomAdvancedTroubleshootingFeaturesComponentMapper" title="goCustomAdvancedTroubleshootingFeaturesComponentMapper" value_wrap="false" value_type="bool" values="" display_names="" value_localization_prefix="" default_value="false"/>
+			</grid>
+		</rect>
+
+	</append>
+
+</configs>
