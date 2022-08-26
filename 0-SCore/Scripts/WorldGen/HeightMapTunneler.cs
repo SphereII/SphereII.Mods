@@ -39,12 +39,12 @@ public static class HeightMapTunneler
 
         var color = caveMapColor[numX, numZ];
 
-        Log.Out("Color: " + color.g + " " + color.ToString() + " Location: " + x + " " + z);
-        if ( color.g == 1) return -1f;
+        //Log.Out("Color: " + color.g + " " + color.ToString() + " Location: " + x + " " + z);
+        if ( color.g == 1 || color.g == 0) return -1f;
 
         //if (color.r == color.g && color.r == color.b )
         {
-            Log.Out("Color: " + color.g + " " + color.ToString() +  " Location: " + x + " " + z) ;
+           // Log.Out("Color: " + color.g + " " + color.ToString() +  " Location: " + x + " " + z) ;
             // color.g = 150 / 255 = 0.58
             float result = color.g / 255;
             //float result = color.grayscale;
@@ -56,10 +56,12 @@ public static class HeightMapTunneler
 
             var result2 = (tHeight * (result / 100));
 
-        //    Log.Out("tHeight * ( result / 100 ) THeight: " + tHeight + " Result2: " + result2) ;
+            // tHeight * ( result / 100 ) THeight: 60 Result2: 0.1910035 Result: 0.3183391
+            //Log.Out("tHeight * ( result / 100 ) THeight: " + tHeight + " Result2: " + result2 + " Result: " + result) ;
+
+            if (result == 0) return -1f;
         //    Log.Out("------------");
 
-            if (result2 > 255 || result2 < 1) return -1;
             return result2 * 100;
         }
 
@@ -187,7 +189,7 @@ public static class HeightMapTunneler
     // Generate a prefab to push around.
     public static void CreateEmptyPrefab(Chunk chunk, Vector3i position)
     {
-        var prefab = new Prefab(new Vector3i(3, 3, 3));
+        var prefab = new Prefab(new Vector3i(3, 4, 3));
         prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
     }
 
@@ -216,6 +218,9 @@ public static class HeightMapTunneler
 
         var caveThresholdXZ = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveThresholdXZ"));
         var caveThresholdY = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "CaveThresholdY"));
+
+        var cavePrefab = Configuration.GetPropertyValue(AdvFeatureClass, "CavePrefab");
+
         for (var chunkX = 0; chunkX < 16; chunkX++)
         {
             for (var chunkZ = 0; chunkZ < 16; chunkZ++)
@@ -226,12 +231,27 @@ public static class HeightMapTunneler
                 var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
 
                 var targetDepth = GetTargetHeight(worldX, worldZ, tHeight);
+              //  Log.Out("Target Depth: " + targetDepth);
+                if (targetDepth == -1)  continue;
+                if (targetDepth > tHeight + 1) continue;
+                if (targetDepth < 5) continue;
+
+                //               var noise = GetPixel(worldX, worldZ);
                 //                var noise = GetPixel(worldX, worldZ);
                 //                var targetDepth = (int)(noise * 100);
 
-                if (targetDepth == -1) continue;
+                //if (noise == -1) continue;
+                //if (noise == 1) continue;
 
+
+                //var targetDepth = tHeight * noise;
+
+                // world position
                 var _blockPos = new Vector3i(worldX, targetDepth, worldZ);
+
+                // Chunk position
+                var position = new Vector3i(chunkX, targetDepth, chunkZ);
+
 
                 Log.Out($"Target Depth: {targetDepth} BlockPos: {_blockPos} Chunk Location: {new Vector3i(chunkX, targetDepth, chunkZ)}");
 
@@ -239,17 +259,28 @@ public static class HeightMapTunneler
                 //{
                 //    targetDepth = tHeight;
                 //}
-                if (targetDepth < 5) continue;
 
              //   var block = chunk.GetBlock(chunkX, targetDepth, chunkZ);
                 //if (block.isair) continue;
 
+                if (cavePrefab == "Large")
+                {
+                    CreateEmptyPrefab(chunk, _blockPos);
+                }
+                else if ( cavePrefab == "Medium")
+                {
+                    PlaceAround(chunk, position);
+                }
+                else
+                {
+                    PlaceBlock(chunk, position);
+                }
                 //Changes.Add(new BlockChangeInfo(0, _blockPos, BlockValue.Air));
-                var position = new Vector3i(chunkX, targetDepth, chunkZ);
-                PlaceBlock(chunk, position);
+
+//                PlaceBlock(chunk, position);
                 //PlaceBlock(chunk, position + Vector3i.up);
                 //PlaceBlock(chunk, position + Vector3i.down);
-               // CreateEmptyPrefab(chunk, _blockPos);
+                
 
             }
         }

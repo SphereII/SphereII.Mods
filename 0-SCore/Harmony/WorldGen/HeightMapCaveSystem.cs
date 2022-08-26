@@ -13,12 +13,24 @@ namespace Harmony.WorldGen
         [HarmonyPatch("createWorld")]
         public class SCoreHeightMapCaveSystemGameManager
         {
+            private static readonly string AdvFeatureClass = "CaveConfiguration";
+            private static readonly string CavePath = "CavePath";
+            private static readonly string Feature = "CaveEnabled";
             public static void Postfix(string _sWorldName)
             {
-                var path = PathAbstractions.WorldsSearchPaths.GetLocation(_sWorldName, null, null).FullPath + "/cave8.png";
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return;
+
+                var caveStamp = Configuration.GetPropertyValue(AdvFeatureClass, CavePath);
+
+                var path = "";
+                path = ModManager.PatchModPathString(caveStamp);
+                if ( string.IsNullOrEmpty(path ))
+                    path = PathAbstractions.WorldsSearchPaths.GetLocation(_sWorldName, null, null).FullPath + "/cave6.png";
+
                 if (!File.Exists(path))
                 {
-                    Log.Out("No Cave Map.");
+                    Log.Out("No Cave Map: " + path);
                     return;
 
                 }
@@ -29,6 +41,7 @@ namespace Harmony.WorldGen
                 {
                     Log.Out($"Generated Texture from {path}: {texture2D.width} {texture2D.height}");
                     HeightMapTunneler.caveMapColor = new Color[texture2D.width, texture2D.height];
+                    bool foundCave = false;
                     for (int y = 0; y < texture2D.height; y++)
                     {
                         var textwidth = "";
@@ -36,9 +49,14 @@ namespace Harmony.WorldGen
                         {
                             var pixel = texture2D.GetPixel(x, y);
                             textwidth += " " + pixel.grayscale;
+                            if (pixel.grayscale > 0 && !foundCave && pixel.grayscale != 1)
+                            {
+                                Debug.Log("Cave Teleport: " + x + " " + y);
+                                foundCave = true;
+                            }
                             HeightMapTunneler.caveMapColor[x, y] = pixel;
                         }
-                        Log.Out($"{y} 0 : {textwidth}");
+                        Debug.Log($"{y} 0 : {textwidth}");
                     }
 
                 }

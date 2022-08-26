@@ -10,6 +10,41 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.238.1937
+
+	[ Cave System ]
+		- Initial implementation of Heighmap cave system.
+		- Samples under 0-SCore/Caves/Stamps
+		- To enable Height Map Caves using xpath:
+
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveEnabled']/@value">true</set>
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='GenerationType']/@value">HeightMap</set>
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePath']/@value">@modfolder:/Caves/Stamps/cave11.png</set>
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePrefab']/@value">Large</set>
+
+		- Default is cave11.png
+
+		- Teleport to 0 0, then look for underground. The top corner of your target png is currently set to 0,0
+			-> You can also look at the log for:
+				Cave Teleport: 
+
+				This will give you the coordinates to teleport to. Example:
+					Cave Teleport: 57 0
+
+					teleport 57 0
+
+		- Log file is kind of spammy.
+			- During initial load up, it will display lines of numbers for the cave mapping as the system sees it.
+			- When a cave is being drawn, it'll display Target Depth.
+
+		- The CavePrefabs placeholders are currently defined as follows:
+			Large:  3x4x3 block of air
+			Medium: roughly 3x1x3
+			Small:	1x1x1
+
+			- This will be fleshed out more, but this is what you can start off with. I don't find Medium and Small very useful, but your heightmaps may need adjustments
+
+
 Version: 20.6.238.1305
 
 	[ Fire Manager ]

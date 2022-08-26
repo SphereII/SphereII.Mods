@@ -226,6 +226,9 @@
 				<property name="Logging" value="false"/>
 				<property name="CaveEnabled" value="false"/>
 
+				<property name="CavePath" value="@modfolder:/Caves/Stamps/cave11.png" />
+				<property name="CavePrefab" value="Large" />
+				
 				<!-- Legacy is the original style.  Sebastian is an alternative, FastNosieSIMD -->
 				<property name="GenerationType" value="Legacy" />
 				<!-- Generate cave system only in mountains (above terrain height 100, or random through the map. All for every chunk has a cave system ) -->
