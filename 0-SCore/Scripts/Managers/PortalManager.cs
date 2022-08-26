@@ -221,35 +221,6 @@ public class PortalManager
         return first;
     }
 
-    //        return first;
-    //        //ChunkCluster chunkCluster = GameManager.Instance.World.ChunkClusters[0];
-    //        //HashSetLong hashSetLong = prefabInstance.GetOccupiedChunks();
-    //        //var boundingBoxPosition = prefabInstance.boundingBoxPosition;
-    //        //var boundingBoxSize = prefabInstance.boundingBoxSize;
-    //        //List<TileEntity> list = new List<TileEntity>();
-    //        //foreach (long key2 in hashSetLong)
-    //        //{
-    //        //    Chunk chunkSync2 = chunkCluster.GetChunkSync(key2);
-    //        //    if (chunkSync2 != null)
-    //        //    {
-    //        //        list.Clear();
-    //        //        List<TileEntity> list2 = chunkSync2.GetTileEntities().list;
-    //        //        for (int i = list2.Count - 1; i >= 0; i--)
-    //        //        {
-    //        //            Vector3i vector3i = list2[i].ToWorldPos();
-    //        //            if (boundingBoxPosition.x <= vector3i.x && boundingBoxPosition.y <= vector3i.y && boundingBoxPosition.z <= vector3i.z && boundingBoxPosition.x + boundingBoxSize.x > vector3i.x
-    //        //                && boundingBoxPosition.y + boundingBoxSize.y > vector3i.y && boundingBoxPosition.z + boundingBoxSize.z > vector3i.z)
-    //        //            {
-    //        //                AddPosition(vector3i);
-    //        //            }
-
-    //        //        }
-    //        //    }
-    //        //}
-
-    ////
-    //        return prefabInstance.boundingBoxPosition;
-
 
     // Dialog / Buff teleportation.
     public Vector3i GetDestination(string location)

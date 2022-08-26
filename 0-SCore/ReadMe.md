@@ -10,6 +10,28 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.238.1305
+
+	[ Fire Manager ]
+		- Updated two Harmony patches that give buffs to check if the block is on fire and has a particle.
+
+	[ Random Death Spawn ]
+		- Removed blocking Check:
+			if (__instance.Buffs.HasCustomVar("NoSpawnOnDeath")) return true ;
+		
+			- Added another line of guppy code to prevent spawns:
+			if (strSpawnGroup == "SpawnNothing") return true;
+
+		- Resynced Guppycur's changes
+
+		- If an entity has a custom cvar called RandomSize, and a custom cvar called SpawnCopyScale, the newly spawned entity will spawn with the same scale as the original
+
+	[ UMA ]
+		- Brought forward some UMA patches that are disabled by default; toggle in Config/blocks.xml
+			-> If UMAs are set to type="Zombie", create the Data/UMATextures Folder
+				-> If UMATweaks is enabled, this folder is created when a type is Zombie.
+			-> If UMAs are set to type="Player", you do not need a Data/UMATextures folder
+
 Version: 20.6.235.1604
 
 	[ ObjectiveBlockDestroySDX ]

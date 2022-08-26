@@ -16,7 +16,7 @@ namespace SCore.Harmony.Blocks
                 if (__instance is EntityVehicle) return;
 
                 Vector3i blockPosition = __instance.GetBlockPosition();
-                if (FireManager.Instance.isBurning(blockPosition))
+                if (FireManager.Instance.isBurning(blockPosition) && GameManager.Instance.HasBlockParticleEffect(blockPosition))
                 {
                     var buff = Configuration.GetPropertyValue("FireManagement", "BuffOnFire");
                     if (!string.IsNullOrEmpty(buff))

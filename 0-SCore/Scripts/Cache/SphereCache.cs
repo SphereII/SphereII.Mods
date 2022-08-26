@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using WorldGenerationEngineFinal;
 using Random = System.Random;
 
 public static class SphereCache
@@ -126,6 +127,10 @@ public static class SphereCache
                     //// Add an empty vector for the caveChunks so we don't re-generate.
                     caveChunks.Add(new Vector3i(0,0,0));
                     return;
+                case "HeighMap":
+                  //  HeightMapTunneler.Init();
+                 //   caveChunks.Add(new Vector3i(0, 0, 0));
+                  //  return;
                 default:
                     break;
             }
@@ -156,9 +161,8 @@ public static class SphereCache
                     display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
                     AdvLogging.DisplayLog(AdvFeatureClass, display);
                     Debug.Log(display);
+                    
 
-
-                
 
                 }
 

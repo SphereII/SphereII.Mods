@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Sebastian
+public static class Sebastian 
 {
     private static readonly string AdvFeatureClass = "CaveConfiguration";
     // private static FastNoise fastNoise;

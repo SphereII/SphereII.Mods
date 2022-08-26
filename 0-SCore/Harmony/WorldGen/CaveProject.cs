@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -262,11 +263,12 @@ namespace Harmony.WorldGen
             }
         }
 
+      
 
         [HarmonyPatch(typeof(TerrainGeneratorWithBiomeResource))]
         [HarmonyPatch("GenerateTerrain")]
         [HarmonyPatch(new[] { typeof(World), typeof(Chunk), typeof(GameRandom), typeof(Vector3i), typeof(Vector3i), typeof(bool), typeof(bool) })]
-        public class CaveProjectTerrainGeneratorWithBiomoeResource
+        public class CaveProjectTerrainGeneratorWithBiomeResource
         {
             public static void Postfix(Chunk _chunk)
             {
@@ -283,6 +285,13 @@ namespace Harmony.WorldGen
                         break;
                     case "Sebastian":
                         Sebastian.AddCaveToChunk(_chunk);
+                        break;
+
+                    case "HeightMap":
+                        HeightMapTunneler.AddCaveToChunk(_chunk);
+                        break;
+                    case "PathingWorm":
+                        PathingWormTunneler.AddCaveToChunk(_chunk);
                         break;
                     //case "FastNosieSIMD":
                     //    TerrainGeneratorSIMD_Caves.GenerateChunk(_chunk);
@@ -318,6 +327,9 @@ namespace Harmony.WorldGen
                     case "Sebastian":
                         Sebastian.AddDecorationsToCave(_chunk);
                         break;
+                    case "HeightMap":
+                        HeightMapTunneler.AddDecorationsToCave(_chunk);
+                        break;
                     default:
                         break;
                 }
@@ -347,7 +359,7 @@ namespace Harmony.WorldGen
                     foreach (var individualInstance in prefabs.FindAll(instance => instance.name.Contains(sister)))
                     {
                         var pos = individualInstance.boundingBoxPosition;
-                        var size = 200;
+                        var size = 400;
                         counter++;
                         Log.Out($"Generating Cave at {pos} of size {size}...");
                         Sebastian.GenerateCave(pos, size, size);

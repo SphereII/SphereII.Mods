@@ -214,14 +214,7 @@
             <property name="EntityActiveWhen" value="night" />
             <property name="EntityActiveWhen" value="day" />
         </member>
-        <member name="T:Harmony.ZombieFeatures.SCoreRandomDeathSpawn">
-            SCoreRandomDeathSpawn
-            
-            This class includes a Harmony patch allows a new entity from a spawn group to spawn on the death of the original.
-            
-            Usage XML entityclasses.xml
-            <property name="SpawnOnDeath" value="mySpawnGroup" />
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:Harmony.ZombieFeatures.SCoreRandomDeathSpawn" -->
         <member name="T:Harmony.ZombieFeatures.RandomSize">
             SCoreRandomSize
             

@@ -11,7 +11,6 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
         if (FireManager.Instance.Enabled == false) return;
 
         var position = _params.Position;
-
         if (targetType != TargetTypes.positionAOE)
         {
             if (Voxel.voxelRayHitInfo.bHitValid)

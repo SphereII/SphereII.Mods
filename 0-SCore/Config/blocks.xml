@@ -112,6 +112,9 @@
 
 				<property name="SmarterEntities" value="false" />
 				<!-- gives trap avoidance to entities. -->
+
+				<property name="UMATweaks"  value="false" /> 	<!-- Improvements on reducing load times of UMA Zombies -->
+				<property name="LowerResolutionUMA" value="false" /> 	<!-- Lower resolution on UMAs drastically -->
 			</property>
 
 			<property class="AdvancedProgression">
