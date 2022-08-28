@@ -30,7 +30,7 @@ public static class HeightMapTunneler
         return noise;
     }
 
-    public static float GetTargetHeight( int x, int z, int tHeight)
+    public static float GetTargetHeight(int x, int z, int tHeight)
     {
         int numX = Mathf.Abs(x);
         int numZ = Mathf.Abs(z);
@@ -39,30 +39,23 @@ public static class HeightMapTunneler
 
         var color = caveMapColor[numX, numZ];
 
-        //Log.Out("Color: " + color.g + " " + color.ToString() + " Location: " + x + " " + z);
-        if ( color.g == 1 || color.g == 0) return -1f;
+        if (color.g == 255)
+            return tHeight;
 
-        //if (color.r == color.g && color.r == color.b )
+        // Check to make sure its gray
+        if (color.r == color.g && color.r == color.b )
         {
-           // Log.Out("Color: " + color.g + " " + color.ToString() +  " Location: " + x + " " + z) ;
             // color.g = 150 / 255 = 0.58
             float result = color.g / 255;
-            //float result = color.grayscale;
-    //       Log.Out(" Dividied by 255: " + result);
 
             // 58 = 0.58 * 100
+            // Round up the value
             result *= 100;
-         //   Log.Out("Multiply by 100 " + result);
 
-            var result2 = (tHeight * (result / 100));
 
-            // tHeight * ( result / 100 ) THeight: 60 Result2: 0.1910035 Result: 0.3183391
-            //Log.Out("tHeight * ( result / 100 ) THeight: " + tHeight + " Result2: " + result2 + " Result: " + result) ;
-
-            if (result == 0) return -1f;
-        //    Log.Out("------------");
-
-            return result2 * 100;
+            var result2 = tHeight * (result / 100) ;
+            result2 *= 100;
+            return result2;
         }
 
         return -1f;
@@ -70,6 +63,11 @@ public static class HeightMapTunneler
     public static void AddCaveToChunk(Chunk chunk)
     {
         if (chunk == null)
+            return;
+
+        if (caveMapColor == null)
+            return;
+        if (caveMapColor.Length == 0)
             return;
 
         var chunkPos = chunk.GetWorldPos();
@@ -231,20 +229,6 @@ public static class HeightMapTunneler
                 var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
 
                 var targetDepth = GetTargetHeight(worldX, worldZ, tHeight);
-              //  Log.Out("Target Depth: " + targetDepth);
-                if (targetDepth == -1)  continue;
-                if (targetDepth > tHeight + 1) continue;
-                if (targetDepth < 5) continue;
-
-                //               var noise = GetPixel(worldX, worldZ);
-                //                var noise = GetPixel(worldX, worldZ);
-                //                var targetDepth = (int)(noise * 100);
-
-                //if (noise == -1) continue;
-                //if (noise == 1) continue;
-
-
-                //var targetDepth = tHeight * noise;
 
                 // world position
                 var _blockPos = new Vector3i(worldX, targetDepth, worldZ);
@@ -255,19 +239,16 @@ public static class HeightMapTunneler
 
                 Log.Out($"Target Depth: {targetDepth} BlockPos: {_blockPos} Chunk Location: {new Vector3i(chunkX, targetDepth, chunkZ)}");
 
-                //if (targetDepth == 100 )
-                //{
-                //    targetDepth = tHeight;
-                //}
+                if (targetDepth == -1) continue;
+                if (targetDepth > tHeight + 1) continue;
+                if (targetDepth < 5) continue;
 
-             //   var block = chunk.GetBlock(chunkX, targetDepth, chunkZ);
-                //if (block.isair) continue;
-
+                Log.Out("Adding Prefab...");
                 if (cavePrefab == "Large")
                 {
                     CreateEmptyPrefab(chunk, _blockPos);
                 }
-                else if ( cavePrefab == "Medium")
+                else if (cavePrefab == "Medium")
                 {
                     PlaceAround(chunk, position);
                 }
@@ -276,18 +257,8 @@ public static class HeightMapTunneler
                     PlaceBlock(chunk, position);
                 }
                 //Changes.Add(new BlockChangeInfo(0, _blockPos, BlockValue.Air));
-
-//                PlaceBlock(chunk, position);
-                //PlaceBlock(chunk, position + Vector3i.up);
-                //PlaceBlock(chunk, position + Vector3i.down);
-                
-
             }
         }
-
-        //        Log.Out($"Syncing {Changes.Count}...");
-        //        GameManager.Instance.SetBlocksRPC(Changes);
-
     }
 
     // Helper method is check the prefab decorator first to see if its there, then create it if it does not exist.

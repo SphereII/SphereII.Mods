@@ -38,6 +38,8 @@ public class FireManager
     {
         get
         {
+            if ( instance == null)
+                instance = new FireManager();
             return instance;
         }
     }

@@ -128,6 +128,7 @@
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
     <Compile Include="Harmony\Vehicles\NoVechileTake.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
+    <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiController.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
+    <Compile Include="Harmony\ZombieFeatures\UMA\LowerResolutionUMA.cs" />
+    <Compile Include="Harmony\ZombieFeatures\UMA\UMATweaks.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockCropControlPanel.cs" />
@@ -403,10 +407,12 @@
     <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
     <Compile Include="Scripts\Managers\CropManager.cs" />
+    <Compile Include="Scripts\WorldGen\HeightMapTunneler.cs" />
     <Compile Include="Scripts\WorldGen\LegacyCaveTunneler.cs" />
     <Compile Include="Scripts\WorldGen\SebastianCaveTunneler.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\FastNoise.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\MapGenerator.cs" />
+    <Compile Include="Scripts\WorldGen\Utilities\PathingWormTunneler.cs" />
     <Compile Include="Scripts\WorldGen\WinterProjectPrefab.cs" />
     <Compile Include="Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogHireInformationSDX.cs" />

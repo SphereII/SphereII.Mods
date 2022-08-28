@@ -226,7 +226,7 @@
 				<property name="Logging" value="false"/>
 				<property name="CaveEnabled" value="false"/>
 
-				<property name="CavePath" value="@modfolder:/Caves/Stamps/cave11.png" />
+				<property name="CavePath" value="@modfolder:/Caves/Stamps/cave1.png" />
 				<property name="CavePrefab" value="Large" />
 				
 				<!-- Legacy is the original style.  Sebastian is an alternative, FastNosieSIMD -->
