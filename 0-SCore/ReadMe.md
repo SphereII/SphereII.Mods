@@ -10,6 +10,11 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.242.1151
+
+	[ Cave Manager ]
+		- Adjusted math for Heigh map
+
 Version: 20.6.240.913
 
 	[ Fire Manager ]
