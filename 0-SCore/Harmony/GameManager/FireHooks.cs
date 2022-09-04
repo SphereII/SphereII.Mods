@@ -18,7 +18,7 @@ namespace SCore.Harmony.GameManagerPatches
         {
             public static void Postfix()
             {
-                FireManager.Init();
+              //  FireManager.Init();
 
             }
         }

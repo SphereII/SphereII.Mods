@@ -127,10 +127,9 @@ public static class SphereCache
                     //// Add an empty vector for the caveChunks so we don't re-generate.
                     caveChunks.Add(new Vector3i(0,0,0));
                     return;
-                case "HeighMap":
+                case "HeightMap":
                   //  HeightMapTunneler.Init();
-                 //   caveChunks.Add(new Vector3i(0, 0, 0));
-                  //  return;
+                    break;
                 default:
                     break;
             }
@@ -142,10 +141,6 @@ public static class SphereCache
             AdvLogging.DisplayLog(AdvFeatureClass, display);
 
             var RandomCavePoints = FindRandomPoints(MaxCount);
-            //var RandomCavePoints = GameManager.Instance.World.GetRandomSpawnPointPositions(MaxCount);
-
-            //for (int x = 0; x < 10; x++)
-            //{
             for (var i = 0; i < RandomCavePoints.Length; i++)
             {
                 var randomChunkPosition = RandomCavePoints[i]; //vector3i world pos

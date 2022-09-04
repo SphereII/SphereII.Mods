@@ -31,81 +31,77 @@ public class FireManager
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
     static Thread mainThread = Thread.CurrentThread;
 
-    private static BlockValue burntGround;
-
     public bool Enabled { private set; get; }
     public static FireManager Instance
     {
         get
         {
-            if ( instance == null)
+            if (instance == null)
+            {
                 instance = new FireManager();
+                instance.Init();
+            }
             return instance;
         }
     }
-    public static void Init()
+    public void Init()
     {
-        FireManager.instance = new FireManager();
         var option = Configuration.GetPropertyValue(AdvFeatureClass, "FireEnable");
         if (!StringParsers.ParseBool(option))
         {
             Log.Out("Fire Manager is disabled.");
-            FireManager.Instance.Enabled = false;
+            Enabled = false;
             return;
         }
 
-
-        FireManager.Instance.random = GameManager.Instance.World.GetGameRandom();
-
-        FireManager.Instance.Enabled = true;
+        Enabled = true;
         option = Configuration.GetPropertyValue(AdvFeatureClass, "CheckInterval");
         if (!string.IsNullOrEmpty(option))
-            FireManager.Instance.checkTime = StringParsers.ParseFloat(option);
+            checkTime = StringParsers.ParseFloat(option);
 
         var strDamage = Configuration.GetPropertyValue(AdvFeatureClass, "FireDamage");
         if (!string.IsNullOrWhiteSpace(strDamage))
-            FireManager.Instance.fireDamage = StringParsers.ParseFloat(strDamage);
-        FireManager.Instance.currentTime = -1;
+            fireDamage = StringParsers.ParseFloat(strDamage);
+        currentTime = -1;
 
         var heatMap = Configuration.GetPropertyValue(AdvFeatureClass, "HeatMapStrength");
         if (!string.IsNullOrWhiteSpace(heatMap))
-            FireManager.Instance.heatMapStrength = StringParsers.ParseFloat(heatMap);
+            heatMapStrength = StringParsers.ParseFloat(heatMap);
 
         var smoke = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeTime");
         if (!string.IsNullOrWhiteSpace(smoke))
-            FireManager.Instance.smokeTime = StringParsers.ParseFloat(smoke);
+            smokeTime = StringParsers.ParseFloat(smoke);
 
         var strFireSound = Configuration.GetPropertyValue(AdvFeatureClass, "FireSound");
         if (!string.IsNullOrWhiteSpace(strFireSound))
-            FireManager.Instance.fireSound = strFireSound;
+            fireSound = strFireSound;
 
         var strSmokeSound = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeSound");
         if (!string.IsNullOrWhiteSpace(strSmokeSound))
-            FireManager.Instance.smokeSound = strSmokeSound;
+            smokeSound = strSmokeSound;
 
         Log.Out("Starting Fire Manager");
 
-        FireManager.Instance.fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
-        FireManager.Instance.smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
-        burntGround = new BlockValue((uint)Block.GetBlockByName("terrBurntForestGround").blockID);
+        fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
+        smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
 
         // Register the particle effects before anything. This is causing the Unknown Particle warnings. 
-      //  ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.fireParticle);
-//        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.smokeParticle);
+        //  ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.fireParticle);
+        //        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.smokeParticle);
 
         // Read the FireManager
-        FireManager.Instance.Load();
+        Load();
 
-        if ( !GameManager.IsDedicatedServer)
-            ModEvents.GameUpdate.RegisterHandler(new Action(FireManager.Instance.LightsUpdate));
-
-        ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
+        
+        ModEvents.GameShutdown.RegisterHandler(new Action(CleanUp));
 
         // Only run the Update on the server, then just distribute the data to the clients using NetPackages.
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            Log.Out($" :: Fire Interval Check time: {FireManager.Instance.checkTime}");
-            ModEvents.GameUpdate.RegisterHandler(new Action(FireManager.Instance.FireUpdate));
+            Log.Out($" :: Fire Interval Check time: {checkTime}");
+            ModEvents.GameUpdate.RegisterHandler(new Action(FireUpdate));
+            ModEvents.GameUpdate.RegisterHandler(new Action(LightsUpdate));
+
         }
     }
 
@@ -246,6 +242,8 @@ public class FireManager
 
     public void CheckBlocks()
     {
+        if (GameManager.Instance.IsPaused()) return;
+
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
 
@@ -348,7 +346,7 @@ public class FireManager
         foreach (var pos in neighbors)
             Add(pos);
 
-        Save();
+         Save();
     }
 
     private string GetFireSound( Vector3i _blockPos)
@@ -641,6 +639,8 @@ public class FireManager
 
     public bool isBurning(Vector3i _blockPos)
     {
+        if (FireManager.Instance.Enabled == false) return false;
+
         return FireMap.ContainsKey(_blockPos);
     }
     private int saveDataThreaded(ThreadManager.ThreadInfo _threadInfo)

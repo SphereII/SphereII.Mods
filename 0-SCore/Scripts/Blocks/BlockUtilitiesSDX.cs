@@ -76,6 +76,8 @@ public static class BlockUtilitiesSDX
 
     public static void addParticles(string strParticleName, Vector3i position)
     {
+        if (GameManager.IsDedicatedServer) return;
+
         if (strParticleName == null || strParticleName == "")
             strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 

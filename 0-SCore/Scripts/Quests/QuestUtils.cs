@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
 public static class QuestUtils
     {
 
+   
     public static PrefabInstance FindPrefab(string poiName, Vector3 startPosition, ref List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome, string biomeFilter = "")
     {
         //var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(poiName));
@@ -305,14 +307,14 @@ public static class QuestUtils
             return false;
         }
 
-        if (!prefab.prefab.GetQuestTag(questTag))
-        {
-            if (LoggingEnabled)
-            {
-                Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
-            }
-            return false;
-        }
+        //if (!prefab.prefab.GetQuestTag(questTag))
+        //{
+        //    if (LoggingEnabled)
+        //    {
+        //        Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
+        //    }
+        //    return false;
+        //}
 
         Vector2 poiLocation = new Vector2(prefab.boundingBoxPosition.x, prefab.boundingBoxPosition.z);
 

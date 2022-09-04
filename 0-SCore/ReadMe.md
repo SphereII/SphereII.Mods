@@ -10,6 +10,33 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.247.1047
+
+	[ Entity Stats ]
+		Using patch from haidr'gna.  Sets cvars on the character that contains the current rain fall, current snow fall, and current cloud percent
+
+		CVar:
+			_sc_rain
+			_sc_snow
+			_sc_cloud
+
+		    __instance.Entity.Buffs.SetCustomVar("_sc_rain", rain, true);
+            __instance.Entity.Buffs.SetCustomVar("_sc_snow", snow, true);
+            __instance.Entity.Buffs.SetCustomVar("_sc_cloud", cloud, true);
+
+	[ Fire Manager ]
+		
+		- If an entity has a property set for SpreadFire set to false, an explosion from it will not spread the fire.
+			<property name="SpreadFire" value="false" />
+
+		- If an entity has a cvar called SpreadFire, and is set to -1, an explosion from it will not spread the fire.
+
+		- Commented out OnEntityWalkingPatchFire, as I believe UpdateCurrentPositionAndValue patch is sufficient to catch an entity on fire.
+
+	[ Block Utilities ]
+		- Added a check to not add particles if the system is on a dedicated server
+
+
 Version: 20.6.242.1151
 
 	[ Cave Manager ]

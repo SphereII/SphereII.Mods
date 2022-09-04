@@ -10,11 +10,6 @@ namespace SCore.Harmony.Blocks
         {
             public static void Postfix(EntityAlive __instance)
             {
-                if (FireManager.Instance.Enabled == false) return;
-
-                if (__instance == null) return ;
-                if (__instance is EntityVehicle) return;
-
                 Vector3i blockPosition = __instance.GetBlockPosition();
                 if (FireManager.Instance.isBurning(blockPosition) && GameManager.Instance.HasBlockParticleEffect(blockPosition))
                 {
@@ -22,6 +17,7 @@ namespace SCore.Harmony.Blocks
                     if (!string.IsNullOrEmpty(buff))
                         __instance.Buffs.AddBuff(buff);
                 }
+
             }
         }
 

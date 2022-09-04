@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 using UnityEngine;
 using WorldGenerationEngineFinal;
 
 public static class HeightMapTunneler
 {
     private static readonly string AdvFeatureClass = "CaveConfiguration";
+    private static readonly string CavePath = "CavePath";
+    private static readonly string Feature = "CaveEnabled";
+
     private static FastNoise fastNoise;
 
     // Special air that has stability
@@ -18,6 +21,40 @@ public static class HeightMapTunneler
 
     public static Color[,] caveMapColor;
     public static HeightMap heightMap;
+
+    public static void Init()
+    {
+        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+            return;
+
+        var caveStamp = Configuration.GetPropertyValue(AdvFeatureClass, CavePath);
+
+        var path = "";
+        path = ModManager.PatchModPathString(caveStamp);
+        if (!File.Exists(path))
+        {
+            Log.Out("No Cave Map: " + path);
+            return;
+
+        }
+
+        Texture2D texture2D = TextureUtils.LoadTexture(path, FilterMode.Point, false, false, null);
+        Log.Out($"Generating Texture from {path}: {texture2D.width} {texture2D.height}");
+        HeightMapTunneler.caveMapColor = new Color[texture2D.width, texture2D.height];
+        for (int y = 0; y < texture2D.height; y++)
+        {
+            for (int x = 0; x < texture2D.width; x++)
+            {
+                var pixel = texture2D.GetPixel(x, y);
+                if ( pixel.r == 255)
+                    SphereCache.caveEntrances.Add(new Vector3i(x, 1, y));
+
+                HeightMapTunneler.caveMapColor[x, y] = pixel;
+            }
+        }
+
+
+    }
 
     public static float GetPixel(int x, int z)
     {
@@ -38,9 +75,9 @@ public static class HeightMapTunneler
         int tHeight = 0;
         int width = caveMapColor.GetLength(0);
         int height = caveMapColor.GetLength(1);
-        for(int x = 0; x< width; x++)
+        for (int x = 0; x < width; x++)
         {
-            for(int z = 0; z< height; z++)
+            for (int z = 0; z < height; z++)
             {
                 var value = caveMapColor[x, z];
                 if (value.g > 200)
@@ -88,15 +125,15 @@ public static class HeightMapTunneler
             return -1f;
 
         var color = caveMapColor[numX, numZ];
-        
+
 
         if (color.r == 0 || color.g == 1)
         {
             Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ}  Color Code r or g is 0. Skipping. ");
             return -1;
         }
-   
-        
+
+
         //return color.r * 100;
 
         // Check to make sure its gray
@@ -116,7 +153,7 @@ public static class HeightMapTunneler
             // 55 = 0.55 * 100
             result *= 100;
             // Round up the value
-            var targetDepth= (tHeight * ( result / 100)) +3 ;
+            var targetDepth = (tHeight * (result / 100)) + 3;
 
             Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} THeight: {tHeight} Diff Depth ( tHeight - result): {tHeight - result}  Destination: {targetDepth}");
 
@@ -132,6 +169,7 @@ public static class HeightMapTunneler
         if (chunk == null)
             return;
 
+      //  PlaceCaveEntrance(chunk);
         //if (caveMapColor == null)
         //    return;
         //if (caveMapColor.Length == 0)
@@ -139,8 +177,8 @@ public static class HeightMapTunneler
 
         var chunkPos = chunk.GetWorldPos();
 
-        
-            AddLevel(chunk, fastNoise);
+
+        AddLevel(chunk, fastNoise);
     }
 
     public static void PlaceCaveEntrance(Chunk chunk)
@@ -213,7 +251,7 @@ public static class HeightMapTunneler
     public static void CreateEmptyPrefab(Chunk chunk, Vector3i position)
     {
         int height = 4;
-        if ( position.y < height)
+        if (position.y < height)
             height = position.y;
         var prefab = new Prefab(new Vector3i(3, 4, 3));
         prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
@@ -256,8 +294,8 @@ public static class HeightMapTunneler
                 var worldX = chunkPos.x + chunkX;
                 var worldZ = chunkPos.z + chunkZ;
 
-               var targetDepth = GetTargetHeight(worldX, worldZ, tHeight);
-              
+                var targetDepth = GetTargetHeight(worldX, worldZ, tHeight);
+
                 if (targetDepth == -1) continue;
 
                 //  targetDepth = 40;
@@ -281,7 +319,7 @@ public static class HeightMapTunneler
                 else
                 {
                     PlaceBlock(chunk, position + Vector3i.up);
-                    if ( position.y > 2)
+                    if (position.y > 2)
                         PlaceBlock(chunk, position + Vector3i.down);
                     PlaceBlock(chunk, position);
                 }

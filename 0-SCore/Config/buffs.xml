@@ -1,6 +1,7 @@
 ﻿<configs>
 	<append xpath="/buffs">
 
+		
 		<!-- When this buff is applied, it'll share its attack / revenge target with every NPC in the area that share the laeader.-->
 		<buff name="buffNotifyTeamAttack" hidden="true">
 			<stack_type value="ignore"/>

@@ -93,6 +93,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
+    <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
     <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
@@ -595,7 +596,9 @@
     <None Include="Scripts\Blocks\Readme.md" />
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Harmony\Weather\" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>

@@ -555,7 +555,7 @@
 			<property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
 		</block>
 		-->
-
+<!--
 		<block name="sphereiiAoETest">
 			<property name="Class" value="DecoAoE, SCore" />
 			<property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
@@ -574,7 +574,7 @@
 			<property name="VehicleHitScale" value="999"/>
 			<property name="FilterTags" value="MC_outdoor,SC_decor"/>
 		</block>
-
+-->
 	</append>
 	
 	
