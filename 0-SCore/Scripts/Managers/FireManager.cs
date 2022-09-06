@@ -11,23 +11,24 @@ public class FireManager
     private static readonly string AdvFeatureClass = "FireManagement";
     static object locker = new object();
 
-    private static FireManager instance = null;
+    private static FireManager instance;
     private static ConcurrentDictionary<Vector3i, BlockValue> FireMap = new ConcurrentDictionary<Vector3i, BlockValue>();
-    public static ConcurrentDictionary<Vector3i, float> ExtinguishPositions = new ConcurrentDictionary<Vector3i, float>();
+    private static ConcurrentDictionary<Vector3i, float> ExtinguishPositions = new ConcurrentDictionary<Vector3i, float>();
     private float checkTime = 120f;
     private float currentTime = 0f;
+    private float saveTime = 0f;
     private float checkTimeLights = 0.8f;
     private float currentTimeLights = 0f;
     private float fireDamage = 1f;
     private float smokeTime = 60f;
-    private GameRandom random = new GameRandom();
+    //private GameRandom random;
     private float heatMapStrength = 0f;
 
     public string fireSound;
     public string smokeSound;
     public string fireParticle;
     public string smokeParticle;
-    private const string saveFile = "FireManager.dat";
+    private string saveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo dataSaveThreadInfo;
     static Thread mainThread = Thread.CurrentThread;
 
@@ -36,16 +37,17 @@ public class FireManager
     {
         get
         {
-            if (instance == null)
-            {
-                instance = new FireManager();
-                instance.Init();
-            }
             return instance;
         }
     }
-    public void Init()
+    public static void Init()
     {
+        FireManager.instance = new FireManager();
+        FireManager.instance.ReadConfig();
+    }
+    public void ReadConfig()
+    {
+        
         var option = Configuration.GetPropertyValue(AdvFeatureClass, "FireEnable");
         if (!StringParsers.ParseBool(option))
         {
@@ -53,6 +55,7 @@ public class FireManager
             Enabled = false;
             return;
         }
+
 
         Enabled = true;
         option = Configuration.GetPropertyValue(AdvFeatureClass, "CheckInterval");
@@ -85,22 +88,18 @@ public class FireManager
         fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
         smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
 
-        // Register the particle effects before anything. This is causing the Unknown Particle warnings. 
-        //  ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.fireParticle);
-        //        ParticleEffect.RegisterBundleParticleEffect(FireManager.Instance.smokeParticle);
-
         // Read the FireManager
         Load();
 
         
-        ModEvents.GameShutdown.RegisterHandler(new Action(CleanUp));
+      //  ModEvents.GameShutdown.RegisterHandler(new Action(CleanUp));
 
         // Only run the Update on the server, then just distribute the data to the clients using NetPackages.
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             Log.Out($" :: Fire Interval Check time: {checkTime}");
-            ModEvents.GameUpdate.RegisterHandler(new Action(FireUpdate));
-            ModEvents.GameUpdate.RegisterHandler(new Action(LightsUpdate));
+       //     ModEvents.GameUpdate.RegisterHandler(new Action(FireUpdate));
+      //      ModEvents.GameUpdate.RegisterHandler(new Action(LightsUpdate));
 
         }
     }
@@ -165,7 +164,7 @@ public class FireManager
         // Otherwise choose more lights to shutoff
         while (curLights.Count >= MaxLights)
         {
-            int idx = random.RandomRange(curLights.Count);
+            int idx = GameManager.Instance.World.GetGameRandom().RandomRange(curLights.Count);
             if (Shutoff.Contains(curLights[idx])) continue;
             // Log.Out("Selected {0} for culling", idx);
             Shutoff.Add(curLights[idx]);
@@ -243,6 +242,7 @@ public class FireManager
     public void CheckBlocks()
     {
         if (GameManager.Instance.IsPaused()) return;
+
 
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
@@ -346,7 +346,7 @@ public class FireManager
         foreach (var pos in neighbors)
             Add(pos);
 
-         Save();
+        //Save();
     }
 
     private string GetFireSound( Vector3i _blockPos)
@@ -384,7 +384,7 @@ public class FireManager
         if (!string.IsNullOrEmpty(randomFire))
         {
             var fireParticles = randomFire.Split(',');
-            int randomIndex = random.RandomRange(0, fireParticles.Length);
+            int randomIndex = GameManager.Instance.World.GetGameRandom().RandomRange(0, fireParticles.Length);
             _fireParticle = fireParticles[randomIndex];
 
         }
@@ -406,7 +406,7 @@ public class FireManager
         if (!string.IsNullOrEmpty(randomSmoke))
         {
             var smokeParticles = randomSmoke.Split(',');
-            int randomIndex = random.RandomRange(0, smokeParticles.Length);
+            int randomIndex = GameManager.Instance.World.GetGameRandom().RandomRange(0, smokeParticles.Length);
             _smokeParticle = smokeParticles[randomIndex];
 
         }
@@ -647,16 +647,16 @@ public class FireManager
     {
         PooledExpandableMemoryStream pooledExpandableMemoryStream = (PooledExpandableMemoryStream)_threadInfo.parameter;
         string text = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
-        if (!Directory.Exists(GameIO.GetSaveGameDir()))
-        {
-            return -1;
-        }
         if (File.Exists(text))
         {
             File.Copy(text, string.Format("{0}/{1}", GameIO.GetSaveGameDir(), $"{saveFile}.bak"), true);
         }
         pooledExpandableMemoryStream.Position = 0L;
         StreamUtils.WriteStreamToFile(pooledExpandableMemoryStream, text);
+        Log.Out("FireManager saved {0} bytes", new object[]
+    {
+            pooledExpandableMemoryStream.Length
+    });
         MemoryPools.poolMemoryStream.FreeSync(pooledExpandableMemoryStream);
 
         return -1;
@@ -666,15 +666,18 @@ public class FireManager
     {
         if (this.dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_FireDataSave"))
         {
+            Log.Out($"FireManager saving {FireMap.Count} Fires...");
             PooledExpandableMemoryStream pooledExpandableMemoryStream = MemoryPools.poolMemoryStream.AllocSync(true);
             using (PooledBinaryWriter pooledBinaryWriter = MemoryPools.poolBinaryWriter.AllocSync(false))
             {
                 pooledBinaryWriter.SetBaseStream(pooledExpandableMemoryStream);
                 this.Write(pooledBinaryWriter);
             }
-
-
             this.dataSaveThreadInfo = ThreadManager.StartThread("silent_FireDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, System.Threading.ThreadPriority.Normal, pooledExpandableMemoryStream, null, false);
+        }
+        else
+        {
+            Log.Out("Not Saving. Thread still running?");
         }
     }
 

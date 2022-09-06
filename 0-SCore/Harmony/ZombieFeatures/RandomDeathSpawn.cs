@@ -84,14 +84,15 @@ namespace Harmony.ZombieFeatures
                         {
                             var scale = __instance.gameObject.transform.localScale.x;
                             alivefromGroup.gameObject.transform.localScale = new Vector3(scale, scale, scale);
-
                         }
-
                     }
-
-                    
                     __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
-                    GameManager.Instance.World.SpawnEntityInWorld(entity);
+
+                    // Generate a creation data object to be sent to the server for spawning. This will avoid duplicate spawns in dedi environments.
+                    var entityCreationData = new EntityCreationData(entity);
+                    entityCreationData.id = -1;
+                    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+                    entity.OnEntityUnload();
                     __instance.ForceDespawn();
                     return true;
                 }
@@ -100,8 +101,13 @@ namespace Harmony.ZombieFeatures
                 var entityID = EntityClass.FromString(strSpawnGroup);
                 entity = EntityFactory.CreateEntity(entityID, __instance.position);
                 if (entity != null)
-                    GameManager.Instance.World.SpawnEntityInWorld(entity);
-
+                {
+                    var entityCreationData = new EntityCreationData(entity);
+                    entityCreationData.id = -1;
+                    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+                    entity.OnEntityUnload();
+                    //GameManager.Instance.World.SpawnEntityInWorld(entity);
+                }
                 __instance.ForceDespawn();
                 return true;
             }

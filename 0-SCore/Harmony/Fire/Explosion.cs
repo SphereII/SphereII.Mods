@@ -17,6 +17,7 @@ namespace SCore.Harmony.Fire
         {
             public static void Postfix(Explosion __instance, int _entityThatCausedExplosion, ExplosionData ___explosionData)
             {
+                if (FireManager.Instance == null) return;
                 if (FireManager.Instance.Enabled == false) return;
 
                 EntityAlive entityAlive = GameManager.Instance.World.GetEntity(_entityThatCausedExplosion) as EntityAlive;

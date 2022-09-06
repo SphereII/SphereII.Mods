@@ -16,43 +16,22 @@ namespace Harmony.Blocks
      * Adding to new blocks:
      * <property name="FilterTags" value="foutdoor,fcrops,fcropsDestroy" />
      */
-    public class OnEntityCollidedWithBlock
+    public class SCoreOnEntityCollidedWithBlock
     {
         private static readonly string DestructibleTag = "fCropsDestroy";
 
-        [HarmonyPatch(typeof(BlockPlantGrowing))]
-        [HarmonyPatch("LateInit")]
-        public class Init
+
+        [HarmonyPatch(typeof(global::EntityAlive))]
+        [HarmonyPatch("updateCurrentBlockPosAndValue")]
+        public class SCoreBlock_updateCurrentBlockPosAndValue
         {
-            public static void Postfix(ref BlockPlantGrowing __instance)
+            public static void Postfix(global::EntityAlive __instance)
             {
-                // Check if the destructible tag is on the block, which triggers the ONEntityCollidedWithBlock
-                if (__instance?.FilterTags != null && __instance.FilterTags.ContainsCaseInsensitive(DestructibleTag))
-                    __instance.IsCheckCollideWithEntity = true;
-            }
-        }
-
-        [HarmonyPatch(typeof(Block))]
-        [HarmonyPatch("OnEntityCollidedWithBlock")]
-        public class SCoreBlock_OnEntityCollidedWithBlock
-        {
-            public static bool Prefix(Block __instance, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, Entity _entity)
-            {
-                // If it's not a plant, do what you do best.
-                if (_blockValue.Block is BlockPlantGrowing )
-                {
-                    // Don't process if its a player.
-                    if (_entity is EntityPlayerLocal)
-                      return true;
-
-                    if (__instance == null) return true;
-                    if (__instance.FilterTags != null && __instance.FilterTags.ContainsCaseInsensitive(DestructibleTag))
-                        __instance.DamageBlock(_world, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, (_entity != null) ? _entity.entityId : -1, false, false);
-
-                }
-
-           
-                return true;
+                if (__instance is EntityPlayerLocal) return;
+                Vector3i blockPosition = __instance.GetBlockPosition();
+                var block = GameManager.Instance.World.GetBlock(0, blockPosition).Block;
+                if (block.FilterTags != null && block.FilterTags.ContainsCaseInsensitive(DestructibleTag))
+                    block.DamageBlock(GameManager.Instance.World, 0, blockPosition, block.ToBlockValue(), Block.list[block.ToBlockValue().type].MaxDamage, (__instance != null) ? __instance.entityId : -1, false, false) ;
             }
         }
 

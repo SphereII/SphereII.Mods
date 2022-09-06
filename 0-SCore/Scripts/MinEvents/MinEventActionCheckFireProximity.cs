@@ -8,6 +8,7 @@ public class MinEventActionCheckFireProximity : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams _params)
     {
+        if (FireManager.Instance == null) return;
         if (FireManager.Instance.Enabled == false) return;
 
         var position = new Vector3i(_params.Self.position);

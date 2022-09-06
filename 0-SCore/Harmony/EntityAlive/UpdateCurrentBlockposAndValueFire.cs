@@ -10,6 +10,8 @@ namespace SCore.Harmony.Blocks
         {
             public static void Postfix(EntityAlive __instance)
             {
+                if (FireManager.Instance == null) return;
+
                 Vector3i blockPosition = __instance.GetBlockPosition();
                 if (FireManager.Instance.isBurning(blockPosition) && GameManager.Instance.HasBlockParticleEffect(blockPosition))
                 {
