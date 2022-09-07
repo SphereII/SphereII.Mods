@@ -242,7 +242,7 @@ public class FireManager
     public void CheckBlocks()
     {
         if (GameManager.Instance.IsPaused()) return;
-
+        if (!GameManager.Instance.gameStateManager.IsGameStarted()) return;
 
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
         currentTime = checkTime;
