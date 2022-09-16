@@ -387,7 +387,12 @@ namespace SCore.Harmony.Recipes
                 {
                     case "broadcastManager":
                         {
-                            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "BroadcastManage")) return true;
+                            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "BroadcastManage"))
+                            {
+                                _value = false.ToString();
+                                __result = true;
+                                return false; 
+                            }
 
                             //if debug enabled show lootList name of container
                             if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
