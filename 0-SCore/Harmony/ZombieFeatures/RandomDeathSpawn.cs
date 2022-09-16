@@ -86,7 +86,9 @@ namespace Harmony.ZombieFeatures
                             alivefromGroup.gameObject.transform.localScale = new Vector3(scale, scale, scale);
                         }
                     }
-                    __instance.world.SetBlockRPC(blockPos, BlockValue.Air);
+
+                    // This is meant to destroy the corpse block, but may not exist anymore.
+                    //__instance.world.SetBlockRPC(blockPos, BlockValue.Air);
 
                     // Generate a creation data object to be sent to the server for spawning. This will avoid duplicate spawns in dedi environments.
                     var entityCreationData = new EntityCreationData(entity);

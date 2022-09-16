@@ -123,7 +123,8 @@ public static class HeightMapTunneler
 
             Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} THeight: {tHeight} Diff Depth ( tHeight - result): {tHeight - result}  Destination: {targetDepth}");
 
-            return targetDepth;
+            return tHeight - result;
+            //return targetDepth;
         }
 
         Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} Skipping because r, g and b are not the same value. ");
@@ -152,24 +153,29 @@ public static class HeightMapTunneler
         var chunkPos = chunk.GetWorldPos();
 
         var closesEntrance = Vector3i.zero;
-        var caveEntrance = Vector3i.zero;
         for (var x = 0; x < SphereCache.caveEntrances.Count; x++)
         {
             var Entrance = SphereCache.caveEntrances[x];
-            var distance = Vector3.Distance(chunkPos, Entrance);
-            if (distance > 200) continue;
-
             if (closesEntrance == Vector3i.zero)
                 closesEntrance = Entrance;
 
+            var distance = Vector3.Distance(chunkPos, Entrance);
+
             if (Vector3.Distance(closesEntrance, chunkPos) > distance)
                 closesEntrance = Entrance;
+
+           // Log.Out($"Close Entrance: {closesEntrance} ChunkPos: {chunkPos}  Entrance: {Entrance}  Distance: {distance}");
         }
 
+        //Log.Out($"Closes Entrance to {chunkPos} is {closesEntrance}");
         if (closesEntrance == Vector3i.zero) return -1;
 
         var entranceChunk = GameManager.Instance.World.GetChunkFromWorldPos(closesEntrance);
-        if (entranceChunk == null) return -1;
+        if (entranceChunk == null)
+        {
+          //  Log.Out("Entrance chunk is not available.");
+            return -1;
+        }
         return entranceChunk.GetTerrainHeight(0, 0);
 
     }
@@ -267,10 +273,32 @@ public static class HeightMapTunneler
 
         var cavePrefab = Configuration.GetPropertyValue(AdvFeatureClass, "CavePrefab");
 
-        var tHeight = GetCaveEntrane(chunk);
-        if (tHeight == -1)
-            tHeight = 40;
-        //var tHeight = chunk.GetTerrainHeight(0, 0);
+        int highestPoint = 0;
+        for (var chunkX = 0; chunkX < 16; chunkX++)
+        {
+            for (var chunkZ = 0; chunkZ < 16; chunkZ++)
+            {
+                var height = chunk.GetTerrainHeight(chunkX, chunkZ);
+                if ( height > highestPoint )
+                    highestPoint = height;
+            }
+        }
+                //        var tHeight = chunk.GetTerrainHeight(0, 0);
+
+                var providerFromImage = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider() as WorldBiomeProviderFromImage;
+        if (providerFromImage != null)
+        {
+            Log.Out("Biome Provider Image");
+            Log.Out("World Size: " + providerFromImage.GetSize());
+        }
+
+        var tHeight = GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt(chunkPos.x, chunkPos.z);
+        Log.Out($"Terrain Generator: {tHeight}  Chunk Pos: {chunk.GetTerrainHeight(0, 0)} : Highest Point: {highestPoint}");
+        tHeight = highestPoint;
+        //var tHeight = GetCaveEntrane(chunk);
+        //Log.Out($"Terrain Height: {tHeight}");
+        //if (tHeight == -1)
+        //    tHeight = 40;
         //var tHeight = FindHighestHeight();
         //var tHeight = FindHighestHeight();
         //  var tHeight = FindHighestHeight(chunk, tBaseHeight);
@@ -283,7 +311,9 @@ public static class HeightMapTunneler
                 var worldX = chunkPos.x + chunkX;
                 var worldZ = chunkPos.z + chunkZ;
 
-                var targetDepth = GetTargetHeight(worldX, worldZ, tHeight);
+
+
+                var targetDepth = GetTargetHeight(worldX, worldZ, (int)tHeight);
 
                 if (targetDepth == -1) continue;
 

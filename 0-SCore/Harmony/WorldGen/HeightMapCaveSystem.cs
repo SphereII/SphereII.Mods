@@ -27,7 +27,7 @@ namespace Harmony.WorldGen
                     return;
 
 
-                // 	BiomeDefinition biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider().GetBiomeAt((int)vector.x, (int)vector.y);
+         
                 //GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt()
               //  GameManager.Instance.World.ChunkCache.ChunkProvider.GetOverviewMap();
                 var caveStamp = Configuration.GetPropertyValue(AdvFeatureClass, CavePath);
@@ -49,7 +49,7 @@ namespace Harmony.WorldGen
                     for (int x = 0; x < texture2D.width; x++)
                     {
                         var pixel = texture2D.GetPixel(x, y);
-                        if (pixel.r == 255)
+                        if (pixel.r > 0.9)
                             SphereCache.caveEntrances.Add(new Vector3i(x, 1, y));
 
                         HeightMapTunneler.caveMapColor[x, y] = pixel;

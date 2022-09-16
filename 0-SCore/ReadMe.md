@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.259.937
+
+	[ BlockClockDMT ]
+		- added in BlockClockDMT, which gives a working clock, updating an animator on the unity object every hour.
+		      <property name="Class" value="ClockDMT, SCore"/>
+
+	[ Spawn On Death ]
+		- Commented out code that would destroy the gore block, which may not be relevant anymore.
+
+	[ Remote Crafting ]
+		- Solved bug where broadcast button was not being hidden when broadcastmanager was disabled
+
 Version: 20.6.250.1020
 
 	[ Fire Manager ]
