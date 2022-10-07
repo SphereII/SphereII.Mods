@@ -489,5 +489,18 @@ namespace SCore.Harmony.Recipes
                 }
             }
         }
+
+        // Code from OCB7D2D/OcbPinRecipes
+        // Patch world unload to cleanup and save on exit
+        [HarmonyPatch(typeof(World))]
+        [HarmonyPatch("UnloadWorld")]
+        public class World_UnloadWorld
+        {
+            static void Postfix()
+            {
+                if (!Broadcastmanager.HasInstance) return;
+                Broadcastmanager.Cleanup();
+            }
+        }
     }
 }
