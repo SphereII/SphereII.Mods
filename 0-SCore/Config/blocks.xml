@@ -61,6 +61,15 @@
 				<property name="enforcebindtoWorkstation" value="false"/>
 				<!-- disables remote crafting if not bound -->
 			</property>
+			
+			<property class="BlockUpgradeRepair" >
+				<!-- disables repair/upgrade when enemies nearby -->
+				<property name="BlockOnNearbyEnemies" value="false"/>
+				<property name="DistanceEnemy" value="30" />
+				<!-- remote repair/upgrade -->
+				<property name="ReadFromContainers" value="false"/>
+				<property name="Distance" value="40" />
+			</property>
 
 			<property class="AdvancedLockpicking" >
 				<!-- This feature is only available when this modlet is loaded. -->

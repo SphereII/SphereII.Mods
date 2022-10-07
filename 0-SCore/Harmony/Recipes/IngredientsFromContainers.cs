@@ -11,12 +11,12 @@ namespace SCore.Harmony.Recipes
     {
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
-        public static List<TileEntity> GetTileEntities(EntityAlive player)
+        public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
         {
-            var distance = 30f;
-            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
-            if (!string.IsNullOrEmpty(strDistance))
-                distance = StringParsers.ParseFloat(strDistance);
+            //var distance = 30f;
+            //var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+            //if (!string.IsNullOrEmpty(strDistance))
+            //    distance = StringParsers.ParseFloat(strDistance);
 
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
@@ -121,7 +121,11 @@ namespace SCore.Harmony.Recipes
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player)
         {
             var _items = new List<ItemStack>();
-            var tileEntities = EnhancedRecipeLists.GetTileEntities(player);
+            var distance = 30f;
+            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+            if (!string.IsNullOrEmpty(strDistance))
+                distance = StringParsers.ParseFloat(strDistance);
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -134,7 +138,32 @@ namespace SCore.Harmony.Recipes
         {
             var _item = new List<ItemStack>();
             var _items = new List<ItemStack>();
-            var tileEntities = EnhancedRecipeLists.GetTileEntities(player);
+            var distance = 30f;
+            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+            if (!string.IsNullOrEmpty(strDistance))
+                distance = StringParsers.ParseFloat(strDistance);
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
+            foreach (var tileEntity in tileEntities)
+            {
+                var lootTileEntity = tileEntity as TileEntityLootContainer;
+                if (lootTileEntity == null) continue;
+                _item.AddRange(lootTileEntity.GetItems());
+            }
+            for (int i = 0; i < _item.Count; i++)
+            {
+                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) && _item[i].itemValue.type == itemValue.type)
+                {
+                    _items.Add(_item[i]);
+                }
+            }
+            return _items;
+        }
+
+        public static List<ItemStack> SearchNearbyContainers(EntityAlive player, ItemValue itemValue, float distance)
+        {
+            var _item = new List<ItemStack>();
+            var _items = new List<ItemStack>();
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -309,8 +338,11 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-
-                var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
+                var distance = 30f;
+                var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+                if (!string.IsNullOrEmpty(strDistance))
+                    distance = StringParsers.ParseFloat(strDistance);
+                var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer, distance);
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item
