@@ -46,6 +46,7 @@ public class Broadcastmanager
     // Save the lootcontainer location.
     public void Write(BinaryWriter _bw)
     {
+        _bw.Write("V1");
         foreach (var temp in Broadcastmap)
             _bw.Write(temp.Key.ToString());
     }
@@ -53,9 +54,25 @@ public class Broadcastmanager
     // Read lootcontainer location.
     public void Read(BinaryReader _br)
     {
-        while (_br.BaseStream.Position != _br.BaseStream.Length)
+        var version = _br.ReadString();
+        if (version == "V1")
         {
-            add(StringParsers.ParseVector3i(_br.ReadString()));
+            while (_br.BaseStream.Position != _br.BaseStream.Length)
+            {
+                string container = _br.ReadString();
+                add(StringParsers.ParseVector3i(container));
+            }
+        }
+        else 
+        {
+            foreach (var position in version.Split(';'))
+                while (_br.BaseStream.Position != _br.BaseStream.Length)
+                {
+                    if (string.IsNullOrEmpty(position)) continue;
+                    var vector = StringParsers.ParseVector3i(position);
+                    add(vector);
+                    add(StringParsers.ParseVector3i(_br.ReadString()));
+                }
         }
     }
     // check if lootcontainer exists in dictionary
