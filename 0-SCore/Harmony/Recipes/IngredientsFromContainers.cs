@@ -11,7 +11,18 @@ namespace SCore.Harmony.Recipes
     {
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
-        public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
+
+            public static List<TileEntity> GetTileEntities(EntityAlive player)
+        {
+            var distance = 30f;
+            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
+            if (!string.IsNullOrEmpty(strDistance))
+                distance = StringParsers.ParseFloat(strDistance);
+            var tileEntities = new List<TileEntity>();
+            tileEntities = GetTileEntities(player, distance);
+            return tileEntities;
+        }
+            public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
         {
             //var distance = 30f;
             //var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
@@ -55,9 +66,7 @@ namespace SCore.Harmony.Recipes
                             case TileEntityType.SecureLoot:
                                 var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
                                 if (secureTileEntity == null) break;
-
-                                PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-                                if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false) break;
+                                if (secureTileEntity.IsLocked()) break;
                                 // if sending disabled skip container
                                 if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
                                 if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
@@ -121,11 +130,7 @@ namespace SCore.Harmony.Recipes
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player)
         {
             var _items = new List<ItemStack>();
-            var distance = 30f;
-            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
-            if (!string.IsNullOrEmpty(strDistance))
-                distance = StringParsers.ParseFloat(strDistance);
-            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -138,11 +143,7 @@ namespace SCore.Harmony.Recipes
         {
             var _item = new List<ItemStack>();
             var _items = new List<ItemStack>();
-            var distance = 30f;
-            var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
-            if (!string.IsNullOrEmpty(strDistance))
-                distance = StringParsers.ParseFloat(strDistance);
-            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -338,11 +339,7 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                var distance = 30f;
-                var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
-                if (!string.IsNullOrEmpty(strDistance))
-                    distance = StringParsers.ParseFloat(strDistance);
-                var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer, distance);
+                var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
                 foreach (var itemStack in _itemStacks)
                 {
                     // counter quantity needed from item
