@@ -78,9 +78,7 @@ public class Broadcastmanager
     // check if lootcontainer exists in dictionary
     public bool Check(Vector3i _blockPos)
     {
-        if(!Configuration.CheckFeatureStatus("InvertBroadcast"))
         return Broadcastmap.TryGetValue(_blockPos, out _);
-        else return !Broadcastmap.TryGetValue(_blockPos, out _);
     }
 
     public void Add(Vector3i _blockPos, int entityID = -1)

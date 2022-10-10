@@ -41,11 +41,7 @@
 				<!-- reasonable block range seems to be around 10. -->
 				<property name="Debug" value="false" />
 				<!-- shows name of opened container/workstation in log -->
-				<!-- Not needed for remote Crafting -->
 				<property name="BroadcastManage" value="false"/>
-				<!-- Enable Broadcast Feature Experimental -->
-				<property name="InvertBroadcast" value="false"/>
-				<!-- enables broadcasting for all but selected containers-->
 				<!-- disable remote crafing on named workstations case sensitive-->
 				<property name="disablereceiver" value="forge, tbd" />
 				<!-- disable remote crafing from named containers. case sensitive e.g storageCrate, birdNest -->
