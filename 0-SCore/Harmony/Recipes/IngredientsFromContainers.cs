@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Platform;
+using Platform.EOS;
 using System.Collections.Generic;
 using System.Linq;
 using UAI;
@@ -11,16 +12,22 @@ namespace SCore.Harmony.Recipes
     {
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
+
         public static List<TileEntity> GetTileEntities(EntityAlive player)
         {
             var distance = 30f;
             var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
             if (!string.IsNullOrEmpty(strDistance))
                 distance = StringParsers.ParseFloat(strDistance);
-
+            var tileEntities = new List<TileEntity>();
+            tileEntities = GetTileEntities(player, distance);
+            return tileEntities;
+        }
+        public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
+        {
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
-            var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation"); 
+            var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
             var tileEntities = new List<TileEntity>();
             var _targetTypes = "Loot, SecureLoot, SecureLootSigned";
             var paths = SCoreUtils.ScanForTileEntities(player, _targetTypes, true);
@@ -43,8 +50,8 @@ namespace SCore.Harmony.Recipes
                                 if (lootTileEntity == null) break;
                                 // if sending disabled skip container
                                 if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
-                                if (!string.IsNullOrEmpty(nottoWorkstation)) if(notToWorkstation(nottoWorkstation, player,  tileEntity))goto default;
-                                if (!string.IsNullOrEmpty(bindtoWorkstation)) 
+                                if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
+                                if (!string.IsNullOrEmpty(bindtoWorkstation))
                                 {
                                     if (bindToWorkstation(bindtoWorkstation, player, tileEntity)) tileEntities.Add(tileEntity);
                                     else goto default;
@@ -55,9 +62,7 @@ namespace SCore.Harmony.Recipes
                             case TileEntityType.SecureLoot:
                                 var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
                                 if (secureTileEntity == null) break;
-
-                                PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-                                if (secureTileEntity.IsUserAllowed(internalLocalUserIdentifier) == false) break;
+                                if (secureTileEntity.IsLocked() && !secureTileEntity.LocalPlayerIsOwner()) break;
                                 // if sending disabled skip container
                                 if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
                                 if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
@@ -94,10 +99,10 @@ namespace SCore.Harmony.Recipes
             var playerLocal = player as EntityPlayerLocal;
             var lootTileEntity = tileEntity as TileEntityLootContainer;
             // bind storage to workstation
-            if (value.Split(';').Where(x => x.Split(':')[0].Split(',').Any(ws=>ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+            if (value.Split(';').Where(x => x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 .Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = true;
             // bind storage to other workstations if allowed
-            if (!value.Split(';').Any(x => x.Split(':')[0].Split(',').Any(ws=>ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+            if (!value.Split(';').Any(x => x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 && !bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
             {
                 if (value.Split(';').Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = false;
@@ -114,7 +119,7 @@ namespace SCore.Harmony.Recipes
             {
                 var workstation = bind.Split(':')[0].Split(',');
                 var disablebinding = bind.Split(':')[1].Split(',');
-                if ((workstation.Any(ws=> ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) && (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
+                if ((workstation.Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) && (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
             }
             return result;
         }
@@ -127,7 +132,7 @@ namespace SCore.Harmony.Recipes
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                 if (lootTileEntity == null) continue;
                 _items.AddRange(lootTileEntity.GetItems());
-                }
+            }
             return _items;
         }
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player, ItemValue itemValue)
@@ -135,6 +140,27 @@ namespace SCore.Harmony.Recipes
             var _item = new List<ItemStack>();
             var _items = new List<ItemStack>();
             var tileEntities = EnhancedRecipeLists.GetTileEntities(player);
+            foreach (var tileEntity in tileEntities)
+            {
+                var lootTileEntity = tileEntity as TileEntityLootContainer;
+                if (lootTileEntity == null) continue;
+                _item.AddRange(lootTileEntity.GetItems());
+            }
+            for (int i = 0; i < _item.Count; i++)
+            {
+                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) && _item[i].itemValue.type == itemValue.type)
+                {
+                    _items.Add(_item[i]);
+                }
+            }
+            return _items;
+        }
+
+        public static List<ItemStack> SearchNearbyContainers(EntityAlive player, ItemValue itemValue, float distance)
+        {
+            var _item = new List<ItemStack>();
+            var _items = new List<ItemStack>();
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -309,7 +335,6 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-
                 var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
                 foreach (var itemStack in _itemStacks)
                 {
@@ -371,122 +396,110 @@ namespace SCore.Harmony.Recipes
             }
         }
 
-        // Make buttons visible in lootcontainers
-        // Original code from OCB7D2D/OcbPinRecipes
-        [HarmonyPatch(typeof(XUiC_LootWindow))]
-        [HarmonyPatch("GetBindingValue")]
-        public class XUiC_LootWindow_GetBindingValue
+        // Code from OCB7D2D/OcbPinRecipes
+        // Patch world unload to cleanup and save on exit
+        [HarmonyPatch(typeof(World))]
+        [HarmonyPatch("UnloadWorld")]
+        public class World_UnloadWorld
         {
-            static bool Prefix(
-                XUiC_LootWindow __instance,
-                ref string _value,
-                string _bindingName,
-                ref bool __result)
+            static void Postfix()
             {
-                switch (_bindingName)
-                {
-                    case "broadcastManager":
-                        {
-                            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "BroadcastManage"))
-                            {
-                                _value = false.ToString();
-                                __result = true;
-                                return false; 
-                            }
+                if (!Broadcastmanager.HasInstance) return;
+                Broadcastmanager.Cleanup();
+            }
+        }
+    }
 
-                            //if debug enabled show lootList name of container
-                            if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
-                                if (__instance.xui.lootContainer != null) Log.Out("Current Container name: " + __instance.xui.lootContainer.lootListName);
+    // Code from Laydor slightly modified
+    public class XUiC_BroadcastButton : XUiController
+    {
+        private static readonly string AdvFeatureClass = "AdvancedRecipes";
 
-                            // check if Broadcastmanager is running and enable button
-                            _value = Broadcastmanager.HasInstance.ToString();
+        XUiV_Button button;
 
-                            // check if sending is allowed and disable button
-                            var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
-                            var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
-                            if (__instance.xui.lootContainer != null && Broadcastmanager.HasInstance)
-                            {
-                                if (disabledsender[0] != null) if (disableSender(disabledsender, __instance.xui.lootContainer)) _value = false.ToString();
-                                if (!string.IsNullOrEmpty(bindToWorkstation[0]))
-                                {
-                                    int counter = 0;
-                                    foreach (var bind in bindToWorkstation)
-                                    {
-                                        var bindings = bind.Split(':')[1].Split(',');
-                                        if ((bindings.Any(x => x.Trim() == __instance.xui.lootContainer.lootListName))) counter++;
-                                    }
-                                    if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation"))) _value = false.ToString();
-                                }
-                            }
-                            __result = true;
-                            return false;
-                        }
-                    default:
-                        return true;
-                }
+        public override void Init()
+        {
+            base.Init();
+
+            button = viewComponent as XUiV_Button;
+
+            OnPress += Grab_OnPress;
+        }
+
+        public override void Update(float _dt)
+        {
+            base.Update(_dt);
+            if (IsDirty)
+            {
+                IsDirty = false;
+                SetupButton();
             }
         }
 
-
-        // LootContainer Button Pressed
-        // Original code from OCB7D2D/OcbPinRecipes modified for 2 buttons.
-        [HarmonyPatch(typeof(XUiC_ContainerStandardControls))]
-        [HarmonyPatch("Init")]
-        public class XUiC_ContainerStandardControls_Init
+        public override void OnOpen()
         {
-            static void Prefix(XUiC_ContainerStandardControls __instance)
-            {
-                XUiController childById = __instance.GetChildById("btnBroadcast");
-                if (childById != null) childById.OnPress += Grab_OnPress;
-            }
+            base.OnOpen();
+            //if debug enabled show lootList name of container
+            if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
+                if (xui.lootContainer != null) Log.Out("Current Container name: " + xui.lootContainer.lootListName);
+            IsDirty = true;
+        }
 
-            private static void Grab_OnPress(XUiController _sender, int _mouseButton)
+        private void Grab_OnPress(XUiController _sender, int _mouseButton)
+        {
+            //Check if Broadcastmanager is running
+            if (!Broadcastmanager.HasInstance) return;
+
+            if (Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos()))
             {
-                //Check if Broadcastmanager is running
-                if (!Broadcastmanager.HasInstance) return;
-                XUiC_LootWindow childByType = _sender.WindowGroup.Controller.GetChildByType<XUiC_LootWindow>();
-                if (Broadcastmanager.Instance.Check(_sender.xui.lootContainer.ToWorldPos()))
-                {
-                    // Remove from Broadcastmanager dictionary
-                    Broadcastmanager.Instance.remove(_sender.xui.lootContainer.ToWorldPos());
-                }
-                else
-                {
-                    // Add to Broadcastmanager dictionary
-                    Broadcastmanager.Instance.add(_sender.xui.lootContainer.ToWorldPos());
-                }
+                //Unselect button
+                button.Selected = true;
+                // Remove from Broadcastmanager dictionary
+                Broadcastmanager.Instance.remove(xui.lootContainer.ToWorldPos());
+            }
+            else
+            {
+                //Select button
+                button.Selected = false;
+                // Add to Broadcastmanager dictionary
+                Broadcastmanager.Instance.add(xui.lootContainer.ToWorldPos());
             }
         }
 
-        //change button color
-        [HarmonyPatch(typeof(XUiV_Button))]
-        [HarmonyPatch("UpdateData")]
-        public class UpdateData
+        private void SetupButton()
         {
-            static void Prefix(XUiV_Button __instance)
+
+            //Unselect button and disable it
+            button.Enabled = false;
+            button.Selected = false;
+            button.IsVisible = false;
+
+            var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
+            var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
+            if (xui.lootContainer != null && Broadcastmanager.HasInstance)
             {
-                //Check if Broadcastmanager is running
-                if (!Broadcastmanager.HasInstance) return;
-                //Check if lootContainer is valid
-                if (__instance.xui.lootContainer is null) return;
-                //Check what sprite is being loaded
-                if (__instance.CurrentSpriteName == "ui_game_symbol_bc")
-                {
-                    //do nothing on hover
-                    if (!__instance.CurrentColor.Equals(__instance.HoverSpriteColor))
+                if (disabledsender[0] != null)
+                    if (EnhancedRecipeLists.disableSender(disabledsender, xui.lootContainer))
                     {
-                        if (!Broadcastmanager.Instance.Check(__instance.xui.lootContainer.ToWorldPos()))
-                        {
-                            // set disabled color
-                            __instance.CurrentColor = Color.gray;
-                        }
-                        else
-                        {
-                            //set to white
-                            __instance.CurrentColor = __instance.DefaultSpriteColor;
-                        }
+                        return;
+                    }
+                if (!string.IsNullOrEmpty(bindToWorkstation[0]))
+                {
+                    int counter = 0;
+                    foreach (var bind in bindToWorkstation)
+                    {
+                        var bindings = bind.Split(':')[1].Split(',');
+                        if ((bindings.Any(x => x.Trim() == xui.lootContainer.lootListName))) counter++;
+                    }
+                    if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
+                    {
+                        return;
                     }
                 }
+                //Enable button and set if button is selected
+                button.IsVisible = true;
+                button.Enabled = true;
+                button.Selected = !Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos());
             }
         }
     }

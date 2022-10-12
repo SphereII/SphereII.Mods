@@ -41,37 +41,44 @@ public class Broadcastmanager
 
         // Read the Broadcastmanager
         Broadcastmanager.Instance.Load();
-
-        ModEvents.GameShutdown.RegisterHandler(new Action(Broadcastmanager.Instance.Save));
     }
 
     // Save the lootcontainer location.
     public void Write(BinaryWriter _bw)
     {
-        var writeOut = "";
+        _bw.Write("V1");
         foreach (var temp in Broadcastmap)
-            writeOut += $"{temp.Key};";
-        writeOut = writeOut.TrimEnd(';');
-        _bw.Write(writeOut);
+            _bw.Write(temp.Key.ToString());
     }
 
     // Read lootcontainer location.
     public void Read(BinaryReader _br)
     {
-        var positions = _br.ReadString();
-        foreach (var position in positions.Split(';'))
+        var version = _br.ReadString();
+        if (version == "V1")
         {
-            if (string.IsNullOrEmpty(position)) continue;
-            var vector = StringParsers.ParseVector3i(position);
-            add(vector);
+            while (_br.BaseStream.Position != _br.BaseStream.Length)
+            {
+                string container = _br.ReadString();
+                add(StringParsers.ParseVector3i(container));
+            }
+        }
+        else 
+        {
+            foreach (var position in version.Split(';'))
+                while (_br.BaseStream.Position != _br.BaseStream.Length)
+                {
+                    if (string.IsNullOrEmpty(position)) continue;
+                    var vector = StringParsers.ParseVector3i(position);
+                    add(vector);
+                    add(StringParsers.ParseVector3i(_br.ReadString()));
+                }
         }
     }
     // check if lootcontainer exists in dictionary
     public bool Check(Vector3i _blockPos)
     {
-        if(!bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "InvertBroadcast")))
         return Broadcastmap.TryGetValue(_blockPos, out _);
-        else return !Broadcastmap.TryGetValue(_blockPos, out _);
     }
 
     public void Add(Vector3i _blockPos, int entityID = -1)
@@ -190,5 +197,23 @@ public class Broadcastmanager
             this.dataSaveThreadInfo.WaitForEnd();
             this.dataSaveThreadInfo = null;
         }
+    }
+
+    public static void Cleanup()
+    {
+        if (instance != null)
+        {
+            instance.SaveAndClear();
+        }
+    }
+
+    private void SaveAndClear()
+    {
+        WaitOnSave();
+        Save();
+        WaitOnSave();
+        Broadcastmap.Clear();
+        instance = null;
+        Log.Out("Broadcastmanager stopped");
     }
 }
