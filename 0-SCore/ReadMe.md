@@ -10,6 +10,23 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.285.831
+
+	[ Broadcast Manager ]
+
+	- Broadcastmanager will now save and cleanup on exiting
+
+	- It should now be possible to broadcast from storages put down by other players
+		(storage must be locked if you don't want other players be able to remote craft from your storage)
+	
+	- Changed Button code for better support in custom UIs.
+	
+	[ Remote Crafting / Repairs ]
+	
+	- added remote repair/upgrade on  blocks by FuriousRamsay
+	- added blocking repair/upgrade when enemies nearby
+
+
 Version: 20.6.259.937
 
 	[ BlockClockDMT ]
