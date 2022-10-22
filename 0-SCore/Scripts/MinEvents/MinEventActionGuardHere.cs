@@ -7,14 +7,13 @@ public class MinEventActionGuardHere : MinEventActionTargetedBase
 {
     public override void Execute(MinEventParams _params)
     {
-        var entityAliveSDX = _params.Self as EntityAliveSDX;
-        if (entityAliveSDX == null) return;
+        if (!(_params.Self is IEntityOrderReceiverSDX entityOrderReceiver)) return;
 
         var leader = EntityUtilities.GetLeaderOrOwner(_params.Self.entityId) as EntityAlive;
         if ( leader == null) return;
 
-        entityAliveSDX.guardPosition = leader.position;
+        entityOrderReceiver.GuardPosition = leader.position;
 
-        entityAliveSDX.guardLookPosition = leader.position + leader.GetForwardVector();
+        entityOrderReceiver.GuardLookPosition = leader.position + leader.GetForwardVector();
     }
 }

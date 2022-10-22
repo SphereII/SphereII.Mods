@@ -25,15 +25,14 @@ internal class EAIGuardSDX : EAILook
         if (!EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Stay))
             return false;
 
-        if (theEntity is EntityAliveSDX)
+        if (theEntity is IEntityOrderReceiverSDX temp)
         {
-            var temp = theEntity as EntityAliveSDX;
-            var sqrMagnitude = (temp.guardPosition - temp.position).sqrMagnitude;
-            DisplayLog(" Magnitude from Guard " + temp.guardPosition + " and Position " + temp.position + " is " + sqrMagnitude);
+            var sqrMagnitude = (temp.GuardPosition - temp.Position).sqrMagnitude;
+            DisplayLog(" Magnitude from Guard " + temp.GuardPosition + " and Position " + temp.Position + " is " + sqrMagnitude);
             if (sqrMagnitude > 1f)
             {
                 DisplayLog(" Moving to my guard position ");
-                updatePath(temp.guardPosition);
+                updatePath(temp.GuardPosition);
                 // this.theEntity.moveHelper.SetMoveTo(temp.GuardPosition, false);
                 return true;
             }

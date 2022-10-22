@@ -121,7 +121,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                     return;
             }
 
-        Entity myEntity = null;
+        EntityAlive myEntity = null;
         // entityclass:zombieWightFeral;task:wander
         if (string.IsNullOrEmpty(signText))
             return;
@@ -182,18 +182,17 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             if (string.IsNullOrEmpty(Task))
                 Task = "Wander";
 
-            var entityAliveSDX = myEntity as EntityAliveSDX;
-            if (entityAliveSDX != null)
+            if (myEntity is IEntityOrderReceiverSDX entityOrderReceiver)
             {
                 // If there's a pathing code, set, otherwise, do a scan.
                 if (string.IsNullOrEmpty(PathingCode))
                 {
-                    entityAliveSDX.SetupAutoPathingBlocks();
+                    entityOrderReceiver.SetupAutoPathingBlocks();
                 }
                 else
                 {
                     if (StringParsers.TryParseFloat(PathingCode, out var pathingCode))
-                        entityAliveSDX.Buffs.SetCustomVar("PathingCode", pathingCode);
+                        myEntity.Buffs.SetCustomVar("PathingCode", pathingCode);
                 }
             }
 
