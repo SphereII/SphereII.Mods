@@ -124,7 +124,7 @@ public class Broadcastmanager
         string text = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
         if (!Directory.Exists(GameIO.GetSaveGameDir()))
         {
-            return -1;
+            Directory.CreateDirectory(GameIO.GetSaveGameDir());
         }
         if (File.Exists(text))
         {
