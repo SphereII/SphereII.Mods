@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.295.807
+
+	[ Broadcast Manager ]
+
+	- possible fix for Broadcastmanager not saving on Multiplayer games : by FuriousRamsay
+
 Version: 20.6.285.831
 
 	[ Broadcast Manager ]
