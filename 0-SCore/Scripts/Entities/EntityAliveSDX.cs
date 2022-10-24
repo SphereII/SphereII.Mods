@@ -22,7 +22,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 // ReSharper disable once CheckNamespace
-public class EntityAliveSDX : EntityTrader
+public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 {
     public List<string> lstQuests = new List<string>();
     public bool isAlwaysAwake;
@@ -35,6 +35,18 @@ public class EntityAliveSDX : EntityTrader
 
     [FormerlySerializedAs("GuardLookPosition")]
     public Vector3 guardLookPosition = Vector3.zero;
+
+    /// <inheritdoc/>
+    public List<Vector3> PatrolCoordinates => patrolCoordinates;
+
+    /// <inheritdoc/>
+    public Vector3 GuardPosition { get => guardPosition; set => guardPosition = value; }
+
+    /// <inheritdoc/>
+    public Vector3 GuardLookPosition { get => guardLookPosition; set => guardLookPosition = value; }
+
+    /// <inheritdoc/>
+    public Vector3 Position => position;
 
     public float flEyeHeight = -1f;
     public bool bWentThroughDoor;
@@ -533,6 +545,7 @@ public class EntityAliveSDX : EntityTrader
         scale = transform.localScale;
     }
 
+    /// <inheritdoc/>
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
         // Center the x and z values of the passed in blocks for a unique check.
@@ -584,7 +597,7 @@ public class EntityAliveSDX : EntityTrader
 
     }
 
-
+    /// <inheritdoc/>
     public void SetupAutoPathingBlocks()
     {
         // If we already have a pathing code, don't re-scan.

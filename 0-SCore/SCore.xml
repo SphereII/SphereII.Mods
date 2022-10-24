@@ -427,6 +427,24 @@
             ActivateSound: The sound used to activate the block
             </summary>
         </member>
+        <member name="P:EntityEnemySDX.PatrolCoordinates">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.GuardPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.GuardLookPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.Position">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityEnemySDX.SetupAutoPathingBlocks">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityEnemySDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <inheritdoc/>
+        </member>
         <member name="M:EntityAliveSDX.OnAddedToWorld">
             <summary>
                 Overrides EntityAlive.OnAddedToWorld().
@@ -635,6 +653,60 @@
             <param name="self"></param>
             <param name="target"></param>
             <returns></returns>
+        </member>
+        <member name="T:IEntityOrderReceiverSDX">
+            <summary>
+            <para>
+            This interface signifies that the entity can receiver orders.
+            </para>
+            
+            <para>
+            The orders do not have to come from a player. For example, they could come from a pathing cube.
+            </para>
+            
+            <para>
+            The entity does not have to <em>obey</em> the orders. It is only assumed that they will adjust
+            their behavior upon receiving at least one of the possible orders as specified in
+            <see cref="T:EntityUtilities.Orders"/>.
+            </para>
+            
+            <para>
+            Entities that implement this interface should also descend from <see cref="T:EntityAlive"/>,
+            or one of its descendants.
+            </para>
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.GuardLookPosition">
+            <summary>
+            If an entity is guarding a location, this is its look position.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.GuardPosition">
+            <summary>
+            If the entity is guarding a location, this is the position where it is guarding.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.PatrolCoordinates">
+            <summary>
+            If the entity is patrolling, this is the list of coordinates on its route.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.Position">
+            <summary>
+            The entity's current position.
+            </summary>
+        </member>
+        <member name="M:IEntityOrderReceiverSDX.SetupAutoPathingBlocks">
+            <summary>
+            When this method is called, the entity will scan the area for auto pathing blocks.
+            If it is capable of carrying out the orders on those blocks, it will do so.
+            </summary>
+        </member>
+        <member name="M:IEntityOrderReceiverSDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <summary>
+            Updates the list of patrol coordinates with the point at the given position.
+            </summary>
+            <param name="position"></param>
         </member>
         <member name="M:Lockpicking.Keyhole.OpenLock">
             <summary>

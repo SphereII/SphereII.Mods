@@ -8,10 +8,9 @@ public class MinEventActionGuardClear : MinEventActionTargetedBase
 {
     public override void Execute(MinEventParams _params)
     {
-        var entityAliveSDX = _params.Self as EntityAliveSDX;
-        if (entityAliveSDX == null) return;
+        if (!(_params.Self is IEntityOrderReceiverSDX entityOrderReceiver)) return;
 
-        entityAliveSDX.guardPosition = Vector3.zero;
-        entityAliveSDX.guardLookPosition = Vector3.zero;
+        entityOrderReceiver.GuardPosition = Vector3.zero;
+        entityOrderReceiver.GuardLookPosition = Vector3.zero;
     }
 }

@@ -8,7 +8,7 @@ internal class EAIPatrolSDX : EAIApproachSpot
 
     private bool blReverse = true;
 
-    private EntityAliveSDX entityAliveSDX;
+    private IEntityOrderReceiverSDX entityOrderReceiver;
     private List<Vector3> lstPatrolPoints = new List<Vector3>();
     private int pathRecalculateTicks;
     private int PatrolPointsCounter;
@@ -34,7 +34,7 @@ internal class EAIPatrolSDX : EAIApproachSpot
         if (entityClass.Properties.Values.ContainsKey("PatrolSpeed"))
             PatrolSpeed = float.Parse(entityClass.Properties.Values["PatrolSpeed"]);
 
-        entityAliveSDX = _theEntity as EntityAliveSDX;
+        entityOrderReceiver = _theEntity as IEntityOrderReceiverSDX;
     }
 
 
@@ -42,16 +42,16 @@ internal class EAIPatrolSDX : EAIApproachSpot
     {
         // this.PatrolPointsCounter = 0;
         DisplayLog(" Setting Up Patrol Vectors");
-        if (entityAliveSDX)
+        if (entityOrderReceiver != null)
         {
-            if (lstPatrolPoints == entityAliveSDX.patrolCoordinates)
+            if (lstPatrolPoints == entityOrderReceiver.PatrolCoordinates)
                 return;
 
-            DisplayLog(" Patrol Counters: " + entityAliveSDX.patrolCoordinates.Count);
-            if (entityAliveSDX.patrolCoordinates.Count > 0)
+            DisplayLog(" Patrol Counters: " + entityOrderReceiver.PatrolCoordinates.Count);
+            if (entityOrderReceiver.PatrolCoordinates.Count > 0)
             {
                 DisplayLog(" Setting up Patrol Coordinates");
-                lstPatrolPoints = entityAliveSDX.patrolCoordinates;
+                lstPatrolPoints = entityOrderReceiver.PatrolCoordinates;
                 PatrolPointsCounter = lstPatrolPoints.Count - 1;
                 seekPos = lstPatrolPoints[PatrolPointsCounter];
             }
@@ -62,7 +62,7 @@ internal class EAIPatrolSDX : EAIApproachSpot
     {
         DisplayLog("CanExecute() Start");
         var result = false;
-        if (entityAliveSDX)
+        if (entityOrderReceiver != null)
         {
             result = EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Patrol);
             DisplayLog("CanExecute() Follow Task? " + result);
@@ -81,10 +81,10 @@ internal class EAIPatrolSDX : EAIApproachSpot
 
         SetPatrolVectors();
 
-        if (entityAliveSDX.patrolCoordinates.Count > 0)
+        if (entityOrderReceiver.PatrolCoordinates.Count > 0)
         {
-            if (PatrolPointsCounter > entityAliveSDX.patrolCoordinates.Count - 1)
-                PatrolPointsCounter = entityAliveSDX.patrolCoordinates.Count - 1;
+            if (PatrolPointsCounter > entityOrderReceiver.PatrolCoordinates.Count - 1)
+                PatrolPointsCounter = entityOrderReceiver.PatrolCoordinates.Count - 1;
         }
         else
         {
@@ -113,7 +113,7 @@ internal class EAIPatrolSDX : EAIApproachSpot
 
         // No order and no patrol. Do reverse ( != checks on these, rather than == as it can leave the entity imprecise.
         var result = false;
-        if (entityAliveSDX)
+        if (entityOrderReceiver != null)
             result = EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.Patrol);
 
         if (lstPatrolPoints.Count <= 0)

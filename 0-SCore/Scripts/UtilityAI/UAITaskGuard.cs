@@ -17,13 +17,13 @@ namespace UAI
         }
         public override void Update(Context _context)
         {
-            var entityAliveSDX = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target) as EntityAliveSDX;
-            if (entityAliveSDX == null)
+            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            if (!(entityAlive is IEntityOrderReceiverSDX entityOrderReceiver))
             {
                 Stop(_context);
                 return;
             }
-        
+
             base.Update(_context);
 
             // Don't do anything until the entity touches the ground; avoid the free in mid-air scenario.
@@ -31,17 +31,17 @@ namespace UAI
 
 
             // Have the NPC stand in the center of the block, and path to it.
-            var entityPosition = EntityUtilities.CenterPosition(entityAliveSDX.position);
-            var guardPosition = EntityUtilities.CenterPosition(entityAliveSDX.guardPosition);
+            var entityPosition = EntityUtilities.CenterPosition(entityOrderReceiver.Position);
+            var guardPosition = EntityUtilities.CenterPosition(entityOrderReceiver.GuardPosition);
             if (guardPosition != entityPosition)
             {
-                entityAliveSDX.moveHelper.SetMoveTo(guardPosition, true);
+                entityAlive.moveHelper.SetMoveTo(guardPosition, true);
                 return;
             }
             else // Turn around or face the same way a player did they spoke to you.
             {
-                entityAliveSDX.SetLookPosition(entityAliveSDX.guardLookPosition);
-                entityAliveSDX.RotateTo(entityAliveSDX.guardLookPosition.x, entityAliveSDX.guardLookPosition.y, entityAliveSDX.guardLookPosition.z, 30f, 30f);
+                entityAlive.SetLookPosition(entityOrderReceiver.GuardLookPosition);
+                entityAlive.RotateTo(entityOrderReceiver.GuardLookPosition.x, entityOrderReceiver.GuardLookPosition.y, entityOrderReceiver.GuardLookPosition.z, 30f, 30f);
                 
             }
 

@@ -239,10 +239,10 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
         theEntity.SetLookPosition(entityTargetPos);
         theEntity.RotateTo(entityTargetPos.x, entityTargetPos.y + 2, entityTargetPos.z, 30f, 30f);
 
-        if (theEntity is EntityAliveSDX)
+        if (theEntity is IEntityOrderReceiverSDX entityOrderReceiver)
             if (EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.SetPatrolPoint))
                 // Make them a lot closer to you when they are following you.
-                (theEntity as EntityAliveSDX).UpdatePatrolPoints(theEntity.world.FindSupportingBlockPos(entityTarget.position));
+                entityOrderReceiver.UpdatePatrolPoints(theEntity.world.FindSupportingBlockPos(entityTarget.position));
         var a = theEntity.position - entityTargetPos;
         if (a.sqrMagnitude < 2f)
         {

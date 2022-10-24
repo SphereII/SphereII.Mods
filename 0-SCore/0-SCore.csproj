@@ -238,6 +238,7 @@
     <Compile Include="Scripts\Entities\EntityUtilities.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlockSDX.cs" />
     <Compile Include="Scripts\Entities\EntityZombieFlyingSDX.cs" />
+    <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
