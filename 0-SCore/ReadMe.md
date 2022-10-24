@@ -10,6 +10,18 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.297.1109
+
+	[ Enitity Alive SDX ]
+		- changes by kgiesing
+		
+		- With these changes, both EntityAliveSDX and EntityEnemySDX will implement that interface. 
+			- This should allow EntityEnemySDX to behave similarly to EntityAliveSDX
+
+			- This creates a new interface named IEntityOrderReceiverSDX, which should be used on any entity that can accept orders.
+
+			- Also, order-related blocks, MinEvents, and AI tasks are updated to use the interface type, rather than EntityAliveSDX directly.
+
 Version: 20.6.295.807
 
 	[ Broadcast Manager ]

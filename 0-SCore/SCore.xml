@@ -445,6 +445,18 @@
         <member name="M:EntityEnemySDX.UpdatePatrolPoints(UnityEngine.Vector3)">
             <inheritdoc/>
         </member>
+        <member name="P:EntityAliveSDX.PatrolCoordinates">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.GuardPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.GuardLookPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.Position">
+            <inheritdoc/>
+        </member>
         <member name="M:EntityAliveSDX.OnAddedToWorld">
             <summary>
                 Overrides EntityAlive.OnAddedToWorld().
@@ -452,6 +464,12 @@
                 several of their properties are set so they are spawned in a sleeping state.
                 If the NPC should always be awake, those properties can be reset here.
             </summary>
+        </member>
+        <member name="M:EntityAliveSDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityAliveSDX.SetupAutoPathingBlocks">
+            <inheritdoc/>
         </member>
         <member name="F:EntityTargetingUtilities.DamageRelationshipCVarName">
             <summary>
