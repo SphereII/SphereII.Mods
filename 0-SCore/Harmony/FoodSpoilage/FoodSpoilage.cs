@@ -206,7 +206,7 @@ public class SphereII_FoodSpoilage
                                 {
                                     strDisplay += " Preservation Bonus ( " + Container.Block.Properties.GetFloat("PreserveBonus") + " )";
                                     var preserveBonus = Container.Block.Properties.GetFloat("PreserveBonus");
-                                    if (preserveBonus == -99)
+                                    if (preserveBonus == -99f)
                                         return true;
                                     PerUse -= preserveBonus;
                                 }

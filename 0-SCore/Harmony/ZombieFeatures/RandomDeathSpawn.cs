@@ -34,6 +34,12 @@ namespace Harmony.ZombieFeatures
                     if (floatNoSpawnOnDeath == 1) return true; //If the value is 1, don't continue the code.  This allows cvars to set that stop the cvar spawning even if spawnOverride is set
                 }
 
+                // Only trigger a respawn when the local machine controls it.
+                if (__instance.isEntityRemote)
+                {
+                    return true;
+                }
+
                 // Spawn location
                 Vector3i blockPos;
                 blockPos.x = (int)__instance.position.x;

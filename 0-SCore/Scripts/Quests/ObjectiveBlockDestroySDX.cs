@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 /*	Value is the number of blocks before the objective passes
 		<objective type="BlockDestroySDX, SCore" id="frameShapes" value="1" phase="2"/>
@@ -118,12 +119,32 @@ public class ObjectiveBlockDestroySDX : BaseObjective
 
 		if (flag && base.OwnerQuest.CheckRequirements())
 		{
-			byte currentValue = base.CurrentValue;
-			base.CurrentValue = (byte)(currentValue + 1);
-			this.Refresh();
+			AddDestroyedBlock();
+			HandleParty();
 		}
 	}
 
+	public void AddDestroyedBlock()
+    {
+		byte currentValue = base.CurrentValue;
+		base.CurrentValue = (byte)(currentValue + 1);
+		this.Refresh();
+	}
+
+	private void HandleParty()
+	{
+		EntityPlayer ownerPlayer = base.OwnerQuest.OwnerJournal.OwnerPlayer;
+		if (ownerPlayer.Party == null)
+		{
+			return;
+		}
+		if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+		{
+			SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestObjectiveUpdate>().Setup(NetPackageQuestObjectiveUpdate.QuestObjectiveEventTypes.BlockActivated, ownerPlayer.entityId, base.OwnerQuest.QuestCode), false, -1, -1, -1, -1);
+			return;
+		}
+		SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestObjectiveUpdate>().Setup(NetPackageQuestObjectiveUpdate.QuestObjectiveEventTypes.BlockActivated, ownerPlayer.entityId, base.OwnerQuest.QuestCode), false);
+	}
 	public override void Refresh()
 	{
 		if ((int)base.CurrentValue > this.neededCount)

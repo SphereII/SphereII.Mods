@@ -601,8 +601,12 @@ public class FireManager
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         var expiry = worldTime + smokeTime;
-        if (!ExtinguishPositions.ContainsKey(_blockPos))
-            ExtinguishPositions[_blockPos] = expiry;
+
+        // Seems like somethimes the dedi and clients are out of sync, so this is a shot in the dark to see if we just skip the expired position check, and just
+        // keep resetting the expired time.
+        //if (!ExtinguishPositions.ContainsKey(_blockPos))
+         ExtinguishPositions[_blockPos] = expiry;
+         FireMap.TryRemove(_blockPos, out var block2);
 
         var block = GameManager.Instance.World.GetBlock(_blockPos);
 

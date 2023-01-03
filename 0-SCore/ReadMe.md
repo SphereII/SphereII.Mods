@@ -10,6 +10,32 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.368.1433
+
+	[ Food Spoilage ]
+		- Fixed an issue with -99 not stopping spoilage when using PreserveBonus -99
+
+	[ RandomDeathSpawn ]
+		Bug Report #61:	Wrong spawns on multiplayer of "Burn Victim" #61 (https://github.com/SphereII/SphereII.Mods/issues/61 )
+			- Added isEntityRemote check before determine to spawn or not.
+
+	[ ObjectiveBlockDestroySDX ]
+		Added a NetPackage to help distribute the block being destroyed count to the party for shared accumulation
+
+	[ Fire Manager ]
+		- Disabled the extinguished check to see if a block has been flagged as extinguished or not.
+		- Added a check where extinguished removed a block from the fire map.
+		- New functionality is that each time a block is extinguished, it'll set the expired time, regardless if it's already in the list, counting down.
+			- If BlockA was extinguished, it can smoke for 20 seconds.
+			- After 20 seconds, BlockA can catch fire again.
+			- If BlockA is re-extinguished before the 20 seconds are past, expired time will be set back to 20.
+
+		- Old functionality is that each time a block is extinguished, it'll expire after the expired time, allowing it to re-ignite.
+			- If BlockA was extinguished, it can smoke for 20 seconds.
+			- After 20 seconds, BlockA can catch fire again.
+			- If BlockA is re-extinguished before the 20 seconds are past, it won't reset that time period.
+			
+
 Version: 20.6.297.1109
 
 	[ Enitity Alive SDX ]
