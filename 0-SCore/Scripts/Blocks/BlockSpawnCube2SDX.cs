@@ -113,6 +113,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         if (Task.ToLower() == "wander")
             entity.Buffs.AddBuff("buffOrderWander");
         if (Task.ToLower() == "guard")
+            // Use the buff that issues the "guard" order, not the one that issues the "stay" order
             entity.Buffs.AddBuff("buffOrderGuard");
         if (Task.ToLower() == "follow")
             entity.Buffs.AddBuff("buffOrderFollow");

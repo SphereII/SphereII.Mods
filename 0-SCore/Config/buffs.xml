@@ -1,4 +1,4 @@
-﻿<configs>
+<configs>
 	<append xpath="/buffs">
 
 		
@@ -49,12 +49,29 @@
 			</effect_group>
 		</buff>
 
-		<buff name="buffOrderGuard"  hidden="true" >
+		<!--
+			This is the buff used by NPC Core to get NPCs to stand where the player is standing and remain there.
+			To do this, it sets the current order to Stay, and includes UAI considerations that look at this order.
+		-->
+		<buff name="buffOrderGuardHere"  hidden="true" >
 			<stack_type value="ignore"/>
 			<duration value="1" />
 			<effect_group>
-				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="9"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
 				<triggered_effect trigger="onSelfBuffStart" action="GuardHere, SCore"/> <!-- copies the player's current location for the entity to replace.-->
+			</effect_group>
+		</buff>
+
+		<!--
+			This is the buff used by pathing cubes to get NPCs to stand where they are, but they can also leave to attack.
+			To do this, it sets the order to Guard, so any UAI tasks that won't fire with Stay will still fire.
+		-->
+		<buff name="buffOrderGuard" hidden="true">
+			<stack_type value="ignore" />
+			<duration value="1" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="9" />
+				<triggered_effect trigger="onSelfBuffStart" action="GuardHere, SCore" /> <!-- copies the entity's current location for the entity to replace.-->
 			</effect_group>
 		</buff>
 

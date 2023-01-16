@@ -427,6 +427,20 @@
             ActivateSound: The sound used to activate the block
             </summary>
         </member>
+        <member name="T:EntityEnemySDX">
+            <summary>
+            <para>
+            This mod is an extension of the base EntityEnemy. This is meant to be a base class, which other
+            classes can extend from, giving them the ability to spawn into horde spawners and accept orders.
+            </para>
+            <example>
+            Add the following class to entities that are meant to use these features. 
+            <code>
+            &lt;property name="Class" value="EntityEnemySDX, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
+        </member>
         <member name="P:EntityEnemySDX.PatrolCoordinates">
             <inheritdoc/>
         </member>
