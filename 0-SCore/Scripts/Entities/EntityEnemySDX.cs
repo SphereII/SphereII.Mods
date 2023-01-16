@@ -239,11 +239,13 @@ public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
             // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
             if (task.ToLower() == "stay")
                 Buffs.AddBuff("buffOrderStay", -1, false);
-            if (task.ToLower() == "wander")
+            else if (task.ToLower() == "wander")
                 Buffs.AddBuff("buffOrderWander", -1, false);
-            if (task.ToLower() == "guard")
+            else if (task.ToLower() == "guard")
                 Buffs.AddBuff("buffOrderGuard", -1, false);
             // This entity can't accept the "follow" task.
+            else
+                Log.Out($"    Entity: {entityName} ( {entityId} ) : Cannot perform task: {task}");
         }
 
         var Buff = PathingCubeParser.GetValue(text, "buff");
