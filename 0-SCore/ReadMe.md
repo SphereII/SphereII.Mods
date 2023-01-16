@@ -10,7 +10,7 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.6.381.1319
+Version: 20.6.381.1351
 
 	[ Merge from khzmusik ]
 		- Fixed a null ref when an NPC would shoot a drone.
