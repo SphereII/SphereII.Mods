@@ -10,28 +10,73 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version: 20.6.381.1351
+Version: 20.6.381.1359
 
 	[ Merge from khzmusik ]
-		- Fixed a null ref when an NPC would shoot a drone.
+			- Fixed a null ref when an NPC would shoot a drone.
 
-		- Enhanced support for NPC Guard
+			- Enhanced support for NPC Guard
 
-		The Guard command, when issued from a pathing cube, sets the NPC order to Guard. Since it is not issued by the NPCs leader or owner, the guard position is set to (exactly) where the NPC is standing.
+			The Guard command, when issued from a pathing cube, sets the NPC order to Guard. Since it is not issued by the NPCs leader or owner, the guard position is set to (exactly) where the NPC is standing.
 
-		This is different from the "GuardHere" response (aka "Stay where I am standing") in the hired NPC dialog menu. That dialog response sets the current order to Stay, and since it is issued by a player, 
-			the guard position is set to the center of the block where the player is standing.
+			This is different from the "GuardHere" response (aka "Stay where I am standing") in the hired NPC dialog menu. That dialog response sets the current order to Stay, and since it is issued by a player, 
+				the guard position is set to the center of the block where the player is standing.
 
-		This is all done by buffs. The buff from the pathing cube was already named "buffOrderGuard" in the C# code, but there was never a buff by that name in buffs.xml. So, I created a new buff for use by that code.
+			This is all done by buffs. The buff from the pathing cube was already named "buffOrderGuard" in the C# code, but there was never a buff by that name in buffs.xml. So, I created a new buff for use by that code.
 
-		The buff used by the dialogs was "buffOrderGuardHere", which matched an existing buff in buffs.xml. That buff is unchanged.
+			The buff used by the dialogs was "buffOrderGuardHere", which matched an existing buff in buffs.xml. That buff is unchanged.
 
-		Because the order is Guard, any NPC Core utility AI tasks that will not fire when the order is Stay, will still fire. This means NPCs will still run after enemies, reload, etc.
+			Because the order is Guard, any NPC Core utility AI tasks that will not fire when the order is Stay, will still fire. This means NPCs will still run after enemies, reload, etc.
 
-		In order to have them stay where they are when initially spawned in, and return to their guard positions after they're done attacking enemies, a new AI task will need to be 
-			added in utilityai.xml. But this is not done in SCore.
+			In order to have them stay where they are when initially spawned in, and return to their guard positions after they're done attacking enemies, a new AI task will need to be 
+				added in utilityai.xml. But this is not done in SCore.
 
-		No existing behavior should be affected by these changes; only POIs that have pathing cubes with "task=guard" will need these changes, and to my knowledge nobody is doing that.
+			No existing behavior should be affected by these changes; only POIs that have pathing cubes with "task=guard" will need these changes, and to my knowledge nobody is doing that.
+
+
+Version: 20.6.368.1433
+
+	[ Food Spoilage ]
+		- Fixed an issue with -99 not stopping spoilage when using PreserveBonus -99
+
+	[ RandomDeathSpawn ]
+		Bug Report #61:	Wrong spawns on multiplayer of "Burn Victim" #61 (https://github.com/SphereII/SphereII.Mods/issues/61 )
+			- Added isEntityRemote check before determine to spawn or not.
+
+	[ ObjectiveBlockDestroySDX ]
+		Added a NetPackage to help distribute the block being destroyed count to the party for shared accumulation
+
+	[ Fire Manager ]
+		- Disabled the extinguished check to see if a block has been flagged as extinguished or not.
+		- Added a check where extinguished removed a block from the fire map.
+		- New functionality is that each time a block is extinguished, it'll set the expired time, regardless if it's already in the list, counting down.
+			- If BlockA was extinguished, it can smoke for 20 seconds.
+			- After 20 seconds, BlockA can catch fire again.
+			- If BlockA is re-extinguished before the 20 seconds are past, expired time will be set back to 20.
+
+		- Old functionality is that each time a block is extinguished, it'll expire after the expired time, allowing it to re-ignite.
+			- If BlockA was extinguished, it can smoke for 20 seconds.
+			- After 20 seconds, BlockA can catch fire again.
+			- If BlockA is re-extinguished before the 20 seconds are past, it won't reset that time period.
+			
+
+Version: 20.6.297.1109
+
+	[ Enitity Alive SDX ]
+		- changes by kgiesing
+		
+		- With these changes, both EntityAliveSDX and EntityEnemySDX will implement that interface. 
+			- This should allow EntityEnemySDX to behave similarly to EntityAliveSDX
+
+			- This creates a new interface named IEntityOrderReceiverSDX, which should be used on any entity that can accept orders.
+
+			- Also, order-related blocks, MinEvents, and AI tasks are updated to use the interface type, rather than EntityAliveSDX directly.
+
+Version: 20.6.295.807
+
+	[ Broadcast Manager ]
+
+	- possible fix for Broadcastmanager not saving on Multiplayer games : by FuriousRamsay
 
 Version: 20.6.285.831
 

@@ -44,6 +44,28 @@
             This is a patch to SetSleeperActive that will wake NPCs in "active" sleeper volumes.
             </summary>
         </member>
+        <member name="T:Harmony.EntityDrone.EntityDronePatches">
+            <summary>
+            Harmony patches of <see cref="T:EntityDrone"/>.
+            </summary>
+        </member>
+        <member name="T:Harmony.EntityDrone.EntityDronePatches.EntityDrone_isAlly">
+            <summary>
+            Harmony patch of <see cref="M:EntityDrone.isAlly(EntityAlive)"/>
+            so that it will not produce an NRE if the target is null.
+            </summary>
+        </member>
+        <member name="M:Harmony.EntityDrone.EntityDronePatches.EntityDrone_isAlly.Prefix(System.Boolean@,EntityAlive)">
+            <summary>
+            The _target argument was cast to an <see cref="T:EntityPlayer"/> before this method
+            was called, so it will be null for ranged weapon attacks from any NPC.
+            This will cause a <see cref="T:System.NullReferenceException"/> in the original method,
+            so we need to skip it entirely in this case.
+            </summary>
+            <param name="__result"></param>
+            <param name="_target"></param>
+            <returns></returns>
+        </member>
         <member name="T:Harmony.ErrorHandling.NoExceptionHijack">
             SCoreNoExceptionHijack
             
@@ -425,6 +447,20 @@
             
             ControlPanelName: Used for display purposes
             ActivateSound: The sound used to activate the block
+            </summary>
+        </member>
+        <member name="T:EntityEnemySDX">
+            <summary>
+            <para>
+            This mod is an extension of the base EntityEnemy. This is meant to be a base class, which other
+            classes can extend from, giving them the ability to spawn into horde spawners and accept orders.
+            </para>
+            <example>
+            Add the following class to entities that are meant to use these features. 
+            <code>
+            &lt;property name="Class" value="EntityEnemySDX, SCore" /&gt;
+            </code>
+            </example>
             </summary>
         </member>
         <member name="P:EntityEnemySDX.PatrolCoordinates">

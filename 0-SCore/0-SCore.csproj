@@ -64,6 +64,7 @@
     <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
     <Compile Include="Harmony\EntityAlive\UpdateCurrentBlockposAndValueFire.cs" />
+    <Compile Include="Harmony\EntityDrone\EntityDronePatches.cs" />
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
     <Compile Include="Harmony\EntityMoveHelper\StartJump.cs" />
     <Compile Include="Harmony\EntityMoveHelper\Stop.cs" />
@@ -311,6 +312,7 @@
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddBroadcastePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageQuestBlockDestroyedSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveBroadcastPosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddFirePosition.cs" />

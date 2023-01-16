@@ -632,6 +632,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             else if (Task.ToLower() == "wander")
                 Buffs.AddBuff("buffOrderWander", -1, false);
             else if (Task.ToLower() == "guard")
+                // Use the buff that issues the "guard" order, not the one that issues the "stay" order
                 Buffs.AddBuff("buffOrderGuard", -1, false);
             else if (Task.ToLower() == "follow")
                 Buffs.AddBuff("buffOrderFollow", -1, false);
