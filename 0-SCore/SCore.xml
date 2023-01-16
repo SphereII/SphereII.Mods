@@ -744,6 +744,28 @@
             <param name="material"></param>
             <param name="value"></param>
         </member>
+        <member name="T:MinEventActionGuardClear">
+            <summary>
+            Clears the guard position.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardClear, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="T:MinEventActionGuardThere">
+            <summary>
+            Sets the guard position to where the entity is standing.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardThere, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
+        </member>
         <member name="T:MinEventActionModifyRelatedFactionsSDX">
             <summary>
                 <para>
@@ -895,6 +917,19 @@
                         faction="redteam" value="10" />
             </code>
             </example>
+        </member>
+        <member name="T:MinEventActionGuardHere">
+            <summary>
+            Sets the guard position to where the leader or owner is standing.
+            If there is no leader or owner, for example if the order was given by a pathing cube,
+            then it sets the guard position to where the entity is standing.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardHere, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
         </member>
         <member name="T:MinEventActionSetFactionRelationship">
             <summary>
@@ -1465,6 +1500,18 @@
             These hit mask values are taken verbatim from Voxel.raycastNew.
             The names represent whether a raycast should <em>collide with</em> the block.
             </summary>
+        </member>
+        <member name="T:UAI.UAITaskGuard">
+             <summary>
+             Guards a position. If the entity is not at its guard position, it will path its way back to it.
+             The guard position must already be set, for example from <see cref="T:MinEventActionGuardHere"/>.
+            
+             <example>
+             <code>
+             &lt;task class="Guard, SCore" /&gt;
+             </code>
+             </example>
+             </summary>
         </member>
     </members>
 </doc>

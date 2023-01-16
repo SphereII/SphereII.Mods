@@ -1,9 +1,14 @@
-﻿
+﻿using UnityEngine;
 
-// Clears the guard position
-// <triggered_effect trigger="onSelfBuffUpdate" action="GuardClear, SCore" />
-using UnityEngine;
-
+/// <summary>
+/// Clears the guard position.
+/// 
+/// <example>
+/// <code>
+/// &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardClear, SCore" /&gt;
+/// </code>
+/// </example>
+/// </summary>
 public class MinEventActionGuardClear : MinEventActionTargetedBase
 {
     public override void Execute(MinEventParams _params)

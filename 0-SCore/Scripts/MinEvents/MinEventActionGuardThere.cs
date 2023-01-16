@@ -1,9 +1,12 @@
-﻿
-
-// sets the guard position to where the entity is standing.
-// <triggered_effect trigger="onSelfBuffUpdate" action="GuardThere, SCore" />
-using UnityEngine;
-
+﻿/// <summary>
+/// Sets the guard position to where the entity is standing.
+/// 
+/// <example>
+/// <code>
+/// &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardThere, SCore" /&gt;
+/// </code>
+/// </example>
+/// </summary>
 public class MinEventActionGuardThere : MinEventActionTargetedBase
 {
     public override void Execute(MinEventParams _params)

@@ -281,6 +281,10 @@ namespace UAI
             if (targetEntity.IsDead())
                 return false;
 
+            // If it's ignored by AI, pretend you can't see it.
+            if (targetEntity.IsIgnoredByAI())
+                return false;
+
             // If the entity isn't very close to us, make sure they are in our viewcone.
             var distance = sourceEntity.GetDistanceSq(targetEntity);
             if (distance > 100)

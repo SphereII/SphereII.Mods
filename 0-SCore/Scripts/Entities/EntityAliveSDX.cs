@@ -346,7 +346,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (this.emodel == null) return;
         var modelTransform = this.emodel.GetModelTransform();
         if (modelTransform == null) return;
-        foreach( var rigid in modelTransform.GetComponentsInChildren<Rigidbody>() )
+        foreach (var rigid in modelTransform.GetComponentsInChildren<Rigidbody>())
         {
             rigid.useGravity = _bDisplayed;
         }
@@ -629,12 +629,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
             if (Task.ToLower() == "stay")
                 Buffs.AddBuff("buffOrderStay", -1, false);
-            if (Task.ToLower() == "wander")
+            else if (Task.ToLower() == "wander")
                 Buffs.AddBuff("buffOrderWander", -1, false);
-            if (Task.ToLower() == "guard")
+            else if (Task.ToLower() == "guard")
                 Buffs.AddBuff("buffOrderGuard", -1, false);
-            if (Task.ToLower() == "follow")
+            else if (Task.ToLower() == "follow")
                 Buffs.AddBuff("buffOrderFollow", -1, false);
+            else
+                Log.Out($"    Entity: {entityName} ( {entityId} ) : Cannot perform task: {Task}");
         }
 
         var Buff = PathingCubeParser.GetValue(text, "buff");
