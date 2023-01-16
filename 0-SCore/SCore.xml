@@ -44,28 +44,6 @@
             This is a patch to SetSleeperActive that will wake NPCs in "active" sleeper volumes.
             </summary>
         </member>
-        <member name="T:Harmony.EntityDrone.EntityDronePatches">
-            <summary>
-            Harmony patches of <see cref="T:EntityDrone"/>.
-            </summary>
-        </member>
-        <member name="T:Harmony.EntityDrone.EntityDronePatches.EntityDrone_isAlly">
-            <summary>
-            Harmony patch of <see cref="M:EntityDrone.isAlly(EntityAlive)"/>
-            so that it will not produce an NRE if the target is null.
-            </summary>
-        </member>
-        <member name="M:Harmony.EntityDrone.EntityDronePatches.EntityDrone_isAlly.Prefix(System.Boolean@,EntityAlive)">
-            <summary>
-            The _target argument was cast to an <see cref="T:EntityPlayer"/> before this method
-            was called, so it will be null for ranged weapon attacks from any NPC.
-            This will cause a <see cref="T:System.NullReferenceException"/> in the original method,
-            so we need to skip it entirely in this case.
-            </summary>
-            <param name="__result"></param>
-            <param name="_target"></param>
-            <returns></returns>
-        </member>
         <member name="T:Harmony.ErrorHandling.NoExceptionHijack">
             SCoreNoExceptionHijack
             
@@ -449,6 +427,50 @@
             ActivateSound: The sound used to activate the block
             </summary>
         </member>
+        <member name="T:EntityEnemySDX">
+            <summary>
+            <para>
+            This mod is an extension of the base EntityEnemy. This is meant to be a base class, which other
+            classes can extend from, giving them the ability to spawn into horde spawners and accept orders.
+            </para>
+            <example>
+            Add the following class to entities that are meant to use these features. 
+            <code>
+            &lt;property name="Class" value="EntityEnemySDX, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:EntityEnemySDX.PatrolCoordinates">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.GuardPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.GuardLookPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityEnemySDX.Position">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityEnemySDX.SetupAutoPathingBlocks">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityEnemySDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.PatrolCoordinates">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.GuardPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.GuardLookPosition">
+            <inheritdoc/>
+        </member>
+        <member name="P:EntityAliveSDX.Position">
+            <inheritdoc/>
+        </member>
         <member name="M:EntityAliveSDX.OnAddedToWorld">
             <summary>
                 Overrides EntityAlive.OnAddedToWorld().
@@ -456,6 +478,12 @@
                 several of their properties are set so they are spawned in a sleeping state.
                 If the NPC should always be awake, those properties can be reset here.
             </summary>
+        </member>
+        <member name="M:EntityAliveSDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <inheritdoc/>
+        </member>
+        <member name="M:EntityAliveSDX.SetupAutoPathingBlocks">
+            <inheritdoc/>
         </member>
         <member name="F:EntityTargetingUtilities.DamageRelationshipCVarName">
             <summary>
@@ -658,6 +686,60 @@
             <param name="target"></param>
             <returns></returns>
         </member>
+        <member name="T:IEntityOrderReceiverSDX">
+            <summary>
+            <para>
+            This interface signifies that the entity can receiver orders.
+            </para>
+            
+            <para>
+            The orders do not have to come from a player. For example, they could come from a pathing cube.
+            </para>
+            
+            <para>
+            The entity does not have to <em>obey</em> the orders. It is only assumed that they will adjust
+            their behavior upon receiving at least one of the possible orders as specified in
+            <see cref="T:EntityUtilities.Orders"/>.
+            </para>
+            
+            <para>
+            Entities that implement this interface should also descend from <see cref="T:EntityAlive"/>,
+            or one of its descendants.
+            </para>
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.GuardLookPosition">
+            <summary>
+            If an entity is guarding a location, this is its look position.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.GuardPosition">
+            <summary>
+            If the entity is guarding a location, this is the position where it is guarding.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.PatrolCoordinates">
+            <summary>
+            If the entity is patrolling, this is the list of coordinates on its route.
+            </summary>
+        </member>
+        <member name="P:IEntityOrderReceiverSDX.Position">
+            <summary>
+            The entity's current position.
+            </summary>
+        </member>
+        <member name="M:IEntityOrderReceiverSDX.SetupAutoPathingBlocks">
+            <summary>
+            When this method is called, the entity will scan the area for auto pathing blocks.
+            If it is capable of carrying out the orders on those blocks, it will do so.
+            </summary>
+        </member>
+        <member name="M:IEntityOrderReceiverSDX.UpdatePatrolPoints(UnityEngine.Vector3)">
+            <summary>
+            Updates the list of patrol coordinates with the point at the given position.
+            </summary>
+            <param name="position"></param>
+        </member>
         <member name="M:Lockpicking.Keyhole.OpenLock">
             <summary>
                 Call this when the lock is open successfully.
@@ -675,6 +757,28 @@
             </summary>
             <param name="material"></param>
             <param name="value"></param>
+        </member>
+        <member name="T:MinEventActionGuardClear">
+            <summary>
+            Clears the guard position.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardClear, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="T:MinEventActionGuardThere">
+            <summary>
+            Sets the guard position to where the entity is standing.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardThere, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
         </member>
         <member name="T:MinEventActionModifyRelatedFactionsSDX">
             <summary>
@@ -827,6 +931,19 @@
                         faction="redteam" value="10" />
             </code>
             </example>
+        </member>
+        <member name="T:MinEventActionGuardHere">
+            <summary>
+            Sets the guard position to where the leader or owner is standing.
+            If there is no leader or owner, for example if the order was given by a pathing cube,
+            then it sets the guard position to where the entity is standing.
+            
+            <example>
+            <code>
+            &lt;triggered_effect trigger="onSelfBuffUpdate" action="GuardHere, SCore" /&gt;
+            </code>
+            </example>
+            </summary>
         </member>
         <member name="T:MinEventActionSetFactionRelationship">
             <summary>
@@ -1397,6 +1514,18 @@
             These hit mask values are taken verbatim from Voxel.raycastNew.
             The names represent whether a raycast should <em>collide with</em> the block.
             </summary>
+        </member>
+        <member name="T:UAI.UAITaskGuard">
+             <summary>
+             Guards a position. If the entity is not at its guard position, it will path its way back to it.
+             The guard position must already be set, for example from <see cref="T:MinEventActionGuardHere"/>.
+            
+             <example>
+             <code>
+             &lt;task class="Guard, SCore" /&gt;
+             </code>
+             </example>
+             </summary>
         </member>
     </members>
 </doc>
