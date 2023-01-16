@@ -225,7 +225,6 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 if (Task.ToLower() == "wander")
                     x.Buffs.AddBuff("buffOrderWander");
                 if (Task.ToLower() == "guard")
-                    // Use the buff that issues the "guard" order, not the one that issues the "stay" order
                     x.Buffs.AddBuff("buffOrderGuard");
 
                 if (Task.ToLower() == "follow")

@@ -3,8 +3,8 @@
  * Author:  sphereii 
  * Category: Entity
  * Description:
- *      This mod is an extension of the base entityAlive. This is meant to be a base class, which other classes can extend
- *      from, giving them the ability to spawn into horde spawners and accept orders.
+ *      This mod is an extension of the base entityAlive. This is meant to be a base class, where other classes can extend
+ *      from, giving them the ability to accept quests and buffs.
  * 
  * Usage:
  *      Add the following class to entities that are meant to use these features. 
@@ -12,22 +12,12 @@
  *      <property name="Class" value="EntityEnemySDX, SCore" />
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Random = System.Random;
 
-/// <summary>
-/// <para>
-/// This mod is an extension of the base EntityEnemy. This is meant to be a base class, which other
-/// classes can extend from, giving them the ability to spawn into horde spawners and accept orders.
-/// </para>
-/// <example>
-/// Add the following class to entities that are meant to use these features. 
-/// <code>
-/// &lt;property name="Class" value="EntityEnemySDX, SCore" /&gt;
-/// </code>
-/// </example>
-/// </summary>
 public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
 {
     public float flEyeHeight = -1f;
@@ -249,14 +239,11 @@ public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
             // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
             if (task.ToLower() == "stay")
                 Buffs.AddBuff("buffOrderStay", -1, false);
-            else if (task.ToLower() == "wander")
+            if (task.ToLower() == "wander")
                 Buffs.AddBuff("buffOrderWander", -1, false);
-            else if (task.ToLower() == "guard")
-                // Use the buff that issues the "guard" order, not the one that issues the "stay" order
+            if (task.ToLower() == "guard")
                 Buffs.AddBuff("buffOrderGuard", -1, false);
             // This entity can't accept the "follow" task.
-            else
-                Log.Out($"    Entity: {entityName} ( {entityId} ) : Cannot perform task: {task}");
         }
 
         var Buff = PathingCubeParser.GetValue(text, "buff");
