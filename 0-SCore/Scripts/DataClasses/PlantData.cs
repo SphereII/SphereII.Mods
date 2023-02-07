@@ -101,6 +101,7 @@ public class PlantData
     }
     public bool IsNearWater()
     {
+
         if ( WaterPos != Vector3i.zero )
             if ( GameManager.Instance.World.IsWater(WaterPos))
                 return true;
@@ -108,7 +109,9 @@ public class PlantData
         // Check if we still have a water valve reference, and its on.
         var valves = WaterPipeManager.Instance.GetWaterValves();
         if (valves.ContainsKey(WaterPos))
+        {
             return true;
+        }
 
         // Check to see if there's a valve that can provide coverage for this.
         foreach (var valve in valves)
@@ -125,7 +128,7 @@ public class PlantData
             }
         }
         // search for a direct water source.
-        var newWaterSource = ScanForWater(BlockPos);
+        var newWaterSource = ScanForWater(BlockPos, _waterRange);
         if(WaterPipeManager.Instance.IsDirectWaterSource(newWaterSource))
         {
             WaterPos = newWaterSource;

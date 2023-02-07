@@ -18,8 +18,6 @@
 	<set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='PlantGrowing.GrowthRate']/@value">10</set>
 
 	<!-- For testing, this rate (in minutes) should be set no lower than 2 -->
-
-
 	<append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
 	
 	
@@ -68,6 +66,7 @@
 			<property name="DescriptionKey" value="torchGroupDesc"/>
 			<property name="FilterTags" value="fdecor,felectrical"/>
 			<property name="SortOrder1" value="70a0"/>
+			<property name="WaterRange" value="10" />
 		</block>
 	</append>
 </configs>

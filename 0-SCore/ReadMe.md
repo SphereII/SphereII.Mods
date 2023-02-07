@@ -10,6 +10,14 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.403.1003
+
+	[ Farming ]
+		- Fixed an issue where the sprinkler blocks were not registering themselves to the Valve System.
+			- Plants will check all valves ( sprinklers ) for their water range, then calculate if its within range of the valve.
+			- If there are no valves within range, plant will check for surrounding blocks for water.
+
+
 Version: 20.6.403.2043
 
 	[ Broadcast Feature ]

@@ -65,15 +65,28 @@ public class WaterPipeManager
     {
         if (turnOn)
         {
-            if (WaterValve.ContainsKey(valve))
-                WaterValve.Remove(valve);
+            WaterValve.Add(valve, pipePosition);
         }
         else
         {
-            if (!WaterValve.ContainsKey(valve))
-                WaterValve.Add(valve, pipePosition);
+            WaterValve.Remove(valve);
         }
     }
+
+    public void RemoveValve( Vector3i valve)
+    {
+        if (WaterValve.ContainsKey(valve))
+            WaterValve.Remove(valve);
+    }
+    public void AddValve(Vector3i valve)
+    {
+        if (WaterValve.ContainsKey(valve))
+            return;
+
+        WaterValve.Add(valve, valve);
+    }
+
+  
      public bool IsValveOff(Vector3i position)
     {
         return WaterValve.ContainsValue(position);
