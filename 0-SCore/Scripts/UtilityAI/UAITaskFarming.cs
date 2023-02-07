@@ -47,27 +47,14 @@ namespace UAI
                 // If we are dealing with a farm plot, then we want to manage that a bit. Plant a seed, harvest, etc.
                 if (_farmData != null)
                 {
-                    var seedName = string.Empty;
-                    foreach (var stack in _context.Self.lootContainer.items)
-                    {
-                        if (stack.IsEmpty()) continue;
-                        var itemname = stack.itemValue.ItemClass.GetItemName();
-                        if (itemname.StartsWith("planted") && itemname.EndsWith("1"))
-                        {
-                            Log.Out($"Found a seed: {seedName}");
-                            seedName = itemname;
-                            stack.count--;
-                            break;
-                        }
-                    }
+   
 
-                    var items = _farmData.Manage(seedName);
+                    var items = _farmData.Manage( _context.Self);
                     var lootContainer = _context.Self.lootContainer;
                     if (items != null && lootContainer != null)
                     {
                         foreach (var item in items)
                         {
-                            Log.Out($"Collecting: {item.name}");
                             int num = Utils.FastMax(0, item.minCount);
                             ItemStack itemStack = new ItemStack(ItemClass.GetItem(item.name, false), num);
                             if (_context.Self.lootContainer.AddItem(itemStack))

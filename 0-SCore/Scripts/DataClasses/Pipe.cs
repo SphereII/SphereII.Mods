@@ -18,25 +18,7 @@ public class Pipe
     {
         return blockPos;
     }
-    //public void GetNeighbors()
-    //{
-    //    pipes.Clear();
-    //    waterSource.Clear();
 
-    //    foreach (var direction in Vector3i.AllDirections)
-    //    {
-    //        var position = blockPos + direction;
-
-    //        if (WaterPipeManager.Instance.IsValveOff(position)) continue;
-
-    //        // If it's a pipe, add it to the list, and keep going.
-    //        var blockValue = GameManager.Instance.World.GetBlock(position);
-    //        if (blockValue.Block is BlockWaterPipeSDX)
-    //            Add(position);
-    //        if (WaterPipeManager.Instance.IsDirectWaterSource(position))
-    //            AddWater(position);
-    //    }
-    //}
     public List<Vector3i> GetPipes()
     {
         return pipes;

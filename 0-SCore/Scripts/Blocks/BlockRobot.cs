@@ -58,14 +58,14 @@ public class BlockRobot : Block
  
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        var farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(_blockPos);
-        if (farmPlot == null)
-        {
-            farmPlot.Manage(crop);
-            _world.GetWBT().AddScheduledBlockUpdate(_clrIdx, _blockPos, this.blockID, this.GetTickRate());
-            Move(_blockPos);
+        //var farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(_blockPos);
+        //if (farmPlot == null)
+        //{
+        //    farmPlot.Manage(crop);
+        //    _world.GetWBT().AddScheduledBlockUpdate(_clrIdx, _blockPos, this.blockID, this.GetTickRate());
+        //    Move(_blockPos);
 
-        }
+        //}
         return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
 }

@@ -35,9 +35,16 @@ internal class ObjectiveBuffSDX : BaseObjective
     }
 
 
+    public override void SetupObjective()
+    {
+        this.keyword = Localization.Get("ObjectiveBuffSDX_keyword");
+        if ( string.IsNullOrEmpty( this.keyword ) )
+            this.keyword = Localization.Get("ObjectiveBuff_keyword");
+    }
+
     public override void SetupDisplay()
     {
-        Description = string.Format("{0} {1}:", keyword, strBuff);
+        Description = string.Format("{0} {1}:", keyword, Localization.Get(strBuff));
     }
 
     public override void Refresh()

@@ -10,6 +10,35 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.403.2043
+
+	[ Broadcast Feature ]
+		- Added code for Repair / Upgrade from storage
+		- Added check to see if enemy was nearby for Repair / Upgrade from storage
+
+	[ UAI Farming Task ]
+		- Moved seed decrements from UAI Task to the Manage method, to more accurately subtrack seed usage.
+		- Added water check to see if NPC can actually plant at the location.
+		- Added a Water Valve Check
+			- When a water block will scan for a water source, it'll check all the valves registered, and check if the plant is within range of the water block's water range
+			- In order for this water valve to be registered, it must be on. Just having a water valve that is not on, will not be sufficient for plant needs.
+					- This is different behaviour than using a regular non-valve water source.
+			- If the original valve is off when a plant checks, it will look for other valves to see if there's any water available on them.
+			- If none are found, it'll resort to legacy behaviour, and scan for water sources.
+
+			- BlockWaterSourceSDX has a new property. Default is 5f.
+				<property name="WaterRange" value="5" />
+
+
+	[ Trample Code ]
+		- Entities that have "notrample" cvar value greater than 0, will not cause crops to be damaged, if the crops damaged feature is enabled.
+		- Entities that have a "notrample" tag will not cause crops to be damaged.
+
+	[ Quest ]
+		- Added Localization support.
+			ObjectiveBuffSDX_keyword  ( fall back is ObjectiveBuff_keyword, which is simply Get in English )
+			<buff> If the buff name has a localization setting, it'll use that, in conjunaction with the keyword  Get <my buff>
+
 Version: 20.6.381.1359
 
 	[ Merge from khzmusik ]

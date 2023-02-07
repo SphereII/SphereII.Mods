@@ -29,6 +29,9 @@ namespace Harmony.Blocks
             {
                 if (__instance is EntityPlayerLocal) return;
                 if (__instance is EntityPlayer) return;
+                if (__instance.Buffs.GetCustomVar("notrample") > 0f) return;
+                if (__instance.HasAnyTags(FastTags.Parse("notrample"))) return;
+
                 Vector3i blockPosition = __instance.GetBlockPosition();
                 var block = GameManager.Instance.World.GetBlock(0, blockPosition).Block;
                 if (block.FilterTags != null && block.FilterTags.ContainsCaseInsensitive(DestructibleTag))

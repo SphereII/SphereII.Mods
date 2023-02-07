@@ -177,6 +177,67 @@ namespace SCore.Harmony.Recipes
             return _items;
         }
 
+        public static void ConsumeItem(IList<ItemStack> _itemStacks, EntityPlayerLocal localPlayer, int _multiplier)
+        {
+            var tileEntities = EnhancedRecipeLists.GetTileEntities(localPlayer);
+            foreach (var itemStack in _itemStacks)
+            {
+                // counter quantity needed from item
+                int q = itemStack.count * _multiplier;
+                //check player inventory for materials and reduce counter
+                var slots = localPlayer.bag.GetSlots();
+                q = q - slots
+                    .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                    .Sum(y => y.count);
+
+                // check storage boxes
+                foreach (var tileEntity in tileEntities)
+                {
+                    if (q <= 0) break;
+                    var lootTileEntity = tileEntity as TileEntityLootContainer;
+                    if (lootTileEntity == null) continue;
+
+                    // If there's no items in this container, skip.
+                    if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
+
+                    int num = itemStack.count * _multiplier;
+                    if (lootTileEntity == null) break;
+                    for (int y = 0; y < lootTileEntity.items.Length; y++)
+                    {
+                        var item = lootTileEntity.items[y];
+                        if (item.IsEmpty()) continue;
+                        if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
+                        {
+                            // If we can completely satisfy the result, let's do that.
+                            if (item.count >= q)
+                            {
+                                item.count -= q;
+                                q = 0;
+                            }
+                            else
+                            {
+                                // Otherwise, let's just count down until we meet the requirement.
+                                while (q >= 0)
+                                {
+                                    item.count--;
+                                    q--;
+                                    if (item.count <= 0)
+                                        break;
+                                }
+                            }
+
+                            //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
+                            if (item.count < 1)
+                                lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+                            else
+                                lootTileEntity.UpdateSlot(y, item);
+                            lootTileEntity.SetModified();
+                        }
+                    }
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(XUiC_RecipeList))]
         [HarmonyPatch("BuildRecipeInfosList")]
         public class BuildRecipeInfosList
@@ -206,29 +267,70 @@ namespace SCore.Harmony.Recipes
             }
         }
 
-        //[HarmonyPatch(typeof(XUiM_PlayerInventory))]
-        //[HarmonyPatch("GetItemCount")]
-        //[HarmonyPatch(new[] { typeof(ItemValue) })]
-        //public class GetItemCount
-        //{
-        //    public static void Postfix(ref int __result, EntityPlayerLocal ___localPlayer, ItemValue _itemValue)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-        //            return;
 
-        //        foreach (var item in EnhancedRecipeLists.SearchNearbyContainers(___localPlayer))
-        //        {
-        //            if (item == null) continue;
-        //            if (item.IsEmpty()) continue;
-        //            if (item.itemValue == null) continue;
-        //            if ((!item.itemValue.HasModSlots || !item.itemValue.HasMods()) && item.itemValue.type == _itemValue.type)
-        //                __result += item.count;
+        // Repair using items from container.
+        [HarmonyPatch(typeof(Inventory))]
+        [HarmonyPatch("GetItemCount")]
+        [HarmonyPatch(new[] { typeof(ItemValue), typeof(bool), typeof(int), typeof(int) })]
 
-        //        }
+        public class InventoryGetItemCount
+        {
+            public static void Postfix(ref int __result, ItemValue _itemValue, EntityAlive ___entity)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
+                    return;
 
-        //    }
-        //}
+                // If we are to block based on entity, check for them.
+                if ( Configuration.CheckFeatureStatus("BlockUpgradeRepair", "BlockOnNearbyEnemies" ))
+                {
+                    var enemyDistance = 30f;
+                    var strenemyDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "DistanceEnemy");
+                    if (!string.IsNullOrEmpty(strenemyDistance))
+                        enemyDistance = StringParsers.ParseFloat(strenemyDistance);
+
+                    if (SCoreUtils.IsEnemyNearby(___entity, enemyDistance))
+                        return;
+                }
+
+                var distance = 30f;
+                var strDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "Distance");
+                if (!string.IsNullOrEmpty(strDistance))
+                    distance = StringParsers.ParseFloat(strDistance);
+
+                var stack = EnhancedRecipeLists.SearchNearbyContainers(___entity, _itemValue, distance);
+                foreach (var each in stack)
+                    __result += each.count;
+
+                return;
+            }
+        }
+
+        // Repair using items from container.
+        [HarmonyPatch(typeof(Inventory))]
+        [HarmonyPatch("DecItem")]
+        public class Inventory_DecItem
+        {
+            public static bool Prefix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
+                    return true;
+
+                // Send it through the xui so the other patch can catch it.
+                var entityPlayer = ___entity as EntityPlayerLocal;
+                if (entityPlayer == null) return true;
+
+                ItemStack itemStack = new ItemStack(_itemValue, _count);
+                var itemStacks = new List<ItemStack>();
+                itemStacks.Add(itemStack);
+                ConsumeItem(itemStacks, entityPlayer, 1);
+                __result = _count;
+                return false;
+            }
+        }
+
+     
 
         // replaces getitemcount
         // mostly a copy of the original code.
@@ -335,63 +437,7 @@ namespace SCore.Harmony.Recipes
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
-                foreach (var itemStack in _itemStacks)
-                {
-                    // counter quantity needed from item
-                    int q = itemStack.count * _multiplier;
-                    //check player inventory for materials and reduce counter
-                    var slots = ___localPlayer.bag.GetSlots();
-                    q = q - slots
-                        .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                        .Sum(y => y.count);
-
-                    // check storage boxes
-                    foreach (var tileEntity in tileEntities)
-                    {
-                        if (q <= 0) break;
-                        var lootTileEntity = tileEntity as TileEntityLootContainer;
-                        if (lootTileEntity == null) continue;
-
-                        // If there's no items in this container, skip.
-                        if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
-
-                        int num = itemStack.count * _multiplier;
-                        if (lootTileEntity == null) break;
-                        for (int y = 0; y < lootTileEntity.items.Length; y++)
-                        {
-                            var item = lootTileEntity.items[y];
-                            if (item.IsEmpty()) continue;
-                            if (item.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                            {
-                                // If we can completely satisfy the result, let's do that.
-                                if (item.count >= q)
-                                {
-                                    item.count -= q;
-                                    q = 0;
-                                }
-                                else
-                                {
-                                    // Otherwise, let's just count down until we meet the requirement.
-                                    while (q >= 0)
-                                    {
-                                        item.count--;
-                                        q--;
-                                        if (item.count <= 0)
-                                            break;
-                                    }
-                                }
-
-                                //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
-                                if (item.count < 1)
-                                    lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
-                                else
-                                    lootTileEntity.UpdateSlot(y, item);
-                                lootTileEntity.SetModified();
-                            }
-                        }
-                    }
-                }
+                ConsumeItem(_itemStacks, ___localPlayer, _multiplier);
                 return true;
             }
         }

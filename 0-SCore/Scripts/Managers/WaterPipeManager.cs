@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 
 // Water Pipe Manager to handle all piping data.
@@ -14,6 +15,7 @@ public class WaterPipeManager
     private Dictionary<Vector3i, PipeData> Pipes = new Dictionary<Vector3i, PipeData>();
     private int maxPipes = 50;
     private static Dictionary<Vector3i, Vector3i> WaterValve = new Dictionary<Vector3i, Vector3i>();
+
    
     public static WaterPipeManager Instance
     {
@@ -28,6 +30,10 @@ public class WaterPipeManager
         }
     }
 
+    public Dictionary<Vector3i, Vector3i> GetWaterValves()
+    {
+        return WaterValve;
+    }
     public int GetWaterDamage(Vector3i WaterPos)
     {
 
@@ -46,6 +52,7 @@ public class WaterPipeManager
 
     public Vector3i GetWaterForPosition(Vector3i position)
     {
+  
         if (Pipes.ContainsKey(position))
             return Pipes[position].GetWaterSource();
 
