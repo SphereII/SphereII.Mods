@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 public class PlantData
 {
     private static readonly string AdvFeatureClass = "CropManagement";
@@ -8,7 +9,7 @@ public class PlantData
     public BlockValue blockValue { get; set; } = BlockValue.Air;
     
     private bool _requireWater = false;
-    private int _waterRange = 5;
+    private float _waterRange = 5f;
     public bool Visited = false;
     public PlantData(Vector3i _blockPos) : this(_blockPos, Vector3i.zero) { }
     public PlantData(Vector3i _blockPos, Vector3i _waterPos)
@@ -16,10 +17,13 @@ public class PlantData
         this.BlockPos = _blockPos;
         this.WaterPos = _waterPos;
         blockValue = GameManager.Instance.World.GetBlock(BlockPos);
+
+        Debug.Log($"Block: {blockValue.Block.GetBlockName()}");
         if (blockValue.Block.Properties.Values.ContainsKey("RequireWater"))
             _requireWater = StringParsers.ParseBool(blockValue.Block.Properties.Values["RequireWater"]);
+
         if (blockValue.Block.Properties.Values.ContainsKey("WaterRange"))
-            _waterRange = int.Parse(blockValue.Block.Properties.Values["WaterRange"]);
+            _waterRange = StringParsers.ParseFloat(blockValue.Block.Properties.Values["WaterRange"]);
     }
 
     public void Manage()
@@ -99,8 +103,10 @@ public class PlantData
     {
         return _requireWater;
     }
-    public bool IsNearWater()
+    public bool IsNearWater(float waterRange = -1f)
     {
+        if (waterRange == -1f)
+            waterRange = _waterRange;
 
         if ( WaterPos != Vector3i.zero )
             if ( GameManager.Instance.World.IsWater(WaterPos))
@@ -120,7 +126,7 @@ public class PlantData
             if (blockValue.Block is BlockWaterSourceSDX waterBlock)
             {
                 float num = Vector3.Distance(BlockPos, valve.Key);
-                if (num < waterBlock.GetWaterRange())
+                if (num <= waterBlock.GetWaterRange())
                 {
                     WaterPos = valve.Key;
                     return true;
@@ -128,7 +134,7 @@ public class PlantData
             }
         }
         // search for a direct water source.
-        var newWaterSource = ScanForWater(BlockPos, _waterRange);
+        var newWaterSource = ScanForWater(BlockPos, waterRange);
         if(WaterPipeManager.Instance.IsDirectWaterSource(newWaterSource))
         {
             WaterPos = newWaterSource;
@@ -148,17 +154,17 @@ public class PlantData
         return true;
     }
 
-    public Vector3i ScanForWater(Vector3i _blockPos, int range = -1)
+    public Vector3i ScanForWater(Vector3i _blockPos, float range = -1f)
     {
         if (range == -1)
             range = _waterRange;
 
         var _world = GameManager.Instance.World;
-        for (int x = -range; x <= range; x++)
+        for (var x = -range; x <= range; x++)
         {
-            for (int z = -range; z <= range; z++)
+            for (var z = -range; z <= range; z++)
             {
-                for (int y = _blockPos.y - 2; y <= _blockPos.y + 2; y++)
+                for (var y = _blockPos.y - 2; y <= _blockPos.y + 2; y++)
                 {
                     var waterCheck = new Vector3i(_blockPos.x + x, y, _blockPos.z + z);
 

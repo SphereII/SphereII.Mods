@@ -10,6 +10,10 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version:  20.6.405.854
+	[ Farming ]
+		- Fixed a bug where the water range check was incorrectly using the water range of air, rather than the plant.
+
 Version: 20.6.403.1003
 
 	[ Farming ]

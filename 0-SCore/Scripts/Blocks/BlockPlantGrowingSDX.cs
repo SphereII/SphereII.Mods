@@ -45,7 +45,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
 
         if (requireWater == false) return true;
 
-        return CropManager.Instance.IsNearWater(_blockPos);
+        return CropManager.Instance.IsNearWater(_blockPos, waterRange);
     }
 
     // When chunk is loaded, force add the block. This will be valiated on the update check in the crop manager, but

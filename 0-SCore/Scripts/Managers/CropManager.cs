@@ -148,12 +148,12 @@ public class CropManager
         AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Crops for Water: {CropMap.Count} Plants registered.");
         currentTime = checkTime;
     }
-    public bool IsNearWater(Vector3i _blockPos)
+    public bool IsNearWater(Vector3i _blockPos, float waterRange = 5f)
     {
         var plantData = Get(_blockPos);
         if ( plantData == null )
             plantData = new PlantData(_blockPos); 
-        return plantData.IsNearWater();
+        return plantData.IsNearWater(waterRange);
     }
 
     public void Remove(Vector3i _blockPos)
