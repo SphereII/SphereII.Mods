@@ -103,6 +103,26 @@
 				<property name="VehicleNoTake" value="false" />
 
 				<property name="ExtendedSigns" value="true" />
+				
+				<!-- Enables item weight encumbrance on the Player bag -->
+				<property name="Encumbrance" value="false" />
+
+				<!-- how much encumbrance before "max" threshold is set, and penalties are incurred. -->
+				<property name="MaxEncumbrance" value="10000" />
+
+				<!-- This cvar value will be placed on the player and will be a percentage of encumbrance. -->
+				<!-- 1f = at max encumbrance. 1.5, 50% over encumbrance -->
+				<property name="EncumbranceCVar" value="encumbranceCVar" />
+				
+				<!-- Include Tool belt? -->
+				<property name="Encumbrance_ToolBelt" value="false" />
+				
+				<!-- Include equipment ? -->
+				<property name="Encumbrance_Equipment" value="false" />
+				
+				<!-- Each item that does not have a ItemWeight property will be weighed at this value. -->
+				<property name="MinimumWeight" value="0.1" />
+				
 			</property>
 
 			<property class="AdvancedZombieFeatures">

@@ -21,7 +21,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     // If there is no BlockWaterPipeSDXs connected to water, it does nothing.
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        // ToggleSprinkler(_blockPos);
+        ToggleSprinkler(_blockPos);
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 

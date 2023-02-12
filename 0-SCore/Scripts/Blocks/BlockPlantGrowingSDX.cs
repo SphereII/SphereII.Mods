@@ -119,5 +119,15 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         _blockValue = blockValue;
         _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
     }
+
+
+
+    //	<property name="DisplayInfo" value="Custom"/> <!-- also valid: "Name" -->
+
+    public override string GetCustomDescription(Vector3i _blockPos, BlockValue _bv)
+    {
+        var text = base.GetLocalizedBlockName();
+        return $"{text} \n {WaterPipeManager.Instance.GetWaterSummary(_blockPos)}";
+    }
 }
 

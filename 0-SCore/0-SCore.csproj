@@ -95,6 +95,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
+    <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
     <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
     <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />

@@ -18,7 +18,6 @@ public class PlantData
         this.WaterPos = _waterPos;
         blockValue = GameManager.Instance.World.GetBlock(BlockPos);
 
-        Debug.Log($"Block: {blockValue.Block.GetBlockName()}");
         if (blockValue.Block.Properties.Values.ContainsKey("RequireWater"))
             _requireWater = StringParsers.ParseBool(blockValue.Block.Properties.Values["RequireWater"]);
 
@@ -114,10 +113,6 @@ public class PlantData
 
         // Check if we still have a water valve reference, and its on.
         var valves = WaterPipeManager.Instance.GetWaterValves();
-        if (valves.ContainsKey(WaterPos))
-        {
-            return true;
-        }
 
         // Check to see if there's a valve that can provide coverage for this.
         foreach (var valve in valves)
@@ -125,6 +120,16 @@ public class PlantData
             var blockValue = GameManager.Instance.World.GetBlock(valve.Key);
             if (blockValue.Block is BlockWaterSourceSDX waterBlock)
             {
+                // If the water valve isn't on, skip thisone.
+                //if (WaterPipeManager.Instance.IsValveOff(valve.Key))
+                //{
+                //    Debug.Log("Water Valve is off.");
+                //    continue;
+                //}
+                // If the valve itself is not connected to water, skip it.
+                if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
+                    continue;
+
                 float num = Vector3.Distance(BlockPos, valve.Key);
                 if (num <= waterBlock.GetWaterRange())
                 {

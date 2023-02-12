@@ -10,6 +10,65 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.408.1121
+
+	[ Craft From Containers ]
+		- Fixed an issue where GetItemCount() patch was searching for ingredients twice, resulting in mis-reporting (2x amount actually available )
+
+	[ Encumbrance ]
+		- Added basic encumbrance.
+		- Encumbrance check fires when something is added / removed from back pack, toolbelt, and equipment.
+		- Once encumbrance is calculated, it's total value is added to a cvar, specified in the Config block. By default, this is encumbranceCVar.
+		- The value of the cvar is based on percent.  When set to 1f, the player is considered at MaxEncumbrance. 
+			- A value of 1.5 means the player is considered to b e 50% over encumbered.
+		- Maximum Encumbrance is read from the Config Block. However, if the CVar "MaxEncumbrance" is set, it will use that value instead.
+			- If Max Encumrabrance drops below 0, it will be reset to the Config Block Entry.
+			- The CVar will not be reset, only the value being used to perform the calculation.
+
+		- New configuration options added to SCore's Config block
+				<!-- Enables item weight encumbrance on the Player bag -->
+				<property name="Encumbrance" value="false" />
+
+				<!-- how much encumbrance before "max" threshold is set, and penalties are incurred. -->
+				<property name="MaxEncumbrance" value="10000" />
+
+				<!-- This cvar value will be placed on the player and will be a percentage of encumbrance. -->
+				<!-- 1f = at max encumbrance. 1.5, 50% over encumbrance -->
+				<property name="EncumbranceCVar" value="encumbranceCVar" />
+				
+				<!-- Include Tool belt? -->
+				<property name="Encumbrance_ToolBelt" value="false" />
+				
+				<!-- Include equipment ? -->
+				<property name="Encumbrance_Equipment" value="false" />
+				
+				<!-- Each item that does not have a ItemWeight property will be weighed at this value. -->
+				<property name="MinimumWeight" value="0.1" />
+
+
+			Recommend XPath:
+				<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance']/@value">true</set>
+				<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance_ToolBelt']/@value">true</set>
+				<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance_Equipment']/@value">true</set>
+				<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='MinimumWeight']/@value">1</set>
+
+		- Each item can have a property called ItemWeight which will over-ride the MinimumWeight from the SCore's block's entry.
+				<property name="ItemWeight" value="10" />
+
+		- ItemWeight can be 0, and can also be negative numbers.
+
+
+
+	[ Farming ]
+		- Fixed a bug where a water sprinkler was acting as an independent water source. 
+			-> Water sprinkler is now checking to see if its connected to a valid water source
+		- Fixed an issue where crops could be planted after a sprinkler was removed, and the area was no longer watered.
+		- Added debug information on pipes to show water source, and how much water is left.
+		- Added a Custom description for BlockPlantGrowing to show water information. This is for testing purposes.
+				<property name="DisplayInfo" value="Custom"/>
+		- Fixed an issue where Farmer would get bored and do nothing.
+
+
 Version:  20.6.405.854
 	[ Farming ]
 		- Fixed a bug where the water range check was incorrectly using the water range of air, rather than the plant.

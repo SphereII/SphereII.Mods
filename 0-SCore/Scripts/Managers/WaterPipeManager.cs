@@ -50,6 +50,31 @@ public class WaterPipeManager
 
     }
 
+    public string GetWaterSummary( Vector3i plantPos)
+    {
+        var result = true;
+        Vector3i WaterPos;
+        var plantData = CropManager.Instance.Get(plantPos);
+        if (plantData != null)
+        {
+            WaterPos = plantData.WaterPos;
+        }
+        else
+        {
+            WaterPos = WaterPipeManager.Instance.GetWaterForPosition(plantPos);
+        }
+
+        if (WaterPos == Vector3i.zero)
+        {
+            result = false;
+            return $"{Localization.Get("has_water")}: {result}";
+        }
+
+        var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
+        return $"{Localization.Get("has_water")}: {result}: Water Source {WaterPos}: Water Block: {waterBlock.Block.GetBlockName()} Water Damage Property: {GetWaterDamage(WaterPos)} Durability: {waterBlock.Block.MaxDamage - waterBlock.damage} / {waterBlock.Block.MaxDamage}";
+
+
+    }
     public Vector3i GetWaterForPosition(Vector3i position)
     {
   

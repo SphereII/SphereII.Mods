@@ -44,6 +44,13 @@ public class FarmPlotManager
     {
         if ( FarmPlots.ContainsKey(position))
             return FarmPlots[position];
+
+        var lowerPosition = position + Vector3i.down;
+        if (FarmPlots.ContainsKey(lowerPosition))
+            return FarmPlots[lowerPosition];
+
+
+        
         return null; 
     }
     public FarmPlotData GetRandomCloseEntry(Vector3i position, float range = 50)
@@ -54,13 +61,19 @@ public class FarmPlotManager
         return null;
     }
 
-    public FarmPlotData GetFarmPlotsNearby( Vector3i position)
+    public FarmPlotData GetFarmPlotsNearby( Vector3i position, bool needWater = true)
     {
         foreach( var neighbor in Vector3i.AllDirections)
         {
             var blockPos = position + neighbor;
             if (FarmPlots.ContainsKey(blockPos) && FarmPlots[blockPos].Visited == false)
-                return FarmPlots[blockPos];
+            {
+                if ( needWater && FarmPlots[blockPos].HasWater())
+                    return FarmPlots[blockPos];
+                if ( !needWater )
+                    return FarmPlots[blockPos];
+            }
+                
         }
         return null;
     }

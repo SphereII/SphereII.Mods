@@ -24,6 +24,12 @@ public class FarmPlotData
         Visited = true;
     }
 
+    public bool HasWater()
+    {
+        if (WaterPipeManager.Instance.GetWaterForPosition(BlockPos) == Vector3i.zero) return false;
+        return true;
+    }
+
     public bool HasPlant()
     {
         if (CropManager.Instance.Get(BlockPos) != null)
@@ -47,7 +53,7 @@ public class FarmPlotData
         var plantPos = BlockPos + Vector3i.up;
         var plantData = CropManager.Instance.GetPlant(plantPos);
         var currentBlock = GameManager.Instance.World.GetBlock(plantPos);
-        List<Block.SItemDropProb> harvestItems = null;
+        List<Block.SItemDropProb> harvestItems = new List<Block.SItemDropProb>();
         if (plantData != null)
         {
             // If we are a plant growing, then check to see if its the final stage.
@@ -58,9 +64,6 @@ public class FarmPlotData
             }
             else
             {
-                if (harvestItems != null)
-                    harvestItems.Clear();
-
                 currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Harvest, out harvestItems);
 
                 // Including the breaking of the plant here.
@@ -71,6 +74,7 @@ public class FarmPlotData
                             harvestItems.Add(item);
 
                 }
+
                 //GameManager.Instance.World.SetBlockRPC(plantPos, BlockValue.Air);
                 GameManager.Instance.World.SetBlock(0, plantPos, BlockValue.Air, false, false);
                 replant = true;
@@ -81,7 +85,6 @@ public class FarmPlotData
 
         if ( replant )
         {
-
             var seedName = string.Empty;
             ItemStack itemStack = new ItemStack();
             foreach (var stack in entityAlive.lootContainer.items)
@@ -95,6 +98,7 @@ public class FarmPlotData
                     break;
                 }
             }
+
             // if we don't have any seeds, check if our harvest gave us anything.
             if ( string.IsNullOrEmpty(seedName))
             {
@@ -111,21 +115,39 @@ public class FarmPlotData
                 }
             }
 
-            // Nothing to plant.
+            // Still nothing to plant?
             if (string.IsNullOrEmpty(seedName))
-                return harvestItems;
+            {
+                 return harvestItems;
+            }
 
-            if (!plantData.IsNearWater()) return harvestItems;
-
-            var cropBlock = Block.GetBlockByName(seedName);
-            var blockValue = cropBlock.ToBlockValue();
-
+            if (plantData == null)
+            {
+                var WaterPos = WaterPipeManager.Instance.GetWaterForPosition(BlockPos);
+                if (WaterPos == Vector3i.zero)
+                {
+                     return harvestItems;
+                }
+            }
+            if (plantData != null)
+            {
+                if (!plantData.IsNearWater())
+                {
+                     return harvestItems;
+                }
+            }
+             var cropBlock = Block.GetBlockByName(seedName);
+             var blockValue = cropBlock.ToBlockValue();
+ 
             WorldRayHitInfo worldRayHitInfo = new WorldRayHitInfo();
             worldRayHitInfo.hit.blockPos = plantPos;
 
-            BlockPlacement.Result result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(BlockPlacement.EnumRotationMode.Auto, 0, GameManager.Instance.World, blockValue, worldRayHitInfo.hit, plantPos);
-            blockValue.Block.PlaceBlock(GameManager.Instance.World, result, null);
-            itemStack.count--;
+             if (blockValue.Block.CanPlaceBlockAt(GameManager.Instance.World, 0, plantPos, blockValue))
+            {
+                 BlockPlacement.Result result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(BlockPlacement.EnumRotationMode.Auto, 0, GameManager.Instance.World, blockValue, worldRayHitInfo.hit, plantPos);
+                blockValue.Block.PlaceBlock(GameManager.Instance.World, result, null);
+                itemStack.count--;
+            }
         }
 
         return harvestItems;

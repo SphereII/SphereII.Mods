@@ -47,8 +47,6 @@ namespace UAI
                 // If we are dealing with a farm plot, then we want to manage that a bit. Plant a seed, harvest, etc.
                 if (_farmData != null)
                 {
-   
-
                     var items = _farmData.Manage( _context.Self);
                     var lootContainer = _context.Self.lootContainer;
                     if (items != null && lootContainer != null)
@@ -79,7 +77,7 @@ namespace UAI
 
             }
             var distance = Vector3.Distance(_vector, _context.Self.position);
-            if (distance > 1.2)
+            if (distance > 2)
             {
                 _context.Self.moveHelper.SetMoveTo(_vector, false);
                 return;
@@ -132,24 +130,16 @@ namespace UAI
             // If the NPC has any seeds in its inventory, then look for empty farm plots that need tending
             if (_hasSeed)
             {
-                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
+                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position, true);
                 if (_farmData == null)
                     _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
-
-
             }
-            else
+            if ( _farmData == null)
             {
-                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
-                if (_farmData == null)
+            //    _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
+                //if (_farmData == null)
                     _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
 
-                //plantData = CropManager.Instance.GetPlantDataNearby(position);
-                //if (plantData == null)
-                //    plantData = CropManager.Instance.GetClosesUnmaintained(position, range);
-
-                //if (plantData != null)
-                //    _vector = plantData.BlockPos;
             }
             if (_farmData == null)
             {

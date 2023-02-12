@@ -57,32 +57,7 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
 
     }
 
-    //public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
-    //{
-    //    if (this.brokenPipe.isair)
-    //        return false;
-
-    //    if ((float)_blockValue.meta2and1 < 1f)
-    //    {
-    //        if (_rnd.RandomRange(2) == 0)
-    //        {
-    //            _blockValue.meta2and1 += 1;
-    //            _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
-    //        }
-    //        return true;
-    //    }
-    //    _blockValue.meta2and1 = 0;
-
-    //    _blockValue.type = this.brokenPipe.type;
-    //    BlockValue blockValue = BlockPlaceholderMap.Instance.Replace(_blockValue, _world.GetGameRandom(), _blockPos.x, _blockPos.z, false, QuestTags.none);
-    //    blockValue.rotation = _blockValue.rotation;
-    //    blockValue.meta = _blockValue.meta;
-    //    blockValue.meta2 = 0;
-    //    _blockValue = blockValue;
-    //    if (_ticksIfLoaded <= this.GetTickRate() || !_blockValue.Block.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded - this.GetTickRate(), _rnd))
-    //        _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
-    //    return true;
-    //}
+  
 
 }
 
