@@ -10,6 +10,13 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.408.1442
+
+	[ Craft From Containers 
+		- Fixed an issue where craft / repair from containers was checking tool belt, then containers. 
+			It was checking to see if the item was in the backpack, but not consuming it.
+
+
 Version: 20.6.408.1121
 
 	[ Craft From Containers ]

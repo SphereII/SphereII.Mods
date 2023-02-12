@@ -190,6 +190,7 @@ namespace SCore.Harmony.Recipes
                     .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
                     .Sum(y => y.count);
 
+              
                 // check storage boxes
                 foreach (var tileEntity in tileEntities)
                 {
@@ -236,6 +237,7 @@ namespace SCore.Harmony.Recipes
                     }
                 }
             }
+            
         }
 
         [HarmonyPatch(typeof(XUiC_RecipeList))]
@@ -307,30 +309,66 @@ namespace SCore.Harmony.Recipes
         }
 
         // Repair using items from container.
-        [HarmonyPatch(typeof(Inventory))]
+        [HarmonyPatch(typeof(Bag))]
         [HarmonyPatch("DecItem")]
         public class Inventory_DecItem
         {
-            public static bool Prefix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
+            public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
             {
                 // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
-                    return true;
+                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
+                    return;
 
                 // Send it through the xui so the other patch can catch it.
                 var entityPlayer = ___entity as EntityPlayerLocal;
-                if (entityPlayer == null) return true;
+                if (entityPlayer == null) return;
 
-                ItemStack itemStack = new ItemStack(_itemValue, _count);
-                var itemStacks = new List<ItemStack>();
-                itemStacks.Add(itemStack);
-                ConsumeItem(itemStacks, entityPlayer, 1);
-                __result = _count;
-                return false;
+                if (__result == 0)
+                {
+                    ItemStack itemStack = new ItemStack(_itemValue, _count);
+                    var itemStacks = new List<ItemStack>();
+                    itemStacks.Add(itemStack);
+                    ConsumeItem(itemStacks, entityPlayer, 1);
+
+                    // We know we had enough in the containers, so blank it out.
+                    __result = _count;
+                }
+
             }
         }
 
-     
+        //[HarmonyPatch(typeof(Bag))]
+        //[HarmonyPatch("DecItem")]
+        //public class Bag_DecItem
+        //{
+        //    public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
+        //    {
+        //        Log.Out($"Bag.DecItem(): {__result}");
+        //        // Check if this feature is enabled.
+        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
+        //            return;
+
+        //        Log.Out($"Bag.DecItem(): {__result} 1");
+        //        // Send it through the xui so the other patch can catch it.
+        //        var entityPlayer = ___entity as EntityPlayerLocal;
+        //        if (entityPlayer == null) return;
+
+        //        if (__result == 0)
+        //        {
+        //            ItemStack itemStack = new ItemStack(_itemValue, __result);
+        //            var itemStacks = new List<ItemStack>();
+        //            itemStacks.Add(itemStack);
+        //            ConsumeItem(itemStacks, entityPlayer, 1);
+
+        //            // We know we had enough in the containers, so blank it out.
+        //            __result = _count;
+        //        }
+
+        //    }
+        //}
+
+
+
 
         // replaces getitemcount
         // mostly a copy of the original code.
