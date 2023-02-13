@@ -122,17 +122,13 @@ public class FarmPlotData
             }
 
             if (plantData == null)
-            {
-                var WaterPos = WaterPipeManager.Instance.GetWaterForPosition(BlockPos);
-                if (WaterPos == Vector3i.zero)
-                {
-                     return harvestItems;
-                }
-            }
+                plantData = new PlantData(BlockPos);
+
             if (plantData != null)
             {
                 if (!plantData.IsNearWater())
                 {
+                    Log.Out("Is not near water.");
                      return harvestItems;
                 }
             }
@@ -142,7 +138,7 @@ public class FarmPlotData
             WorldRayHitInfo worldRayHitInfo = new WorldRayHitInfo();
             worldRayHitInfo.hit.blockPos = plantPos;
 
-             if (blockValue.Block.CanPlaceBlockAt(GameManager.Instance.World, 0, plantPos, blockValue))
+            if (blockValue.Block.CanPlaceBlockAt(GameManager.Instance.World, 0, plantPos, blockValue))
             {
                  BlockPlacement.Result result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(BlockPlacement.EnumRotationMode.Auto, 0, GameManager.Instance.World, blockValue, worldRayHitInfo.hit, plantPos);
                 blockValue.Block.PlaceBlock(GameManager.Instance.World, result, null);

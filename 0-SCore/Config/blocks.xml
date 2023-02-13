@@ -312,6 +312,10 @@
 				
 				<!-- How much damage to do to the water source when it gets consumed -->
 				<property name="WaterDamage" value="1" />
+
+				<!-- Default particle for when a crop is used.-->
+				<!-- ie: #@modfolder:Resources/guppyFountainDisplay.unity3d?gupFountainDisplay from Bloom's -->
+				<property name="WaterParticle" value="NoParticle" />
 				
 			</property>
 

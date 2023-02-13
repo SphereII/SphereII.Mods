@@ -19,14 +19,18 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (this.Properties.Values.ContainsKey("RequireWater"))
             this.requireWater = StringParsers.ParseBool(this.Properties.Values["RequireWater"]);
 
-        if (this.Properties.Values.ContainsKey("Wilt"))
-            this.willWilt = StringParsers.ParseBool(this.Properties.Values["Wilt"]);
-
         if (this.Properties.Values.ContainsKey("WaterRange"))
             this.waterRange = int.Parse(this.Properties.Values["WaterRange"]);
 
         if (this.Properties.Values.ContainsKey("PlantGrowing.Wilt"))
+        {
             this.wiltedPlant = ItemClass.GetItem(this.Properties.Values["PlantGrowing.Wilt"], false).ToBlockValue();
+            this.willWilt = true;
+        }
+
+        if (this.Properties.Values.ContainsKey("Wilt"))
+            this.willWilt = StringParsers.ParseBool(this.Properties.Values["Wilt"]);
+
     }
 
 
@@ -75,12 +79,17 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (requireWater)
         {
             var plantData = CropManager.Instance.GetPlant(_blockPos);
-            if (plantData != null && plantData.CanStay() == false)
+            if (plantData != null)
             {
-                // This Removes unregisters the block if it cannot stay, such as if it can't find water, etc.
-                // It'll call CheckPlantAlive() and re-scan for water before it dies.
-                plantData.Remove();
-                return false;
+                // Check to see if it can stay, and consume water.
+                var canStay = plantData.CanStay();
+                if (!canStay)
+                {
+                    // This Removes unregisters the block if it cannot stay, such as if it can't find water, etc.
+                    // It'll call CheckPlantAlive() and re-scan for water before it dies.
+                    plantData.Remove();
+                    return false;
+                }
             }
         }
 

@@ -64,11 +64,15 @@ public class WaterPipeManager
             WaterPos = WaterPipeManager.Instance.GetWaterForPosition(plantPos);
         }
 
+        // If there's no set water position, create a temporary plant, to allow it to scan around.
         if (WaterPos == Vector3i.zero)
         {
-            result = false;
-            return $"{Localization.Get("has_water")}: {result}";
+            var tempPlant = new PlantData(plantPos);
+            result = tempPlant.IsNearWater();
         }
+
+        if ( !result )
+            return $"{Localization.Get("has_water")}: {result}";
 
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
         return $"{Localization.Get("has_water")}: {result}: Water Source {WaterPos}: Water Block: {waterBlock.Block.GetBlockName()} Water Damage Property: {GetWaterDamage(WaterPos)} Durability: {waterBlock.Block.MaxDamage - waterBlock.damage} / {waterBlock.Block.MaxDamage}";
@@ -83,7 +87,7 @@ public class WaterPipeManager
 
         var pipeData = new PipeData(position);
         Pipes.Add(position, pipeData);
-        return pipeData.DiscoverWaterFromPipes(position);
+        return  pipeData.DiscoverWaterFromPipes(position);
     }
 
     public void ToggleWaterValve(Vector3i valve, Vector3i pipePosition, bool turnOn = false)

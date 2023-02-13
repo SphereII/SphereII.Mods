@@ -10,6 +10,34 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.409.1626
+
+	[ Craft / Repair From Containers ]	
+		- If a container is open, do not include the contents in the broadcast scan.
+
+	[ Farming ]
+		- Fixed an issue where a Plant could not consume water from the water, through the sprinkler.
+		- Added a fix to help improve Farmer to reach corner farm plots
+		- If a PlantGrowingSDX block has a PlantGrowing.Wilt, it will flag the plant to wilt if there's no water
+
+		- Added new Config Block Entry called WaterParticle on CropManagement node.
+
+			- When a plant consumes water, this particle will be applied.
+			- When a plant is first planted, this particle will be applied.
+			- Default particle in Bloom's Family Farming is from Guppycur. 
+				It will run for 5 seconds, then stop looping.
+				The particle is not removed until the plant is removed.
+
+			Default: 
+				<property name="WaterParticle" value="NoParticle" />
+
+			Bloom's Family Farming XPath:
+				<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='WaterParticle']/@value">#@modfolder:Resources/guppyFountainDisplay.unity3d?gupFountainDisplay</set>
+			
+			- Each Plant can over-ride the particle at the block level, using the same property. 
+				<!-- No particle for this particular plant -->
+				<property name="WaterParticle" value="NoParticle" />
+
 Version: 20.6.408.1442
 
 	[ Craft From Containers 

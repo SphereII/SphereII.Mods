@@ -11,6 +11,8 @@ public class PlantData
     private bool _requireWater = false;
     private float _waterRange = 5f;
     public bool Visited = false;
+    private string waterParticle;
+
     public PlantData(Vector3i _blockPos) : this(_blockPos, Vector3i.zero) { }
     public PlantData(Vector3i _blockPos, Vector3i _waterPos)
     {
@@ -23,6 +25,12 @@ public class PlantData
 
         if (blockValue.Block.Properties.Values.ContainsKey("WaterRange"))
             _waterRange = StringParsers.ParseFloat(blockValue.Block.Properties.Values["WaterRange"]);
+
+         waterParticle = Configuration.GetPropertyValue(AdvFeatureClass, "WaterParticle");
+        if (string.IsNullOrWhiteSpace(waterParticle))
+            waterParticle = "NoParticle";
+
+
     }
 
     public void Manage()
@@ -35,6 +43,7 @@ public class PlantData
     public void RegisterPlant()
     {
         blockValue = GameManager.Instance.World.GetBlock(BlockPos);
+        ToggleWaterParticle();
         CropManager.Instance.Add(this);
     }
 
@@ -63,6 +72,13 @@ public class PlantData
 
         // Damage the water block to simulate usage.
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
+
+        // If the water block is a sprinkler, find out where its getting its water from.
+        if ( waterBlock.Block is BlockWaterSourceSDX)
+        {
+            var _waterSource = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
+            waterBlock = GameManager.Instance.World.GetBlock(_waterSource);
+        }
         if (waterBlock.Block is BlockLiquidv2 water )
         {
             AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {WaterPos} {waterBlock.Block.GetBlockName()}");
@@ -83,12 +99,38 @@ public class PlantData
                 AdvLogging.DisplayLog(AdvFeatureClass, $"Water is completely consumed here: {WaterPos}");
                 GameManager.Instance.World.SetBlockRPC(0, WaterPos, BlockValue.Air);
             }
+
+            ToggleWaterParticle();
         }
+    }
+
+    private void ToggleWaterParticle()
+    {
+        if (GameManager.Instance.HasBlockParticleEffect(BlockPos))
+            BlockUtilitiesSDX.removeParticles(BlockPos);
+
+        var _waterParticle = GetWaterParticle();
+        BlockUtilitiesSDX.addParticlesCentered(_waterParticle, BlockPos);
+
+    }
+    private string GetWaterParticle()
+    {
+        var block = GameManager.Instance.World.GetBlock(BlockPos);
+
+        var _waterParticle = waterParticle;
+        if (block.Block.Properties.Contains("WaterParticle"))
+            _waterParticle = block.Block.Properties.GetString("WaterParticle");
+
+        if (block.Block.blockMaterial.Properties.Contains("WaterParticle"))
+            _waterParticle = block.Block.blockMaterial.Properties.GetString("WaterParticle");
+
+        return _waterParticle;
     }
     public void Remove()
     {
         if (blockValue.Block is BlockPlantGrowing block)
         {
+            BlockUtilitiesSDX.removeParticles(BlockPos);
             CropManager.Instance.Remove(BlockPos);
             var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
             if (chunk == null) return;
@@ -120,12 +162,6 @@ public class PlantData
             var blockValue = GameManager.Instance.World.GetBlock(valve.Key);
             if (blockValue.Block is BlockWaterSourceSDX waterBlock)
             {
-                // If the water valve isn't on, skip thisone.
-                //if (WaterPipeManager.Instance.IsValveOff(valve.Key))
-                //{
-                //    Debug.Log("Water Valve is off.");
-                //    continue;
-                //}
                 // If the valve itself is not connected to water, skip it.
                 if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
                     continue;

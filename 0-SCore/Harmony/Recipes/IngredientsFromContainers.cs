@@ -131,6 +131,8 @@ namespace SCore.Harmony.Recipes
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                 if (lootTileEntity == null) continue;
+                if (lootTileEntity.IsUserAccessing()) continue;
+
                 _items.AddRange(lootTileEntity.GetItems());
             }
             return _items;
@@ -144,6 +146,10 @@ namespace SCore.Harmony.Recipes
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                 if (lootTileEntity == null) continue;
+
+                // If the container is open, don't use it.
+                if (lootTileEntity.IsUserAccessing()) continue;
+
                 _item.AddRange(lootTileEntity.GetItems());
             }
             for (int i = 0; i < _item.Count; i++)
@@ -165,6 +171,9 @@ namespace SCore.Harmony.Recipes
             {
                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                 if (lootTileEntity == null) continue;
+                // If the container is open, don't include it.
+                if (lootTileEntity.IsUserAccessing()) continue;
+
                 _item.AddRange(lootTileEntity.GetItems());
             }
             for (int i = 0; i < _item.Count; i++)
@@ -197,6 +206,9 @@ namespace SCore.Harmony.Recipes
                     if (q <= 0) break;
                     var lootTileEntity = tileEntity as TileEntityLootContainer;
                     if (lootTileEntity == null) continue;
+
+                    // If someone is using the tool account, skip it.
+                    if (lootTileEntity.IsUserAccessing()) continue;
 
                     // If there's no items in this container, skip.
                     if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
