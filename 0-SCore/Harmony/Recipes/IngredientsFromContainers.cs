@@ -425,14 +425,14 @@ namespace SCore.Harmony.Recipes
                                     {
                                         // add items from lootcontainers
                                         value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
-                                        //ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer, ___ingredient.itemValue).ToArray();
-                                        //for (int k = 0; k < array.Length; k++)
-                                        //{
-                                        //    if (array[k] != null && array[k].itemValue.type != 0 && ___ingredient.itemValue.type == array[k].itemValue.type)
-                                        //    {
-                                        //        value1 += array[k].count;
-                                        //    }
-                                        //}
+                                        ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer, ___ingredient.itemValue).ToArray();
+                                        for (int k = 0; k < array.Length; k++)
+                                        {
+                                            if (array[k] != null && array[k].itemValue.type != 0 && ___ingredient.itemValue.type == array[k].itemValue.type)
+                                            {
+                                                value1 += array[k].count;
+                                            }
+                                        }
                                         value = (flag ? (___havecountFormatter.Format(value1) + "/" + text) : "");
                                     }
                                 }

@@ -108,6 +108,8 @@
 				<property name="Encumbrance" value="false" />
 
 				<!-- how much encumbrance before "max" threshold is set, and penalties are incurred. -->
+				<!-- MaxEncumbrance value can be over-ridden by having a cvar of the same name on the player -->
+				<!-- The CVar value will over-ride his value. -->
 				<property name="MaxEncumbrance" value="10000" />
 
 				<!-- This cvar value will be placed on the player and will be a percentage of encumbrance. -->

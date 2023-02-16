@@ -73,18 +73,21 @@ public class PlantData
         // Damage the water block to simulate usage.
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
 
+        var _waterSource = WaterPos;
+
         // If the water block is a sprinkler, find out where its getting its water from.
         if ( waterBlock.Block is BlockWaterSourceSDX)
         {
-            var _waterSource = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
+            _waterSource = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
             waterBlock = GameManager.Instance.World.GetBlock(_waterSource);
+
         }
         if (waterBlock.Block is BlockLiquidv2 water )
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {WaterPos} {waterBlock.Block.GetBlockName()}");
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {_waterSource} {waterBlock.Block.GetBlockName()}");
 
             // Check the global value of damaging water for this growth cycle
-            var damage = WaterPipeManager.Instance.GetWaterDamage(WaterPos);
+            var damage = WaterPipeManager.Instance.GetWaterDamage(_waterSource);
 
             // If the blant block itself has its own water damage, use it instead.
             if (blockValue.Block.Properties.Contains("WaterDamage"))
@@ -93,11 +96,11 @@ public class PlantData
             // Grab the damage value from a) the water block itself, or b) the globa one
             waterBlock.damage += damage;
             if (waterBlock.damage <= waterBlock.Block.MaxDamage)
-                GameManager.Instance.World.SetBlockRPC(0, WaterPos, waterBlock);
+                GameManager.Instance.World.SetBlockRPC(0, _waterSource, waterBlock);
             else
             {
-                AdvLogging.DisplayLog(AdvFeatureClass, $"Water is completely consumed here: {WaterPos}");
-                GameManager.Instance.World.SetBlockRPC(0, WaterPos, BlockValue.Air);
+                AdvLogging.DisplayLog(AdvFeatureClass, $"Water is completely consumed here: {_waterSource}");
+                GameManager.Instance.World.SetBlockRPC(0, _waterSource, BlockValue.Air);
             }
 
             ToggleWaterParticle();

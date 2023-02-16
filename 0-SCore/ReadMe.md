@@ -10,6 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.412.1907
+
+	[ Craft / Repair From Containers ]
+		- Rolled back a fix when count of items were doubled.
+			- Seems this fixes it for some containers, but for others, it displays no items.
+
+	[ Fire Manager ]
+		- Integrated FuriousRamsay's fix for the MinEffectAddFireDamage.
+			- In some cases, a melee weapon will set fire to contents on the other side of a wall or door, if the ray cast went through the block.
+
+	[ Farming ]
+		- Fixed an issue where a water plant was doing damage to a sprinkler, instead of water block
+		- Added an additional scan for UAITaskFarming to do a wider scan if it doesn't find anything interesting.
+
 Version: 20.6.409.1626
 
 	[ Craft / Repair From Containers ]	
