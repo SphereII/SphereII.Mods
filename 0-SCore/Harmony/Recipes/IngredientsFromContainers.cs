@@ -25,6 +25,7 @@ namespace SCore.Harmony.Recipes
         }
         public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
         {
+
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
             var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
@@ -62,7 +63,11 @@ namespace SCore.Harmony.Recipes
                             case TileEntityType.SecureLoot:
                                 var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
                                 if (secureTileEntity == null) break;
-                                if (secureTileEntity.IsLocked() && !secureTileEntity.LocalPlayerIsOwner()) break;
+                                if (secureTileEntity.IsLocked() )
+                                {
+                                    PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
+                                    if (!secureTileEntity.IsUserAllowed(internalLocalUserIdentifier)) break;
+                                }
                                 // if sending disabled skip container
                                 if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
                                 if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;

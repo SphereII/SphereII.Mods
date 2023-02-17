@@ -10,6 +10,12 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.413.1556
+
+	[ Craft / Repair From Containers ]
+		- Adjusted permission for Broadcast feature to allow members of the same party to access locked containers.
+
+
 Version: 20.6.412.1907
 
 	[ Craft / Repair From Containers ]
