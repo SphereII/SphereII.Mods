@@ -132,7 +132,12 @@ namespace UAI
             {
                 _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position, true);
                 if (_farmData == null)
-                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
+                {
+                    var farmDatas = FarmPlotManager.Instance.GetCloseFarmPlots(position);
+                    if (farmDatas.Count > 0)
+                        _farmData = farmDatas[0];
+
+                }
             }
 
             // No farm plots or maintenance that are that close? Cast the net a bit wider
@@ -140,16 +145,10 @@ namespace UAI
             {
             //    _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
                 //if (_farmData == null)
-                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
+                 _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
+                if ( _farmData == null)
+                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
 
-            }
-
-            // Hmm.. still nothing?
-            if ( _farmData == null )
-            {
-                var farmDatas = FarmPlotManager.Instance.GetCloseFarmPlots(position);
-                if ( farmDatas.Count > 0)
-                    _farmData = farmDatas[0];
             }
             if (_farmData == null)
             {

@@ -10,6 +10,15 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+
+Version: 20.6.414.1626
+	[ Farming ]
+		- Fixed a bug where the Farmer would not see FarmPlots
+			- The BlockFarmPlosSDX was not setting IsNotifyOnLoadUnload to true, thus it was not registering being loaded and unloaded.
+
+	[ Encumbrance ]
+		- Fixed a bug where the encumbrance of equipment was not being done correctly
+
 Version: 20.6.413.1556
 
 	[ Craft / Repair From Containers ]

@@ -34,6 +34,7 @@ public class FarmPlotManager
         FarmPlots.Add(position, new FarmPlotData(position));    
     }
 
+ 
     public void Remove(Vector3i position)
     {
         if ( FarmPlots.ContainsKey(position))

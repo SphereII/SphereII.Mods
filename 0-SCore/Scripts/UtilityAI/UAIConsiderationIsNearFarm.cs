@@ -34,9 +34,10 @@ namespace UAI
                 return 1f;
 
             // If we don't have any at our feet, find another one that is close by.
-            //var plants = FarmPlotManager.Instance.GetClosePositions(position, 50);
-            //if (plants.Count > 0)
-            //    return 1f;
+            var plants = FarmPlotManager.Instance.GetClosePositions(position, 50);
+            if (plants.Count > 0)
+                return 1f;
+
             return 0f;
         }
     }

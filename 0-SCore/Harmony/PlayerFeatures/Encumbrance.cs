@@ -92,8 +92,9 @@ namespace SCore.Harmony.PlayerFeatures
 
                             var itemWeight = float.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MinimumWeight"));
                             if ( item.ItemClass.Properties.Values.ContainsKey("ItemWeight"))
-                                float.TryParse(ItemClass.list[slots[num].itemValue.type].Properties.Values["ItemWeight"], out itemWeight);
+                                float.TryParse(item.ItemClass.Properties.Values["ItemWeight"], out itemWeight);
                             equipmentWeight += itemWeight;
+                            AdvLogging.DisplayLog(AdvFeatureClass, $"\tEquipment encumbrance: {item.ItemClass.GetItemName()}   Weight: {itemWeight} ");
                         }
 
                         flTotalEncumbrance += equipmentWeight;
