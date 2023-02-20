@@ -3,13 +3,22 @@
 public class BlockWaterSourceSDX : BlockBaseWaterSystem
 {
     private float WaterRange = 5f;
+    private string waterType = "Limited";
     public override void LateInit()
     {
         base.LateInit();
         if (this.Properties.Values.ContainsKey("WaterRange"))
             WaterRange = StringParsers.ParseFloat(this.Properties.Values["WaterRange"]);
+
+        if (Properties.Values.ContainsKey("WaterType"))
+            waterType = Properties.Values["WaterType"];
     }
 
+    public bool IsWaterSourceUnlimited()
+    {
+        if (waterType.ToLower() == "unlimited") return true;
+        return false;
+    }
     public float GetWaterRange()
     {
         return WaterRange;
@@ -75,5 +84,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         ToggleSprinkler(_blockPos);
         return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
     }
+
+ 
 }
 

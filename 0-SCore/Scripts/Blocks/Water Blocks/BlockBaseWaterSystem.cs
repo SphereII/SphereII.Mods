@@ -11,23 +11,18 @@
         return this.cmds;
     }
 
+ 
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
+        var localPlayer = _entityFocusing as EntityPlayerLocal;
+           
+        if (localPlayer == null) return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
 
-        return WaterPipeManager.Instance.GetWaterSummary(_blockPos);
-
-      //  if (CropManager.Instance.DebugMode)
+        if (localPlayer.playerInput.PermanentActions.Activate.IsPressed || localPlayer.playerInput.Activate.IsPressed)
         {
-            var result = true;
-            var waterSource = WaterPipeManager.Instance.GetWaterForPosition(_blockPos);
-            if (waterSource == Vector3i.zero)
-                result = false;
-
-            var waterBlock = GameManager.Instance.World.GetBlock(waterSource);
-            return $"{Localization.Get("has_water")}: {result}: Water Source {waterSource}: Water Block: {waterBlock.Block.GetBlockName()} Durability: {waterBlock.Block.MaxDamage - waterBlock.damage} / {waterBlock.Block.MaxDamage}";
+            return WaterPipeManager.Instance.GetWaterSummary(_blockPos);
         }
-      //  return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
+        return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
     }
-
 }
 

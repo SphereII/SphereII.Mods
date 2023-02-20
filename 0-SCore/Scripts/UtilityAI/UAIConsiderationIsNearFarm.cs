@@ -17,6 +17,7 @@ namespace UAI
         {
             // If we have the crop manager running, and there is a block that is close by, go tend it.
             var position = new Vector3i(_context.Self.position);
+
             FarmPlotData farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
             if (farmPlot != null)
                 return 1f;
@@ -38,7 +39,13 @@ namespace UAI
             if (plants.Count > 0)
                 return 1f;
 
+            var wilted = FarmPlotManager.Instance.GetCloseFarmPlotsWilted(position);
+            if (wilted.Count > 0)
+                return 1f;
             return 0f;
         }
+
+      
+
     }
 }

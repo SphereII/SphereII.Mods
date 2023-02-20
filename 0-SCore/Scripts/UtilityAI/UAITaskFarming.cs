@@ -89,6 +89,63 @@ namespace UAI
 
         }
 
+    
+
+        // Yes. This is gross. I've done worse.
+        public override void Start(Context _context)
+        {
+            hadBuff = false;
+            timeOut = 100f;
+
+            _farmData = null;
+            plantData = null;
+            var position = new Vector3i(_context.Self.position);
+            _hasSeed = HasSeed(_context);
+
+            // If the NPC has any seeds in its inventory, then look for empty farm plots that need tending
+            if (_hasSeed)
+            {
+                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position, true);
+                if (_farmData == null)
+                {
+                    var farmDatas = FarmPlotManager.Instance.GetCloseFarmPlots(position);
+                    if (farmDatas.Count > 0)
+                        _farmData = farmDatas[0];
+                }
+            }
+
+            // No farm plots or maintenance that are that close? Cast the net a bit wider
+            if (_farmData == null)
+            {
+                //    _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
+                //if (_farmData == null)
+                _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
+                if (_farmData == null)
+                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
+            }
+
+            // Check for wilted...?
+            if( _farmData == null )
+                _farmData =FarmPlotManager.Instance.GetClosesFarmPlotsWilted(position);
+
+            if (_farmData == null)
+            {
+                FarmPlotManager.Instance.ResetPlantsInRange(position);
+                hadBuff = true;
+                base.Stop(_context);
+                return;
+            }
+
+            _vector = _farmData.GetBlockPos();
+
+            SCoreUtils.FindPath(_context, _vector, false);
+            _context.ActionData.Started = true;
+            _context.ActionData.Executing = true;
+            return;
+
+
+        }
+
         private bool HasSeed(Context _context)
         {
             var startsWith = "";
@@ -115,55 +172,5 @@ namespace UAI
             return false;
         }
 
-
-        // Yes. This is gross. I've done worse.
-        public override void Start(Context _context)
-        {
-            hadBuff = false;
-            timeOut = 100f;
-
-            _farmData = null;
-            plantData = null;
-            _hasSeed = HasSeed(_context);
-            var position = new Vector3i(_context.Self.position);
-
-            // If the NPC has any seeds in its inventory, then look for empty farm plots that need tending
-            if (_hasSeed)
-            {
-                _farmData = FarmPlotManager.Instance.GetFarmPlotsNearby(position, true);
-                if (_farmData == null)
-                {
-                    var farmDatas = FarmPlotManager.Instance.GetCloseFarmPlots(position);
-                    if (farmDatas.Count > 0)
-                        _farmData = farmDatas[0];
-
-                }
-            }
-
-            // No farm plots or maintenance that are that close? Cast the net a bit wider
-            if ( _farmData == null)
-            {
-            //    _farmData = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
-                //if (_farmData == null)
-                 _farmData = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
-                if ( _farmData == null)
-                    _farmData = FarmPlotManager.Instance.GetClosesUnmaintained(position, range);
-
-            }
-            if (_farmData == null)
-            {
-                hadBuff = true;
-                Stop(_context);
-                return;
-            }
-            _vector = _farmData.GetBlockPos();
-
-            SCoreUtils.FindPath(_context, _vector, false);
-            _context.ActionData.Started = true;
-            _context.ActionData.Executing = true;
-            return;
-
-
-        }
     }
 }

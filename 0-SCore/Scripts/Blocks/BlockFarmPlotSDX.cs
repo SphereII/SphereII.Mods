@@ -41,11 +41,17 @@ public class BlockFarmPlotSDX : Block
         FarmPlotManager.Instance.Add(_result.blockPos);
         base.PlaceBlock(_world, _result, _ea);
     }
-      
+
     public override string GetCustomDescription(Vector3i _blockPos, BlockValue _bv)
     {
-        var text = base.GetLocalizedBlockName();
-        return $"{text} \n {WaterPipeManager.Instance.GetWaterSummary(_blockPos)}";
+        var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+        if (localPlayer == null) return base.GetCustomDescription(_blockPos, _bv);
+
+        if (localPlayer.playerInput.PermanentActions.Activate.IsPressed || localPlayer.playerInput.Activate.IsPressed)
+        {
+            return WaterPipeManager.Instance.GetWaterSummary(_blockPos);
+        }
+        return base.GetCustomDescription(_blockPos, _bv);
     }
 }
 

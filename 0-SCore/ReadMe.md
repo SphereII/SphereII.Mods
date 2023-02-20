@@ -10,6 +10,55 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.416.1123
+
+	[ MinEvent ]
+		Added MinEventActionSetDateToCVar
+			This will set the Current Day to the CVAR $CurrentDay.
+
+			Example: 
+				<triggered_effect trigger="onSelfBuffStart" action="SetDateToCVar, SCore" target="self"/> 
+
+				CVar $CurrentDay will have the current game day.
+
+		
+	[ Farming ]
+		- Added debug information to water pipes, farm plots, and crops.
+			- If the player holds down the "Activate" key, it will display the information about water.
+
+			- Ie: holding down <E> by default will show information about some blocks.
+
+		- Adjusted the way that the Farming Task extracts Harvest / Items
+
+			Seeds:
+				- The first planted*1 item it finds will be the seed which is replanted.
+
+				Example:
+					<drop event="Destroy" name="plantedBlueberry1" count="1" prob="0.5"/>
+
+				- All planted*1 items will be removed from the harvest / destroy lists.
+				- The Farming Task will generate a new item to be used for planting.
+
+			Harvest:
+				- By default, all harvesting will continue as expected. 
+				- If the NPC has a cvar for the Harvest item, it will set the min and max count to that value.
+		
+				Example:
+					If MyFarmer has a cvar called "foodCropBlueberries", with a value of 5, MyFarmer will get 5 blueberries from each harvest,
+						regardless of prob or min / max count defined in the Harvest line.
+
+		- Adjusted Farming Task Scanning to include tending to wilted plants.
+
+		- Updated BlockWaterSourceSDX to be able to supply unlimited water, without requiring a water block itself, or doing damage.
+
+			<property name="WaterType" value="Unlimited" />
+
+			Default is limited, and is equivalent to 
+				<property name="WaterType" value="Limited" />
+
+		- The above property can also be applied to a BlockLiquidv2, and will have the same effect.
+			Default is limited.
+		
 
 Version: 20.6.414.1626
 	[ Farming ]

@@ -26,10 +26,29 @@ public class FarmPlotData
 
     public bool HasWater()
     {
-        if (WaterPipeManager.Instance.GetWaterForPosition(BlockPos) == Vector3i.zero) return false;
-        return true;
+        if (WaterPipeManager.Instance.GetWaterForPosition(BlockPos + Vector3i.up) != Vector3i.zero) return true;
+        if (WaterPipeManager.Instance.GetWaterForPosition(BlockPos) != Vector3i.zero) return true;
+
+        var tempPlant = new PlantData(BlockPos + Vector3i.up);
+        return tempPlant.IsNearWater();
+
     }
 
+    public bool IsEmpty()
+    {
+        var blockAbove = GameManager.Instance.World.GetBlock(BlockPos + Vector3i.up);
+        if (blockAbove.isair) return true;
+        return false;
+    }
+
+    public bool IsDeadPlant()
+    {
+        var blockAbove = GameManager.Instance.World.GetBlock(BlockPos + Vector3i.up);
+        if (blockAbove.Block is BlockPlant) return false;
+        if (blockAbove.isair) return false;
+        return true;
+
+    }
     public bool HasPlant()
     {
         if (CropManager.Instance.Get(BlockPos) != null)
@@ -38,6 +57,9 @@ public class FarmPlotData
         if (CropManager.Instance.Get(BlockPos + Vector3i.up) != null)
             return true;
 
+        if ( IsDeadPlant()) 
+            return true;
+        
         return false;
 
     }
@@ -54,6 +76,11 @@ public class FarmPlotData
         var plantData = CropManager.Instance.GetPlant(plantPos);
         var currentBlock = GameManager.Instance.World.GetBlock(plantPos);
         List<Block.SItemDropProb> harvestItems = new List<Block.SItemDropProb>();
+        var seedFromPlant = string.Empty;
+        if ( IsDeadPlant() )
+        {
+            plantData = new PlantData(plantPos);
+        }
         if (plantData != null)
         {
             // If we are a plant growing, then check to see if its the final stage.
@@ -72,7 +99,26 @@ public class FarmPlotData
                 {
                         foreach (var item in harvestItems2)
                             harvestItems.Add(item);
+                }
 
+                // Clean all all the seeds
+                for (var x = harvestItems.Count - 1; x >= 0; x--)
+                {
+                    var harvestItem = harvestItems[x];
+                    if (harvestItem.name.StartsWith("planted"))
+                    {
+                        seedFromPlant = harvestItem.name;
+                        harvestItems.RemoveAt(x);
+                    }
+
+                    // If the NPC has cvar of the name of the harvested item, then this will restrict the amount of items they get.
+                    if ( entityAlive.Buffs.HasCustomVar(harvestItem.name) )
+                    {
+                        var count = entityAlive.Buffs.GetCustomVar(harvestItem.name);
+                        harvestItem.minCount = (int)count;
+                        harvestItem.maxCount = (int)count;
+                        harvestItems[x] = harvestItem;
+                    }
                 }
 
                 //GameManager.Instance.World.SetBlockRPC(plantPos, BlockValue.Air);
@@ -85,41 +131,27 @@ public class FarmPlotData
 
         if ( replant )
         {
-            var seedName = string.Empty;
-            ItemStack itemStack = new ItemStack();
-            foreach (var stack in entityAlive.lootContainer.items)
+            // use the seed we got from the plant itself, if its set. If not, then search for one.
+            var seedName = seedFromPlant;
+            if (string.IsNullOrEmpty(seedName))
             {
-                if (stack.IsEmpty()) continue;
-                var itemname = stack.itemValue.ItemClass.GetItemName();
-                if (itemname.StartsWith("planted") && itemname.EndsWith("1"))
+                ItemStack itemStack = new ItemStack();
+                foreach (var stack in entityAlive.lootContainer.items)
                 {
-                    seedName = itemname;
-                    itemStack = stack;
-                    break;
-                }
-            }
-
-            // if we don't have any seeds, check if our harvest gave us anything.
-            if ( string.IsNullOrEmpty(seedName))
-            {
-                if (harvestItems != null)
-                {
-                    foreach (var item in harvestItems)
+                    if (stack.IsEmpty()) continue;
+                    var itemname = stack.itemValue.ItemClass.GetItemName();
+                    if (itemname.StartsWith("planted") && itemname.EndsWith("1"))
                     {
-                        if (item.name.StartsWith("planted") && item.name.EndsWith("1"))
-                        {
-                            seedName = item.name;
-                            break;
-                        }
+                        seedName = itemname;
+                        itemStack = stack;
+                        break;
                     }
                 }
             }
-
+           
             // Still nothing to plant?
             if (string.IsNullOrEmpty(seedName))
-            {
                  return harvestItems;
-            }
 
             if (plantData == null)
                 plantData = new PlantData(BlockPos);
@@ -128,7 +160,6 @@ public class FarmPlotData
             {
                 if (!plantData.IsNearWater())
                 {
-                    Log.Out("Is not near water.");
                      return harvestItems;
                 }
             }
@@ -142,7 +173,6 @@ public class FarmPlotData
             {
                  BlockPlacement.Result result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(BlockPlacement.EnumRotationMode.Auto, 0, GameManager.Instance.World, blockValue, worldRayHitInfo.hit, plantPos);
                 blockValue.Block.PlaceBlock(GameManager.Instance.World, result, null);
-                itemStack.count--;
             }
         }
 

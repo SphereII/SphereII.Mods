@@ -127,6 +127,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         blockValue.meta2 = 0;
         _blockValue = blockValue;
         _world.SetBlockRPC(_clrIdx, _blockPos, _blockValue);
+
     }
 
 
@@ -135,8 +136,15 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
 
     public override string GetCustomDescription(Vector3i _blockPos, BlockValue _bv)
     {
-        var text = base.GetLocalizedBlockName();
-        return $"{text} \n {WaterPipeManager.Instance.GetWaterSummary(_blockPos)}";
+
+        var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+        if (localPlayer == null) return base.GetCustomDescription(_blockPos, _bv);
+
+        if (localPlayer.playerInput.PermanentActions.Activate.IsPressed || localPlayer.playerInput.Activate.IsPressed)
+        {
+            return WaterPipeManager.Instance.GetWaterSummary(_blockPos);
+        }
+        return base.GetCustomDescription(_blockPos, _bv);
     }
 }
 

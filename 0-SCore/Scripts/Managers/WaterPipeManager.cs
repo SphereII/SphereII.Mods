@@ -54,6 +54,9 @@ public class WaterPipeManager
     {
         var result = true;
         Vector3i WaterPos;
+
+        var sourceBlock = GameManager.Instance.World.GetBlock(plantPos);
+
         var plantData = CropManager.Instance.Get(plantPos);
         if (plantData != null)
         {
@@ -72,16 +75,16 @@ public class WaterPipeManager
         }
 
         if ( !result )
-            return $"{Localization.Get("has_water")}: {result}";
+            return $"Block: {sourceBlock.Block.GetLocalizedBlockName()} - {Localization.Get("has_water")}: {result}";
 
         var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
-        return $"{Localization.Get("has_water")}: {result}: Water Source {WaterPos}: Water Block: {waterBlock.Block.GetBlockName()} Water Damage Property: {GetWaterDamage(WaterPos)} Durability: {waterBlock.Block.MaxDamage - waterBlock.damage} / {waterBlock.Block.MaxDamage}";
+
+        return $"Block: {sourceBlock.Block.GetLocalizedBlockName()} - {Localization.Get("has_water")}: {result}: Water Source {WaterPos}: Water Block: {waterBlock.Block.GetBlockName()} Water Damage Property: {GetWaterDamage(WaterPos)} Durability: {waterBlock.Block.MaxDamage - waterBlock.damage} / {waterBlock.Block.MaxDamage}";
 
 
     }
     public Vector3i GetWaterForPosition(Vector3i position)
     {
-  
         if (Pipes.ContainsKey(position))
             return Pipes[position].GetWaterSource();
 

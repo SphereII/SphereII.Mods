@@ -76,8 +76,13 @@ public class PlantData
         var _waterSource = WaterPos;
 
         // If the water block is a sprinkler, find out where its getting its water from.
-        if ( waterBlock.Block is BlockWaterSourceSDX)
+        if ( waterBlock.Block is BlockWaterSourceSDX waterSource)
         {
+            if ( waterSource.IsWaterSourceUnlimited() )
+            {
+                ToggleWaterParticle();
+                return;
+            }
             _waterSource = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
             waterBlock = GameManager.Instance.World.GetBlock(_waterSource);
 
@@ -85,6 +90,15 @@ public class PlantData
         if (waterBlock.Block is BlockLiquidv2 water )
         {
             AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming Water: {BlockPos} {_waterSource} {waterBlock.Block.GetBlockName()}");
+
+            if (water.Properties.Values.ContainsKey("WaterType") )
+            {
+                if (water.Properties.Values["WaterType"].ToLower() == "unlimited")
+                {
+                    ToggleWaterParticle();
+                    return;
+                }
+            }
 
             // Check the global value of damaging water for this growth cycle
             var damage = WaterPipeManager.Instance.GetWaterDamage(_waterSource);
@@ -165,6 +179,8 @@ public class PlantData
             var blockValue = GameManager.Instance.World.GetBlock(valve.Key);
             if (blockValue.Block is BlockWaterSourceSDX waterBlock)
             {
+                if (waterBlock.IsWaterSourceUnlimited()) return true;
+
                 // If the valve itself is not connected to water, skip it.
                 if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
                     continue;
