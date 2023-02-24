@@ -10,6 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.420.840
+	
+	[ Encumbrance ]
+		- Added a check that for block weight.
+			- Previous was only checking if the Item entry had a weight.
+			- Now checking ItemWeight, and if not found, will check the Block weight.
+			- If both item and block has different weight, the Item weight will take priority
+
+	[ Repair From Container ]
+		- Fixed the issue where the tool belt items were not being consumed.
+		- Activated original Repair Block code. Code was not added to project and not built.
+			- Disabled my own crummy implementation which was causing more bugs.
+
+
 Version: 20.6.416.1123
 
 	[ MinEvent ]

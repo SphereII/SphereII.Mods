@@ -34,11 +34,20 @@ namespace SCore.Harmony.PlayerFeatures
 
 
                     float itemWeight = minimumEncumberance;
-                    ;
 
                     // Check if the item value has an item weight attached to it, and if so, use that number instead.
                     if (ItemClass.list[slots[num].itemValue.type].Properties.Values.ContainsKey("ItemWeight"))
+                    {
+
                         float.TryParse(ItemClass.list[slots[num].itemValue.type].Properties.Values["ItemWeight"], out itemWeight);
+                    }
+                    else 
+                    {
+                        // if it doesn't have an item weight, check its block entry.
+                        var blockValue = slots[num].itemValue.ToBlockValue();
+                        if ( blockValue.Block.Properties.Values.ContainsKey("ItemWeight"))
+                            float.TryParse(blockValue.Block.Properties.Values["ItemWeight"], out itemWeight);
+                    }
 
                     // Calculate the total weight of the stack
                     float flTotalWeight = itemWeight * slots[num].count;

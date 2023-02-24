@@ -287,72 +287,75 @@ namespace SCore.Harmony.Recipes
         }
 
 
-        // Repair using items from container.
-        [HarmonyPatch(typeof(Inventory))]
-        [HarmonyPatch("GetItemCount")]
-        [HarmonyPatch(new[] { typeof(ItemValue), typeof(bool), typeof(int), typeof(int) })]
+        //// Repair using items from container.
+        //[HarmonyPatch(typeof(Inventory))]
+        //[HarmonyPatch("GetItemCount")]
+        //[HarmonyPatch(new[] { typeof(ItemValue), typeof(bool), typeof(int), typeof(int) })]
 
-        public class InventoryGetItemCount
-        {
-            public static void Postfix(ref int __result, ItemValue _itemValue, EntityAlive ___entity)
-            {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
-                    return;
+        //public class InventoryGetItemCount
+        //{
+        //    public static void Postfix(ref int __result, ItemValue _itemValue, EntityAlive ___entity)
+        //    {
+        //        if (___entity.IsMarkedForUnload())
+        //            return;
 
-                // If we are to block based on entity, check for them.
-                if ( Configuration.CheckFeatureStatus("BlockUpgradeRepair", "BlockOnNearbyEnemies" ))
-                {
-                    var enemyDistance = 30f;
-                    var strenemyDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "DistanceEnemy");
-                    if (!string.IsNullOrEmpty(strenemyDistance))
-                        enemyDistance = StringParsers.ParseFloat(strenemyDistance);
+        //        // Check if this feature is enabled.
+        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
+        //            return;
 
-                    if (SCoreUtils.IsEnemyNearby(___entity, enemyDistance))
-                        return;
-                }
+        //        // If we are to block based on entity, check for them.
+        //        if ( Configuration.CheckFeatureStatus("BlockUpgradeRepair", "BlockOnNearbyEnemies" ))
+        //        {
+        //            var enemyDistance = 30f;
+        //            var strenemyDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "DistanceEnemy");
+        //            if (!string.IsNullOrEmpty(strenemyDistance))
+        //                enemyDistance = StringParsers.ParseFloat(strenemyDistance);
 
-                var distance = 30f;
-                var strDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "Distance");
-                if (!string.IsNullOrEmpty(strDistance))
-                    distance = StringParsers.ParseFloat(strDistance);
+        //            if (SCoreUtils.IsEnemyNearby(___entity, enemyDistance))
+        //                return;
+        //        }
 
-                var stack = EnhancedRecipeLists.SearchNearbyContainers(___entity, _itemValue, distance);
-                foreach (var each in stack)
-                    __result += each.count;
+        //        var distance = 30f;
+        //        var strDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "Distance");
+        //        if (!string.IsNullOrEmpty(strDistance))
+        //            distance = StringParsers.ParseFloat(strDistance);
 
-                return;
-            }
-        }
+        //        var stack = EnhancedRecipeLists.SearchNearbyContainers(___entity, _itemValue, distance);
+        //        foreach (var each in stack)
+        //            __result += each.count;
 
-        // Repair using items from container.
-        [HarmonyPatch(typeof(Bag))]
-        [HarmonyPatch("DecItem")]
-        public class Inventory_DecItem
-        {
-            public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
-            {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
-                    return;
+        //        return;
+        //    }
+        //}
 
-                // Send it through the xui so the other patch can catch it.
-                var entityPlayer = ___entity as EntityPlayerLocal;
-                if (entityPlayer == null) return;
+        //// Repair using items from container.
+        //[HarmonyPatch(typeof(Bag))]
+        //[HarmonyPatch("DecItem")]
+        //public class Inventory_DecItem
+        //{
+        //    public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
+        //    {
+        //        // Check if this feature is enabled.
+        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
+        //            return;
 
-                if (__result == 0)
-                {
-                    ItemStack itemStack = new ItemStack(_itemValue, _count);
-                    var itemStacks = new List<ItemStack>();
-                    itemStacks.Add(itemStack);
-                    ConsumeItem(itemStacks, entityPlayer, 1);
+        //        // Send it through the xui so the other patch can catch it.
+        //        var entityPlayer = ___entity as EntityPlayerLocal;
+        //        if (entityPlayer == null) return;
 
-                    // We know we had enough in the containers, so blank it out.
-                    __result = _count;
-                }
+        //        if (__result == 0)
+        //        {
+        //            ItemStack itemStack = new ItemStack(_itemValue, _count);
+        //            var itemStacks = new List<ItemStack>();
+        //            itemStacks.Add(itemStack);
+        //            ConsumeItem(itemStacks, entityPlayer, 1);
 
-            }
-        }
+        //            // We know we had enough in the containers, so blank it out.
+        //            __result = _count;
+        //        }
+
+        //    }
+        //}
 
         //[HarmonyPatch(typeof(Bag))]
         //[HarmonyPatch("DecItem")]

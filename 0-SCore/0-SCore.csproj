@@ -97,6 +97,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
     <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
     <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
+    <Compile Include="Harmony\PlayerFeatures\ItemActionRepairPatches.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
     <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
