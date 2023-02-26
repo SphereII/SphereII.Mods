@@ -10,6 +10,21 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.422.831
+
+	[ Vehicle No Pick Up ]
+		- Fixed a bug where removing the "take" option just shifted the index, not remove the functionality.
+
+		- Added a few filtering options, allowing modders to fine tune which vehicles can be picked up or not. 
+		- The follow conditions allow for vehicle pick up, listed by the order in which they are evaluated, if the feature is enabeld in the Config Block's VehicleNoTake
+			- If the vehicle has the tag: takeable
+			- If the Player has the cvar: {EntityVehicleName}_pickup, and this value is greater than 0.  
+				Example:     vehicleBicycle_pickup = 1
+			- If the Player has the cvar: PickUpAllVehicles, and this value is greater than 0.
+		- In all other cases, the vehicle's "take" command will be disabled.
+
+
+
 Version: 20.6.420.840
 	
 	[ Encumbrance ]
