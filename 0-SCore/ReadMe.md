@@ -10,6 +10,20 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.247.845
+	[ Vehicle No Pick Up ]
+		- Fixed spelling error in NoVehicleTake.cs
+			- Left old name as an empty, mispelled file to be removed for A21... if I remember.
+
+	[ Farming ]
+		- Added property check for Direct Water Source.
+			<property name="WaterType" value="Unlimited" />
+		- Any block with that set will be an unlimited water source, and will not take damage from crops.
+		- Add to bedrock, or any other block you want.
+
+	[ Quests ]
+		- ObjectiveBuffSDX now displays the localized name_key for the buff.
+
 Version: 20.6.422.831
 
 	[ Vehicle No Pick Up ]

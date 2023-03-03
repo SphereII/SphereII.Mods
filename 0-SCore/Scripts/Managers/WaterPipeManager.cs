@@ -176,14 +176,20 @@ public class WaterPipeManager
         var blockValue = GameManager.Instance.World.GetBlock(position);
         if (blockValue.Block is BlockLiquidv2) return true;
 
-        // Treat bedrock as a water block.
-     //   if (blockValue.Block.GetBlockName() == "terrBedrock") return true;
-
+    
         if (blockValue.Block.Properties.Contains("WaterSource"))
         {
             if (blockValue.Block.Properties.GetBool("WaterSource"))
                 return true;
             return false;
+        }
+
+        if (blockValue.Block.Properties.Values.ContainsKey("WaterType"))
+        {
+            if (blockValue.Block.Properties.Values["WaterType"].ToLower() == "unlimited")
+            {
+                return true;
+            }
         }
         return false;
     }

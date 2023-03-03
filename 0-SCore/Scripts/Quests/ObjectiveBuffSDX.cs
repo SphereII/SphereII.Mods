@@ -44,7 +44,10 @@ internal class ObjectiveBuffSDX : BaseObjective
 
     public override void SetupDisplay()
     {
-        Description = string.Format("{0} {1}:", keyword, Localization.Get(strBuff));
+        var buff = BuffManager.GetBuff(strBuff);
+        if (buff == null) return;
+
+        Description = string.Format("{0} {1}:", keyword, buff.LocalizedName);
     }
 
     public override void Refresh()

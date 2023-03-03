@@ -131,6 +131,7 @@
     <Compile Include="Harmony\UtilityAI\UAIPackage.cs" />
     <Compile Include="Harmony\UtilityAI\UAITaskBase.cs" />
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
+    <Compile Include="Harmony\Vehicles\NoVehicleTake.cs" />
     <Compile Include="Harmony\Vehicles\NoVechileTake.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
