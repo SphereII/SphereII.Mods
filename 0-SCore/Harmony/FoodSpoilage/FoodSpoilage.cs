@@ -121,6 +121,8 @@ public class SphereII_FoodSpoilage
             if (__instance.IsLocked && __instance.IsDragAndDrop)
                 return true;
 
+            var completePreserve = false;
+
             // Reset the durability
             //__instance.durability.IsVisible = false;
 
@@ -176,6 +178,7 @@ public class SphereII_FoodSpoilage
                     float BasePerUse = PerUse;
                     strDisplay += " Base Spoil: " + PerUse;
 
+                    
                     float containerValue = 0;
                     // Additional Spoiler flags to increase or decrease the spoil rate
                     switch (__instance.StackLocation)
@@ -207,7 +210,8 @@ public class SphereII_FoodSpoilage
                                     strDisplay += " Preservation Bonus ( " + Container.Block.Properties.GetFloat("PreserveBonus") + " )";
                                     var preserveBonus = Container.Block.Properties.GetFloat("PreserveBonus");
                                     if (preserveBonus == -99f)
-                                        return true;
+                                        completePreserve = true;
+
                                     PerUse -= preserveBonus;
                                 }
                             }
@@ -249,7 +253,10 @@ public class SphereII_FoodSpoilage
                     float TotalSpoilage = PerUse * TotalSpoilageMultiplier;
                     strDisplay += " Spoilage Ticks Missed: " + TotalSpoilageMultiplier;
                     strDisplay += " Total Spoilage: " + TotalSpoilage;
-                    __instance.ItemStack.itemValue.UseTimes += TotalSpoilage;
+
+                    // If we don't want any degradation, skip this step.
+                    if (!completePreserve)
+                        __instance.ItemStack.itemValue.UseTimes += TotalSpoilage;
 
                     // Update the NextSpoilageTick value
                     int NextSpoilageTick = GetNextSpoilageTick(worldTime, TickPerLoss);

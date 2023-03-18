@@ -273,6 +273,8 @@
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAttachPrefabWithAnimationsToEntity.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionCheckFireProximity.cs" />

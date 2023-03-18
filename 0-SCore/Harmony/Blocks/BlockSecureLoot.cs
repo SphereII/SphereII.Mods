@@ -22,10 +22,16 @@ namespace Harmony.Blocks
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
+                // If they have a controller, skip the mini game
+                if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
+                    return true;
+
                 var command = ___cmds[_indexInBlockActivationCommands];
                 if (command.text != "pick")
                     return true;
 
+                if (_player.Buffs.HasCustomVar("LegacyLockPick") && _player.Buffs.GetCustomVar("LegacyLockPick") > 0)
+                    return true;
 
                 if (_blockValue.ischild) return true;
                 if (!(_world.GetTileEntity(_cIdx, _blockPos) is TileEntitySecureLootContainer tileEntitySecureLootContainer)) return false;
@@ -65,6 +71,10 @@ namespace Harmony.Blocks
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+
+                // If they have a controller, skip the mini game
+                if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
                     return true;
 
                 if (_blockValue.ischild) return true;

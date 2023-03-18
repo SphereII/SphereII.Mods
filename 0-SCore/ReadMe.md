@@ -10,6 +10,30 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.442.1932
+
+	[ Food Spoilage ]
+		- Added an additional check for PreserveBonus -99 to not spoil when taken out.
+
+	[ Lock Picking ]
+		- If keyboard is not detected as the primary input device (ie, a controller is), then disable the lock mini game, and fall back to vanilla
+		
+		- Added a cvar check to fall back to regular lock picking
+			- If the player has the cvar LegacyLockPick  of greater value than 0, default lock picking will be used, skipping the mini-game.
+
+	[ MinEffect ]
+		Added Soleil Plein's new Console command that executes commands and passes cvar values to it.
+			<triggered_effect trigger = "onSelfBuffStart" action = "ExecuteConsoleCommandCVars, SCore" command = "testCommand {0} {1}" cvars = "cvar1,cvar2" />
+
+	[ Encumbrance ]
+		- Needed a way to re-calculate the encumbrance when the cvar for max encumbrance triggers.
+		- Not many good ways came to me for this, so I wrote a MinEffect. This will recalculate the encumbrance values.
+
+			<triggered_effect trigger = "onSelfBuffStart" action = "RecalculateEncumbrance, SCore"  />
+
+	[ Legacy Distance Terrain ]
+		- Disable Legacy Distant Terrain in GameModeEditWorld mode due to reported lag.
+
 Version: 20.6.247.845
 	[ Vehicle No Pick Up ]
 		- Fixed spelling error in NoVehicleTake.cs

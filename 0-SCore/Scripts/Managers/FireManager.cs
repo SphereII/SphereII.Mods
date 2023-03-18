@@ -267,7 +267,6 @@ public class FireManager
             }
 
             var block = GameManager.Instance.World.GetBlock(_blockPos);
-
             // Get block specific damages
             var damage = (int)fireDamage;
             if (block.Block.Properties.Contains("FireDamage"))

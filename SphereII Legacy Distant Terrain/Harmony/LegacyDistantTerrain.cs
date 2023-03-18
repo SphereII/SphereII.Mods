@@ -190,8 +190,11 @@ class SphereII_LegacyDistantTerrain
         public static void Postfix(WorldEnvironment __instance, World ___world)
         {
 
-            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting")
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty" 
+                || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
+                || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
             {
+                Debug.Log("Disabling Distant Terrain");
                 if (DistantTerrain.Instance != null)
                 {
                     DistantTerrain.Instance.Cleanup();
