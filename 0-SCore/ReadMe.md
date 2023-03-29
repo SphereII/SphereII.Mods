@@ -10,6 +10,23 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.453.1912
+
+	[ Effect Group Requirement ]
+		- Fixed a bug where it just didn't work.
+
+		Tested Configuration, other combinations may work:
+
+			<effect_group name="RETURN BROKEN">
+				<triggered_effect trigger="onSelfPrimaryActionStart" action="CreateItemSDX, SCore" item="resourceBone" >
+					<requirement name="HoldingItemDurability, SCore" operation="Equals" value=".1"/>
+				</triggered_effect>
+			</effect_group>
+
+	[ Fire Manager ]
+		- No code change, however wanted to say that the SetLightOff was moved from the GameUpdate loop, and moved behind the check interval.
+		- Performance increase potential.
+
 Version: 20.6.453.1540
 
 	[ Fire Spread ]

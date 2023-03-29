@@ -173,7 +173,7 @@
     <Compile Include="Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
     <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
     <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
-    <Compile Include="Scripts\Buffs\RequirementHoldingItemDurability.cs" />
+    <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />
