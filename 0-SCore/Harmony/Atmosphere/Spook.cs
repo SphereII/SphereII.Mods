@@ -7,29 +7,27 @@ namespace Harmony.Atmosphere
     {
         private const string AdvFeatureClass = "Theme";
         private const string Feature = "Spook";
-
-        // Makes the world in perpetual dark.
-        public class SpookSkyManagerBloodMoon
+        
+        // Constant Blood Moon
+        [HarmonyPatch(typeof(SkyManager))]
+        [HarmonyPatch("IsBloodMoonVisible")]
+        public class SkyManager_IsBloodMoonVisible
         {
-            // Constant Blood Moon
-            [HarmonyPatch(typeof(SkyManager))]
-            [HarmonyPatch("IsBloodMoonVisible")]
-            public static bool Prefix(ref bool __result)
+            public static bool Postfix(bool __result)
             {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return true;
+                    return __result;
 
                 SkyManager.SetSunIntensity(0.3f);
-                __result = true;
-                return false;
+                return true;
             }
         }
 
         // Places Blood on the ground when an entity dies.
-        public class SpookEntityAliveOnEntityDeath
+        [HarmonyPatch(typeof(global::EntityAlive))]
+        [HarmonyPatch("OnEntityDeath")]
+        public class EntityAlive_OnEntityDeath_BloodSplatter
         {
-            [HarmonyPatch(typeof(global::EntityAlive))]
-            [HarmonyPatch("OnEntityDeath")]
             public static void Postfix(global::EntityAlive __instance)
             {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))

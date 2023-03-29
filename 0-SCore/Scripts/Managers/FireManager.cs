@@ -23,6 +23,7 @@ public class FireManager
     private float smokeTime = 60f;
     //private GameRandom random;
     private float heatMapStrength = 0f;
+    private bool fireSpread = true;
 
     public string fireSound;
     public string smokeSound;
@@ -54,6 +55,23 @@ public class FireManager
             Log.Out("Fire Manager is disabled.");
             Enabled = false;
             return;
+        }
+
+        if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
+            || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
+            || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
+        {
+            Log.Out("Fire Manager is disabled in test worlds.");
+
+            Enabled = false;
+            return;
+        }
+
+        var fireSpreadString = Configuration.GetPropertyValue(AdvFeatureClass, "FireSpread");
+        if (!StringParsers.ParseBool(fireSpreadString))
+        {
+            Debug.Log("Fire Spread Disabled.");
+            fireSpread = false;
         }
 
 
@@ -108,7 +126,6 @@ public class FireManager
     public void LightsUpdate()
     {
 
-        ShutoffLights();
 
         // Make sure to only run it once
         lock (locker)
@@ -116,6 +133,7 @@ public class FireManager
             currentTimeLights -= Time.deltaTime;
             if (currentTimeLights > 0f) return;
             currentTimeLights = checkTimeLights;
+            ShutoffLights();
 
             CheckLights();
         }
@@ -230,7 +248,7 @@ public class FireManager
     public void FireUpdate()
     {
         // Make sure to only run it once
-        lock (locker)
+       // lock (locker)
         {
             currentTime -= Time.deltaTime;
             if (currentTime > 0f) return;
@@ -332,14 +350,18 @@ public class FireManager
                 var _fireParticle = GetRandomFireParticle(_blockPos);
                 BlockUtilitiesSDX.addParticlesCentered(_fireParticle, _blockPos);
             }
+
             // If we are damaging a block, allow the fire to spread.
-            neighbors.AddRange(CheckNeighbors(_blockPos));
+            if ( fireSpread)
+                neighbors.AddRange(CheckNeighbors(_blockPos));
 
             FireMap[_blockPos] = block;
         }
 
         // Send all the changes in one shot
         GameManager.Instance.SetBlocksRPC(Changes);
+
+        if (fireSpread == false) return;
 
         // Spread the fire to the neighbors. We delay this here so the fire does not spread too quickly or immediately, getting stuck in the above loop.
         foreach (var pos in neighbors)

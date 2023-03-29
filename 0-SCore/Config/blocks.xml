@@ -335,6 +335,8 @@
 				<property name="MaterialSurface" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" /> <!-- Checks the material's surface category to see if it should ignite -->
 				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Fire particle to use -->
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
+				<property name="FireSpread" value="true" /> <!-- When enabled, fire can spread to neighborblocks.-->
+
 				<!-- Alternative included particles -->
 				<!--
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />

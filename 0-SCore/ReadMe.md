@@ -10,6 +10,39 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.453.1540
+
+	[ Fire Spread ]
+		- New property in Config/blocks.xml.
+		- If FireSpread is false, fire will not spread to neighboring blocks.
+		- Default is true, fire will spread.
+
+	[ EntityAliveSDX ]
+		- Merged in FuriousRamsay's changes
+			- Remove the colliders on death, so you can keep bodies around afterwards
+			- Added lootable corpses.
+
+	[ Spook Theme ]
+		- Fixed an issue where Spook wasn't spookie. Effects easier to tell at night.
+
+
+	[ Effect Group Requirements ]
+		- Added a new Requirement, meant to be used in the effect_group / triggered events.
+		- Note: This is completely untested.
+	
+			<!-- True when the item is 100% broken -->
+		 	<requirement name="HoldingItemDurability, SCore" value="1"/>
+
+			<!-- True when the item is 50% broken -->
+		 	<requirement name="HoldingItemDurability, SCore" value="0.5"/>
+
+		Example on an items.xml reference:
+			<effect_group name="Check For Broken" >
+				<requirement name="HoldingItemDurability, SCore" value="1"/>
+				<triggered_effect trigger="onSelfSecondaryActionStart" action="CreateItemSDX, SCore" item="whatever" />
+			</effect_group>
+
+
 Version: 20.6.442.1932
 
 	[ Food Spoilage ]

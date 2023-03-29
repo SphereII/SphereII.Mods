@@ -80,6 +80,7 @@
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
+    <Compile Include="Harmony\ItemActions\ItemActionHandleBreakItem.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
     <Compile Include="Harmony\ItemActions\ItemClass.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
     <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
     <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementHoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />

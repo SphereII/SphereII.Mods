@@ -30,14 +30,10 @@ namespace SCore.Harmony.GameManagerPatches
         {
             public static void Postfix()
             {
-                if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-                {
-                    if (FireManager.Instance != null && FireManager.Instance.Enabled)
-                    {
-                        FireManager.Instance.FireUpdate();
-                        FireManager.Instance.LightsUpdate();
-                    }
-                }
+                if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+                if (FireManager.Instance == null || !FireManager.Instance.Enabled) return;
+                FireManager.Instance.FireUpdate();
+                FireManager.Instance.LightsUpdate();
             }
         }
 

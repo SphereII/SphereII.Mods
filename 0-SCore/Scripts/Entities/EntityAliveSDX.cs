@@ -60,6 +60,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     // Read the configuration to see if the hired NPCs should join the player's group.
     public bool AddNPCToCompanion = Configuration.CheckFeatureStatus("AdvancedNPCFeatures", "DisplayCompanions");
 
+
+    private string particleOnDestroy;
+    private BlockValue corpseBlockValue;
+    private float corpseBlockChance;
+
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
     public override string GetLootList()
     {
@@ -391,8 +396,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if (IsDead() || NPCInfo == null) return new EntityActivationCommand[0];
-
+        if (IsDead() || NPCInfo == null )
+        {
+            return new[]
+            {
+                new EntityActivationCommand("Search" , "search", true)
+            };
+        }
         // Do they even like us enough to talk?
         if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
 
@@ -413,6 +423,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
+        if (IsDead())
+        {
+            GameManager.Instance.TELockServer(0, _tePos, this.entityId, _entityFocusing.entityId, null);
+            return true;
+        }
+
         // Don't allow interaction with a Hated entity
         if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return false;
 
@@ -1205,6 +1221,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         this.nativeCollider = null;
         this.physicsCapsuleCollider = null;
 
+        Collider[] component = this.gameObject.GetComponentsInChildren<Collider>();
+
+        for (int i = 0; i < component.Length; i++)
+        {
+            if (component[i].name.ToLower() == "gameobject")
+            {
+                component[i].enabled = false;
+            }
+        }
+
         base.SetDead();
     }
 
@@ -1635,6 +1661,85 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
     }
+    public override void OnDeathUpdate()
+    {
+        if (this.deathUpdateTime < this.timeStayAfterDeath)
+        {
+            this.deathUpdateTime++;
+        }
+        int deadBodyHitPoints = EntityClass.list[this.entityClass].DeadBodyHitPoints;
+        if (deadBodyHitPoints > 0 && this.DeathHealth <= -deadBodyHitPoints)
+        {
+            this.deathUpdateTime = this.timeStayAfterDeath;
+        }
+        if (this.deathUpdateTime != this.timeStayAfterDeath)
+        {
+            return;
+        }
+        if (!this.isEntityRemote && !this.markedForUnload)
+        {
+            this.dropCorpseBlock();
+            if (this.particleOnDestroy != null && this.particleOnDestroy.Length > 0)
+            {
+                float lightBrightness = this.world.GetLightBrightness(base.GetBlockPosition());
+                this.world.GetGameManager().SpawnParticleEffectServer(new ParticleEffect(this.particleOnDestroy, this.getHeadPosition(), lightBrightness, Color.white, null, null, false), this.entityId);
+            }
+        }
+    }
+
+    protected override Vector3i dropCorpseBlock()
+    {
+        if (this.lootContainer != null && this.lootContainer.IsUserAccessing())
+        {
+            return Vector3i.zero;
+        }
+
+        Vector3i vector3i = Vector3i.zero;
+
+        if (this.corpseBlockValue.isair)
+        {
+            return Vector3i.zero;
+        }
+        if (this.rand.RandomFloat > this.corpseBlockChance)
+        {
+            return Vector3i.zero;
+        }
+        vector3i = World.worldToBlockPos(this.position);
+        while (vector3i.y < 254 && (float)vector3i.y - this.position.y < 3f && !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3i, this.corpseBlockValue, false))
+        {
+            vector3i += Vector3i.up;
+        }
+        if (vector3i.y >= 254)
+        {
+            return Vector3i.zero;
+        }
+        if ((float)vector3i.y - this.position.y >= 2.1f)
+        {
+            return Vector3i.zero;
+        }
+        this.world.SetBlockRPC(vector3i, this.corpseBlockValue);
+
+        if (vector3i == Vector3i.zero)
+        {
+            return Vector3i.zero;
+        }
+        TileEntityLootContainer tileEntityLootContainer = this.world.GetTileEntity(0, vector3i) as TileEntityLootContainer;
+        if (tileEntityLootContainer == null)
+        {
+            return Vector3i.zero;
+        }
+        if (this.lootContainer != null)
+        {
+            tileEntityLootContainer.CopyLootContainerDataFromOther(this.lootContainer);
+        }
+        else
+        {
+            tileEntityLootContainer.lootListName = this.lootListOnDeath;
+            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(this.lootListOnDeath, true).size, true);
+        }
+        tileEntityLootContainer.SetModified();
+        return vector3i;
+    }
     //public override void OnReloadStart()
     //{
     //    base.OnReloadStart();
@@ -1785,6 +1890,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
         return false;
     }
+
+
     public virtual void CheckStuck()
     {
         this.IsStuck = false;
