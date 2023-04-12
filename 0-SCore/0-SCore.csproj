@@ -338,6 +338,7 @@
     <Compile Include="Scripts\Quests\ObjectiveRandomGotoSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomPOIGotoSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomTaggedPOIGotoSDX.cs" />
+    <Compile Include="Scripts\Quests\QuestActionSetRevengeTargetsSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveBuffSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionGiveCVarBuffSDX.cs" />
     <Compile Include="Scripts\Quests\QuestActionPlaySound.cs" />

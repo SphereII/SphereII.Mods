@@ -67,17 +67,35 @@ public class FactionRelationshipCVars
         /// </summary>
         private static void SetRelationshipsFromCVars(EntityPlayerLocal __instance)
         {
+            // If a cvar value goes to 0, HasCustomVar will return false, so relying on that method
+            // will make us skip factions we shouldn't. This is a workaround. We record the index
+            // of the first faction cvar we find. If we found none, do nothing. If we found one,
+            // and the first one found isn't the first faction, we set the factions relationships
+            // up to that index to zero.
+            var first = -1;
+
             for (var i = 0; i < factions.Length; i++)
             {
                 if (factions[i] == null || factions[i].IsPlayerFaction)
                     continue;
 
                 var cvar = GetCVarName(i);
-                if (__instance.Buffs.HasCustomVar(cvar))
+                if (first >= 0 || __instance.Buffs.HasCustomVar(cvar))
                 {
                     var relationship = __instance.GetCVar(cvar);
                     factions[i].SetRelationship(__instance.factionId, relationship);
+                    if (first < 0)
+                        first = i;
                 }
+            }
+
+            // In general this should never happen, because the "none" faction is the first one
+            // defined in the XML, and it is neutral (400) to all. But a mod might have changed
+            // that, so we can't be certain.
+            if (first > 0)
+            {
+                for (var j = 0; j < first; j++)
+                    factions[j].SetRelationship(__instance.factionId, 0);
             }
         }
 
