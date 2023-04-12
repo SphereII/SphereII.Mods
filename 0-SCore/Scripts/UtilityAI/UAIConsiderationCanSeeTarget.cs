@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Harmony.ZombieFeatures;
+using UnityEngine;
 
 namespace UAI
 {
@@ -21,6 +22,8 @@ namespace UAI
             var targetEntity = UAIUtils.ConvertToEntityAlive(target);
             if (targetEntity == null)
                 return 0f;
+            
+            if (InertEntity.IsInert(targetEntity)) return 0f;
 
             if (SCoreUtils.CanSee(_context.Self, targetEntity, 20))
                 return 1f;

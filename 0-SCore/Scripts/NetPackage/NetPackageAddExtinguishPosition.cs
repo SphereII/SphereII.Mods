@@ -49,7 +49,7 @@ public class NetPackageAddExtinguishPosition : NetPackage
             return;
         }
 
-        FireManager.Instance.extinguish(position);
+        FireManager.Instance.Extinguish(position);
     }
 }
 

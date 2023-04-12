@@ -8,7 +8,7 @@ public class RequirementIsNearFire : RequirementBase
     float maxRange = 5f;
     public override bool ParamsValid(MinEventParams _params)
     {
-        return FireManager.Instance.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
+        return FireManager.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
     }
 
     public override bool ParseXmlAttribute(XmlAttribute _attribute)

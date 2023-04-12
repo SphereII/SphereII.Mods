@@ -7,10 +7,10 @@ using System.Xml;
  * This class includes a Harmony patches to allow loading up extra custom dialog elements
  * 
  * Usage:
- *   <action type="AddCVar, Mods" id="quest_Samara_Diary" value="1" operator="set" />
- *   <requirement type="HasBuffSDX, Mods" value="buffCursedSamaraMorgan" requirementtype="Hide" Hash="Requirement_-101666296" />
- *   <requirement type="HasCVarSDX, Mods" value="1" requirementtype="Hide" operator="GTE" id="quest_Samara_Diary" Hash="Requirement_-2138114132" />
- *   <requirement type="HasBuffSDX, Mods" value="buffBadAttitude" match="not" requirementtype="Hide" Hash="Requirement_-1230867493" />
+ *   <action type="AddCVar, SCore" id="quest_Samara_Diary" value="1" operator="set" />
+ *   <requirement type="HasBuffSDX, SCore" value="buffCursedSamaraMorgan" requirementtype="Hide" Hash="Requirement_-101666296" />
+ *   <requirement type="HasCVarSDX, SCore" value="1" requirementtype="Hide" operator="GTE" id="quest_Samara_Diary" Hash="Requirement_-2138114132" />
+ *   <requirement type="HasBuffSDX, SCore" value="buffBadAttitude" match="not" requirementtype="Hide" Hash="Requirement_-1230867493" />
   */
 public class SphereII_DialogFromXML_Extensions
 {

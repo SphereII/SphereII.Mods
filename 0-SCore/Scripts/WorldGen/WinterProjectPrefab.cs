@@ -26,12 +26,12 @@ public static class WinterProjectPrefab
     public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, QuestTags _questTag)
     {
         var AlreadyFilled = false;
-        if (_questTag != QuestTags.none)
-        {
-            AlreadyFilled = true;
-            prefab.yOffset -= 8;
-            position.y -= 8;
-        }
+        // if (_questTag != QuestTags.none)
+        // {
+        //     AlreadyFilled = true;
+        //     prefab.yOffset -= 8;
+        //     position.y -= 8;
+        // }
 
         SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled, prefab.size.y);
     }
@@ -77,13 +77,16 @@ public static class WinterProjectPrefab
                 // If we are resetting for a quest, the terrain has already been moved up.
                 if (regen) tHeightWithSnow = tHeight;
 
-                for (var y = 255; y >= 0; y--)
+              //  for (var y = 255; y >= 0; y--)
+              for (var y = 255; y >= 0; y--)
                 {
                     // Test if we still need to go down further
                     var b = chunk.GetBlock(chunkX, y, chunkZ);
                     if (b.type == 0)
                         continue; //still air 
 
+                    if (b.Block is BlockModelTree) break;
+                    
                     //if (Block.list[b.type].blockMaterial.StabilitySupport == false)
                     //    continue;
 
@@ -135,24 +138,25 @@ public static class WinterProjectPrefab
                         //if (log)
                         //    Write("Set " + worldX + "," + snowY + "," + worldZ + " to snow || world  " + chunk.GetWorldPos() + " applied: " + (check.type != snow.type) + "  rpc: " + Rpc);
 
-                        if (check.type != snow.type)
+                        if (check.type == snow.type) continue;
+                        if (notifyRpc)
                         {
-                            if (notifyRpc)
-                            {
-                                var pos = chunk.GetWorldPos();
-                                pos.x += chunkX;
-                                pos.y = snowY;
-                                pos.z += chunkZ;
-                                //GameManager.Instance.World.SetBlockRPC(pos, snow, MarchingCubes.DensityTerrain);
-                                Changes.Add(new BlockChangeInfo(pos, snow, MarchingCubes.DensityTerrain));
-                            }
-                            else
-                            {
-                                chunk.SetBlock(GameManager.Instance.World, chunkX, snowY, chunkZ, snow);
+                            var pos = chunk.GetWorldPos();
+                            pos.x += chunkX;
+                            pos.y = snowY;
+                            pos.z += chunkZ;
+                            //GameManager.Instance.World.SetBlockRPC(pos, snow, MarchingCubes.DensityTerrain);
+                            var density = snowY == y + snowHeight - 1 ? (sbyte)-Rand.Next(1, 127) : MarchingCubes.DensityTerrain;
 
-                                var density = snowY == y + snowHeight - 1 ? (sbyte)-Rand.Next(1, 127) : MarchingCubes.DensityTerrain;
-                                chunk.SetDensity(chunkX, snowY, chunkZ, density);
-                            }
+                            //Changes.Add(new BlockChangeInfo(pos, snow, MarchingCubes.DensityTerrain));
+                            Changes.Add(new BlockChangeInfo(pos, snow, density));
+                        }
+                        else
+                        {
+                            chunk.SetBlock(GameManager.Instance.World, chunkX, snowY, chunkZ, snow);
+
+                            var density = snowY == y + snowHeight - 1 ? (sbyte)-Rand.Next(1, 127) : MarchingCubes.DensityTerrain;
+                            chunk.SetDensity(chunkX, snowY, chunkZ, density);
                         }
                     }
 
@@ -164,6 +168,9 @@ public static class WinterProjectPrefab
 
             Write("Changes: " + (Changes == null ? "null" : Changes.Count.ToString()));
             if (Changes != null) GameManager.Instance.SetBlocksRPC(Changes);
+            
+            
+            
         }
     }
 

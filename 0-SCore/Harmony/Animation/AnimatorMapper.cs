@@ -4,9 +4,12 @@ namespace Harmony.Animation
 {
     public class Harmony_AnimalAnimation
     {
-        private static string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
-        private static string Feature = "EntitySpeedCheck";
+        private const string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
+        private const string Feature = "EntitySpeedCheck";
 
+        /// <summary>
+        /// When enabled via the SCore's block's AdvancedTroubleshootingFeatures, EntitySpeedCheck, it will aggressively spam the animals' forward and strafe speeds.
+        /// </summary>
         [HarmonyPatch(typeof(AvatarAnimalController))]
         [HarmonyPatch("LateUpdate")]
         public class SphereII_AnimalAvatarController
@@ -23,12 +26,3 @@ namespace Harmony.Animation
     }
 
 }
-//[HarmonyPatch(typeof(XmlPatcher))]
-//[HarmonyPatch("singlePatch")]
-//public class SphereII_XmlPatcher_SinglePatch
-//{
-
-//        static bool Prefix(XmlFile _targetFile, XmlElement _patchElement, string _patchName)
-//        {
-//            if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-//            return true;*/

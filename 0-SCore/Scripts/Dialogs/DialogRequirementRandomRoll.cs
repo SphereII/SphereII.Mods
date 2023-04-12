@@ -2,7 +2,7 @@
 {
 
     // Value being percent chance to show.
-    //  <requirement type="RandomRoll, Mods" requirementtype="Hide" value="1" /> 
+    //  <requirement type="RandomRoll, SCore" requirementtype="Hide" value="1" /> 
 
     public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {

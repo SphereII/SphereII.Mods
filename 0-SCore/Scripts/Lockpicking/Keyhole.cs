@@ -542,7 +542,8 @@ namespace Lockpicking
                         prevMaxGive = maxGiveAmount;
                         Log.Out($"Break Time: {breakTime} (float){progressionValue.Level} {(float)progressionValue.Level / 5}");
                         breakTime += (float)progressionValue.Level / 5;
-                        maxGiveAmount += (float)progressionValue.Level / 5 ;
+                        //maxGiveAmount += (float)progressionValue.Level / 5 ;
+                        maxGiveAmount += (float)progressionValue.Level * 2 ;
                     }
                 }
 

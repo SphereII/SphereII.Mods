@@ -3,11 +3,11 @@ using System;
 
 namespace Harmony.Animation
 {
-    /**
-     * * 
-     * * On dedicated servers, when using an external animation class (Mecanim SDX), the server incorrectly assigns a Dummy avatar, rather than our own.
-     * * We can get around this by disabling rag dolling on external entities, but it also generates warnings in the log file.
-     */
+    
+    /// <summary>
+    ///  On dedicated servers, when using an external animation class (Mecanim SDX), the server incorrectly assigns a Dummy avatar, rather than our own.
+    /// We can get around this by disabling rag dolling on external entities, but it also generates warnings in the log file.
+    /// </summary>
     [HarmonyPatch(typeof(EModelBase))]
     [HarmonyPatch("InitCommon")]
     public class ModelBaseInitCommon

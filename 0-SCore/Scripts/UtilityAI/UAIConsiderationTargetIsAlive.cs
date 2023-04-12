@@ -1,4 +1,6 @@
-﻿namespace UAI
+﻿using Harmony.ZombieFeatures;
+
+namespace UAI
 {
     public class UAIConsiderationTargetIsDead : UAIConsiderationTargetIsAlive
     {
@@ -15,6 +17,8 @@
             EntityAlive targetEntity = UAIUtils.ConvertToEntityAlive(target);
             if (targetEntity == null)
                 return 0f;
+            if (InertEntity.IsInert(targetEntity)) return 0f;
+            
             return targetEntity.IsAlive() ? 1f : 0f;
         }
     }

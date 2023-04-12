@@ -10,6 +10,69 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version:  20.6.467.917
+
+	[ Quests ]
+		- Merged khzmusik's new Quest Action.
+
+			This quest objective sets the revenge targets of all entities in range.
+
+			<action type="SetRevengeTargetsSDX" id="party" value="location" phase="2" />
+
+	[ Lock Pick ]
+		- Adjusted MaxGiveAmount to be 2 * the perk level
+
+	[ Music Boxes ]
+		- Reformatted, and refactored
+
+	[ IsActive ]
+		- Fixed some issues with the TileEntity AlwaysActive
+		- Re-enabled full Winter-Project support
+
+	[ Inert ]
+		- When an entity is inert, the entity is paused. No animations, no sound, no attacks, and takes no damage.
+		- When an entity has the following property, it will only be active at night. Otherwise, it'll be considered inert.
+		      <property name="EntityActiveWhen" value="night" /> <!-- alternative is day -->
+		- Added a check for TargetIsAlive if the entity is Inert or not. If it is, it's ignored.
+		- Added checks for IsEnemyNearby, and CanSeeTarget to do Inert checks.
+		- Added patches so inert entities will not make a sound.
+
+	[ Fire Manager ]
+		- Tagged Material: Mhay to be flammable.
+		- Re-factored FireManager to be clearer.
+		- Added some performance tweaks:
+			- Sound will not always play on each fire block. Instead, each block will have a random chance to either play a sound or not. (10% chance to play a sound)
+			- Added 5% chance for a block to self-extinguish.	
+			- These checks are re-evaluable on the CheckInterval time.
+		- Added a check for Explosion.
+			- If a block has an explosion property, and is set as flammable, the block will trigger an explosion when it downgrades.
+		
+	[ Explosion Particles ]
+		- The vanilla prefabExplosions array that maintains a list of possible explosion particles via the Explosion.ParticleIndex is set to 20.
+		- When a game starts, the SCore will check it's ConfigurationBlock's ExternalParticles node for external particles.
+			Example:
+				<property class="ExternalParticles">
+					<!-- The name is not used by the system. The index value will be displayed in the log during a game boot up. -->
+					<!-- Review the log to find out your index. -->
+					<!-- The Index is a GetHashCode() on the value. -->
+					<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+					<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> 
+				</property>
+
+		- If a particle entry is detected, this particle will be registered with the main ParticleEffect.RegisterBundleParticleEffect.
+			- This is the same particle effect that is used elsewhere in the system, including the Fire Manager.
+		- The index of this particle will be the bundle's GetHashCode(). 
+			- This value can be viewed in the log file:
+				Registering External Particle: Index: -87591912 for #@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X
+
+			- This index is what you should use in your Explosion.ParticleIndex.
+				<property name="Explosion.ParticleIndex" value="-87591912"/> 
+
+		- This check is applied via a Harmony patch to GameManager's ExplosionClient, and will be triggered if the ParticleIndex is not within a range of 0 and 20.
+
+		- Append to SCore's ConfigurationBlock's ExternalParticles Entry.
+		
+
 Version: 20.6.453.1912
 
 	[ Effect Group Requirement ]

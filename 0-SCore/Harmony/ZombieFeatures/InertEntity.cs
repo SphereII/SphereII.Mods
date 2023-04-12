@@ -16,7 +16,7 @@ namespace Harmony.ZombieFeatures
      */
     public class InertEntity
     {
-        private static bool IsInert(global::EntityAlive alive)
+        public static bool IsInert(global::EntityAlive alive)
         {
             if (alive == null)
                 return false;
@@ -53,7 +53,6 @@ namespace Harmony.ZombieFeatures
             {
                 if (!IsInert(__instance)) return true;
 
-
                 // null safety check
                 if (__instance.emodel == null || __instance.emodel.avatarController == null || __instance.emodel.avatarController.GetAnimator() == null) return false;
                 if (__instance.WorldTimeBorn + 15 > __instance.world.worldTime)
@@ -64,6 +63,16 @@ namespace Harmony.ZombieFeatures
 
                 __instance.emodel.avatarController.GetAnimator().enabled = false;
                 return false;
+            }
+        }
+        
+        [HarmonyPatch(typeof(global::EntityAlive))]
+        [HarmonyPatch("OnUpdateEntity")]
+        public class EntityAliveOnUpdateLive
+        {
+            public static bool Prefix(global::EntityAlive __instance)
+            {
+                return !IsInert(__instance);
             }
         }
 
@@ -88,13 +97,13 @@ namespace Harmony.ZombieFeatures
             {
                 global::EntityAlive entityAlive = null;
                 var hitInfo = __instance.xui.playerUI.entityPlayer.HitInfo;
-                if (!hitInfo.bHitValid || !hitInfo.transform || !hitInfo.tag.StartsWith("E_")) return true;
+                if (!hitInfo.bHitValid || !hitInfo.transform) return true;
+                if (!hitInfo.tag.StartsWith("E_")) return true;
 
                 Transform hitRootTransform;
-                if ((hitRootTransform = GameUtils.GetHitRootTransform(hitInfo.tag, hitInfo.transform)) != null) entityAlive = hitRootTransform.GetComponent<global::EntityAlive>();
-
+                if ((hitRootTransform = GameUtils.GetHitRootTransform(hitInfo.tag, hitInfo.transform)) != null) 
+                    entityAlive = hitRootTransform.GetComponent<global::EntityAlive>();
                 if (entityAlive == null || !entityAlive.IsAlive()) return true;
-
                 return !IsInert(entityAlive);
             }
         }

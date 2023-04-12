@@ -2,9 +2,12 @@
 
 namespace Harmony.AIDirectorBloodMoon
 {
+    /// <summary>
+    /// Location: Harmony.AIDirectorBloodMoon
+    /// Allows zombies to keep attacking their target if its already set. This allows the zombies to focus on NPCs, as well, rather than blind focus on the player.
+    /// </summary>
     public class AiDirectorBloodMoonParty
     {
-        // Allows zombies to keep attacking their target if its already set. This allows the zombies to focus on NPCs, as well, rather than blind focus on the player.
         [HarmonyPatch(typeof(AIDirectorBloodMoonParty))]
         [HarmonyPatch("SeekTarget")]
         public static bool Prefix(ref bool __result, ManagedZombie mz)

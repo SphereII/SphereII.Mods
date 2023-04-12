@@ -5,8 +5,9 @@ namespace Harmony.Animation
 {
     public class AnimalAvatarController
     {
-        // To fix the mapping of some animals.
-
+        /// <summary>
+        /// Used to fix some mappings for custom animals' who's body parts aren't named the expected way.
+        /// </summary>
         [HarmonyPatch(typeof(AvatarAnimalController))]
         [HarmonyPatch("assignBodyParts")]
         public class SCoreAvatarAnimalControllerAssignBodyParts

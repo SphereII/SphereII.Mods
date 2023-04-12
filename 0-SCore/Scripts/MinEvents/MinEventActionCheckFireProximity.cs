@@ -12,7 +12,7 @@ public class MinEventActionCheckFireProximity : MinEventActionRemoveBuff
         if (FireManager.Instance.Enabled == false) return;
 
         var position = new Vector3i(_params.Self.position);
-        var count = FireManager.Instance.CloseFires(position, (int)maxRange);
+        var count = FireManager.CloseFires(position, (int)maxRange);
         _params.Self.Buffs.SetCustomVar(cvar, (float)count);
     }
 

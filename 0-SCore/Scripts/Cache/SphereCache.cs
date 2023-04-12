@@ -141,9 +141,8 @@ public static class SphereCache
             AdvLogging.DisplayLog(AdvFeatureClass, display);
 
             var RandomCavePoints = FindRandomPoints(MaxCount);
-            for (var i = 0; i < RandomCavePoints.Length; i++)
+            foreach (var randomChunkPosition in RandomCavePoints)
             {
-                var randomChunkPosition = RandomCavePoints[i]; //vector3i world pos
                 var caveRadius = ClusterSize;
 
                 for (var x = 0; x < CaveEntrances; x++)
@@ -155,7 +154,6 @@ public static class SphereCache
                     caveEntrances.Add(new Vector3i(entranceX, 1, entranceZ));
                     display = "Cave Spawn Area: " + randomChunkPosition + " Entrance: " + new Vector3i(entranceX, 0, entranceZ);
                     AdvLogging.DisplayLog(AdvFeatureClass, display);
-                    Debug.Log(display);
                     
 
 

@@ -72,7 +72,7 @@ namespace UAI
                 {
                     //  Am I being attacked? 
                     var attacker = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId) as EntityAlive;
-                    if (attacker == null)
+                    if (attacker != null)
                     {
                         entityAlive = attacker;
                     }

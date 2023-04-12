@@ -28,7 +28,7 @@ public class BlockMusicBox : BlockLoot
     private readonly BlockActivationCommand[] cmds =
     {
         new BlockActivationCommand("light", "electric_switch", true),
-        new BlockActivationCommand("Open", "hand", true),
+        new BlockActivationCommand("search", "search", true),
         new BlockActivationCommand("take", "hand", false)
     };
 
@@ -87,7 +87,7 @@ public class BlockMusicBox : BlockLoot
         {
             var tileEntityLootContainer = new TileEntityLootContainer(_chunk);
             tileEntityLootContainer.localChunkPos = World.toBlock(_blockPos);
-            tileEntityLootContainer.lootListName = "25";
+            tileEntityLootContainer.lootListName = "cntDropBag";
             tileEntityLootContainer.SetContainerSize(vLootContainerSize);
             _chunk.AddTileEntity(tileEntityLootContainer);
         }
@@ -115,25 +115,20 @@ public class BlockMusicBox : BlockLoot
         var strReturn = string.Format(Localization.Get("pickupPrompt"), Localization.Get(blockName));
 
         var _ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);
-        if (_ebcd != null && _ebcd.transform)
+        if (_ebcd == null || !_ebcd.transform) return strReturn;
+        
+        var myMusicBoxScript = _ebcd.transform.GetComponent<MusicBoxScript>();
+        if (myMusicBoxScript == null)
         {
-            var myMusicBoxScript = _ebcd.transform.GetComponent<MusicBoxScript>();
-            if (myMusicBoxScript == null)
-            {
-                myMusicBoxScript = _ebcd.transform.gameObject.AddComponent<MusicBoxScript>();
-                myMusicBoxScript.enabled = false;
-            }
-
-            if (myMusicBoxScript)
-            {
-                if (myMusicBoxScript.enabled)
-                    strReturn = string.Format(Localization.Get("musicbox_turnOff") + GetBlockName(), keybindString);
-                else
-                    strReturn = string.Format(Localization.Get("musicbox_turnOn") + GetBlockName(), keybindString);
-            }
+            myMusicBoxScript = _ebcd.transform.gameObject.AddComponent<MusicBoxScript>();
+            myMusicBoxScript.enabled = false;
         }
 
-        return strReturn;
+        if (!myMusicBoxScript) return strReturn;
+        if (myMusicBoxScript.enabled)
+            return $"{Localization.Get("musicbox_turnOff")} {GetBlockName()}";
+        else
+            return $"{Localization.Get("musicbox_turnOn")} {GetBlockName()}";
 
         #endregion
     }

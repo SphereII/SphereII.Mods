@@ -25,5 +25,20 @@ namespace Harmony.XUiC
 
             }
         }
+        
+        [HarmonyPatch(typeof(XUiC_TargetBar))]
+        [HarmonyPatch("GetBindingValue")]
+        public class XUICTargetHealthBar_GetBindingValue
+        {
+            public static void Postfix(XUiC_TargetBar __instance, ref string value, string bindingName)
+            {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return;
+
+                if (bindingName != "name" || __instance.Target == null) return;
+                if (__instance.Target is EntityAliveSDX entityAliveSdx )
+                    value = entityAliveSdx.EntityName;
+            }
+        }
     }
 }

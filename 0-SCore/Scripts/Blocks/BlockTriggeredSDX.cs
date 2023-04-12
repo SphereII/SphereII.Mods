@@ -32,16 +32,12 @@ internal class BlockTriggeredSDX : BlockLoot
 
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
-        if (_blockValue.Block.Properties.Values.ContainsKey("ActivateOnLook"))
-        {
-            var ActivateOnLook = StringParsers.ParseBool(_blockValue.Block.Properties.Values["ActivateOnLook"]);
-            if (ActivateOnLook)
-            {
-                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Activating Block on GetActivationText");
+        if (!_blockValue.Block.Properties.Values.ContainsKey("ActivateOnLook")) return "";
+        var activateOnLook = StringParsers.ParseBool(_blockValue.Block.Properties.Values["ActivateOnLook"]);
+        if (!activateOnLook) return "";
+        AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Activating Block on GetActivationText");
 
-                ActivateBlock(_world, _clrIdx, _blockPos, _blockValue, true, true);
-            }
-        }
+        ActivateBlock(_world, _clrIdx, _blockPos, _blockValue, true, true);
 
         return "";
     }
@@ -49,53 +45,47 @@ internal class BlockTriggeredSDX : BlockLoot
     // don't open the loot container.
     public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
-        if (_blockValue.Block.Properties.Values.ContainsKey("IsContainer"))
-        {
-            var IsContainer = StringParsers.ParseBool(_blockValue.Block.Properties.Values["IsContainer"]);
-            if (IsContainer)
-            {
-                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-                return true;
-            }
-        }
-
+        if (!_blockValue.Block.Properties.Values.ContainsKey("IsContainer")) return true;
+        var isContainer = StringParsers.ParseBool(_blockValue.Block.Properties.Values["IsContainer"]);
+        if (!isContainer) return true;
+        base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
         return true;
+
     }
 
     public override bool ActivateBlock(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, bool isOn, bool isPowered)
     {
         // If there's no transform, no sense on keeping going for this class.
-        var _ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);
-        if (_ebcd == null || _ebcd.transform == null)
+        var ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);
+        if (ebcd == null || ebcd.transform == null)
             return false;
 
-        var componentsInChildren = _ebcd.transform.GetComponentsInChildren<Animator>();
-        if (componentsInChildren != null)
-            for (var i = componentsInChildren.Length - 1; i >= 0; i--)
+        var componentsInChildren = ebcd.transform.GetComponentsInChildren<Animator>();
+        if (componentsInChildren == null) return true;
+        for (var i = componentsInChildren.Length - 1; i >= 0; i--)
+        {
+            var animator = componentsInChildren[i];
+
+            AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Animator: " + animator.name + " : Active: " + isOn);
+            if (isOn)
             {
-                var animator = componentsInChildren[i];
+                var random = Random.Range(0, RandomIndex);
+                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Random Index for " + animator.name + " Value: " + random);
 
-                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Animator: " + animator.name + " : Active: " + isOn);
-                if (isOn)
-                {
-                    var random = Random.Range(0, RandomIndex);
-                    AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Random Index for " + animator.name + " Value: " + random);
-
-                    animator.SetInteger("RandomIndex", random);
-                    AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Setting Bool for On: True " + animator.name);
-                    animator.SetBool("On", true);
-                    AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Trigger for On: " + animator.name);
-                    animator.SetTrigger("TriggerOn");
-                }
-
-                if (isOn == false)
-                {
-                    AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Setting Bool for On: false" + animator.name);
-                    animator.SetBool("On", false);
-                    //  AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Turning Off Animator " + animator.name);
-                    //  animator.enabled = false;
-                }
+                animator.SetInteger("RandomIndex", random);
+                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Setting Bool for On: True " + animator.name);
+                animator.SetBool("On", true);
+                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Trigger for On: " + animator.name);
+                animator.SetTrigger("TriggerOn");
             }
+            else
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Setting Bool for On: false" + animator.name);
+                animator.SetBool("On", false);
+                //  AdvLogging.DisplayLog(AdvFeatureClass, _blockValue.Block.GetBlockName() + ": Turning Off Animator " + animator.name);
+                //  animator.enabled = false;
+            }
+        }
 
         return true;
     }

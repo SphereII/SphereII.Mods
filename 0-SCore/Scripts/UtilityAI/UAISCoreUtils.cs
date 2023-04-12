@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml;
+using Harmony.ZombieFeatures;
 using UnityEngine;
 
 namespace UAI
@@ -411,7 +412,11 @@ namespace UAI
                 if (x == Self) continue;
                 if (x.IsDead()) continue;
 
-                // Check to see if they are our enemy first, before deciding if we should see them.
+                if (InertEntity.IsInert(x))continue;
+                
+
+                // Check to see if
+                // they are our enemy first, before deciding if we should see them.
                 if (!EntityTargetingUtilities.IsEnemy(Self, x)) continue;
 
                 // Can we see them?

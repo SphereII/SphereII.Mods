@@ -82,7 +82,7 @@ using UnityEngine;
 /// <example>
 /// <code>
 /// <!-- Sets the player's relationship with bandits to 400 ("Neutral"). -->
-/// <triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationshipSDX, Mods" target="self" faction="bandits" value="400" />
+/// <triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationshipSDX, SCore" target="self" faction="bandits" value="400" />
 /// </code>
 /// </example>
 public class MinEventActionSetFactionRelationship : MinEventActionTargetedBase

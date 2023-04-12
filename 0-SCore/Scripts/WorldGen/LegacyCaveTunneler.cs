@@ -137,7 +137,12 @@ public static class LegacyCaveSystem
     // Generate a prefab to push around.
     public static void CreateEmptyPrefab(Chunk chunk, Vector3i position)
     {
-        var prefab = new Prefab(new Vector3i(3, 3, 3));
+        var random = GameManager.Instance.World.GetGameRandom();
+        var x = random.RandomRange(2, 4);
+        var z = random.RandomRange(2, 4);
+        var y = random.RandomRange(3, 5);
+        //var prefab = new Prefab(new Vector3i(4, 3, 4));
+        var prefab = new Prefab(new Vector3i(x, y, z));
         prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, position, true);
     }
 
@@ -172,7 +177,8 @@ public static class LegacyCaveSystem
                 var worldX = chunkPos.x + chunkX;
                 var worldZ = chunkPos.z + chunkZ;
 
-                var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
+              //  var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
+              var tHeight = chunk.GetTerrainHeight( 8,  8);
 
                 // Place the top of this cave system higher up, if its a trap block.
                 var SurfaceBlock = chunk.GetBlock(chunkX, tHeight, chunkZ);

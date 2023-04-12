@@ -1,0 +1,37 @@
+﻿<configs>
+    <!-- For stealth purposes I am putting sounds into 5 buckets so I can search&massReplace.
+	1 minor sounds, earth/cloth hit
+	6 brief mechanical noises like gun sighting
+	2 loud steps, trash, hitting stone/wood, silenced MP5
+	3 hit glass / Metal, heavy impacts, iron doors, pistol
+	4 Auger loop, death screams, Gunshot small?
+	5 Gunshot loud, EXPLOSIONS
+
+        <Noise ID="1" noise="7" time="3" muffled_when_crouched="0.5"/>
+        <Noise ID="6" noise="7" time="2" muffled_when_crouched="0.5"/>
+        <Noise ID="2" noise="11" time="4" muffled_when_crouched="0.5"/>
+        <Noise ID="3" noise="30" time="3" muffled_when_crouched="0.65" heat_map_strength="0.05" heat_map_time="60"/>
+        
+        <Noise ID="1" noise="7" time="3" muffled_when_crouched="0.5"/>
+	- ID: I just made that one up so it would be easier to use search&massReplace
+	- (deprecated)volume: volume of the sound which can trigger AI wake
+	- noise: the cumulative volume/range value that goes into the player's stealth meter.
+	- time: game time seconds until noise is removed
+	- muffled_when_crouched: scales noise range when entity is crouched
+	- heat_map_strength: how much to add to heat map (once 100 is hit, horde scout is spawned)
+	- heat_map_time: how long this heat "event" will stick around and add to the local heat map strength. (60 equals about 100 seconds)
+-->
+    
+    <append xpath="/Sounds">
+        <SoundDataNode name="SCoreMediumLoop">
+            <Noise ID="1" noise="1" heat_map_strength="0.1" heat_map_time="2" />
+            <AudioSource name="Sounds/AudioSource_Amb_Small"/>
+            <AudioClip ClipName="Sounds/Ambient_Loops/a_fire_med_lp" Loop="true"/>
+            <LocalCrouchVolumeScale value="1.0"/> 
+            <CrouchNoiseScale value="0.5"/> 
+            <NoiseScale value="1"/> 
+            <MaxVoices value="18"/> 
+            <MaxRepeatRate value="0.001"/> 
+        </SoundDataNode>
+    </append>
+</configs>

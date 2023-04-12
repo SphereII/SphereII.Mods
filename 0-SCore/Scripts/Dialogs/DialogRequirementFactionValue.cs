@@ -2,7 +2,7 @@
 {
     private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
     // Show Dialog if player faction is less than 400
-    //  <requirement type="FactionValue, Mods" requirementtype="Hide" value="400" operator="lt" /> 
+    //  <requirement type="FactionValue, SCore" requirementtype="Hide" value="400" operator="lt" /> 
 
     // strOperator is set in 0-SphereIICore/Harmony/DialogFromXML.cs
     public string strOperator = "eq";

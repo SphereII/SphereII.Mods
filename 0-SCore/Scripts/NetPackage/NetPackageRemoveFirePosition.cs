@@ -49,7 +49,7 @@ using System.Threading.Tasks;
         {
             return;
         }
-        FireManager.Instance.remove(position);
+        FireManager.Instance.Remove(position);
     }
 }
 

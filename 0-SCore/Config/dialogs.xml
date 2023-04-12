@@ -242,10 +242,10 @@
         Rolls a random value to be true. Value range is 0 to 10. The random roll must be less than the specified value, out of 10.
         
         True if the random roll is less than 1 
-          <requirement type="RandomRoll, Mods" requirementtype="Hide" value="1" /> 
+          <requirement type="RandomRoll, SCore" requirementtype="Hide" value="1" /> 
       
         True if the random roll is less than 9
-          <requirement type="RandomRoll, Mods" requirementtype="Hide" value="9" /> 
+          <requirement type="RandomRoll, SCore" requirementtype="Hide" value="9" /> 
           
   -->
 

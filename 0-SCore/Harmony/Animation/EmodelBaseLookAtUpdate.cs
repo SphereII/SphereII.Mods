@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Harmony.Animation
 {
-
-    // Fixes the head twist that NPCs have that are not code-corrected in vanilla.
+/// <summary>
+/// Fixes the head twist that NPCs have that are not code-corrected in vanilla.
+/// </summary>
+   
     [HarmonyPatch(typeof(EModelBase))]
     [HarmonyPatch("LookAtUpdate")]
     public class EModelBaseLookAtUpdate

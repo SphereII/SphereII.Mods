@@ -3,7 +3,7 @@
 public class DialogRequirementFaction : BaseDialogRequirement
 {
 
-    //  <requirement type="Faction, Mods" requirementtype="Hide" value="neutral" /> 
+    //  <requirement type="Faction, SCore" requirementtype="Hide" value="neutral" /> 
 
     public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {

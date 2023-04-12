@@ -8,13 +8,9 @@ namespace Harmony.Animation
         private const string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private const string Feature = "AnimatorMapper";
 
-        /**
-         * AvatarController.SetTrigger()
-         * 
-         * This includes a logging feature to show which trigger is called, when the AnimatorMapper Feature is enabled in the Config/blocks.xml
-         *  
-         * This includes a RandomIndex integer, with a range of 0 to 10, to allow more flexibility in custom animators
-         */
+        /// <summary>
+        /// Patch to the allow set a RandomIndex integer, with a range of 0 to 10, to allow more flexibility in custom animators 
+        /// </summary>
         [HarmonyPatch(typeof(AvatarController))]
         [HarmonyPatch("SetTrigger")]
         [HarmonyPatch(new[] { typeof(string) })]
@@ -32,16 +28,6 @@ namespace Harmony.Animation
             }
         }
 
-        //[HarmonyPatch(typeof(AvatarZombieController))]
-        //[HarmonyPatch("Start")]
-        //public class AvatarControllerStart
-        //{
-        //    public static void Postfix(global::AvatarController __instance, ref int ___hitLayerIndex)
-        //    {
-        //        if (EntityUtilities.IsHuman(__instance.Entity.entityId))
-        //            ___hitLayerIndex = 5;
-        //        return;
-        //    }
-        //}
+     
     }
 }

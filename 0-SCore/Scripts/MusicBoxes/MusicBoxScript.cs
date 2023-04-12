@@ -95,7 +95,9 @@ internal class MusicBoxScript : MonoBehaviour
             return;
         }
 
+        //videoPlayer.EnableAudioTrack(0, false);
         if (IsVideoPaused)
+        {
             // If the video was paused, and we want to resume it, just re-play, and not change any clips.
             if (IsVideoPaused)
             {
@@ -103,35 +105,35 @@ internal class MusicBoxScript : MonoBehaviour
                 IsVideoPaused = false;
                 return;
             }
-
-        if (!videoPlayer.isPlaying)
-        {
-            // If the video has a clip already attached, then check if there's another clip we could use instead.
-            if (videoPlayer.clip)
-                // Otherwise, if we have another video clip specified, use that.
-                if (myVideoClip)
-                    videoPlayer.clip = myVideoClip;
-
-            // If there's still no video clip, try to parse the Video Source as a URL
-            if (!videoPlayer.clip) videoPlayer.url = strVideoSource;
-
-            // If the VideoGroups is populated, that means we can randomize based on all the videos groups in our container.
-            if (VideoGroups.Count > 0)
-            {
-                var randomIndex = random.Next(0, VideoGroups.Count);
-                strVideoSource = VideoGroups[randomIndex];
-                if (strVideoSource.StartsWith("#")) videoPlayer.clip = DataLoader.LoadAsset<VideoClip>(strVideoSource);
-            }
-            else
-            {
-                if (defaultClip)
-                    videoPlayer.clip = defaultClip;
-                else
-                    Debug.Log("There are no Groups of video detected.");
-            }
-
-            videoPlayer.Play();
         }
+
+        if (videoPlayer.isPlaying) return;
+        
+        // If the video has a clip already attached, then check if there's another clip we could use instead.
+        if (videoPlayer.clip)
+            // Otherwise, if we have another video clip specified, use that.
+            if (myVideoClip)
+                videoPlayer.clip = myVideoClip;
+
+        // If there's still no video clip, try to parse the Video Source as a URL
+        if (!videoPlayer.clip) videoPlayer.url = strVideoSource;
+
+        // If the VideoGroups is populated, that means we can randomize based on all the videos groups in our container.
+        if (VideoGroups.Count > 0)
+        {
+            var randomIndex = random.Next(0, VideoGroups.Count);
+            strVideoSource = VideoGroups[randomIndex];
+            if (strVideoSource.StartsWith("#")) videoPlayer.clip = DataLoader.LoadAsset<VideoClip>(strVideoSource);
+        }
+        else
+        {
+            if (defaultClip)
+                videoPlayer.clip = defaultClip;
+            else
+                Debug.Log("There are no Groups of video detected.");
+        }
+
+        videoPlayer.Play();
     }
 
     private void CheckAudioPlayer()
