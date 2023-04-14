@@ -190,6 +190,41 @@ public static class EntityTargetingUtilities
     }
 
     /// <summary>
+    /// Determines whether yourself and the target entity are in allied parties.
+    /// You are in allied parties if:
+    /// <list type="bullet">
+    /// <item>the target is your leader</item>
+    /// <item>you are the target's leader</item>
+    /// <item>
+    /// you and your target both have player leaders, and those players can't damage each other
+    /// according to the "Player Killing" setting
+    /// </item>
+    /// </list>
+    /// Factions are not considered.
+    /// </summary>
+    /// <param name="self"></param>
+    /// <param name="targetEntity"></param>
+    /// <returns></returns>
+    public static bool IsAllyOfParty(Entity self, Entity targetEntity)
+    {
+        if (self == null || targetEntity == null)
+            return false;
+
+        // Don't assume either entity's leader is a player for this check
+        var selfLeader = EntityUtilities.GetLeaderOrOwner(self.entityId) ?? self;
+        var targetLeader = EntityUtilities.GetLeaderOrOwner(targetEntity.entityId) ?? targetEntity;
+
+        if (selfLeader.entityId == targetLeader.entityId)
+            return true;
+
+        // FriendlyFireCheck returns true if friendly fire is allowed
+        if (selfLeader is EntityPlayer selfPlayer && targetLeader is EntityPlayer targetPlayer)
+            return !selfPlayer.FriendlyFireCheck(targetPlayer);
+
+        return false;
+    }
+
+    /// <summary>
     /// Returns true if you consider the target to be your enemy.
     /// </summary>
     /// <param name="self"></param>
