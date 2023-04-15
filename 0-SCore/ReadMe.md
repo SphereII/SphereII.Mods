@@ -10,6 +10,35 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.470.1151
+
+	[ Quests / Entity Targetting ]
+		- Merged in a bug fix for khzmusik.
+
+		The revenge targets were being set on all entities in bounds, including the player hires. 
+		This is now fixed, and in addition the revenge targets also will not be set on other players in the party, 
+			provided those players are protected from friendly fire.
+
+		To detect whether an entity is an ally of the player's party, I created a new IsAllyOfParty method in EntityTargetingUtilities. 
+		I did not change any existing methods so there should be no risk of breaking anything.
+
+		I also fixed an issue where the POI's full area was not covered (the Bounds constructor shrinks the size vector 
+			argument in half so only a quarter of the prefab was covered).
+
+	[ MinEvent ] 
+		-Added a MinEvent to attach scripts to entity transforms.
+		- Note: This should not be used yet. I've added it for xyth's testing for getting zombies to create foot prints in the snow.
+
+		Example:
+			<effect_group>
+				<triggered_effect trigger="onSelfFirstSpawn" 
+					action="AddScriptToTransform, SCore" 
+					transform="RightFoot"    // The Game Object's Name to target.
+					script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"  // The script you want to attach:  Namespace.Script, Assembly
+				/>
+				<triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="LeftFoot" script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"/>
+			</effect_group>
+
 Version:  20.6.467.917
 
 	[ Quests ]
