@@ -21,7 +21,8 @@ using UnityEngine;
 /// </para>
 /// 
 /// <para>
-/// Revenge targets will be set on all living entities in range, except for player entities.
+/// Revenge targets will be set on all living entities in range, except for player entities,
+/// entities that the player has hired, or the hires of other players that are allies.
 /// Only entities that are awake will have their revenge targets set.
 /// </para>
 /// 
@@ -103,6 +104,11 @@ public class QuestActionSetRevengeTargetsSDX : BaseQuestAction
             if (entity is EntityPlayer)
                 continue;
 
+            // Don't set the revenge targets of entities hired by the quest owner,
+            // or by entities hired by members of the quest owner's party
+            if (EntityTargetingUtilities.IsAllyOfParty(entity, ownerQuest.OwnerJournal.OwnerPlayer))
+                continue;
+
             var target = GetRandomTarget(targetEntities);
             entity.SetRevengeTarget(target);
             entity.SetRevengeTimer(REVENGE_TICKS);
@@ -127,7 +133,8 @@ public class QuestActionSetRevengeTargetsSDX : BaseQuestAction
                     location.y + size.y / 2f,
                     location.z + size.z / 2f);
 
-                return new Bounds(center, size);
+                // The bounds constructor shrinks the size vector in half, compensate here
+                return new Bounds(center, 2f * size);
             }
         }
         else if (!string.IsNullOrEmpty(Value) && !float.TryParse(Value, out distance))
