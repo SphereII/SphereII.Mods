@@ -10,6 +10,10 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 20.6.471.1518
+	[ Quest Utils ]
+		- Uncommented code that was accidentally commented out.
+
 Version: 20.6.470.1151
 
 	[ Quests / Entity Targetting ]

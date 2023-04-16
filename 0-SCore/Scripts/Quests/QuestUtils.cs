@@ -307,14 +307,14 @@ public static class QuestUtils
             return false;
         }
 
-        //if (!prefab.prefab.GetQuestTag(questTag))
-        //{
-        //    if (LoggingEnabled)
-        //    {
-        //        Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
-        //    }
-        //    return false;
-        //}
+        if (!prefab.prefab.GetQuestTag(questTag))
+        {
+            if (LoggingEnabled)
+            {
+                Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
+            }
+            return false;
+        }
 
         Vector2 poiLocation = new Vector2(prefab.boundingBoxPosition.x, prefab.boundingBoxPosition.z);
 
