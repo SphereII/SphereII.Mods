@@ -12,6 +12,15 @@ Each release could potentially include fixes or entries here that say "Code Clea
 but was just refactored in someway. This may include additional null checks, formatting issues, or variable renames. XML hooks will remain unchanged.
 
 [ Change Log ]
+Version: 20.6.478.2052
+
+	[ Fire Manager ]
+		- Added a check for particles being registered on dedi
+
+	[ Sound Feature ]
+		- Disable the sound logging by default in blocks.xml
+
+
 Version: 20.6.478.1822
 
 	[ Fire Manager ] 
