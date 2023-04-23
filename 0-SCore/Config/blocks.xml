@@ -26,7 +26,7 @@
 			</property>
 
 			<property class="AdvancedSoundFeatures" >
-				<property name="Logging" value="false"/>
+				<property name="Logging" value="true"/>
 			</property>
 
 			<property class="AdvancedLogging" >

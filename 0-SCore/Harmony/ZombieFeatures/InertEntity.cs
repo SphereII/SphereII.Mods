@@ -55,7 +55,7 @@ namespace Harmony.ZombieFeatures
 
                 // null safety check
                 if (__instance.emodel == null || __instance.emodel.avatarController == null || __instance.emodel.avatarController.GetAnimator() == null) return false;
-                if (__instance.WorldTimeBorn + 15 > __instance.world.worldTime)
+                if (__instance.WorldTimeBorn + 5 > __instance.world.worldTime)
                 {
                     __instance.emodel.avatarController.GetAnimator().enabled = true;
                     return true;
@@ -66,13 +66,13 @@ namespace Harmony.ZombieFeatures
             }
         }
         
-        [HarmonyPatch(typeof(global::EntityAlive))]
-        [HarmonyPatch("OnUpdateEntity")]
+        [HarmonyPatch(typeof(global::Entity))]
+        [HarmonyPatch("PlayOneShot")]
         public class EntityAliveOnUpdateLive
         {
-            public static bool Prefix(global::EntityAlive __instance)
+            public static bool Prefix(global::Entity __instance)
             {
-                return !IsInert(__instance);
+                return !IsInert(__instance as global::EntityAlive);
             }
         }
 

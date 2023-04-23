@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Collections.Concurrent;
+using System.Threading;
 using Audio;
 
 public class FireManager
@@ -43,7 +44,7 @@ public class FireManager
     public bool Enabled { private set; get; }
 
     public static FireManager Instance { get; private set; }
-
+    private static readonly Thread MainThread = Thread.CurrentThread;
     public static void Init()
     {
         Instance = new FireManager();
@@ -359,6 +360,8 @@ public class FireManager
 
     private void ToggleSound(Vector3i blockPos, bool turnOn)
     {
+        if (Thread.CurrentThread != MainThread) return;
+        
         var sound = GetFireSound(blockPos);
         if (turnOn)
         {

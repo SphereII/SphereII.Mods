@@ -9,7 +9,7 @@
         if (position.y > 250)
             position.y = 250;
 
-        if (GameManager.Instance.World.IsOpenSkyAbove(0, position.x, position.y, position.z))
+        if (_params.Self.world.GetBlock(position).type == 0 && _params.Self.world.GetTerrainHeight(position.x, position.z) > position.y)
             result = true;
 
         if (invert)

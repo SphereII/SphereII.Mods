@@ -31,7 +31,16 @@ namespace Harmony.PrefabFeatures
                 //Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-                Vector3i vector3I = new Vector3i(1, 1, 1);
+                
+                // var prefabInstance = GameManager.Instance.GetDynamicPrefabDecorator()?.GetPrefabAtPosition(__instance.Position.ToVector3());
+                // if (prefabInstance == null)
+                //     return;
+                //
+                //
+                // if (prefabInstance.prefab.FileNameNoExtension.Contains("trader_hugh"))
+                //     return;
+                
+                var vector3I = new Vector3i(1, 1, 1);
                 __instance.ProtectSize = vector3I;
             }
         }

@@ -17,10 +17,6 @@ public class RequirementEveryXDaySDX : RequirementBase
                 return true;
         }
 
-        if (day % currentValue == 0) // Blood Moon Day Events
-            return true;
-
-
-        return false;
+        return day % currentValue == 0; // Blood Moon Day Events
     }
 }

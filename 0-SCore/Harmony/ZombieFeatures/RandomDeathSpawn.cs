@@ -30,7 +30,7 @@ namespace Harmony.ZombieFeatures
 
                 if (__instance.Buffs.HasCustomVar("NoSpawnOnDeath")) //Checks to see if there is a cvar called NoSpawnOnDeath
                 {
-                    float floatNoSpawnOnDeath = __instance.Buffs.GetCustomVar("NoSpawnOndeath"); //If there is, get its value
+                    var floatNoSpawnOnDeath = __instance.Buffs.GetCustomVar("NoSpawnOndeath"); //If there is, get its value
                     if (floatNoSpawnOnDeath == 1) return true; //If the value is 1, don't continue the code.  This allows cvars to set that stop the cvar spawning even if spawnOverride is set
                 }
 

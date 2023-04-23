@@ -26,12 +26,12 @@ public static class WinterProjectPrefab
     public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, QuestTags _questTag)
     {
         var AlreadyFilled = false;
-        // if (_questTag != QuestTags.none)
-        // {
-        //     AlreadyFilled = true;
-        //     prefab.yOffset -= 8;
-        //     position.y -= 8;
-        // }
+         // if (_questTag != QuestTags.none)
+         // {
+         //     AlreadyFilled = true;
+         //     prefab.yOffset -= 8;
+         //     position.y -= 8;
+         // }
 
         SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled, prefab.size.y);
     }
@@ -45,8 +45,11 @@ public static class WinterProjectPrefab
         }
 
 
-        notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
-
+       // notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
+       
+       // Disable the notify RPC as it causes bad lag on quest activation
+        notifyRpc = false;
+        
         List<BlockChangeInfo> Changes = null;
         if (notifyRpc)
             Changes = new List<BlockChangeInfo>();
@@ -201,13 +204,13 @@ public static class WinterProjectPrefab
                     Write("Getting chunk at " + chunkWorldX + "," + chunkWorldZ + "     " + worldX + "," + worldZ);
                     chunk = cluster.GetChunkSync(chunkWorldX, chunkWorldZ);
 
-                    if (chunk != null)
-                    {
-                        if (processed.Contains(chunk.Key))
-                            continue;
-                        processed.Add(chunk.Key);
-                        ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, true);
-                    }
+                    if (chunk == null) continue;
+                    if (processed.Contains(chunk.Key))
+                        continue;
+                    processed.Add(chunk.Key);
+                    //ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, true);
+                    // Setting isPrefab to false because otherwise it locks the chunk too much.
+                    ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, false);
                 }
             }
 
