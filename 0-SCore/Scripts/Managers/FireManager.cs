@@ -100,8 +100,12 @@ public class FireManager
         Log.Out("Starting Fire Manager");
 
         _fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
+        if ( !string.IsNullOrEmpty(_fireParticle))
+            ParticleEffect.RegisterBundleParticleEffect(_fireParticle);
         _smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
-
+        if ( !string.IsNullOrEmpty(_smokeParticle))
+            ParticleEffect.RegisterBundleParticleEffect(_smokeParticle);
+        
         // Read the FireManager
         Load();
 
@@ -368,19 +372,21 @@ public class FireManager
             if (SoundPlaying.Contains(blockPos))
                 return;
             SoundPlaying.Add(blockPos);
-            Manager.Play(blockPos, sound);
+            Manager.BroadcastPlay(blockPos, sound);
             return;
         }
 
         // No sound?
         if (!SoundPlaying.Contains(blockPos)) return;
-        Manager.Stop(blockPos, sound);
+        Manager.BroadcastStop(blockPos, sound);
         SoundPlaying.Remove(blockPos);
     }
 
 
     private void ToggleParticle(Vector3i blockPos, bool turnOn)
     {
+       // if (Thread.CurrentThread != MainThread) return;
+
         var randomFireParticle = GetRandomFireParticle(blockPos);
         if (turnOn)
         {

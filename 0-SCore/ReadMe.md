@@ -12,6 +12,14 @@ Each release could potentially include fixes or entries here that say "Code Clea
 but was just refactored in someway. This may include additional null checks, formatting issues, or variable renames. XML hooks will remain unchanged.
 
 [ Change Log ]
+Version: 20.6.479.849
+
+	[ Fire Managers ]
+		- Final Audio / Particle fixes for crashes in some instances.
+			- Particles would throw exceptions if they were being placed there off the main thread.
+			- Fire / Smoke Particles are now being pre-registered in the Init() of the Fire Manager
+		- Sound: Changed to BroadcastPlay / BroadCastStop, in addition to a mainthread check
+
 Version: 20.6.478.2052
 
 	[ Fire Manager ]
