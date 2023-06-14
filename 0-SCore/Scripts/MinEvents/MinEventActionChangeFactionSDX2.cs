@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class MinEventActionChangeFactionSDX2 : MinEventActionRemoveBuff
@@ -25,11 +26,11 @@ public class MinEventActionChangeFactionSDX2 : MinEventActionRemoveBuff
                         var FactionID = (byte)entity.Buffs.GetCustomVar("FactionOriginal");
                         var Temp = FactionManager.Instance.GetFaction(FactionID);
                         if (Temp != null)
-						{
-							Debug.Log("Changed " + entity.EntityName + " faction from " + entity.factionId + "  to " + Temp.ID);
+                        {
+                            Debug.Log("Changed " + entity.EntityName + " faction from " + entity.factionId + "  to " + Temp.ID);
 
                             Faction = Temp.Name;
-						}
+                        }
                     }
                     else
                     {
@@ -65,12 +66,12 @@ public class MinEventActionChangeFactionSDX2 : MinEventActionRemoveBuff
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "value")
                 {

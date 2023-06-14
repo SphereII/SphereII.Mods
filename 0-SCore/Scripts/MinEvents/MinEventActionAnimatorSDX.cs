@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 public class MinEventActionAnimatorSpeedSDX : MinEventActionRemoveBuff
 {
@@ -14,16 +15,16 @@ public class MinEventActionAnimatorSpeedSDX : MinEventActionRemoveBuff
             var entity = targets[i] as EntityAliveSDX;
             if (entity != null)
                 if (targets[i].emodel != null && targets[i].emodel.avatarController != null)
-                    targets[i].emodel.avatarController.anim.speed = floatSpeed;
+                    targets[i].emodel.avatarController.GetAnimator().speed = floatSpeed;
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "value")
                 {

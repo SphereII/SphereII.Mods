@@ -1,11 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-  <ModInfo>
-    <Name value="SphereII A Better Life" />
-    <Description value="Introduces fish into the world." />
-    <Author value="sphereii" />
-    <Version value="20.0.0.17930" />
-    <Website value="" />
-  </ModInfo>
- 
+    <Name value="SphereII_A_Better_Life_sphereii"/>
+    <Author value="sphereii"/>
+    <Description value="SphereII A Better Life"/>
+    <DisplayName value="0-SCore"/>
+    <Website value=""/>
+    <Version value="21.0.13.1511"/>
 </xml>

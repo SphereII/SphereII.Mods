@@ -200,22 +200,22 @@ public class BlockPoweredPortal : BlockPowered
         return true;
     }
 
-    public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
         if (_blockValue.ischild)
         {
             Vector3i parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
             BlockValue block = _world.GetBlock(parentPos);
-            return this.OnBlockActivated(_indexInBlockActivationCommands, _world, _cIdx, parentPos, block, _player);
+            return this.OnBlockActivated(commandName, _world, _cIdx, parentPos, block, _player);
         }
         var tileEntity = _world.GetTileEntity(_cIdx, _blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null)
         {
             return false;
         }
-        switch (_indexInBlockActivationCommands)
+        switch (commandName)
         {
-            case 0:
+            case "portalActivate":
                 if (GameManager.Instance.IsEditMode() || !tileEntity.IsLocked() || tileEntity.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     if ( requiredPower <= 0 )
@@ -227,7 +227,7 @@ public class BlockPoweredPortal : BlockPowered
 
                 }
                 return false;
-            case 1:
+            case "edit":
                 if (GameManager.Instance.IsEditMode() || !tileEntity.IsLocked() || tileEntity.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
                     if (string.IsNullOrEmpty(location))
@@ -235,17 +235,17 @@ public class BlockPoweredPortal : BlockPowered
                 }
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
                 return false;
-            case 2:
+            case "lock":
                 tileEntity.SetLocked(true);
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locking");
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, "containerLocked");
                 return true;
-            case 3:
+            case "unlock":
                 tileEntity.SetLocked(false);
                 Manager.BroadcastPlayByLocalPlayer(_blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/unlocking");
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, "containerUnlocked");
                 return true;
-            case 4:
+            case "keypad":
                 if ( string.IsNullOrEmpty(location))
                     XUiC_KeypadWindow.Open(LocalPlayerUI.GetUIForPlayer(_player as EntityPlayerLocal), tileEntity);
                 return true;

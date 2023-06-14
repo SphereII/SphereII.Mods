@@ -12,10 +12,10 @@
     }
 
     // Override the on Block activated, so we can pop up our timer
-    public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx,
-        Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(WorldBase world, int clrIdx, Vector3i blockPos,
+        BlockValue blockValue, EntityAlive player)
     {
-        TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
+        TakeItemWithTimer(clrIdx, blockPos, blockValue, player);
         return true;
     }
 
@@ -64,8 +64,8 @@
         foreach (var item in itemNames.Split(','))
         {
             // If the entity is holding a crow bar or hammer, then reduce the take time.
-            if (_player.inventory.holdingItem.Name == item )
-            { 
+            if (_player.inventory.holdingItem.Name == item)
+            {
                 // Make sure the item can still be used
                 if (_player.inventory.holdingItemItemValue.MaxUseTimes > 0)
                 {
@@ -87,7 +87,7 @@
                     break;
                 }
             }
-        }    
+        }
 
 
         xuiC_Timer.SetTimer(newTakeTime, timerEventData);

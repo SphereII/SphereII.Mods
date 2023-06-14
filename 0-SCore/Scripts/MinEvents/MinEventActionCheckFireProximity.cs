@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 public class MinEventActionCheckFireProximity : MinEventActionRemoveBuff
 {
@@ -8,20 +9,19 @@ public class MinEventActionCheckFireProximity : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams _params)
     {
-        if (FireManager.Instance == null) return;
         if (FireManager.Instance.Enabled == false) return;
 
         var position = new Vector3i(_params.Self.position);
-        var count = FireManager.CloseFires(position, (int)maxRange);
+        var count = FireManager.Instance.CloseFires(position, (int)maxRange);
         _params.Self.Buffs.SetCustomVar(cvar, (float)count);
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "cvar")
                 {

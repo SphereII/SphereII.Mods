@@ -1,4 +1,5 @@
 using System.Xml;
+using System.Xml.Linq;
 
 public class MinEventActionModifySkillSDX : MinEventActionTargetedBase
 {
@@ -35,12 +36,12 @@ public class MinEventActionModifySkillSDX : MinEventActionTargetedBase
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute attribute)
+    public override bool ParseXmlAttribute(XAttribute attribute)
     {
         var flag = base.ParseXmlAttribute(attribute);
         if (!flag)
         {
-            var name = attribute.Name;
+            var name = attribute.Name.LocalName;
             if (name != null)
             {
                 if (name == "tag")

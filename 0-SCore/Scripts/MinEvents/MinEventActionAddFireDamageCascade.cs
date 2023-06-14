@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 public class MinEventActionAddFireDamageCascade : MinEventActionRemoveBuff
 {
@@ -78,12 +79,12 @@ public class MinEventActionAddFireDamageCascade : MinEventActionRemoveBuff
     }
 
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         bool flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            string name = _attribute.Name;
+            string name = _attribute.Name.LocalName;
             if (name != null)
             {
                 if (name == "filter")

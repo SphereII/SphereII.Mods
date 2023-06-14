@@ -8,67 +8,103 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Harmony | Many harmony scripts to make small adjustments to the game. These scripts, for the most part, can be turned on and off via the blocks.xml|
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 
-Each release could potentially include fixes or entries here that say "Code Cleanup". This implies that the functionality remained the same, 
-but was just refactored in someway. This may include additional null checks, formatting issues, or variable renames. XML hooks will remain unchanged.
 
 [ Change Log ]
-Version: 20.6.479.849
+Version 21.0
+	[ Upgrade log ]
+		- Updated all XMLAttributes to XAttributes. Gosh
+		- Removed QuestTags and converted over to FastTags
+		- Oh geeze, XMLAttributes are everywhere
 
-	[ Fire Managers ]
-		- Final Audio / Particle fixes for crashes in some instances.
-			- Particles would throw exceptions if they were being placed there off the main thread.
-			- Fire / Smoke Particles are now being pre-registered in the Init() of the Fire Manager
-		- Sound: Changed to BroadcastPlay / BroadCastStop, in addition to a mainthread check
+	[ Dialog ]
+		Added a DialogActionSwapWeapon to allow a NPC to change weapon
+			<action type="SwapWeapon, SCore" id="gunNPCPipeShotgun"  />
+		Added DialogActionAnimatorSet to change parameter.
+			<action type="AnimatorSet, SCore" id="PistolUser" value="0" />
+		Added a DialogActionRemoveBuffNPCSDX to remove a buff from a NPC
+			<action type="RemoveBuffNPCSDX, SCore" id="PistolUser" />
+		Added a DialogActionPickUpNPC, allowing you to pick up an NPC as an Item
+			<action type="PickUpNPC, SCore" />
+			- Item is hard coded, and defined in SCore's items.xml
+		Added A DialogActionDisplayInfo to dump the NPCs Buffs and CVars to thelog file.
+			<action type="DisplayInfo, SCore" />
 
-Version: 20.6.478.2052
+		Reminder: Console command  dialog   or dialogs    will reload dialogs.xml without restarting the game.
+
+	[ EntityAlive SDX ]
+		Added New Feature to allow NPCs to change weapons on the fly.
+		Added a UpdateWeapon( item ) call to allow an NPC to change weapons
+		Added PickUp NPC option.
+			- This preserves ownership and name of Entity.
+			- Entity gets created into an items.xml entry (defined in SCore's Items.xml
+		Re-added Progression for NPCs under the following conditions:
+			- If they are EntityAliveSDX
+			- If they do not hava a cvar called "noprogression" with a value greater than 0
+			- if they do not have a tag called "noprogression"
+		Fixed an issue where the PhysicsTransform was not active, allowing NPCs to clip inside of each other.
+
+	[ MinEvent ]
+		Added MinEventActionAnimatorSetFloatSDX
+		Added MinEventActionAnimatorSetIntSDX
+			- Triggers as UpdateInt / UpdateFloat on the animator, updating the parameter with the supplied value.
+			- If the value starts with a @, the cvar value will be used.
+			Example:
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetIntSDX, SCore" property="HoldType" value="@WeaponType" duration="1" /> 
+		Added MinActionSwapWeapon
+			Causes the NPC to have the specified Item.
+			Example:
+				<triggered_effect trigger="onSelfBuffUpdate" action="SwapWeapon, SCore" item="meleeClub" />
+
+	[ Entity Player ]
+		Fixed One Block Crouch to prevent clipping in terrain.
+
+	[ Winter Project Snow ]
+		- Fixed an issue where terrain was bumpy around POIs when buried in snow ( Winter Project Only )
+		- Fixed an issue with snow material that caused collapses.
+
+	[ Caves ]
+		- Added Pillars from bedrock to strengthen POIs weakened SI
+
+	[ Lock Picking ]
+		- Fixed a hard crash when trying to access Progression
 
 	[ Fire Manager ]
-		- Added a check for particles being registered on dedi
+		- Added the ability to specify on a per block basis the chance to extinguish itself.
+			<property name="ChanceToExtinguish" value="0.05" /> <!-- 5% chance to exintguish -->
+		Note: This is checked per block, per CheckInterval.
 
-	[ Sound Feature ]
-		- Disable the sound logging by default in blocks.xml
+Version: 20.6.471.1518
+	[ Quest Utils ]
+		- Uncommented code that was accidentally commented out.
 
+Version: 20.6.470.1151
 
-Version: 20.6.478.1822
+	[ Quests / Entity Targetting ]
+		- Merged in a bug fix for khzmusik.
 
-	[ Fire Manager ] 
-		- Re-added main thread check for adding sounds.
+		The revenge targets were being set on all entities in bounds, including the player hires. 
+		This is now fixed, and in addition the revenge targets also will not be set on other players in the party, 
+			provided those players are protected from friendly fire.
 
-	[ HoldingItemDurability ]
-		- Addes a new Buff Requirement that tests the item durability of the holding item:
-			<requirement name="HoldingItemDurability, SCore" value="0.5"/>
+		To detect whether an entity is an ally of the player's party, I created a new IsAllyOfParty method in EntityTargetingUtilities. 
+		I did not change any existing methods so there should be no risk of breaking anything.
 
-	[ Sound / Buff / Quest ]
-		- Code cleanup.
+		I also fixed an issue where the POI's full area was not covered (the Bounds constructor shrinks the size vector 
+			argument in half so only a quarter of the prefab was covered).
 
-	[ MinEventActionAddScriptToTransform ] 
-		- This will attach scripts to entity's using the minevent.
-		- This is probably okay to try to use.
-		- It will recursively go through the entity's, walking through all its transform, looking for matches.
-			- If more than one match is found, the script is added to each one.
-			- At least one component, or one transform, must be defined. 
-			- A component and transform values are both valid, on the same event.
-				- The script will be attached to every component and transform that is found.
+	[ MinEvent ] 
+		-Added a MinEvent to attach scripts to entity transforms.
+		- Note: This should not be used yet. I've added it for xyth's testing for getting zombies to create foot prints in the snow.
 
-			<triggered_effect trigger="onSelfEnteredGame" 
-				action="AddScriptToTransform, SCore"
-				component="Animator"	// Optional: Add the script to this component, regardless of transform name.
-				transform="Camera" 		// Optional: Add the script to the transform that has this name.
-				script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>  // Namespace.Class, Assembly
-
-		- This MinEvent supports the following:
-			- Transform: This searches for the transform with matching name.
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" transform="Camera" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-
-			- Component: This searches for the type of component. 
-				Supported Components:  Animator, RigidBody, Renderer, EntityAlive, Collider
-
-			Example:
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="Animator" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="RigidBody" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="Renderer" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="EntityAlive" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-
+		Example:
+			<effect_group>
+				<triggered_effect trigger="onSelfFirstSpawn" 
+					action="AddScriptToTransform, SCore" 
+					transform="RightFoot"    // The Game Object's Name to target.
+					script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"  // The script you want to attach:  Namespace.Script, Assembly
+				/>
+				<triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="LeftFoot" script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"/>
+			</effect_group>
 
 Version:  20.6.467.917
 

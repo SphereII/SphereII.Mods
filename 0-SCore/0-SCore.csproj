@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +51,6 @@
     <Compile Include="Harmony\Animation\EmodelBaseLookAtUpdate.cs" />
     <Compile Include="Harmony\Animation\ModelBaseInitCommon.cs" />
     <Compile Include="Harmony\Atmosphere\Spook.cs" />
-    <Compile Include="Harmony\Blocks\AttachScriptToTransform.cs" />
     <Compile Include="Harmony\Blocks\BlockPlantGrowing.cs" />
     <Compile Include="Harmony\Blocks\BlockSecureLoot.cs" />
     <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
@@ -142,6 +142,7 @@
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiController.cs" />
+    <Compile Include="Harmony\XUIC\XUiC_ItemStack.cs" />
     <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
     <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
     <Compile Include="Harmony\ZombieFeatures\HeadshotOnly.cs" />
@@ -151,7 +152,11 @@
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
     <Compile Include="Harmony\ZombieFeatures\UMA\LowerResolutionUMA.cs" />
     <Compile Include="Harmony\ZombieFeatures\UMA\UMATweaks.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockClockDMT.cs" />
@@ -190,7 +195,7 @@
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
-    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdDumpEntities.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadDialog.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
@@ -201,6 +206,12 @@
     <Compile Include="Scripts\DataClasses\PlantData.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionAnimatorSet.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionDisplayInfo.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionPickUpNPC.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionPlaySoundSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionRemoveBuffNPCSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogActionSwapWeapon.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionTeleport.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionExecuteCommandSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionGiveQuestSDX.cs" />
@@ -224,6 +235,7 @@
     <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementLeader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementNPCHasItemSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementRandomRoll.cs" />
     <Compile Include="Scripts\EAI\DMTEAIUtilities.cs" />
     <Compile Include="Scripts\EAI\EAIApproachAndAttackSDX.cs" />
@@ -257,6 +269,7 @@
     <Compile Include="Scripts\Features\Configuration.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionMeleeSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
+    <Compile Include="Scripts\ItemAction\ItemActionDeployNPCSDX.cs" />
     <Compile Include="Scripts\ItemAction\SimulateActionsLibrary.cs" />
     <Compile Include="Scripts\Items\ItemActionEntryResharpenSDX.cs" />
     <Compile Include="Scripts\Items\ItemsUtilities.cs" />
@@ -281,7 +294,8 @@
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
-    <Compile Include="Scripts\MinEvents\MinEventActionAddScriptToTransform.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />
@@ -307,6 +321,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearStaleHires.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSpawnEntityAtPoint.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSwapWeapon.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeamTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionResetTargetsSDX.cs" />
@@ -327,6 +342,8 @@
     <Compile Include="Scripts\MusicBoxes\MusicBoxScript.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddBroadcastePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageDeployNPCSDX.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXCollect.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestBlockDestroyedSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveBroadcastPosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
@@ -336,6 +353,7 @@
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageWeaponSwap.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBlockDestroySDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
@@ -414,6 +432,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskBreakBlocks.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFireBuff.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskMoveToSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskPatrol.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskHealSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskGuard.cs" />
@@ -458,6 +477,7 @@
     <Content Include="Config\items.xml" />
     <Content Include="Config\loadingscreen.xml" />
     <Content Include="Config\Localization.txt" />
+    <Content Include="Config\materials.xml" />
     <Content Include="Config\quests.xml" />
     <Content Include="Config\sounds.xml" />
     <Content Include="Config\spawning.xml" />
@@ -656,6 +676,11 @@
       <HintPath>..\..\7DaysToDie_Data\Managed\System.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	    <Reference Include="mscorlib">
+      <HintPath>..\..\7DaysToDie_Data\Managed\mscorlib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
     <Reference Include="System.Xml.Linq">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.Linq.dll</HintPath>
       <Private>False</Private>

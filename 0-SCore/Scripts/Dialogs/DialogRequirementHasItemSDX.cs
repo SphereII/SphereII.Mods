@@ -1,4 +1,17 @@
-﻿public class DialogRequirementHasItemSDX : BaseDialogRequirement
+﻿/// <summary>
+/// A Dialog Requirement that checks to see if the player has the specified item in their inventory / tool belt, and determines
+/// if the Response is available to the player.
+/// 
+/// Syntax:
+///
+/// The player must have this item in their inventory / toolbelt 
+/// <requirement type="HasItemSDX, SCore" id="meleeWpnClubT0WoodenClub" requirementtype="Hide" />
+///
+///  The player must have 10 of these items in their inventory / toolbelt.
+/// <requirement type="HasItemSDX, SCore" id="meleeWpnClubT0WoodenClub" value="10" requirementtype="Hide" />
+/// </summary>
+
+public class DialogRequirementHasItemSDX : BaseDialogRequirement
 {
     private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
 

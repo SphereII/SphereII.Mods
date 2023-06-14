@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 // 	<requirement name="RequirementOnSpecificBiomeSDX, SCore" biome="something" />
 
@@ -22,9 +23,9 @@ public class RequirementOnSpecificBiomeSDX : RequirementBase
         return false;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXAttribute(XAttribute _attribute)
     {
-        var name = _attribute.Name;
+        var name = _attribute.Name.LocalName;
         if (name != null)
             if (name == "biome")
             {
@@ -32,6 +33,6 @@ public class RequirementOnSpecificBiomeSDX : RequirementBase
                 return true;
             }
 
-        return base.ParseXmlAttribute(_attribute);
+        return base.ParseXAttribute(_attribute);
     }
 }

@@ -1,0 +1,8 @@
+﻿<configs>
+    <!--
+    <append xpath="/spawning/biome[@name='DeepCave']">
+        <spawn maxcount="1" respawndelay="2" time="Any" entitygroup="EnemyAnimalsCaves" />
+        <spawn maxcount="2" respawndelay="2.6" time="Night" entitygroup="Nightmares" />
+    </append>
+    -->
+</configs>

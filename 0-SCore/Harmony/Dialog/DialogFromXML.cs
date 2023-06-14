@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System.Xml;
+using System.Xml.Linq;
 
 /**
  * SphereII_DialogFromXML_Extensions
@@ -7,10 +8,10 @@ using System.Xml;
  * This class includes a Harmony patches to allow loading up extra custom dialog elements
  * 
  * Usage:
- *   <action type="AddCVar, SCore" id="quest_Samara_Diary" value="1" operator="set" />
- *   <requirement type="HasBuffSDX, SCore" value="buffCursedSamaraMorgan" requirementtype="Hide" Hash="Requirement_-101666296" />
- *   <requirement type="HasCVarSDX, SCore" value="1" requirementtype="Hide" operator="GTE" id="quest_Samara_Diary" Hash="Requirement_-2138114132" />
- *   <requirement type="HasBuffSDX, SCore" value="buffBadAttitude" match="not" requirementtype="Hide" Hash="Requirement_-1230867493" />
+ *   <action type="AddCVar, Mods" id="quest_Samara_Diary" value="1" operator="set" />
+ *   <requirement type="HasBuffSDX, Mods" value="buffCursedSamaraMorgan" requirementtype="Hide" Hash="Requirement_-101666296" />
+ *   <requirement type="HasCVarSDX, Mods" value="1" requirementtype="Hide" operator="GTE" id="quest_Samara_Diary" Hash="Requirement_-2138114132" />
+ *   <requirement type="HasBuffSDX, Mods" value="buffBadAttitude" match="not" requirementtype="Hide" Hash="Requirement_-1230867493" />
   */
 public class SphereII_DialogFromXML_Extensions
 {
@@ -18,7 +19,7 @@ public class SphereII_DialogFromXML_Extensions
     [HarmonyPatch("ParseRequirement")]
     public class SphereII__DialogFromXML_ParseRequirement
     {
-        static void Postfix(BaseDialogRequirement __result, XmlElement e)
+        static void Postfix(BaseDialogRequirement __result, XElement e)
         {
             if (__result is DialogRequirementHasCVarSDX)
             {
@@ -38,7 +39,7 @@ public class SphereII_DialogFromXML_Extensions
     [HarmonyPatch("ParseAction")]
     public class SphereII__DialogFromXML_ParseAction
     {
-        static void Postfix(BaseDialogAction __result, XmlElement e)
+        static void Postfix(BaseDialogAction __result, XElement e)
         {
             if (__result is DialogActionAddCVar)
             {
@@ -55,14 +56,14 @@ public class SphereII_DialogFromXML_Extensions
     [HarmonyPatch("ParseDialog")]
     public class SphereII__DialogFromXML_ParseDialog
     {
-        static void Postfix(ref Dialog __result, XmlElement e)
+        static void Postfix(ref Dialog __result, XElement e)
         {
             if (e.HasAttribute("extends"))
             {
                 var dialogNode = e.GetAttribute("extends");
                 if (string.IsNullOrEmpty(dialogNode)) return;
 
-                if ( Dialog.DialogList.TryGetValue(dialogNode, out var dialog) )
+                if (Dialog.DialogList.TryGetValue(dialogNode, out var dialog))
                 {
                     //foreach (var statement in dialog.Statements)
                     //{
@@ -87,7 +88,7 @@ public class SphereII_DialogFromXML_Extensions
                     //            originalStatement.Actions.Add(entry);
                     //    }
                     //}
-                        __result.Statements.AddRange(dialog.Statements);
+                    __result.Statements.AddRange(dialog.Statements);
                     __result.Responses.AddRange(dialog.Responses);
                     __result.Phases.AddRange(dialog.Phases);
                     __result.QuestEntryList.AddRange(dialog.QuestEntryList);

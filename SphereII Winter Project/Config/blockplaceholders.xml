@@ -1,0 +1,12 @@
+﻿<configs>
+    <append xpath="//placeholder[@name='cntDeepCaveFloorRandomLootHelper']">
+    <block name="cntShippingCrateShamway" prob=".0001" />
+    <block name="cntShippingCrateShotgunMessiah" prob=".0001"/>
+    <block name="cntShippingCrateWorkingStiffs" prob=".0001" />
+    <block name="cntShippingCrateSavageCountry" prob=".0001" />
+    <block name="cntShippingCrateMoPowerElectronics" prob=".0001" />
+    <block name="cntShippingCrateBookstore" prob=".0001" />
+    <block name="cntShippingCrateCarParts" prob=".0001" />
+    <block name="cntShippingCrateLabEquipment" prob=".0001" />
+    </append>
+</configs>

@@ -12,10 +12,10 @@ namespace Harmony.Blocks
 
         [HarmonyPatch(typeof(BlockSecureLoot))]
         [HarmonyPatch("OnBlockActivated")]
-        [HarmonyPatch(new[] { typeof(int), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer) })]
+        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer) })]
         public class Init
         {
-            public static bool Prefix(ref Block __instance, int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player
+            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player
                 , string ___lockPickItem, BlockActivationCommand[] ___cmds)
             {
                 // Check if this feature is enabled.
@@ -26,8 +26,7 @@ namespace Harmony.Blocks
                 if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
                     return true;
 
-                var command = ___cmds[_indexInBlockActivationCommands];
-                if (command.text != "pick")
+                if (_commandName != "pick")
                     return true;
 
                 if (_player.Buffs.HasCustomVar("LegacyLockPick") && _player.Buffs.GetCustomVar("LegacyLockPick") > 0)
@@ -64,10 +63,10 @@ namespace Harmony.Blocks
 
         [HarmonyPatch(typeof(BlockDoorSecure))]
         [HarmonyPatch("OnBlockActivated")]
-        [HarmonyPatch(new[] { typeof(int), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer) })]
+        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer) })]
         public class InitDoor
         {
-            public static bool Prefix(ref Block __instance, int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player)
+            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -103,7 +102,7 @@ namespace Harmony.Blocks
                 if (tileEntitySecureDoor.IsLocked())
                 {
                     // 1 == try to open locked door.
-                    if (_indexInBlockActivationCommands == 1)
+                    if (_commandName == "open")
                     {
                         // Check if the player has lock picks.
                         var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;

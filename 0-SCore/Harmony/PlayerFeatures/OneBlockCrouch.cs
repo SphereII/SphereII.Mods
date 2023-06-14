@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace Harmony.PlayerFeatures
 {
@@ -28,7 +29,7 @@ namespace Harmony.PlayerFeatures
             }
         }
 
-        /*
+
         [HarmonyPatch(typeof(vp_FPController))]
         [HarmonyPatch("SyncCharacterController")]
         public class SCoreOneBlockCrouch_GetEyeHeight
@@ -41,11 +42,26 @@ namespace Harmony.PlayerFeatures
 
 
                 //if (__instance.playerInput.Crouch.IsPressed && !___entityPlayerLocal.IsFlyMode.Value) ___entityPlayerLocal.cameraTransform.position -= Vector3.down;
-                AdvLogging.DisplayLog(AdvFeatureClass, $"Crouch Height {___m_NormalHeight} Crouch Height: {___m_NormalHeight * __instance.PhysicsCrouchHeightModifier}");
-
+                AdvLogging.DisplayLog(AdvFeatureClass,
+                    $"Crouch Height {___m_NormalHeight} Crouch Height: {___m_NormalHeight * __instance.PhysicsCrouchHeightModifier}");
             }
         }
-        */
 
+
+        [HarmonyPatch(typeof(vp_FPCamera))]
+        [HarmonyPatch("FixedUpdate")]
+        public class vpFPCameraFixedUpdate
+        {
+            private static void Postfix(vp_FPCamera __instance)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return;
+
+                // this lowers the camera to prevent clipping of the terrain.
+                if (__instance.PositionOffset.y == 1.30f)
+                    __instance.PositionOffset.y -= 0.40f;
+            }
+        }
     }
 }

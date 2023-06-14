@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using System.Collections.Concurrent;
-using System.Threading;
 using Audio;
 
 public class FireManager
@@ -41,10 +40,11 @@ public class FireManager
     private string _smokeParticle;
     private const string SaveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo _dataSaveThreadInfo;
+    private float _chanceToExtinguish = 0.05f;
     public bool Enabled { private set; get; }
 
     public static FireManager Instance { get; private set; }
-    private static readonly Thread MainThread = Thread.CurrentThread;
+
     public static void Init()
     {
         Instance = new FireManager();
@@ -100,12 +100,12 @@ public class FireManager
         Log.Out("Starting Fire Manager");
 
         _fireParticle = Configuration.GetPropertyValue(AdvFeatureClass, "FireParticle");
-        if ( !string.IsNullOrEmpty(_fireParticle))
-            ParticleEffect.RegisterBundleParticleEffect(_fireParticle);
         _smokeParticle = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeParticle");
-        if ( !string.IsNullOrEmpty(_smokeParticle))
-            ParticleEffect.RegisterBundleParticleEffect(_smokeParticle);
-        
+
+        var optionChanceToExtinguish = Configuration.GetPropertyValue(AdvFeatureClass, "ChanceToExtinguish");
+        if (!string.IsNullOrEmpty(option))
+            _chanceToExtinguish = StringParsers.ParseFloat(optionChanceToExtinguish);
+
         // Read the FireManager
         Load();
 
@@ -200,7 +200,7 @@ public class FireManager
         return FireMap;
     }
 
-    public static int CloseFires(Vector3i position, int range = 5)
+    public int CloseFires(Vector3i position, int range = 5)
     {
         var count = 0;
         for (var x = position.x - range; x <= position.x + range; x++)
@@ -218,7 +218,7 @@ public class FireManager
         return count;
     }
 
-    public static bool IsPositionCloseToFire(Vector3i position, int range = 5)
+    public bool IsPositionCloseToFire(Vector3i position, int range = 5)
     {
         for (var x = position.x - range; x <= position.x + range; x++)
         {
@@ -284,6 +284,9 @@ public class FireManager
             if (block.Block.blockMaterial.Properties.Contains("FireDamage"))
                 damage = block.Block.blockMaterial.Properties.GetInt("FireDamage");
 
+            if (block.Block.Properties.Contains("ChanceToExtinguish"))
+                block.Block.Properties.ParseFloat("ChanceToExtinguish", ref _chanceToExtinguish);
+            
             block.damage += damage;
 
             if (block.damage >= block.Block.MaxDamage)
@@ -324,9 +327,10 @@ public class FireManager
             ToggleSound(blockPos, rand < 0.10);
             //ToggleParticle(blockPos, rand > 0.90);
             ToggleParticle(blockPos, true);
-            var chanceToExtinguish = rand > 0.95;
+            
+            var blchanceToExtinguish = rand < _chanceToExtinguish;
             // If the new block has changed, check to make sure the new block is flammable. Note: it checks the blockValue, not blockPos, since the change hasn't been committed yet.
-            if (!IsFlammable(block) || block.isair || chanceToExtinguish)
+            if (!IsFlammable(block) || block.isair || blchanceToExtinguish)
             {
                 // queue up the change
                 if (DynamicMeshManager.Instance != null)
@@ -364,29 +368,27 @@ public class FireManager
 
     private void ToggleSound(Vector3i blockPos, bool turnOn)
     {
-        if (Thread.CurrentThread != MainThread) return;
-        
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         var sound = GetFireSound(blockPos);
         if (turnOn)
         {
             if (SoundPlaying.Contains(blockPos))
                 return;
             SoundPlaying.Add(blockPos);
-            Manager.BroadcastPlay(blockPos, sound);
+            Manager.Play(blockPos, sound);
             return;
         }
 
         // No sound?
         if (!SoundPlaying.Contains(blockPos)) return;
-        Manager.BroadcastStop(blockPos, sound);
+        Manager.Stop(blockPos, sound);
         SoundPlaying.Remove(blockPos);
     }
 
 
     private void ToggleParticle(Vector3i blockPos, bool turnOn)
     {
-       // if (Thread.CurrentThread != MainThread) return;
-
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         var randomFireParticle = GetRandomFireParticle(blockPos);
         if (turnOn)
         {
@@ -654,9 +656,10 @@ public class FireManager
     {
         var block = GameManager.Instance.World.GetBlock(blockPos);
         if (!FireMap.TryAdd(blockPos, block)) return;
-
+     
         ToggleSound(blockPos, true);
         ToggleParticle(blockPos, true);
+
     }
 
     public static bool IsBurning(Vector3i blockPos)

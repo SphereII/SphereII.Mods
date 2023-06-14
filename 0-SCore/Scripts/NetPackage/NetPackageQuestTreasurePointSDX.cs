@@ -116,12 +116,12 @@ public class NetPackageQuestTreasurePointSDX : NetPackage
 		}
 		if (!_world.IsRemote())
 		{
+            var player= GameManager.Instance.World.GetPrimaryPlayer();
 			for (int i = 0; i < 15; i++)
 			{
-				Vector3i vector3i = ObjectiveTreasureChest.CalculateTreasurePoint(this.playerId, this.distance, this.offset);
-				if (vector3i.y > 0)
-				{
-					SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestTreasurePointSDX>().Setup(this.playerId, this.distance, this.offset, this.questCode, vector3i.x, vector3i.y, vector3i.z,false), false, this.playerId, -1, -1, -1);
+                if (ObjectiveTreasureChest.CalculateTreasurePoint(player.position, distance, this.offset, treasureRadius,useNearby, out position, out treasureOffset))
+                {
+					SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestTreasurePointSDX>().Setup(this.playerId, this.distance, this.offset, this.questCode, position.x, position.y, position.z, false), false, this.playerId, -1, -1, -1);
 					return;
 				}
 			}

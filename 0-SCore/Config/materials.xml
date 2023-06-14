@@ -1,0 +1,10 @@
+<configs>
+    <append xpath="/materials">
+        <material id="McaveAir">
+            <property name="collidable" value="false"/>
+            <property name="lightopacity" value="0"/>
+            <property name="Mass" type="int" value="20"/>
+        </material>
+
+    </append>
+</configs>

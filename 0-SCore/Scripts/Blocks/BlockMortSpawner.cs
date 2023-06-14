@@ -151,8 +151,8 @@ public class BlockMortSpawner : BlockLoot
         AddScript(_world, _blockPos, _ebcd);
     }
 
-    public override int OnBlockDamaged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, int _damagePoints, int _entityIdThatDamaged, bool _bUseHarvestTool,
-        bool _bByPassMaxDamage, int _recDepth)
+    public override int OnBlockDamaged(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, int _damagePoints, int _entityIdThatDamaged, ItemActionAttack.AttackHitInfo attackHitInfo,
+        bool _bByPassMaxDamage, bool bBypassMaxDamage, int recDepth)
     {
         var chunkCluster = _world.ChunkClusters[_clrIdx];
         if (chunkCluster == null) return 0;
@@ -164,14 +164,14 @@ public class BlockMortSpawner : BlockLoot
 
             if (block.ischild) Debug.Log("Block on position " + parentPos + " should be a parent but is not!");
 
-            return block.ischild ? 0 : list[block.type].OnBlockDamaged(_world, _clrIdx, parentPos, block, _damagePoints, _entityIdThatDamaged, false, _bByPassMaxDamage);
+            return block.ischild ? 0 : list[block.type].OnBlockDamaged(_world, _clrIdx, parentPos, block, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, bBypassMaxDamage, recDepth);
         }
 
         var d = _blockValue.damage;
         var max = list[_blockValue.type].MaxDamage;
 
         if (d >= max || d + _damagePoints < max)
-            return base.OnBlockDamaged(_world, _clrIdx, _blockPos, _blockValue, _damagePoints, _entityIdThatDamaged, _bUseHarvestTool, _bByPassMaxDamage, _recDepth);
+            return base.OnBlockDamaged(_world, _clrIdx, _blockPos, _blockValue, _damagePoints, _entityIdThatDamaged, attackHitInfo, false, _bByPassMaxDamage, recDepth);
 
         chunkCluster.InvokeOnBlockDamagedDelegates(_blockPos, _blockValue, _damagePoints, _entityIdThatDamaged);
 
@@ -184,7 +184,7 @@ public class BlockMortSpawner : BlockLoot
             return 0;
         }
 
-        if (OnBlockDestroyedBy(_world, _clrIdx, _blockPos, _blockValue, _entityIdThatDamaged, _bUseHarvestTool) == DestroyedResult.Remove)
+        if (OnBlockDestroyedBy(_world, _clrIdx, _blockPos, _blockValue, _entityIdThatDamaged, false) == DestroyedResult.Remove)
             return max;
 
         SpawnDestroyParticleEffect(_world, _blockValue, _blockPos, _world.GetLightBrightness(_blockPos + new Vector3i(0, 1, 0)), GetColorForSide(_blockValue, BlockFace.Top), _entityIdThatDamaged);

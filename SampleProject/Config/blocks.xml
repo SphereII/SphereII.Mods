@@ -1,7 +1,7 @@
 ﻿<configs>
   <append xpath="/blocks">
     <block name="MyBlock">
-      <property name="Extends" value="woodFrameBlock"/>
+      <property name="Extends" value="woodNoUpgradeMaster"/>
       <property name="Class" value="MyBlock, SampleProject"/>
     </block>
   </append>

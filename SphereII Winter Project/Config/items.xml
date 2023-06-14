@@ -1,0 +1,920 @@
+<configs>
+
+  <append xpath="/items">
+
+    <item name="snowShovel">
+      <property name="Extends" value="meleeToolShovelT2SteelShovel"/>
+      <property name="DescriptionKey" value="snowShovelDesc" />
+      <property name="Meshfile" value="#@modfolder:Resources/XmasDeco.unity3d?SnowShovel_X" />
+      <property name="DropMeshfile" value="#@modfolder:Resources/XmasDeco.unity3d?SnowShovel_X" />
+      <property name="CustomIcon" value="snowShovel" />
+      <effect_group name="Base Effects">
+        <passive_effect name="MaxRange" operation="base_set" value="3.4"/>
+        <passive_effect name="BlockRange" operation="base_set" value="4"/>
+        <passive_effect name="EntityDamage" operation="base_set" value="13"/>
+
+        <passive_effect name="BlockDamage" operation="base_set" value="28"/>
+        <passive_effect name="DamageModifier" operation="perc_add" value="-.7" tags="wood"/>
+        <passive_effect name="DamageModifier" operation="perc_add" value="-.5" tags="stone"/>
+        <passive_effect name="DamageModifier" operation="perc_add" value="-.75" tags="metal"/>
+        <passive_effect name="DamageModifier" operation="perc_add" value="1" tags="earth"/>
+
+        <passive_effect name="DamageModifier" operation="perc_add" value="1.5" tags="snow"/>
+        <passive_effect name="AttacksPerMinute" operation="base_set" value="50"/>
+        <passive_effect name="StaminaLoss" operation="base_set" value="16" tags="primary"/>
+        <passive_effect name="DegradationMax" operation="base_set" value="200,800" tier="1,6"/>
+        <passive_effect name="ModSlots" operation="base_set" value="0,5" tier="1,6"/>
+        <passive_effect name="ModPowerBonus" operation="perc_add" value=".15" tags="EntityDamage,BlockDamage"/>
+        <passive_effect name="ModPowerBonus" operation="base_add" value="200" tags="EconomicValue"/>
+      </effect_group>
+    </item>
+
+    <item name="candyCane">
+	  <property name="Extends" value="meleeWpnClubT1BaseballBat" />
+	  <property name="Material" value="Mwood" />
+	  <property name="RepairTools" value="resourceRepairKit" />
+	  <property name="Meshfile" value="#@modfolder:Resources/XmasDeco.unity3d?CandyCane_X" />
+	  <property name="CustomIcon" value="candyCane" />
+		<effect_group name="meleeWpnClubT1BaseballBatclone">
+			<passive_effect name="EntityDamage" operation="base_set" value="17.4" tags="perkPummelPete"/> <!-- meleeWpnClubT1BaseballBat -->
+			<passive_effect name="BlockDamage" operation="base_set" value="14.6" tags="perkPummelPete"/>
+			<passive_effect name="AttacksPerMinute" operation="base_set" value="52" tags="perkPummelPete,perkFlurryOfBlows"/>
+			<passive_effect name="StaminaLoss" operation="base_set" value="20.9" tags="primary"/>
+			<passive_effect name="DegradationMax" operation="base_set" value="200,500" tier="1,6" tags="perkPummelPete"/>
+			<passive_effect name="DegradationPerUse" operation="base_set" value="1" tags="perkPummelPete"/>
+			<passive_effect name="MaxRange" operation="base_set" value="2.4" tags="perkPummelPete"/>
+			<passive_effect name="BlockRange" operation="base_set" value="3" tags="perkPummelPete"/>
+
+			<passive_effect name="ModSlots" operation="base_set" value="1,1,2,2,3,4" tier="1,2,3,4,5,6"/>
+			<passive_effect name="ModPowerBonus" operation="perc_add" value=".10" tags="EntityDamage,BlockDamage"/>
+			<passive_effect name="ModPowerBonus" operation="base_add" value="300" tags="EconomicValue"/>
+
+			<passive_effect name="EntityDamage" operation="perc_add" value="-.15,.15" tags="perkPummelPete"/> <!-- random EntityDmg -->
+			<passive_effect name="EntityDamage" operation="perc_add" value=".1,.5" tier="2,6" tags="perkPummelPete"/> <!-- tier bonus -->
+			<passive_effect name="BlockDamage" operation="perc_add" value="-.15,.15" tags="perkPummelPete"/> <!-- random BlockDmg -->
+			<passive_effect name="BlockDamage" operation="perc_add" value=".1,.5" tier="2,6" tags="perkPummelPete"/> <!-- tier bonus -->
+
+			<passive_effect name="DamageModifier" operation="perc_add" value="-.5" tags="earth"/>
+			<passive_effect name="DamageModifier" operation="perc_add" value="-.5" tags="stone"/>
+			<passive_effect name="DamageModifier" operation="perc_add" value="-.5" tags="metal"/>
+
+			<passive_effect name="HarvestCount" operation="base_add" value="-.75" tags="allHarvest"/>
+			<passive_effect name="HarvestCount" operation="base_add" value="-.75" tags="allToolsHarvest"/>
+			<passive_effect name="HarvestCount" operation="base_add" value="-.75" tags="oreWoodHarvest"/>
+	</effect_group>
+	<effect_group name="Power Attack">
+			<passive_effect name="EntityDamage" operation="perc_add" value="1" tags="secondary"/>
+			<passive_effect name="BlockDamage" operation="perc_add" value="1" tags="secondary"/>
+			<passive_effect name="StaminaLoss" operation="base_set" value="35.6" tags="secondary"/>
+	</effect_group>  
+ 
+    </item>
+    <!-- Copied the corn for the cookies -->
+    <item  name="Cookies">
+      <property name="HoldType" value="31"/>
+      <property name="DisplayType" value="food"/>
+      <property name="Meshfile" value="Items/Misc/parcelPrefab"/>
+      <property name="DropMeshfile" value="Items/Misc/sack_droppedPrefab"/>
+      <property name="Material" value="Morganic"/>
+      <property name="CustomIcon" value="Cookies" />
+      <property name="Stacknumber" value="50"/>
+      <!-- STK food -->
+      <property name="EconomicValue" value="1"/>
+      <property class="Action0">
+        <property name="Class" value="Eat"/>
+        <property name="Delay" value="1.0"/>
+        <property name="Use_time" value="..."/>
+        <property name="Sound_start" value="player_eating"/>
+        <!-- jar from cooking food <property name="Create_item" value="drinkJarEmpty"/> -->
+      </property>
+      <property name="Group" value="Food/Cooking"/>
+
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="foodAmount" operation="add" value="5"/>
+        <!-- <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="foodPerkDisplay" operation="add" value="@foodSatiationPSec"/> -->
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="foodHealthAmount" operation="add" value="2"/>
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" target="self" buff="buffProcessConsumables"/>
+      </effect_group>
+    </item>
+    <item name="foodFrozenBase">
+      <property name="HoldType" value="31"/>
+      <property name="Meshfile" value="#Other/Items?Misc/parcelPrefab.prefab"/>
+      <property name="DropMeshfile" value="#Other/Items?Misc/sack_droppedPrefab.prefab"/>
+      <property name="Material" value="Morganic"/>
+      <property name="EconomicValue" value="1"/>
+      <property name="Stacknumber" value="125"/>
+      <property name="Group" value="Food"/>
+      <property name="DescriptionKey" value="foodFrozenDesc" />
+      <property name="ItemTypeIcon" value="cold"/>
+    </item>
+  </append>
+
+  <append xpath="/items/item[@name='foodHoney']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodHoneyFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanBeef']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanBeefFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanChicken']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanChickenFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanLamb']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanLambFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanCatfood']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanCatfoodFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanDogfood']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanDogfoodFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanChili']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanChiliFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanTuna']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanTunaFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanSham']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanShamFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanPasta']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanPastaFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanSalmon']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanSalmonFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanMiso']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanMisoFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanPeas']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanPeasFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanPears']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanPearsFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanSoup']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanSoupFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCanStock']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCanStockFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCornOnTheCob']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCornOnTheCobFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCornBread']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCornBreadFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+	<!--
+  <append xpath="/items/item[@name='foodMoldyBread']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodMoldyBreadFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  -->
+  <append xpath="/items/item[@name='foodShamSandwich']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodShamSandwichFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCharredMeat']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCharredMeatFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodGrilledMeat']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodGrilledMeatFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodBoiledMeat']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodBoiledMeatFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodMeatStew']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodMeatStewFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodSteakAndPotato']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodSteakAndPotatoFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodShamChowder']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodShamChowderFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodHoboStew']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodHoboStewFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodFishTacos']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodFishTacosFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodChiliDog']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodChiliDogFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodBakedPotato']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodBakedPotatoFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodBlueberryPie']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodBlueberryPieFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodPumpkinPie']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodPumpkinPieFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodPumpkinCheesecake']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodPumpkinCheesecakeFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodPumpkinBread']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodPumpkinBreadFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodGumboStew']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodGumboStewFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodShepardsPie']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodShepardsPieFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodSpaghetti']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodSpaghettiFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodTunaFishGravyToast']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodTunaFishGravyToastFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodEggBoiled']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodEggBoiledFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodBaconAndEggs']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodBaconAndEggsFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodVegetableStew']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodVegetableStewFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodRawMeat']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodRawMeatFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodRottingFlesh']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodRottingFleshFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodEgg']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodEggFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCornMeal']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCornMealFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropBlueberries']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropBlueberriesFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropCorn']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropCornFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropGraceCorn']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropGraceCornFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropPotato']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropPotatoFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropMushrooms']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropMushroomsFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropYuccaFruit']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropYuccaFruitFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='foodCropPumpkin']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="foodCropPumpkinFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarRiverWater']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarRiverWaterFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarBoiledWater']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarBoiledWaterFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarPureMineralWater']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarPureMineralWaterFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarYuccaJuice']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarYuccaJuiceFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarGoldenRodTea']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGoldenRodTeaFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarRedTea']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarRedTeaFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarYuccaCocktail']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarYuccaCocktailFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkYuccaJuiceSmoothie']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkYuccaJuiceSmoothieFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkCanMegaCrush']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkCanMegaCrushFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarCoffee']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarCoffeeFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarBlackStrapCoffee']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarBlackStrapCoffeeFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarBeer']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarBeerFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+	<!--
+  <append xpath="/items/item[@name='drinkJarGrainAlcohol']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGrainAlcoholFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  -->
+  <append xpath="/items/item[@name='drinkJarGrandpasMoonshine']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGrandpasMoonshineFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarGrandpasAwesomeSauce']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGrandpasAwesomeSauceFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarGrandpasLearningElixir']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGrandpasLearningElixirFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items/item[@name='drinkJarGrandpasForgettingElixir']" >
+    <property name="Spoilable" value="true" />
+    <property name="SpoiledItem" value="drinkJarGrandpasForgettingElixirFrozen" />
+    <property name="ShowQuality" value="false" />
+    <property name="SpoilageMax" value="1000" />
+  </append>
+  <append xpath="/items">
+    <item name="foodHoneyFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodHoney" />
+    </item>
+    <item name="foodCanBeefFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanBeef" />
+    </item>
+    <item name="foodCanChickenFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanChicken" />
+    </item>
+    <item name="foodCanLambFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanLamb" />
+    </item>
+    <item name="foodCanCatfoodFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanCatfood" />
+    </item>
+    <item name="foodCanDogfoodFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanDogfood" />
+    </item>
+    <item name="foodCanChiliFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanChili" />
+    </item>
+    <item name="foodCanTunaFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanTuna" />
+    </item>
+    <item name="foodCanShamFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanSham" />
+    </item>
+    <item name="foodCanPastaFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanPasta" />
+    </item>
+    <item name="foodCanSalmonFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanSalmon" />
+    </item>
+    <item name="foodCanMisoFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanMiso" />
+    </item>
+    <item name="foodCanPeasFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanPeas" />
+    </item>
+    <item name="foodCanPearsFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanPears" />
+    </item>
+    <item name="foodCanSoupFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanSoup" />
+    </item>
+    <item name="foodCanStockFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCanStock" />
+    </item>
+    <item name="foodCornOnTheCobFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCornOnTheCob" />
+    </item>
+    <item name="foodCornBreadFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCornBread" />
+    </item>
+    <item name="foodMoldyBreadFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodMoldyBread" />
+    </item>
+    <item name="foodShamSandwichFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodShamSandwich" />
+    </item>
+    <item name="foodCharredMeatFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCharredMeat" />
+    </item>
+    <item name="foodGrilledMeatFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodGrilledMeat" />
+    </item>
+    <item name="foodBoiledMeatFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodBoiledMeat" />
+    </item>
+    <item name="foodMeatStewFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodMeatStew" />
+    </item>
+    <item name="foodSteakAndPotatoFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodSteakAndPotato" />
+    </item>
+    <item name="foodShamChowderFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodShamChowder" />
+    </item>
+    <item name="foodHoboStewFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodHoboStew" />
+    </item>
+    <item name="foodFishTacosFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodFishTacos" />
+    </item>
+    <item name="foodChiliDogFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodChiliDog" />
+    </item>
+    <item name="foodBakedPotatoFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodBakedPotato" />
+    </item>
+    <item name="foodBlueberryPieFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodBlueberryPie" />
+    </item>
+    <item name="foodPumpkinPieFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodPumpkinPie" />
+    </item>
+    <item name="foodPumpkinCheesecakeFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodPumpkinCheesecake" />
+    </item>
+    <item name="foodPumpkinBreadFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodPumpkinBread" />
+    </item>
+    <item name="foodGumboStewFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodGumboStew" />
+    </item>
+    <item name="foodShepardsPieFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodShepardsPie" />
+    </item>
+    <item name="foodSpaghettiFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodSpaghetti" />
+    </item>
+    <item name="foodTunaFishGravyToastFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodTunaFishGravyToast" />
+    </item>
+    <item name="foodEggBoiledFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodEggBoiled" />
+    </item>
+    <item name="foodBaconAndEggsFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodBaconAndEggs" />
+    </item>
+    <item name="foodVegetableStewFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodVegetableStew" />
+    </item>
+    <item name="foodRawMeatFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodRawMeat" />
+    </item>
+    <item name="foodRottingFleshFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodRottingFlesh" />
+    </item>
+    <item name="foodEggFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodEgg" />
+    </item>
+    <item name="foodCornMealFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCornMeal" />
+    </item>
+    <item name="foodCropBlueberriesFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropBlueberries" />
+    </item>
+    <item name="foodCropCornFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropCorn" />
+    </item>
+    <item name="foodCropGraceCornFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropGraceCorn" />
+    </item>
+    <item name="foodCropPotatoFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropPotato" />
+    </item>
+    <item name="foodCropMushroomsFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropMushrooms" />
+    </item>
+    <item name="foodCropYuccaFruitFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropYuccaFruit" />
+    </item>
+    <item name="foodCropPumpkinFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="foodCropPumpkin" />
+    </item>
+    <item name="drinkCanRiverWaterFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkCanRiverWater" />
+    </item>
+    <item name="drinkCanBoiledWaterFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkCanBoiledWater" />
+    </item>
+    <item name="drinkJarRiverWaterFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarRiverWater" />
+    </item>
+    <item name="drinkJarBoiledWaterFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarBoiledWater" />
+    </item>
+    <item name="drinkJarPureMineralWaterFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarPureMineralWater" />
+    </item>
+    <item name="drinkJarYuccaJuiceFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarYuccaJuice" />
+    </item>
+    <item name="drinkJarGoldenRodTeaFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGoldenRodTea" />
+    </item>
+    <item name="drinkJarRedTeaFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarRedTea" />
+    </item>
+    <item name="drinkJarYuccaCocktailFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarYuccaCocktail" />
+    </item>
+    <item name="drinkYuccaJuiceSmoothieFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkYuccaJuiceSmoothie" />
+    </item>
+    <item name="drinkCanMegaCrushFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkCanMegaCrush" />
+    </item>
+    <item name="drinkJarCoffeeFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarCoffee" />
+    </item>
+    <item name="drinkJarBlackStrapCoffeeFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarBlackStrapCoffee" />
+    </item>
+    <item name="drinkJarBeerFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarBeer" />
+    </item>
+    <item name="drinkJarGrainAlcoholFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGrainAlcohol" />
+    </item>
+    <item name="drinkJarGrandpasMoonshineFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGrandpasMoonshine" />
+    </item>
+    <item name="drinkJarGrandpasAwesomeSauceFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGrandpasAwesomeSauce" />
+    </item>
+    <item name="drinkJarGrandpasLearningElixirFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGrandpasLearningElixir" />
+    </item>
+    <item name="drinkJarGrandpasForgettingElixirFrozen" >
+      <property name="Extends" value="foodFrozenBase" />
+      <property name="CustomIcon" value="drinkJarGrandpasForgettingElixir" />
+    </item>
+
+
+    <item name="sphereiiSoundLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/SpookySounds.unity3d?7_Days-KillahChipmunk-39171653"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/SpookySounds.unity3d?7_Days-KillahChipmunk-39171653"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>
+	
+	
+    <item name="sphereiiTreeLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/WinterTrees.unity3d?Birch1_X"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/WinterTrees.unity3d?Birch1_X"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>	
+	
+    <item name="sphereiiDecoLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/XmasDeco.unity3d?SnowBlock_X"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/XmasDeco.unity3d?SnowBlock_X"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>		
+	
+    <item name="sphereiiFogLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/SnowFog.unity3d?SnowLow"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/SnowFog.unity3d?SnowLow"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>			
+	
+    <item name="sphereiiPostersLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/XmasMoviePosters.unity3d?PosterInfo01"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/XmasMoviePosters.unity3d?PosterInfo01"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>	
+   <item name="sphereiiRallyflagsLoading">
+      <property name="CreativeMode" value="None"/>
+      <property name="CustomIcon" value="missingIcon"/>
+      <property name="CustomIconTint" value="90ff90"/>
+      <property name="HoldType" value="45"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Meshfile" value="#@modfolder:Resources/RallyFlags.unity3d?rally_pointprefab_X"/>
+      <property name="DropMeshfile" value="#@modfolder:Resources/RallyFlags.unity3d?rally_pointprefab_X"/>
+      <property name="Material" value="MresourceScrapIron"/>
+      <property name="Weight" value="1"/>
+      <property name="Stacknumber" value="1"/>
+      <!-- STK resource -->
+      <property name="EconomicValue" value="1"/>
+      <property name="EconomicBundleSize" value="1000"/>
+      <property name="Group" value="Resources"/>
+    </item>	
+
+  </append>
+</configs>

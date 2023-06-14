@@ -108,32 +108,33 @@ public class BlockCropControlPanel : Block
 
         WaterPipeManager.Instance.GetWaterForPosition(_blockPos);
     }
-    public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
-        switch (_indexInBlockActivationCommands)
+
+        switch (_commandName)
         {
-            case 0:
+            case "debugcontrol_enable":
                 CropManager.Instance.DebugMode = true;
                 Manager.BroadcastPlay(_blockPos.ToVector3() + Vector3.one * 0.5f, this.activateSound, 0f);
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("debugcontrol_turnon"));
                 break;
-            case 1:
+            case "debugcontrol_enable_disable":
                 CropManager.Instance.DebugMode = false;
                 Manager.BroadcastPlay(_blockPos.ToVector3() + Vector3.one * 0.5f, this.activateSound, 0f);
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("debugcontrol_turnoff"));
                 break;
-            case 2:
+            case "debugcontrol_turnonWater":
                 Manager.BroadcastPlay(_blockPos.ToVector3() + Vector3.one * 0.5f, this.activateSound, 0f);
                 UpdateValves(_blockPos, true);
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("debugcontrol_turnonWater"));
                 break;
-            case 3:
+            case "debugcontrol_turnoffWater":
                 Manager.BroadcastPlay(_blockPos.ToVector3() + Vector3.one * 0.5f, this.activateSound, 0f);
                 UpdateValves(_blockPos, false);
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("debugcontrol_turnoffWater"));
                 break;
 
-            case 4:
+            case "debugcontrol_startbot":
                 Manager.BroadcastPlay(_blockPos.ToVector3() + Vector3.one * 0.5f, this.activateSound, 0f);
                 GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("debugcontrol_startingbot"));
                 break;

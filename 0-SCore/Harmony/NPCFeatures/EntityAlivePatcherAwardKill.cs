@@ -18,16 +18,16 @@ namespace Harmony.NPCFeatures
                 var playerkill = 0;
                 var zombiekill = 0;
 
-                var entityAliveSDX = killer as EntityAliveSDX;
-                if (entityAliveSDX == null) return;
+                var entityAliveSdx = killer as EntityAliveSDX;
+                if (entityAliveSdx == null) return;
 
                 if (__instance is EntityPlayer)
                     playerkill++;
                 else
                     zombiekill++;
 
-                Log.Out($"AwardKill to {entityAliveSDX.EntityName} {zombiekill} {playerkill} ");
-                entityAliveSDX.AddKillXP(__instance, 1f);
+                Log.Out($"AwardKill to {entityAliveSdx.EntityName} {zombiekill} {playerkill} ");
+                entityAliveSdx.AddKillXP(__instance, 1f);
                 GameManager.Instance.AwardKill(killer, __instance);
                 GameManager.Instance.AddScoreServer(killer.entityId, zombiekill, playerkill, __instance.TeamNumber, 0);
 

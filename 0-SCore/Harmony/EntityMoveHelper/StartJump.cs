@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace Harmony.EntityMoveHelper
 {
@@ -10,7 +11,7 @@ namespace Harmony.EntityMoveHelper
         {
             if (!EntityUtilities.IsHuman(___entity.entityId)) return true;
 
-            if (heightDiff != 1.4f) return true;
+            if (heightDiff > 1f) return true;
 
             EntityUtilities.Stop(___entity.entityId);
             return false;

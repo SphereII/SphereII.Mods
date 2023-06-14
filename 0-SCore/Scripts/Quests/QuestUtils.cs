@@ -7,9 +7,9 @@ using UnityEngine;
 
 
 public static class QuestUtils
-    {
+{
 
-   
+
     public static PrefabInstance FindPrefab(string poiName, Vector3 startPosition, ref List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome, string biomeFilter = "")
     {
         //var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(poiName));
@@ -36,7 +36,7 @@ public static class QuestUtils
         }
         return prefab;
     }
-    public static  PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType , string biomeFilter)
+    public static PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType, string biomeFilter)
     {
         PrefabInstance prefab = null;
         float minDist = Mathf.Infinity;
@@ -95,7 +95,7 @@ public static class QuestUtils
             if (dist < minDist)
             {
                 if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-                    if ( prefab != null)
+                    if (prefab != null)
                         Log.Out($"GotoPOISDX: Found closer Prefab {t.name} than {prefab.name} Old distance {minDist}");
                 prefab = t;
                 minDist = dist;
@@ -133,7 +133,7 @@ public static class QuestUtils
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearTrader(
         EntityTrader trader,
-        QuestTags questTag,
+        FastTags questTag,
         byte difficulty,
         POITags includeTags,
         POITags excludeTags,
@@ -206,7 +206,7 @@ public static class QuestUtils
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearEntityPos(
         Entity entity,
-        QuestTags questTag,
+        FastTags questTag,
         byte difficulty,
         POITags includeTags,
         POITags excludeTags,
@@ -288,7 +288,7 @@ public static class QuestUtils
     public static bool ValidPrefabForQuest(
         Entity questGiver,
         PrefabInstance prefab,
-        QuestTags questTag,
+        FastTags questTag,
         POITags includeTags,
         POITags excludeTags,
         List<Vector2> usedPoiLocations = null,
@@ -307,14 +307,14 @@ public static class QuestUtils
             return false;
         }
 
-        if (!prefab.prefab.GetQuestTag(questTag))
-        {
-            if (LoggingEnabled)
-            {
-                Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
-            }
-            return false;
-        }
+        //if (!prefab.prefab.GetQuestTag(questTag))
+        //{
+        //    if (LoggingEnabled)
+        //    {
+        //        Log.Out($"Quest {questTag}: Prefab {prefab.name} does not have quest tag {questTag}");
+        //    }
+        //    return false;
+        //}
 
         Vector2 poiLocation = new Vector2(prefab.boundingBoxPosition.x, prefab.boundingBoxPosition.z);
 
@@ -327,9 +327,7 @@ public static class QuestUtils
             return false;
         }
 
-        QuestEventManager.POILockoutReasonTypes lockoutReason = QuestEventManager
-            .Current
-            .CheckForPOILockouts(entityIdForQuests, poiLocation);
+        QuestEventManager.POILockoutReasonTypes lockoutReason = QuestEventManager.Current.CheckForPOILockouts(entityIdForQuests, poiLocation, out var num);
 
         if (lockoutReason != QuestEventManager.POILockoutReasonTypes.None)
         {

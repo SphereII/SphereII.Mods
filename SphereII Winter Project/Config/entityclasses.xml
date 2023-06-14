@@ -1,0 +1,54 @@
+﻿<configs>
+  <append xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">,snowShovel</append>
+
+  <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieTemplateMale')]" >
+	<effect_group name="frostshield">
+    <triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="buffFrostShield">
+	<requirement name="RequirementIsOutdoor, SCore"/>
+	</triggered_effect>
+	</effect_group>
+ </append>
+ 
+	<append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieArlene') or
+                                                starts-with(@name, 'zombieMarlene') or
+                                                starts-with(@name, 'zombieDarlene') or
+												starts-with(@name, 'zombieJoe') or
+                                                starts-with(@name, 'zombieSteve') or
+												starts-with(@name, 'zombieBoe') or
+                                                starts-with(@name, 'zombieJanitor') or
+												starts-with(@name, 'zombieYo') or
+                                                starts-with(@name, 'zombieUtilityWorker') or
+												starts-with(@name, 'zombieFemaleFat') or
+                                                starts-with(@name, 'zombieFatHawaiian') or
+												starts-with(@name, 'zombieBiker') or
+                                               	starts-with(@name, 'zombieDemolition')]">
+      <effect_group name="No snow please on these vanilla zeds" >
+          <!--<triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" component="Animator" script="GlobalSnowEffect.GlobalSnowIgnoreCoverage, SphereII_Winter_Project"/> -->
+
+      </effect_group>
+	</append>
+
+
+          <!--
+          <triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="RightFoot" script="GlobalSnowEffect.GlobalSnowIgnoreCoverage, SphereII_Winter_Project"/>
+          <triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="LeftRoot" script="GlobalSnowEffect.GlobalSnowIgnoreCoverage, SphereII_Winter_Project"/>
+   -->
+          <!-- <triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" component="Animator" script="GlobalSnowEffect.GlobalSnowIgnoreCoverage, SphereII_Winter_Project"/> -->
+       
+    
+   <append xpath="/entity_classes/entity_class[starts-with(@name, 'zombieRegularTemplate')]" >
+	<effect_group name="frostshield">
+    <triggered_effect trigger="onSelfFirstSpawn" action="AddBuff" target="self" buff="buffFrostShield">
+	<requirement name="RequirementIsOutdoor, SCore"/>
+	</triggered_effect>
+	</effect_group> 
+  </append>  
+  
+  <append xpath="/entity_classes/entity_class[@name='npcTraderTemplate']/effect_group" >
+       <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" target="self" buff="buffRemoveDuplicateTrader"/>
+  </append>
+
+  <!-- change demo zombie to do more damage to the ground. -->
+  <set xpath="//entity_class[@name='zombieDemolition']/property[@name='Explosion.DamageBonus.earth']/@value">0.5</set>
+
+</configs>

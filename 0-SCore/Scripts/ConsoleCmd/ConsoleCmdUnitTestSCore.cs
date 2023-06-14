@@ -12,7 +12,8 @@ public class ConsoleCmdUnitTestSCore : ConsoleCmdAbstract
         get { return true; }
     }
 
-    public override string[] GetCommands()
+    //public override string[] GetCommands()
+    protected override string[] getCommands()
     {
         return new string[]
         {
@@ -59,7 +60,7 @@ public class ConsoleCmdUnitTestSCore : ConsoleCmdAbstract
         return;
     }
 
-    public override string GetDescription()
+    protected override string getDescription()
     {
         return "Runs a test script.";
     }

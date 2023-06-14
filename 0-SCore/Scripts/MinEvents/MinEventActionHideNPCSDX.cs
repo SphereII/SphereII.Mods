@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 //        <triggered_effect trigger = "onSelfBuffUpdate" action="HideNPCSDX, SCore" hide="true" />
 public class MinEventActionHideNPCSDX : MinEventActionTargetedBase
@@ -18,12 +19,12 @@ public class MinEventActionHideNPCSDX : MinEventActionTargetedBase
     }
 
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "hide")
                     hide = StringParsers.ParseBool(_attribute.Value);

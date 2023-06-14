@@ -1,6 +1,7 @@
 ﻿//        <triggered_effect trigger = "onSelfBuffUpdate" action="SetCVar, SCore" target="selfAOE" range="4" />
 
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class MinEventActionSetCVar : MinEventActionTargetedBase
@@ -17,12 +18,12 @@ public class MinEventActionSetCVar : MinEventActionTargetedBase
         _params.Self.Buffs.SetCustomVar("EntityID", _params.Self.entityId);
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         bool flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            string name = _attribute.Name;
+            string name = _attribute.Name.LocalName;
             if (name != null)
             {
                 if (name == "cvar")

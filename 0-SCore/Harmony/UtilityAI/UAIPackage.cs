@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 using UAI;
 namespace Harmony.UtilityAI
 {
@@ -69,7 +70,7 @@ namespace Harmony.UtilityAI
         [HarmonyPatch("parseAIPackageNode")]
         public static class UAIFromXml_parseAIPackageNode
         {
-            public static void Postfix(XmlElement _element)
+            public static void Postfix(XElement _element)
             {
                 if (_element == null)
                     return;
@@ -94,7 +95,7 @@ namespace Harmony.UtilityAI
         [HarmonyPatch("parseActionNode")]
         public static class UAIFromXml_parseActionNode
         {
-            public static void Postfix(UAIPackage _package, XmlElement _element)
+            public static void Postfix(UAIPackage _package, XElement _element)
             {
                 if (_element == null || _package == null)
                     return;

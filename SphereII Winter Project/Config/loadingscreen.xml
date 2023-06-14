@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+
+
+  <set xpath="/doc/backgrounds/tex[1]/@file">@modfolder:Textures/loadingscreen01.png</set>
+  <set xpath="/doc/backgrounds/tex[2]/@file">@modfolder:Textures/loadingscreen02.png</set>
+  <set xpath="/doc/backgrounds/tex[3]/@file">@modfolder:Textures/loadingscreen03.png</set>
+  <set xpath="/doc/backgrounds/tex[4]/@file">@modfolder:Textures/loadingscreen04.png</set>
+
+  <append xpath="/doc/backgrounds">
+    <tex file="@modfolder:Textures/loadingscreen05.png" />
+    <tex file="@modfolder:Textures/loadingscreen06.png" />
+  </append>
+
+
+
+  <remove xpath="doc/tips" />
+  <insertAfter xpath="/doc/backgrounds" >
+    <tips>
+      <tip key="loadingTipMainHUD" />
+      <tip key="loadingTipMainHUD_02" />
+      <tip key="loadingTipMainHUD_03" />
+      <tip key="loadingTipMainHUD_04" />
+      <tip key="loadingTipMainHUD_05" />
+      <tip key="loadingTipMainHUD_06" />
+      <tip key="loadingTipMainHUD_07" />
+      <tip key="loadingTipMainHUD_08" />
+      <tip key="loadingTipMainHUD_09" />
+      <tip key="loadingTipMainHUD_10" />
+
+    </tips>
+  </insertAfter>
+
+</doc>

@@ -53,8 +53,9 @@ namespace UAI
         {
             SCoreUtils.SetCrouching(_context);
             base.Update(_context);
-//            if (entityAlive)
-  //              SCoreUtils.SetLookPosition(_context, entityAlive);
+            if (entityAlive)
+                _context.Self.SetLookPosition(entityAlive.getHeadPosition());
+                  //SCoreUtils.SetLookPosition(_context, entityAlive);
 
             if (!_context.Self.getNavigator().noPathAndNotPlanningOne()) return;
             this.Stop(_context);

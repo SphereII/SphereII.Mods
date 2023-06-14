@@ -1,4 +1,7 @@
-﻿public static class AdvLogging
+﻿using System.Runtime.CompilerServices;
+using UnityEngine;
+
+public static class AdvLogging
 {
     public static void DisplayLog(string AdvFeatureClass, string strDisplay)
     {
@@ -8,7 +11,11 @@
         if (Configuration.CheckFeatureStatus("AdvancedLogging", "LowOutput"))
             Log.Out($"{strDisplay}");
         else
+        {
+            //Debug.Log(strDisplay);
             Log.Out($"{AdvFeatureClass} :: {strDisplay}");
+        }
+            
     }
 
     

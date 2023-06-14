@@ -39,7 +39,6 @@ namespace UAI
             {
                 if ( entityAlive.entityId == _context.Self.entityId)
                 {
-                    Debug.Log("it's me!");
                     return 0f;
                 }
                 float num = UAIUtils.DistanceSqr(_context.Self.position, entityAlive.position);

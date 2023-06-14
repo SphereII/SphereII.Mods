@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 // 	<requirement name="RequirementLookingAt, SCore" block="Campfire" />
 // 	<requirement name="RequirementLookingAt, SCore" block="Campfire, Workstation" cvar="focusBlockLocation" />
@@ -34,21 +35,21 @@ public class RequirementLookingAt : RequirementBase
                     if (blocks.Contains(tileEntity.GetTileEntityType().ToString()))
                     {
                         // lower than my feet
-                        if ( position.y < _params.Self.position.y )
+                        if (position.y < _params.Self.position.y)
                         {
                             _params.Self.Buffs.AddCustomVar(cvar, -1);
                         }
                         // at my feet
-                        else if ( position.y == _params.Self.position.y + 0.1f)
+                        else if (position.y == _params.Self.position.y + 0.1f)
                         {
                             _params.Self.Buffs.AddCustomVar(cvar, 0);
                         }
                         // at my eye level
-                        else if ( position.y <= _params.Self.GetEyeHeight())
+                        else if (position.y <= _params.Self.GetEyeHeight())
                         {
                             _params.Self.Buffs.AddCustomVar(cvar, 1);
                         }
-                        else if ( position.y > _params.Self.GetHeight())
+                        else if (position.y > _params.Self.GetHeight())
                         {
                             _params.Self.Buffs.AddCustomVar(cvar, 2);
                         }
@@ -64,10 +65,10 @@ public class RequirementLookingAt : RequirementBase
         return false;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXAttribute(XAttribute _attribute)
     {
-        var name = _attribute.Name;
-        if ( name == "cvar")
+        var name = _attribute.Name.LocalName;
+        if (name == "cvar")
         {
             cvar = _attribute.Value;
         }
@@ -76,8 +77,8 @@ public class RequirementLookingAt : RequirementBase
             blocks = _attribute.Value;
         }
         else
-            return base.ParseXmlAttribute(_attribute);
-        
+            return base.ParseXAttribute(_attribute);
+
         return true;
     }
 }

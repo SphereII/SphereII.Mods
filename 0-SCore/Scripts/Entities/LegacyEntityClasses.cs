@@ -126,13 +126,13 @@ internal class EntityWanderingTrader : EntityNPC
     public override void OnUpdateLive()
     {
         // Check if there's a player within 10 meters of us. If not, resume wandering.
-        emodel.avatarController.SetBool("IsBusy", false);
+        emodel.avatarController.UpdateBool("IsBusy", false);
 
         var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 10f));
         if (entitiesInBounds.Count > 0)
             for (var i = 0; i < entitiesInBounds.Count; i++)
                 if (entitiesInBounds[i] is EntityPlayer)
-                    emodel.avatarController.SetBool("IsBusy", true);
+                    emodel.avatarController.UpdateBool("IsBusy", true);
 
 
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.
@@ -148,14 +148,14 @@ internal class EntityWanderingTrader : EntityNPC
 
     public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
     {
-        emodel.avatarController.SetBool("IsBusy", true);
+        emodel.avatarController.UpdateBool("IsBusy", true);
         return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
     }
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
         // If we are being attacked, let the state machine know it can fight back
-        emodel.avatarController.SetBool("IsBusy", false);
+        emodel.avatarController.UpdateBool("IsBusy", false);
 
         // Turn off the trader ID while it deals damage to the entity
         ToggleTraderID(false);
@@ -167,7 +167,7 @@ internal class EntityWanderingTrader : EntityNPC
     public override void ProcessDamageResponseLocal(DamageResponse _dmResponse)
     {
         // If we are being attacked, let the state machine know it can fight back
-        emodel.avatarController.SetBool("IsBusy", false);
+        emodel.avatarController.UpdateBool("IsBusy", false);
 
         // Turn off the trader ID while it deals damage to the entity
         ToggleTraderID(false);

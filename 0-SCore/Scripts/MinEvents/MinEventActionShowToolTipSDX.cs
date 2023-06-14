@@ -1,5 +1,6 @@
 ﻿using Audio;
 using System.Xml;
+using System.Xml.Linq;
 
 public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
 {
@@ -21,10 +22,10 @@ public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
-        var name = _attribute.Name;
+        var name = _attribute.Name.LocalName;
 
         if (name == "message")
         {

@@ -5,39 +5,41 @@
 /// </summary>
 internal class AvatarAnimalControllerSDX : AvatarAnimalController
 {
-    private Transform _rightHand;
+    private Transform rightHand;
 
     // This controls the animations if we are holding a weapon.
-    private Animator _rightHandAnimator;
-    private Transform _rightHandItemTransform;
+    protected Animator rightHandAnimator;
+    private Transform rightHandItemTransform;
 
     public override void SwitchModelAndView(string _modelName, bool _bFPV, bool _bMale)
     {
         base.SwitchModelAndView(_modelName, _bFPV, _bMale);
-        _rightHand = bipedTransform.FindInChilds(entity.GetRightHandTransformName());
-        if (_rightHandItemTransform == null) return;
-        _rightHandItemTransform.parent = _rightHand;
-        var position = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].position;
-        var rotation = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].rotation;
-        _rightHandItemTransform.localPosition = position;
-        _rightHandItemTransform.localEulerAngles = rotation;
-        if (entity.inventory.holdingItem.HoldingItemHidden)
-            _rightHandItemTransform.localScale = new Vector3(0, 0, 0);
+        rightHand = bipedTransform.FindInChilds(entity.GetRightHandTransformName());
+        if (rightHandItemTransform != null)
+        {
+            rightHandItemTransform.parent = rightHand;
+            var position = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].position;
+            var rotation = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].rotation;
+            rightHandItemTransform.localPosition = position;
+            rightHandItemTransform.localEulerAngles = rotation;
+            if (entity.inventory.holdingItem.HoldingItemHidden)
+                rightHandItemTransform.localScale = new Vector3(0, 0, 0);
+        }
     }
 
     public override void SetInRightHand(Transform _transform)
     {
         idleTime = 0f;
-        if (_transform != null) _transform.parent = _rightHand;
-        _rightHandItemTransform = _transform;
-        _rightHandAnimator = _transform != null ? _transform.GetComponent<Animator>() : null;
-        if (_rightHandAnimator != null) _rightHandAnimator.logWarnings = false;
-        if (_rightHandItemTransform != null) Utils.SetLayerRecursively(_rightHandItemTransform.gameObject, 0);
+        if (_transform != null) _transform.parent = rightHand;
+        rightHandItemTransform = _transform;
+        rightHandAnimator = _transform != null ? _transform.GetComponent<Animator>() : null;
+        if (rightHandAnimator != null) rightHandAnimator.logWarnings = false;
+        if (rightHandItemTransform != null) Utils.SetLayerRecursively(rightHandItemTransform.gameObject, 0);
     }
 
     public override Transform GetRightHandTransform()
     {
-        return _rightHandItemTransform;
+        return rightHandItemTransform;
     }
 
     public override void StartAnimationReloading()
@@ -46,8 +48,8 @@ internal class AvatarAnimalControllerSDX : AvatarAnimalController
         if (bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy)
             return;
         var value = EffectManager.GetValue(PassiveEffects.ReloadSpeedMultiplier, entity.inventory.holdingItemItemValue, 1f, entity);
-        SetBool("Reload", true);
-        SetFloat("ReloadSpeed", value);
+        UpdateBool("Reload", true);
+        UpdateFloat("ReloadSpeed", value);
 
         // Work around for the Ranged2 EAI Task that needs meta to be greater than 0 to fire.
         // The same EAI task decrements the meta flag for each bullet it consumes.
@@ -57,6 +59,6 @@ internal class AvatarAnimalControllerSDX : AvatarAnimalController
     public override void StartAnimationFiring()
     {
         base.StartAnimationFiring();
-        SetTrigger("WeaponFire");
+        TriggerEvent("WeaponFire");
     }
 }

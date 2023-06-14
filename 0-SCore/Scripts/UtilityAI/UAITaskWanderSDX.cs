@@ -66,11 +66,13 @@ namespace UAI
             if (SCoreUtils.IsBlocked(_context))
                 this.Stop(_context);
 
+            _context.Self.SetLookPosition(_position);
+            
             base.Update(_context);
             var distance = Vector3.Distance(_context.Self.position, _position);
             if (distance < 0.5f)
             {
-            //    SCoreUtils.SetLookPosition(_context, _position);
+
                 Stop(_context);
             }
 

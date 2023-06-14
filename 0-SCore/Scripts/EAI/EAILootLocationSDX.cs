@@ -186,10 +186,10 @@ internal class EAILootLocationSDX : EAIApproachSpot
     private IEnumerator Loot()
     {
         DisplayLog(" Starting Looting...");
-        theEntity.emodel.avatarController.SetBool("IsLooting", true);
+        theEntity.emodel.avatarController.UpdateBool("IsLooting", true);
         yield return new WaitForSeconds(10);
         DisplayLog(" End Looting...");
-        theEntity.emodel.avatarController.SetBool("IsLooting", false);
+        theEntity.emodel.avatarController.UpdateBool("IsLooting", false);
     }
 
     public PrefabInstance FindPrefabsNear()
@@ -360,7 +360,7 @@ internal class EAILootLocationSDX : EAIApproachSpot
             var state = UnityEngine.Random.state;
             UnityEngine.Random.InitState((int)(GameManager.Instance.World.worldTime % 2147483647UL));
             var array = LootContainer.GetLootContainer(tileLootContainer.lootListName).Spawn(Random, tileLootContainer.items.Length,
-                EffectManager.GetValue(PassiveEffects.LootGamestage, null, player.PartyGameStage, player), 0f, player, new FastTags());
+               player.Progression.GetLevel(), 0f, player, new FastTags(), false);
             UnityEngine.Random.state = state;
             for (var i = 0; i < array.Count; i++)
                 if (theEntity.lootContainer.AddItem(array[i].Clone()))
@@ -439,7 +439,7 @@ internal class EAILootLocationSDX : EAIApproachSpot
                 var pos = World.worldToBlockPos(vector4);
                 var type = theEntity.world.GetBlock(pos).type;
                 var block = Block.list[type];
-              //  if (!block.IsPathSolid && Physics.Raycast(vector4, Vector3.down, 1.02f, 1082195968)) return vector4;
+                //  if (!block.IsPathSolid && Physics.Raycast(vector4, Vector3.down, 1.02f, 1082195968)) return vector4;
             }
         }
 

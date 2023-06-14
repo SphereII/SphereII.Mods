@@ -23,13 +23,7 @@ namespace Harmony
         {
             private static BlockValue GetBlock(IChunk chunk, int _x, int _y, int _z)
             {
-                if (_y >= 256 || _y <= 0)
-                {
-                    return BlockValue.Air;
-                }
-
-                
-                return chunk.GetBlock(_x, _y, _z);
+                return _y is >= 256 or <= 0 ? BlockValue.Air : chunk.GetBlock(_x, _y, _z);
             }
 
             private static ushort CalcBlockingFlags(Vector3 pos, float offsetY, Vector2i[] ___neighboursOffsetV2)

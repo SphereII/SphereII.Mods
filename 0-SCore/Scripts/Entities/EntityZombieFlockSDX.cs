@@ -384,9 +384,9 @@ public class EntityZombieFlockSDX : EntityZombie
         return previousID;
     }
 
-    public override void Write(BinaryWriter _bw)
+    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
     {
-        base.Write(_bw);
+        base.Write(_bw, bNetworkWrite);
         // persisting current state
         try
         {
@@ -600,7 +600,7 @@ public class EntityZombieFlockSDX : EntityZombie
                 if (Array.Exists(naturalEnemies, s => s.Equals(_other.EntityName)))
                     if (_other.IsAlive())
                         //if (base.CanSee(_other))
-                        if (_other.GetWaterLevel() < 0.5f)
+                        if (_other.Water < 0.5f)
                         {
                             if (debug) Debug.Log("Found natural enemy!");
                             SetRevengeTarget(_other);
@@ -615,7 +615,7 @@ public class EntityZombieFlockSDX : EntityZombie
     {
         var closestPlayer = world.GetClosestPlayer(this, 80f, false);
         if (CanSee(closestPlayer))
-            if (closestPlayer.GetWaterLevel() < 0.5f)
+            if (closestPlayer.Water < 0.5f)
                 SetRevengeTarget(closestPlayer);
     }
 

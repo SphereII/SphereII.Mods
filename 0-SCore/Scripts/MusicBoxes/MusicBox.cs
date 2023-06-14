@@ -102,12 +102,14 @@ public class BlockMusicBox : BlockLoot
 
 
     // Display custom messages for turning on and off the music box, based on the block's name.
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+        EntityAlive _entityFocusing)
     {
         #region GetActivationText
 
         var playerInput = ((EntityPlayerLocal)_entityFocusing).playerInput;
-        var keybindString = playerInput.Activate.GetBindingXuiMarkupString() + playerInput.PermanentActions.Activate.GetBindingXuiMarkupString();
+        var keybindString = playerInput.Activate.GetBindingXuiMarkupString() +
+                            playerInput.PermanentActions.Activate.GetBindingXuiMarkupString();
         //string keybindString = UIUtils.GetKeybindString(playerInput.Activate, playerInput.PermanentActions.Activate);
         var block = list[_blockValue.type];
         var blockName = block.GetBlockName();
@@ -116,7 +118,7 @@ public class BlockMusicBox : BlockLoot
 
         var _ebcd = _world.GetChunkFromWorldPos(_blockPos).GetBlockEntity(_blockPos);
         if (_ebcd == null || !_ebcd.transform) return strReturn;
-        
+
         var myMusicBoxScript = _ebcd.transform.GetComponent<MusicBoxScript>();
         if (myMusicBoxScript == null)
         {
@@ -134,7 +136,8 @@ public class BlockMusicBox : BlockLoot
     }
 
 
-    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
+    public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue,
+        int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         cmds[0].enabled = true;
         cmds[1].enabled = true;
@@ -157,12 +160,14 @@ public class BlockMusicBox : BlockLoot
         var entityPlayerLocal = array[3] as EntityPlayerLocal;
         var tileEntityLootContainer = world.GetTileEntity(clrIdx, vector3i) as TileEntityLootContainer;
         if (tileEntityLootContainer == null)
-            world.GetGameManager().DropContentOfLootContainerServer(blockValue, vector3i, tileEntityLootContainer.entityId);
+            world.GetGameManager()
+                .DropContentOfLootContainerServer(blockValue, vector3i, tileEntityLootContainer.entityId);
 
         // Pick up the item and put it inyor your inventory.
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         var itemStack = new ItemStack(block.ToItemValue(), 1);
-        if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true)) uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
+        if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
+            uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
         world.SetBlockRPC(clrIdx, vector3i, BlockValue.Air);
 
         #endregion
@@ -175,7 +180,8 @@ public class BlockMusicBox : BlockLoot
 
         if (_blockValue.damage > 0)
         {
-            GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("ttRepairBeforePickup"), "ui_denied");
+            GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("ttRepairBeforePickup"),
+                "ui_denied");
             return;
         }
 
@@ -198,7 +204,8 @@ public class BlockMusicBox : BlockLoot
 
 
     // Play the music when its activated. We stop the sound broadcasting, in case they want to restart it again; otherwise we can get two sounds playing.
-    public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos,
+        BlockValue _blockValue, EntityAlive _player)
     {
         #region OnBlockActivated
 
@@ -217,93 +224,95 @@ public class BlockMusicBox : BlockLoot
         // Turn off the music box before we do anything with it.
         myMusicBoxScript.enabled = false;
 
-        if (_indexInBlockActivationCommands != 0)
+        switch (_commandName)
         {
-            if (_indexInBlockActivationCommands == 1)
-                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-
-            if (_indexInBlockActivationCommands == 2)
+            case "light":
+                break;
+            case "take":
                 TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
+                return true;
+            case "search":
+                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                return true;
         }
-        else
+
+
+        bRuntimeSwitch = !bRuntimeSwitch;
+
+        // Check if we have an animator and set it
+        myMusicBoxScript.anim = _ebcd.transform.GetComponent<Animator>();
+
+        // Check if we have a video player as well.
+        myMusicBoxScript.videoPlayer = _ebcd.transform.GetComponent<VideoPlayer>();
+
+        myMusicBoxScript.myBlockPos = _blockPos;
+        // If the switch is on, then we want to look in the loot container to find a reference to any potential items, 
+        // which will over-ride the default audio clip / video clip.
+        if (bRuntimeSwitch)
         {
-            bRuntimeSwitch = !bRuntimeSwitch;
+            // We'll try to support getting sounds from multiple sound data nodes, based on all the items in the loot container.
+            var mySounds = new List<string>();
+            var myVideos = new List<string>();
 
-            // Check if we have an animator and set it
-            myMusicBoxScript.anim = _ebcd.transform.GetComponent<Animator>();
+            var tileLootContainer = (TileEntityLootContainer)_world.GetTileEntity(_cIdx, _blockPos);
 
-            // Check if we have a video player as well.
-            myMusicBoxScript.videoPlayer = _ebcd.transform.GetComponent<VideoPlayer>();
-
-            myMusicBoxScript.myBlockPos = _blockPos;
-            // If the switch is on, then we want to look in the loot container to find a reference to any potential items, 
-            // which will over-ride the default audio clip / video clip.
-            if (bRuntimeSwitch)
+            if (tileLootContainer.items != null)
             {
-                // We'll try to support getting sounds from multiple sound data nodes, based on all the items in the loot container.
-                var mySounds = new List<string>();
-                var myVideos = new List<string>();
-
-                var tileLootContainer = (TileEntityLootContainer)_world.GetTileEntity(_cIdx, _blockPos);
-
-                if (tileLootContainer.items != null)
+                var array = tileLootContainer.items;
+                for (var i = 0; i < array.Length; i++)
                 {
-                    var array = tileLootContainer.items;
-                    for (var i = 0; i < array.Length; i++)
+                    if (array[i].IsEmpty())
+                        continue;
+
+                    if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("OnPlayBuff"))
                     {
-                        if (array[i].IsEmpty())
-                            continue;
+                        var Buff = array[i].itemValue.ItemClass.Properties.Values["OnPlayBuff"];
+                        _player.Buffs.AddBuff(Buff);
+                    }
 
-                        if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("OnPlayBuff"))
+                    if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("OnPlayQuest"))
+                    {
+                        var Quest = array[i].itemValue.ItemClass.Properties.Values["OnPlayQuest"];
+                        if (_player is EntityPlayerLocal)
                         {
-                            var Buff = array[i].itemValue.ItemClass.Properties.Values["OnPlayBuff"];
-                            _player.Buffs.AddBuff(Buff);
-                        }
-
-                        if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("OnPlayQuest"))
-                        {
-                            var Quest = array[i].itemValue.ItemClass.Properties.Values["OnPlayQuest"];
-                            if (_player is EntityPlayerLocal)
-                            {
-                                var myQuest = QuestClass.CreateQuest(Quest);
-                                if (myQuest != null)
-                                    (_player as EntityPlayerLocal).QuestJournal.AddQuest(myQuest);
-                            }
-                        }
-
-                        // Check for a SoundDataNode for a potential sound clip.
-                        if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("SoundDataNode"))
-                        {
-                            var strSound = array[i].itemValue.ItemClass.Properties.Values["SoundDataNode"];
-                            if (!mySounds.Contains(strSound))
-                                mySounds.Add(strSound);
-                        }
-
-                        // Check for a video Source for a video clip. If we find it, load the asset and add it to the music box script.
-                        if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("VideoSource"))
-                        {
-                            // Check if the video source is an asset bundle, and if so, load it directly into the video clip on
-                            var strVideo = array[i].itemValue.ItemClass.Properties.Values["VideoSource"];
-                            if (strVideo.IndexOf('#') == 0 && strVideo.IndexOf('?') > 0)
-                                if (!myVideos.Contains(strVideo))
-                                    myVideos.Add(strVideo);
+                            var myQuest = QuestClass.CreateQuest(Quest);
+                            if (myQuest != null)
+                                (_player as EntityPlayerLocal).QuestJournal.AddQuest(myQuest);
                         }
                     }
+
+                    // Check for a SoundDataNode for a potential sound clip.
+                    if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("SoundDataNode"))
+                    {
+                        var strSound = array[i].itemValue.ItemClass.Properties.Values["SoundDataNode"];
+                        if (!mySounds.Contains(strSound))
+                            mySounds.Add(strSound);
+                    }
+
+                    // Check for a video Source for a video clip. If we find it, load the asset and add it to the music box script.
+                    if (array[i].itemValue.ItemClass.Properties.Values.ContainsKey("VideoSource"))
+                    {
+                        // Check if the video source is an asset bundle, and if so, load it directly into the video clip on
+                        var strVideo = array[i].itemValue.ItemClass.Properties.Values["VideoSource"];
+                        if (strVideo.IndexOf('#') == 0 && strVideo.IndexOf('?') > 0)
+                            if (!myVideos.Contains(strVideo))
+                                myVideos.Add(strVideo);
+                    }
                 }
-
-                // Initialize the data with our defaults.
-                myMusicBoxScript.strAudioSource = strAudioSource;
-                myMusicBoxScript.strSoundSource = strSoundSource;
-                myMusicBoxScript.strVideoSource = strVideoSource;
-                myMusicBoxScript.myEntity = _player;
-
-                // List of Videos and Sound clips.
-                myMusicBoxScript.VideoGroups = myVideos;
-                myMusicBoxScript.SoundGroups = mySounds;
-
-                myMusicBoxScript.myVideoClip = null;
-                myMusicBoxScript.enabled = bRuntimeSwitch;
             }
+
+            // Initialize the data with our defaults.
+            myMusicBoxScript.strAudioSource = strAudioSource;
+            myMusicBoxScript.strSoundSource = strSoundSource;
+            myMusicBoxScript.strVideoSource = strVideoSource;
+            myMusicBoxScript.myEntity = _player;
+
+            // List of Videos and Sound clips.
+            myMusicBoxScript.VideoGroups = myVideos;
+            myMusicBoxScript.SoundGroups = mySounds;
+
+            myMusicBoxScript.myVideoClip = null;
+            myMusicBoxScript.enabled = bRuntimeSwitch;
         }
 
 

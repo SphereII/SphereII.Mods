@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 //         <triggered_effect trigger = "onSelfBuffFinish" action="SpawnBabySDX, SCore" target="self" SpawnGroup="farmAnimalsCow" Cvar="Mother" />
@@ -74,7 +75,7 @@ public class MinEventActionSpawnEntitySDX : MinEventActionRemoveBuff
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)

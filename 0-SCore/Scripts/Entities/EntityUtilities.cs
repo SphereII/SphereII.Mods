@@ -1077,16 +1077,14 @@ public static class EntityUtilities
         return result;
     }
 
-    public static Entity GetAttackOrRevengeTarget(int EntityID)
+    public static Entity GetAttackOrRevengeTarget(int entityID)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity != null)
-        {
-            if (myEntity.GetAttackTarget() != null)
-                return myEntity.GetAttackTarget();
-            if (myEntity.GetRevengeTarget() != null)
-                return myEntity.GetRevengeTarget();
-        }
+        var myEntity = GameManager.Instance.World?.GetEntity(entityID) as EntityAlive;
+        if (myEntity == null) return null;
+        if (myEntity.GetAttackTarget() != null)
+            return myEntity.GetAttackTarget();
+        if (myEntity.GetRevengeTarget() != null)
+            return myEntity.GetRevengeTarget();
 
         return null;
     }

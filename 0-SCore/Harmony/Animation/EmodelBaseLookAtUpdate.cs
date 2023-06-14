@@ -27,7 +27,7 @@ namespace Harmony.Animation
             if (entityAlive.IsDead() || currentStun != EnumEntityStunType.None && currentStun != EnumEntityStunType.Getup) ___lookAtBlendPerTarget = 0f;
 
             // If the entity has an attack target, look at them, instead of hte player.
-            var target = EntityUtilities.GetAttackOrRevengeTarget(___entity.entityId);
+            var target = EntityUtilities.GetAttackOrRevengeTarget(entityAlive.entityId);
             if (target != null)
             {
                 ___lookAtBlendPerTarget -= deltaTime;

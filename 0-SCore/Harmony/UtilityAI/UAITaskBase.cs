@@ -42,16 +42,14 @@ namespace Harmony.UtilityAI
                 if (__instance.Parameters.ContainsKey("OnStartRemoveBuffs"))
                     RemoveBuff(_context.Self, __instance.Parameters["OnStartRemoveBuffs"]);
 
-                if (entityAlive != null)
-                {
-                    entityAlive.MinEventContext.Other = _context.Self;
+                if (entityAlive == null) return;
+                entityAlive.MinEventContext.Other = _context.Self;
 
-                    if (__instance.Parameters.ContainsKey("OnStartAddBuffsTarget"))
-                        AddBuff(entityAlive, __instance.Parameters["OnStartAddBuffsTarget"]);
+                if (__instance.Parameters.ContainsKey("OnStartAddBuffsTarget"))
+                    AddBuff(entityAlive, __instance.Parameters["OnStartAddBuffsTarget"]);
 
-                    if (__instance.Parameters.ContainsKey("OnStartRemoveBuffsTarget"))
-                        RemoveBuff(entityAlive, __instance.Parameters["OnStartRemoveBuffsTarget"]);
-                }
+                if (__instance.Parameters.ContainsKey("OnStartRemoveBuffsTarget"))
+                    RemoveBuff(entityAlive, __instance.Parameters["OnStartRemoveBuffsTarget"]);
             }
         }
         [HarmonyPatch(typeof(UAIBase))]
@@ -100,14 +98,12 @@ namespace Harmony.UtilityAI
                 if (__instance.Parameters.ContainsKey("OnStopRemoveBuffs"))
                     RemoveBuff(_context.Self, __instance.Parameters["OnStopRemoveBuffs"]);
 
-                if (entityAlive != null)
-                {
-                    if (__instance.Parameters.ContainsKey("OnStopAddBuffsTarget"))
-                        AddBuff(entityAlive, __instance.Parameters["OnStopAddBuffsTarget"]);
+                if (entityAlive == null) return;
+                if (__instance.Parameters.ContainsKey("OnStopAddBuffsTarget"))
+                    AddBuff(entityAlive, __instance.Parameters["OnStopAddBuffsTarget"]);
 
-                    if (__instance.Parameters.ContainsKey("OnStopRemoveBuffsTarget"))
-                        RemoveBuff(entityAlive, __instance.Parameters["OnStopRemoveBuffsTarget"]);
-                }
+                if (__instance.Parameters.ContainsKey("OnStopRemoveBuffsTarget"))
+                    RemoveBuff(entityAlive, __instance.Parameters["OnStopRemoveBuffsTarget"]);
 
             }
         }

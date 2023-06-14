@@ -161,7 +161,7 @@ internal class EAIWanderSDX : EAIWander
             DisplayLog(" I have highlighted where I am going: " + newPosition);
             var strParticleName = "#@modfolder(0-SphereIICore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
             if (!ParticleEffect.IsAvailable(strParticleName))
-                ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                ParticleEffect.LoadAsset(strParticleName);
 
             var supportBlock = GameManager.Instance.World.FindSupportingBlockPos(newPosition);
             BlockUtilitiesSDX.addParticles(strParticleName, new Vector3i(supportBlock));

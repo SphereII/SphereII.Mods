@@ -9,10 +9,6 @@ namespace UAI
     public class UAITaskBreakBlock : UAITaskAttackTargetEntity
     {
         Vector3 fleePosition = Vector3.zero;
-        protected override void initializeParameters()
-        {
-            base.initializeParameters();
-        }
 
         public override void Start(Context _context)
         {
@@ -23,19 +19,17 @@ namespace UAI
 
                 if (targetType.Equals(BlockValue.Air))
                 {
-                    this.Stop(_context);
+                    Stop(_context);
                     return;
                 }
 
-       
 
                 _context.ActionData.Started = true;
                 _context.ActionData.Executing = true;
                 return;
-
             }
-            Stop(_context);
 
+            Stop(_context);
         }
 
         public override void Stop(Context _context)
@@ -45,48 +39,40 @@ namespace UAI
             base.Stop(_context);
         }
 
-        
+
         public override void Update(Context _context)
         {
-            if (_context.ActionData.Target is Vector3 vector)
+            if (_context.ActionData.Target is not Vector3 vector) return;
+            if (_context.Self.IsBreakingDoors)
             {
-                if (_context.Self.IsBreakingDoors)
+                if (fleePosition == Vector3.zero)
                 {
-                    if (fleePosition == Vector3.zero)
-                    {
-                        RandomPositionGenerator.CalcAway(_context.Self, 5, 10, 2, vector);
-                        SCoreUtils.FindPath(_context, fleePosition, true);
-                    }
-                    _context.Self.moveHelper.SetMoveTo(fleePosition, true);
-                    return;
+                    RandomPositionGenerator.CalcAway(_context.Self, 5, 10, 2, vector);
+                    SCoreUtils.FindPath(_context, fleePosition, true);
                 }
 
-
-                _context.Self.SetLookPosition(vector);
-                var targetType = GameManager.Instance.World.GetBlock(new Vector3i(vector));
-                if (targetType.Equals(BlockValue.Air))
-                {
-                    _context.Self.IsBreakingDoors = false;
-                    this.Stop(_context);
-                    return;
-                }
-                if (!SCoreUtils.CheckForClosedDoor(_context))
-                {
-                        // If we arn't breaking blocks yet, execute the bomb placement
-                        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer )
-                        {
-                            _context.Self.IsBreakingDoors = true;
-                        _context.Self.lookAtPosition = vector;
-                        _context.Self.RotateTo(vector.x, vector.y, vector.z, 90f, 90f);
-                        GameManager.Instance.StartCoroutine(SimulateActionsLibrary.SimulateActionThrownTimedCharge(_context, vector));
-                        }
-                    return;
-
-                }
+                _context.Self.moveHelper.SetMoveTo(fleePosition, true);
+                return;
             }
+
+
+            _context.Self.SetLookPosition(vector);
+            var targetType = GameManager.Instance.World.GetBlock(new Vector3i(vector));
+            if (targetType.Equals(BlockValue.Air))
+            {
+                _context.Self.IsBreakingDoors = false;
+                Stop(_context);
+                return;
+            }
+
+            if (SCoreUtils.CheckForClosedDoor(_context)) return;
+            // If we aren't breaking blocks yet, execute the bomb placement
+            if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+            _context.Self.IsBreakingDoors = true;
+            _context.Self.lookAtPosition = vector;
+            _context.Self.RotateTo(vector.x, vector.y, vector.z, 90f, 90f);
+            GameManager.Instance.StartCoroutine(
+                SimulateActionsLibrary.SimulateActionThrownTimedCharge(_context, vector));
         }
-
-      
-
     }
 }

@@ -12,15 +12,11 @@ namespace Harmony.EntityMoveHelper
                 return true;
 
              // This patch is for the NPCs who seem to get stuck, then start jumping, moving back to position, and looping again.
-            if ( ___moveToTicks > 5 && ___moveToFailCnt >= 2)
-            {
-                ___moveToFailCnt = 0;
-                ___moveToTicks = 0;
-                EntityUtilities.Stop(___entity.entityId);
-                return false;
-            }
-            
-            return true;
+             if (___moveToTicks <= 5 || ___moveToFailCnt < 2) return true;
+             ___moveToFailCnt = 0;
+            ___moveToTicks = 0;
+            EntityUtilities.Stop(___entity.entityId);
+            return false;
 
         }
     }

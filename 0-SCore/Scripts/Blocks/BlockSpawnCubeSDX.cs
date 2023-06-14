@@ -13,22 +13,22 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         new BlockActivationCommand("Trigger", "trigger", true)
     };
 
-    public override bool OnBlockActivated(int _indexInBlockActivationCommands, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
     {
         if (_blockValue.ischild)
         {
             var parentPos = list[_blockValue.type].multiBlockPos.GetParentPos(_blockPos, _blockValue);
             var block = _world.GetBlock(parentPos);
-            return base.OnBlockActivated(_indexInBlockActivationCommands, _world, _cIdx, parentPos, block, _player);
+            return base.OnBlockActivated(commandName, _world, _cIdx, parentPos, block, _player);
         }
 
         var tileEntitySign = _world.GetTileEntity(_cIdx, _blockPos) as TileEntitySign;
         if (tileEntitySign == null) return false;
-        switch (_indexInBlockActivationCommands)
+        switch (commandName)
         {
-            case 0:
+            case "edit":
                 return OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-            case 1:
+            case "trigger":
                 CheckForSpawn(_world, _cIdx, _blockPos, _blockValue, true);
                 break;
             default:
@@ -239,7 +239,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
             }
 
             // Destroy the block after spawn.
-            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, false, false);
+            DamageBlock(GameManager.Instance.World, 0, _blockPos, _blockValue, Block.list[_blockValue.type].MaxDamage, -1, null, false);
 
         }
         catch (Exception ex)

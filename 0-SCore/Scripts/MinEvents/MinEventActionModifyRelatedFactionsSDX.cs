@@ -1,4 +1,5 @@
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -227,11 +228,11 @@ public class MinEventActionModifyRelatedFactionsSDX : MinEventActionTargetedBase
         return relationshipToTarget == 255f ? relationshipToTarget + 1 : relationshipToTarget;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         if (base.ParseXmlAttribute(_attribute)) return true;
 
-        var name = _attribute.Name;
+        var name = _attribute.Name.LocalName;
         if (name == "faction")
         {
             faction = _attribute.Value.Trim();

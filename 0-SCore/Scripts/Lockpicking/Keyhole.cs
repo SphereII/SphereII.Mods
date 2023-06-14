@@ -498,16 +498,6 @@ namespace Lockpicking
             if (healthLeft <= 200)
                 difficulty = 0;
 
-            // Alternatively, use the max undamaged value.
-            //if (secureBlock.MaxDamage <= 10000)
-            //    difficulty = 3;
-            //if (secureBlock.MaxDamage <= 2500)
-            //    difficulty = 2;
-            //if (secureBlock.MaxDamage <= 400)
-            //    difficulty = 1;
-            //if (secureBlock.MaxDamage <= 200)
-            //    difficulty = 0;
-
             // give more time to avoid breaking pick locks.
             if (player != null)
             {
@@ -519,7 +509,7 @@ namespace Lockpicking
                         difficulty = int.Parse(secureBlock.Properties.Values["LockPickDifficulty"]);
                 }
                 var maxGiveAmounts = Configuration.GetPropertyValue("AdvancedLockpicking", "MaxGiveAmount").Split(',');
-                var BreakTimes = Configuration.GetPropertyValue("AdvancedLockpicking", "BreakTime").Split(',');
+                var breakTimes = Configuration.GetPropertyValue("AdvancedLockpicking", "BreakTime").Split(',');
 
                 // Default values.
                 maxGiveAmount = 10f;
@@ -527,26 +517,17 @@ namespace Lockpicking
                 if (maxGiveAmounts.Length >= difficulty)
                 {
                     maxGiveAmount = StringParsers.ParseFloat(maxGiveAmounts[difficulty]);
-                    breakTime = StringParsers.ParseFloat(BreakTimes[difficulty]);
+                    breakTime = StringParsers.ParseFloat(breakTimes[difficulty]);
                 }
-
-            
-
 
                 progressionValue = player.Progression.GetProgressionValue("perkLockPicking");
-                if (progressionValue != null)
+                if (progressionValue is {Level: > 0})
                 {
-                    if (progressionValue.Level > 0)
-                    {
-                        prevBreakTime = breakTime;
-                        prevMaxGive = maxGiveAmount;
-                        Log.Out($"Break Time: {breakTime} (float){progressionValue.Level} {(float)progressionValue.Level / 5}");
-                        breakTime += (float)progressionValue.Level / 5;
-                        //maxGiveAmount += (float)progressionValue.Level / 5 ;
-                        maxGiveAmount += (float)progressionValue.Level * 2 ;
-                    }
+                    prevBreakTime = breakTime;
+                    prevMaxGive = maxGiveAmount;
+                    breakTime += (float)progressionValue.Level / 5;
+                    maxGiveAmount += (float)progressionValue.Level * 2 ;
                 }
-
             }
 
 
@@ -556,19 +537,8 @@ namespace Lockpicking
 
             if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
             {
-                //if (player != null)
-                //{
-                //    if (player.Buffs.HasCustomVar("BreakTime"))
-                //        breakTime = player.Buffs.GetCustomVar("BreakTime");
-
-                //    if (player.Buffs.HasCustomVar("MaxGive"))
-                //        maxGiveAmount = player.Buffs.GetCustomVar("MaxGive");
-                //}
                 var progression = " Progression: ";
-                if (progressionValue != null)
-                    progression = $"{progression} Level {progressionValue.Level} BreakTime Before: {prevBreakTime} MaxGiveAmount Before: {prevMaxGive}";
-                else
-                    progression = $"{progression} N/A";
+                progression = progressionValue != null ? $"{progression} Level {progressionValue.Level} BreakTime Before: {prevBreakTime} MaxGiveAmount Before: {prevMaxGive}" : $"{progression} N/A";
 
                 Log.Out("");
                 Log.Out("-------------------------------------------");
@@ -580,7 +550,6 @@ namespace Lockpicking
                 Log.Out("-------------------------------------------");
 
             }
-
 
             RefreshLockPicks();
         }

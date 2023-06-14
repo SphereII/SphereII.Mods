@@ -1,0 +1,36 @@
+<entity_class name="fishSalmon" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Salmon" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawFishAOO" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawFishAOO" tag="butcherHarvest" count="1"/>
+		</entity_class>
+		<entity_class name="fishOctopus" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Octopus" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawFishAOO" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawFishAOO" tag="butcherHarvest" count="1"/>
+		</entity_class>
+		<entity_class name="fishPerch" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Perch" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawFishAOO" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawFishAOO" tag="butcherHarvest" count="1"/>
+		</entity_class>
+		<entity_class name="fishPike" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Pike" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawFishAOO" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawFishAOO" tag="butcherHarvest" count="1"/>
+		</entity_class>		
+		<entity_class name="fishBabyShark" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Shark" />
+			<property name="SizeScale" value=".25" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawFishAOO" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawFishAOO" tag="butcherHarvest" count="1"/>
+		</entity_class>

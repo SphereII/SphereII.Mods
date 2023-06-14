@@ -35,7 +35,7 @@ namespace Harmony.Blocks
                 Vector3i blockPosition = __instance.GetBlockPosition();
                 var block = GameManager.Instance.World.GetBlock(0, blockPosition).Block;
                 if (block.FilterTags != null && block.FilterTags.ContainsCaseInsensitive(DestructibleTag))
-                    block.DamageBlock(GameManager.Instance.World, 0, blockPosition, block.ToBlockValue(), Block.list[block.ToBlockValue().type].MaxDamage, (__instance != null) ? __instance.entityId : -1, false, false) ;
+                    block.DamageBlock(GameManager.Instance.World, 0, blockPosition, block.ToBlockValue(), Block.list[block.ToBlockValue().type].MaxDamage, (__instance != null) ? __instance.entityId : -1, null, false) ;
             }
         }
 

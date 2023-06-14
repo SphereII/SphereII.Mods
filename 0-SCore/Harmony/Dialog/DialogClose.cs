@@ -16,7 +16,7 @@ namespace Harmony.Dialog
             if (myEntity != null)
             {
                 myEntity.Buffs.RemoveCustomVar("CurrentPlayer");
-                myEntity.emodel.avatarController.SetBool("IsBusy", false);
+                myEntity.emodel.avatarController.UpdateBool("IsBusy", false);
 
             }
             return true;
@@ -36,7 +36,7 @@ namespace Harmony.Dialog
             if (myEntity != null)
             {
 
-                myEntity.emodel.avatarController.SetBool("IsBusy", true);
+                myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
                 myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 30f, 30f);
                 myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
                 EntityUtilities.Stop(entityID);

@@ -26,8 +26,8 @@ namespace SCore.Harmony.GameManagerPatches
         }
 
         // Light reduction patch from ocbMaurice
-        [HarmonyPatch(typeof(GameManager))]
-        [HarmonyPatch("spawnParticleEffect")]
+        [HarmonyPatch(typeof(ParticleEffect))]
+        [HarmonyPatch("SpawnParticleEffect")]
         public class spawnParticleEffect
         {
             static readonly int odds = 4;

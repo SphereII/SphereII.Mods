@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Harmony.PrefabFeatures
@@ -21,8 +22,7 @@ namespace Harmony.PrefabFeatures
             typeof(Vector3i),
             typeof(Vector3i),
             typeof(Vector3i),
-            typeof(Vector3i),
-            typeof(Vector3i)
+            typeof(List<Prefab.PrefabTeleportVolume>)
      })]
         public class TraderArea_Patch
         {
@@ -31,16 +31,7 @@ namespace Harmony.PrefabFeatures
                 //Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-                
-                // var prefabInstance = GameManager.Instance.GetDynamicPrefabDecorator()?.GetPrefabAtPosition(__instance.Position.ToVector3());
-                // if (prefabInstance == null)
-                //     return;
-                //
-                //
-                // if (prefabInstance.prefab.FileNameNoExtension.Contains("trader_hugh"))
-                //     return;
-                
-                var vector3I = new Vector3i(1, 1, 1);
+                Vector3i vector3I = new Vector3i(1, 1, 1);
                 __instance.ProtectSize = vector3I;
             }
         }
