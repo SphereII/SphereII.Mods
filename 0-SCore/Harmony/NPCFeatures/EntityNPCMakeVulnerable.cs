@@ -55,6 +55,9 @@ namespace Harmony.NPCFeatures
                     return;
 
                 __instance.NPCInfo.TraderID = __state;
+                // EntityTraders turn off their physics transforms, but we want it on,
+                // Otherwise NPCs won't collider with each other.
+                __instance.PhysicsTransform.gameObject.SetActive(true);
             }
         }
 

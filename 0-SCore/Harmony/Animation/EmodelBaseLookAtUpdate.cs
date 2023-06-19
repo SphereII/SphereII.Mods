@@ -1,3 +1,4 @@
+using Harmony.XUiC;
 using HarmonyLib;
 using UnityEngine;
 
@@ -31,10 +32,14 @@ namespace Harmony.Animation
             if (target != null)
             {
                 ___lookAtBlendPerTarget -= deltaTime;
-                if (target && entityAlive.CanSee(target as global::EntityAlive))
+                if (target.IsAlive() && entityAlive.CanSee(target as global::EntityAlive))
                 {
                     ___lookAtPos = target.getHeadPosition();
                     ___lookAtBlendPerTarget = 1f;
+                }
+                else
+                {
+                    ___lookAtPos = entityAlive.getHeadPosition() + Vector3.forward;    
                 }
             }
 

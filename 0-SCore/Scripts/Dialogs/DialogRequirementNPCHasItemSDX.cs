@@ -22,8 +22,9 @@ public class DialogRequirementNPCHasItemSDX : BaseDialogRequirement
         var item = ItemClass.GetItem(ID);
         if (item == null) return false;
         if (myEntity.lootContainer.HasItem(item)) return true;
-        
-        return myEntity.inventory.GetItemCount(item) > 0;
+        if (myEntity.inventory.GetItemCount(item) > 0 ) return true;
+        if (myEntity.bag.GetItemCount(item) > 0) return true;
+        return false;
     }
 
 }

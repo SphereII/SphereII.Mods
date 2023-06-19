@@ -10,7 +10,42 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
-Version 21.0
+Version: 21.0.20.1553
+	[ Dialog ]
+		- Added a toolbar / bag search for the NPCHasItemSDX Condition
+
+	[ NPC ]
+		- Fixed an issue where the NPC would stare at a dead body
+		- Added the ability to add items directly into the NPC's private bag slot, defined in the entityclass.
+			<property name="BagItems" value="itemMeleeStoneAxe" />
+			<property name="BagItems" value="itemMeleeStoneAxe, foodWater=2" />
+		- If the leader has the cvar "quietNPC" set, the hired NPCs will not make foot steps.
+		- Added Shared EXP, so hired NPCs will share their exp with you, and the party members.
+		- Fixed a few issues with angles
+		- Fixed shared exp with party
+		- Fixed issue where dead zombies stayed standing
+		
+	[ Broadcast Storage ]
+		- Added FuriousRamsay's suggestion to filter button when in entity or vehicle.
+
+	[ Console Command ]
+		- Created a new console command to set cvar's on the player.
+			setcvar <cvarName> <cvarValue>
+
+		- To Remove a cvar, set it to 0
+			setcvar <cvarName> 0  
+
+		Example:
+			setcvar quietNPC 1  
+			setcvar FailOnDistanceToLeader 10
+
+	[ UAI ]
+		- Updated the FailOnDistanceToLeader consideration to check the distance of the target entity, to see if the entity is outside of the allowed range.
+			- This should prevent the NPC from walking halfway to a zombie, then turning around, as it'd take it out of this range.
+		- Updated the FaceToEntity code to try to look at the player a bit more often.
+		- When the NPC starts the Follow Task, it will clear its attack / revenge targets, as not to obsess over them.
+		- Adjusted the yaw and pitch of NPCs to be 8f,8f, which should line them up better. 
+Version 21.0.15.1058
 	[ Upgrade log ]
 		- Updated all XMLAttributes to XAttributes. Gosh
 		- Removed QuestTags and converted over to FastTags

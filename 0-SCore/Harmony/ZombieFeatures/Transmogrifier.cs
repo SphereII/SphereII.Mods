@@ -31,39 +31,33 @@ namespace Harmony.ZombieFeatures
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
+                var random = new Random();
 
                 var entityClass = __instance.EntityClass;
                 if (entityClass.Properties.Values.ContainsKey("RandomWalkTypes"))
                 {
-                    var Ranges = new List<int>();
+                    var ranges = new List<int>();
 
                     foreach (var text in entityClass.Properties.Values["RandomWalkTypes"].Split(','))
-                        Ranges.Add(StringParsers.ParseSInt32(text));
+                        ranges.Add(StringParsers.ParseSInt32(text));
 
-                    var random = new Random();
-                    var randomIndex = random.Next(0, Ranges.Count);
-                    ___walkType = Ranges[randomIndex];
+                    var randomIndex = random.Next(0, ranges.Count);
+                    ___walkType = ranges[randomIndex];
                     AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
                     return;
                 }
 
-                if (___walkType != 4 && ___walkType != 8 && __instance is EntityZombie)
-                {
-                    // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution. The 9 in the default int[9] indicates how many walk types you've specified.
-                    var numbers = new int[9] { 1, 2, 2, 3, 4, 5, 6, 7, 7 };
+                if (___walkType is 21 or 22 || __instance is not EntityZombie) return;
 
-                    var random = new Random();
+                // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution.
+                var numbers = new int[] {1, 2, 2, 3, 21,22,5, 6, 7, 7};
 
-                    // Randomly generates a number between 0 and the maximum number of elements in the numbers.
-                    var randomNumber = random.Next(0, numbers.Length);
+                // Randomly generates a number between 0 and the maximum number of elements in the numbers.
+                var randomNumber = random.Next(0, numbers.Length);
 
-                    // return the randomly selected walk type
-                    ___walkType = numbers[randomNumber];
-                    AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
-                    return;
-                }
-
-            
+                // return the randomly selected walk type
+                ___walkType = numbers[randomNumber];
+                AdvLogging.DisplayLog(AdvFeatureClass, " Random Walk Type: " + ___walkType);
             }
         }
     }

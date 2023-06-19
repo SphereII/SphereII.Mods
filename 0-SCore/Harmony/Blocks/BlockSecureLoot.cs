@@ -33,7 +33,7 @@ namespace Harmony.Blocks
                     return true;
 
                 if (_blockValue.ischild) return true;
-                if (!(_world.GetTileEntity(_cIdx, _blockPos) is TileEntitySecureLootContainer tileEntitySecureLootContainer)) return false;
+                if (_world.GetTileEntity(_cIdx, _blockPos) is not TileEntitySecureLootContainer tileEntitySecureLootContainer) return false;
 
                 if (!tileEntitySecureLootContainer.IsLocked() && tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
@@ -81,12 +81,11 @@ namespace Harmony.Blocks
                 if (tileEntitySecureDoor == null)
                     return true;
 
-                if (!tileEntitySecureDoor.IsLocked() || tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                    return true;
-
-                if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
-                    return true;
-
+                if (!tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                {
+                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                    return false;
+                }
 
                 var pickable = true;
                 // If it has a pickable property and its set to false, don't let them pick it.
@@ -99,30 +98,26 @@ namespace Harmony.Blocks
                 if (tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.GetOwner() != null)
                     return true;
 
-                if (tileEntitySecureDoor.IsLocked())
+                if (!tileEntitySecureDoor.IsLocked()) return true;
+                // 1 == try to open locked door.
+                if (_commandName != "open") return true;
+                
+                // Check if the player has lock picks.
+                var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
+                if (playerUI == null)
+                    return true;
+                var playerInventory = playerUI.xui.PlayerInventory;
+                var item = ItemClass.GetItem("resourceLockPick");
+                if (playerInventory.GetItemCount(item) == 0)
                 {
-                    // 1 == try to open locked door.
-                    if (_commandName == "open")
-                    {
-                        // Check if the player has lock picks.
-                        var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
-                        if (playerUI == null)
-                            return true;
-                        var playerInventory = playerUI.xui.PlayerInventory;
-                        var item = ItemClass.GetItem("resourceLockPick");
-                        if (playerInventory.GetItemCount(item) == 0)
-                        {
-                            playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
-                            GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("ttLockpickMissing"));
-                            return false;
-                        }
-
-                        tileEntitySecureDoor.SetLocked(true);
-                        XUiC_PickLocking.Open(playerUI, tileEntitySecureDoor, _blockValue, _blockPos);
-                        return false;
-                    }
+                    playerUI.xui.CollectedItemList.AddItemStack(new ItemStack(item, 0), true);
+                    GameManager.ShowTooltip(_player as EntityPlayerLocal, Localization.Get("ttLockpickMissing"));
+                    return false;
                 }
-                return true;
+
+                tileEntitySecureDoor.SetLocked(true);
+                XUiC_PickLocking.Open(playerUI, tileEntitySecureDoor, _blockValue, _blockPos);
+                return false;
             }
         }
 

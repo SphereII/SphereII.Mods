@@ -320,6 +320,26 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         }
 
+        if (_entityClass.Properties.Values.ContainsKey("BagItems"))
+        {
+            var items = _entityClass.Properties.Values["BagItems"];
+            foreach (var item in items.Split(","))
+            {
+                var itemName = item;
+                var itemCount = 1;
+                if (item.Contains("="))
+                {
+                    itemName = item.Split("=")[0];
+                    itemCount = StringParsers.ParseSInt32(item.Split("=")[1]);
+                }
+                var itemId = ItemClass.GetItem(itemName);
+                if ( itemId.Equals(ItemValue.None)) continue;
+                var itemStack = new ItemStack(itemId, itemCount);
+                bag.AddItem(itemStack);
+            }
+        }
+
+
     }
 
     protected override float getNextStepSoundDistance()
@@ -425,17 +445,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         };
     }
 
-
-    public override bool OnEntityActivated(int _indexInBlockActivationCommands, Vector3i _tePos, EntityAlive _entityFocusing)
+    public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos, EntityAlive entityFocusing)
     {
         if (IsDead())
         {
-            GameManager.Instance.TELockServer(0, _tePos, this.entityId, _entityFocusing.entityId, null);
+            GameManager.Instance.TELockServer(0, tePos, this.entityId, entityFocusing.entityId, null);
             return true;
         }
        
         // Don't allow interaction with a Hated entity
-        if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return false;
+        if (EntityTargetingUtilities.IsEnemy(this, entityFocusing)) return false;
 
         // do we have an attack or revenge target? don't have time to talk, bro
         var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
@@ -446,27 +465,27 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         Buffs.SetCustomVar("Persist", 1);
 
         // Look at the entity that is talking to you.
-        SetLookPosition(_entityFocusing.getHeadPosition());
+        SetLookPosition(entityFocusing.getHeadPosition());
 
         // This is used by various dialog boxes to know which EntityID the player is talking too.
-        _entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
-        Buffs.SetCustomVar("CurrentPlayer", _entityFocusing.entityId);
+        entityFocusing.Buffs.SetCustomVar("CurrentNPC", entityId);
+        Buffs.SetCustomVar("CurrentPlayer", entityFocusing.entityId);
 
         // Copied from EntityTrader
-        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(_entityFocusing as EntityPlayerLocal);
+        LocalPlayerUI uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityFocusing as EntityPlayerLocal);
         uiforPlayer.xui.Dialog.Respondent = this;
 
         // We don't want the quest system to consider this NPC as interacted with
         if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
         {
-            return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
+            return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
 
         }
         //if (!isQuestGiver)
         //{
         //    return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
         //}
-        Quest nextCompletedQuest = (_entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
+        Quest nextCompletedQuest = (entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
 
         if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)
@@ -474,21 +493,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId, _entityFocusing.entityId);
+            this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId, entityFocusing.entityId);
             if (this.activeQuests == null)
             {
-                this.activeQuests = this.PopulateActiveQuests(_entityFocusing as EntityPlayer, -1);
-                QuestEventManager.Current.SetupQuestList(this.entityId, _entityFocusing.entityId, this.activeQuests);
+                this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
+                QuestEventManager.Current.SetupQuestList(this.entityId, entityFocusing.entityId, this.activeQuests);
             }
         }
-        if (_indexInBlockActivationCommands != 0)
+        if (indexInBlockActivationCommands != 0)
         {
-            if (_indexInBlockActivationCommands == 1)
+            if (indexInBlockActivationCommands == 1)
             {
                 uiforPlayer.xui.Trader.TraderEntity = this;
                 if (nextCompletedQuest == null)
                 {
-                    GameManager.Instance.TELockServer(0, _tePos, this.TileEntityTrader.entityId, _entityFocusing.entityId, null);
+                    GameManager.Instance.TELockServer(0, tePos, this.TileEntityTrader.entityId, entityFocusing.entityId, null);
                 }
                 else
                 {
@@ -911,6 +930,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         leader.Buffs.SetCustomVar($"hired_{entityId}", (float)entityId);
 
         var player = leader as EntityPlayer;
+        // If the player doesn't have a party, create one, so we can share exp with our leader.
+        if (player && !player.IsInParty())
+        {
+            player.CreateParty();
+        }
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
             case EntityUtilities.Orders.Loot:
@@ -1008,7 +1032,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
         catch (Exception ex)
         {
+            // ignored
+        }
 
+        if (IsAlert )
+        {
+            var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
+            if (target != null && target.IsDead())
+            {
+                bReplicatedAlertFlag = false;
+            }
         }
         // Allow EntityAliveSDX to get buffs from blocks
         if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -1262,19 +1295,27 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.SetDead();
     }
 
+    
+
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
         if (_attackTarget != null)
+        {
             if (_attackTarget.IsDead())
+            {
                 return;
+            }
+        }
 
         if (IsOnMission())
             return;
 
         if (_attackTarget == null)
+        {
             // Some of the AI tasks resets the attack target when it falls down stunned; this will prevent the NPC from ignoring its stunned opponent.
             if (attackTarget != null && attackTarget.IsAlive())
                 return;
+        }
 
         base.SetAttackTarget(_attackTarget, _attackTargetTime);
         // Debug.Log("Adding Buff for Attack Target() ");
@@ -1524,20 +1565,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public void AddKillXP(EntityAlive killedEntity, float xpModifier = 1f)
     {
         var num = EntityClass.list[killedEntity.entityClass].ExperienceValue;
-        if (xpModifier != 1f)
+        if (xpModifier is > 1f or < 1f)
         {
-            num = (int)((float)num * xpModifier);
+            num = (int)(num * xpModifier);
         }
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
         if (leader)
         {
-            if (leader.IsInParty())
-            {
-                
-                num = leader.Party.GetPartyXP(leader, num);
-            }
-
+            // We don't check to see if its in the party, as the NPC isn't' really part of the party.
+            num = leader.Party.GetPartyXP(leader, num);
         }
         if (!isEntityRemote)
         {
@@ -1553,10 +1590,30 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, this.entityId, -1, -1, -1);
         }
 
-        if (xpModifier == 1f && leader != null)
+        if (leader == null) return;
+        
+        // if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
+        // {
+        //     GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
+        // }
+        // else
+        // {
+        //     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageSharedPartyKill>().Setup(killedEntity.entityClass, num, entityId), false, leader.entityId, -1, -1, -1);
+        // }
+        foreach (var entityPlayer2 in leader.Party.MemberList)
         {
-            GameManager.Instance.SharedKillServer(killedEntity.entityId, leader.entityId, xpModifier);
+            if (!(Vector3.Distance(leader.position, entityPlayer2.position) <
+                  (float) GameStats.GetInt(EnumGameStats.PartySharedKillRange))) continue;
+            if (GameManager.Instance.World.IsLocalPlayer(entityPlayer2.entityId))
+            {
+                GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
+            }
+            else
+            {
+                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageSharedPartyKill>().Setup(killedEntity.entityClass, num, entityId), false, entityPlayer2.entityId, -1, -1, -1);
+            }
         }
+       // GameManager.Instance.SharedKillServer(killedEntity.entityId, leader.entityId, xpModifier);
     }
 
     // General ExecuteAction that takes an action ID.
@@ -1967,6 +2024,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
         tileEntityLootContainer.SetModified();
         return vector3i;
+    }
+
+    protected override void updateStepSound(float distX, float distZ)
+    {
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
+        if (leader == null)
+        {
+            base.updateStepSound(distX, distZ);
+            return;
+        }
+
+        if (leader.Buffs.HasCustomVar("quietNPC")) return;
+        base.updateStepSound(distX, distZ);
+
+
     }
     //public override void OnReloadStart()
     //{

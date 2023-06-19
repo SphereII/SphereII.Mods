@@ -35,7 +35,7 @@ namespace UAI
             timeOut--;
 
             _context.Self.SetLookPosition(_vector);
-            _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 30f, 30f);
+            _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 8f,8f);
 
 
             // If we have the activity buff, just wait until it wears off

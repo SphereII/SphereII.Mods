@@ -580,31 +580,36 @@ namespace SCore.Harmony.Recipes
 
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
-            if (xui.lootContainer != null && Broadcastmanager.HasInstance)
+            if (xui.lootContainer == null || !Broadcastmanager.HasInstance || 
+                base.xui.vehicle != null ||
+                GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId) is EntityAliveSDX ||
+                GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId) is EntityDrone) return;
+
+            if (disabledsender[0] != null)
             {
-                if (disabledsender[0] != null)
-                    if (EnhancedRecipeLists.disableSender(disabledsender, xui.lootContainer))
-                    {
-                        return;
-                    }
-                if (!string.IsNullOrEmpty(bindToWorkstation[0]))
+                if (EnhancedRecipeLists.disableSender(disabledsender, xui.lootContainer))
                 {
-                    int counter = 0;
-                    foreach (var bind in bindToWorkstation)
-                    {
-                        var bindings = bind.Split(':')[1].Split(',');
-                        if ((bindings.Any(x => x.Trim() == xui.lootContainer.lootListName))) counter++;
-                    }
-                    if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
-                    {
-                        return;
-                    }
+                    return;
                 }
-                //Enable button and set if button is selected
-                button.IsVisible = true;
-                button.Enabled = true;
-                button.Selected = !Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos());
             }
+
+            if (!string.IsNullOrEmpty(bindToWorkstation[0]))
+            {
+                int counter = 0;
+                foreach (var bind in bindToWorkstation)
+                {
+                    var bindings = bind.Split(':')[1].Split(',');
+                    if ((bindings.Any(x => x.Trim() == xui.lootContainer.lootListName))) counter++;
+                }
+                if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
+                {
+                    return;
+                }
+            }
+            //Enable button and set if button is selected
+            button.IsVisible = true;
+            button.Enabled = true;
+            button.Selected = !Broadcastmanager.Instance.Check(xui.lootContainer.ToWorldPos());
         }
     }
 }

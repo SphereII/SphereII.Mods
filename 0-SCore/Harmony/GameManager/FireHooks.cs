@@ -19,9 +19,6 @@ namespace SCore.Harmony.GameManagerPatches
             public static void Postfix()
             {
                 FireManager.Init();
-
-
-
             }
         }
 
@@ -34,19 +31,17 @@ namespace SCore.Harmony.GameManagerPatches
             static int count = odds;
             public static void Postfix(ref Transform __result)
             {
-                if (__result?.GetComponentInChildren<Light>() is Light light)
+                if (__result?.GetComponentInChildren<Light>() is not Light light) return;
+                if (count == odds)
                 {
-                    if (count == odds)
-                    {
-                        count = 0;
-                    }
-                    else
-                    {
-                        light.enabled = false;
-                        light.gameObject.transform.parent = null;
-                        UnityEngine.Object.Destroy(light.gameObject);
-                        count += 1;
-                    }
+                    count = 0;
+                }
+                else
+                {
+                    light.enabled = false;
+                    light.gameObject.transform.parent = null;
+                    UnityEngine.Object.Destroy(light.gameObject);
+                    count += 1;
                 }
             }
         }

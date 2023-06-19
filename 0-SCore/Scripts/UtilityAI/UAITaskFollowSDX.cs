@@ -1,4 +1,5 @@
-﻿using GamePath;
+﻿using System.ComponentModel.Design.Serialization;
+using GamePath;
 using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
@@ -22,25 +23,26 @@ namespace UAI
             if (Parameters.ContainsKey("teleportTime")) _timeOut = StringParsers.ParseFloat(Parameters["teleportTime"]);
         }
 
-        public override void Start(Context _context)
+        public override void Start(Context context)
         {
-            base.Start(_context);
+            base.Start(context);
             _currentTimeout = _timeOut;
 
-            _leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
+            _leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
             if (_leader == null) // No leader? You shouldn't be following.
             {
-                Stop(_context);
+                Stop(context);
                 return;
             }
 
-            SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
-
+            SCoreUtils.SetCrouching(context, _leader.IsCrouching);
+            EntityUtilities.ClearAttackTargets(context.Self.entityId);
+                
             // Sets up the original position of the leader.
             _position = _leader.position;
 
          //   SCoreUtils.SetLookPosition(_context, _leader);
-            SCoreUtils.FindPath(_context, _position, true);
+            SCoreUtils.FindPath(context, _position, true);
         }
 
 

@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using UAI;
 using UnityEngine;
 
@@ -9,16 +10,23 @@ namespace Harmony.UtilityAI
         private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
         private static readonly string Feature = "UtilityAILoggingTask";
 
-        public static void AddBuff( global::EntityAlive entityAlive, string buffs)
+        public static Dictionary<int, SCoreQueue<UAITaskBase>> TaskHistory =
+            new Dictionary<int, SCoreQueue<UAITaskBase>>();
+
+        private static void AddBuff( global::EntityAlive entityAlive, string buffs)
         {
             foreach (var buff in buffs.Split(','))
                 entityAlive.Buffs.AddBuff(buff);
         }
 
-        public static void RemoveBuff(global::EntityAlive entityAlive, string buffs)
+        private static void RemoveBuff(global::EntityAlive entityAlive, string buffs)
         {
+            if (string.IsNullOrEmpty(buffs)) return;
+            
             foreach (var buff in buffs.Split(','))
+            {
                 entityAlive.Buffs.RemoveBuff(buff);
+            }
         }
 
         [HarmonyPatch(typeof(UAITaskBase))]
@@ -27,6 +35,12 @@ namespace Harmony.UtilityAI
         {
             public static void Postfix(UAITaskBase __instance, Context _context)
             {
+                // if (!TaskHistory.ContainsKey(_context.Self.entityId))
+                // {
+                //     TaskHistory.Add(_context.Self.entityId, new SCoreQueue<UAITaskBase>());
+                // }
+                // TaskHistory[_context.Self.entityId].Add(__instance);
+                
                 SCoreUtils.SetWeapon(_context);
                 SCoreUtils.DisplayDebugInformation(_context, "Starting");
 

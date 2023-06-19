@@ -81,46 +81,40 @@ namespace UAI
             _context.Self.moveHelper.SetMoveTo(position, true);
         }
 
-        public static void TurnToFaceEntity(Context _context, EntityAlive priorityEntity = null)
+        public static void TurnToFaceEntity(Context context, EntityAlive priorityEntity = null)
         {
-            if (_context.Self.IsSleeping)
+            if (context.Self.IsSleeping)
                 return;
 
-            var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self,
-                new Bounds(_context.Self.position, Vector3.one * 5f));
-            if (entitiesInBounds.Count > 0)
+            var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(context.Self,
+                new Bounds(context.Self.position, Vector3.one * 5f));
+            if (entitiesInBounds.Count <= 0) return;
+            Entity lookEntity = null;
+
+            foreach (var entity in entitiesInBounds)
             {
-                Entity lookEntity = null;
-
-                foreach (var entity in entitiesInBounds)
+                if ( entity.IsDead()) continue;
+                // Prioritize your leader over non-leader players
+                if (priorityEntity != null && entity.entityId == priorityEntity.entityId)
                 {
-                    // Prioritize your leader over non-leader players
-                    if (priorityEntity != null && entity.entityId == priorityEntity.entityId)
-                    {
-                        if ( entity.IsDead()) continue;
-                        
-                        lookEntity = entity;
-                        break;
-                    }
-
-                    if (entity is EntityPlayerLocal || entity is EntityPlayer)
-                    {
-                        if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
-                            continue;
-
-                        if (_context.Self
-                                .GetActivationCommands(new Vector3i(_context.Self.position), lookEntity as EntityAlive)
-                                .Length > 0)
-                            lookEntity = entity;
-                    }
+                    lookEntity = entity;
+                    break;
                 }
 
-                if (lookEntity != null)
-                {
-                    _context.Self.SetLookPosition(lookEntity.getHeadPosition());
-                    _context.Self.RotateTo(lookEntity, 45f, 45f);
-                }
+                if (entity is not EntityPlayerLocal && entity is not EntityPlayer) continue;
+                if (EntityTargetingUtilities.IsEnemy(context.Self, entity))
+                    continue;
+
+                if (context.Self
+                        .GetActivationCommands(new Vector3i(context.Self.position), lookEntity as EntityAlive)
+                        .Length > 0)
+                    lookEntity = entity;
             }
+
+            if (lookEntity == null) return;
+            context.Self.SetLookPosition(lookEntity.getHeadPosition());
+            var rotatePos = lookEntity.position;
+            context.Self.RotateTo(rotatePos.x, rotatePos.y, rotatePos.z, 8f, 8f);
         }
 
         public static void HideWeapon(Context _context)
@@ -134,6 +128,7 @@ namespace UAI
 
         public static void SetWeapon(Context _context)
         {
+            return;
             if (_context.Self.inventory.holdingItemIdx != 0)
             {
                 _context.Self.inventory.SetHoldingItemIdx(0);
@@ -761,30 +756,30 @@ namespace UAI
             return true;
         }
 
-        //public static void SetLookPosition(Context _context, object target)
-        //{
-        //    var enemytarget = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-        //    if (enemytarget != null && enemytarget.IsDead())
-        //    {
-        //        _context.Self.SetAttackTarget(null, 30);
-        //        _context.Self.SetRevengeTarget(null);
-        //        return;
-        //    }
-        //    var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-        //    if (entityAlive != null)
-        //    {
-        //        var headPosition = entityAlive.getHeadPosition();
-        //        var forwardVector = _context.Self.GetForwardVector();
-        //        _context.Self.RotateTo(entityAlive, 45f, 45);
-        //        _context.Self.SetLookPosition(headPosition + forwardVector);
-        //    }
+        public static void SetRandomLook(Context context)
+        {
+            return;
+            var headPosition = context.Self.getHeadPosition();
+            var forwardVector = context.Self.GetForwardVector();
+            forwardVector = Quaternion.Euler(context.Self.rand.RandomFloat * 60f - 30f, context.Self.rand.RandomFloat * 120f - 60f, 0f) * forwardVector;
+            context.Self.SetLookPosition(headPosition + forwardVector);
+        }
+        public static void SetLookPosition(Context context, object target)
+        {
+            var entityAlive = UAIUtils.ConvertToEntityAlive(context.ActionData.Target);
+            if (entityAlive != null)
+            {
+                var headPosition = entityAlive.getHeadPosition();
+                var forwardVector = context.Self.GetForwardVector();
+                forwardVector = Quaternion.Euler(context.Self.rand.RandomFloat * 60f - 30f, context.Self.rand.RandomFloat * 120f - 60f, 0f) * forwardVector;
+                context.Self.SetLookPosition(headPosition + forwardVector);
+            }
 
-        //    if (target is Vector3 vector)
-        //    {
-        //        _context.Self.RotateTo(vector.x, vector.y, vector.z, 45f, 45f);
-        //        _context.Self.SetLookPosition(vector);
-        //    }
-        //}
+            if (target is not Vector3 vector) return;
+            
+            context.Self.RotateTo(vector.x, vector.y, vector.z, 8f, 8f);
+            context.Self.SetLookPosition(vector);
+        }
         public static void CloseDoor(Context _context, Vector3i doorPos)
         {
             EntityUtilities.CloseDoor(_context.Self.entityId, doorPos);

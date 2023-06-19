@@ -37,7 +37,7 @@ namespace Harmony.Dialog
             {
 
                 myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
-                myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 30f, 30f);
+                myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 8f, 8f);
                 myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
                 EntityUtilities.Stop(entityID);
             }

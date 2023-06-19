@@ -25,8 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>.\SCore.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -193,8 +192,10 @@
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsNearFire.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
+    <Compile Include="Scripts\Cache\SCoreQueue.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdAdjustCVar.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadDialog.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
@@ -394,6 +395,7 @@
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearPlant.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearFarm.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsSleeping.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationMaxTask.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTrapped.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationPathBlocked.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationCanHear.cs" />
@@ -487,6 +489,7 @@
     <Content Include="Documentation\CropManagement\Class Overview.txt" />
     <Content Include="Documentation\CropManagement\FarmWithPipesAndWater.PNG" />
     <Content Include="Documentation\Notes\AutomaticVersioning.txt" />
+    <Content Include="Documentation\Notes\NPCs.txt" />
     <Content Include="ModInfo.xml" />
     <Content Include="Prefabs\caveOpening02.tts" />
     <Content Include="Prefabs\caveOpening02.xml" />

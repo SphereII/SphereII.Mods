@@ -87,11 +87,13 @@ namespace UAI
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
                 position = entityAlive.getBellyPosition();
 
-                _context.Self.RotateTo(position.x, position.y, position.z, 8f, 5f);
+                _context.Self.RotateTo(position.x, position.y, position.z, 8f,8f);
                 //_context.Self.RotateTo(entityAlive, 30f, 30f);
 
                 if (!_context.Self.IsInViewCone(position))
+                {
                     return;
+                }
 
                 // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
                 var headPosition = _context.Self.getHeadPosition();

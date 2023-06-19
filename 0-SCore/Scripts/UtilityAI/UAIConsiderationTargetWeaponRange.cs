@@ -37,7 +37,6 @@ namespace UAI
             if (range == 0f)
                 range = 1.50f;
             
-            Debug.Log($"Range: {result} <= {range} : If true, score of 1. Otherwise 0f");
             if (context.Self.inventory.holdingItem.Actions[_actionIndex] is not ItemActionRanged itemActionRanged)
                 return result <= range ? 1f : 0f;
             if (context.Self.inventory.holdingItemData.actionData[_actionIndex] is not
@@ -47,10 +46,8 @@ namespace UAI
             }
             range = itemActionRanged.GetRange(itemActionData);
 
-            Debug.Log($"Ranged Weapon: Range: {result} <= {range}");
             if (!SCoreUtils.CanShoot(context.Self, entityAlive, range))
             {
-                Debug.Log("SCoreUtils.CanShot() fails. We can't shoot.");
                 return 0f;
             }
 
