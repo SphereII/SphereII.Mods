@@ -50,6 +50,12 @@ namespace UAI
             // However, at times, we do want the opportunity to repath without stopping the task. This stops the pauses the entity does.
             if (SCoreUtils.IsBlocked(_context))
             {
+                var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+                if (entityAlive != null && entityAlive.IsAlive())
+                {
+                    _context.Self.RotateTo(entityAlive, 90f,90f);
+                }
+
                 Stop(_context);
                 return;
             }

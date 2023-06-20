@@ -10,6 +10,17 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 
 
 [ Change Log ]
+Version: 21.0.21.1610
+	[ Broadcast Feature ]
+		- Fixed an issue where the game would allow you to craft if you had a single ingredient.
+	
+	[ UAI ]
+		- Fixed an issue where the NPC would not face you when following
+		- Added a rotation of 90f in the TaskMoveToTargetSDX for when the entity is blocked.
+
+	[ NPCs ]
+		- Added yet another fix to the jumping.
+
 Version: 21.0.20.1553
 	[ Dialog ]
 		- Added a toolbar / bag search for the NPCHasItemSDX Condition

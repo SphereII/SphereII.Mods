@@ -23,9 +23,9 @@ namespace SCore.Harmony.Recipes
             tileEntities = GetTileEntities(player, distance);
             return tileEntities;
         }
+
         public static List<TileEntity> GetTileEntities(EntityAlive player, float distance)
         {
-
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
             var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
@@ -50,33 +50,47 @@ namespace SCore.Harmony.Recipes
                                 var lootTileEntity = tileEntity as TileEntityLootContainer;
                                 if (lootTileEntity == null) break;
                                 // if sending disabled skip container
-                                if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
-                                if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
+                                if (disabledsender[0] != null)
+                                    if (disableSender(disabledsender, tileEntity))
+                                        break;
+                                if (!string.IsNullOrEmpty(nottoWorkstation))
+                                    if (notToWorkstation(nottoWorkstation, player, tileEntity))
+                                        goto default;
                                 if (!string.IsNullOrEmpty(bindtoWorkstation))
                                 {
-                                    if (bindToWorkstation(bindtoWorkstation, player, tileEntity)) tileEntities.Add(tileEntity);
+                                    if (bindToWorkstation(bindtoWorkstation, player, tileEntity))
+                                        tileEntities.Add(tileEntity);
                                     else goto default;
                                 }
                                 else tileEntities.Add(tileEntity);
+
                                 break;
                             case TileEntityType.SecureLootSigned:
                             case TileEntityType.SecureLoot:
                                 var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
                                 if (secureTileEntity == null) break;
-                                if (secureTileEntity.IsLocked() )
+                                if (secureTileEntity.IsLocked())
                                 {
-                                    PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
+                                    PlatformUserIdentifierAbs internalLocalUserIdentifier =
+                                        PlatformManager.InternalLocalUserIdentifier;
                                     if (!secureTileEntity.IsUserAllowed(internalLocalUserIdentifier)) break;
                                 }
+
                                 // if sending disabled skip container
-                                if (disabledsender[0] != null) if (disableSender(disabledsender, tileEntity)) break;
-                                if (!string.IsNullOrEmpty(nottoWorkstation)) if (notToWorkstation(nottoWorkstation, player, tileEntity)) goto default;
+                                if (disabledsender[0] != null)
+                                    if (disableSender(disabledsender, tileEntity))
+                                        break;
+                                if (!string.IsNullOrEmpty(nottoWorkstation))
+                                    if (notToWorkstation(nottoWorkstation, player, tileEntity))
+                                        goto default;
                                 if (!string.IsNullOrEmpty(bindtoWorkstation))
                                 {
-                                    if (bindToWorkstation(bindtoWorkstation, player, tileEntity)) tileEntities.Add(tileEntity);
+                                    if (bindToWorkstation(bindtoWorkstation, player, tileEntity))
+                                        tileEntities.Add(tileEntity);
                                     else goto default;
                                 }
                                 else tileEntities.Add(tileEntity);
+
                                 break;
                             default:
                                 break;
@@ -84,8 +98,10 @@ namespace SCore.Harmony.Recipes
                     }
                 }
             }
+
             return tileEntities;
         }
+
         public static bool disableSender(string[] value, TileEntity tileEntity)
         {
             var lootTileEntity = tileEntity as TileEntityLootContainer;
@@ -98,23 +114,29 @@ namespace SCore.Harmony.Recipes
 
             return false;
         }
+
         public static bool bindToWorkstation(string value, EntityAlive player, TileEntity tileEntity)
         {
             bool result = false;
             var playerLocal = player as EntityPlayerLocal;
             var lootTileEntity = tileEntity as TileEntityLootContainer;
             // bind storage to workstation
-            if (value.Split(';').Where(x => x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+            if (value.Split(';').Where(x =>
+                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 .Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = true;
             // bind storage to other workstations if allowed
-            if (!value.Split(';').Any(x => x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
+            if (!value.Split(';').Any(x =>
+                    x.Split(':')[0].Split(',').Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation))
                 && !bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
             {
-                if (value.Split(';').Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName))) result = false;
+                if (value.Split(';').Any(x => x.Split(':')[1].Split(',').Any(y => y == lootTileEntity.lootListName)))
+                    result = false;
                 else result = true;
             }
+
             return result;
         }
+
         public static bool notToWorkstation(string value, EntityAlive player, TileEntity tileEntity)
         {
             bool result = false;
@@ -124,10 +146,13 @@ namespace SCore.Harmony.Recipes
             {
                 var workstation = bind.Split(':')[0].Split(',');
                 var disablebinding = bind.Split(':')[1].Split(',');
-                if ((workstation.Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) && (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
+                if ((workstation.Any(ws => ws.Trim() == playerLocal.PlayerUI.xui.currentWorkstation)) &&
+                    (disablebinding.Any(x => x.Trim() == lootTileEntity.lootListName))) result = true;
             }
+
             return result;
         }
+
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player)
         {
             var _items = new List<ItemStack>();
@@ -140,8 +165,10 @@ namespace SCore.Harmony.Recipes
 
                 _items.AddRange(lootTileEntity.GetItems());
             }
+
             return _items;
         }
+
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player, ItemValue itemValue)
         {
             var _item = new List<ItemStack>();
@@ -157,13 +184,16 @@ namespace SCore.Harmony.Recipes
 
                 _item.AddRange(lootTileEntity.GetItems());
             }
+
             for (int i = 0; i < _item.Count; i++)
             {
-                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) && _item[i].itemValue.type == itemValue.type)
+                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) &&
+                    _item[i].itemValue.type == itemValue.type)
                 {
                     _items.Add(_item[i]);
                 }
             }
+
             return _items;
         }
 
@@ -181,13 +211,16 @@ namespace SCore.Harmony.Recipes
 
                 _item.AddRange(lootTileEntity.GetItems());
             }
+
             for (int i = 0; i < _item.Count; i++)
             {
-                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) && _item[i].itemValue.type == itemValue.type)
+                if ((!_item[i].itemValue.HasModSlots || !_item[i].itemValue.HasMods()) &&
+                    _item[i].itemValue.type == itemValue.type)
                 {
                     _items.Add(_item[i]);
                 }
             }
+
             return _items;
         }
 
@@ -204,7 +237,7 @@ namespace SCore.Harmony.Recipes
                     .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
                     .Sum(y => y.count);
 
-              
+
                 // check storage boxes
                 foreach (var tileEntity in tileEntities)
                 {
@@ -254,7 +287,6 @@ namespace SCore.Harmony.Recipes
                     }
                 }
             }
-            
         }
 
         [HarmonyPatch(typeof(XUiC_RecipeList))]
@@ -268,7 +300,7 @@ namespace SCore.Harmony.Recipes
                     return true;
                 var player = __instance.xui.playerUI.entityPlayer;
 
-                _items.AddRange(EnhancedRecipeLists.SearchNearbyContainers(player));
+                _items.AddRange(SearchNearbyContainers(player));
                 return true;
             }
         }
@@ -282,113 +314,9 @@ namespace SCore.Harmony.Recipes
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-                __result.AddRange(EnhancedRecipeLists.SearchNearbyContainers(___localPlayer));
+                __result.AddRange(SearchNearbyContainers(___localPlayer));
             }
         }
-
-
-        //// Repair using items from container.
-        //[HarmonyPatch(typeof(Inventory))]
-        //[HarmonyPatch("GetItemCount")]
-        //[HarmonyPatch(new[] { typeof(ItemValue), typeof(bool), typeof(int), typeof(int) })]
-
-        //public class InventoryGetItemCount
-        //{
-        //    public static void Postfix(ref int __result, ItemValue _itemValue, EntityAlive ___entity)
-        //    {
-        //        if (___entity.IsMarkedForUnload())
-        //            return;
-
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers"))
-        //            return;
-
-        //        // If we are to block based on entity, check for them.
-        //        if ( Configuration.CheckFeatureStatus("BlockUpgradeRepair", "BlockOnNearbyEnemies" ))
-        //        {
-        //            var enemyDistance = 30f;
-        //            var strenemyDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "DistanceEnemy");
-        //            if (!string.IsNullOrEmpty(strenemyDistance))
-        //                enemyDistance = StringParsers.ParseFloat(strenemyDistance);
-
-        //            if (SCoreUtils.IsEnemyNearby(___entity, enemyDistance))
-        //                return;
-        //        }
-
-        //        var distance = 30f;
-        //        var strDistance = Configuration.GetPropertyValue("BlockUpgradeRepair", "Distance");
-        //        if (!string.IsNullOrEmpty(strDistance))
-        //            distance = StringParsers.ParseFloat(strDistance);
-
-        //        var stack = EnhancedRecipeLists.SearchNearbyContainers(___entity, _itemValue, distance);
-        //        foreach (var each in stack)
-        //            __result += each.count;
-
-        //        return;
-        //    }
-        //}
-
-        //// Repair using items from container.
-        //[HarmonyPatch(typeof(Bag))]
-        //[HarmonyPatch("DecItem")]
-        //public class Inventory_DecItem
-        //{
-        //    public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
-        //            return;
-
-        //        // Send it through the xui so the other patch can catch it.
-        //        var entityPlayer = ___entity as EntityPlayerLocal;
-        //        if (entityPlayer == null) return;
-
-        //        if (__result == 0)
-        //        {
-        //            ItemStack itemStack = new ItemStack(_itemValue, _count);
-        //            var itemStacks = new List<ItemStack>();
-        //            itemStacks.Add(itemStack);
-        //            ConsumeItem(itemStacks, entityPlayer, 1);
-
-        //            // We know we had enough in the containers, so blank it out.
-        //            __result = _count;
-        //        }
-
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(Bag))]
-        //[HarmonyPatch("DecItem")]
-        //public class Bag_DecItem
-        //{
-        //    public static void Postfix(ref int __result, ItemValue _itemValue, int _count, EntityAlive ___entity)
-        //    {
-        //        Log.Out($"Bag.DecItem(): {__result}");
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus("BlockUpgradeRepair", "ReadFromContainers") )
-        //            return;
-
-        //        Log.Out($"Bag.DecItem(): {__result} 1");
-        //        // Send it through the xui so the other patch can catch it.
-        //        var entityPlayer = ___entity as EntityPlayerLocal;
-        //        if (entityPlayer == null) return;
-
-        //        if (__result == 0)
-        //        {
-        //            ItemStack itemStack = new ItemStack(_itemValue, __result);
-        //            var itemStacks = new List<ItemStack>();
-        //            itemStacks.Add(itemStack);
-        //            ConsumeItem(itemStacks, entityPlayer, 1);
-
-        //            // We know we had enough in the containers, so blank it out.
-        //            __result = _count;
-        //        }
-
-        //    }
-        //}
-
-
-
 
         // replaces getitemcount
         // mostly a copy of the original code.
@@ -396,7 +324,11 @@ namespace SCore.Harmony.Recipes
         [HarmonyPatch("GetBindingValue")]
         public class GetBindingValue
         {
-            public static bool Prefix(XUiC_IngredientEntry __instance, ref bool __result, ref string value, string bindingName, CachedStringFormatter<int> ___needcountFormatter, CachedStringFormatter<int> ___havecountFormatter, bool ___materialBased, ItemStack ___ingredient, string ___material, XUiC_RecipeCraftCount ___craftCountControl, CachedStringFormatterXuiRgbaColor ___itemicontintcolorFormatter)
+            public static bool Prefix(XUiC_IngredientEntry __instance, ref bool __result, ref string value,
+                string bindingName, CachedStringFormatter<int> ___needcountFormatter,
+                CachedStringFormatter<int> ___havecountFormatter, bool ___materialBased, ItemStack ___ingredient,
+                string ___material, XUiC_RecipeCraftCount ___craftCountControl,
+                CachedStringFormatterXuiRgbaColor ___itemicontintcolorFormatter)
             {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
@@ -404,50 +336,71 @@ namespace SCore.Harmony.Recipes
                 switch (bindingName)
                 {
                     case "haveneedcount":
+                    {
+                        string text = (flag
+                            ? ___needcountFormatter.Format(___ingredient.count * ___craftCountControl.Count)
+                            : "");
+                        int value1 = 0;
+                        XUiC_WorkstationMaterialInputGrid childByType = __instance.WindowGroup.Controller
+                            .GetChildByType<XUiC_WorkstationMaterialInputGrid>();
+                        if (childByType != null)
                         {
-                            string text = (flag ? ___needcountFormatter.Format(___ingredient.count * ___craftCountControl.Count) : "");
-                            int value1 = 0;
-                            XUiC_WorkstationMaterialInputGrid childByType = __instance.WindowGroup.Controller.GetChildByType<XUiC_WorkstationMaterialInputGrid>();
-                            if (childByType != null)
+                            if (___materialBased)
                             {
-                                if (___materialBased)
-                                {
-                                    value = (flag ? (___havecountFormatter.Format(childByType.GetWeight(___material)) + "/" + text) : "");
-                                }
-                                else
-                                {
-                                    value = (flag ? (___havecountFormatter.Format(__instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
-                                }
+                                value = (flag
+                                    ? (___havecountFormatter.Format(childByType.GetWeight(___material)) + "/" + text)
+                                    : "");
                             }
                             else
                             {
-                                XUiC_WorkstationInputGrid childByType2 = __instance.WindowGroup.Controller.GetChildByType<XUiC_WorkstationInputGrid>();
-                                if (childByType2 != null)
+                                value = (flag
+                                    ? (___havecountFormatter.Format(
+                                           __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" +
+                                       text)
+                                    : "");
+                            }
+                        }
+                        else
+                        {
+                            XUiC_WorkstationInputGrid childByType2 = __instance.WindowGroup.Controller
+                                .GetChildByType<XUiC_WorkstationInputGrid>();
+                            if (childByType2 != null)
+                            {
+                                value = (flag
+                                    ? (___havecountFormatter.Format(
+                                        childByType2.GetItemCount(___ingredient.itemValue)) + "/" + text)
+                                    : "");
+                            }
+                            else
+                            {
+                                value = (flag
+                                    ? (___havecountFormatter.Format(
+                                           __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" +
+                                       text)
+                                    : "");
+                                if (flag)
                                 {
-                                    value = (flag ? (___havecountFormatter.Format(childByType2.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
-                                }
-                                else
-                                {
-                                    value = (flag ? (___havecountFormatter.Format(__instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue)) + "/" + text) : "");
-                                    if (flag)
+                                    // add items from lootcontainers
+                                    value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
+                                    ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer,
+                                        ___ingredient.itemValue).ToArray();
+                                    for (int k = 0; k < array.Length; k++)
                                     {
-                                        // add items from lootcontainers
-                                        value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
-                                        ItemStack[] array = SearchNearbyContainers(__instance.xui.playerUI.entityPlayer, ___ingredient.itemValue).ToArray();
-                                        for (int k = 0; k < array.Length; k++)
+                                        if (array[k] != null && array[k].itemValue.type != 0 &&
+                                            ___ingredient.itemValue.type == array[k].itemValue.type)
                                         {
-                                            if (array[k] != null && array[k].itemValue.type != 0 && ___ingredient.itemValue.type == array[k].itemValue.type)
-                                            {
-                                                value1 += array[k].count;
-                                            }
+                                            value1 += array[k].count;
                                         }
-                                        value = (flag ? (___havecountFormatter.Format(value1) + "/" + text) : "");
                                     }
+
+                                    value = (flag ? (___havecountFormatter.Format(value1) + "/" + text) : "");
                                 }
                             }
-                            __result = true;
-                            return false;
                         }
+
+                        __result = true;
+                        return false;
+                    }
                     default:
                         return true;
                 }
@@ -458,30 +411,63 @@ namespace SCore.Harmony.Recipes
         [HarmonyPatch("HasItems")]
         public class HasItems
         {
-            public static bool Postfix(bool __result, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
+            public static bool Postfix(bool __result, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer,
+                int _multiplier)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return __result;
 
-                if (__result == true) return __result;
+                if (__result) return __result;
 
-                var totalCount = 0;
-                //var tileEntities = EnhancedRecipeLists.GetTileEntities(___localPlayer);
-
+                // We need to make sure we satisfy all of the items.
+                var itemsWeHave = 0;
                 foreach (var itemStack in _itemStacks)
                 {
-                    int num = itemStack.count * _multiplier;
+                    var totalCount = 0;
+                    // This is how many we need.
+                    var num = itemStack.count * _multiplier;
                     // check player inventory
                     var slots = ___localPlayer.bag.GetSlots();
-                    totalCount = totalCount + slots
-                        .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                        .Sum(y => y.count);
+                    foreach (var entry in slots)
+                    {
+                        if (entry.IsEmpty()) continue;
+                        if (itemStack.itemValue.GetItemOrBlockId() != entry.itemValue.GetItemOrBlockId()) continue;
+                        totalCount += entry.count;
+                        if (totalCount < num) continue;
+                        // We have enough to satisfy this item, so move to the next oen.
+                        itemsWeHave++;
+                        break;
+                    }
+
+                    // Check the toolbelt now.
+                    slots = ___localPlayer.inventory.GetSlots();
+                    foreach (var entry in slots)
+                    {
+                        if (entry.IsEmpty()) continue;
+                        if (itemStack.itemValue.GetItemOrBlockId() != entry.itemValue.GetItemOrBlockId()) continue;
+                        totalCount += entry.count;
+                        if (totalCount < num) continue;
+                        // We have enough to satisfy this item, so move to the next oen.
+                        itemsWeHave++;
+                        break;
+                    }
+
                     // check container
-                    totalCount = totalCount + SearchNearbyContainers(___localPlayer, itemStack.itemValue).Sum(y => y.count);
-                    if (totalCount >= num) return true;
+                    var containers = SearchNearbyContainers(___localPlayer, itemStack.itemValue);
+                    foreach (var stack in containers)
+                    {
+                        if (stack.IsEmpty()) continue;
+                        if (itemStack.itemValue.GetItemOrBlockId() != stack.itemValue.GetItemOrBlockId()) continue;
+                        totalCount += stack.count;
+                        if (totalCount < num) continue;
+                        // We have enough to satisfy this item, so move to the next oen.
+                        itemsWeHave++;
+                        break;
+                    }
                 }
-                return false;
+
+                return itemsWeHave >= _itemStacks.Count;
             }
         }
 
@@ -545,7 +531,8 @@ namespace SCore.Harmony.Recipes
             base.OnOpen();
             //if debug enabled show lootList name of container
             if (Configuration.CheckFeatureStatus(AdvFeatureClass, "Debug"))
-                if (xui.lootContainer != null) Log.Out("Current Container name: " + xui.lootContainer.lootListName);
+                if (xui.lootContainer != null)
+                    Log.Out("Current Container name: " + xui.lootContainer.lootListName);
             IsDirty = true;
         }
 
@@ -572,7 +559,6 @@ namespace SCore.Harmony.Recipes
 
         private void SetupButton()
         {
-
             //Unselect button and disable it
             button.Enabled = false;
             button.Selected = false;
@@ -580,7 +566,7 @@ namespace SCore.Harmony.Recipes
 
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
-            if (xui.lootContainer == null || !Broadcastmanager.HasInstance || 
+            if (xui.lootContainer == null || !Broadcastmanager.HasInstance ||
                 base.xui.vehicle != null ||
                 GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId) is EntityAliveSDX ||
                 GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId) is EntityDrone) return;
@@ -601,11 +587,14 @@ namespace SCore.Harmony.Recipes
                     var bindings = bind.Split(':')[1].Split(',');
                     if ((bindings.Any(x => x.Trim() == xui.lootContainer.lootListName))) counter++;
                 }
-                if (counter == 0 && bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
+
+                if (counter == 0 &&
+                    bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "enforcebindtoWorkstation")))
                 {
                     return;
                 }
             }
+
             //Enable button and set if button is selected
             button.IsVisible = true;
             button.Enabled = true;

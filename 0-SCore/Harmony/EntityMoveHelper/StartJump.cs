@@ -11,11 +11,8 @@ namespace Harmony.EntityMoveHelper
         {
             if (!EntityUtilities.IsHuman(___entity.entityId)) return true;
 
-            if (heightDiff > 0.9f) return true;
-            
-//            if (!__instance.IsBlocked && heightDiff > 0.9f)
-  //              return false;
-
+            if (__instance.IsBlocked) return true;
+            if (__instance.BlockedTime > 0.5) return true;
 
             EntityUtilities.Stop(___entity.entityId);
             return false;

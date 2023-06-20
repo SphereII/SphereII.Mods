@@ -70,38 +70,38 @@ namespace UAI
         }
 
         // Contains logic to determine if the NPC should be move towards its leader, etc.
-        public void CheckProximityToLeader(Context _context)
+        private void CheckProximityToLeader(Context context)
         {
             // If we lost our leader, check to see if we have one. If we don't, end the task.
             if (_leader == null)
             {
-                _leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
+                _leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
                 if ( _leader == null )
                 {
-                    Stop(_context);
+                    Stop(context);
                    return;
                 }
             }
-            SCoreUtils.SetCrouching(_context, _leader.IsCrouching);
+            SCoreUtils.SetCrouching(context, _leader.IsCrouching);
 
-            var distanceToLeader = Vector3.Distance(_context.Self.position, _leader.position);
+            var distanceToLeader = Vector3.Distance(context.Self.position, _leader.position);
 
             // If we are close to the leader, stop.
             if (distanceToLeader > _distance && distanceToLeader < _distance * 2)
             {
-             //   SCoreUtils.SetLookPosition(_context, _leader);
-                Stop(_context);
+                context.Self.RotateTo(_leader.position.x, _leader.position.y, _leader.position.z, 8f,8f);
+                Stop(context);
                 return;
             }
 
             // If they are too far away, then teleport.
             if (distanceToLeader > _maxDistance)
             {
-                SCoreUtils.TeleportToLeader(_context, false);
-                Stop(_context);
+                SCoreUtils.TeleportToLeader(context, false);
+                Stop(context);
             }
             // If we have a path, check to see if the player has moved.
-            if (!_context.Self.navigator.noPathAndNotPlanningOne())
+            if (!context.Self.navigator.noPathAndNotPlanningOne())
             {
                 // If the leader hasn't moved much, don't repath.
                 var dist = Vector3.Distance(_leader.position, _position);
@@ -111,7 +111,7 @@ namespace UAI
 
             // If the leader has moved quite a bit, re-position.
             _position = _leader.position;
-            SCoreUtils.FindPath(_context, _position, true);
+            SCoreUtils.FindPath(context, _position, true);
 
         }
 
