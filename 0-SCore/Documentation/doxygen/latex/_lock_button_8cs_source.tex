@@ -1,0 +1,69 @@
+\hypertarget{_lock_button_8cs_source}{}\doxysection{Lock\+Button.\+cs}
+\label{_lock_button_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockButton.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockButton.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine.Events;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00004}00004\ [RequireComponent(typeof(Animator))]}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00005}\mbox{\hyperlink{class_lock_button}{00005}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_lock_button}{LockButton}}\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00007}00007\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Animation\ Trigger\ Strings"{}})]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ pressDownTrigger\ =\ \textcolor{stringliteral}{"{}ButtonPressDown"{}};}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ pressUpTrigger\ =\ \textcolor{stringliteral}{"{}ButtonPressUp"{}};}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00011}00011\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Plumbing"{}})]\ [SerializeField]\ \textcolor{keyword}{private}\ Animator\ animator;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioButtonPressed;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioButtonReset;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ UnityEvent\ buttonPressed\ =\ \textcolor{keyword}{new}\ UnityEvent();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ UnityEvent\ buttonReset\ =\ \textcolor{keyword}{new}\ UnityEvent();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_isUp\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_pressDownTrigger;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00021}00021\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_pressUpTrigger;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Start()}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ animator\ =\ GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Awake()}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \_pressDownTrigger\ =\ Animator.StringToHash(pressDownTrigger);}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \_pressUpTrigger\ =\ Animator.StringToHash(pressUpTrigger);}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Input.GetKeyDown(KeyCode.P))}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ ToggleButton();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ToggleButton()}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_isUp)}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetTrigger(\_pressDownTrigger);}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ buttonPressed.Invoke();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ audioButtonPressed.PlayOnce();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetTrigger(\_pressUpTrigger);}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ buttonReset.Invoke();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ audioButtonReset.PlayOnce();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \_isUp\ =\ !\_isUp;}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ToggleButton(\textcolor{keywordtype}{bool}\ up)}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00059}00059\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (up\ \&\&\ !\_isUp\ ||\ !up\ \&\&\ \_isUp)}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ ToggleButton();}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_button_8cs_source_l00063}00063\ \}}
+
+\end{DoxyCode}

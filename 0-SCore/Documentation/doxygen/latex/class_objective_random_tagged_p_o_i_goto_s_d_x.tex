@@ -1,0 +1,289 @@
+\hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x}{}\doxysection{Objective\+Random\+Tagged\+POIGoto\+SDX Class Reference}
+\label{class_objective_random_tagged_p_o_i_goto_s_d_x}\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+
+
+This class is meant to be a replacement for Objective\+Random\+POIGoto, with these differences\+: 
+\begin{DoxyItemize}
+\item You can specify which tags a POI must have, to be a target for the quest 
+\item You can specify which tags a POI must NOT have, to be a target for the quest 
+\item You can specify the search distance from the quest giver, as either a max distance or a range 
+\end{DoxyItemize} 
+
+
+
+
+Inherits Objective\+Random\+POIGoto.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac1bcbf341376486d9851a515f8867772}{Parse\+Properties}} (Dynamic\+Properties properties)
+\begin{DoxyCompactList}\small\item\em Parses additional properties from the dynamic properties. \end{DoxyCompactList}\item 
+override Base\+Objective \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_acf632d4a0d0c2bd1e817cb7abe4bafc4}{Clone}} ()
+\begin{DoxyCompactList}\small\item\em Clones this Objective. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Vector3 \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aee662776b7ae00086d98a78a2526ab87}{Prefab\+Center\+To\+Position}} (Vector2 prefab\+Center)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const string \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}{Prop\+Include\+Tags}} = \char`\"{}include\+\_\+tags\char`\"{}
+\begin{DoxyCompactList}\small\item\em The name of the property used to include POI tags. \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}{Prop\+Exclude\+Tags}} = \char`\"{}exclude\+\_\+tags\char`\"{}
+\begin{DoxyCompactList}\small\item\em The name of the property used to exclude POI tags. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override Vector3 \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a95734c9cd31620346968f15f41688960}{Get\+Position}} (Entity\+NPC owner\+NPC=null, Entity\+Player entity\+Player=null, List$<$ Vector2 $>$ used\+Poi\+Locations=null, int entity\+Id\+For\+Quests=-\/1)
+\begin{DoxyCompactList}\small\item\em Gets the POI position. Returns Vector3.\+Zero if none found. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}{Copy\+Values}} (Base\+Objective objective)
+\begin{DoxyCompactList}\small\item\em Copies the values from another Objective. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}{Set\+Distance\+Offset}} (Vector3 poi\+Size)
+\begin{DoxyCompactList}\small\item\em Copied verbatim from Objective\+Random\+POIGoto, made protected so any future subclasses won\textquotesingle{}t have to do the same thing. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+POITags \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{Include\+Tags}} = POITags.\+none\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em A prefab must have at least one of these POI tags to be included in the search for POIs. \end{DoxyCompactList}\item 
+POITags \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{Exclude\+Tags}} = POITags.\+none\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If a prefab has any of these POI tags, it is excluded from the search for POIs. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{Min\+Search\+Distance}} = -\/1\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The minimum distance to search. POIs inside this distance will not be returned. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{Max\+Search\+Distance}} = -\/1\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The maximum distance to search. POIs outside this distance will not be returned. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class is meant to be a replacement for Objective\+Random\+POIGoto, with these differences\+: 
+\begin{DoxyItemize}
+\item You can specify which tags a POI must have, to be a target for the quest 
+\item You can specify which tags a POI must NOT have, to be a target for the quest 
+\item You can specify the search distance from the quest giver, as either a max distance or a range 
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<objective\ type=\textcolor{stringliteral}{"{}RandomTaggedPOIGotoSDX,\ SCore"{}}>}
+\DoxyCodeLine{\ \ \ \ <!\&ndash;\ Standard\ objective\ properties\ not\ listed...\ -\/-\/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keyword}{property}\ name=\textcolor{stringliteral}{"{}include\_tags"{}}\ value=\textcolor{stringliteral}{"{}downtown,industrial"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keyword}{property}\ name=\textcolor{stringliteral}{"{}exclude\_tags"{}}\ value=\textcolor{stringliteral}{"{}rural,wilderness"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keyword}{property}\ name=\textcolor{stringliteral}{"{}distance"{}}\ value=\textcolor{stringliteral}{"{}300-\/1000"{}}/>}
+\DoxyCodeLine{</objective>}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_acf632d4a0d0c2bd1e817cb7abe4bafc4}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_acf632d4a0d0c2bd1e817cb7abe4bafc4}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!Clone@{Clone}}
+\index{Clone@{Clone}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily override Base\+Objective Objective\+Random\+Tagged\+POIGoto\+SDX.\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Clones this Objective. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00246}{246}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!CopyValues@{CopyValues}}
+\index{CopyValues@{CopyValues}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{CopyValues()}{CopyValues()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Tagged\+POIGoto\+SDX.\+Copy\+Values (\begin{DoxyParamCaption}\item[{Base\+Objective}]{objective }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Copies the values from another Objective. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em objective} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00257}{257}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_a95734c9cd31620346968f15f41688960}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_a95734c9cd31620346968f15f41688960}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!GetPosition@{GetPosition}}
+\index{GetPosition@{GetPosition}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{GetPosition()}{GetPosition()}}
+{\footnotesize\ttfamily override Vector3 Objective\+Random\+Tagged\+POIGoto\+SDX.\+Get\+Position (\begin{DoxyParamCaption}\item[{Entity\+NPC}]{owner\+NPC = {\ttfamily null},  }\item[{Entity\+Player}]{entity\+Player = {\ttfamily null},  }\item[{List$<$ Vector2 $>$}]{used\+Poi\+Locations = {\ttfamily null},  }\item[{int}]{entity\+Id\+For\+Quests = {\ttfamily -\/1} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Gets the POI position. Returns Vector3.\+Zero if none found. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em owner\+NPC} & \\
+\hline
+{\em entity\+Player} & \\
+\hline
+{\em used\+Poi\+Locations} & \\
+\hline
+{\em entity\+Id\+For\+Quests} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00096}{96}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_ac1bcbf341376486d9851a515f8867772}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_ac1bcbf341376486d9851a515f8867772}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!ParseProperties@{ParseProperties}}
+\index{ParseProperties@{ParseProperties}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{ParseProperties()}{ParseProperties()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Tagged\+POIGoto\+SDX.\+Parse\+Properties (\begin{DoxyParamCaption}\item[{Dynamic\+Properties}]{properties }\end{DoxyParamCaption})}
+
+
+
+Parses additional properties from the dynamic properties. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em properties} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_aee662776b7ae00086d98a78a2526ab87}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_aee662776b7ae00086d98a78a2526ab87}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!PrefabCenterToPosition@{PrefabCenterToPosition}}
+\index{PrefabCenterToPosition@{PrefabCenterToPosition}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{PrefabCenterToPosition()}{PrefabCenterToPosition()}}
+{\footnotesize\ttfamily static Vector3 Objective\+Random\+Tagged\+POIGoto\+SDX.\+Prefab\+Center\+To\+Position (\begin{DoxyParamCaption}\item[{Vector2}]{prefab\+Center }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00233}{233}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!SetDistanceOffset@{SetDistanceOffset}}
+\index{SetDistanceOffset@{SetDistanceOffset}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{SetDistanceOffset()}{SetDistanceOffset()}}
+{\footnotesize\ttfamily void Objective\+Random\+Tagged\+POIGoto\+SDX.\+Set\+Distance\+Offset (\begin{DoxyParamCaption}\item[{Vector3}]{poi\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Copied verbatim from Objective\+Random\+POIGoto, made protected so any future subclasses won\textquotesingle{}t have to do the same thing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poi\+Size} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00272}{272}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!PropExcludeTags@{PropExcludeTags}}
+\index{PropExcludeTags@{PropExcludeTags}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{PropExcludeTags}{PropExcludeTags}}
+{\footnotesize\ttfamily const string Objective\+Random\+Tagged\+POIGoto\+SDX.\+Prop\+Exclude\+Tags = \char`\"{}exclude\+\_\+tags\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The name of the property used to exclude POI tags. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!PropIncludeTags@{PropIncludeTags}}
+\index{PropIncludeTags@{PropIncludeTags}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{PropIncludeTags}{PropIncludeTags}}
+{\footnotesize\ttfamily const string Objective\+Random\+Tagged\+POIGoto\+SDX.\+Prop\+Include\+Tags = \char`\"{}include\+\_\+tags\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The name of the property used to include POI tags. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!ExcludeTags@{ExcludeTags}}
+\index{ExcludeTags@{ExcludeTags}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{ExcludeTags}{ExcludeTags}}
+{\footnotesize\ttfamily POITags Objective\+Random\+Tagged\+POIGoto\+SDX.\+Exclude\+Tags = POITags.\+none\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+If a prefab has any of these POI tags, it is excluded from the search for POIs. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!IncludeTags@{IncludeTags}}
+\index{IncludeTags@{IncludeTags}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{IncludeTags}{IncludeTags}}
+{\footnotesize\ttfamily POITags Objective\+Random\+Tagged\+POIGoto\+SDX.\+Include\+Tags = POITags.\+none\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+A prefab must have at least one of these POI tags to be included in the search for POIs. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!MaxSearchDistance@{MaxSearchDistance}}
+\index{MaxSearchDistance@{MaxSearchDistance}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{MaxSearchDistance}{MaxSearchDistance}}
+{\footnotesize\ttfamily float Objective\+Random\+Tagged\+POIGoto\+SDX.\+Max\+Search\+Distance = -\/1\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The maximum distance to search. POIs outside this distance will not be returned. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}\label{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}} 
+\index{ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}!MinSearchDistance@{MinSearchDistance}}
+\index{MinSearchDistance@{MinSearchDistance}!ObjectiveRandomTaggedPOIGotoSDX@{ObjectiveRandomTaggedPOIGotoSDX}}
+\doxysubsubsection{\texorpdfstring{MinSearchDistance}{MinSearchDistance}}
+{\footnotesize\ttfamily float Objective\+Random\+Tagged\+POIGoto\+SDX.\+Min\+Search\+Distance = -\/1\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The minimum distance to search. POIs inside this distance will not be returned. 
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Quests/Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs\end{DoxyCompactItemize}

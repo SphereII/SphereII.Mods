@@ -1,0 +1,27 @@
+\hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source}{}\doxysection{Dialog\+Requirement\+Has\+Quest\+SDX.\+cs}
+\label{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasQuestSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasQuestSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_has_quest_s_d_x}{DialogRequirementHasQuestSDX}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ var\ entityId\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}}))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ entityId\ =\ (int)\ player.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}});}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityId\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ player.world.GetEntity(entityId)\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity.NPCInfo.Quests.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00021}00021\ \}}
+
+\end{DoxyCode}

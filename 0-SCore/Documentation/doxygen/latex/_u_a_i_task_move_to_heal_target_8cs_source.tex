@@ -1,0 +1,181 @@
+\hypertarget{_u_a_i_task_move_to_heal_target_8cs_source}{}\doxysection{UAITask\+Move\+To\+Heal\+Target.\+cs}
+\label{_u_a_i_task_move_to_heal_target_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToHealTarget.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToHealTarget.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00005}00005\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utilities\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00006}00006\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}MoveToHealTarget,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00007}00007\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discover.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00010}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_heal_target}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_heal_target}{UAITaskMoveToHealTarget}}\ :\ UAITaskMoveToTarget}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ items;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ isRunning\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ distance\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}items"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ items\ =\ Parameters[\textcolor{stringliteral}{"{}items"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ SCoreUtils.SetLookPosition(\_context,\ entityAlive);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dist\ =\ Vector3.Distance(entityAlive.position,\ \_context.Self.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ <\ distance)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Stop(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.inventory.IsHoldingItemActionRunning())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isRunning)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isRunning\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ stack\ =\ ItemStack.Empty;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemStack[]\ array\ =\ \_context.Self.bag.GetSlots();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.lootContainer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ array\ =\ \_context.Self.lootContainer.GetItems();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ array.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i]\ !=\ \textcolor{keyword}{null}\ \&\&\ array[i]\ !=\ ItemStack.Empty\ )}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemValue\ itemValue\ =\ array[i].itemValue.Clone();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.ItemClass\ !=\ \textcolor{keyword}{null}\ \&\&\ itemValue.ItemClass.GetItemName().Contains(items))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//array[i].count-\/-\/;}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (array[i].count\ ==\ 0)}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ array[i]\ =\ ItemStack.Empty.Clone();}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_context.Self.bag.SetSlots(array);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_context.Self.bag.OnUpdate();}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_context.Self.lootContainer.UpdateSlot(i,\ array[i]);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ \textcolor{keyword}{new}\ ItemStack(itemValue,\ 1);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ NPC\ doesn't\ have\ this\ cvar,\ give\ it\ an\ initial\ value,\ so\ it\ can\ heal\ somewhat\ from\ a\ bandage\ that\ it\ found\ in\ its\ inventory.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}medRegHealthIncSpeed"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.SetCustomVar(\textcolor{stringliteral}{"{}medRegHealthIncSpeed"{}},\ 1f,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//var\ stack\ =\ EntityUtilities.GetItemStackByTag(\_context.Self.entityId,\ "{}medical"{});}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//stack\ =\ EntityUtilities.GetItemByName(\_context.Self.entityId,\ items);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ originalIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Heal\ the\ target}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//GameManager.Instance.StartCoroutine(SimulateActionExecution(\_context,\ entityAlive,\ 1,\ stack,\ null));}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SimulateActionExecution(\_context,\ entityAlive,\ 1,\ stack);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SimulateActionExecution(Context\ \_context,\ EntityAlive\ target,\ \textcolor{keywordtype}{int}\ \_actionIdx,\ ItemStack\ \_itemStack)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ var\ originalItem\ =\ \_context.Self.inventory.GetItem(0);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.MinEventContext.Other\ =\ target;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(0,\ \_itemStack);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(0);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Healing"{}});\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.inventory.holdingItemData.actionData[1]\ is\ ItemActionUseOther.FeedInventoryData\ feedInventoryData)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feedInventoryData.TargetEntity\ =\ target;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_itemStack.itemValue.ItemClass.Actions[\_actionIdx].ExecuteAction(feedInventoryData,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \_context.Self.inventory.Execute(\_actionIdx,\ false);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00110}00110\ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.Execute(\_actionIdx,\ true);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00112}00112\ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ feedInventoryData.invData.holdingEntity.MinEventContext.Other\ =\ target;}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00113}00113\ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ feedInventoryData.invData.holdingEntity.MinEventContext.ItemValue\ =\ \_itemStack.itemValue;}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ feedInventoryData.invData.holdingEntity.FireEvent(MinEventTypes.onSelfHealedOther,\ true);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ feedInventoryData.invData.holdingEntity.FireEvent((\_actionIdx\ ==\ 0)\ ?\ MinEventTypes.onSelfPrimaryActionEnd\ :\ MinEventTypes.onSelfSecondaryActionEnd,\ true);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_itemStack.itemValue.ItemClass.Actions[\_actionIdx].ExecuteAction(feedInventoryData,\ false);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_itemStack.itemValue.ItemClass.Actions[\_actionIdx].ExecuteAction(feedInventoryData,\ true);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_itemStack.count-\/-\/;}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (\_itemStack.count\ <\ 1)}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_itemStack\ =\ ItemStack.Empty;}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \_context.Self.inventory.SetItem(\_context.Self.inventory.DUMMY\_SLOT\_IDX,\ ItemStack.Empty.Clone());}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(0,\ \_itemStack);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(0);\ \_context.Self.inventory.OnUpdate();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ IEnumerator\ SimulateActionExecution(Context\ \_context,\ EntityAlive\ target,\ \textcolor{keywordtype}{int}\ \_actionIdx,\ ItemStack\ \_itemStack,\ Action\ onComplete)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(\_context.Self.inventory.DUMMY\_SLOT\_IDX,\ \_itemStack);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(\_context.Self.inventory.DUMMY\_SLOT\_IDX);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.inventory.holdingItemData.actionData[1]\ is\ ItemActionUseOther.FeedInventoryData\ feedInventoryData)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feedInventoryData.TargetEntity\ =\ target;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Execute\ Action\ false"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_itemStack.itemValue.ItemClass.Actions[1].ExecuteAction(feedInventoryData,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Execute\ Action\ true"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_itemStack.itemValue.ItemClass.Actions[1].ExecuteAction(feedInventoryData,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Reduce"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.DecHoldingItem(1);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Clear\ Dummy"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(\_context.Self.inventory.DUMMY\_SLOT\_IDX,\ ItemStack.Empty.Clone());}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}reset\ weapon"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(0);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.OnUpdate();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Stopping"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\$\textcolor{stringliteral}{"{}Moving\ to\ Heal!\ \{\_context.Self.ToString()\}\ with\ my\ \{items\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ isRunning\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetCrouching(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(\_context,\ entityAlive.position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00174}00174\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_heal_target_8cs_source_l00175}00175\ \}}
+
+\end{DoxyCode}

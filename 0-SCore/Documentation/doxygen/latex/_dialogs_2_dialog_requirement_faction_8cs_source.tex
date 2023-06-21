@@ -1,0 +1,28 @@
+\hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source}{}\doxysection{Dialog\+Requirement\+Faction.\+cs}
+\label{_dialogs_2_dialog_requirement_faction_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementFaction.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementFaction.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00003}\mbox{\hyperlink{class_dialog_requirement_faction}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_faction}{DialogRequirementFaction}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ \ <requirement\ type="{}Faction,\ SCore"{}\ requirementtype="{}Hide"{}\ value="{}neutral"{}\ />\ }}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ var\ entityId\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}}))}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ entityId\ =\ (int)player.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}});}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ player.world.GetEntity(entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ var\ myRelationship\ =\ FactionManager.Instance.GetRelationshipTier(myEntity,\ player);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{string}.Equals(myRelationship.ToString(),\ ID,\ StringComparison.CurrentCultureIgnoreCase);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00019}00019\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00020}00020\ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_faction_8cs_source_l00022}00022\ }
+
+\end{DoxyCode}

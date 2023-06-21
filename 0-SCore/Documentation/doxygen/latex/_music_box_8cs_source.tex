@@ -1,0 +1,329 @@
+\hypertarget{_music_box_8cs_source}{}\doxysection{Music\+Box.\+cs}
+\label{_music_box_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MusicBoxes/MusicBox.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MusicBoxes/MusicBox.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00001}00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00002}00002\ \textcolor{comment}{*\ Class:\ MusicBox}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00003}00003\ \textcolor{comment}{*\ Author:\ \ sphereii\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00004}00004\ \textcolor{comment}{*\ Category:\ Entity}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00005}00005\ \textcolor{comment}{*\ Description:}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00006}00006\ \textcolor{comment}{*\ \ \ This\ script\ allows\ the\ attached\ block\ to\ play\ music,\ videos\ and\ do\ animations.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00007}00007\ \textcolor{comment}{*\ \ \ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00008}00008\ \textcolor{comment}{*\ \ \ Music\ Player:}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00009}00009\ \textcolor{comment}{*\ \ \ \ \ \ \ The\ music\ player\ will\ read\ the\ sounds.xml\ and\ play\ SoundDataNode.\ The\ music\ players\ are\ all\ loot\ containers;\ this\ means\ you\ can\ add\ an\ item\ that\ contains\ a\ "{}SoundDataNode"{}\ that\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00010}00010\ \textcolor{comment}{*\ \ \ \ \ \ \ points\ to\ an\ entry\ in\ the\ sounds.xml.\ Multiple\ music\ items\ can\ be\ added\ to\ the\ loot\ container,\ and\ it\ will\ randomly\ play\ from\ them.\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00011}00011\ \textcolor{comment}{*\ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00012}00012\ \textcolor{comment}{*\ \ \ \ \ \ \ Rather\ than\ items\ in\ the\ slots,\ you\ can\ also\ add\ the\ <property\ name="{}SoundDataNode"{}\ value="{}mymusic"{}\ />\ to\ the\ block,\ which\ will\ allow\ it\ to\ play\ without\ an\ extra\ item.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00013}00013\ \textcolor{comment}{*\ \ \ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00014}00014\ \textcolor{comment}{*\ \ \ Animation\ Player:}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00015}00015\ \textcolor{comment}{*\ \ \ \ \ \ \ When\ the\ music\ box\ is\ attached,\ it\ will\ check\ the\ Model\ to\ find\ an\ Animator\ at\ the\ top\ level.\ An\ animator\ SetBool\ is\ called\ on\ "{}IsOn"{}\ to\ turn\ it\ on.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00016}00016\ \textcolor{comment}{*\ \ \ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00017}00017\ \textcolor{comment}{*\ \ \ Video\ Player:}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00018}00018\ \textcolor{comment}{*\ \ \ \ \ \ \ The\ video\ player\ works\ like\ the\ music\ player,\ and\ will\ play\ videos\ listed\ in\ the\ <property\ name="{}VideoSource"{}\ value="{}\#@modfolder:Resources/MyVideos.unity3d?Squeeze"{}\ />.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00019}00019\ \textcolor{comment}{*\ \ \ \ \ \ \ This\ assumes\ that\ the\ Squeeze.mp4\ video\ is\ inside\ of\ the\ MyVideos.unity3d\ bundle.\ As\ in\ the\ Music\ Player,\ multiple\ items\ can\ be\ added\ to\ the\ container\ slots\ to\ play\ from.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00020}00020\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00022}00022\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00023}00023\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00024}00024\ \textcolor{keyword}{using\ }UnityEngine.Video;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00026}\mbox{\hyperlink{class_block_music_box}{00026}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_music_box}{BlockMusicBox}}\ :\ BlockLoot}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00027}00027\ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ BlockActivationCommand[]\ cmds\ =}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}light"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true}),}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}search"{}},\ \textcolor{stringliteral}{"{}search"{}},\ \textcolor{keyword}{true}),}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}take"{}},\ \textcolor{stringliteral}{"{}hand"{}},\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00033}00033\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{float}\ TakeDelay\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ The\ AudioSource\ is\ a\ reference\ to\ the\ SoundDataNode's\ AudioSource.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ strAudioSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ SoundDataNode,\ if\ configured\ through\ the\ block}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ strSoundSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//\ Video\ Source\ contains\ the\ asset\ bundle\ where\ the\ video\ is\ stored,\ if\ configured\ through\ the\ block.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ strVideoSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{private}\ Vector2i\ vLootContainerSize;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_block_music_box}{BlockMusicBox}}()}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00048}00048\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ HasTileEntity\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init()}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00053}00053\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ base.Init();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SoundSource\ is\ the\ referenced\ SoundDataNode}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}SoundDataNode"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ strSoundSource\ =\ Properties.Values[\textcolor{stringliteral}{"{}SoundDataNode"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Audio\ Source\ is\ the\ prefab\ name,\ without\ the\ asset\ bundle\ reference.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ used\ to\ keep\ track\ of\ which\ audio\ source\ is\ actually\ playing,\ so\ we\ can\ turn\ it\ on\ and\ off.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}AudioSource"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ strAudioSource\ =\ Properties.Values[\textcolor{stringliteral}{"{}AudioSource"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ VideoSource\ can\ be\ an\ asset\ bundle\ or\ URL.\ If\ there\ is\ an\ embedded\ clip\ on\ the\ Video\ Player,\ it'll\ play\ that\ in\ preference\ to\ the\ URL,\ but}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ a\ video\ in\ the\ asset\ bundle\ will\ over-\/ride}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}VideoSource"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ strVideoSource\ =\ Properties.Values[\textcolor{stringliteral}{"{}VideoSource"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}LootContainerSize"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ vLootContainerSize\ =\ StringParsers.ParseVector2i(Properties.Values[\textcolor{stringliteral}{"{}LootContainerSize"{}}]);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ vLootContainerSize\ =\ \textcolor{keyword}{new}\ Vector2i(2,\ 3);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00076}00076\ \ \ \ \ \textcolor{comment}{//\ We\ want\ to\ set\ down\ the\ file\ if\ it\ doesn't\ already\ exist,\ but\ we\ don't\ want\ to\ do\ the\ Loot\ container\ check}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ We\ want\ it\ to\ only\ have\ a\ 1,1\ slot,\ but\ don't\ want\ to\ waste\ a\ loot\ container\ id\ for\ it.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00078}00078\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockAdded(WorldBase\ world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00079}00079\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00080}00080\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ OnBlockAdded}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_blockValue.ischild)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ shape.OnBlockAdded(world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isMultiBlock)\ multiBlockPos.AddChilds(world,\ \_chunk,\ \_chunk.ClrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(world.GetTileEntity(\_chunk.ClrIdx,\ \_blockPos)\ is\ TileEntitySecureLootContainer))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntityLootContainer\ =\ \textcolor{keyword}{new}\ TileEntityLootContainer(\_chunk);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ tileEntityLootContainer.localChunkPos\ =\ World.toBlock(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ tileEntityLootContainer.lootListName\ =\ \textcolor{stringliteral}{"{}cntDropBag"{}};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ tileEntityLootContainer.SetContainerSize(vLootContainerSize);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \_chunk.AddTileEntity(tileEntityLootContainer);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \_chunk.AddEntityBlockStub(\textcolor{keyword}{new}\ BlockEntityData(\_blockValue,\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ bNeedsTemperature\ =\ \textcolor{keyword}{true}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00100}00100\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00101}00101\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ Display\ custom\ messages\ for\ turning\ on\ and\ off\ the\ music\ box,\ based\ on\ the\ block's\ name.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00105}00105\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ GetActivationText(WorldBase\ \_world,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00107}00107\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00108}00108\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ GetActivationText}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ var\ playerInput\ =\ ((EntityPlayerLocal)\_entityFocusing).playerInput;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ var\ keybindString\ =\ playerInput.Activate.GetBindingXuiMarkupString()\ +}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ playerInput.PermanentActions.Activate.GetBindingXuiMarkupString();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{comment}{//string\ keybindString\ =\ UIUtils.GetKeybindString(playerInput.Activate,\ playerInput.PermanentActions.Activate);}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ var\ block\ =\ list[\_blockValue.type];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ var\ blockName\ =\ block.GetBlockName();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ var\ strReturn\ =\ \textcolor{keywordtype}{string}.Format(Localization.Get(\textcolor{stringliteral}{"{}pickupPrompt"{}}),\ Localization.Get(blockName));}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ var\ \_ebcd\ =\ \_world.GetChunkFromWorldPos(\_blockPos).GetBlockEntity(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_ebcd\ ==\ \textcolor{keyword}{null}\ ||\ !\_ebcd.transform)\ \textcolor{keywordflow}{return}\ strReturn;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ var\ myMusicBoxScript\ =\ \_ebcd.transform.GetComponent<MusicBoxScript>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myMusicBoxScript\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript\ =\ \_ebcd.transform.gameObject.AddComponent<MusicBoxScript>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.enabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!myMusicBoxScript)\ \textcolor{keywordflow}{return}\ strReturn;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myMusicBoxScript.enabled)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$\textcolor{stringliteral}{"{}\{Localization.Get("{}}musicbox\_turnOff\textcolor{stringliteral}{"{})\}\ \{GetBlockName()\}"{}};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$\textcolor{stringliteral}{"{}\{Localization.Get("{}}musicbox\_turnOn\textcolor{stringliteral}{"{})\}\ \{GetBlockName()\}"{}};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00135}00135\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00136}00136\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00139}00139\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BlockActivationCommand[]\ GetBlockActivationCommands(WorldBase\ \_world,\ BlockValue\ \_blockValue,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00141}00141\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ cmds[0].enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ cmds[1].enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ cmds[2].enabled\ =\ TakeDelay\ >\ 0f;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cmds;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00146}00146\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00148}00148\ \ \ \ \ \textcolor{comment}{//\ Handles\ what\ happens\ to\ the\ contents\ of\ the\ box\ when\ you\ pick\ up\ the\ block.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00149}00149\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ EventData\_Event(TimerEventData\ timerData)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00150}00150\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00151}00151\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ EventData\_Event}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ var\ world\ =\ GameManager.Instance.World;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ var\ array\ =\ (\textcolor{keywordtype}{object}[])timerData.Data;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ var\ clrIdx\ =\ (\textcolor{keywordtype}{int})array[0];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ var\ blockValue\ =\ (BlockValue)array[1];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ var\ vector3i\ =\ (Vector3i)array[2];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ var\ block\ =\ world.GetBlock(vector3i);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ var\ entityPlayerLocal\ =\ array[3]\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ var\ tileEntityLootContainer\ =\ world.GetTileEntity(clrIdx,\ vector3i)\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntityLootContainer\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ world.GetGameManager()}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .DropContentOfLootContainerServer(blockValue,\ vector3i,\ tileEntityLootContainer.entityId);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pick\ up\ the\ item\ and\ put\ it\ inyor\ your\ inventory.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ var\ uiforPlayer\ =\ LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ var\ itemStack\ =\ \textcolor{keyword}{new}\ ItemStack(block.ToItemValue(),\ 1);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack,\ \textcolor{keyword}{true}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ uiforPlayer.xui.PlayerInventory.DropItem(itemStack);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ world.SetBlockRPC(clrIdx,\ vector3i,\ BlockValue.Air);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00173}00173\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00174}00174\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00175}00175\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00176}00176\ \ \ \ \ \textcolor{comment}{//\ We\ want\ to\ give\ the\ user\ the\ ability\ to\ pick\ up\ the\ blocks\ too,\ but\ the\ loot\ containers\ don't\ support\ that\ directly.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00177}00177\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ TakeItemWithTimer(\textcolor{keywordtype}{int}\ \_cIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ EntityAlive\ \_player)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00178}00178\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00179}00179\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ TakeItemWithTimer}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_blockValue.damage\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}ttRepairBeforePickup"{}}),}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ui\_denied"{}});}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ var\ playerUI\ =\ (\_player\ as\ EntityPlayerLocal).PlayerUI;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ playerUI.windowManager.Open(\textcolor{stringliteral}{"{}timer"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ var\ childByType\ =\ playerUI.xui.GetChildByType<XUiC\_Timer>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ var\ timerEventData\ =\ \textcolor{keyword}{new}\ TimerEventData();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ timerEventData.Data\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{object}[]}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \_cIdx,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \_blockValue,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \_blockPos,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \_player}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ timerEventData.Event\ +=\ EventData\_Event;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ childByType.SetTimer(TakeDelay,\ timerEventData);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00202}00202\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00203}00203\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00206}00206\ \ \ \ \ \textcolor{comment}{//\ Play\ the\ music\ when\ its\ activated.\ We\ stop\ the\ sound\ broadcasting,\ in\ case\ they\ want\ to\ restart\ it\ again;\ otherwise\ we\ can\ get\ two\ sounds\ playing.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00207}00207\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ OnBlockActivated(\textcolor{keywordtype}{string}\ \_commandName,\ WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_cIdx,\ Vector3i\ \_blockPos,}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00208}00208\ \ \ \ \ \ \ \ \ BlockValue\ \_blockValue,\ EntityAlive\ \_player)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00209}00209\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00210}00210\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ OnBlockActivated}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ transform,\ no\ sense\ on\ keeping\ going\ for\ this\ class.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ var\ \_ebcd\ =\ \_world.GetChunkFromWorldPos(\_blockPos).GetBlockEntity(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_ebcd\ ==\ \textcolor{keyword}{null}\ ||\ \_ebcd.transform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ var\ myMusicBoxScript\ =\ \_ebcd.transform.GetComponent<MusicBoxScript>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myMusicBoxScript\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript\ =\ \_ebcd.transform.gameObject.AddComponent<MusicBoxScript>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00220}00220\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ var\ bRuntimeSwitch\ =\ myMusicBoxScript.enabled;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ off\ the\ music\ box\ before\ we\ do\ anything\ with\ it.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ myMusicBoxScript.enabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\_commandName)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}light"{}}:}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}take"{}}:}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TakeItemWithTimer(\_cIdx,\ \_blockPos,\ \_blockValue,\ \_player);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}search"{}}:}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base.OnBlockActivated(\_world,\ \_cIdx,\ \_blockPos,\ \_blockValue,\ \_player);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00240}00240\ \ \ \ \ \ \ \ \ bRuntimeSwitch\ =\ !bRuntimeSwitch;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ have\ an\ animator\ and\ set\ it}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ myMusicBoxScript.anim\ =\ \_ebcd.transform.GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ have\ a\ video\ player\ as\ well.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ myMusicBoxScript.videoPlayer\ =\ \_ebcd.transform.GetComponent<VideoPlayer>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ myMusicBoxScript.myBlockPos\ =\ \_blockPos;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ switch\ is\ on,\ then\ we\ want\ to\ look\ in\ the\ loot\ container\ to\ find\ a\ reference\ to\ any\ potential\ items,\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ which\ will\ over-\/ride\ the\ default\ audio\ clip\ /\ video\ clip.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bRuntimeSwitch)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00252}00252\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We'll\ try\ to\ support\ getting\ sounds\ from\ multiple\ sound\ data\ nodes,\ based\ on\ all\ the\ items\ in\ the\ loot\ container.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ var\ mySounds\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ var\ myVideos\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileLootContainer\ =\ (TileEntityLootContainer)\_world.GetTileEntity(\_cIdx,\ \_blockPos);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileLootContainer.items\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ array\ =\ tileLootContainer.items;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ array.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i].IsEmpty())}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i].itemValue.ItemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}OnPlayBuff"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ Buff\ =\ array[i].itemValue.ItemClass.Properties.Values[\textcolor{stringliteral}{"{}OnPlayBuff"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_player.Buffs.AddBuff(Buff);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i].itemValue.ItemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}OnPlayQuest"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ Quest\ =\ array[i].itemValue.ItemClass.Properties.Values[\textcolor{stringliteral}{"{}OnPlayQuest"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_player\ is\ EntityPlayerLocal)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ myQuest\ =\ QuestClass.CreateQuest(Quest);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myQuest\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\_player\ as\ EntityPlayerLocal).QuestJournal.AddQuest(myQuest);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ a\ SoundDataNode\ for\ a\ potential\ sound\ clip.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i].itemValue.ItemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}SoundDataNode"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strSound\ =\ array[i].itemValue.ItemClass.Properties.Values[\textcolor{stringliteral}{"{}SoundDataNode"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!mySounds.Contains(strSound))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mySounds.Add(strSound);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ a\ video\ Source\ for\ a\ video\ clip.\ If\ we\ find\ it,\ load\ the\ asset\ and\ add\ it\ to\ the\ music\ box\ script.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[i].itemValue.ItemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}VideoSource"{}}))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ video\ source\ is\ an\ asset\ bundle,\ and\ if\ so,\ load\ it\ directly\ into\ the\ video\ clip\ on}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strVideo\ =\ array[i].itemValue.ItemClass.Properties.Values[\textcolor{stringliteral}{"{}VideoSource"{}}];}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strVideo.IndexOf(\textcolor{charliteral}{'\#'})\ ==\ 0\ \&\&\ strVideo.IndexOf(\textcolor{charliteral}{'?'})\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!myVideos.Contains(strVideo))}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myVideos.Add(strVideo);}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ data\ with\ our\ defaults.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.strAudioSource\ =\ strAudioSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.strSoundSource\ =\ strSoundSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.strVideoSource\ =\ strVideoSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.myEntity\ =\ \_player;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ List\ of\ Videos\ and\ Sound\ clips.}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.VideoGroups\ =\ myVideos;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.SoundGroups\ =\ mySounds;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.myVideoClip\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ myMusicBoxScript.enabled\ =\ bRuntimeSwitch;}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00316}00316\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00321}00321\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00322}00322\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_8cs_source_l00323}00323\ \}}
+
+\end{DoxyCode}

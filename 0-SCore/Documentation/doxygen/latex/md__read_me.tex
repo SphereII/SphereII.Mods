@@ -1,0 +1,2030 @@
+\#0-\/\mbox{\hyperlink{namespace_s_core}{SCore}}
+
+The 0-\/\mbox{\hyperlink{namespace_s_core}{SCore}} is the key component to enable extra functionality for 7 Days To Die. Using a mixture of \mbox{\hyperlink{namespace_harmony}{Harmony}}, SDX Patch Scripts, and Scripts, new features are enabled for modders and players to use.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Folder   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Folder   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Description    }\\\cline{1-2}
+\endhead
+Config   &XML Files that serve as documentation, basic setup for required items. blocks.\+xml contains many default settings to review and adjust as needed.    \\\cline{1-2}
+\mbox{\hyperlink{namespace_harmony}{Harmony}}   &Many harmony scripts to make small adjustments to the game. These scripts, for the most part, can be turned on and off via the blocks.\+xml    \\\cline{1-2}
+Scripts   &Many Scripts which include new classes. References to these scripts would be {\ttfamily \texorpdfstring{$<$}{<}class\+Name\texorpdfstring{$>$}{>}, \mbox{\hyperlink{namespace_s_core}{SCore}}}    \\\cline{1-2}
+\mbox{\hyperlink{namespace_features}{Features}}   &\mbox{\hyperlink{namespace_features}{Features}} will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted.   \\\cline{1-2}
+\end{longtabu}
+
+
+\mbox{[} Change Log \mbox{]} Version\+: 21. \begin{DoxyVerb}Introducing the Features Folder
+    Features folder will contain the harmony and scripts for an isolated feature set, rather than spread across the Harmony and Scripts folder now.
+    This will help with future extraction into seperate DLLs.
+
+[ Locks ]
+    - Fixed Unity crash when pick locking doors. 
+            - Sound was trying to play on a non-main thread.
+    - Code moved to Features
+
+[ Fire Manager ]
+    - Code moved to Features
+\end{DoxyVerb}
+ Version\+: 21.\+0.\+21.\+1610 \mbox{[} Broadcast Feature \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue where the game would allow you to craft if you had a single ingredient.
+\end{DoxyItemize}
+
+\mbox{[} \mbox{\hyperlink{namespace_u_a_i}{UAI}} \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue where the NPC would not face you when following
+\item Added a rotation of 90f in the Task\+Move\+To\+Target\+SDX for when the entity is blocked.
+\end{DoxyItemize}
+
+\mbox{[} NPCs \mbox{]}
+\begin{DoxyItemize}
+\item Added yet another fix to the jumping.
+\end{DoxyItemize}
+
+Version\+: 21.\+0.\+20.\+1553 \mbox{[} Dialog \mbox{]}
+\begin{DoxyItemize}
+\item Added a toolbar / bag search for the NPCHas\+Item\+SDX Condition
+\end{DoxyItemize}
+
+\mbox{[} NPC \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue where the NPC would stare at a dead body
+\item Added the ability to add items directly into the NPC\textquotesingle{}s private bag slot, defined in the entityclass. $<$property name=\char`\"{}\+Bag\+Items\char`\"{} value=\char`\"{}item\+Melee\+Stone\+Axe\char`\"{} $>$ $<$property name=\char`\"{}\+Bag\+Items\char`\"{} value=\char`\"{}item\+Melee\+Stone\+Axe, food\+Water=2\char`\"{} $>$
+\item If the leader has the cvar \char`\"{}quiet\+NPC\char`\"{} set, the hired NPCs will not make foot steps.
+\item Added Shared EXP, so hired NPCs will share their exp with you, and the party members.
+\item Fixed a few issues with angles
+\item Fixed shared exp with party
+\item Fixed issue where dead zombies stayed standing
+\end{DoxyItemize}
+
+\mbox{[} Broadcast Storage \mbox{]}
+\begin{DoxyItemize}
+\item Added Furious\+Ramsay\textquotesingle{}s suggestion to filter button when in entity or vehicle.
+\end{DoxyItemize}
+
+\mbox{[} Console Command \mbox{]}
+\begin{DoxyItemize}
+\item Created a new console command to set cvar\textquotesingle{}s on the player. setcvar $<$cvar\+Name$>$ $<$cvar\+Value$>$
+\item To Remove a cvar, set it to 0 setcvar $<$cvar\+Name$>$ 0 ~\newline
+
+\end{DoxyItemize}
+
+Example\+: setcvar quiet\+NPC 1 ~\newline
+ setcvar Fail\+On\+Distance\+To\+Leader 10
+
+\mbox{[} \mbox{\hyperlink{namespace_u_a_i}{UAI}} \mbox{]}
+\begin{DoxyItemize}
+\item Updated the Fail\+On\+Distance\+To\+Leader consideration to check the distance of the target entity, to see if the entity is outside of the allowed range.
+\begin{DoxyItemize}
+\item This should prevent the NPC from walking halfway to a zombie, then turning around, as it\textquotesingle{}d take it out of this range.
+\end{DoxyItemize}
+\item Updated the Face\+To\+Entity code to try to look at the player a bit more often.
+\item When the NPC starts the Follow Task, it will clear its attack / revenge targets, as not to obsess over them.
+\item Adjusted the yaw and pitch of NPCs to be 8f,8f, which should line them up better. Version 21.\+0.\+15.\+1058 \mbox{[} Upgrade log \mbox{]}
+\item Updated all XMLAttributes to XAttributes. Gosh
+\item Removed Quest\+Tags and converted over to Fast\+Tags
+\item Oh geeze, XMLAttributes are everywhere
+\end{DoxyItemize}
+
+\mbox{[} Dialog \mbox{]} Added a \mbox{\hyperlink{class_dialog_action_swap_weapon}{Dialog\+Action\+Swap\+Weapon}} to allow a NPC to change weapon \label{md__read_me_gunNPCPipeShotgun}%
+\Hypertarget{md__read_me_gunNPCPipeShotgun}%
+ Added \mbox{\hyperlink{class_dialog_action_animator_set}{Dialog\+Action\+Animator\+Set}} to change parameter. \label{md__read_me_PistolUser}%
+\Hypertarget{md__read_me_PistolUser}%
+ Added a \mbox{\hyperlink{class_dialog_action_remove_buff_n_p_c_s_d_x}{Dialog\+Action\+Remove\+Buff\+NPCSDX}} to remove a buff from a NPC \label{md__read_me_PistolUser}%
+\Hypertarget{md__read_me_PistolUser}%
+ Added a \mbox{\hyperlink{class_dialog_action_pick_up_n_p_c}{Dialog\+Action\+Pick\+Up\+NPC}}, allowing you to pick up an NPC as an Item $<$action type=\char`\"{}\+Pick\+Up\+NPC, SCore\char`\"{} $>$
+\begin{DoxyItemize}
+\item Item is hard coded, and defined in \mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s items.\+xml Added A \mbox{\hyperlink{class_dialog_action_display_info}{Dialog\+Action\+Display\+Info}} to dump the NPCs Buffs and CVars to thelog file. $<$action type=\char`\"{}\+Display\+Info, SCore\char`\"{} $>$
+\end{DoxyItemize}
+
+Reminder\+: Console command dialog or dialogs will reload dialogs.\+xml without restarting the game.
+
+\mbox{[} Entity\+Alive SDX \mbox{]} Added New Feature to allow NPCs to change weapons on the fly. Added a Update\+Weapon( item ) call to allow an NPC to change weapons Added Pick\+Up NPC option.
+\begin{DoxyItemize}
+\item This preserves ownership and name of Entity.
+\item Entity gets created into an items.\+xml entry (defined in \mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s Items.\+xml Re-\/added Progression for NPCs under the following conditions\+:
+\item If they are \mbox{\hyperlink{class_entity_alive_s_d_x}{Entity\+Alive\+SDX}}
+\item If they do not hava a cvar called \char`\"{}noprogression\char`\"{} with a value greater than 0
+\item if they do not have a tag called \char`\"{}noprogression\char`\"{} Fixed an issue where the Physics\+Transform was not active, allowing NPCs to clip inside of each other.
+\end{DoxyItemize}
+
+\mbox{[} Min\+Event \mbox{]} Added \mbox{\hyperlink{class_min_event_action_animator_set_float_s_d_x}{Min\+Event\+Action\+Animator\+Set\+Float\+SDX}} Added \mbox{\hyperlink{class_min_event_action_animator_set_int_s_d_x}{Min\+Event\+Action\+Animator\+Set\+Int\+SDX}}
+\begin{DoxyItemize}
+\item Triggers as Update\+Int / Update\+Float on the animator, updating the parameter with the supplied value.
+\item If the value starts with a @, the cvar value will be used. Example\+: $<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Buff\+Update\char`\"{} action=\char`\"{}\+Animator\+Set\+Int\+SDX, SCore\char`\"{} property=\char`\"{}\+Hold\+Type\char`\"{} value=\char`\"{}@\+Weapon\+Type\char`\"{} duration=\char`\"{}1\char`\"{} $>$ Added Min\+Action\+Swap\+Weapon Causes the NPC to have the specified Item. Example\+: $<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Buff\+Update\char`\"{} action=\char`\"{}\+Swap\+Weapon, SCore\char`\"{} item=\char`\"{}melee\+Club\char`\"{} $>$
+\end{DoxyItemize}
+
+\mbox{[} Entity Player \mbox{]} Fixed One Block Crouch to prevent clipping in terrain.
+
+\mbox{[} Winter Project Snow \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue where terrain was bumpy around POIs when buried in snow ( Winter Project Only )
+\item Fixed an issue with snow material that caused collapses.
+\end{DoxyItemize}
+
+\mbox{[} Caves \mbox{]}
+\begin{DoxyItemize}
+\item Added Pillars from bedrock to strengthen POIs weakened SI
+\end{DoxyItemize}
+
+\mbox{[} Lock Picking \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a hard crash when trying to access Progression
+\end{DoxyItemize}
+
+\mbox{[} Fire Manager \mbox{]}
+\begin{DoxyItemize}
+\item Added the ability to specify on a per block basis the chance to extinguish itself. $<$property name=\char`\"{}\+Chance\+To\+Extinguish\char`\"{} value=\char`\"{}0.\+05\char`\"{} $>$ Note\+: This is checked per block, per Check\+Interval.
+\end{DoxyItemize}
+
+Version\+: 20.\+6.\+471.\+1518 \mbox{[} Quest Utils \mbox{]}
+\begin{DoxyItemize}
+\item Uncommented code that was accidentally commented out.
+\end{DoxyItemize}
+
+Version\+: 20.\+6.\+470.\+1151 \begin{DoxyVerb}[ Quests / Entity Targetting ]
+    - Merged in a bug fix for khzmusik.
+
+    The revenge targets were being set on all entities in bounds, including the player hires. 
+    This is now fixed, and in addition the revenge targets also will not be set on other players in the party, 
+        provided those players are protected from friendly fire.
+
+    To detect whether an entity is an ally of the player's party, I created a new IsAllyOfParty method in EntityTargetingUtilities. 
+    I did not change any existing methods so there should be no risk of breaking anything.
+
+    I also fixed an issue where the POI's full area was not covered (the Bounds constructor shrinks the size vector 
+        argument in half so only a quarter of the prefab was covered).
+
+[ MinEvent ] 
+    -Added a MinEvent to attach scripts to entity transforms.
+    - Note: This should not be used yet. I've added it for xyth's testing for getting zombies to create foot prints in the snow.
+
+    Example:
+        <effect_group>
+            <triggered_effect trigger="onSelfFirstSpawn" 
+                action="AddScriptToTransform, SCore" 
+                transform="RightFoot"    // The Game Object's Name to target.
+                script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"  // The script you want to attach:  Namespace.Script, Assembly
+            />
+            <triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="LeftFoot" script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"/>
+        </effect_group>
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+467.\+917 \begin{DoxyVerb}[ Quests ]
+    - Merged khzmusik's new Quest Action.
+
+        This quest objective sets the revenge targets of all entities in range.
+
+        <action type="SetRevengeTargetsSDX" id="party" value="location" phase="2" />
+
+[ Lock Pick ]
+    - Adjusted MaxGiveAmount to be 2 * the perk level
+
+[ Music Boxes ]
+    - Reformatted, and refactored
+
+[ IsActive ]
+    - Fixed some issues with the TileEntity AlwaysActive
+    - Re-enabled full Winter-Project support
+
+[ Inert ]
+    - When an entity is inert, the entity is paused. No animations, no sound, no attacks, and takes no damage.
+    - When an entity has the following property, it will only be active at night. Otherwise, it'll be considered inert.
+          <property name="EntityActiveWhen" value="night" /> <!-- alternative is day -->
+    - Added a check for TargetIsAlive if the entity is Inert or not. If it is, it's ignored.
+    - Added checks for IsEnemyNearby, and CanSeeTarget to do Inert checks.
+    - Added patches so inert entities will not make a sound.
+
+[ Fire Manager ]
+    - Tagged Material: Mhay to be flammable.
+    - Re-factored FireManager to be clearer.
+    - Added some performance tweaks:
+        - Sound will not always play on each fire block. Instead, each block will have a random chance to either play a sound or not. (10% chance to play a sound)
+        - Added 5% chance for a block to self-extinguish.   
+        - These checks are re-evaluable on the CheckInterval time.
+    - Added a check for Explosion.
+        - If a block has an explosion property, and is set as flammable, the block will trigger an explosion when it downgrades.
+
+[ Explosion Particles ]
+    - The vanilla prefabExplosions array that maintains a list of possible explosion particles via the Explosion.ParticleIndex is set to 20.
+    - When a game starts, the SCore will check it's ConfigurationBlock's ExternalParticles node for external particles.
+        Example:
+            <property class="ExternalParticles">
+                <!-- The name is not used by the system. The index value will be displayed in the log during a game boot up. -->
+                <!-- Review the log to find out your index. -->
+                <!-- The Index is a GetHashCode() on the value. -->
+                <property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+                <property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> 
+            </property>
+
+    - If a particle entry is detected, this particle will be registered with the main ParticleEffect.RegisterBundleParticleEffect.
+        - This is the same particle effect that is used elsewhere in the system, including the Fire Manager.
+    - The index of this particle will be the bundle's GetHashCode(). 
+        - This value can be viewed in the log file:
+            Registering External Particle: Index: -87591912 for #@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X
+
+        - This index is what you should use in your Explosion.ParticleIndex.
+            <property name="Explosion.ParticleIndex" value="-87591912"/> 
+
+    - This check is applied via a Harmony patch to GameManager's ExplosionClient, and will be triggered if the ParticleIndex is not within a range of 0 and 20.
+
+    - Append to SCore's ConfigurationBlock's ExternalParticles Entry.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+453.\+1912 \begin{DoxyVerb}[ Effect Group Requirement ]
+    - Fixed a bug where it just didn't work.
+
+    Tested Configuration, other combinations may work:
+
+        <effect_group name="RETURN BROKEN">
+            <triggered_effect trigger="onSelfPrimaryActionStart" action="CreateItemSDX, SCore" item="resourceBone" >
+                <requirement name="HoldingItemDurability, SCore" operation="Equals" value=".1"/>
+            </triggered_effect>
+        </effect_group>
+
+[ Fire Manager ]
+    - No code change, however wanted to say that the SetLightOff was moved from the GameUpdate loop, and moved behind the check interval.
+    - Performance increase potential.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+453.\+1540 \begin{DoxyVerb}[ Fire Spread ]
+    - New property in Config/blocks.xml.
+    - If FireSpread is false, fire will not spread to neighboring blocks.
+    - Default is true, fire will spread.
+
+[ EntityAliveSDX ]
+    - Merged in FuriousRamsay's changes
+        - Remove the colliders on death, so you can keep bodies around afterwards
+        - Added lootable corpses.
+
+[ Spook Theme ]
+    - Fixed an issue where Spook wasn't spookie. Effects easier to tell at night.
+
+
+[ Effect Group Requirements ]
+    - Added a new Requirement, meant to be used in the effect_group / triggered events.
+    - Note: This is completely untested.
+
+        <!-- True when the item is 100% broken -->
+        <requirement name="HoldingItemDurability, SCore" value="1"/>
+
+        <!-- True when the item is 50% broken -->
+        <requirement name="HoldingItemDurability, SCore" value="0.5"/>
+
+    Example on an items.xml reference:
+        <effect_group name="Check For Broken" >
+            <requirement name="HoldingItemDurability, SCore" value="1"/>
+            <triggered_effect trigger="onSelfSecondaryActionStart" action="CreateItemSDX, SCore" item="whatever" />
+        </effect_group>
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+442.\+1932 \begin{DoxyVerb}[ Food Spoilage ]
+    - Added an additional check for PreserveBonus -99 to not spoil when taken out.
+
+[ Lock Picking ]
+    - If keyboard is not detected as the primary input device (ie, a controller is), then disable the lock mini game, and fall back to vanilla
+
+    - Added a cvar check to fall back to regular lock picking
+        - If the player has the cvar LegacyLockPick  of greater value than 0, default lock picking will be used, skipping the mini-game.
+
+[ MinEffect ]
+    Added Soleil Plein's new Console command that executes commands and passes cvar values to it.
+        <triggered_effect trigger = "onSelfBuffStart" action = "ExecuteConsoleCommandCVars, SCore" command = "testCommand {0} {1}" cvars = "cvar1,cvar2" />
+
+[ Encumbrance ]
+    - Needed a way to re-calculate the encumbrance when the cvar for max encumbrance triggers.
+    - Not many good ways came to me for this, so I wrote a MinEffect. This will recalculate the encumbrance values.
+
+        <triggered_effect trigger = "onSelfBuffStart" action = "RecalculateEncumbrance, SCore"  />
+
+[ Legacy Distance Terrain ]
+    - Disable Legacy Distant Terrain in GameModeEditWorld mode due to reported lag.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+247.\+845 \mbox{[} Vehicle No Pick Up \mbox{]}
+\begin{DoxyItemize}
+\item Fixed spelling error in \mbox{\hyperlink{_no_vehicle_take_8cs_source}{No\+Vehicle\+Take.\+cs}}
+\begin{DoxyItemize}
+\item Left old name as an empty, mispelled file to be removed for A21... if I remember.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\mbox{[} Farming \mbox{]}
+\begin{DoxyItemize}
+\item Added property check for Direct Water Source. $<$property name=\char`\"{}\+Water\+Type\char`\"{} value=\char`\"{}\+Unlimited\char`\"{} $>$
+\item Any block with that set will be an unlimited water source, and will not take damage from crops.
+\item Add to bedrock, or any other block you want.
+\end{DoxyItemize}
+
+\mbox{[} Quests \mbox{]}
+\begin{DoxyItemize}
+\item Objective\+Buff\+SDX now displays the localized name\+\_\+key for the buff.
+\end{DoxyItemize}
+
+Version\+: 20.\+6.\+422.\+831 \begin{DoxyVerb}[ Vehicle No Pick Up ]
+    - Fixed a bug where removing the "take" option just shifted the index, not remove the functionality.
+
+    - Added a few filtering options, allowing modders to fine tune which vehicles can be picked up or not. 
+    - The follow conditions allow for vehicle pick up, listed by the order in which they are evaluated, if the feature is enabeld in the Config Block's VehicleNoTake
+        - If the vehicle has the tag: takeable
+        - If the Player has the cvar: {EntityVehicleName}_pickup, and this value is greater than 0.  
+            Example:     vehicleBicycle_pickup = 1
+        - If the Player has the cvar: PickUpAllVehicles, and this value is greater than 0.
+    - In all other cases, the vehicle's "take" command will be disabled.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+420.\+840 \begin{DoxyVerb}[ Encumbrance ]
+    - Added a check that for block weight.
+        - Previous was only checking if the Item entry had a weight.
+        - Now checking ItemWeight, and if not found, will check the Block weight.
+        - If both item and block has different weight, the Item weight will take priority
+
+[ Repair From Container ]
+    - Fixed the issue where the tool belt items were not being consumed.
+    - Activated original Repair Block code. Code was not added to project and not built.
+        - Disabled my own crummy implementation which was causing more bugs.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+416.\+1123 \begin{DoxyVerb}[ MinEvent ]
+    Added MinEventActionSetDateToCVar
+        This will set the Current Day to the CVAR $CurrentDay.
+
+        Example: 
+            <triggered_effect trigger="onSelfBuffStart" action="SetDateToCVar, SCore" target="self"/> 
+
+            CVar $CurrentDay will have the current game day.
+
+
+[ Farming ]
+    - Added debug information to water pipes, farm plots, and crops.
+        - If the player holds down the "Activate" key, it will display the information about water.
+
+        - Ie: holding down <E> by default will show information about some blocks.
+
+    - Adjusted the way that the Farming Task extracts Harvest / Items
+
+        Seeds:
+            - The first planted*1 item it finds will be the seed which is replanted.
+
+            Example:
+                <drop event="Destroy" name="plantedBlueberry1" count="1" prob="0.5"/>
+
+            - All planted*1 items will be removed from the harvest / destroy lists.
+            - The Farming Task will generate a new item to be used for planting.
+
+        Harvest:
+            - By default, all harvesting will continue as expected. 
+            - If the NPC has a cvar for the Harvest item, it will set the min and max count to that value.
+
+            Example:
+                If MyFarmer has a cvar called "foodCropBlueberries", with a value of 5, MyFarmer will get 5 blueberries from each harvest,
+                    regardless of prob or min / max count defined in the Harvest line.
+
+    - Adjusted Farming Task Scanning to include tending to wilted plants.
+
+    - Updated BlockWaterSourceSDX to be able to supply unlimited water, without requiring a water block itself, or doing damage.
+
+        <property name="WaterType" value="Unlimited" />
+
+        Default is limited, and is equivalent to 
+            <property name="WaterType" value="Limited" />
+
+    - The above property can also be applied to a BlockLiquidv2, and will have the same effect.
+        Default is limited.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+414.\+1626 \mbox{[} Farming \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a bug where the Farmer would not see Farm\+Plots
+\begin{DoxyItemize}
+\item The Block\+Farm\+Plos\+SDX was not setting Is\+Notify\+On\+Load\+Unload to true, thus it was not registering being loaded and unloaded.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\mbox{[} Encumbrance \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a bug where the encumbrance of equipment was not being done correctly
+\end{DoxyItemize}
+
+Version\+: 20.\+6.\+413.\+1556 \begin{DoxyVerb}[ Craft / Repair From Containers ]
+    - Adjusted permission for Broadcast feature to allow members of the same party to access locked containers.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+412.\+1907 \begin{DoxyVerb}[ Craft / Repair From Containers ]
+    - Rolled back a fix when count of items were doubled.
+        - Seems this fixes it for some containers, but for others, it displays no items.
+
+[ Fire Manager ]
+    - Integrated FuriousRamsay's fix for the MinEffectAddFireDamage.
+        - In some cases, a melee weapon will set fire to contents on the other side of a wall or door, if the ray cast went through the block.
+
+[ Farming ]
+    - Fixed an issue where a water plant was doing damage to a sprinkler, instead of water block
+    - Added an additional scan for UAITaskFarming to do a wider scan if it doesn't find anything interesting.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+409.\+1626 \begin{DoxyVerb}[ Craft / Repair From Containers ]  
+    - If a container is open, do not include the contents in the broadcast scan.
+
+[ Farming ]
+    - Fixed an issue where a Plant could not consume water from the water, through the sprinkler.
+    - Added a fix to help improve Farmer to reach corner farm plots
+    - If a PlantGrowingSDX block has a PlantGrowing.Wilt, it will flag the plant to wilt if there's no water
+
+    - Added new Config Block Entry called WaterParticle on CropManagement node.
+
+        - When a plant consumes water, this particle will be applied.
+        - When a plant is first planted, this particle will be applied.
+        - Default particle in Bloom's Family Farming is from Guppycur. 
+            It will run for 5 seconds, then stop looping.
+            The particle is not removed until the plant is removed.
+
+        Default: 
+            <property name="WaterParticle" value="NoParticle" />
+
+        Bloom's Family Farming XPath:
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='WaterParticle']/@value">#@modfolder:Resources/guppyFountainDisplay.unity3d?gupFountainDisplay</set>
+
+        - Each Plant can over-ride the particle at the block level, using the same property. 
+            <!-- No particle for this particular plant -->
+            <property name="WaterParticle" value="NoParticle" />
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+408.\+1442 \begin{DoxyVerb}[ Craft From Containers 
+    - Fixed an issue where craft / repair from containers was checking tool belt, then containers. 
+        It was checking to see if the item was in the backpack, but not consuming it.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+408.\+1121 \begin{DoxyVerb}[ Craft From Containers ]
+    - Fixed an issue where GetItemCount() patch was searching for ingredients twice, resulting in mis-reporting (2x amount actually available )
+
+[ Encumbrance ]
+    - Added basic encumbrance.
+    - Encumbrance check fires when something is added / removed from back pack, toolbelt, and equipment.
+    - Once encumbrance is calculated, it's total value is added to a cvar, specified in the Config block. By default, this is encumbranceCVar.
+    - The value of the cvar is based on percent.  When set to 1f, the player is considered at MaxEncumbrance. 
+        - A value of 1.5 means the player is considered to b e 50% over encumbered.
+    - Maximum Encumbrance is read from the Config Block. However, if the CVar "MaxEncumbrance" is set, it will use that value instead.
+        - If Max Encumrabrance drops below 0, it will be reset to the Config Block Entry.
+        - The CVar will not be reset, only the value being used to perform the calculation.
+
+    - New configuration options added to SCore's Config block
+            <!-- Enables item weight encumbrance on the Player bag -->
+            <property name="Encumbrance" value="false" />
+
+            <!-- how much encumbrance before "max" threshold is set, and penalties are incurred. -->
+            <property name="MaxEncumbrance" value="10000" />
+
+            <!-- This cvar value will be placed on the player and will be a percentage of encumbrance. -->
+            <!-- 1f = at max encumbrance. 1.5, 50% over encumbrance -->
+            <property name="EncumbranceCVar" value="encumbranceCVar" />
+
+            <!-- Include Tool belt? -->
+            <property name="Encumbrance_ToolBelt" value="false" />
+
+            <!-- Include equipment ? -->
+            <property name="Encumbrance_Equipment" value="false" />
+
+            <!-- Each item that does not have a ItemWeight property will be weighed at this value. -->
+            <property name="MinimumWeight" value="0.1" />
+
+
+        Recommend XPath:
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance']/@value">true</set>
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance_ToolBelt']/@value">true</set>
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='Encumbrance_Equipment']/@value">true</set>
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='MinimumWeight']/@value">1</set>
+
+    - Each item can have a property called ItemWeight which will over-ride the MinimumWeight from the SCore's block's entry.
+            <property name="ItemWeight" value="10" />
+
+    - ItemWeight can be 0, and can also be negative numbers.
+
+
+
+[ Farming ]
+    - Fixed a bug where a water sprinkler was acting as an independent water source. 
+        -> Water sprinkler is now checking to see if its connected to a valid water source
+    - Fixed an issue where crops could be planted after a sprinkler was removed, and the area was no longer watered.
+    - Added debug information on pipes to show water source, and how much water is left.
+    - Added a Custom description for BlockPlantGrowing to show water information. This is for testing purposes.
+            <property name="DisplayInfo" value="Custom"/>
+    - Fixed an issue where Farmer would get bored and do nothing.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+405.\+854 \mbox{[} Farming \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a bug where the water range check was incorrectly using the water range of air, rather than the plant.
+\end{DoxyItemize}
+
+Version\+: 20.\+6.\+403.\+1003 \begin{DoxyVerb}[ Farming ]
+    - Fixed an issue where the sprinkler blocks were not registering themselves to the Valve System.
+        - Plants will check all valves ( sprinklers ) for their water range, then calculate if its within range of the valve.
+        - If there are no valves within range, plant will check for surrounding blocks for water.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+403.\+2043 \begin{DoxyVerb}[ Broadcast Feature ]
+    - Added code for Repair / Upgrade from storage
+    - Added check to see if enemy was nearby for Repair / Upgrade from storage
+
+[ UAI Farming Task ]
+    - Moved seed decrements from UAI Task to the Manage method, to more accurately subtrack seed usage.
+    - Added water check to see if NPC can actually plant at the location.
+    - Added a Water Valve Check
+        - When a water block will scan for a water source, it'll check all the valves registered, and check if the plant is within range of the water block's water range
+        - In order for this water valve to be registered, it must be on. Just having a water valve that is not on, will not be sufficient for plant needs.
+                - This is different behaviour than using a regular non-valve water source.
+        - If the original valve is off when a plant checks, it will look for other valves to see if there's any water available on them.
+        - If none are found, it'll resort to legacy behaviour, and scan for water sources.
+
+        - BlockWaterSourceSDX has a new property. Default is 5f.
+            <property name="WaterRange" value="5" />
+
+
+[ Trample Code ]
+    - Entities that have "notrample" cvar value greater than 0, will not cause crops to be damaged, if the crops damaged feature is enabled.
+    - Entities that have a "notrample" tag will not cause crops to be damaged.
+
+[ Quest ]
+    - Added Localization support.
+        ObjectiveBuffSDX_keyword  ( fall back is ObjectiveBuff_keyword, which is simply Get in English )
+        <buff> If the buff name has a localization setting, it'll use that, in conjunaction with the keyword  Get <my buff>
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+381.\+1359 \begin{DoxyVerb}[ Merge from khzmusik ]
+        - Fixed a null ref when an NPC would shoot a drone.
+
+        - Enhanced support for NPC Guard
+
+        The Guard command, when issued from a pathing cube, sets the NPC order to Guard. Since it is not issued by the NPCs leader or owner, the guard position is set to (exactly) where the NPC is standing.
+
+        This is different from the "GuardHere" response (aka "Stay where I am standing") in the hired NPC dialog menu. That dialog response sets the current order to Stay, and since it is issued by a player, 
+            the guard position is set to the center of the block where the player is standing.
+
+        This is all done by buffs. The buff from the pathing cube was already named "buffOrderGuard" in the C# code, but there was never a buff by that name in buffs.xml. So, I created a new buff for use by that code.
+
+        The buff used by the dialogs was "buffOrderGuardHere", which matched an existing buff in buffs.xml. That buff is unchanged.
+
+        Because the order is Guard, any NPC Core utility AI tasks that will not fire when the order is Stay, will still fire. This means NPCs will still run after enemies, reload, etc.
+
+        In order to have them stay where they are when initially spawned in, and return to their guard positions after they're done attacking enemies, a new AI task will need to be 
+            added in utilityai.xml. But this is not done in SCore.
+
+        No existing behavior should be affected by these changes; only POIs that have pathing cubes with "task=guard" will need these changes, and to my knowledge nobody is doing that.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+368.\+1433 \begin{DoxyVerb}[ Food Spoilage ]
+    - Fixed an issue with -99 not stopping spoilage when using PreserveBonus -99
+
+[ RandomDeathSpawn ]
+    Bug Report #61: Wrong spawns on multiplayer of "Burn Victim" #61 (https://github.com/SphereII/SphereII.Mods/issues/61 )
+        - Added isEntityRemote check before determine to spawn or not.
+
+[ ObjectiveBlockDestroySDX ]
+    Added a NetPackage to help distribute the block being destroyed count to the party for shared accumulation
+
+[ Fire Manager ]
+    - Disabled the extinguished check to see if a block has been flagged as extinguished or not.
+    - Added a check where extinguished removed a block from the fire map.
+    - New functionality is that each time a block is extinguished, it'll set the expired time, regardless if it's already in the list, counting down.
+        - If BlockA was extinguished, it can smoke for 20 seconds.
+        - After 20 seconds, BlockA can catch fire again.
+        - If BlockA is re-extinguished before the 20 seconds are past, expired time will be set back to 20.
+
+    - Old functionality is that each time a block is extinguished, it'll expire after the expired time, allowing it to re-ignite.
+        - If BlockA was extinguished, it can smoke for 20 seconds.
+        - After 20 seconds, BlockA can catch fire again.
+        - If BlockA is re-extinguished before the 20 seconds are past, it won't reset that time period.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+297.\+1109 \begin{DoxyVerb}[ Enitity Alive SDX ]
+    - changes by kgiesing
+
+    - With these changes, both EntityAliveSDX and EntityEnemySDX will implement that interface. 
+        - This should allow EntityEnemySDX to behave similarly to EntityAliveSDX
+
+        - This creates a new interface named IEntityOrderReceiverSDX, which should be used on any entity that can accept orders.
+
+        - Also, order-related blocks, MinEvents, and AI tasks are updated to use the interface type, rather than EntityAliveSDX directly.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+295.\+807 \begin{DoxyVerb}[ Broadcast Manager ]
+
+- possible fix for Broadcastmanager not saving on Multiplayer games : by FuriousRamsay
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+285.\+831 \begin{DoxyVerb}[ Broadcast Manager ]
+
+- Broadcastmanager will now save and cleanup on exiting
+
+- It should now be possible to broadcast from storages put down by other players
+    (storage must be locked if you don't want other players be able to remote craft from your storage)
+
+- Changed Button code for better support in custom UIs.
+
+[ Remote Crafting / Repairs ]
+
+- added remote repair/upgrade on  blocks by FuriousRamsay
+- added blocking repair/upgrade when enemies nearby
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+259.\+937 \begin{DoxyVerb}[ BlockClockDMT ]
+    - added in BlockClockDMT, which gives a working clock, updating an animator on the unity object every hour.
+          <property name="Class" value="ClockDMT, SCore"/>
+
+[ Spawn On Death ]
+    - Commented out code that would destroy the gore block, which may not be relevant anymore.
+
+[ Remote Crafting ]
+    - Solved bug where broadcast button was not being hidden when broadcastmanager was disabled
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+250.\+1020 \begin{DoxyVerb}[ Fire Manager ]
+    - Fixed a potential null ref when the fire check is firing before the game is fully loaded.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+249.\+1333 \begin{DoxyVerb}[ Random Death Spawn ]
+    - Updated spawn code to reflect the changes from SpawnEntity MinEffect to avoid duplicating entities
+
+[ Linux Fixes ]
+    - Fixed null reference errors when running on Linux client for crop trample and IsAlwaysActive
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+247.\+1047 \begin{DoxyVerb}[ Entity Stats ]
+    Using patch from haidr'gna.  Sets cvars on the character that contains the current rain fall, current snow fall, and current cloud percent
+
+    CVar:
+        _sc_rain
+        _sc_snow
+        _sc_cloud
+
+        __instance.Entity.Buffs.SetCustomVar("_sc_rain", rain, true);
+        __instance.Entity.Buffs.SetCustomVar("_sc_snow", snow, true);
+        __instance.Entity.Buffs.SetCustomVar("_sc_cloud", cloud, true);
+
+[ Fire Manager ]
+
+    - If an entity has a property set for SpreadFire set to false, an explosion from it will not spread the fire.
+        <property name="SpreadFire" value="false" />
+
+    - If an entity has a cvar called SpreadFire, and is set to -1, an explosion from it will not spread the fire.
+
+    - Commented out OnEntityWalkingPatchFire, as I believe UpdateCurrentPositionAndValue patch is sufficient to catch an entity on fire.
+
+[ Block Utilities ]
+    - Added a check to not add particles if the system is on a dedicated server
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+242.\+1151 \begin{DoxyVerb}[ Cave Manager ]
+    - Adjusted math for Heigh map
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+240.\+913 \begin{DoxyVerb}[ Fire Manager ]
+    - Potential fix for stack error on Linux
+
+[ Cave Manager ]
+    - Adjusted math for HeightMap mode
+    - Added new default height map as cave1.png.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+238.\+1937 \begin{DoxyVerb}[ Cave System ]
+    - Initial implementation of Heighmap cave system.
+    - Samples under 0-SCore/Caves/Stamps
+    - To enable Height Map Caves using xpath:
+
+        <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveEnabled']/@value">true</set>
+        <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='GenerationType']/@value">HeightMap</set>
+        <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePath']/@value">@modfolder:/Caves/Stamps/cave11.png</set>
+        <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePrefab']/@value">Large</set>
+
+    - Default is cave11.png
+
+    - Teleport to 0 0, then look for underground. The top corner of your target png is currently set to 0,0
+        -> You can also look at the log for:
+            Cave Teleport: 
+
+            This will give you the coordinates to teleport to. Example:
+                Cave Teleport: 57 0
+
+                teleport 57 0
+
+    - Log file is kind of spammy.
+        - During initial load up, it will display lines of numbers for the cave mapping as the system sees it.
+        - When a cave is being drawn, it'll display Target Depth.
+
+    - The CavePrefabs placeholders are currently defined as follows:
+        Large:  3x4x3 block of air
+        Medium: roughly 3x1x3
+        Small:  1x1x1
+
+        - This will be fleshed out more, but this is what you can start off with. I don't find Medium and Small very useful, but your heightmaps may need adjustments
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+238.\+1305 \begin{DoxyVerb}[ Fire Manager ]
+    - Updated two Harmony patches that give buffs to check if the block is on fire and has a particle.
+
+[ Random Death Spawn ]
+    - Removed blocking Check:
+        if (__instance.Buffs.HasCustomVar("NoSpawnOnDeath")) return true ;
+
+        - Added another line of guppy code to prevent spawns:
+        if (strSpawnGroup == "SpawnNothing") return true;
+
+    - Resynced Guppycur's changes
+
+    - If an entity has a custom cvar called RandomSize, and a custom cvar called SpawnCopyScale, the newly spawned entity will spawn with the same scale as the original
+
+[ UMA ]
+    - Brought forward some UMA patches that are disabled by default; toggle in Config/blocks.xml
+        -> If UMAs are set to type="Zombie", create the Data/UMATextures Folder
+            -> If UMATweaks is enabled, this folder is created when a type is Zombie.
+        -> If UMAs are set to type="Player", you do not need a Data/UMATextures folder
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+235.\+1604 \begin{DoxyVerb}[ ObjectiveBlockDestroySDX ]
+    -> Added support for a comma-delimited list for the block names that are valid.
+        <objective type="BlockDestroySDX, SCore" id="woodChair1,officeChair01VariantHelper,woodChair1Broken" value="1" phase="2"/>
+
+    -> Added support for comma-delimited list of tags. If the objective's ID does not match any known block, the objective will assume the id is a potential comma-delimited list of tags.
+        <objective type="BlockDestroySDX, SCore" id="ore,deepOre" value="1" phase="2"/>
+
+    -> Note: Order of checks is: comma-delimited block name, block name, comma-delimited tag. This is important because some tags will match a block name (terrGravel, wha u doin')
+
+    -> Note: Count is unified, so a woodChair1 and woodChair1Broken counts as 2 towards this objective 
+
+[ XUI Menu ]
+    -> Added a Config/XUi_Menu/windows-Template.xm to expose over-ride options using w00kie n00kie's Custom Game Option mod: https://gitlab.com/wookienookie/CustomGameOptions.git
+        -> other settings can be exposed with just XML settings. Some documentation exists in the windows.xml on how to map the settings to the xui.
+        -> This file is just a template file. Using it as-is is NOT recommended, as it will not display properply.
+    -> This is an optional feature that will not work without the CustomGameOptions.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+234.\+911 \begin{DoxyVerb}[ EntityAlive Patch ]
+    - Added a chunk of Guppycode I missed
+
+[ SpawnCubeSDX ]
+    - If the keep variable is on the Config line (the value does not matter.. keep=0), then it will not self-destroy
+        -> When keep is available, it'll set a scheduled update into the future.
+
+[ Entity Swimming ]
+    - Fixed an issue where fish were outside of water
+
+[ A Better Life ]
+    - Adjusted spawn rate in the biomes.xml for fish spawns.
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+233.\+1938 \begin{DoxyVerb}[ Entity Alive Patch ]
+    - Added new cvar check to disable SpawnOnDeath
+        -> If a particular entity has a cvar called: NoSpawnOnDeath, then it will skip the SpawnOnDeath
+
+[ Headshot Only Patch ]
+    - Fixed typos
+
+[ Fire Manager ]
+    - If SmokeTime is set to 0 or below, no smoke will be placed.
+
+[ 0-SCore Development ]
+    - Re-visited AssemblyInfo.tt and fixed up a issues, simplyfing it and adding leading 0s
+
+[ SpawnCubeSDX ]
+    - Added new property called keep=0. This will keep the spawn block from destorying itself, which was affecting water spawned entities.
+
+    <block name="terrWaterSpawner">
+      <property name="Extends" value="SpawnCube"/>
+      <property name="Class" value="SpawnCube2SDX, SCore" />
+      <property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0;keep=0" />
+  </block>
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+231.\+98 \begin{DoxyVerb}[ Entity Alive Patch ]
+    - Moved SpawnOnDeath() to a prefix rather than postfix, to remove ragdoll
+
+[ Fire Manager ]
+    - Fixed a threading issue where a zombie hand attack would crash if it tried to add fire.
+    - Fixed an issue where a Material does not have MaterialDamage setting (error reported by magejosh)
+\end{DoxyVerb}
+ Version\+: 20.\+6.\+230.\+1610 \begin{DoxyVerb}[ Entity Alive Patch ]
+    - Fixed an issue where entity's using the Vulture class were stuck in their jump pose.
+
+    - Added a ForceDespawn() call to the SpawnOnDeath() feature.
+
+[ Fire Manager ]
+    - Moved registering of particles to the Block.Init()
+        -> Checks the block and material for FireParticle and SmokeParticle.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+230.\+86 \begin{DoxyVerb}[ Remote Storage ]
+  - Fixed Bug where items with ItemQuality where not removed from containers from matteo
+
+[ Fire Manager ]
+    - Removed test code that turned terrain into burn forest when burned.
+    - Updated Explosion patch.
+        <property name="Explosion.BlockDamage" value="0"/>  <!-- Setting it to 0 neither starts nor puts out a fire -->
+        <property name="Explosion.BlockDamage" value="-1"/>  <!-- extinguishes. Value less than 0 -->
+        <property name="Explosion.BlockDamage" value="1"/>  <!-- lights fire. Value higher than 0 -->
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+229.\+1021 \begin{DoxyVerb}[ Fire Manager ]
+    - Added optional cvar flag to MinEffect for CheckFirePRoxity. By default, this is _closeFires
+        <triggered_effect trigger="onSelfBuffUpdate" action="CheckFireProximity, SCore" range="5" cvar="_closeFires" />_
+    - This allows you to specify different cvars for different ranges
+
+    - Added support for a FireDowngradeBlock property on a block.
+        <property name="FireDowngradeBlock" value="terrSnow" />
+
+        -> This will downgrade a block that is damaged by fire only.
+        -> If set, the downgraded block will go through the blockplaceholders for other options.
+        -> If the new block is flammable, it will remain on fire.
+        -> If the new block is not flammable, it will get extinguished.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+229.\+2113 \begin{DoxyVerb}[ Fire Manager ]
+    - Fixed an issue where zombies do not catch fire walking through fire.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+6.\+229.\+2113 \mbox{[} Fire Manager \mbox{]}
+\begin{DoxyItemize}
+\item Hot fix to prevent crashing when adding sound (like trees)
+\item Exposed new properties in Config/blocks.\+xml $<$property name=\char`\"{}\+Smoke\+Time\char`\"{} value=\char`\"{}60\char`\"{} $>$ $<$property name=\char`\"{}\+Fire\+Sound\char`\"{} value=\char`\"{}\+Fire\+Medium\+Loop\char`\"{} $>$
+\item Fire\+Sound can be over-\/written on a block by basis. ~\newline
+
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+228.\+1520 \begin{DoxyVerb}[ Fire Manager ]
+    - Added new buff Requirement to determine if you were close to a fire block
+        <requirement name="RequirementIsNearFire, SCore" range="5" />
+
+    - Added a new MinEffect to determine how many burning blocks are within the player.
+        <triggered_effect trigger="onSelfBuffUpdate" action="CheckFireProximity, SCore" range="5"  />       
+
+        -> This sets a cvar called _closeFires with how many burning blocks are near by.
+
+    - Added sound effects for fire.
+
+[ Remote Storage ]
+    - Added Invert feature to disabledsender
+        -> If Enabled only mentioned containers share inventory
+    - Added grouping of workstations to nottoworkstation and bindtoworkstation
+        -> It is now possible to group multiple workstations to a group of storages
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+227.\+1659 \begin{DoxyVerb}[ Fire Manager ]
+    - Updated the code to set fire to players to use AddBuff instead of AddBuffNetwork
+
+[ SpawnCube2SDX ]
+    - Added two new mineffect to set and clear owner of the SpawnCube2SDX
+
+        <triggered_effect trigger="onSelfDamagedBlock" action="ClearOwner, SCore" />
+        <triggered_effect trigger="onSelfDamagedBlock" action="SetOwner, SCore" />
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+227.\+925 \begin{DoxyVerb}[ Remote Recipes ]
+    - Merged changes from matteo
+        added features requested by pipermac...
+        updated searchnearbycontainers since checks are already done by gettileentities.
+        changed some methods to use searchnearbycontainers instead of gettileentities.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+227.\+95 \begin{DoxyVerb}[ SpawnCube2SDX ]
+    - Added Harmony patch to preserve ownership during upgrades / downgrades
+        -> Downgrade / Upgrade targets must use the same SpawnCube2SDX class
+            <property name="Class" value="SpawnCube2SDX, SCore" />
+        -> Config property line can be ommitted, or blanked, for non-spawning spawnCube.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+226.\+2037 \begin{DoxyVerb}[ Fire Manager ]
+    - Fixed an issue with the FireManager not tracking fires on dedi correctly
+    - Fixed an issue where melee attack does not set fires correctly (only partially applying fire )
+    - Updated default Config/blocks.xml's entry for what is flammable or not.
+    - Added protection gate for MinEffects when fire manager is off line.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+226.\+1035 \begin{DoxyVerb}[ Fire Manager ]
+    - Moved fire buff on walk to Entityalive patch rather than block
+    - Fire hurts now.
+
+[ Config/blocks.xml ]
+    - Cleaned up an old Broadcastmanager node.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+224.\+1353 \mbox{[} Broadcast feature \mbox{]}
+\begin{DoxyItemize}
+\item Update from matteo, removing second button, updating sprites
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+224.\+1021 \begin{DoxyVerb}[ Broadcast feature ]
+    - Fixed an issue with a null ref when the xui.currentworkstation is empty
+
+[ Quests ]
+    - Added new ObjectiveBlockDestroySDX, SCore. Example in Config/quests.xml
+
+        <objective type="BlockDestroySDX, SCore" id="frameShapes" value="1" phase="2"/>
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+223.\+110 \mbox{[} Broadcast feature \mbox{]}
+\begin{DoxyItemize}
+\item New Broadcast Manager feature by matteo ( \href{https://youtu.be/BGPSIc5HUgg}{\texttt{ https\+://youtu.\+be/\+BGPSIc5\+HUgg}} )
+\item New Net\+Packages to support broadcast feature
+\end{DoxyItemize}
+
+\mbox{[} Remote Containers \mbox{]}
+\begin{DoxyItemize}
+\item Fix by matteo with regards to pulling ingredients for forge
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+221.\+934 \begin{DoxyVerb}[ Remote Containers ]
+    - Merged fixes from matteo
+
+[ EntityEnemySDX ]
+    - Merged fix for IsAlwaysAwake
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+220.\+1149 \begin{DoxyVerb}[ Remote Containers ]
+    - Fixed an issue where items were not being removed from the container.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+218.\+1914 \begin{DoxyVerb}[ Fire Manager ]
+    - Fixed a null ref when fire manager is first started when DyanmicMesh system isn't online
+
+    - Added optional feature where randomized fire and smoke particles can be used, using a comma-seperated format.
+        If this property is not defined on the Configuration block, it uses default Fire/Smoke particle.
+
+        Example in Config/blocks.xml, but also here:
+
+                <property name="RandomFireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis03-Cartoon,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis04-SlowFire,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight" />
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+218.\+174 \begin{DoxyVerb}[ Fire Manager ]
+    - Added a call to update dynamic mesh so a burned down prefab looks as you'd expect.
+    - Merged in ocbMaurice's light changes.
+        - These will turn on and off lights from the fire to improve performance
+
+[ Portals ]
+    - Disabled ChunkObserver setting for Portals, as it was causing an error on the dedicated servers
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+216.\+1632 \begin{DoxyVerb}[ Fire Manager ]
+
+    - Expanded SmokeParticle, FireParticle, and FireDamage to be read from the block's material entry.
+
+        <property name="FireDamage" value="50" />               <!-- How much damage each time it checks will do the block. -->
+        <property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />     <!-- Fire particle to use -->
+        <property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
+
+        Priority Order:  
+            Material Entry
+            Block Entry
+            Global Entry
+
+    - Added a delayTime to the MinEffectAddFireDamage. 
+
+        The value is in milliseconds. Default is 0, with no delay.
+
+        <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="5" delayTime="1000" /> <!-- 1 second before fire starts -->
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+216.\+1451 \begin{DoxyVerb}[ Entity ]
+    - New MinEffect to spawn an entity. The actual spawn location is hit position + 1 block up.
+
+        For example, adding this to the ammo of a cross bolt will spawn an entity at the hit location.
+
+        <triggered_effect trigger="onProjectileImpact" action="SpawnEntityAtPoint, SCore" SpawnGroup="ZombiesBurntForest"  />
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+215.\+1938 \mbox{[} Fire Manager \mbox{]} \begin{DoxyVerb}- Removed verbose log output
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+215.\+1628 \begin{DoxyVerb}[ TileEntity AOE ]
+    - Fixed an invalid cast from bad copy and paste job.
+
+[ Fire Manager ]
+    - Added debug output to MinEffects, enabled via turning Logging on in the FireManagement
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+214.\+1558 \mbox{[} Ingredients From Container patches by matteo \mbox{]} \begin{DoxyVerb}https://github.com/SphereII/SphereII.Mods/pull/46
+    changed some stuff to linq for better readabilty.
+
+Note: Please report any kind of performance slows downs.    
+\end{DoxyVerb}
+ \mbox{[} Fire Manager \mbox{]}
+\begin{DoxyItemize}
+\item Updated to use Net\+Packages. -\/\texorpdfstring{$>$}{>} Particles should work on Fires, extingusihes, and auto-\/expire
+\item Added new Net\+Packages to distribute the server\textquotesingle{}s data to client\textquotesingle{}s
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+214.\+743 \begin{DoxyVerb}[ Ingredients From Container Patches by matteo ]
+
+    https://github.com/SphereII/SphereII.Mods/pull/45
+        fixed some issues with items not being removed correctly.
+
+[ Entity Swiming ]
+    - Pushed a fix to avoid spawning fish randomly in the world.
+
+[ Fire ]
+    Note: Fire System is being refactored to fix a variety of issues.
+
+    - Fixed particles not showing on dedi / P2P clients.
+
+    - Changed Fire Instance start to ModEvent for GameStartDone.
+
+    - Added Cleanup call to clear possibly stale data on client restart.
+
+    - Added Reset() to clear all existing game blocks that are on fire or smoldering.
+    - Added new console command called:  fireclear
+        -> Removes all recorded blocks that were on fire or extinguished, and removes their particles.
+
+    - Fixed an issue with the NetPackageRemoveParticleEffect() with a useless write call.
+
+    - Explosions that cause BlockDamage -1, will extingish fires. BlockDamage other than -1 will set fires.
+        <property name="Explosion.BlockDamage" value="-1"/>
+
+    - Added new property to Config/blocks.xml to control the amount of smoke time at the end of a fire, in seconds.
+        <property name="SmokeTime" value="60" />
+
+    - Removed smoke particles from fires that burn themselves out. Reserving them now when you intentionally extinguish them.
+
+    - Modified MinEvent FireDamage / FireDamageCascade to support ranged targets.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+211.\+1016 \begin{DoxyVerb}[ Fire ]
+
+    - Added new Config/blocks.xml entry to allow filtering Material ID.             
+        <property name="MaterialID" value="Mplants, Mcorn" />   <!-- Checks the material's id to see if it should ignite  -->
+
+    - Order of Material Checks, in terms of priority:
+        ID
+        DamageCategory
+        DamageSurface
+
+    - New block properties have been exposed, over-riding global defaults for FireParticle / SmokeParticle
+        <property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" />
+        <property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+
+        Using NoParticle will skip the particle effect:
+            <property name="FireParticle" value="NoParticle" />
+            <property name="SmokeParticle" value="NoParticle" />
+
+        To mass add custom particles above to blocks, consider using an xpath similar to this:
+
+        <!-- Search for all blocks that have a Material property called Mcloth, and add in the properties to that block -->
+        <append xpath="/blocks/block[ property[@name='Material' and @value='Mcloth'] ]">
+            <property name="FireParticle" value=#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy"" />   
+            <property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />
+        </append>
+
+    - Add new NetPackage in attempt for particles on dedi. Needs testing.
+
+    - Added new MinEvent called AddFireDamageCascade. Defaults to block type.
+        This minevent works similar to the Extinguish Minevent, in which multiple blocks of the same type around the target is affected. Rather than extinguish, it ignites those blocks instantly.
+
+        Supported formats:
+
+            <!-- The same type of block -->
+            <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="Type" />
+
+            <!-- Shares the same material -->
+            <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="Material" />
+
+            <!-- Shares the same material damage classification -->
+            <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="MaterialDamage" />
+
+            <!-- Shares the same material surface classification -->
+            <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="MaterialSurface" />
+
+        Example, if you hit a curtain block, it will catch fire. In addition, all curtain blocks in the range of 4 are also immediately lit.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+210.\+1950 \begin{DoxyVerb}[ Fire ]
+    - Changed default buff when you step into the fire to be buffBurningMolotov 
+    - Added new particle from guppycur ( commented in Config/blocks.xml )
+
+    - Fire will not be added to trader-protected zones. We have to protect Jen.
+
+    - Added new Config/blocks.xml properties to configure materials and surface categories to xml. Case sensitive.
+        Example, and default:
+            <property name="MaterialDamage" value="wood, cloth" /> <!-- Checks the material's damage category to see if it should ignite  -->
+            <property name="MaterialSurface" value="wood, cloth" /> <!-- Checks the material's surface category to see if it should ignite -->
+
+    - Added new Config/blocks.xml to configure heat per burning block. Default is 1. Setting to 0 disables it.
+        <property name="HeatMapStrength" value="1"/>            <!-- Determines how much each block contributes to heat -->
+
+    - Added new block's property to control how much fire damage the block is to take. Integer.
+        This over-rides the default global configuration.
+
+        <property name="FireDamage" value="40" />
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+210.\+1020 \mbox{[} Fire \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue with the particles not working at all. Great job, Sphere\+II.
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+210.\+859 \begin{DoxyVerb}[ Fire ]
+    - Fixed MinEvent on the RemoveFire damage to work at aim point, rather than the barrel of extinguisher
+    - Put in a potential fix for dedi particles. Unlikely to work.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+209.\+1530 \begin{DoxyVerb}[ Fire Manager ]
+    - Applying Fire Particle on hit, instead of delayed
+    - Adjusted the CheckInterval from 10 to 20
+    - Updated fire particle from guppycur
+    - Updated default fire particle to be Heavy
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+209.\+1414 \begin{DoxyVerb}[ Fire Manager ]
+    - Added initial implementation for lighting blocks on fire.
+
+        - When a block is added to the FireManager, it is added to a loop that checks:
+            -> Is it still flammable?
+            -> Has it been extinguished?
+            -> Does damage on the block
+            -> If damage exceeds the block, it gets downgraded, or replaced with air. (uses block placeholder)
+            -> Once all blocks are checked and calculated, it updates the chunks.
+
+    What makes a block flammable or not?
+
+        If it's a child, it won't catch fire. If its air, water, or is near water, it will not catch fire.      
+
+        If the block has a tag of 'inflammable', it will not be burnable.
+
+        If the block has a tag of 'flammable', it will be marked as burnable. 
+            <append xpath="/blocks/block[@name='terrGravel']/property[@name='Tags']/@value">,flammable</append>
+
+        If there is not tag, and passes the other checks, it'll check the block material from materials.xml.
+            if its DamageCategory is wood, or if its SurfaceCategory is plant, it will be flammable.
+
+    - New config entry in Config/blocks.xml
+    - New Harmony patch on OnEntityWalking, which checks if the block is burning and delivers a buff to an entityalive that walks through it.
+    - New Harmony patch to Explosion to include blocks affected by them to catch fire.
+
+    - New test items:
+        sphereTorch - When a block is struck, it is lit on fire.
+        sphereExtinguish - When a block is struck, blocks in a range of 2 of the strike position is considered extinguished.
+
+[ Triggered Effect ]
+    - Added two new triggered effects to provide support for Fire Manager
+
+        <!-- When an item has this triggered effect hits a block that is flammable, the block will catch fire -->
+        <triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" />
+
+        <!-- When an item has this triggered effect hits a block that is on fire, the fire still be extinguished. -->
+        <triggered_effect trigger="onSelfDamagedBlock" action="RemoveFire, SCore" target="positionAOE" range="5"/>
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+207.\+98 \begin{DoxyVerb}[ Block ]
+
+    New Block to throw an AoE at all times. Full example xml in Config/blocks.xml.
+
+        Example:
+        <block name="sphereiiAoETest">
+            <property name="Class" value="DecoAoE, SCore" />
+            <property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+194.\+1350 \begin{DoxyVerb}[ Crop Management ]
+    - Disabled unlimited water from bedrock block
+        - If desired to have bedrock as an unlimited water source, add the following property to the bedrock block:
+            <property name="WaterSource" value="true" />
+
+    - Added new property to global crop data that determines how much damage to a water block happens when a crop consumes.
+        - This property is defined in the CropManagement block of the SCore's configuration block.
+        - Individual plants can over-ride this property if they have it defined on their block.
+            - This is done on a block by block basis. If your plant has 3 growth cycles, you will have to define it for each block, with various possible amounts.
+        - Default is 1.
+
+        <property name="WaterDamage" value="1" />
+
+    - If a water source has a the WaterSource property, it is considered an unlimited source of water, so be mindful of this.
+
+    - When a water pipe is removed, and the particle is still enabled, the particle will now be removed.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+177.\+1415 \begin{DoxyVerb}[ Sleepers ]
+    - Merged pull request to wake up sleepers automatically in Active sleeper volumes.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+174.\+1938 \begin{DoxyVerb}[ Portals ]
+    - Fixed an issue where the requiredPower wasn't being checked correctly for the animation.
+        - Animation may still be a bit wonky, but should be slightly improved.
+    - Fixed an issue where the sign data wasn't being saved correctly.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+174.\+218 \begin{DoxyVerb}[ Sleepers ]
+
+    - Added the EntityEnemeySDX to the SetSleeperActive(). This was already being done for EntityAliveSDX.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+169.\+98 \begin{DoxyVerb}[ Portals ]
+    - Changed location for when animations on portal starts
+
+[ Quests ]
+    - Changed how the EntityEnemySDX and EntityAliveSDX kills are recorded; more in line with vanilla now for MP compatibility.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+165.\+1145 \mbox{[} Portals \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a bug with the dialog teleport
+\end{DoxyItemize}
+
+\mbox{[} Storage \mbox{]}
+\begin{DoxyItemize}
+\item Reduced default range from 30 to 10
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+162.\+1349 \begin{DoxyVerb}[ Portals ]
+    - Reproduced and fixed teleporting through buff / dialog and landing on a roof
+    - Added samplePortal06 which acts like a non-powered, player-editable test portal.
+
+[ Storage ]
+    - Highly Experimental Feature
+    - New property in blocks.xml to turn this highly experimental feature on.
+        <property class="AdvancedRecipes" >
+            <property name="ReadFromContainers" value="true"/>
+            <property name="Distance" value="30" />  <!-- This is not 30 blocks, but rather a distance between you and the container. This is roughly about 6 or 7 blocks.-->
+        </property>
+
+    - When set to true, this highly experimental feature will read from containers around the player, pulling items out, to be used in crafting recipes.
+        - If crafting is cancelled, this highly experimental feature will dump the ingredients into the player backpack, rather than their original location.
+
+    - With regards to testing this highly experimental feature, high concentrations of containers may induce lag. We may need to put in limits on how many containers it will check.
+
+    Note: This is highly experimental feature. 
+
+[ Food Spoilage ]
+    - If the container's Preserve bonus is set to -99, no food spoilage will occur.
+        <property name="PreserveBonus" value="-99" />
+\end{DoxyVerb}
+
+
+Version\+: 20.\+5.\+155.\+1359\+: \begin{DoxyVerb}[ Quests ]
+    Fixed a bug with ObjectiveEntityEnemySDXKill not recording.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+155.\+1247 \begin{DoxyVerb}[ Portals ]
+    - Added ability to define a Prefab's nameon the location line. Full example in blocks.xml as samplePortal05.
+    - If the destination= portal isn't registered, and the prefab is defined on the location line, the Portal Manager
+        will search inside of the first prefab instance it finds, with that name, with that portal.
+
+        <!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02 -->
+        <property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02" />
+
+    - Fixed a bug where requiredPower wasn't being accurately checked.
+    - Made Portals be ChunkObservers
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+151.\+934 \begin{DoxyVerb}[ Lock Picks ]
+    - Added a new property to be read from Doors. If set to false, the doors are not pickable, and revert to vanilla
+        <property name="Pickable" value="false" />
+
+    - If the door has an Owner ( Player-placed), the door will not be pickable.
+
+[ Quests ]
+    - Added new EntityEnemySDX objective
+        <objective type="EntityEnemySDXKill, SCore" id="npcHarleyEmptyHand" value="2" phase="3"/>
+
+[ Food Spoilage ]
+    - No code changes, documentation only:
+        - Added an example items.xml entry to show how to specify food spoilage on the food items. Turning on the food spoilage in the blocks.xml does not fully activate food spoilage.
+        - The blocks.xml needs to enable the food spoilage, and the foot items must contain new properties to allow spoiling.
+        - khzmusik has an excellent modlet for this: https://gitlab.com/karlgiesing/7d2d-a20-modlets/-/tree/main/khzmusik_Food_Spoilage
+
+[ Portals ]
+    - Added a check to see if the teleport request is either legacy support or the newer style.
+        - This should fix the MinEvent Teleport and other one-way teleports.
+        - If a location= only contains a single value, it's determined to be legacy
+        - It will check all the portals for destination=, and then check its source=
+
+[ Dialogs ]
+    - Added in a crude extend option which will be expanded more. I wouldn't use this yet, if I were you.
+\end{DoxyVerb}
+ Version\+:20.\+5.\+149.\+1038 \mbox{[} Portals \mbox{]}
+\begin{DoxyItemize}
+\item When a new portal is added, it checks if the source location already exists, and how many times. If there\textquotesingle{}s already 2, the portal is marked as invalid, and is not linked in.
+\begin{DoxyItemize}
+\item Operates on first set basis. New portals will NOT over-\/write existing portal locations. They must be removed before they can be re-\/assigned.
+\end{DoxyItemize}
+\item Sunsetting Portal, \mbox{\hyperlink{namespace_s_core}{SCore}} blocks. It\textquotesingle{}ll now pass through to Powered\+Portal, \mbox{\hyperlink{namespace_s_core}{SCore}}
+\begin{DoxyItemize}
+\item Note\+: Portal2, \mbox{\hyperlink{namespace_s_core}{SCore}} exists in code to replicate the original code, but not intended to be used.
+\end{DoxyItemize}
+\item The difference between a Powered Portal and non-\/\+Powered Portal is the Required\+Power value. $<$property name=\char`\"{}\+Required\+Power\char`\"{} value=\char`\"{}7\char`\"{}$>$ When the property is not set, it defaults to -\/1, and the portal does not need power to operate. Set to 0 to disable a portal from getting power through extends.
+\end{DoxyItemize}
+
+Min\+Effect\+Teleport and \mbox{\hyperlink{class_dialog_action_teleport}{Dialog\+Action\+Teleport}} should accept location=\char`\"{}destination=portal2\char`\"{}.
+\begin{DoxyItemize}
+\item Source is not set up for these methods, unless someone has a use-\/case.
+\end{DoxyItemize}
+
+If a Powered\+Portal requires power, then the destination must be powered to go there.
+\begin{DoxyItemize}
+\item If its not powered, teleport does not occur.
+\end{DoxyItemize}
+
+Added new sample\+Portal01b block. Source is sample\+Portal01cb, but destination is sample\+Portal01b
+\begin{DoxyItemize}
+\item Add buff buff\+Teleport\+Test to teleport to this portal
+\end{DoxyItemize}
+
+\mbox{[} Quests \mbox{]}
+\begin{DoxyItemize}
+\item Added \mbox{\hyperlink{class_s_core_quest_event_manager}{SCore\+Quest\+Event\+Manager}} to manage custom events for future quests
+\item Added Objective\+Entity\+Alive\+SDXKill, modelled off Objective\+Animal\+Kill $<$objective type=\char`\"{}\+Entity\+Alive\+SDXKill, SCore\char`\"{} id=\char`\"{}npc\+Harley\char`\"{} value=\char`\"{}2\char`\"{} phase=\char`\"{}3\char`\"{}$>$
+\begin{DoxyItemize}
+\item Example in quests.\+xml
+\end{DoxyItemize}
+\item Merged khzmusik\textquotesingle{}s quest changes Adds an objective that is a drop-\/in replacement for Random\+POIGoto except you can specify\+:
+
+tags a POI must have to be included in the search, in the \char`\"{}include\+\_\+tags\char`\"{} property tags a POI cannot have to be included in the search, in the \char`\"{}exclude\+\_\+tags\char`\"{} property A distance from the quest giver, as either a max distance or range (in-\/game meters) All of the properties from Random\+POIGoto are also supported.
+
+A sample quest is included.
+
+For servers, a new Net Package implementation is included.
+\end{DoxyItemize}
+
+Version\+: 20.\+5.\+147.\+746 \begin{DoxyVerb}[ Portals ]
+    - Fixed null reference when using Legacy portal in PortalManager
+    - Added IsPowered check to Teleport method, and to animate method
+    - Added check to confirm destination is powered and available before teleporting.
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+146.\+1672 \begin{DoxyVerb}[ Portals ]
+    - Added Powered Portals. May need model work to add the 'electrical connection.'
+        <block name="samplePortal04">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore" />
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="Entities/Electrical/power_switchPrefab"/>
+            <!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+            <property name="Display" value="true" />
+        </block>
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+145.\+728 \begin{DoxyVerb}[ Caves ]
+    - Added sanity check against a negative value for max range - Chasing possible bug with vehicle + cave connection
+
+[ Portals ]
+    - New configuration option for blocks.xml entry for portals
+
+        If the Display property is false, nothing will show up to the user when they are looking at the portal.
+        <property name="Display" value="true" /> 
+
+        If the Display is set to true, and the player has the buff "buffyours", they will see "Teleport To <Portal Destination>"
+        <property name="DisplayBuff" value="buffyours" />
+
+        If Display is set to true, but the player does not have the buff, they will see "Telport To..."
+
+    - New <property name="Location" value="" /> Changes
+        If the value is simply Portal01, then it will act as a two-way portal to the other Portal with the same name.
+        MinEffect and Dialog teleport triggers use this syntax as well.
+
+        - New syntax:
+            <property name="Location" value="source=Portal01,destination=Portal02" />  I am Portal01, but I send the player to Portal02
+            <property name="Location" value="source=Portal01,destination=NA" />  I am Portal01, but I have no destination. I am a one way portal (people can port to me, but not from me)
+
+    - Fixed an issue with PortalMaps not being cleared from one game to another
+\end{DoxyVerb}
+ Version\+: 20.\+5.\+143.\+1141 \begin{DoxyVerb}[ Quests ]
+    Added in GiveBuff as quest award
+        <reward type="GiveBuff, SCore" id="yourbuff" />
+
+[ Portals ]
+    - Removed OnBlockCollided, and OnWalk on triggers. Players must interact with it now.
+    - Added 2 second delay before teleport begins, starting after cooldown buff is specified.
+        <property name="CooldownBuff" value="buffTeleportCooldown" />
+        <property name="Delay" value="1000" /> <!-- Micro seconds, whole numbers only. Default is 1000ms  -->
+
+    - Added XML configuration for fixed portals
+        <property name="Location" value="Portal01" />
+
+[ MinEvent ]
+    - Added new MinEvent to teleport the player to a certain location
+        <triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01" />
+
+[ Dialog ]
+    - Added new Dialog action to trigger a teleport. It supports the following, most of which is not tested.
+
+        Teleports to a Portal
+        <action type="Teleport, SCore" id="Portal01" />
+
+        Teleports to the player's current bedroll
+        <action type="Teleport, SCore" id="Bedroll" />
+
+        Teleports to the player's landclaim
+        <action type="Teleport, SCore" id="Landclaim" />
+
+        Teleports to the player's backpack
+        <action type="Teleport, SCore" id="Backpack" />
+
+[ Faction Manager ]
+    - Fixed null ref for faction manager's update call
+
+[ XML ]
+    - Commented out the error with the PortalPrefab
+\end{DoxyVerb}
+
+
+Version\+: 20.\+4.\+126.\+2131 \mbox{[} NPC \mbox{]}
+\begin{DoxyItemize}
+\item Allowed override on a per-\/entity base for $<$property name=\char`\"{}\+All\+Entities\+Use\+Faction\+Targeting\char`\"{} value=\char`\"{}true\char`\"{} $>$ \mbox{[} Portals \mbox{]}
+\item Preliminary code for setting Portals ready for testing. Portals are fancy signs. Add the same Text to two Portals, and they will be linked.
+\begin{DoxyItemize}
+\item In the case of multiple named portals, the first one discovered will be used.
+\end{DoxyItemize}
+
+Video Example\+: \href{https://youtu.be/cvYxVzY_lO4}{\texttt{ https\+://youtu.\+be/cv\+Yx\+Vz\+Y\+\_\+l\+O4}}
+
+2 Portal Blocks have been defined in blocks.\+xml, using models provided by guppycur guppy\+Portal\+Magic guppy\+Future\+Portal
+\end{DoxyItemize}
+
+Version\+: 20.\+4.\+119.\+941 \mbox{[} NPC \mbox{]}
+\begin{DoxyItemize}
+\item Added Chunk visible feature for the NPCs. When the chunk is not visible, the NPC\textquotesingle{}s gravity will be turned off. When thec hunk is visible, the NPC\textquotesingle{}s gravity will be turned on. This is a potential fix for NPCs disappearing at bases, with the theory that they are falling out of the world. Thanks to closer\+\_\+ex
+\end{DoxyItemize}
+
+\mbox{[} \mbox{\hyperlink{namespace_u_a_i}{UAI}} \mbox{]}
+\begin{DoxyItemize}
+\item New Utility AI task.
+\begin{DoxyItemize}
+\item Look for a Pathing\+Code on the NPC, and start patrolling about between all the codes.
+\item NPC will scan for all Pathing\+Cubes nearby for a code that matches its Cvar Pathing\+Code.
+\item Optional buff will fire when the NPC reaches its target point.
+\begin{DoxyItemize}
+\item Task will not end until the buff expires
+\item Once buff expires, NPC will go to its next location.
+\item If you want an NPC to walk to a point, and stand there for 10 seconds, have the buff\textquotesingle{}s duration set to 10.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\begin{DoxyVerb}        Basic Example:
+
+        <action name="Patrol" weight="3" entity_filter="IsSelf" >
+            <task class="Patrol, SCore" run="false" buff="IsGathering"/>
+
+            <consideration class="HasPathingCode, SCore" />
+            <consideration class="EnemyNotNear, SCore" distance="15"/>
+        </action>
+
+        Setting pc=5 on a SpawnCube will set nearby NPC to path to cubes with the number 5.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+4.\+116.\+1950 \begin{DoxyVerb}[ Blocks ]
+    - Re-added crop trample
+        Add  fcropsDestroy to the FilterTags to enable:
+
+        <!-- To make all crops destroy on touch -->
+         <append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
+
+    - Added Guppycur's sprinkler to Bloom's Family Farming
+    - Added the Farmer NPC back for MyFarmer entity in Bloom's
+\end{DoxyVerb}
+ Version\+: 20.\+3.\+113.\+106 \begin{DoxyVerb}Demo and water / crop overview: https://youtu.be/ApcwwfexxWU
+
+"Bloom's Family Farming" Modlet contains sample XML configuration to:
+    - Turn on water requirement feature
+    - Update all crops to require water
+    - Updated metalPipe's to water pipe class
+    - Added My Farmer NPC ( Uses Nurse model from 1-NPCCore (required))
+    - Added Crop Control Panel
+    -Add Farm UAI
+
+    - Use this Modlet with the latest SCore and latest 1-NPCCore for a complete test environment.
+
+[ Crop Management ]
+    - Improved the valve system to be a bit more reliable
+    - Fixed BloomTest01 Prefab used for testing: 
+        - Includes water tower, valves, pipes, and farm plots
+
+[ UAI ]
+    - Improved Farming Task
+        - Farmer task now harvests and replants crops
+\end{DoxyVerb}
+ Version\+: 20.\+3.\+111.\+x \begin{DoxyVerb}[ Crop Management ]
+    - Fixes for the UAI Task for planting/ checking
+    - NPCs will be able to:
+        a) Look in their inventory to find seeds
+        b) Plant those seeds
+        c) Once all seeds are gone, they maintain the crops
+            - Checking for bugs ( SCore doesn't have bugs, but the plants may)
+            - Potentially watering the crops, avoiding water waste
+        d) Harvest crops when they are ready, and store crops in their inventory.
+            - Any seeds harvested will be replanted.
+\end{DoxyVerb}
+ Version\+: 20.\+3.\+110.\+1815 \mbox{[} Blocks \mbox{]} \mbox{\hyperlink{class_block_take_and_replace}{Block\+Take\+And\+Replace}} has a new property to allow you to specify which item is allowed. This is a comma delimited list. $<$property name=\char`\"{}\+Holding\+Item\char`\"{} value=\char`\"{}melee\+Tool\+Repair\+T1\+Claw\+Hammer\char`\"{} $>$ $<$property name=\char`\"{}\+Holding\+Item\char`\"{} value=\char`\"{}melee\+Tool\+Repair\+T1\+Claw\+Hammer,melee\+Stone\+Tool\char`\"{} $>$
+
+Updated Block\+Utilities to add particles centered to the block, instead of at the edge.
+
+\mbox{[} Crop Management \mbox{]}
+\begin{DoxyItemize}
+\item Added new Blocks for support\+: \mbox{\hyperlink{class_block_crop_control_panel}{Block\+Crop\+Control\+Panel}} -\/ Used to debug and control the pipe system \mbox{\hyperlink{class_block_farm_plot_s_d_x}{Block\+Farm\+Plot\+SDX}} -\/ Used to update the vanilla\textquotesingle{}s Farm\+Plots -\/Added new \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} to hold Farm\+Plot information -\/Added \mbox{\hyperlink{class_plant_data}{Plant\+Data}} to hold plant data -\/Added \mbox{\hyperlink{class_pipe}{Pipe}} class to hold piping information -\/Added \mbox{\hyperlink{class_farm_plot_manager}{Farm\+Plot\+Manager}} and \mbox{\hyperlink{class_water_pipe_manager}{Water\+Pipe\+Manager}} to handle their tasks.
+\begin{DoxyItemize}
+\item Removed pipe management from crop
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\begin{DoxyVerb}[ Utility AI]
+    - Added IsNearFarm consideration 
+    - Added UAITaskFarming task
+
+[ Modlet ]
+    Added new Bloom's Family Farming modlet to the SphereII.Mods repo
+    This modlet contains XML to turn on and manage the crop management system with examples
+    Also includes a prefab called BloomTest01
+        - From menu, go into Prefab Tools and load up BloomTest01, then Play test.
+    Added SphereiiFlat world to be used for durability testing.
+\end{DoxyVerb}
+ Version\+: 20.\+3.\+105.\+1149 \begin{DoxyVerb}[ Quests ]
+    - FuriousRamsay has been working on fixing the distance restriction bug on quests
+    - New Objectives:   
+        RandomGotoSDX, SCore
+            <objective type="RandomGotoSDX, SCore" value="700-800" phase="1">
+                <property name="completion_distance" value="50"/>
+                <property name="nav_object" value="quest" />
+            </objective>
+
+        RandomPOIGotoSDX, SCore
+            <objective type="RandomPOIGotoSDX, SCore" value="400-800">
+                <property name="phase" value="1"/>
+                <property name="nav_object" value="quest" />
+            </objective>
+
+    - NetPackageQuestGotoPointSDX and NetPackageQuestGotoPointSDX to allow distance checks to work on dedicated servers ( FuriousRamsay )
+
+[ MinEvents ]
+    MinEventActionChangeFactionSDX2: Same as the MinEventActionChangeFactionSDX, except it resets the entity's attack and revenge target ( FuriousRamsay )
+        <triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX2, SCore" target="self" value="undead" /> 
+
+    MinEventActionResetTargetsSDX: Resets the target's attack and revenge targets.
+         <triggered_effect trigger="onSelfDamagedOther" action="MinEventActionResetTargetsSDX, SCore"/>
+
+
+[ NPCs ]
+    - Added FuriousRamsay's fixes for SetDead(), and OnMission collision ( should be able to fly with NPCs now )
+
+[ Caves ]
+    - Fixed issue where random blocks would appear underground during the decoration phase.
+    - Modified Cave prefab locations to help avoid isolated prefabs
+    - Fixed an issue where the first level of caves did not have decorations.
+    - Currently, no cave openings are available when cave types are Mountain or DeepMountain.
+
+[ Crop Management ] 
+    - Initial Implementation of Advanced Crop Management features. This will likely be buggy.
+
+    - There's a lot to unpack here. Buckle up.
+
+    - When enabled, crops will need to be within a 5x5 block radious of water block. 
+        This is configurable with the WaterRange on a per-plant basis. Default is 5.
+        Each plant will record where it's water blocks are. 
+        The CheckInterval is used to determine how often the plant will check its water source.
+            - If the water is gone when checked, the plant will rescan for a new block.
+            - If no new water block is found, it will wilt.
+            - Whenever a plant successfully checks in with water, it will do 1 point of damage to the water.
+                - When a water block's damage exceeds its max damage (100 by default), it will turn into air.
+        Crop data is not persisted to disk. Rather, if data is missing, it simply rechecks and re-discovers.
+
+    - SCore's blocks.xml contains a new entry:
+        <!-- Turns on support for the PlantGrowingSDX, SCore features for more advanced crop -->
+        <property class="CropManagement" >
+            <!-- Turns on logging to help debug -->
+            <property name="Logging" value="false"/>
+
+            <!-- Controls if crops are to be managed -->
+            <property name="CropEnable" value="false"/>
+
+            <!-- How often the crops should check for water -->
+            <property name="CheckInterval" value="600" />
+
+            <!-- How many pipes to scan -->
+            <property name="MaxPipeLength" value="500" />
+        </property>
+
+        As always, it is not recommended to change the SCore's blocks.xml directly when adjusting, but rather use a modlet:
+            <!-- Turning on Crops-->
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='CropEnable']/@value">true</set>
+
+            <!-- Checks how often the Crop Manager will check in with the plants. -->
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CropManagement']/property[@name='CheckInterval']/@value">120</set>
+
+
+    - Crops that you want to manage under the advanced crop management must use the new classes:
+        BlockPlantGrowingSDX
+
+        It supports the following properties:
+            RequireWater: [ true/false ]
+                Allows invidiaul plants to control whether they need water or not. 
+                - This can be read using extends, but overridden by the individual block
+            WaterRange: [ 5 ]
+                Allows individual plants to control how far away their water can be.
+                - This can be read using extends, but overridden by the individual block
+            PlantGrowing.Wilt: [ treeDeadPineLeaf ]
+                If a plant goes without water for tool long, it will wilt into this block.
+                - Can be air as well.
+            Wilt: [ true / false ]: default false.
+                - If a plant cannot find a water source, it will wilt and destroy itself.
+
+        Example XML to convert all growable crops to use water.
+
+            <!-- Setting up defaults -->
+            <!-- Changing all crops to using the PlantGrowingSDX class -->
+            <set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='Class']/@value">PlantGrowingSDX, SCore</set>
+            <append xpath="/blocks/block[@name='cropsGrowingMaster']">
+                <!-- If the crop needs water to survive. Default: false -->
+                <property name="RequireWater" value="true" /> 
+
+                <!-- how far away that block can be from a water source: Default is 5 -->
+                <property name="WaterRange" value="5" />  
+
+                <!-- The block the crop downgrades too if its dead. Default: Air-->
+                <property name="PlantGrowing.Wilt" value="treeDeadPineLeaf"/>
+
+                <!-- if set to true, the plant will die when there is no water near by. -->
+                <property name="Wilt" value="true" />
+            </append>
+
+    - In order to better support crops, and make them more fun, support for water pipes have been added.
+        Two new classes have been written:
+            BlockWaterPipeSDX: This block designates a block as a water carrier. It is not a water source itself, but can allow water to 'move' through. 
+                - One section of the pipe must touch a water source block.
+
+                - In this example, I convert all metalPipe's to be used as water pipes
+                    <append xpath="/blocks/block[starts-with(@name, 'metalPipe')]">
+                        <property name="Class" value="WaterPipeSDX, SCore" />
+                    </append>
+
+            BlockWaterSourceSDX: This block designates a block as a water distributor. It is not a water source itself.
+                - if the BlockWaterSourceSDX is connected to a series of BlockWaterPipeSDX which is connected to a water source block, it will act like a water source block.
+
+                - In this example, I'm using the metalPipeValue as a distributor
+                    <set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Class']/@value">WaterSourceSDX, SCore</set>
+
+
+        A water source block is currently defined as:
+            BlockLiquidV2 : Water from a river, lake, or dumped from a bucket
+            terrBedRock: if you connect a pipe to bedrock, it will act as an unlimited water source.
+
+            Any block is the property WaterSource is set on it, and set to true
+                <property name="WaterSource" value="true" />
+\end{DoxyVerb}
+
+
+Version\+: 20.\+3.\+101.\+172
+\begin{DoxyItemize}
+\item Fixed recursive method that was causing crashes on Mark\+To\+Unload()
+\item Modified Tile\+Entity\+Always\+Active patch. If any Tile\+Entity has this XML property, it will be Always On. $<$property name=\char`\"{}\+Always\+Active\char`\"{} value=\char`\"{}true\char`\"{} $>$ This feature can be used on any other Tile\+Entities to distribute a buff similar to the Camp\+Fire\textquotesingle{}s warming buff.
+
+Note\+: This excludes Forge and Workstation Tile Entities.
+\item Disabled the Is\+Quest\+Giver on the Entities
+\end{DoxyItemize}
+
+Version\+: 20.\+3.\+100.\+1629
+\begin{DoxyItemize}
+\item Fixed Spawn\+Cube2 issue on dedi where preview was not being cleared.
+\item Fixed Goto\+POISDX to prefer exact names, rather than wild card
+\end{DoxyItemize}
+
+Version\+: 20 3.\+100.\+1044
+\begin{DoxyItemize}
+\item Reverted Sebastian Cave changes, and changed default to Legacy
+\item Added working cave entrances
+\item Widened cave system to allow more room, and some chaos.
+\item Fixed cave spawning of zombies.
+\begin{DoxyItemize}
+\item Spawning may be a bit sparse, due to the many levels of the cave systems and max zombies. Suggestions on fleshing it out more would be to add in Spawn\+Cubes to the blockplaceholders that spawn more zombies.
+\end{DoxyItemize}
+\item Fixed double spawns on Spawn\+Cube on dedi
+\item Turned off Smarter\+Entities by default in blocks.\+xml, to get rid of the path node warnings.
+\begin{DoxyItemize}
+\item Max revisit later if functionality has changed due to turning it off.
+\end{DoxyItemize}
+\item Turned off Sound when NPC is on a mission.
+\end{DoxyItemize}
+
+Version\+: 20.\+3.\+93.\+840
+\begin{DoxyItemize}
+\item Reduced the height position of the Set\+Position() to calm their leader when on a mission.
+\item Overrode Process\+Damage\+Response() not to process damage if NPC is on a mission
+\item Overrode Is\+Immune\+To\+Legdamage, returning true if On\+Mission.
+\item Fixed possible null ref in Is\+Inert\+Entity()
+\item Updated Mark\+To\+Unload to go to base class when NPC is ordered to Stay or Patrol.
+\begin{DoxyItemize}
+\item This is an attempt to fix the disappearing NPCs at the bases.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Version\+: 20.\+3.\+84.\+x \begin{DoxyVerb}- When driving in a vehicle, NPCs will no longer teleport to you after a distance, but does a SetPosition() on a tighter range
+- NPCMOD-FT-0045 : Added DespawnNPC MinEffect: <triggered_effect trigger="onSelfBuffRemove" action="DespawnNPC, SCore" />
+- Added new Property for entities, which controls if they run "leader checks" for increase performance. Defaults to True.
+    <property name="Hirable" value="false" />
+- Added new Property for entities, which controls if they can give or process quests. Defaults to true.
+    <property name="IsQuestGiver" value="false" />
+\end{DoxyVerb}
+
+
+Version\+: 20.\+2.\+83.\+1240 \begin{DoxyVerb}- Performance Tweaks:
+    - Disabled DrawLine in Utils from raycasting path finding
+    - Disabled Progression on NPCs
+- Updated Pathing Cube to disallow non-owners to edit
+- Similar change to the SpawnCube with above change
+- Added TimeToDie for EntityEnemySDX
+- Added DialogAction for AddItemSDX, SCore
+\end{DoxyVerb}
+ Version\+: 20.\+2.\+60.\+742 \begin{DoxyVerb}- Merged khzmusik's fix for infinite resource bug
+\end{DoxyVerb}
+ Version\+: 20.\+2.\+57.\+x
+\begin{DoxyItemize}
+\item Loot task work.
+\item Spawn\+Cube breaks after trigger now.
+\end{DoxyItemize}
+
+Version\+: 20.\+2.\+56.\+x
+\begin{DoxyItemize}
+\item Added more enhancements for Spawn\+Cube2\+SDX. See blocks.\+xml for examples on advanced configuration.
+\item Fixed issue with Sleepers not getting the correct buffs on waking up.
+\item Fixed issue with Attack \mbox{\hyperlink{namespace_u_a_i}{UAI}} being locked when target was still visible but not accessible.
+\end{DoxyItemize}
+
+Version\+: 20.\+2.\+55.\+x
+\begin{DoxyItemize}
+\item Fixed issue with bad ray cast, causing NPCs to shoot through doors and walls
+\item Multiple fixes to the \mbox{\hyperlink{class_block_spawn_cube2_s_d_x}{Block\+Spawn\+Cube2\+SDX}}. This cube will allow you to spawn in a one-\/time entity. Example Usage\+: $<$property name=\char`\"{}\+Class\char`\"{} value=\char`\"{}\+Spawn\+Cube2\+SDX, SCore\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Config\char`\"{} value=\char`\"{}ec=\+Furious\+Ramsay\+Briston\+Start\+\_\+\+FR;buff=buff\+Order\+Stay;pc=0;leader=true\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Config\char`\"{} value=\char`\"{}ec=\+Furious\+Ramsay\+Briston\+Start\+\_\+\+FR;task=stay\char`\"{} $>$
+\end{DoxyItemize}
+
+\begin{DoxyVerb}    Note: There is a delay of about 5 seconds on MP servers for the leader to be auto-assigned.
+
+- Added support for new cvar called FailOnDistance.
+    - If this cvar is set on the player, all hired NPCs will use this FailOnDistance range, rather than the one hard coded in the utilityai.
+    - If this cvar is set on the NPC, then that NPC will use that range, instead of the one on the player or utilityai.
+\end{DoxyVerb}
+
+
+Version\+: 20.\+2.\+45
+\begin{DoxyItemize}
+\item Added Is\+Always\+Awake to be false. This allows Sleeping NPCs to be fully awake on spawn in. XML Property can be toggled with the following line\+: $<$property name=\char`\"{}\+Sleeper\+Instant\+Awake\char`\"{} value=\char`\"{}false\char`\"{} $>$ $<$property name=\char`\"{}\+Sleeper\+Instant\+Awake\char`\"{} value=\char`\"{}true\char`\"{} $>$
+\item Reduced the Auto-\/scan for pathing cubes to be a lot smaller (about a block away)
+\item Default Pathing\+Code is -\/1, so avoid this number, as its equivalent to not having a code.
+\item Gave sleeping NPCs hearing for a threhold to wake them up.
+\item Disable \mbox{\hyperlink{namespace_u_a_i}{UAI}} when NPCs are sleeping
+\item Slightly changed the consideration for In\+Weapon\+Range, to take in effect if it should shoot a player, if it could see it, but not reach it. \mbox{[} XUI \mbox{]}
+\item Added a few more bindings to npc stat window
+\end{DoxyItemize}
+
+Version\+: 20.\+2.\+44 \begin{DoxyVerb}- Added toggle to turn on and off Advanced signs (0-SCore/Config/blocks.xml) to turn off gif / img support 
+- Moved Sign reading data to a universal class to allow EntityAliveSDX to re-use code
+- Added EntityAliveSDX to read from a nearby Pathing Cube
+    Using the PathingCube (or PathingCube2) blocks, you can place an invisible sign near a sleeper
+    Once placed, you can configure it as follows
+        Task=stay  [ wander, guard, follow ] 
+            - This will give the nearby EntityAliveSDX a starting order. 
+
+            Example, you could put in Task=stay for NPCs that you want to behave like a turret
+
+            Internally, the above tasks gives SCore's based-buffs  ( buffOrderStay, buffOrderWander, etc)
+            Task can also be used to specify a general buff.
+
+    Example: https://youtu.be/IuK_sN3WHZ4
+
+- Fixed a null ref where NPC following a NPC leader
+    With this error fixed, the old herd spawner now works. This spawner is a special EntityClass that you can add to your sleeper volume, or in entitygroups, and will spawn multiple entities.
+    This can be used, for example, to set up a Solider Group, which could have an officer, along with a few grunts. The soldiers will follow the officer around as they would if hired by a player.
+
+    For this to work, you must give them the NPCHired, or equivalent, UAI. These do not need to be hirable by the player, but must contain the follow tasks.
+
+    When you spawn in the SoldierPackMelee entity, it'll spawn the leader and followers.
+
+    Example: https://youtu.be/OSlfwuX9r6Y
+
+    EntityClasses.xml example:
+
+    <append xpath="/entity_classes">
+        <entity_class name="spawnerStub">
+            <property name="Mesh" value="Gore/gore_block1_bonesPrefab"/>
+            <property name="ModelType" value="Custom"/>
+            <property name="Prefab" value="Backpack"/>
+            <property name="Class" value="EntityAliveEventSpawnerSDX, SCore"/>
+            <property name="Parent" value="Animals"/>
+            <property name="TimeStayAfterDeath" value="1"/>
+            <property name="IsEnemyEntity" value="false"/>
+            <property name="LootListOnDeath" value="banditLoot"/>
+            <property name="Faction" value="animals"/>
+        </entity_class>
+
+        <!-- the Leader is spawned in first, then the Followers. The Followers set their Leader cvar to that of the Leader. -->
+        <entity_class name="SoldierPackMelee" extends="spawnerStub">
+            <property name="Prefab" value="Backpack"/>
+            <property class="SpawnSettings" >
+            <property name="Leader" value="survivorOfficerDPistol" />
+            <!-- Params 2,3. This means that 2 to 3 of each of the followers will be spawned. -->
+            <property name="Followers" value="survivorSoldier1Club,survivorSoldier2Knife,survivorSoldier4Machete" param1="2,3"/>
+            </property>
+        </entity_class>
+
+        <entity_class name="SoldierPackRanged" extends="spawnerStub">
+            <property name="Prefab" value="Backpack"/>
+            <property class="SpawnSettings" >
+            <property name="Leader" value="survivorOfficerTRifle" />
+            <property name="Followers" value="survivorOfficerAK47,survivorOfficerSMG,survivorSoldier1TRifle,survivorSoldier3AK47" />
+            </property>
+        </entity_class>
+    </append>
+\end{DoxyVerb}
+ Version\+: 20.\+2.\+43.\+147 \begin{DoxyVerb}- Version bump to catch up to the Alpha 20.2
+\end{DoxyVerb}
+ \mbox{[} NPC Fixes \mbox{]} \begin{DoxyVerb}- Due to the refactoring for the damage to block code, some issues are listed as potentially fixed only.
+
+- NPCMOD-FT-0038        NPCs be given the ability to damage blocks
+
+    Tested:
+            <action name="MeleeAttackBlock" weight="3">
+                <task class="AttackTargetEntitySDX, SCore" action_index="0"/>
+                <consideration class="PathBlockedSDX, SCore"  />
+                <consideration class="TargetType" type="Block"/>
+            </action>
+    - Recommended that NotPathBlockedSDX, SCore for approach-style tasks
+
+- NPCMOD-SP-0071        Hired NPC names show up twice above their heads ( Potentially )
+- NPCMOD-SP-0062        Melee NPCs run max distance away from their target then begin their approach ( Potentially )
+- NPCMOD-SP-0075        NPCs will get stuck on certain blocks (like trees) ( Potentially )
+- NPCMOD-SP-0048        NPCs can talk to the player while fighting, until they are hit by an enemy
+    - Added a call to the UAI System IsEnemyNearBy() call (10 distance).
+- NPCMOD-DEDI-0006    NPCs can be hired by another player after you've hired them and log out
+    - Changed the GetLeaderOrOwner() call to just check for existence of cvars as a gap solution, 
+        rather than expecting the entity to be online in order for it to be valid.
+
+- Added a new fun task ( Work in Progress. Don't use in production )
+            <!-- Allows the entity to place a timed charge on a door -->
+            <action name="DoorBuster" weight="4">
+                <task class="BreakBlock, SCore" action_index="0"/>
+                <consideration class="PathBlockedSDX, SCore"  />
+                <consideration class="TargetType" type="BlockDoorSecure"/>
+            </action>
+
+- Many, many UAI tweaks, cleaning up old code, ironing out behaviours.
+- Gound work for expanding the available ItemActions 2,3,4.
+- Added MeleeSDX to allow non-EntityEnemy's target blocks effectively.
+\end{DoxyVerb}
+ \mbox{[} UI \mbox{]}
+\begin{DoxyItemize}
+\item Fixed the NPCStat\+Window to update properly
+\item Fixed Respondent Name to display
+\end{DoxyItemize}
+
+Version\+: 20.\+0.\+39
+
+\mbox{[} NPC Fixes \mbox{]} Initial implementation of Break Blocks functionality.
+
+\mbox{[} Block Changes \mbox{]}
+\begin{DoxyItemize}
+\item Added the ability to trigger Spawn\+Cube when placed by a player.
+\end{DoxyItemize}
+
+Sample XML, which will spawn an empty handed nurse on placement, and ordered to stay\+: $<$block name=\char`\"{}\+Test\+Spawn\+Cube\char`\"{}$>$ $<$property name=\char`\"{}\+Extends\char`\"{} value=\char`\"{}\+Spawn\+Cube\char`\"{}$>$ $<$property name=\char`\"{}\+Config\char`\"{} value=\char`\"{}ec=npc\+Nurse\+Empty\+Hand;buff=buff\+Order\+Stay;pc=0\char`\"{} $>$ $<$/block$>$
+
+Version\+: 20.\+0.\+38
+
+\mbox{[} NPC Fixes \mbox{]} NPCMOD-\/\+SP-\/0072 Hired NPC names disappear from life bars when you enter a vehicle NPCMOD-\/\+SP-\/0076 Limit opening of doors to Is\+Human or Is\+Hired NPCMOD-\/\+SP-\/0073 Hired NPC footsteps can be heard when you hop on a bike and travel
+\begin{DoxyItemize}
+\item Also disable footsteps when flying tags is used NPCMOD-\/\+SP-\/0075 Potentially fixed\+: NPCs will get stuck on certain blocks (like trees)
+\end{DoxyItemize}
+
+Hired NPCs which are ordered to Stay will unload when a chunk is unloaded, and re-\/load back in. Merged Food Spoilage patch
+
+Version\+: 20.\+0.\+33.\+1824
+
+\mbox{[} Dialog \mbox{]}
+\begin{DoxyItemize}
+\item Made Dialog requirement Hired simpler
+\end{DoxyItemize}
+
+\mbox{[} NPC Fixes \mbox{]}
+\begin{DoxyItemize}
+\item Removed NPCs that were told to guard / stay not to show up in Companion screen
+\begin{DoxyItemize}
+\item This leaves room for NPCs that are currently with you.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\mbox{[} Fixes \mbox{]}
+\begin{DoxyItemize}
+\item Fixed a bug with Quick\+Continue when steam wasn\textquotesingle{}t running at all.
+\end{DoxyItemize}
+
+Version\+: 20.\+0.\+32.\+x
+
+\mbox{[} Debug Information \mbox{]}
+\begin{DoxyItemize}
+\item Added Logging for when NPC has died, it will display its active buffs in the log file
+\end{DoxyItemize}
+
+\mbox{[} NPC Fixes \mbox{]}
+\begin{DoxyItemize}
+\item Fixed an issue where NPCs would get confused when two players were nearby
+\item Fixed an issue where NPCs wouldn\textquotesingle{}t talk to you without a very long delay after a fight
+\end{DoxyItemize}
+
+Version\+: 20.\+0.\+30.\+x
+
+\mbox{[} Configuration Change \mbox{]}
+\begin{DoxyItemize}
+\item Disabled Advanced Workstation from being enabled by default
+\end{DoxyItemize}
+
+\mbox{[} NPC Fixes \mbox{]}
+\begin{DoxyItemize}
+\item Hired NPCs will drop their backpacks, if anything is in them
+\item Fixed Bandit loot containers
+\end{DoxyItemize}
+
+Version\+: 20.\+0.\+29.\+x
+
+\mbox{[} Fixes \mbox{]}
+\begin{DoxyItemize}
+\item Fixed null ref when trying to get a block outside of world bounds in Get\+Game\+Path.
+\item Fixed Spook\textquotesingle{}s Sky\+Manager reference with Is\+Blood\+Moon\+Visible.
+\item Connected progression into lock picking, and adjusted default difficulties ( adjustments in the Configuration Blocks.\+xml of the \mbox{\hyperlink{namespace_s_core}{SCore}})
+\item Fixed a potential issue with Buried Supplies not working when Trader Protection is removed
+\begin{DoxyItemize}
+\item Note to Self\+: If you want to test Clear Zombies quest, remember to enable Enenmy Spawning. It\textquotesingle{}ll save a lot of confusion.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\mbox{[} XUI Changes \mbox{]}
+\begin{DoxyItemize}
+\item Added new \mbox{\hyperlink{class_x_ui_c___n_p_c_stat_window}{XUi\+C\+\_\+\+NPCStat\+Window}} for Sirillion hooks
+\item Fixed issue where a null reference would happen on empty strings.
+\end{DoxyItemize}
+
+\mbox{[} Quest Changes \mbox{]}
+\begin{DoxyItemize}
+\item Added Net\+Package to better handle Goto\+POISDX
+\item Added Biome Filtering for Goto\+POISDX\+: $<$property name=\char`\"{}biome\+\_\+filter\+\_\+type\char`\"{} value=\char`\"{}\+Exclude\+Biome\char`\"{} $>$ $<$property name=\char`\"{}biome\+\_\+filter\char`\"{} value=\char`\"{}wasteland\char`\"{} $>$
+\item Added additional debug for Goto\+POISDX. Enter in dm mode to see.
+\item Note\+: If a quest does not show up on the map, confirm you have nav\+\_\+object property inside the objective $<$property name=\char`\"{}nav\+\_\+object\char`\"{} value=\char`\"{}return\+\_\+to\+\_\+trader\char`\"{} $>$
+\item Changed Get\+POIPrefabs() to Get\+Dynamic\+Prefabs() for searching for Goto\+POISDX
+\item Fixed null ref when Prefab\+Name was not set.
+\item Created a Quest\+Utils static class to share code between Net\+Package and Goto\+POIS
+\end{DoxyItemize}
+
+\mbox{[} NPC Changes \mbox{]}
+\begin{DoxyItemize}
+\item Added hired NPCs to show up in Companions window (Configuration block option to toggle)
+\item Color adjusted the hired NPCs on compass to match companion window, when enabled.
+\item Partial hook up for NPCs to earn experience
+\item If an entity is dead, pass the Can\+Take\+Damage checks. The dead get no reprieve.
+\item Fixed wander where the position was in the air, causing NPCs to stop trying to move there. ~\newline
+
+\item Hired NPCs will no longer take damage from traps (Block\+Damage). If they are smart enough to get paid, they are smart enough to step carefully through barb wire
+\item If NPCs have anything in their bag (backpack) or loot container (what the player has access too), a bag will drop with the contents.
+\begin{DoxyItemize}
+\item If no contents, then no bag drops.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\mbox{[} Buffs.\+xml Changes \mbox{]}
+\begin{DoxyItemize}
+\item New Buff orders\+: buff\+Order\+Guard\+Here Sets cvar to Order 2, and sets guard\+Position to where the player is standing.
+\item Updated Buff Order\+: buff\+Order\+Stay updated to set guard\+Position to be where the NPC is standing.
+\end{DoxyItemize}
+
+\mbox{[} Dialog Changes \mbox{]}
+\begin{DoxyItemize}
+\item Added new Dialog requirements\+: ~\newline
+ $<$requirement type=\char`\"{}\+Has\+Package, SCore\char`\"{} requirementtype=\char`\"{}\+Hide\char`\"{} value=\char`\"{}\+NPCAnimal\+Basic\char`\"{} $>$ $<$requirement type=\char`\"{}\+Has\+Package, SCore\char`\"{} requirementtype=\char`\"{}\+Hide\char`\"{} value=\char`\"{}!\+NPCAnimal\+Basic\char`\"{} $>$ $<$requirement type=\char`\"{}\+Has\+Task, SCore\char`\"{} requirementtype=\char`\"{}\+Hide\char`\"{} value=\char`\"{}\+Loot\+Basic\char`\"{} $>$ $<$requirement type=\char`\"{}\+Has\+Task, SCore\char`\"{} requirementtype=\char`\"{}\+Hide\char`\"{} value=\char`\"{}!\+Loot\+Basic\char`\"{} $>$
+\end{DoxyItemize}
+
+\mbox{[} \mbox{\hyperlink{namespace_u_a_i}{UAI}} Changes \mbox{]} \begin{DoxyVerb}- Added new UAI Task called Guard. This task can replae the Stay action using IdleSDX.
+    - Guard is similar to Stay and can be a replacement for Stay.
+    - Two new MinEffectActions have been created for this, and is applied by the buff in the SCore's buffs.xml
+        - MinEventActionGuardHere : This sets the NPC's guard position to match the player's current position, as well as the direction the player is looking.
+        - MinEventActionGuardThere: This sets the NPC's guard position to match where the NPC is currently staying, with the look direction the same.
+- Added additional feature for the Wander UAI task:
+    <task class="WanderSDX, SCore" interest="Loot:cntBirdnest"/>
+
+    When interest is specified, there is a 30% chance triggering a TileEntity scan matching the value.
+
+    For example, interest="Loot" will search for all Loot containers in the area, and pick one.
+
+    If the TileEntity's entry has a :, that further allows filtering based on block name.
+
+        <task class="WanderSDX, SCore" interest="Loot:cntBirdnest"/> <!-- scan for any loot container that has a block name that starts with cntBirdNest -->
+
+
+    If interest is not specified, a standard wander is triggered.
+
+- Fixed a bug in AttackTarget where an NPC that was told to stay, would take a few steps out of position to attack
+\end{DoxyVerb}
+ \mbox{[} Mecanim Animation \mbox{]}
+\begin{DoxyItemize}
+\item Added simple null check when the entity using Mecanim is invalid. 
+\end{DoxyItemize}

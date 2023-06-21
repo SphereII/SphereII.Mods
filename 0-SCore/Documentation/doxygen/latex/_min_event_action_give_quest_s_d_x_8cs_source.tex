@@ -1,0 +1,59 @@
+\hypertarget{_min_event_action_give_quest_s_d_x_8cs_source}{}\doxysection{Min\+Event\+Action\+Give\+Quest\+SDX.\+cs}
+\label{_min_event_action_give_quest_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionGiveQuestSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionGiveQuestSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00004}\mbox{\hyperlink{class_min_event_action_give_quest_s_d_x}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_give_quest_s_d_x}{MinEventActionGiveQuestSDX}}\ :\ MinEventActionRemoveBuff}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ strQuest\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ This\ loops\ through\ all\ the\ targets,\ giving\ each\ target\ the\ quest.\ }}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}GiveQuestSDX,\ SCore"{}\ target="{}self"{}\ quest="{}myNewQuest"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ j\ =\ 0;\ j\ <\ targets.Count;\ j++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ targets[j]\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strQuest))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.GiveQuest(strQuest);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ target\ is\ a\ player.}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ var\ Playerentity\ =\ targets[j]\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Playerentity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strQuest))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ myQuest\ =\ QuestClass.CreateQuest(strQuest);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myQuest.QuestGiverID\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Playerentity.QuestJournal.AddQuest(myQuest);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}quest"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strQuest\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_give_quest_s_d_x_8cs_source_l00053}00053\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,25 @@
+\hypertarget{class_faction_relationship_c_vars}{}\doxysection{Faction\+Relationship\+CVars Class Reference}
+\label{class_faction_relationship_c_vars}\index{FactionRelationshipCVars@{FactionRelationshipCVars}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_faction_relationship_c_vars_1_1_faction_relationship_c_vars___entity_player_local___update}{Faction\+Relationship\+CVars\+\_\+\+Entity\+Player\+Local\+\_\+\+Update}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class will add read-\/only custom variables (cvars), that represent the player\textquotesingle{}s relationship with each non-\/player faction. Those cvars can be used any place that a cvar can normally be read\+: effect requirements, localization, XUi player stats entries, etc. 
+
+The name of the cvar will be \char`\"{}\+\_\+relationship\mbox{[}faction name\mbox{]}\char`\"{} where \char`\"{}\mbox{[}faction name\mbox{]}\char`\"{} is the name of the faction, as defined in the faction\textquotesingle{}s \char`\"{}name\char`\"{} attribute in {\ttfamily npc.\+xml}. 
+
+It must be enabled in the {\ttfamily \mbox{\hyperlink{class_faction_relationship_c_vars}{Faction\+Relationship\+CVars}}} property, under {\ttfamily Advanced\+NPCFeatures} in {\ttfamily Config\+Feature\+Block}. 
+
+NOTE\+: If the relationship is exactly zero, the cvar will not be set. This is because 7D2D treats setting any cvar value to zero as removing the cvar. This can happen if the faction relationship is initially \char`\"{}\+Hate,\char`\"{} or is reduced to zero later. The cvar will be set again if the relationship becomes anything other than zero. Trying to read the value of a non-\/existent cvar will result in a value of zero anyway, so this should not affect any uses of the cvar. 
+
+Definition at line \mbox{\hyperlink{_faction_relationship_c_vars_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_faction_relationship_c_vars_8cs_source}{Faction\+Relationship\+CVars.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Harmony/\+Faction/Faction\+Relationship\+CVars.\+cs\end{DoxyCompactItemize}

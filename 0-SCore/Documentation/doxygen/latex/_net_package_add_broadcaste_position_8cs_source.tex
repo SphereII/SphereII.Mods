@@ -1,0 +1,61 @@
+\hypertarget{_net_package_add_broadcaste_position_8cs_source}{}\doxysection{Net\+Package\+Add\+Broadcaste\+Position.\+cs}
+\label{_net_package_add_broadcaste_position_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/NetPackage/NetPackageAddBroadcastePosition.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/NetPackage/NetPackageAddBroadcastePosition.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00007}00007\ \textcolor{comment}{//copy\ of\ NetPackageAddFirePosition}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00008}\mbox{\hyperlink{class_net_package_add_broadcast_position}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_net_package_add_broadcast_position}{NetPackageAddBroadcastPosition}}\ :\ NetPackage}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{private}\ Vector3i\ position;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ entityThatCausedIt;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_net_package_add_broadcast_position}{NetPackageAddBroadcastPosition}}\ Setup(Vector3i\ \_position,\ \textcolor{keywordtype}{int}\ \_entityThatCausedIt)}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ this.position\ =\ \_position;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ this.entityThatCausedIt\ =\ \_entityThatCausedIt;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ read(PooledBinaryReader\ \_br)}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ this.position\ =\ \textcolor{keyword}{new}\ Vector3i((\textcolor{keywordtype}{float})\_br.ReadInt32(),\ (\textcolor{keywordtype}{float})\_br.ReadInt32(),\ (\textcolor{keywordtype}{float})\_br.ReadInt32());}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ this.entityThatCausedIt\ =\ \_br.ReadInt32();}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ write(PooledBinaryWriter\ \_bw)}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ base.write(\_bw);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \_bw.Write((\textcolor{keywordtype}{int})this.position.x);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \_bw.Write((\textcolor{keywordtype}{int})this.position.y);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \_bw.Write((\textcolor{keywordtype}{int})this.position.z);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \_bw.Write(this.entityThatCausedIt);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{int}\ GetLength()}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 20;}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ProcessPackage(World\ \_world,\ GameManager\ \_callbacks)}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_world\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_world.IsRemote())}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.add(position);}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_add_broadcaste_position_8cs_source_l00055}00055\ }
+
+\end{DoxyCode}

@@ -1,0 +1,21 @@
+\hypertarget{_stop_8cs_source}{}\doxysection{Stop.\+cs}
+\label{_stop_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityMoveHelper/Stop.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityMoveHelper/Stop.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00010}00010\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_entity_move_helper}{Harmony.EntityMoveHelper}}}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ Includes\ resetting\ the\ speedForward\ to\ 0\ when\ the\ entity\ is\ told\ to\ stop;\ this\ stops\ it\ from\ sliding\ or\ taking\ a\ few\ extra\ steps}}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00013}00013\ \ \ \ \ [HarmonyPatch(typeof(global::EntityMoveHelper))]}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00014}00014\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Stop"{}})]}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00015}\mbox{\hyperlink{class_harmony_1_1_entity_move_helper_1_1_stop}{00015}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_move_helper_1_1_stop}{Stop}}}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ref\ global::EntityMoveHelper\ \_\_instance,\ ref\ global::EntityAlive\ \_\_\_entity)}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_entity.speedForward\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_stop_8cs_source_l00022}00022\ \}}
+
+\end{DoxyCode}

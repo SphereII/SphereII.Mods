@@ -1,0 +1,174 @@
+\hypertarget{_sphere_i_i___locks_8cs_source}{}\doxysection{Sphere\+II\+\_\+\+Locks.\+cs}
+\label{_sphere_i_i___locks_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Harmony/SphereII\_Locks.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Harmony/SphereII\_Locks.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_lockpicking}{Lockpicking}};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }Object\ =\ UnityEngine.Object;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00008}00008\ \textcolor{comment}{//\ This\ class\ sites\ between\ the\ thirdparty\ Keyhole\ script\ +\ prefabs\ and\ support\ scripts.}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00009}\mbox{\hyperlink{class_sphere_locks}{00009}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_sphere_locks}{SphereLocks}}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ GameObject\ \_lockPick;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{private}\ GameObject\ \_lockPickAsset;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00015}00015\ \ \ \ \ \textcolor{comment}{//\ transforms\ }}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{private}\ List<string>\ \_transforms\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00018}00018\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Init(BlockValue\ blockValue,\ Vector3i\ blockPos)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ current\ block\ has\ a\ pre-\/defined\ lockpick\ prefab}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ var\ lockPrefab\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.type\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block.Properties.Contains(\textcolor{stringliteral}{"{}LockPrefab"{}}))}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockPrefab\ =\ blockValue.Block.Properties.GetStringValue(\textcolor{stringliteral}{"{}LockPrefab"{}});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Load\ up\ the\ default.}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(lockPrefab))}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ globally\ configured\ lock\ pick\ cotnains\ Lockset01,\ assume\ its\ the\ default.}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ lockPrefab\ =\ Configuration.GetPropertyValue(\textcolor{stringliteral}{"{}AdvancedLockpicking"{}},\ \textcolor{stringliteral}{"{}LockPrefab"{}});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lockPrefab.EndsWith(\textcolor{stringliteral}{"{}Lockset01"{}}))}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ locks\ =\ \textcolor{keyword}{new}\ List<string>\ \{\ \textcolor{stringliteral}{"{}Lockset01"{}},\ \textcolor{stringliteral}{"{}Lockset02"{}},\ \textcolor{stringliteral}{"{}Lockset03"{}},\ \textcolor{stringliteral}{"{}Lockset04"{}},\ \textcolor{stringliteral}{"{}padlock01"{}}\ \};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomKey\ =\ Math.Abs(blockPos.x\ \%\ 9);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomLock\ =\ randomKey\ \textcolor{keywordflow}{switch}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <\ 1\ =>\ \textcolor{stringliteral}{"{}Lockset01"{}},}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <\ 3\ =>\ \textcolor{stringliteral}{"{}Lockset02"{}},}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <\ 5\ =>\ \textcolor{stringliteral}{"{}Lockset03"{}},}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <\ 7\ =>\ \textcolor{stringliteral}{"{}Lockset04"{}},}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\ =>\ \textcolor{stringliteral}{"{}padlock01"{}}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockPrefab\ =\ lockPrefab.Replace(\textcolor{stringliteral}{"{}Lockset01"{}},\ randomLock);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(lockPrefab))}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00051}00051\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockPickAsset\ =\ DataLoader.LoadAsset<GameObject>(lockPrefab);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockPick\ =\ Object.Instantiate(\_lockPickAsset);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}(\ Exception\ ex)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}LockPrefab\ not\ valid.\ Falling\ back\ to\ vanilla."{}});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ Disable();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Marked\ transforms}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \_transforms\ =\ \textcolor{keyword}{new}\ List<string>\ \{\ \textcolor{stringliteral}{"{}Baseplate1"{}},\ \textcolor{stringliteral}{"{}Baseplate2"{}},\ \textcolor{stringliteral}{"{}ButtonInner"{}},\ \textcolor{stringliteral}{"{}ButtonInner"{}},\ \textcolor{stringliteral}{"{}ButtonOuter"{}},\ \textcolor{stringliteral}{"{}Padlock1\_low"{}}\ \};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \_transforms.AddRange(\textcolor{keyword}{new}\ List<string>\ \{\ \textcolor{stringliteral}{"{}Padlock1\_Latch\_low"{}},\ \textcolor{stringliteral}{"{}Lock1Outer"{}},\ \textcolor{stringliteral}{"{}Lock2Outer"{}},\ \textcolor{stringliteral}{"{}Lock3Outer"{}},\ \textcolor{stringliteral}{"{}Lock1Inner"{}},\ \textcolor{stringliteral}{"{}Lock2Inner"{}},\ \textcolor{stringliteral}{"{}Lock3Inner"{}}\ \});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockPick.GetComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>()\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Populate\ the\ Keyhole}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ var\ keyhole\ =\ \_lockPick.AddComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.keyhole\ =\ FindTransform(\textcolor{stringliteral}{"{}Keyhole\ (Turnable)"{}}).gameObject;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ attach\ the\ lock\ control\ the\ to\ top\ level}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_lock_controls}{LockControls}}\ lockControl;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockPick.transform.parent\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockControl\ =\ \_lockPick.transform.parent.gameObject.AddComponent<\mbox{\hyperlink{class_lock_controls}{LockControls}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockControl\ =\ \_lockPick.transform.gameObject.AddComponent<\mbox{\hyperlink{class_lock_controls}{LockControls}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ lockControl.lockpick\ =\ keyhole;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Lock\ Pick\ configuration}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.lockpickObject\ =\ \_lockPick.transform.FindInChilds(\textcolor{stringliteral}{"{}LockpickB\ (Turnable)"{}}).gameObject;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.lockpickAnimator\ =\ FindTransform(\textcolor{stringliteral}{"{}LockpickB"{}}).GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.lockpickAnimator.gameObject.SetActive(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.blockValue\ =\ blockValue;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ var\ cam\ =\ FindTransform(\textcolor{stringliteral}{"{}Cam2"{}}).GetComponentInChildren<Camera>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cam\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cam.rect\ =\ \textcolor{keyword}{new}\ Rect(0.25f,\ 0.25f,\ 0.5f,\ 0.5f);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lockObjectRotation\ =\ keyhole.lockpickObject.transform.gameObject.AddComponent<\mbox{\hyperlink{class_lock_object_rotation}{LockObjectRotation}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockObjectRotation.uiCam\ =\ cam;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ var\ padlock\ =\ FindTransform(\textcolor{stringliteral}{"{}Padlock1"{}});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (padlock\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.padlock1\ =\ padlock.gameObject;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioPadlockJiggle\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Padlock\ Jiggle"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioPadlockOpen\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Padlock\ Open"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ audio\ configuration}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioTurnClick\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Turn\ Click"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioSqueek\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Squeek"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioOpen\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Open"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioJiggle\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Jiggle\ A"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioJiggle2\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Jiggle\ B"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioJiggle3\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Jiggle\ C"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioLockpickBreak\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Lockpick\ Break"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioLockpickEnter\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Lockpick\ Enter"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.audioLockpickClick\ =\ FindTransform(\textcolor{stringliteral}{"{}Audio\ Lockpick\ Click"{}}).gameObject.AddComponent<\mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lockEmissive\ =\ \_lockPick.AddComponent<\mbox{\hyperlink{class_lock_emissive}{LockEmissive}}>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ lockEmissive.off\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lstRenders\ =\ \textcolor{keyword}{new}\ List<Renderer>();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tempRender\ =\ \textcolor{keyword}{new}\ Renderer[12];}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ transform\ \textcolor{keywordflow}{in}\ \_transforms)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ temp\ =\ FindTransform(transform);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (temp)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lstRenders.Add(FindTransform(transform).GetComponent<MeshRenderer>());}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ lockEmissive.SetRenders(lstRenders.ToArray());}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ Enable();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00134}00134\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00137}00137\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}\ GetScript()}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00138}00138\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_lockPick\ !=\ \textcolor{keyword}{null}\ ?\ \_lockPick.GetComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>()\ :\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00142}00142\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ IsLockOpened()}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_lockPick\ !=\ \textcolor{keyword}{null}\ \&\&\ \_lockPick.GetComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>().LockComplete();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00145}00145\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00147}00147\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetPlayer(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00148}00148\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockPick\ !=\ \textcolor{keyword}{null})\ \_lockPick.GetComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>().player\ =\ player;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00150}00150\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00152}00152\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ FindTransform(\textcolor{keywordtype}{string}\ target)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00153}00153\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_lockPick.transform.FindInChilds(target);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00155}00155\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00157}00157\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Enable()}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00158}00158\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockPick\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \_lockPick.SetActive(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \_lockPick.GetComponent<\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}>().ResetLock();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00162}00162\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00164}00164\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Disable()}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00165}00165\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockPick\ !=\ \textcolor{keyword}{null})\ \_lockPick.SetActive(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00167}00167\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i___locks_8cs_source_l00168}00168\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,199 @@
+\hypertarget{_tile_entity_always_active_8cs_source}{}\doxysection{Tile\+Entity\+Always\+Active.\+cs}
+\label{_tile_entity_always_active_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/TileEntityAlwaysActive.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/TileEntityAlwaysActive.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00006}00006\ \textcolor{comment}{/*\ Disabled\ until\ someone\ has\ a\ need\ for\ it\ */}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00009}00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_tile_entities}{Harmony.TileEntities}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00026}00026\ \ \ \ \ [HarmonyPatch(typeof(TileEntity))]}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00027}00027\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}IsActive"{}})]}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00028}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_always_active}{00028}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_always_active}{TileEntityAlwaysActive}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTileEntities"{}};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch(typeof(TileEntity))]}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch("{}IsActive"{})]}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{//public\ class\ TileEntityIsActive}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ public\ static\ bool\ Prefix(TileEntity\ \_\_instance,\ ref\ bool\ \_\_result,\ World\ world)}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (\_\_instance\ ==\ null)\ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ Vector3i\ blockPos\ =\ \_\_instance.ToWorldPos();}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (blockPos\ ==\ Vector3i.zero)\ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ var\ block\ =\ world.GetBlock(blockPos);}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //if\ (!block.Block.Properties.Values.ContainsKey("{}AlwaysActive"{}))}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ ////\ If\ the\ block\ has\ an\ AlwaysActive,\ then\ see\ if\ its\ set\ to\ true,\ or\ if\ its\ false,\ then\ go\ back\ to\ default.}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //if\ (StringParsers.ParseBool(block.Block.Properties.Values["{}AlwaysActive"{}]))}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ \ \ \ \_\_result\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ [HarmonyTargetMethod]}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ static\ IEnumerable<MethodBase>\ TargetMethods()}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ yield\ return\ typeof(TileEntityForge).GetMethod("{}IsActive"{});}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ yield\ return\ typeof(TileEntityLootContainer).GetMethod("{}IsActive"{});}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ yield\ return\ typeof(TileEntity).GetMethod("{}IsActive"{});}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ public\ class\ TileEntityIsActive}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ public\ static\ bool\ Postfix(TileEntity\ \_\_instance,\ ref\ bool\ \_\_result)}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ if\ (!\_\_instance.blockValue.Block.Properties.Values.ContainsKey("{}AlwaysActive"{}))}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ return\ \_\_result;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ var\ result\ =\ StringParsers.ParseBool(\_\_instance.blockValue.Block.Properties.Values["{}AlwaysActive"{}]);}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ Debug.Log(\$"{}IsAlways\ Active:\ \{result\}"{});}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ result;}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(TileEntity\ \_\_instance,\ ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ World\ world)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ GameManager.Instance.World.GetBlock(\_\_instance.ToWorldPos());}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ var\ block2\ =\ Block.list[block.type];}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ var\ isAlwaysActive\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!block2.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}AlwaysActive"{}}))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ isAlwaysActive\ =\ StringParsers.ParseBool(block2.Properties.Values[\textcolor{stringliteral}{"{}AlwaysActive"{}}]);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isAlwaysActive)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ TileEntity\ is\ Active."{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blCanTrigger\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ var\ bounds\ =\ 6;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block2.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}ActivationDistance"{}}))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bounds\ =\ StringParsers.ParseSInt32(block2.Properties.Values[\textcolor{stringliteral}{"{}ActivationDistance"{}}]);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Scan\ for\ the\ player\ in\ the\ radius\ as\ defined\ by\ the\ Activation\ distance\ of\ the\ block}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entitiesInBounds\ =\ GameManager.Instance.World.GetEntitiesInBounds(\textcolor{keyword}{null},}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Bounds(\_\_instance.ToWorldPos().ToVector3(),\ Vector3.one\ *\ 20));}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entitiesInBounds.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ TileEntity\ has\ Entities\ in\ Bound\ of\ "{}}\ +\ bounds);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ t\ \textcolor{keywordflow}{in}\ entitiesInBounds)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ player\ =\ t\ as\ EntityPlayer;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!player)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ (player.position\ -\/\ \_\_instance.ToWorldPos().ToVector3()).sqrMagnitude;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ block2.GetActivationDistanceSq())}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Player:\ "{}}\ +\ player.EntityName\ +\ \textcolor{stringliteral}{"{}\ is\ in\ bounds"{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block2.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}ActivationBuffs"{}}))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ strbuff\ \textcolor{keywordflow}{in}\ block2.Properties.Values[\textcolor{stringliteral}{"{}ActivationBuffs"{}}].Split(\textcolor{charliteral}{','}))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Checking\ ActivationBuffs:\ "{}}\ +\ strbuff);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strBuffName\ =\ strbuff;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ checkValue\ =\ -\/1f;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ there's\ a\ (\ )\ at\ the\ end\ of\ the\ buff;\ this\ will\ be\ used\ as\ a\ cvar\ hook.}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ start\ =\ strbuff.IndexOf(\textcolor{charliteral}{'('});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ end\ =\ strbuff.IndexOf(\textcolor{charliteral}{')'});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (start\ !=\ -\/1\ \&\&\ end\ !=\ -\/1\ \&\&\ end\ >\ start\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ checkValue\ =\ StringParsers.ParseFloat(strbuff.Substring(start\ +\ 1,\ end\ -\/\ start\ -\/\ 1));}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strBuffName\ =\ strbuff.Substring(0,\ start);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Actviation\ Buff\ is\ a\ cvar:\ "{}}\ +\ strBuffName\ +}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}.\ Requires\ value:\ "{}}\ +\ checkValue);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ player\ has\ a\ buff\ by\ this\ name,\ trigger\ it.}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasBuff(strBuffName))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Buff\ has\ been\ found:\ "{}}\ +\ strBuffName);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blCanTrigger\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ player\ has\ a\ cvar,\ then\ do\ some\ extra\ checks}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!player.Buffs.HasCustomVar(strBuffName))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Cvar\ has\ been\ found:\ "{}}\ +\ strBuffName);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ cvar\ value\ specified,\ just\ allow\ it.}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checkValue\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Cvar\ found,\ and\ does\ not\ require\ a\ specific\ value."{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blCanTrigger\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ a\ cvar\ is\ set,\ then\ check\ to\ see\ if\ it\ matches}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checkValue\ >\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Cvar\ found,\ and\ requires\ a\ value\ of\ "{}}\ +\ checkValue\ +}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ Player\ has:\ "{}}\ +\ player.Buffs.GetCustomVar(strBuffName));}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.GetCustomVar(strBuffName)\ ==\ checkValue)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blCanTrigger\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ any\ of\ these\ conditions\ match,\ trigger\ the\ Activate\ block}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blCanTrigger)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ \ Checks\ successfully\ passed\ for\ player:\ "{}}\ +}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player.EntityName);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Checks\ were\ NOT\ success\ for\ player:\ "{}}\ +\ player.EntityName);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blCanTrigger\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blCanTrigger)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blCanTrigger)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ TileEntity\ can\ call\ ActivateBlock.\ Calling\ it..."{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Block.list[block.type].ActivateBlock(world,\ \_\_instance.GetClrIdx(),\ \_\_instance.ToWorldPos(),\ block,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{true},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block2.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ TileEntity\ is\ Active\ but\ is\ not\ Activating."{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Block.list[block.type].ActivateBlock(world,\ \_\_instance.GetClrIdx(),\ \_\_instance.ToWorldPos(),\ block,}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{false},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00207}00207\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_always_active_8cs_source_l00208}00208\ \}}
+
+\end{DoxyCode}

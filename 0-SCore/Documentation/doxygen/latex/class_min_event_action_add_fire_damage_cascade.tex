@@ -1,0 +1,63 @@
+\hypertarget{class_min_event_action_add_fire_damage_cascade}{}\doxysection{Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade Class Reference}
+\label{class_min_event_action_add_fire_damage_cascade}\index{MinEventActionAddFireDamageCascade@{MinEventActionAddFireDamageCascade}}
+
+
+Spreads fire over a wider area than a single block.  
+
+
+
+
+Inherits Min\+Event\+Action\+Remove\+Buff.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_min_event_action_add_fire_damage_cascade_aa966d9b97fc1bcc4925669409231a03d}{Execute}} (Min\+Event\+Params @params)
+\item 
+override bool \mbox{\hyperlink{class_min_event_action_add_fire_damage_cascade_afee9df2c8d06449391a2847eeab020ed}{Parse\+Xml\+Attribute}} (XAttribute attribute)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Spreads fire over a wider area than a single block. 
+
+This effect can allow fire to spread to to surrounding blocks. You can set up a filter based on the type of blocks you wanted affected. Example\+:
+
+$<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Damaged\+Block\char`\"{} action=\char`\"{}\+Add\+Fire\+Damage\+Cascade, SCore\char`\"{} range=\char`\"{}4\char`\"{} filter=\char`\"{}\+Type\char`\"{} $>$
+
+$<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Damaged\+Block\char`\"{} action=\char`\"{}\+Add\+Fire\+Damage\+Cascade, SCore\char`\"{} range=\char`\"{}4\char`\"{} filter=\char`\"{}\+Material\char`\"{} $>$
+
+$<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Damaged\+Block\char`\"{} action=\char`\"{}\+Add\+Fire\+Damage\+Cascade, SCore\char`\"{} range=\char`\"{}4\char`\"{} filter=\char`\"{}\+Material\+Damage\char`\"{} $>$
+
+$<$triggered\+\_\+effect trigger=\char`\"{}on\+Self\+Damaged\+Block\char`\"{} action=\char`\"{}\+Add\+Fire\+Damage\+Cascade, SCore\char`\"{} range=\char`\"{}4\char`\"{} filter=\char`\"{}\+Material\+Surface\char`\"{} $>$ 
+
+Definition at line \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source}{Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_min_event_action_add_fire_damage_cascade_aa966d9b97fc1bcc4925669409231a03d}\label{class_min_event_action_add_fire_damage_cascade_aa966d9b97fc1bcc4925669409231a03d}} 
+\index{MinEventActionAddFireDamageCascade@{MinEventActionAddFireDamageCascade}!Execute@{Execute}}
+\index{Execute@{Execute}!MinEventActionAddFireDamageCascade@{MinEventActionAddFireDamageCascade}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily override void Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+Execute (\begin{DoxyParamCaption}\item[{Min\+Event\+Params @}]{params }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source}{Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+cs}}.
+
+\mbox{\Hypertarget{class_min_event_action_add_fire_damage_cascade_afee9df2c8d06449391a2847eeab020ed}\label{class_min_event_action_add_fire_damage_cascade_afee9df2c8d06449391a2847eeab020ed}} 
+\index{MinEventActionAddFireDamageCascade@{MinEventActionAddFireDamageCascade}!ParseXmlAttribute@{ParseXmlAttribute}}
+\index{ParseXmlAttribute@{ParseXmlAttribute}!MinEventActionAddFireDamageCascade@{MinEventActionAddFireDamageCascade}}
+\doxysubsubsection{\texorpdfstring{ParseXmlAttribute()}{ParseXmlAttribute()}}
+{\footnotesize\ttfamily override bool Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+Parse\+Xml\+Attribute (\begin{DoxyParamCaption}\item[{XAttribute}]{attribute }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source_l00091}{91}} of file \mbox{\hyperlink{_min_event_action_add_fire_damage_cascade_8cs_source}{Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Features/\+Fire/\+Scripts/\+Min\+Event/Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+cs\end{DoxyCompactItemize}

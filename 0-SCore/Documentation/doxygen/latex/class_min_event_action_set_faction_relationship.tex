@@ -1,0 +1,82 @@
+\hypertarget{class_min_event_action_set_faction_relationship}{}\doxysection{Min\+Event\+Action\+Set\+Faction\+Relationship Class Reference}
+\label{class_min_event_action_set_faction_relationship}\index{MinEventActionSetFactionRelationship@{MinEventActionSetFactionRelationship}}
+
+
+Inherits Min\+Event\+Action\+Targeted\+Base.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_min_event_action_set_faction_relationship_a9a3fab5a7e95796a44d6ceb04e162343}{Execute}} (Min\+Event\+Params \+\_\+params)
+\item 
+override bool \mbox{\hyperlink{class_min_event_action_set_faction_relationship_a84f6a590566df93e13a8a30d6165e261}{Parse\+Xml\+Attribute}} (XAttribute \+\_\+attribute)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sets the target\textquotesingle{}s relationship with the specified faction. 
+
+Supported tag attributes\+: 
+\begin{DoxyItemize}
+\item target  The entity target(s), to change relationships with the factions. Valid target values\+: \char`\"{}self\char`\"{}, \char`\"{}other\char`\"{}, \char`\"{}self\+AOE\char`\"{}, \char`\"{}other\+AOE\char`\"{}, \char`\"{}position\+AOE\char`\"{}. In most cases you should use \char`\"{}self\char`\"{} (the player). Required.   
+\item range  Maximum range (distance in meters) to include entities as targets. Used only when the target is one of the AOE (Area Of Effect) values. Optional.   
+\item target\+\_\+tags  Adds entities with these tags, to the list of entity targets. Special tag values\+: \char`\"{}party\char`\"{}, \char`\"{}ally\char`\"{}, \char`\"{}enemy\char`\"{}. Optional.   
+\item faction  The primary faction whose relationship with the target will be set. Required.   
+\item value  The value of the new relationship between the target and faction. Required.   
+\end{DoxyItemize}
+
+These are the relationship values you should use for each relationship tier. \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Relationship tier }&\cellcolor{\tableheadbgcolor}\textbf{ Relationship values  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Relationship tier }&\cellcolor{\tableheadbgcolor}\textbf{ Relationship values  }\\\cline{1-2}
+\endhead
+Hate &0 -\/ 199  \\\cline{1-2}
+Dislike &200 -\/ 399  \\\cline{1-2}
+Neutral &400 -\/ 599  \\\cline{1-2}
+Like &600 -\/ 799  \\\cline{1-2}
+Love &800 -\/ 1000 (1000 is the maximum value)  \\\cline{1-2}
+\end{longtabu}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<triggered\_effect\ trigger=\textcolor{stringliteral}{"{}onSelfBuffStart"{}}\ action=\textcolor{stringliteral}{"{}SetFactionRelationshipSDX,\ Mods"{}}\ target=\textcolor{stringliteral}{"{}self"{}}\ faction=\textcolor{stringliteral}{"{}bandits"{}}\ value=\textcolor{stringliteral}{"{}400"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source_l00089}{89}} of file \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source}{Min\+Event\+Action\+Set\+Faction\+Relationship.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_min_event_action_set_faction_relationship_a9a3fab5a7e95796a44d6ceb04e162343}\label{class_min_event_action_set_faction_relationship_a9a3fab5a7e95796a44d6ceb04e162343}} 
+\index{MinEventActionSetFactionRelationship@{MinEventActionSetFactionRelationship}!Execute@{Execute}}
+\index{Execute@{Execute}!MinEventActionSetFactionRelationship@{MinEventActionSetFactionRelationship}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily override void Min\+Event\+Action\+Set\+Faction\+Relationship.\+Execute (\begin{DoxyParamCaption}\item[{Min\+Event\+Params}]{\+\_\+params }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source_l00097}{97}} of file \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source}{Min\+Event\+Action\+Set\+Faction\+Relationship.\+cs}}.
+
+\mbox{\Hypertarget{class_min_event_action_set_faction_relationship_a84f6a590566df93e13a8a30d6165e261}\label{class_min_event_action_set_faction_relationship_a84f6a590566df93e13a8a30d6165e261}} 
+\index{MinEventActionSetFactionRelationship@{MinEventActionSetFactionRelationship}!ParseXmlAttribute@{ParseXmlAttribute}}
+\index{ParseXmlAttribute@{ParseXmlAttribute}!MinEventActionSetFactionRelationship@{MinEventActionSetFactionRelationship}}
+\doxysubsubsection{\texorpdfstring{ParseXmlAttribute()}{ParseXmlAttribute()}}
+{\footnotesize\ttfamily override bool Min\+Event\+Action\+Set\+Faction\+Relationship.\+Parse\+Xml\+Attribute (\begin{DoxyParamCaption}\item[{XAttribute}]{\+\_\+attribute }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source_l00121}{121}} of file \mbox{\hyperlink{_min_event_action_set_faction_relationship_8cs_source}{Min\+Event\+Action\+Set\+Faction\+Relationship.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Min\+Events/Min\+Event\+Action\+Set\+Faction\+Relationship.\+cs\end{DoxyCompactItemize}

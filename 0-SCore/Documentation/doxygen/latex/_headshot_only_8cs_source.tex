@@ -1,0 +1,65 @@
+\hypertarget{_headshot_only_8cs_source}{}\doxysection{Headshot\+Only.\+cs}
+\label{_headshot_only_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/HeadshotOnly.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/HeadshotOnly.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_zombie_features}{Harmony.ZombieFeatures}}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00010}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_headshot_only}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_headshot_only}{SCoreHeadshotOnly}}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedZombieFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}HeadshotOnly"{}};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Give\ a\ damage\ boost\ to\ headshots}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}DamageEntity"{}})]}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_headshot_only_1_1_entity_alive_damage_entity}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_headshot_only_1_1_entity_alive_damage_entity}{EntityAliveDamageEntity}}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityAlive\ \_\_instance,\ ref\ DamageSource\ \_damageSource,\ ref\ \textcolor{keywordtype}{int}\ \_strength,\ \textcolor{keywordtype}{bool}\ \_criticalHit,\ \textcolor{keywordtype}{float}\ \_impulseScale)}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ a\ damage\ boost\ if\ there\ is\ a\ head\ shot.}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\_\_instance\ is\ EntityZombie))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ head\ shots\ for\ snakes.}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityAnimalSnake)}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_strength\ >\ 999)}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\ Massive\ Damage\ Detected.\ Falling\ back\ to\ base"{}});}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ not\ a\ player,\ deal\ with\ default}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ GameManager.Instance.World.GetEntity(\_damageSource.getEntityId())\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ bodyPart\ =\ \_damageSource.GetEntityDamageBodyPart(\_\_instance);}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bodyPart\ ==\ EnumBodyPartHit.Head)}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\ Headshot\ Mode\ Active:\ Headshot!\ "{}});}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Apply\ a\ damage\ multiplier\ for\ the\ head\ shot,\ and\ bump\ the\ dismember\ bonus\ for\ the\ head\ shot}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ will\ allow\ the\ head\ to\ splode\ of,\ which\ accordingly\ to\ legendary\ legend,\ is\ the\ only\ went\ to\ truly\ kill\ a\ zombie.}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_damageSource.DamageMultiplier\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \_strength\ =\ 1;}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_damageSource.DismemberChance\ =\ 0.8f;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reducing\ the\ damage\ to\ the\ torso\ will\ prevent\ the\ entity\ from\ being\ killed\ by\ torso\ shots,\ while\ also\ maintaining\ de-\/limbing.}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\ Headshot\ Mode\ Active:\ Non-\/Headshot"{}});}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_damageSource.DamageMultiplier\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_strength\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_headshot_only_8cs_source_l00064}00064\ \}}
+
+\end{DoxyCode}

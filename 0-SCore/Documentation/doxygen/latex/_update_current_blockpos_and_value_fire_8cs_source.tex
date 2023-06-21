@@ -1,0 +1,28 @@
+\hypertarget{_update_current_blockpos_and_value_fire_8cs_source}{}\doxysection{Update\+Current\+Blockpos\+And\+Value\+Fire.\+cs}
+\label{_update_current_blockpos_and_value_fire_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/UpdateCurrentBlockposAndValueFire.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/UpdateCurrentBlockposAndValueFire.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_features_1_1_fire_1_1_harmony}{Features.Fire.Harmony}}}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00005}00005\ \ \ \ \ [HarmonyPatch(typeof(EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}updateCurrentBlockPosAndValue"{}})]}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00007}\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_entity_aliveupdate_current_block_pos_and_value}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_entity_aliveupdate_current_block_pos_and_value}{EntityAliveupdateCurrentBlockPosAndValue}}}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockPosition\ =\ \_\_instance.GetBlockPosition();}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_fire_manager}{FireManager}}.IsBurning(blockPosition))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!GameManager.Instance.HasBlockParticleEffect(blockPosition))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ buff\ =\ Configuration.GetPropertyValue(\textcolor{stringliteral}{"{}FireManagement"{}},\ \textcolor{stringliteral}{"{}BuffOnFire"{}});}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(buff))}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.Buffs.AddBuff(buff);}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_update_current_blockpos_and_value_fire_8cs_source_l00022}00022\ \}}
+
+\end{DoxyCode}

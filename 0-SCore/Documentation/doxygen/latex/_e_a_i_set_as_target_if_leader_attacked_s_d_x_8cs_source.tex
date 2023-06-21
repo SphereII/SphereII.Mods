@@ -1,0 +1,88 @@
+\hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source}{}\doxysection{EAISet\+As\+Target\+If\+Leader\+Attacked\+SDX.\+cs}
+\label{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/EAISetAsTargetIfLeaderAttackedSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/EAISetAsTargetIfLeaderAttackedSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }EAISetAsTargetIfLeaderAttackedSDX\ :\ EAISetAsTargetIfHurt}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{bool}\ blDisplayLog\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ List<Entity>\ NearbyEntities\ =\ \textcolor{keyword}{new}\ List<Entity>();}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ targetEntity;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ DisplayLog(\textcolor{keywordtype}{string}\ strMessage)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blDisplayLog)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(GetType()\ +\ \textcolor{stringliteral}{"{}\ :\ "{}}\ +\ theEntity.EntityName\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ theEntity.entityId\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ strMessage);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CanExecute()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ CanExecute()\ "{}});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CheckSurroundingEntities())}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ CheckSurroundEntities\ is\ true\ for\ an\ enemy"{}});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ CheckSurroundingEntities()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ NearbyEntities.Clear();}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ don't\ have\ a\ leader,\ we\ don't\ need\ to\ scan.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ var\ leader\ =\ EntityUtilities.GetLeaderOrOwner(theEntity.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!leader)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ in\ the\ bounds\ are\ to\ try\ to\ find\ the\ most\ appealing\ entity\ to\ follow.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ var\ bb\ =\ \textcolor{keyword}{new}\ Bounds(theEntity.position,\ \textcolor{keyword}{new}\ Vector3(theEntity.GetSeeDistance(),\ 20f,\ theEntity.GetSeeDistance()));}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ theEntity.world.GetEntitiesInBounds(typeof(EntityAlive),\ bb,\ NearbyEntities);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ Nearby\ Entities:\ "{}}\ +\ NearbyEntities.Count);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ NearbyEntities.Count\ -\/\ 1;\ i\ >=\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ var\ x\ =\ (EntityAlive)NearbyEntities[i];}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ !=\ theEntity)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.IsDead())}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}Nearby\ Entity:\ "{}}\ +\ x.EntityName);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.GetAttackTarget()\ ==\ leader)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ My\ leader\ is\ being\ attacked\ by\ "{}}\ +\ x);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetEntity\ =\ x;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ theEntity.SetRevengeTarget(targetEntity);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.GetRevengeTarget()\ ==\ leader)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ My\ leader\ is\ being\ avenged\ by\ "{}}\ +\ x);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetEntity\ =\ x;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ theEntity.SetRevengeTarget(targetEntity);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.GetDamagedTarget()\ ==\ leader)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ My\ leader\ is\ being\ attacked\ by\ something\ that\ damaged\ it\ "{}}\ +\ x);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetEntity\ =\ x;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ theEntity.SetRevengeTarget(targetEntity);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_set_as_target_if_leader_attacked_s_d_x_8cs_source_l00082}00082\ \}}
+
+\end{DoxyCode}

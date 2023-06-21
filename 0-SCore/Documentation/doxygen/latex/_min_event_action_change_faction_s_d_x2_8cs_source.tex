@@ -1,0 +1,91 @@
+\hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source}{}\doxysection{Min\+Event\+Action\+Change\+Faction\+SDX2.\+cs}
+\label{_min_event_action_change_faction_s_d_x2_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionChangeFactionSDX2.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionChangeFactionSDX2.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00005}\mbox{\hyperlink{class_min_event_action_change_faction_s_d_x2}{00005}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_change_faction_s_d_x2}{MinEventActionChangeFactionSDX2}}\ :\ MinEventActionRemoveBuff}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ Faction\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ changes\ the\ self's\ faction.}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}ChangeFactionSDX,\ SCore"{}\ target="{}self"{}\ value="{}bandits"{}\ />\ //\ \ change\ faction\ to\ bandits}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}ChangeFactionSDX,\ SCore"{}\ target="{}self"{}\ value="{}undead"{}\ />\ //change\ faction\ to\ undead}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00011}00011\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}ChangeFactionSDX,\ SCore"{}\ target="{}self"{}\ value="{}original"{}\ />\ //change\ faction\ to\ the\ original\ value}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ targets.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ targets[i];}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ faction\ name\ is\ original,\ try\ to\ find\ the\ original\ faction\ of\ the\ entity,\ stored\ via\ cvar.}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Faction\ ==\ \textcolor{stringliteral}{"{}original"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ already\ a\ factionoriginal\ cvar,\ retrive\ the\ faction\ name\ to\ be\ re-\/assigned.}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}FactionOriginal"{}}))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ FactionID\ =\ (byte)entity.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}FactionOriginal"{}});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ Temp\ =\ FactionManager.Instance.GetFaction(FactionID);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Temp\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Changed\ "{}}\ +\ entity.EntityName\ +\ \textcolor{stringliteral}{"{}\ faction\ from\ "{}}\ +\ entity.factionId\ +\ \textcolor{stringliteral}{"{}\ \ to\ "{}}\ +\ Temp.ID);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Faction\ =\ Temp.Name;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (FactionManager.Instance.GetFactionByName(entity.EntityName).ID\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Created\ new\ faction\ for\ "{}}\ +\ entity.EntityName\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ entity.factionId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.factionId\ =\ FactionManager.Instance.CreateFaction(entity.EntityName).ID;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.factionRank\ =\ \textcolor{keywordtype}{byte}.MaxValue;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ for\ the\ faction}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ newFaction\ =\ FactionManager.Instance.GetFactionByName(Faction);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newFaction\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ original\ cvar,\ store\ it\ here.\ That's\ because\ it\ doesn't\ seem\ to\ persist\ over\ restarts,\ but\ cvars\ will}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}FactionOriginal"{}}))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.Buffs.SetCustomVar(\textcolor{stringliteral}{"{}FactionOriginal"{}},\ entity.factionId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ new\ faction\ ID\ as\ a\ cvar\ for\ saving.}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.Buffs.SetCustomVar(\textcolor{stringliteral}{"{}FactionNew"{}},\ newFaction.ID);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Changing\ "{}}\ +\ entity.EntityName\ +\ \textcolor{stringliteral}{"{}\ faction\ from\ "{}}\ +\ entity.factionId\ +\ \textcolor{stringliteral}{"{}\ \ to\ "{}}\ +\ newFaction.ID);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.factionId\ =\ newFaction.ID;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\(\backslash\)nNew\ Faction:\ "{}}\ +\ entity.factionId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.SetAttackTarget(\textcolor{keyword}{null},\ 0);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.SetRevengeTarget(\textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00069}00069\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00070}00070\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}value"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Faction\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_change_faction_s_d_x2_8cs_source_l00085}00085\ \}}
+
+\end{DoxyCode}

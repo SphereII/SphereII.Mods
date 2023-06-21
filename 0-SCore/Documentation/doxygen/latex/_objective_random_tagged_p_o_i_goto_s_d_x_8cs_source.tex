@@ -1,0 +1,225 @@
+\hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}{}\doxysection{Objective\+Random\+Tagged\+POIGoto\+SDX.\+cs}
+\label{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveRandomTaggedPOIGotoSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveRandomTaggedPOIGotoSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00023}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x}{00023}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x}{ObjectiveRandomTaggedPOIGotoSDX}}\ :\ ObjectiveRandomPOIGoto}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00024}00024\ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00028}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}{00028}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}{PropIncludeTags}}\ =\ \textcolor{stringliteral}{"{}include\_tags"{}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00033}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}{00033}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}{PropExcludeTags}}\ =\ \textcolor{stringliteral}{"{}exclude\_tags"{}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00038}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{00038}}\ \ \ \ \ \textcolor{keyword}{public}\ POITags\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{internal}\ \textcolor{keyword}{set};\ \}\ =\ POITags.none;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00043}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{00043}}\ \ \ \ \ \textcolor{keyword}{public}\ POITags\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{internal}\ \textcolor{keyword}{set};\ \}\ =\ POITags.none;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00048}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{00048}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{internal}\ \textcolor{keyword}{set};\ \}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00053}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{00053}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}}\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{internal}\ \textcolor{keyword}{set};\ \}\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00059}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac1bcbf341376486d9851a515f8867772}{00059}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac1bcbf341376486d9851a515f8867772}{ParseProperties}}(DynamicProperties\ properties)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}{PropIncludeTags}}))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}}\ =\ POITags.Parse(properties.Values[\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_aaf9679cbc1a269b297e6f3fd8225050f}{PropIncludeTags}}].Replace(\textcolor{stringliteral}{"{}\ "{}},\ \textcolor{stringliteral}{"{}"{}}));}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}{PropExcludeTags}}))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}}\ =\ POITags.Parse(properties.Values[\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_af19971ffb27a77a957467443351ad3fc}{PropExcludeTags}}].Replace(\textcolor{stringliteral}{"{}\ "{}},\ \textcolor{stringliteral}{"{}"{}}));}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(PropDistance))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ searchDistance\ =\ properties.Values[PropDistance].Replace(\textcolor{stringliteral}{"{}\ "{}},\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (searchDistance.Contains(\textcolor{stringliteral}{"{}-\/"{}}))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}[]\ distances\ =\ searchDistance.Split(\textcolor{keyword}{new}\ \textcolor{keywordtype}{char}[]\ \{\ \textcolor{charliteral}{'-\/'}\ \});}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}}\ =\ StringParsers.ParseFloat(distances[0]);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}}\ =\ StringParsers.ParseFloat(distances[1]);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}}\ =\ StringParsers.ParseFloat(searchDistance);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Remove\ the\ property\ value\ so\ the\ base\ class\ doesn't\ parse\ it}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ properties.Values.Remove(PropDistance);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ base.ParseProperties(properties);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00096}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a95734c9cd31620346968f15f41688960}{00096}}\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ Vector3\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a95734c9cd31620346968f15f41688960}{GetPosition}}(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ EntityNPC\ ownerNPC\ =\ \textcolor{keyword}{null},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ EntityPlayer\ entityPlayer\ =\ \textcolor{keyword}{null},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ List<Vector2>\ usedPoiLocations\ =\ \textcolor{keyword}{null},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ entityIdForQuests\ =\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ copied\ from\ ObjectiveRandomPOIGoto\ and\ modified\ to\ use\ utility\ methods\ that\ accept\ tags}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.GetPositionData(out\ position,\ Quest.PositionDataTypes.POIPosition))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.GetPositionData(out\ Vector3\ poiSize,\ Quest.PositionDataTypes.POISize);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ Vector2\ poiCenter\ =\ \textcolor{keyword}{new}\ Vector2(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position.x\ +\ poiSize.x\ /\ 2f,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position.z\ +\ poiSize.z\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ PrefabCenterToPosition(poiCenter);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.Position\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}{SetDistanceOffset}}(poiSize);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ positionSet\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition,\ NavObjectName,\ -\/1);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ CurrentValue\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ EntityAlive\ questOwner\ =\ ownerNPC\ ??\ (EntityAlive)OwnerQuest.OwnerJournal.OwnerPlayer;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ if\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ PrefabInstance\ prefabInstance;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Modified\ so\ it\ won't\ call\ the\ method\ if\ the\ "{}trader"{}\ has\ no\ TraderArea.}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Core\ NPCs\ descend\ from\ traders,\ and\ this\ will\ allow\ them\ to\ give\ POI\ quests.}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (questOwner\ is\ EntityTrader\ trader\ \&\&\ trader.traderArea\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance\ =\ QuestUtils.GetRandomPOINearTrader(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ trader,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestTags,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestClass.DifficultyTier,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ usedPoiLocations,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityIdForQuests,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilterType,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilter);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance\ =\ QuestUtils.GetRandomPOINearEntityPos(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ questOwner,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestTags,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestClass.DifficultyTier,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ values\ used\ in\ vanilla\ are\ the\ square\ of\ the\ distance;\ adjusted\ here}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}}\ >=\ 0\ ?\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}}\ :\ 50,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}}\ >=\ 0\ ?\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}}\ :\ 2000,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ usedPoiLocations,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityIdForQuests,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilterType,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilter);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prefabInstance\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Warning(\$\textcolor{stringliteral}{"{}Unable\ to\ find\ POI\ for\ quest\ \{OwnerQuest.QuestTags\}!"{}});}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ taken\ from\ the\ vanilla\ ObjectiveRandomPOIGoto\ -\/\ but\ when\ is\ it\ ever\ the\ case?}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ Vector2\ prefabCenter\ =\ prefabInstance.GetCenterXZ();}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prefabCenter.x\ ==\ -\/0.1f\ \&\&\ prefabCenter.y\ ==\ -\/0.1f)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Error(\textcolor{stringliteral}{"{}ObjectiveRandomTaggedPOIGotoSDX:\ No\ POI\ found."{}});}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ PrefabCenterToPosition(prefabCenter);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.IsPositionInBounds(position))}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.Position\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FinalizePoint(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Vector3(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.x,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.y,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.z),}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Vector3(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxSize.x,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxSize.y,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxSize.z));}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestPrefab\ =\ prefabInstance;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.DataVariables.Add(\textcolor{stringliteral}{"{}POIName"{}},\ OwnerQuest.QuestPrefab.location.Name);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (usedPoiLocations\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ usedPoiLocations.Add(\textcolor{keyword}{new}\ Vector2(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.x,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.z));}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00211}00211\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NetPackageManager.GetPackage<\mbox{\hyperlink{class_net_package_random_tagged_p_o_i_goto_s_d_x}{NetPackageRandomTaggedPOIGotoSDX}}>().Setup(}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ questOwner.entityId,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestTags,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestCode,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestClass.DifficultyTier,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}},}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ -\/1,\ \textcolor{comment}{//\ POI\ boundingBoxPosition}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0f,\ 0f,\ 0f,\ \textcolor{comment}{//\ POI\ boundingBoxSize}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilterType,}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ biomeFilter),}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ CurrentValue\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00231}00231\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00232}00232\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00233}00233\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Vector3\ PrefabCenterToPosition(Vector2\ prefabCenter)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00234}00234\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Since\ the\ center\ is\ a\ 2D\ vector,\ its\ "{}y"{}\ is\ actually\ the\ z-\/axis\ position}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ (int)prefabCenter.x;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ (\textcolor{keywordtype}{int})GameManager.Instance.World.GetHeightAt(prefabCenter.x,\ prefabCenter.y);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ z\ =\ (int)prefabCenter.y;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ Vector3(x,\ y,\ z);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00240}00240\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00246}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_acf632d4a0d0c2bd1e817cb7abe4bafc4}{00246}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseObjective\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_acf632d4a0d0c2bd1e817cb7abe4bafc4}{Clone}}()}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00247}00247\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ var\ objectiveRandomPOIGoto\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x}{ObjectiveRandomTaggedPOIGotoSDX}}();}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}{CopyValues}}(objectiveRandomPOIGoto);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ objectiveRandomPOIGoto;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00251}00251\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00257}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}{00257}}\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ae9d949ebaa49426fd322613a5175eee1}{CopyValues}}(BaseObjective\ objective)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00258}00258\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ base.CopyValues(objective);}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x}{ObjectiveRandomTaggedPOIGotoSDX}}\ obj\ =\ (\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x}{ObjectiveRandomTaggedPOIGotoSDX}})objective;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00261}00261\ \ \ \ \ \ \ \ \ obj.IncludeTags\ =\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ab776450132f974076b6122239cdeed23}{IncludeTags}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ obj.ExcludeTags\ =\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ad2437548e5aa7a9171a47729629bd7e0}{ExcludeTags}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ obj.MinSearchDistance\ =\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a089754a8f6fb8815b8792a2abcc7aaa7}{MinSearchDistance}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ obj.MaxSearchDistance\ =\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_ac0212df069cb0e1d294b00dd1a426c5d}{MaxSearchDistance}};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00265}00265\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00272}\mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}{00272}}\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_objective_random_tagged_p_o_i_goto_s_d_x_a31f25f70a07b7a86b54b44826bec21a4}{SetDistanceOffset}}(Vector3\ poiSize)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00273}00273\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (poiSize.x\ >\ poiSize.z)}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ distanceOffset\ =\ poiSize.x;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ distanceOffset\ =\ poiSize.z;}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00280}00280\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_random_tagged_p_o_i_goto_s_d_x_8cs_source_l00281}00281\ \}}
+
+\end{DoxyCode}

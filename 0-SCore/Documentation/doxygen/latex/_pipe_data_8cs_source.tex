@@ -1,0 +1,123 @@
+\hypertarget{_pipe_data_8cs_source}{}\doxysection{Pipe\+Data.\+cs}
+\label{_pipe_data_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/PipeData.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/PipeData.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00004}\mbox{\hyperlink{class_pipe_data}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pipe_data}{PipeData}}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ Vector3i\ BlockPos\ =\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ Dictionary<Vector3i,\ Pipe>\ pipes\ =\ \textcolor{keyword}{new}\ Dictionary<Vector3i,\ Pipe>();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ maxPipes\ =\ 50;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ currentPipe\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_pipe_data}{PipeData}}(Vector3i\ blockPos,\ \textcolor{keywordtype}{int}\ maxpipeCount\ =\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ BlockPos\ =\ blockPos;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ maxPipes\ =\ maxpipeCount;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (maxpipeCount\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ maxPipes\ =\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetMaxPipeCount();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00016}00016\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_pipe}{Pipe}}\ GetNeighbors()}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ pipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}(\ var\ direction\ \textcolor{keywordflow}{in}\ Vector3i.AllDirections)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ BlockPos\ +\ direction;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.IsValveOff(position))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ a\ pipe,\ add\ it\ to\ the\ list,\ and\ keep\ going.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(position);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block\ is\ \mbox{\hyperlink{class_block_water_pipe_s_d_x}{BlockWaterPipeSDX}})}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pipe.Add(position);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.IsDirectWaterSource(position))}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pipe.AddWater(position);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pipe;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ClearPipes()}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ pipes.Clear();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00043}00043\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ GetWaterSource()}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00044}00044\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (\ var\ pipe\ \textcolor{keywordflow}{in}\ pipes)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pipe.Value.IsWaterSource())}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pipe.Value.GetWaterSource();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00055}00055\ \ \ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ FindAllPipes(\mbox{\hyperlink{class_pipe}{Pipe}}\ \_pipe,\ \textcolor{keywordtype}{bool}\ findFirst\ =\ \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ exceeded\ our\ max,\ stop\ searching.\ This\ is\ the\ limit\ of\ the\ pipe\ system.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPipe\ >=\ maxPipes)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ currentPipe++;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generate\ a\ new\ set\ of\ PipeData.\ This\ will\ hold\ data\ on\ connecting\ pipes\ and\ water\ sources,}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ collect\ data\ from\ all\ the\ neighbors.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ var\ pipeData\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe_data}{PipeData}}(\_pipe.GetBlockPos());}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ var\ neighbors\ =\ pipeData.GetNeighbors();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighbors.IsWaterSource()\ \&\&\ findFirst)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ watert\ source\ as\ part\ of\ the\ piping\ system}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ var\ waterSource\ =\ neighbors.GetWaterSource();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ var\ pipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(waterSource);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ pipe.AddWater(waterSource);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!pipes.ContainsKey(waterSource))}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pipes.Add(waterSource,\ pipe);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Loop\ around\ the\ pipes\ and\ check\ if\ they\ have\ already\ been\ indexed.\ If\ not,\ keep\ }}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ searching.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ position\ \textcolor{keywordflow}{in}\ neighbors.GetPipes())}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pipes.ContainsKey(position))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Register\ the\ pipe\ to\ the\ list\ so\ we\ can\ keep\ track\ of\ it.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ var\ pipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(position);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ pipes.Add(position,\ pipe);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Keep\ searching\ if\ we\ haven't\ discovered\ this\ pipe\ yet.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ var\ result\ =\ FindAllPipes(pipe,\ findFirst);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00098}00098\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ DiscoverWaterFromPipes(Vector3i\ position)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00101}00101\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ currentPipe\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ var\ startPipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(position);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clear\ the\ pipes\ so\ we\ don't\ detect\ any\ dead\ branches\ in\ the\ pipes.}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ ClearPipes();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ FindAllPipes(startPipe);}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ pipe\ \textcolor{keywordflow}{in}\ pipes)}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pipe.Value.IsWaterSource())}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pipe.Value.GetWaterSource();}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00116}00116\ \ \ }
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00117}00117\ \}}
+\DoxyCodeLine{\Hypertarget{_pipe_data_8cs_source_l00118}00118\ }
+
+\end{DoxyCode}

@@ -1,0 +1,19 @@
+\hypertarget{_min_event_action_clear_stale_hires_8cs_source}{}\doxysection{Min\+Event\+Action\+Clear\+Stale\+Hires.\+cs}
+\label{_min_event_action_clear_stale_hires_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionClearStaleHires.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionClearStaleHires.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00001}00001\ \textcolor{comment}{//\ \ \ \ \ \ \ \ <triggered\_effect\ trigger\ =\ "{}onSelfBuffUpdate"{}\ action="{}ClearStaleHires,\ SCore"{}\ \ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00006}\mbox{\hyperlink{class_min_event_action_clear_stale_hires}{00006}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_clear_stale_hires}{MinEventActionClearStaleHires}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}Checking\ for\ Stale\ Hires"{}});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ EntityUtilities.CheckForDanglingHires(\_params.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00012}00012\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_clear_stale_hires_8cs_source_l00013}00013\ \}}
+
+\end{DoxyCode}

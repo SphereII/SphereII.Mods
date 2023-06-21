@@ -1,0 +1,132 @@
+\hypertarget{class_net_package_quest_treasure_point_s_d_x}{}\doxysection{Net\+Package\+Quest\+Treasure\+Point\+SDX Class Reference}
+\label{class_net_package_quest_treasure_point_s_d_x}\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+
+
+Inherits Net\+Package.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_a9a7fa4967142a112003a10cee0488e25}{Setup}} (int \+\_\+player\+Id, float \+\_\+distance, int \+\_\+offset, int \+\_\+quest\+Code, int posX=0, int posY=-\/1, int posZ=0, bool \+\_\+use\+Nearby=false)
+\item 
+\mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_ae10804ae37453c1c0e983627a95f859f}{Setup}} (int \+\_\+player\+Id, int \+\_\+quest\+Code, int \+\_\+blocks\+Per\+Reduction, Vector3i \+\_\+position, Vector3 \+\_\+treasure\+Offset)
+\item 
+\mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_a48dc2174e054fd14014f1e881191d3c2}{Setup}} (int \+\_\+quest\+Code, float \+\_\+distance, int \+\_\+offset, float \+\_\+treasure\+Radius, Vector3 \+\_\+start\+Position, int \+\_\+player\+Id, bool \+\_\+use\+Nearby, int \+\_\+blocks\+Per\+Reduction)
+\item 
+\mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_aaa732c248cc6cabc42dc8fdaa600790a}{Setup}} (int \+\_\+quest\+Code, Vector3i \+\_\+updated\+Position)
+\item 
+\mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_a660a37816af129dd3aa67c574425483e}{Setup}} (int \+\_\+quest\+Code, int \+\_\+blocks\+Per\+Reduction)
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_adf8b35e1e4b157611054a55aadc1e381}{read}} (Pooled\+Binary\+Reader \+\_\+br)
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_a7d74a548f86e989325abda7d27a7c6ad}{write}} (Pooled\+Binary\+Writer \+\_\+bw)
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_a6dbaf5696d75de7c8020c58506b176d7}{Process\+Package}} (World \+\_\+world, Game\+Manager \+\_\+callbacks)
+\item 
+override int \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x_ac0af4593dae8494d93df3c05fb897906}{Get\+Length}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00005}{5}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_ac0af4593dae8494d93df3c05fb897906}\label{class_net_package_quest_treasure_point_s_d_x_ac0af4593dae8494d93df3c05fb897906}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!GetLength@{GetLength}}
+\index{GetLength@{GetLength}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{GetLength()}{GetLength()}}
+{\footnotesize\ttfamily override int Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Get\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00149}{149}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_a6dbaf5696d75de7c8020c58506b176d7}\label{class_net_package_quest_treasure_point_s_d_x_a6dbaf5696d75de7c8020c58506b176d7}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!ProcessPackage@{ProcessPackage}}
+\index{ProcessPackage@{ProcessPackage}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{ProcessPackage()}{ProcessPackage()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Process\+Package (\begin{DoxyParamCaption}\item[{World}]{\+\_\+world,  }\item[{Game\+Manager}]{\+\_\+callbacks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00111}{111}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_adf8b35e1e4b157611054a55aadc1e381}\label{class_net_package_quest_treasure_point_s_d_x_adf8b35e1e4b157611054a55aadc1e381}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!read@{read}}
+\index{read@{read}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Treasure\+Point\+SDX.\+read (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Reader}]{\+\_\+br }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00070}{70}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_a9a7fa4967142a112003a10cee0488e25}\label{class_net_package_quest_treasure_point_s_d_x_a9a7fa4967142a112003a10cee0488e25}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+player\+Id,  }\item[{float}]{\+\_\+distance,  }\item[{int}]{\+\_\+offset,  }\item[{int}]{\+\_\+quest\+Code,  }\item[{int}]{posX = {\ttfamily 0},  }\item[{int}]{posY = {\ttfamily -\/1},  }\item[{int}]{posZ = {\ttfamily 0},  }\item[{bool}]{\+\_\+use\+Nearby = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_ae10804ae37453c1c0e983627a95f859f}\label{class_net_package_quest_treasure_point_s_d_x_ae10804ae37453c1c0e983627a95f859f}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+player\+Id,  }\item[{int}]{\+\_\+quest\+Code,  }\item[{int}]{\+\_\+blocks\+Per\+Reduction,  }\item[{Vector3i}]{\+\_\+position,  }\item[{Vector3}]{\+\_\+treasure\+Offset }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00022}{22}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_a48dc2174e054fd14014f1e881191d3c2}\label{class_net_package_quest_treasure_point_s_d_x_a48dc2174e054fd14014f1e881191d3c2}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+quest\+Code,  }\item[{float}]{\+\_\+distance,  }\item[{int}]{\+\_\+offset,  }\item[{float}]{\+\_\+treasure\+Radius,  }\item[{Vector3}]{\+\_\+start\+Position,  }\item[{int}]{\+\_\+player\+Id,  }\item[{bool}]{\+\_\+use\+Nearby,  }\item[{int}]{\+\_\+blocks\+Per\+Reduction }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_a660a37816af129dd3aa67c574425483e}\label{class_net_package_quest_treasure_point_s_d_x_a660a37816af129dd3aa67c574425483e}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+quest\+Code,  }\item[{int}]{\+\_\+blocks\+Per\+Reduction }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00061}{61}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_aaa732c248cc6cabc42dc8fdaa600790a}\label{class_net_package_quest_treasure_point_s_d_x_aaa732c248cc6cabc42dc8fdaa600790a}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_treasure_point_s_d_x}{Net\+Package\+Quest\+Treasure\+Point\+SDX}} Net\+Package\+Quest\+Treasure\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+quest\+Code,  }\item[{Vector3i}]{\+\_\+updated\+Position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00052}{52}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_treasure_point_s_d_x_a7d74a548f86e989325abda7d27a7c6ad}\label{class_net_package_quest_treasure_point_s_d_x_a7d74a548f86e989325abda7d27a7c6ad}} 
+\index{NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}!write@{write}}
+\index{write@{write}!NetPackageQuestTreasurePointSDX@{NetPackageQuestTreasurePointSDX}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Treasure\+Point\+SDX.\+write (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Writer}]{\+\_\+bw }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source_l00090}{90}} of file \mbox{\hyperlink{_net_package_quest_treasure_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Net\+Package/Net\+Package\+Quest\+Treasure\+Point\+SDX.\+cs\end{DoxyCompactItemize}

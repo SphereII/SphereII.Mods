@@ -1,0 +1,96 @@
+\hypertarget{_block_water_source_s_d_x_8cs_source}{}\doxysection{Block\+Water\+Source\+SDX.\+cs}
+\label{_block_water_source_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/Water Blocks/BlockWaterSourceSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/Water Blocks/BlockWaterSourceSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_water_source_s_d_x}{BlockWaterSourceSDX}}\ :\ \mbox{\hyperlink{class_block_base_water_system}{BlockBaseWaterSystem}}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ WaterRange\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ waterType\ =\ \textcolor{stringliteral}{"{}Limited"{}};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ LateInit()}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ base.LateInit();}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}WaterRange"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ WaterRange\ =\ StringParsers.ParseFloat(this.Properties.Values[\textcolor{stringliteral}{"{}WaterRange"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}WaterType"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ waterType\ =\ Properties.Values[\textcolor{stringliteral}{"{}WaterType"{}}];}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ IsWaterSourceUnlimited()}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waterType.ToLower()\ ==\ \textcolor{stringliteral}{"{}unlimited"{}})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ GetWaterRange()}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WaterRange;}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ This\ is\ not\ a\ direct\ source\ of\ water\ in\ itself.\ However,\ if\ it's\ connected\ to\ a\ series\ of\ BlockWaterPipeSDXs\ which\ connect\ up\ to\ }}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ a\ BlockLiquidV2,\ then\ it\ can\ act\ like\ the\ water\ block\ itself,\ providing\ the\ same\ range\ of\ water\ power\ as\ if\ its\ the\ block\ itself.}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ If\ there\ is\ no\ BlockWaterPipeSDXs\ connected\ to\ water,\ it\ does\ nothing.}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockRemoved(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ ToggleSprinkler(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ base.OnBlockRemoved(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockAdded(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ base.OnBlockAdded(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \_chunk.AddEntityBlockStub(\textcolor{keyword}{new}\ BlockEntityData(\_blockValue,\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ bNeedsTemperature\ =\ \textcolor{keyword}{true}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_world.IsRemote())}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \_world.GetWBT().AddScheduledBlockUpdate(\_chunk.ClrIdx,\ \_blockPos,\ \textcolor{keyword}{this}.blockID,\ \textcolor{keyword}{this}.GetTickRate());}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ToggleSprinkler(Vector3i\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ GameManager.Instance.World.IsRemote()\ ==\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(0,\ \_blockPos,\ this.blockID,\ GetTickRate());}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ we\ have\ a\ transform.\ If\ not,\ no\ need\ to\ try\ to\ animate.}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ var\ \_ebcd\ =\ GameManager.Instance.World.GetChunkFromWorldPos(\_blockPos).GetBlockEntity(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_ebcd\ ==\ \textcolor{keyword}{null}\ ||\ \_ebcd.transform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Confirm\ the\ existence\ of\ an\ animator.}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ var\ animator\ =\ \_ebcd.transform.GetComponentInChildren<Animator>();}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (animator\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ No\ water,\ no\ sprinkler}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterForPosition(\_blockPos)\ ==\ Vector3i.zero)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetBool(\textcolor{stringliteral}{"{}isSprinklerOn"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.RemoveValve(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.AddValve(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ animator.SetBool(\textcolor{stringliteral}{"{}isSprinklerOn"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ ulong\ GetTickRate()}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (ulong)10f;}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ UpdateTick(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ \_bRandomTick,\ ulong\ \_ticksIfLoaded,\ GameRandom\ \_rnd)}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ ToggleSprinkler(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.UpdateTick(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \_bRandomTick,\ \_ticksIfLoaded,\ \_rnd);}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00088}00088\ \ }
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00089}00089\ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_source_s_d_x_8cs_source_l00090}00090\ }
+
+\end{DoxyCode}

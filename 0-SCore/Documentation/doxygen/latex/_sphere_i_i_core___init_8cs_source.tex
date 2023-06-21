@@ -1,0 +1,30 @@
+\hypertarget{_sphere_i_i_core___init_8cs_source}{}\doxysection{Sphere\+IICore\+\_\+\+Init.\+cs}
+\label{_sphere_i_i_core___init_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SphereIICore\_Init.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SphereIICore\_Init.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony}{Harmony}}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00007}\mbox{\hyperlink{class_harmony_1_1_sphere_i_i_core_init}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_sphere_i_i_core_init}{SphereIICoreInit}}\ :\ IModApi}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ InitMod(Mod\ \_modInstance)}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}\ Loading\ Patch:\ "{}}\ +\ GetType());}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reduce\ extra\ logging\ stuff}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ Application.SetStackTraceLogType(UnityEngine.LogType.Log,\ StackTraceLogType.None);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ Application.SetStackTraceLogType(UnityEngine.LogType.Warning,\ StackTraceLogType.None);}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ harmony\ =\ \textcolor{keyword}{new}\ HarmonyLib.Harmony(GetType().ToString());}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ harmony.PatchAll(Assembly.GetExecutingAssembly());}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ Harmony/ModEvents.cs\ for\ registration\ of\ other\ events\ which\ can\ be\ called\ here.}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_s_core_mod_events}{SCoreModEvents}}.Init();}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sphere_i_i_core___init_8cs_source_l00024}00024\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,78 @@
+\hypertarget{_durability_affects_damage_8cs_source}{}\doxysection{Durability\+Affects\+Damage.\+cs}
+\label{_durability_affects_damage_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/DurabilityAffectsDamage.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/DurabilityAffectsDamage.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_item_actions}{Harmony.ItemActions}}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00010}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage}{DurabilityAffectsDamage}}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedItemFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}DurabilityAffectsDamage"{}};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adds\ new\ feature\ where\ Durability\ affects\ the\ damage\ a\ weapon\ can\ do.}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionAttack))]}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Hit"{}})]}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage_1_1_item_action_hit}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage_1_1_item_action_hit}{ItemActionHit}}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ItemActionAttack\ \_\_instance,\ ItemActionAttack.AttackHitInfo\ \_attackDetails,\ ref\ \textcolor{keywordtype}{float}\ \_weaponCondition,\ \textcolor{keywordtype}{int}\ \_attackerEntityId)}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ GameManager.Instance.World.GetEntity(\_attackerEntityId)\ as\ global::EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entityAlive)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemValue\ =\ entityAlive.inventory.holdingItemItemValue;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!itemValue.HasQuality\ ||\ !(entityAlive\ is\ EntityPlayerLocal))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strDisplay\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_attackDetails.WeaponTypeTag.Equals(ItemActionAttack.MeleeTag))}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ +=\ \textcolor{stringliteral}{"{}\ Melee\ "{}};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ percent\ =\ itemValue.PercentUsesLeft;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (percent\ >\ 0.8f)}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_weaponCondition\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (percent\ >\ 0)\ \textcolor{comment}{//\ Perfecent\ left\ will\ be\ 0\ on\ non-\/degradation\ things}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_weaponCondition\ =\ percent;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_attackDetails.WeaponTypeTag.Equals(ItemActionAttack.RangedTag))}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ +=\ \textcolor{stringliteral}{"{}\ Ranged\ "{}};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ +=\ itemValue.ItemClass.GetItemName()\ +\ \textcolor{stringliteral}{"{}\ Percent\ Left:\ "{}}\ +\ itemValue.PercentUsesLeft\ +\ \textcolor{stringliteral}{"{}\ Weapon\ Condition:\ "{}}\ +\ \_weaponCondition;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay);}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionAttack))]}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}DegradationModifier"{}})]}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00056}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage_1_1_item_action_degradation_modifier}{00056}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_durability_affects_damage_1_1_item_action_degradation_modifier}{ItemActionDegradationModifier}}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ref\ \textcolor{keywordtype}{float}\ \_\_result,\ ItemActionAttack\ \_\_instance,\ \textcolor{keywordtype}{float}\ \_strength,\ \textcolor{keywordtype}{float}\ \_condition)}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ full,\ then\ just\ work\ with\ the\ base\ class.}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_condition\ ==\ 1f)}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Condition\ will\ be\ the\ Percent\ left\ of\ the\ item}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reduce\ damage\ based\ on\ durability\ left.}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \_strength\ *\ \_condition;}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}New\ Calculated\ Damage:\ "{}}\ +\ \_\_result);}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_durability_affects_damage_8cs_source_l00077}00077\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,91 @@
+\hypertarget{_powered_workstations_8cs_source}{}\doxysection{Powered\+Workstations.\+cs}
+\label{_powered_workstations_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/PoweredWorkstations.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/PoweredWorkstations.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00003}\mbox{\hyperlink{namespace_harmony_1_1_tile_entities}{00003}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_tile_entities}{Harmony.TileEntities}}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00013}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations}{00013}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations}{PoweredWorkstations}}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedWorkstationFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}EnablePoweredWorkstations"{}};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations_1_1_power_workstation_helper}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations_1_1_power_workstation_helper}{PowerWorkstationHelper}}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CheckWorkstationForPower(TileEntity\ myTileEntity)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Does\ Workstation\ have\ access\ to\ Fuel?"{}});}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ blNeedsPower\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ the\ block\ properties\ whenever\ we\ check,\ since\ we\ don't\ really\ persists\ whether\ or\ not\ we\ need\ power.}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ GameManager.Instance.World.GetBlock(myTileEntity.ToWorldPos());}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block2\ =\ Block.list[block.type];}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blNeedsPower\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block2.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RequirePower"{}}))}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blNeedsPower\ =\ StringParsers.ParseBool(block2.Properties.Values[\textcolor{stringliteral}{"{}RequirePower"{}}]);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Require\ Power?\ :\ "{}}\ +\ blNeedsPower);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Doesn't\ need\ any\ power,\ so\ don't\ check.}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blNeedsPower\ ==\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Workstation\ requires\ power.\ Checking\ near\ by\ tile\ entities."{}});}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ nearby\ chunks\ for\ Power\ source\ tile\ entities,\ and\ check\ if\ they\ are\ on.\ }}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockPosition\ =\ myTileEntity.ToWorldPos();}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ world\ =\ GameManager.Instance.World;}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ World.toChunkXZ(blockPosition.x);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ World.toChunkXZ(blockPosition.z);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ -\/1;\ i\ <\ 2;\ i++)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ j\ =\ -\/1;\ j\ <\ 2;\ j++)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ chunk\ =\ (Chunk)world.GetChunkSync(num\ +\ j,\ num2\ +\ i);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunk\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ chunk.GetTileEntities();}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ t\ \textcolor{keywordflow}{in}\ tileEntities.list)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\(\backslash\)tDetected\ Tile\ Entity:\ "{}}\ +\ t);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntity\ =\ t\ as\ TileEntityPowerSource;}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity.IsActive(world))}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\(\backslash\)tEntity\ is\ Active\ "{}}\ +\ t);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity.IsOn)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\(\backslash\)tTile\ Entity\ is\ On:\ "{}}\ +\ t);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distanceSq\ =\ (blockPosition.ToVector3()\ -\/\ tileEntity.ToWorldPos().ToVector3()).sqrMagnitude;}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(distanceSq\ <=\ 20\ *\ 20))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ myTileEntity\ +\ \textcolor{stringliteral}{"{}\ Found\ Power\ Source\ as\ Fuel\ with\ "{}}\ +\ tileEntity);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//myTileEntity.HasPowerSDX\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\(\backslash\)tTile\ Entity\ is\ off:\ "{}}\ +\ t);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(TileEntityWorkstation))]}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}UpdateTick"{}})]}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00078}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations_1_1_tile_entity_workstation_handle_fuel}{00078}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations_1_1_tile_entity_workstation_handle_fuel}{TileEntityWorkstationHandleFuel}}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(TileEntityWorkstation\ \_\_instance,\ ref\ \textcolor{keywordtype}{float}\ \_\_\_currentBurnTimeLeft)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}UpdateTick()"{}});}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_currentBurnTimeLeft\ <\ 0.5f)}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_powered_workstations_1_1_power_workstation_helper}{PowerWorkstationHelper}}.CheckWorkstationForPower(\_\_instance))}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_currentBurnTimeLeft\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Current\ Burn\ Time:\ "{}}\ +\ \_\_\_currentBurnTimeLeft);}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00092}00092\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_powered_workstations_8cs_source_l00093}00093\ \}}
+
+\end{DoxyCode}

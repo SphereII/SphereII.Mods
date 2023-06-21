@@ -1,0 +1,39 @@
+\hypertarget{_quest_action_give_buff_s_d_x_8cs_source}{}\doxysection{Quest\+Action\+Give\+Buff\+SDX.\+cs}
+\label{_quest_action_give_buff_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionGiveBuffSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionGiveBuffSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00001}\mbox{\hyperlink{class_quest_action_give_buff_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quest_action_give_buff_s_d_x}{QuestActionGiveBuffSDX}}\ :\ BaseQuestAction}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupAction()}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(Quest\ action)}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ its\ a\ player\ entity.}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ EntityAlive\ myEntity\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.OwnerJournal.OwnerPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ myEntity\ =\ OwnerQuest.OwnerJournal.OwnerPlayer;}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ not\ a\ player\ entity,\ check\ for\ the\ SharedOwnerID}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ make\ sure\ that\ the\ entity\ is\ in\ the\ world\ before\ polling\ it.}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.Entities.dict.ContainsKey(OwnerQuest.SharedOwnerID))}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myEntity\ =\ GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID]\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ myEntity.Buffs.AddBuff(Value);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseQuestAction\ Clone()}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ var\ questActionShowTip\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_quest_action_give_buff_s_d_x}{QuestActionGiveBuffSDX}}();}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ CopyValues(questActionShowTip);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ questActionShowTip;}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_buff_s_d_x_8cs_source_l00033}00033\ \}}
+
+\end{DoxyCode}

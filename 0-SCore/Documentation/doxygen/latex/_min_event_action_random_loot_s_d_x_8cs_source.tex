@@ -1,0 +1,80 @@
+\hypertarget{_min_event_action_random_loot_s_d_x_8cs_source}{}\doxysection{Min\+Event\+Action\+Random\+Loot\+SDX.\+cs}
+\label{_min_event_action_random_loot_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionRandomLootSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionRandomLootSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{//\ <triggered\_effect\ trigger="{}onSelfBuffRemove"{}\ action="{}RandomLootSDX,\ SCore"{}\ lootgroup="{}brassResource"{}\ count="{}1"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00008}\mbox{\hyperlink{class_min_event_action_random_loot_s_d_x}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_random_loot_s_d_x}{MinEventActionRandomLootSDX}}\ :\ MinEventActionBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ CreateItemCount\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ lootgroup\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Executing\ Random\ Loot"{}});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ var\ entity\ =\ \_params.Self\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ EntityAliveSDX\ }}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ var\ \_random\ =\ GameManager.Instance.World.GetGameRandom();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ var\ Count\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}spLootExperience"{}}))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ Count\ =\ entity.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}spLootExperience"{}});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ Count\ =\ MathUtils.Clamp(Count,\ 1,\ 5);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ var\ MaxCount\ =\ (int)Math.Round(Count);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Loot\ group}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootgroup.Length\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Generating\ Items\ :\ "{}}\ +\ MaxCount);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ x\ =\ 0;\ x\ <\ MaxCount;\ x++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ LootContainer.GetRewardItem(lootgroup,\ Count);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Adding\ Item:\ "{}}\ +\ item);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.lootContainer.AddItem(item);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CanExecute(MinEventTypes\ \_eventType,\ MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.CanExecute(\_eventType,\ \_params)\ \&\&\ \_params.Self\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ !=\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}lootgroup"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lootgroup\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}count"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CreateItemCount\ =\ (int)StringParsers.ParseFloat(\_attribute.Value);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_random_loot_s_d_x_8cs_source_l00074}00074\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,27 @@
+\hypertarget{_dialog_action_add_buff_s_d_x_8cs_source}{}\doxysection{Dialog\+Action\+Add\+Buff\+SDX.\+cs}
+\label{_dialog_action_add_buff_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAddBuffSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAddBuffSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00003}\mbox{\hyperlink{class_dialog_action_add_buff_s_d_x}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_add_buff_s_d_x}{DialogActionAddBuffSDX}}\ :\ BaseDialogAction}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ LocalPlayerUI\ uiforPlayer\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(Value)\ \&\&\ Value.ToLower()\ ==\ \textcolor{stringliteral}{"{}self"{}})}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityNPC\ =\ uiforPlayer.xui.Dialog.Respondent;}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityNPC\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\$\textcolor{stringliteral}{"{}Adding\ \{ID\}..."{}});}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ calls\ buffOrderDismiss,\ removes\ the\ cvar.\ Doesn't\ work}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityNPC.Buffs.AddBuff(base.ID);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ player.Buffs.AddBuff(ID);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_add_buff_s_d_x_8cs_source_l00021}00021\ \}}
+
+\end{DoxyCode}

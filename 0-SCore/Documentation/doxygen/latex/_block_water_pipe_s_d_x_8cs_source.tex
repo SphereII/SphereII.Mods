@@ -1,0 +1,38 @@
+\hypertarget{_block_water_pipe_s_d_x_8cs_source}{}\doxysection{Block\+Water\+Pipe\+SDX.\+cs}
+\label{_block_water_pipe_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockWaterPipeSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockWaterPipeSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00006}\mbox{\hyperlink{class_block_water_pipe_s_d_x}{00006}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_water_pipe_s_d_x}{BlockWaterPipeSDX}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ This\ allows\ for\ the\ water\ logic\ to\ pass\ through\ it.}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockRemoved(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.ClearPipes();}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ base.OnBlockRemoved(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockLoaded(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ base.OnBlockLoaded(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00019}00019\ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00021}\mbox{\hyperlink{class_block_water_source_s_d_x}{00021}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_water_source_s_d_x}{BlockWaterSourceSDX}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00022}00022\ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ This\ is\ not\ a\ direct\ source\ of\ water\ in\ itself.\ However,\ if\ it's\ connected\ to\ a\ series\ of\ BlockWaterPipeSDXs\ which\ connect\ up\ to\ }}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ a\ BlockLiquidV2,\ then\ it\ can\ act\ like\ the\ water\ block\ itself,\ providing\ the\ same\ range\ of\ water\ power\ as\ if\ its\ the\ block\ itself.}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ If\ there\ is\ no\ BlockWaterPipeSDXs\ connected\ to\ water,\ it\ does\ nothing.}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockRemoved(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.ClearPipes();}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ base.OnBlockRemoved(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00031}00031\ \}}
+\DoxyCodeLine{\Hypertarget{_block_water_pipe_s_d_x_8cs_source_l00032}00032\ }
+
+\end{DoxyCode}

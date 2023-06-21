@@ -1,0 +1,59 @@
+\hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source}{}\doxysection{Min\+Event\+Action\+Animator\+Set\+Float\+SDX.\+cs}
+\label{_min_event_action_animator_set_float_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionAnimatorSetFloatSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionAnimatorSetFloatSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00007}\mbox{\hyperlink{class_min_event_action_animator_set_float_s_d_x}{00007}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_animator_set_float_s_d_x}{MinEventActionAnimatorSetFloatSDX}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ \_property;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_cvarRef;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ \_refCvarName\ =\ \textcolor{keywordtype}{string}.Empty;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ @params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ targets.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targets[i].emodel\ ==\ \textcolor{keyword}{null}\ ||\ this.targets[i].emodel.avatarController\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_cvarRef)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_value\ =\ targets[i].Buffs.GetCustomVar(\_refCvarName,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ targets[i].emodel.avatarController.UpdateFloat(\_property,\ \_value,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flag)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ var\ localName\ =\ attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (localName)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}property"{}}:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_property\ =\ attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}value"{}}:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (attribute.Value.StartsWith(\textcolor{stringliteral}{"{}@"{}}))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_cvarRef\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_refCvarName\ =\ attribute.Value.Substring(1);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_value\ =\ StringParsers.ParseFloat(attribute.Value,\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_animator_set_float_s_d_x_8cs_source_l00053}00053\ \}}
+
+\end{DoxyCode}

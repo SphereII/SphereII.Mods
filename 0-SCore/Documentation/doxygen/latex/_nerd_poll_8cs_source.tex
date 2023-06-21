@@ -1,0 +1,43 @@
+\hypertarget{_nerd_poll_8cs_source}{}\doxysection{Nerd\+Poll.\+cs}
+\label{_nerd_poll_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/PlayerFeatures/NerdPoll.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/PlayerFeatures/NerdPoll.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00003}\mbox{\hyperlink{namespace_harmony_1_1_player_features}{00003}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_player_features}{Harmony.PlayerFeatures}}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00010}00010\ \ \ \ \ [HarmonyPatch(typeof(Block))]}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00011}00011\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}PlaceBlock"{}})]}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00012}\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_s_core_nerd_poll}{00012}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_s_core_nerd_poll}{SCoreNerdPoll}}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedPlayerFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}AntiNerdPole"{}};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Returns\ true\ for\ the\ default\ PlaceBlock\ code\ to\ execute.\ If\ it\ returns\ false,\ it\ won't\ execute\ it\ at\ all.}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityAlive\ \_ea)}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ var\ player\ =\ \_ea\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.IsGodMode\ ==\ \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.IsFlyMode\ ==\ \textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.IsInElevator())}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ player.IsInWater()\ ||\ player.onGround;}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ you\ aren't\ on\ the\ ground,\ don't\ place\ the\ block.}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_nerd_poll_8cs_source_l00042}00042\ \}}
+
+\end{DoxyCode}

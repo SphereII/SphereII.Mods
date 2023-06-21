@@ -1,0 +1,27 @@
+\hypertarget{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block}{}\doxysection{Features.\+Lock\+Picking.\+SCore\+On\+Entity\+Collided\+With\+Block Class Reference}
+\label{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block}\index{Features.LockPicking.SCoreOnEntityCollidedWithBlock@{Features.LockPicking.SCoreOnEntityCollidedWithBlock}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block__update_current_block_pos_and_value}{SCore\+Block\+\_\+update\+Current\+Block\+Pos\+And\+Value}}
+\item 
+class \mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block_damage2071e04e6ca5b3e9a6fe891a76374e01}{SCore\+Block\+Damage\+\_\+\+On\+Entity\+Collided\+With\+Block}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+SCore\+Blocks\+\_\+\+On\+Entity\+Collided\+With\+Block
+
+This class includes a \mbox{\hyperlink{namespace_harmony}{Harmony}} patch to allow crop trample, when enables. Any block that has a tag of fcrops\+Destroy will allow trample.
+
+Also includes a \mbox{\hyperlink{namespace_harmony}{Harmony}} patch for Block\+Damage, which will prevent NPCs.
+
+Usage XML\+: Adding to existing blocks\+: $<$append xpath=\char`\"{}/blocks/block/property\mbox{[}@name=\textquotesingle{}\+Filter\+Tags\textquotesingle{} and contains(@value, \textquotesingle{}\+SC\+\_\+crops\textquotesingle{})\mbox{]}/@value\char`\"{}$>$,fcrops\+Destroy$<$/append$>$ Adding to new blocks\+: $<$property name=\char`\"{}\+Filter\+Tags\char`\"{} value=\char`\"{}foutdoor,fcrops,fcrops\+Destroy\char`\"{} $>$ 
+
+Definition at line \mbox{\hyperlink{_on_entity_collided_with_block_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_on_entity_collided_with_block_8cs_source}{On\+Entity\+Collided\+With\+Block.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Harmony/\+Blocks/On\+Entity\+Collided\+With\+Block.\+cs\end{DoxyCompactItemize}

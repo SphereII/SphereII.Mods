@@ -1,0 +1,169 @@
+\hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source}{}\doxysection{Item\+Action\+Entry\+Resharpen\+SDX.\+cs}
+\label{_item_action_entry_resharpen_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Items/ItemActionEntryResharpenSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Items/ItemActionEntryResharpenSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }Audio;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00005}\mbox{\hyperlink{class_item_action_entry_resharpen_s_d_x}{00005}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_item_action_entry_resharpen_s_d_x}{ItemActionEntryResharpenSDX}}\ :\ BaseItemActionEntry}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{string}\ lblNeedMaterials;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ StateTypes\ state;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_item_action_entry_resharpen_s_d_x}{ItemActionEntryResharpenSDX}}(XUiController\ controller)\ :\ base(controller,\ \textcolor{stringliteral}{"{}Resharpen"{}},\ \textcolor{stringliteral}{"{}ui\_game\_symbol\_wrench"{}},\ GamepadShortCut.DPadLeft)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ lblNeedMaterials\ =\ Localization.Get(\textcolor{stringliteral}{"{}xuiRepairMissingMats"{}});}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ controller.xui.PlayerInventory.OnBackpackItemsChanged\ +=\ PlayerInventory\_OnBackpackItemsChanged;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ controller.xui.PlayerInventory.OnToolbeltItemsChanged\ +=\ PlayerInventory\_OnToolbeltItemsChanged;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ PlayerInventory\_OnToolbeltItemsChanged()}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ RefreshEnabled();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ParentItem\ !=\ \textcolor{keyword}{null})\ ParentItem.MarkDirty();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ PlayerInventory\_OnBackpackItemsChanged()}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ RefreshEnabled();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ParentItem\ !=\ \textcolor{keyword}{null})\ ParentItem.MarkDirty();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnDisabledActivate()}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ var\ stateTypes\ =\ state;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stateTypes\ !=\ StateTypes.NotEnoughMaterials)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer,\ lblNeedMaterials);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(((XUiC\_ItemStack)ItemController).ItemStack.itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Contains(\textcolor{stringliteral}{"{}SharpenItem"{}}))}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strSharpenItem\ =\ \textcolor{keywordtype}{string}.Empty;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ forId.Properties.ParseString(\textcolor{stringliteral}{"{}SharpenItem"{}},\ ref\ strSharpenItem);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strSharpenItem))}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemClass\ =\ ItemClass.GetItemClass(strSharpenItem);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemClass\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ @is\ =\ \textcolor{keyword}{new}\ ItemStack(\textcolor{keyword}{new}\ ItemValue(itemClass.Id),\ 0);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemController.xui.playerUI.entityPlayer.AddUIHarvestingItem(@is,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ RefreshEnabled()}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ base.RefreshEnabled();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ state\ =\ StateTypes.Normal;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ var\ xui\ =\ ItemController.xui;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (((XUiC\_ItemStack)ItemController).ItemStack.IsEmpty()\ ||\ ((XUiC\_ItemStack)ItemController).StackLock)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(((XUiC\_ItemStack)ItemController).ItemStack.itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ Enabled\ =\ state\ ==\ StateTypes.Normal;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Enabled)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ IconName\ =\ \textcolor{stringliteral}{"{}ui\_game\_symbol\_book"{}};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ var\ itemValue\ =\ ((XUiC\_ItemStack)ItemController).ItemStack.itemValue;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.RepairTools\ !=\ \textcolor{keyword}{null}\ \&\&\ forId.RepairTools.Length\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemClass\ =\ ItemClass.GetItemClass(forId.RepairTools[0].Value);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemClass\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ b\ =\ Convert.ToInt32(Math.Ceiling(Mathf.CeilToInt(itemValue.UseTimes)\ /\ (float)itemClass.RepairAmount.Value));}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xui.PlayerInventory.GetItemCount(\textcolor{keyword}{new}\ ItemValue(itemClass.Id));}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Min(xui.PlayerInventory.GetItemCount(\textcolor{keyword}{new}\ ItemValue(itemClass.Id)),\ b)\ *\ itemClass.RepairAmount.Value\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ state\ =\ StateTypes.NotEnoughMaterials;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Enabled\ =\ state\ ==\ StateTypes.Normal;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ WarnQueueFull(XUiController\ ItemController)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ var\ text\ =\ \textcolor{stringliteral}{"{}No\ room\ in\ queue!"{}};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Localization.Exists(\textcolor{stringliteral}{"{}wrnQueueFull"{}}))\ text\ =\ Localization.Get(\textcolor{stringliteral}{"{}wrnQueueFull"{}});}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer,\ text);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ Manager.PlayInsidePlayerHead(\textcolor{stringliteral}{"{}ui\_denied"{}});}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnActivated()}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ var\ xui\ =\ ItemController.xui;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ var\ playerInventory\ =\ xui.PlayerInventory;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ var\ itemValue\ =\ ((XUiC\_ItemStack)ItemController).ItemStack.itemValue;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ var\ childByType\ =\ xui.FindWindowGroupByName(\textcolor{stringliteral}{"{}crafting"{}}).GetChildByType<XUiC\_CraftingWindowGroup>();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.HasQuality)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.PercentUsesLeft\ <\ 0.30)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ text\ =\ \textcolor{stringliteral}{"{}This\ item\ is\ too\ worn\ out\ to\ be\ resharpened."{}};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer,\ text);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.PercentUsesLeft\ >\ 0.8)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ text\ =\ \textcolor{stringliteral}{"{}This\ item\ is\ still\ in\ pretty\ good\ shape."{}};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer,\ text);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Contains(\textcolor{stringliteral}{"{}SharpenItem"{}}))}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strSharpenItem\ =\ \textcolor{keywordtype}{string}.Empty;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ forId.Properties.ParseString(\textcolor{stringliteral}{"{}SharpenItem"{}},\ ref\ strSharpenItem);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strSharpenItem))}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ \textcolor{keyword}{new}\ Recipe();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ recipe.count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemClass\ =\ ItemClass.GetItemClass(strSharpenItem);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemClass\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ var\ Count\ =\ playerInventory.GetItemCount(\textcolor{keyword}{new}\ ItemValue(itemClass.Id));}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Count\ <\ 1)}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ text\ =\ \textcolor{stringliteral}{"{}Not\ enough\ "{}}\ +\ strSharpenItem\ +\ \textcolor{stringliteral}{"{}\ to\ craft\ this:\ "{}}\ +\ Count\ +\ \textcolor{stringliteral}{"{}\ /\ 1"{}};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer,\ text);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childByType\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.ingredients.Add(\textcolor{keyword}{new}\ ItemStack(\textcolor{keyword}{new}\ ItemValue(itemClass.Id),\ 1));}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.itemValueType\ =\ itemValue.type;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.craftingTime\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.craftExpGain\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ItemClass.GetForId(recipe.itemValueType);}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ var\ random\ =\ GameRandomManager.Instance.CreateGameRandom();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ var\ flRandom\ =\ random.RandomRange((\textcolor{keywordtype}{int})itemValue.UseTimes,\ itemValue.MaxUseTimes\ /\ 1.20f);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!childByType.AddRepairItemToQueue(recipe.craftingTime,\ itemValue.Clone(),\ (\textcolor{keywordtype}{int})flRandom))}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WarnQueueFull(ItemController);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ ((XUiC\_ItemStack)ItemController).ItemStack\ =\ ItemStack.Empty.Clone();}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ playerInventory.RemoveItems(recipe.ingredients);}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00156}00156\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00158}00158\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{enum}\ StateTypes}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00159}00159\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ Normal,}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ NotEnoughMaterials}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00162}00162\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_entry_resharpen_s_d_x_8cs_source_l00163}00163\ \}}
+
+\end{DoxyCode}

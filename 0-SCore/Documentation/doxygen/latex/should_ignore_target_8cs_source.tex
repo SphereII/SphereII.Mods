@@ -1,0 +1,117 @@
+\hypertarget{should_ignore_target_8cs_source}{}\doxysection{should\+Ignore\+Target.\+cs}
+\label{should_ignore_target_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/MiniTurret/shouldIgnoreTarget.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/MiniTurret/shouldIgnoreTarget.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00005}\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_mini_turret}{00005}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_mini_turret}{SCore.Harmony.MiniTurret}}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00007}00007\ \ \ \ \ [HarmonyPatch(typeof(AutoTurretFireController))]}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00008}00008\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}shouldIgnoreTarget"{}})]}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00009}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_mini_turret_1_1_auto_turret_fire_controller_should_ignore_target}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_mini_turret_1_1_auto_turret_fire_controller_should_ignore_target}{AutoTurretFireControllerShouldIgnoreTarget}}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(AutoTurretFireController\ \_\_instance,\ ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ Entity\ \_target)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ only\ time\ we\ need\ to\ override\ the\ result\ is\ if\ the\ target\ is\ an\ EntityNPC.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ need\ to\ decide\ if\ they're\ a\ "{}stranger"{}\ and\ treat\ them\ accordingly.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_target\ is\ EntityNPC)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ target\ dead\ things,\ even\ NPCs.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_target.IsDead())}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ owner\ =\ GameManager.Instance.World.GetEntity(\_\_instance.TileEntity.OwnerEntityID)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (owner\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ targetAsStranger\ =\ \_\_instance.TileEntity.TargetStrangers\ \&\&}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityTargetingUtilities.IsEnemy(owner,\ \_target);}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ !targetAsStranger;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00031}00031\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ Note\ from\ Karl:\ Targeting\ your\ followers\ as\ allies\ doesn't\ work\ properly.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00032}00032\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ Followers\ won't\ take\ damage,\ so\ the\ turret\ will\ just\ keep\ wasting\ ammo\ on\ them.\ }}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00033}00033\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ I'm\ leaving\ in\ commented-\/out\ code\ in\ case\ people,\ for\ some\ weird\ reason,\ want}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00034}00034\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *\ that\ as\ a\ feature.\ If\ so,\ we\ will\ need\ to\ fix\ it\ so\ allies\ can\ take\ damage.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00035}00035\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//var\ targetAsAlly\ =\ \_\_instance.TileEntity.TargetAllies\ \&\&\ EntityTargetingUtilities.IsAlly(\_target,\ owner);}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_\_result\ =\ !(targetAsStranger\ ||\ targetAsAlly);}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ they\ can\ be\ targeted,\ ignore\ them\ if\ they're\ not\ in\ our\ field\ of\ view.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_result)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ dot\ product\ of\ two\ vectors:\ the\ vector\ representing\ the\ direction\ to}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ target,\ and\ the\ vector\ representing\ the\ view\ cone's\ forward\ direction.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dot\ =\ Vector3.Dot(}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_target.position\ -\/\ \_\_instance.TileEntity.ToWorldPos().ToVector3(),}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.Cone.transform.forward);}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ dot\ product\ is\ greater\ than\ zero,\ the\ angle\ between\ the\ vectors\ is}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ greater\ than\ 90\ degrees,\ so\ it's\ outside\ the\ field\ of\ view.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dot\ >\ 0f)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00058}00058\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00060}00060\ \ \ \ \ [HarmonyPatch(typeof(MiniTurretFireController))]}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00061}00061\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}shouldIgnoreTarget"{}})]}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00062}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_mini_turret_1_1_mini_turret_fire_controller_should_ignore_target}{00062}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_mini_turret_1_1_mini_turret_fire_controller_should_ignore_target}{MiniTurretFireControllerShouldIgnoreTarget}}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(MiniTurretFireController\ \_\_instance,\ ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ Entity\ \_target)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ only\ time\ we\ need\ to\ override\ the\ result\ is\ if\ the\ target\ is\ an\ EntityNPC.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ need\ to\ decide\ if\ they're\ a\ "{}stranger"{}\ and\ treat\ them\ accordingly.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_target\ is\ EntityNPC)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ target\ dead\ things,\ even\ NPCs.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_target.IsDead())}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ owner\ =\ GameManager.Instance.World.GetEntity(\_\_instance.entityTurret.belongsPlayerId)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (owner\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ !(\_\_instance.entityTurret.TargetStrangers\ \&\&}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityTargetingUtilities.IsEnemy(owner,\ \_target));}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_result)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ they\ can\ be\ targeted,\ ignore\ them\ if\ they're\ not\ in\ our\ field\ of\ view.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3\ forward\ =\ \_\_instance.transform.forward;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.Cone\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ forward\ =\ \_\_instance.Cone.transform.forward;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Vector3.Dot(\_target.position\ -\/\ \_\_instance.entityTurret.position,\ forward)\ >\ 0f)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ they\ are\ in\ our\ field\ of\ view,\ ignore\ them\ if\ we\ can't\ hit\ them.}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_result)}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_yaw\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \_pitch\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3\ targetPos\ =\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MethodInfo\ canHitEntity\ =\ typeof(MiniTurretFireController).GetMethod(\textcolor{stringliteral}{"{}canHitEntity"{}},\ BindingFlags.NonPublic\ |\ BindingFlags.Instance);}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (canHitEntity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ canHit\ =\ (bool)canHitEntity.Invoke(\_\_instance,\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{object}[]\ \{\ \_target,\ \_yaw,\ \_pitch,\ targetPos\ \});}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ !canHit;}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00111}00111\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{should_ignore_target_8cs_source_l00112}00112\ \}}
+
+\end{DoxyCode}

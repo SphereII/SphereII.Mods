@@ -13,7 +13,7 @@ namespace SCore.Harmony.Recipes
         private static readonly string AdvFeatureClass = "AdvancedRecipes";
         private static readonly string Feature = "ReadFromContainers";
 
-        public static List<TileEntity> GetTileEntities(EntityAlive player)
+        private static List<TileEntity> GetTileEntities(EntityAlive player)
         {
             var distance = 30f;
             var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");

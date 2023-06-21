@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using UnityEngine;
 
-namespace Harmony.Blocks
+namespace Features.LockPicking
 {
     public class BlockWorkarounds
     {

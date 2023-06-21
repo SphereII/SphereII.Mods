@@ -1,0 +1,31 @@
+\hypertarget{_entity_n_p_c_jump_height_8cs_source}{}\doxysection{Entity\+NPCJump\+Height.\+cs}
+\label{_entity_n_p_c_jump_height_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCJumpHeight.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCJumpHeight.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }EntityNPCJumpHeight}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityMoveHelper))]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}StartJump"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00017}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_jump_height_1_1_entity_n_p_c_jump_height_start_jump}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_jump_height_1_1_entity_n_p_c_jump_height_start_jump}{EntityNPCJumpHeightStartJump}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityMoveHelper\ \_\_instance,\ ref\ \textcolor{keywordtype}{float}\ heightDiff,\ global::EntityAlive\ \_\_\_entity)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ jumpHeight\ =\ EntityUtilities.GetFloatValue(\_\_\_entity.entityId,\ \textcolor{stringliteral}{"{}JumpHeight"{}});}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (jumpHeight\ <=\ 0f)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ These\ are\ the\ values\ set\ in\ the\ EntityMoveHelper's\ update.\ They\ are\ filtered\ here\ so\ that\ the\ EAI\ Task\ Swim\ and\ Leap\ will\ be\ unaffected.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ if\ (\ heightDiff\ >\ 1.1f\ \&\&\ heightDiff\ <\ 1.5f)}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ heightDiff\ =\ jumpHeight;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_jump_height_8cs_source_l00033}00033\ \}}
+
+\end{DoxyCode}

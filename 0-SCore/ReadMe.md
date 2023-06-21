@@ -7,9 +7,25 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Config | XML Files that serve as documentation, basic setup for required items. blocks.xml contains many default settings to review and adjust as needed.|
 | Harmony | Many harmony scripts to make small adjustments to the game. These scripts, for the most part, can be turned on and off via the blocks.xml|
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
-
+|Features | Features will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted. |
 
 [ Change Log ]
+Version: 21.0.22.1422
+
+	Introducing the Features Folder
+		Features folder will contain the harmony and scripts for an isolated feature set, rather than spread across the Harmony and Scripts folder now.
+		This will help with future extraction into seperate DLLs.
+
+	[ Locks ]
+		- Fixed Unity crash when pick locking doors. 
+				- Sound was trying to play on a non-main thread.
+		- Code moved to Features
+
+	[ Fire Manager ]
+		- Modified the Walk On Fire trigger to fire off the block, rather than the entity.
+		- Code moved to Features
+		- Added documentation to the Features/Fire/Readme.md
+
 Version: 21.0.21.1610
 	[ Broadcast Feature ]
 		- Fixed an issue where the game would allow you to craft if you had a single ingredient.

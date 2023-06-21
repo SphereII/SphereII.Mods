@@ -1,0 +1,55 @@
+\hypertarget{_mod_events_8cs_source}{}\doxysection{Mod\+Events.\+cs}
+\label{_mod_events_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ModEvents.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ModEvents.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }UniLinq;}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00008}\mbox{\hyperlink{class_s_core_mod_events}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_mod_events}{SCoreModEvents}}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<Transform>\ ExternalParticles\ =\ \textcolor{keyword}{new}\ List<Transform>();}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Init()}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ When\ player\ starts\ a\ game}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ModEvents.GameShutdown.RegisterHandler(new\ Action(FireManager.Instance.CleanUp));}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ ModEvents.PlayerSpawnedInWorld.RegisterHandler(new\ Action<ClientInfo,\ RespawnType,\ Vector3i>(FireManager.Instance.Init));}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00019}00019\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00021}00021\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ Read's\ the\ SCore's\ ExternalParticles\ from\ the\ ConfigFeatureBlock\ for\ external\ particles}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ CheckExternalParticles()}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ particleClass\ =\ \textcolor{stringliteral}{"{}ExternalParticles"{}};}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ var\ configurationFeatureBlock\ =\ Block.GetBlockValue(\textcolor{stringliteral}{"{}ConfigFeatureBlock"{}});}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (configurationFeatureBlock.type\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!configurationFeatureBlock.Block.Properties.Classes.ContainsKey(particleClass))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Register\ all\ the\ new\ particles\ to\ the\ general\ particle\ effects.}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ Debug.Log(\$\textcolor{stringliteral}{"{}Reading\ External\ Particles\ in\ \{configurationFeatureBlock.Block.GetBlockName()\}/\{particleClass\}..."{}});}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ configurationFeatureBlock.Block.Properties.Classes[particleClass];}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ keyValuePair\ \textcolor{keywordflow}{in}\ dynamicProperties3.Values.Dict.Dict)}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ var\ particlePath\ =\ keyValuePair.Value.ToString();}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(particlePath))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ParticleEffect.IsAvailable(particlePath))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\$\textcolor{stringliteral}{"{}Registering\ External\ Particle:\ Index:\ \{particlePath.GetHashCode()\}\ for\ \{particlePath\}"{}});}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ParticleEffect.IsAvailable(particlePath))}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ParticleEffect.LoadAsset(particlePath);}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Done\ Reading\ External\ Particles."{}});}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00047}00047\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_mod_events_8cs_source_l00049}00049\ \}}
+
+\end{DoxyCode}

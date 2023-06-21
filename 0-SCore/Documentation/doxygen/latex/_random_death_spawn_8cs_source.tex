@@ -1,0 +1,116 @@
+\hypertarget{_random_death_spawn_8cs_source}{}\doxysection{Random\+Death\+Spawn.\+cs}
+\label{_random_death_spawn_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/RandomDeathSpawn.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/RandomDeathSpawn.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_zombie_features}{Harmony.ZombieFeatures}}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00020}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_random_death_spawn}{00020}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_random_death_spawn}{SCoreRandomDeathSpawn}}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnEntityDeath"{}})]}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00024}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_random_death_spawn_1_1_entity_alive_on_entity_death}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_s_core_random_death_spawn_1_1_entity_alive_on_entity_death}{EntityAliveOnEntityDeath}}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityClass\ =\ EntityClass.list[\_\_instance.entityClass];}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entityClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}SpawnOnDeath"{}}))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}NoSpawnOnDeath"{}}))\ \textcolor{comment}{//Checks\ to\ see\ if\ there\ is\ a\ cvar\ called\ NoSpawnOnDeath}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ floatNoSpawnOnDeath\ =\ \_\_instance.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}NoSpawnOndeath"{}});\ \textcolor{comment}{//If\ there\ is,\ get\ its\ value}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (floatNoSpawnOnDeath\ ==\ 1)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//If\ the\ value\ is\ 1,\ don't\ continue\ the\ code.\ \ This\ allows\ cvars\ to\ set\ that\ stop\ the\ cvar\ spawning\ even\ if\ spawnOverride\ is\ set}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ trigger\ a\ respawn\ when\ the\ local\ machine\ controls\ it.}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.isEntityRemote)}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Spawn\ location}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3i\ blockPos;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.x\ =\ (int)\_\_instance.position.x;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.y\ =\ (\textcolor{keywordtype}{int})\_\_instance.position.y;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.z\ =\ (int)\_\_instance.position.z;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ <property\ name="{}SpawnOnDeath"{}\ value="{}EnemyAnimalsForest"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strSpawnGroup\ =\ entityClass.Properties.Values[\textcolor{stringliteral}{"{}SpawnOnDeath"{}}];\ \textcolor{comment}{//Gets\ the\ entity\ group\ name\ from\ the\ property}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Begin\ Guppy}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ foreach\ (var\ buff\ in\ \_\_instance.Buffs.CVars)}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buff.Key.StartsWith(\textcolor{stringliteral}{"{}spawnOverride"{}}))}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ strDeathCvar\ =\ buff.Key;\ \textcolor{comment}{//Sets\ this\ string\ to\ that\ positive\ check,\ so\ if\ it\ \ has\ a\ cvar\ guppyzombieBiker\ then\ strDeathCvar\ is\ now\ guppyzombieBiker}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ strCvarGroup\ =\ strDeathCvar.Replace(\textcolor{stringliteral}{"{}spawnOverride"{}},\ \textcolor{stringliteral}{"{}"{}});\ \textcolor{comment}{//Strips\ the\ word\ guppy\ from\ the\ found\ cvar,\ aka\ guppyzombieBiker\ is\ now\ zombieBiker}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ Log.Out(strDeathCvar\ +\ "{}\ got\ replaced\ with\ "{}\ +\ strCvarGroup);\ //Just\ a\ little\ message\ to\ see\ what\ gets\ spawned\ from\ what\ in\ the\ logs}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strSpawnGroup\ =\ strCvarGroup;\ \textcolor{comment}{//Replaces\ strSpawnGroup,\ which\ is\ used\ later\ in\ code,\ with\ the\ new\ zombie\ spawn\ group,\ aka\ zombieBiker}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buff.Key.StartsWith(\textcolor{stringliteral}{"{}spawn2ndLife"{}}))\ \textcolor{comment}{//Looks\ through\ all\ buffs\ to\ see\ if\ there\ are\ any\ stop\ death\ spawn\ cvars.\ \ What\ are\ the\ chances\ another\ cvar\ begins\ with\ this?}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//If\ there's\ a\ cvar\ called\ spawn2ndLife\ then\ it\ breaks\ the\ spawn\ chain.\ \ This\ way\ spawns\ don't\ spawn\ into\ other\ spawns\ repeatedly.}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strSpawnGroup\ ==\ \textcolor{stringliteral}{"{}SpawnNothing"{}})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//Allows\ a\ value\ for\ the\ entity\ group\ that\ spawns\ nothing,\ so\ that\ the\ property\ value\ can\ be\ turned\ off\ while\ allowing\ the\ cvar\ value\ to\ still\ work.\ \ }}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Usage:\ <property\ name="{}SpawnOnDeath"{}\ value="{}SpawnNothing"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//End\ Guppy}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ classID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ try\ to\ spawn\ from\ a\ group}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ EntityFactory.CreateEntity(EntityGroups.GetRandomFromGroup(strSpawnGroup,\ ref\ classID),\ \_\_instance.position);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ alivefromGroup\ =\ entity\ as\ global::EntityAlive;\ \textcolor{comment}{//Newly\ spawned\ entity\ from\ group}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (alivefromGroup)\ \textcolor{comment}{//Variety\ of\ methods\ to\ add\ the\ cvar\ spawn2ndLife\ to\ the\ new\ entity\ in\ a\ variety\ of\ cases}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (alivefromGroup.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}spawn2ndLife"{}}))}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alivefromGroup.Buffs.SetCustomVar(\textcolor{stringliteral}{"{}spawn2ndLife"{}},\ 1);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alivefromGroup.Buffs.AddCustomVar(\textcolor{stringliteral}{"{}spawn2ndLife"{}},\ 1);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}RandomSize"{}})\ \&\&\ \_\_instance.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}SpawnCopyScale"{}})\ )}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ scale\ =\ \_\_instance.gameObject.transform.localScale.x;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alivefromGroup.gameObject.transform.localScale\ =\ \textcolor{keyword}{new}\ Vector3(scale,\ scale,\ scale);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ meant\ to\ destroy\ the\ corpse\ block,\ but\ may\ not\ exist\ anymore.}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_\_instance.world.SetBlockRPC(blockPos,\ BlockValue.Air);}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Generate\ a\ creation\ data\ object\ to\ be\ sent\ to\ the\ server\ for\ spawning.\ This\ will\ avoid\ duplicate\ spawns\ in\ dedi\ environments.}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityCreationData\ =\ \textcolor{keyword}{new}\ EntityCreationData(entity);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityCreationData.id\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.OnEntityUnload();}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.ForceDespawn();}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ no\ group,\ then\ assume\ its\ an\ entity}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityID\ =\ EntityClass.FromString(strSpawnGroup);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity\ =\ EntityFactory.CreateEntity(entityID,\ \_\_instance.position);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityCreationData\ =\ \textcolor{keyword}{new}\ EntityCreationData(entity);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityCreationData.id\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.OnEntityUnload();}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//GameManager.Instance.World.SpawnEntityInWorld(entity);}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.ForceDespawn();}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00123}00123\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_random_death_spawn_8cs_source_l00124}00124\ \}}
+
+\end{DoxyCode}

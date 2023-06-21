@@ -1,0 +1,54 @@
+\hypertarget{_filter_game_world_8cs_source}{}\doxysection{Filter\+Game\+World.\+cs}
+\label{_filter_game_world_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/UI/FilterGameWorld.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/UI/FilterGameWorld.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00001}00001\ \textcolor{comment}{//using\ HarmonyLib;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00002}00002\ \textcolor{comment}{//using\ System.Reflection;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00003}00003\ \textcolor{comment}{//using\ UnityEngine;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00004}00004\ \textcolor{comment}{//using\ DMT;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00005}00005\ \textcolor{comment}{//using\ System;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00006}00006\ \textcolor{comment}{//using\ System.Collections.Generic;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00009}00009\ \textcolor{comment}{//[HarmonyPatch(typeof(PathAbstractions))]}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00010}00010\ \textcolor{comment}{//[HarmonyPatch("{}GetAvailablePathsList"{})]}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00011}00011\ \textcolor{comment}{//public\ class\ SCoreFilterGameWorld}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00012}00012\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ public\ static\ List<PathAbstractions.AbstractedLocation>\ Postfix(List<PathAbstractions.AbstractedLocation>\ \_\_result,\ PathAbstractions.SearchPaths\ \_searchPaths)}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00015}00015\ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00016}00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ List<PathAbstractions.AbstractedLocation>\ newList\ =\ new\ List<PathAbstractions.AbstractedLocation>();}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ foreach\ (var\ each\ in\ \_\_result)}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (each.Name.Contains("{}Winter\ Project"{}))}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00020}00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newList.Add(each);}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00021}00021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00023}00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ newList;}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00025}00025\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00027}00027\ \textcolor{comment}{//[HarmonyPatch(typeof(XUiC\_NewContinueGame))]}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00028}00028\ \textcolor{comment}{//[HarmonyPatch("{}updateWorlds"{})]}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00029}00029\ \textcolor{comment}{//public\ class\ SCoreUpdateWorlds}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00030}00030\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00032}00032\ \textcolor{comment}{//\ \ \ \ public\ static\ void\ Postfix(ref\ XUiC\_ComboBoxList<global::XUiC\_NewContinueGame.LevelInfo>\ \_\_\_cbxWorldName)}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00033}00033\ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00034}00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ XUiC\_NewContinueGame.LevelInfo\ random\ =\ new\ global::XUiC\_NewContinueGame.LevelInfo}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00035}00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00036}00036\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ RealName\ =\ "{}New\ Random\ World"{},}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00037}00037\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ CustName\ =\ "{}New\ Random\ World"{},}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00038}00038\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ Description\ =\ "{}Generate\ New\ Random\ World"{},}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00039}00039\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ IsNewRwg\ =\ true}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00040}00040\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \};}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00041}00041\ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (\_\_\_cbxWorldName.Elements.Contains(random))}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00042}00042\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00043}00043\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ Debug.Log("{}Removing\ Random\ World"{});}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00044}00044\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_\_cbxWorldName.Elements.Remove(random);}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00045}00045\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00047}00047\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00048}00048\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_filter_game_world_8cs_source_l00049}00049\ }
+
+\end{DoxyCode}

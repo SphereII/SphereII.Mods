@@ -1,0 +1,48 @@
+\hypertarget{_min_event_action_notify_team_teleport_8cs_source}{}\doxysection{Min\+Event\+Action\+Notify\+Team\+Teleport.\+cs}
+\label{_min_event_action_notify_team_teleport_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionNotifyTeamTeleport.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionNotifyTeamTeleport.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00001}00001\ \textcolor{comment}{//\ \ \ \ \ \ \ \ <triggered\_effect\ trigger\ =\ "{}onSelfBuffUpdate"{}\ action="{}NotifyTeamTeleport,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00005}\mbox{\hyperlink{class_min_event_action_notify_team_teleport}{00005}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_notify_team_teleport}{MinEventActionNotifyTeamTeleport}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ var\ leader\ =\ \_params.Self\ as\ EntityPlayer;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (leader\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ cvar\ \textcolor{keywordflow}{in}\ leader.Buffs.CVars)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cvar.Key.StartsWith(\textcolor{stringliteral}{"{}hired\_"{}}))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ GameManager.Instance.World.GetEntity((\textcolor{keywordtype}{int})cvar.Value)\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity.IsDead())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ entity.GetDistance(leader);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ 60)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (EntityUtilities.GetCurrentOrder(entity.entityId))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ EntityUtilities.Orders.Loot:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ EntityUtilities.Orders.Follow:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.TeleportToPlayer(leader,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ EntityUtilities.Orders.Stay:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ EntityUtilities.Orders.Wander:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_notify_team_teleport_8cs_source_l00042}00042\ \}}
+
+\end{DoxyCode}

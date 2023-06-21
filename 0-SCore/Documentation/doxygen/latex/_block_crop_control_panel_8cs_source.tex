@@ -1,0 +1,138 @@
+\hypertarget{_block_crop_control_panel_8cs_source}{}\doxysection{Block\+Crop\+Control\+Panel.\+cs}
+\label{_block_crop_control_panel_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockCropControlPanel.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockCropControlPanel.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }Audio;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00012}\mbox{\hyperlink{class_block_crop_control_panel}{00012}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_crop_control_panel}{BlockCropControlPanel}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00013}00013\ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ controlPanelName\ =\ \textcolor{stringliteral}{"{}CropControlPanel"{}};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ activateSound;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{private}\ BlockActivationCommand[]\ cmds\ =\ \textcolor{keyword}{new}\ BlockActivationCommand[]}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}debugcontrol\_enable"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false}),}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}debugcontrol\_disable"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false}),}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}debugcontrol\_turnonWater"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false}),}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}debugcontrol\_turnoffWater"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false}),}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ BlockActivationCommand(\textcolor{stringliteral}{"{}debugcontrol\_startbot"{}},\ \textcolor{stringliteral}{"{}electric\_switch"{}},\ \textcolor{keyword}{true},\ \textcolor{keyword}{false}),}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00031}00031\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<BlockValue>\ GetNeighborByName(Vector3i\ \_blockPos,\ \textcolor{keywordtype}{string}\ blockName)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ List<BlockValue>\ list\ =\ \textcolor{keyword}{new}\ List<BlockValue>();}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ var\ neighbors\ =\ \mbox{\hyperlink{class_block_crop_control_panel}{BlockCropControlPanel}}.GetNeighbors(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}(\ var\ neighbor\ \textcolor{keywordflow}{in}\ neighbors)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ neighbor.Block.GetBlockName().ToLower()==\ blockName.ToLower())}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ list.Add(neighbor);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ list;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<BlockValue>\ GetNeighbors(Vector3i\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00045}00045\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ var\ neighbors\ =\ \textcolor{keyword}{new}\ List<BlockValue>();}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ direction\ \textcolor{keywordflow}{in}\ Vector3i.AllDirections)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ \_blockPos\ +\ direction;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(position);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ neighbors.Add(blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ neighbors;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00055}00055\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00062}\mbox{\hyperlink{class_block_crop_control_panel_a8b57ea478adb93d910cfcfadc5155f3c}{00062}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_block_crop_control_panel_a8b57ea478adb93d910cfcfadc5155f3c}{Init}}()}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ base.Init();}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ this.Properties.ParseString(\textcolor{stringliteral}{"{}ControlPanelName"{}},\ ref\ controlPanelName);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ this.Properties.ParseString(\textcolor{stringliteral}{"{}ActivateSound"{}},\ ref\ this.activateSound);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00069}00069\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CanPlaceBlockAt(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ \_bOmitCollideCheck\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00070}00070\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.CanPlaceBlockAt(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \_bOmitCollideCheck);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ GetActivationText(WorldBase\ \_world,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ localizedBlockName\ =\ \_blockValue.Block.GetLocalizedBlockName();}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ var\ neighbor\ =\ \mbox{\hyperlink{class_block_crop_control_panel}{BlockCropControlPanel}}.GetNeighborByName(\_blockPos,\ \textcolor{stringliteral}{"{}controlPanelTop01"{}});}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighbor.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ localizedBlockName\ =\ \$\textcolor{stringliteral}{"{}Enhanced\ \{localizedBlockName\}"{}};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ localizedBlockName;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00082}00082\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BlockActivationCommand[]\ GetBlockActivationCommands(WorldBase\ \_world,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00083}00083\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ ((Chunk)\_world.ChunkClusters[\_clrIdx].GetChunkSync(World.toChunkXZ(\_blockPos.x),\ \_blockPos.y,\ World.toChunkXZ(\_blockPos.z))).GetBlockTrigger(World.toBlock(\_blockPos));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ this.cmds[0].enabled\ =\ !\mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.DebugMode;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ this.cmds[1].enabled\ =\ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.DebugMode;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ var\ neighbor\ =\ \mbox{\hyperlink{class_block_crop_control_panel}{BlockCropControlPanel}}.GetNeighborByName(\_blockPos,\ \textcolor{stringliteral}{"{}controlPanelTop01"{}});}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ this.cmds[2].enabled\ =\ neighbor.Count\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ this.cmds[3].enabled\ =\ neighbor.Count\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ neighbor\ =\ \mbox{\hyperlink{class_block_crop_control_panel}{BlockCropControlPanel}}.GetNeighborByName(\_blockPos,\ \textcolor{stringliteral}{"{}decoClassicDogHouse"{}});}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ this.cmds[4].enabled\ =\ neighbor.Count\ >\ 0;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this.cmds;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00095}00095\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00097}00097\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ UpdateValves(Vector3i\ \_blockPos,\ \textcolor{keywordtype}{bool}\ turnOn)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00098}00098\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ direction\ \textcolor{keywordflow}{in}\ Vector3i.AllDirections)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ \_blockPos\ +\ direction;}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(position);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block\ is\ \mbox{\hyperlink{class_block_water_pipe_s_d_x}{BlockWaterPipeSDX}})}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.ToggleWaterValve(\_blockPos,\ position,\ turnOn);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.ClearPipes();}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterForPosition(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00110}00110\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00111}00111\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ OnBlockActivated(\textcolor{keywordtype}{string}\ \_commandName,\ WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_cIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ EntityAlive\ \_player)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00112}00112\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\_commandName)}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}debugcontrol\_enable"{}}:}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CropManager.Instance.DebugMode\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(\_blockPos.ToVector3()\ +\ Vector3.one\ *\ 0.5f,\ \textcolor{keyword}{this}.activateSound,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}debugcontrol\_turnon"{}}));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}debugcontrol\_enable\_disable"{}}:}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CropManager.Instance.DebugMode\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(\_blockPos.ToVector3()\ +\ Vector3.one\ *\ 0.5f,\ \textcolor{keyword}{this}.activateSound,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}debugcontrol\_turnoff"{}}));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}debugcontrol\_turnonWater"{}}:}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(\_blockPos.ToVector3()\ +\ Vector3.one\ *\ 0.5f,\ \textcolor{keyword}{this}.activateSound,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateValves(\_blockPos,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}debugcontrol\_turnonWater"{}}));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}debugcontrol\_turnoffWater"{}}:}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(\_blockPos.ToVector3()\ +\ Vector3.one\ *\ 0.5f,\ \textcolor{keyword}{this}.activateSound,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateValves(\_blockPos,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}debugcontrol\_turnoffWater"{}}));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}debugcontrol\_startbot"{}}:}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(\_blockPos.ToVector3()\ +\ Vector3.one\ *\ 0.5f,\ \textcolor{keyword}{this}.activateSound,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_player\ as\ EntityPlayerLocal,\ Localization.Get(\textcolor{stringliteral}{"{}debugcontrol\_startingbot"{}}));}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00144}00144\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00147}00147\ \}}
+\DoxyCodeLine{\Hypertarget{_block_crop_control_panel_8cs_source_l00148}00148\ }
+
+\end{DoxyCode}

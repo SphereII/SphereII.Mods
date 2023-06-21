@@ -1,0 +1,29 @@
+\hypertarget{_fire_init_8cs_source}{}\doxysection{Fire\+Init.\+cs}
+\label{_fire_init_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/FireInit.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/FireInit.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00009}00009\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_features_1_1_fire_1_1_harmony}{Features.Fire.Harmony}}}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00011}00011\ \ \ \ \ \textcolor{comment}{//\ Allows\ the\ spread\ of\ the\ particles\ to\ catch\ things\ on\ fire.}}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00012}00012\ \ \ \ \ [HarmonyPatch(typeof(GameStateManager))]}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00013}00013\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}StartGame"{}})]}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00014}\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_game_state_manager_start_game}{00014}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_game_state_manager_start_game}{GameStateManagerStartGame}}}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix()}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Init();}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_fire_init_8cs_source_l00023}00023\ \}}
+
+\end{DoxyCode}

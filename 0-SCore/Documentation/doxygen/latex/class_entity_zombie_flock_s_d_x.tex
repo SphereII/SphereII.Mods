@@ -1,0 +1,279 @@
+\hypertarget{class_entity_zombie_flock_s_d_x}{}\doxysection{Entity\+Zombie\+Flock\+SDX Class Reference}
+\label{class_entity_zombie_flock_s_d_x}\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+
+
+Inherits Entity\+Zombie.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_ab2c8f83118451e6c8d6b7b5d06f72a41}{Init}} (int \+\_\+entity\+Class)
+\item 
+void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_ab32af08d3a224ee4f651b19c97b612cc}{Set\+Random\+Sleeper\+Pose}} ()
+\item 
+new int \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a37649c6fcc0098b4767a77475e1ccb48}{Get\+Walk\+Type}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a30325689af703b6ae155a9973834ebfb}{On\+Update\+Live}} ()
+\item 
+override int \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_ab53b54babb3ad00b48f251ed424ea8e9}{Damage\+Entity}} (Damage\+Source \+\_\+damage\+Source, int \+\_\+strength, bool \+\_\+critical\+Hit, float \+\_\+impulse\+Scale)
+\item 
+int \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a2a69b88e7da168d3179a04f2a896ecb6}{Get\+Last\+Id}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a4c3239daf9a68b2d41c82d35a355b0ce}{Write}} (Binary\+Writer \+\_\+bw, bool b\+Network\+Write)
+\item 
+override void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_acc714fdc92fd4f9d5d72d91547657e13}{Read}} (byte \+\_\+version, Binary\+Reader \+\_\+br)
+\item 
+void \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a8ea9d4853508a5d7d547e1e8b27c1b66}{set\+Master\+Entity}} (Entity\+Alive masterE)
+\item 
+Entity\+Alive \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a0edce9b2ae1b0559449052a4cf120f91}{Get\+Master\+Entity}} ()
+\item 
+new Entity\+Alive \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_aec7a0267dc85291cd1ccf4827fce82b3}{Get\+Revenge\+Target}} ()
+\item 
+Vector3 \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a71d431779b9e6541ff31f6bc8d3d5009}{Get\+Landing\+Spot}} ()
+\item 
+Vector3 \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a70cabbcd217d21a24716c745866666f4}{Find\+Near\+Block}} (string\mbox{[}$\,$\mbox{]} block\+List, Vector3 position, int check\+Range)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a7c3b7ed327760162b331626c48799388}{Get\+Random\+Walk\+Type}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+byte \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_aa99561b150d788618a9d846aacb880f7}{Light\+Threshold}} = 5
+\item 
+float \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_aa11d6824c989ca7805fe3332dfcca8fe}{Check\+Delay}} = 1f
+\item 
+float \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_aaf418adc9576be4d53ba9003b8cfddbd}{Walk\+Type\+Delay}} = 10f
+\item 
+float \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_afc395fe8dd3fa3a8dcd16ecbbde11184}{Next\+Walk\+Check}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Random \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_a234b7c83a17a9f2464a9460a19a45ba1}{random}} = new Random()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_entity_zombie_flock_s_d_x_aca87b9b53f818f8d8c584350e6c4971b}{is\+Hunting}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_ab53b54babb3ad00b48f251ed424ea8e9}\label{class_entity_zombie_flock_s_d_x_ab53b54babb3ad00b48f251ed424ea8e9}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!DamageEntity@{DamageEntity}}
+\index{DamageEntity@{DamageEntity}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{DamageEntity()}{DamageEntity()}}
+{\footnotesize\ttfamily override int Entity\+Zombie\+Flock\+SDX.\+Damage\+Entity (\begin{DoxyParamCaption}\item[{Damage\+Source}]{\+\_\+damage\+Source,  }\item[{int}]{\+\_\+strength,  }\item[{bool}]{\+\_\+critical\+Hit,  }\item[{float}]{\+\_\+impulse\+Scale }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00294}{294}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a70cabbcd217d21a24716c745866666f4}\label{class_entity_zombie_flock_s_d_x_a70cabbcd217d21a24716c745866666f4}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!FindNearBlock@{FindNearBlock}}
+\index{FindNearBlock@{FindNearBlock}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{FindNearBlock()}{FindNearBlock()}}
+{\footnotesize\ttfamily Vector3 Entity\+Zombie\+Flock\+SDX.\+Find\+Near\+Block (\begin{DoxyParamCaption}\item[{string\mbox{[}$\,$\mbox{]}}]{block\+List,  }\item[{Vector3}]{position,  }\item[{int}]{check\+Range }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00565}{565}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a71d431779b9e6541ff31f6bc8d3d5009}\label{class_entity_zombie_flock_s_d_x_a71d431779b9e6541ff31f6bc8d3d5009}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetLandingSpot@{GetLandingSpot}}
+\index{GetLandingSpot@{GetLandingSpot}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetLandingSpot()}{GetLandingSpot()}}
+{\footnotesize\ttfamily Vector3 Entity\+Zombie\+Flock\+SDX.\+Get\+Landing\+Spot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00544}{544}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a2a69b88e7da168d3179a04f2a896ecb6}\label{class_entity_zombie_flock_s_d_x_a2a69b88e7da168d3179a04f2a896ecb6}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetLastId@{GetLastId}}
+\index{GetLastId@{GetLastId}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetLastId()}{GetLastId()}}
+{\footnotesize\ttfamily int Entity\+Zombie\+Flock\+SDX.\+Get\+Last\+Id (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00382}{382}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a0edce9b2ae1b0559449052a4cf120f91}\label{class_entity_zombie_flock_s_d_x_a0edce9b2ae1b0559449052a4cf120f91}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetMasterEntity@{GetMasterEntity}}
+\index{GetMasterEntity@{GetMasterEntity}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetMasterEntity()}{GetMasterEntity()}}
+{\footnotesize\ttfamily Entity\+Alive Entity\+Zombie\+Flock\+SDX.\+Get\+Master\+Entity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00466}{466}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a7c3b7ed327760162b331626c48799388}\label{class_entity_zombie_flock_s_d_x_a7c3b7ed327760162b331626c48799388}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetRandomWalkType@{GetRandomWalkType}}
+\index{GetRandomWalkType@{GetRandomWalkType}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetRandomWalkType()}{GetRandomWalkType()}}
+{\footnotesize\ttfamily static int Entity\+Zombie\+Flock\+SDX.\+Get\+Random\+Walk\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00163}{163}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_aec7a0267dc85291cd1ccf4827fce82b3}\label{class_entity_zombie_flock_s_d_x_aec7a0267dc85291cd1ccf4827fce82b3}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetRevengeTarget@{GetRevengeTarget}}
+\index{GetRevengeTarget@{GetRevengeTarget}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetRevengeTarget()}{GetRevengeTarget()}}
+{\footnotesize\ttfamily new Entity\+Alive Entity\+Zombie\+Flock\+SDX.\+Get\+Revenge\+Target (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00523}{523}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a37649c6fcc0098b4767a77475e1ccb48}\label{class_entity_zombie_flock_s_d_x_a37649c6fcc0098b4767a77475e1ccb48}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!GetWalkType@{GetWalkType}}
+\index{GetWalkType@{GetWalkType}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{GetWalkType()}{GetWalkType()}}
+{\footnotesize\ttfamily new int Entity\+Zombie\+Flock\+SDX.\+Get\+Walk\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00247}{247}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_ab2c8f83118451e6c8d6b7b5d06f72a41}\label{class_entity_zombie_flock_s_d_x_ab2c8f83118451e6c8d6b7b5d06f72a41}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!Init@{Init}}
+\index{Init@{Init}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily override void Entity\+Zombie\+Flock\+SDX.\+Init (\begin{DoxyParamCaption}\item[{int}]{\+\_\+entity\+Class }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00084}{84}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a30325689af703b6ae155a9973834ebfb}\label{class_entity_zombie_flock_s_d_x_a30325689af703b6ae155a9973834ebfb}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!OnUpdateLive@{OnUpdateLive}}
+\index{OnUpdateLive@{OnUpdateLive}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{OnUpdateLive()}{OnUpdateLive()}}
+{\footnotesize\ttfamily override void Entity\+Zombie\+Flock\+SDX.\+On\+Update\+Live (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00267}{267}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_acc714fdc92fd4f9d5d72d91547657e13}\label{class_entity_zombie_flock_s_d_x_acc714fdc92fd4f9d5d72d91547657e13}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!Read@{Read}}
+\index{Read@{Read}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily override void Entity\+Zombie\+Flock\+SDX.\+Read (\begin{DoxyParamCaption}\item[{byte}]{\+\_\+version,  }\item[{Binary\+Reader}]{\+\_\+br }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00412}{412}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a8ea9d4853508a5d7d547e1e8b27c1b66}\label{class_entity_zombie_flock_s_d_x_a8ea9d4853508a5d7d547e1e8b27c1b66}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!setMasterEntity@{setMasterEntity}}
+\index{setMasterEntity@{setMasterEntity}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{setMasterEntity()}{setMasterEntity()}}
+{\footnotesize\ttfamily void Entity\+Zombie\+Flock\+SDX.\+set\+Master\+Entity (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{masterE }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00460}{460}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_ab32af08d3a224ee4f651b19c97b612cc}\label{class_entity_zombie_flock_s_d_x_ab32af08d3a224ee4f651b19c97b612cc}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!SetRandomSleeperPose@{SetRandomSleeperPose}}
+\index{SetRandomSleeperPose@{SetRandomSleeperPose}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{SetRandomSleeperPose()}{SetRandomSleeperPose()}}
+{\footnotesize\ttfamily void Entity\+Zombie\+Flock\+SDX.\+Set\+Random\+Sleeper\+Pose (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00154}{154}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a4c3239daf9a68b2d41c82d35a355b0ce}\label{class_entity_zombie_flock_s_d_x_a4c3239daf9a68b2d41c82d35a355b0ce}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!Write@{Write}}
+\index{Write@{Write}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{Write()}{Write()}}
+{\footnotesize\ttfamily override void Entity\+Zombie\+Flock\+SDX.\+Write (\begin{DoxyParamCaption}\item[{Binary\+Writer}]{\+\_\+bw,  }\item[{bool}]{b\+Network\+Write }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00387}{387}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_aa11d6824c989ca7805fe3332dfcca8fe}\label{class_entity_zombie_flock_s_d_x_aa11d6824c989ca7805fe3332dfcca8fe}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!CheckDelay@{CheckDelay}}
+\index{CheckDelay@{CheckDelay}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{CheckDelay}{CheckDelay}}
+{\footnotesize\ttfamily float Entity\+Zombie\+Flock\+SDX.\+Check\+Delay = 1f}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_aca87b9b53f818f8d8c584350e6c4971b}\label{class_entity_zombie_flock_s_d_x_aca87b9b53f818f8d8c584350e6c4971b}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!isHunting@{isHunting}}
+\index{isHunting@{isHunting}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{isHunting}{isHunting}}
+{\footnotesize\ttfamily bool Entity\+Zombie\+Flock\+SDX.\+is\+Hunting\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_aa99561b150d788618a9d846aacb880f7}\label{class_entity_zombie_flock_s_d_x_aa99561b150d788618a9d846aacb880f7}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!LightThreshold@{LightThreshold}}
+\index{LightThreshold@{LightThreshold}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{LightThreshold}{LightThreshold}}
+{\footnotesize\ttfamily byte Entity\+Zombie\+Flock\+SDX.\+Light\+Threshold = 5}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_afc395fe8dd3fa3a8dcd16ecbbde11184}\label{class_entity_zombie_flock_s_d_x_afc395fe8dd3fa3a8dcd16ecbbde11184}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!NextWalkCheck@{NextWalkCheck}}
+\index{NextWalkCheck@{NextWalkCheck}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{NextWalkCheck}{NextWalkCheck}}
+{\footnotesize\ttfamily float Entity\+Zombie\+Flock\+SDX.\+Next\+Walk\+Check}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_a234b7c83a17a9f2464a9460a19a45ba1}\label{class_entity_zombie_flock_s_d_x_a234b7c83a17a9f2464a9460a19a45ba1}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!random@{random}}
+\index{random@{random}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{random}{random}}
+{\footnotesize\ttfamily Random Entity\+Zombie\+Flock\+SDX.\+random = new Random()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00025}{25}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_zombie_flock_s_d_x_aaf418adc9576be4d53ba9003b8cfddbd}\label{class_entity_zombie_flock_s_d_x_aaf418adc9576be4d53ba9003b8cfddbd}} 
+\index{EntityZombieFlockSDX@{EntityZombieFlockSDX}!WalkTypeDelay@{WalkTypeDelay}}
+\index{WalkTypeDelay@{WalkTypeDelay}!EntityZombieFlockSDX@{EntityZombieFlockSDX}}
+\doxysubsubsection{\texorpdfstring{WalkTypeDelay}{WalkTypeDelay}}
+{\footnotesize\ttfamily float Entity\+Zombie\+Flock\+SDX.\+Walk\+Type\+Delay = 10f}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_entity_zombie_flock_s_d_x_8cs_source}{Entity\+Zombie\+Flock\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Entities/Entity\+Zombie\+Flock\+SDX.\+cs\end{DoxyCompactItemize}

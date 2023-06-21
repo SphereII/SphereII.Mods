@@ -1,0 +1,128 @@
+\hypertarget{_block_utilities_s_d_x_8cs_source}{}\doxysection{Block\+Utilities\+SDX.\+cs}
+\label{_block_utilities_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockUtilitiesSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockUtilitiesSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }BlockUtilitiesSDX}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddRadiusEffect(\textcolor{keywordtype}{string}\ strItemClass,\ ref\ Block\ myBlock)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ var\ itemClass\ =\ ItemClass.GetItemClass(strItemClass);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}ActivatedBuff"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strBuff\ =\ itemClass.Properties.Values[\textcolor{stringliteral}{"{}ActivatedBuff"{}}];}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ var\ array5\ =\ strBuff.Split(\textcolor{keyword}{new}[]\ \{\ \textcolor{stringliteral}{"{};"{}}\ \},\ StringSplitOptions.RemoveEmptyEntries);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Grab\ the\ current\ radius\ effects}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ var\ list2\ =\ myBlock.RadiusEffects.OfType<BlockRadiusEffect>().ToList();}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ text4\ \textcolor{keywordflow}{in}\ array5)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num12\ =\ text4.IndexOf(\textcolor{charliteral}{'('});}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num13\ =\ text4.IndexOf(\textcolor{charliteral}{')'});}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ \textcolor{keywordflow}{default}(BlockRadiusEffect);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num12\ !=\ -\/1\ \&\&\ num13\ !=\ -\/1\ \&\&\ num13\ >\ num12\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.radius\ =\ StringParsers.ParseFloat(text4.Substring(num12\ +\ 1,\ num13\ -\/\ num12\ -\/\ 1));}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.variable\ =\ text4.Substring(0,\ num12);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.radius\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.variable\ =\ text4;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!list2.Contains(item))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Adding\ Buff\ for\ "{}}\ +\ item.variable);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ list2.Add(item);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ myBlock.RadiusEffects\ =\ list2.ToArray();}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ RemoveRadiusEffect(\textcolor{keywordtype}{string}\ strItemClass,\ ref\ Block\ myBlock)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ var\ itemClass\ =\ ItemClass.GetItemClass(strItemClass);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}ActivatedBuff"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strBuff\ =\ itemClass.Properties.Values[\textcolor{stringliteral}{"{}ActivatedBuff"{}}];}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ var\ array5\ =\ strBuff.Split(\textcolor{keyword}{new}[]\ \{\ \textcolor{stringliteral}{"{};"{}}\ \},\ StringSplitOptions.RemoveEmptyEntries);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Grab\ the\ current\ radius\ effects}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ var\ list2\ =\ myBlock.RadiusEffects.OfType<BlockRadiusEffect>().ToList();}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ text4\ \textcolor{keywordflow}{in}\ array5)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num12\ =\ text4.IndexOf(\textcolor{charliteral}{'('});}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num13\ =\ text4.IndexOf(\textcolor{charliteral}{')'});}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ \textcolor{keywordflow}{default}(BlockRadiusEffect);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num12\ !=\ -\/1\ \&\&\ num13\ !=\ -\/1\ \&\&\ num13\ >\ num12\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.radius\ =\ StringParsers.ParseFloat(text4.Substring(num12\ +\ 1,\ num13\ -\/\ num12\ -\/\ 1));}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.variable\ =\ text4.Substring(0,\ num12);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.radius\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.variable\ =\ text4;}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (list2.Contains(item))\ list2.Remove(item);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ myBlock.RadiusEffects\ =\ list2.ToArray();}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ addParticles(\textcolor{keywordtype}{string}\ strParticleName,\ Vector3i\ position)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.IsDedicatedServer)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strParticleName\ ==\ \textcolor{keyword}{null}\ ||\ strParticleName\ ==\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ strParticleName\ =\ \textcolor{stringliteral}{"{}\#@modfolder(0-\/SCore):Resources/PathSmoke.unity3d?P\_PathSmoke\_X"{}};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ParticleEffect.IsAvailable(strParticleName))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ ParticleEffect.LoadAsset(strParticleName);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(position);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ParticleEffect(strParticleName,\ position.ToVector3()\ +\ Vector3.up,\ blockValue.Block.shape.GetRotation(blockValue),\ 1f,\ Color.white));}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ addParticlesCentered(\textcolor{keywordtype}{string}\ strParticleName,\ Vector3i\ position)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strParticleName))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ strParticleName\ =\ \textcolor{stringliteral}{"{}\#@modfolder(0-\/SCore):Resources/PathSmoke.unity3d?P\_PathSmoke\_X"{}};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strParticleName\ ==\ \textcolor{stringliteral}{"{}NoParticle"{}})}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ParticleEffect.IsAvailable(strParticleName))}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ ParticleEffect.LoadAsset(strParticleName);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.HasBlockParticleEffect(position))\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.IsDedicatedServer)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ var\ centerPosition\ =\ EntityUtilities.CenterPosition(position);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(position);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ var\ particle\ =\ \textcolor{keyword}{new}\ ParticleEffect(strParticleName,\ centerPosition,\ blockValue.Block.shape.GetRotation(blockValue),\ 1f,\ Color.white);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ GameManager.Instance.SpawnBlockParticleEffect(position,\ particle);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00114}00114\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00116}00116\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ removeParticles(Vector3i\ position)}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.IsDedicatedServer)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ GameManager.Instance.World.GetGameManager().RemoveBlockParticleEffect(position);}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_utilities_s_d_x_8cs_source_l00122}00122\ \}}
+
+\end{DoxyCode}

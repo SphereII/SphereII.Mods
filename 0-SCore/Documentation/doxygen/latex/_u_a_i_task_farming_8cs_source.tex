@@ -1,0 +1,182 @@
+\hypertarget{_u_a_i_task_farming_8cs_source}{}\doxysection{UAITask\+Farming.\+cs}
+\label{_u_a_i_task_farming_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFarming.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFarming.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }GamePath;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00007}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_farming}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_farming}{UAITaskFarming}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ \_vector;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ \_buff;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ range\ =\ 50;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ hadBuff\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_farm_plot_data}{FarmPlotData}}\ \_farmData;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_plant_data}{PlantData}}\ plantData;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ timeOut\ =\ 100f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ seed\ =\ \textcolor{stringliteral}{"{}planted*1"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_hasSeed\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}buff"{}}))\ \_buff\ =\ Parameters[\textcolor{stringliteral}{"{}buff"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}seed"{}}))\ seed\ =\ Parameters[\textcolor{stringliteral}{"{}seed"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Stop(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ have\ the\ activity\ buff,\ just\ wait\ until\ it\ wears\ off}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.Buffs.HasBuff(\_buff))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ BlockUtilitiesSDX.removeParticles(\textcolor{keyword}{new}\ Vector3i(\_vector));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ base.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ timeOut-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.SetLookPosition(\_vector);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.RotateTo(\_vector.x,\ \_vector.y,\ \_vector.z,\ 8f,8f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ have\ the\ activity\ buff,\ just\ wait\ until\ it\ wears\ off}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.Buffs.HasBuff(\_buff))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ had\ it,\ and\ it's\ gone,\ then\ we\ are\ done\ with\ this\ location.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hadBuff)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ dealing\ with\ a\ farm\ plot,\ then\ we\ want\ to\ manage\ that\ a\ bit.\ Plant\ a\ seed,\ harvest,\ etc.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_farmData\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ items\ =\ \_farmData.Manage(\ \_context.Self);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootContainer\ =\ \_context.Self.lootContainer;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (items\ !=\ \textcolor{keyword}{null}\ \&\&\ lootContainer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ item\ \textcolor{keywordflow}{in}\ items)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\ =\ Utils.FastMax(0,\ item.minCount);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemStack\ itemStack\ =\ \textcolor{keyword}{new}\ ItemStack(ItemClass.GetItem(item.name,\ \textcolor{keyword}{false}),\ num);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.lootContainer.AddItem(itemStack))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.PlayOneShot(\textcolor{stringliteral}{"{}item\_plant\_pickup"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sort\ and\ reduce\ duplicates.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemStack[]\ slots\ =\ StackSortUtil.CombineAndSortStacks(lootContainer.items,\ 0);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lootContainer.items\ =\ slots;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ a\ timeout\ in\ case\ the\ NPC\ gets\ stuck\ somewhere\ trying\ to\ get\ to\ a\ position\ in\ an\ awkard\ corner}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (timeOut\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.RemoveBuff(\_buff);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ Vector3.Distance(\_vector,\ \_context.Self.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ 2)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.moveHelper.SetMoveTo(\_vector,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ EntityUtilities.Stop(\_context.Self.entityId);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.AddBuff(\_buff);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ hadBuff\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00092}00092\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Yes.\ This\ is\ gross.\ I've\ done\ worse.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ hadBuff\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ timeOut\ =\ 100f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ plantData\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ \textcolor{keyword}{new}\ Vector3i(\_context.Self.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \_hasSeed\ =\ HasSeed(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ NPC\ has\ any\ seeds\ in\ its\ inventory,\ then\ look\ for\ empty\ farm\ plots\ that\ need\ tending}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_hasSeed)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetFarmPlotsNearby(position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_farmData\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ farmDatas\ =\ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetCloseFarmPlots(position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (farmDatas.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\ farmDatas[0];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ farm\ plots\ or\ maintenance\ that\ are\ that\ close?\ Cast\ the\ net\ a\ bit\ wider}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_farmData\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \_farmData\ =\ FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (\_farmData\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetClosesUnmaintainedWithPlants(position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_farmData\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetClosesUnmaintained(position,\ range);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ wilted...?}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\ \_farmData\ ==\ \textcolor{keyword}{null}\ )}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_farmData\ =\mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetClosesFarmPlotsWilted(position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_farmData\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.ResetPlantsInRange(position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hadBuff\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \_vector\ =\ \_farmData.GetBlockPos();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(\_context,\ \_vector,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Started\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Executing\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ HasSeed(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ var\ startsWith\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ var\ endsWith\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (seed.Contains(\textcolor{stringliteral}{"{}*"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ startsWith\ =\ seed.Split(\textcolor{charliteral}{'*'})[0];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ endsWith\ =\ seed.Split(\textcolor{charliteral}{'*'})[1];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.lootContainer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ items\ \textcolor{keywordflow}{in}\ \_context.Self.lootContainer.items)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (items.IsEmpty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemName\ =\ items.itemValue.ItemClass.GetItemName();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemName.StartsWith(startsWith)\ \&\&\ itemName.EndsWith(endsWith))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (items.count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00175}00175\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_farming_8cs_source_l00176}00176\ \}}
+
+\end{DoxyCode}

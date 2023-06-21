@@ -1,7 +1,7 @@
 using HarmonyLib;
 using System;
 
-namespace Harmony.Blocks
+namespace Features.LockPicking
 {
     /**
      * SCoreBlocks_OnEntityCollidedWithBlock

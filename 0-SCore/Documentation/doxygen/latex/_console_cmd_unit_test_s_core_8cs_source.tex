@@ -1,0 +1,73 @@
+\hypertarget{_console_cmd_unit_test_s_core_8cs_source}{}\doxysection{Console\+Cmd\+Unit\+Test\+SCore.\+cs}
+\label{_console_cmd_unit_test_s_core_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ConsoleCmd/ConsoleCmdUnitTestSCore.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ConsoleCmd/ConsoleCmdUnitTestSCore.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00008}\mbox{\hyperlink{class_console_cmd_unit_test_s_core}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_console_cmd_unit_test_s_core}{ConsoleCmdUnitTestSCore}}\ :\ ConsoleCmdAbstract}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsExecuteOnClient}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00015}00015\ \ \ \ \ \textcolor{comment}{//public\ override\ string[]\ GetCommands()}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}[]\ getCommands()}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{string}[]}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unittest"{}}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(List<string>\ \_params,\ CommandSenderInfo\ \_senderInfo)}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_params.Count\ !=\ 3)}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<SdtdConsole>.Instance.Output(\textcolor{stringliteral}{"{}Invalid\ arguments.\ Command\ syntax:\ \ unittest\ <Script>\ sourceEntityID\ targetEntityID\ "{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<SdtdConsole>.Instance.Output(\textcolor{stringliteral}{"{}Invalid\ arguments.\ Command\ syntax:\ \ unittest\ CanDamageChecks\ npcHarleyBat\ zombieBoe\ "{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<SdtdConsole>.Instance.Output(\textcolor{stringliteral}{"{}Invalid\ arguments.\ Command\ syntax:\ \ unittest\ CanDamageChecks,SCore\ npcHarleyBat\ zombieBoe\ "{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ var\ className\ =\ \_params[0];}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!className.Contains(\textcolor{stringliteral}{"{},"{}}))}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ className\ +=\ \textcolor{stringliteral}{"{},SCore"{}};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ Type\ type\ =\ Type.GetType(className);}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Unit\ Test\ Failed:\ \{className\}\ does\ not\ exist."{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ var\ instance\ =\ Activator.CreateInstance(type);}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (instance\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Unit\ Test\ Failed:\ \{className\}\ could\ not\ be\ created."{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ MethodInfo\ method\ =\ type.GetMethod(\textcolor{stringliteral}{"{}Start"{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (method\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Unit\ Test\ Failed:\ \{className\}\ does\ not\ have\ a\ Start\ method."{}});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ method.Invoke(instance,\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{object}[]\ \{\ \_params[1],\ \_params[2]\ \});}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ getDescription()}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00064}00064\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Runs\ a\ test\ script."{}};}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_console_cmd_unit_test_s_core_8cs_source_l00067}00067\ \}}
+
+\end{DoxyCode}

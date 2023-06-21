@@ -1,0 +1,78 @@
+\hypertarget{_block_robot_8cs_source}{}\doxysection{Block\+Robot.\+cs}
+\label{_block_robot_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockRobot.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockRobot.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00009}\mbox{\hyperlink{class_block_robot}{00009}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_robot}{BlockRobot}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ crop\ =\ \textcolor{stringliteral}{"{}plantedPumpkin1"{}};}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ speed\ =\ 20f;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ LateInit()}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}Crop"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ crop\ =\ Properties.Values[\textcolor{stringliteral}{"{}Crop"{}}];}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}Speed"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ speed\ =\ StringParsers.ParseFloat(this.Properties.Values[\textcolor{stringliteral}{"{}Speed"{}}],\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ base.LateInit();}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockAdded(WorldBase\ world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \_chunk.AddEntityBlockStub(\textcolor{keyword}{new}\ BlockEntityData(\_blockValue,\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ bNeedsTemperature\ =\ \textcolor{keyword}{true}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ world.GetWBT().AddScheduledBlockUpdate(\_chunk.ClrIdx,\ \_blockPos,\ \textcolor{keyword}{this}.blockID,\ \textcolor{keyword}{this}.GetTickRate());}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ ulong\ GetTickRate()}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00033}00033\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (ulong)speed;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ Move(Vector3i\ \_blockPos)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00038}00038\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ var\ currentRailPos\ =\ \_blockPos\ +\ Vector3i.down;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ var\ nextPosition\ =\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}(\ var\ neighbor\ \textcolor{keywordflow}{in}\ Vector3i.HORIZONTAL\_DIRECTIONS)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ var\ nextRailPos\ =\ currentRailPos\ +\ neighbor;}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ var\ nextPlot\ =\ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.GetFarmPlotsNearby(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nextPlot.Visited)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ nextPosition\ =\ nextPlot.GetBlockPos();}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nextPosition\ ==\ Vector3i.zero)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ var\ \_ebcd\ =\ GameManager.Instance.World.GetChunkFromWorldPos(\_blockPos).GetBlockEntity(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_ebcd\ ==\ \textcolor{keyword}{null}\ ||\ \_ebcd.transform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \_ebcd.transform.Translate(nextPosition);}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00058}00058\ \ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00059}00059\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ UpdateTick(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ \_bRandomTick,\ ulong\ \_ticksIfLoaded,\ GameRandom\ \_rnd)}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00060}00060\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{comment}{//var\ farmPlot\ =\ FarmPlotManager.Instance.GetFarmPlotsNearby(\_blockPos);}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (farmPlot\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ farmPlot.Manage(crop);}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \_world.GetWBT().AddScheduledBlockUpdate(\_clrIdx,\ \_blockPos,\ this.blockID,\ this.GetTickRate());}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ Move(\_blockPos);}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.UpdateTick(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \_bRandomTick,\ \_ticksIfLoaded,\ \_rnd);}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00071}00071\ \}}
+\DoxyCodeLine{\Hypertarget{_block_robot_8cs_source_l00072}00072\ }
+
+\end{DoxyCode}

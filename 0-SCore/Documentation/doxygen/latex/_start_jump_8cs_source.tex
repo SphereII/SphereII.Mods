@@ -1,0 +1,27 @@
+\hypertarget{_start_jump_8cs_source}{}\doxysection{Start\+Jump.\+cs}
+\label{_start_jump_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityMoveHelper/StartJump.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityMoveHelper/StartJump.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_entity_move_helper}{Harmony.EntityMoveHelper}}}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(typeof(global::EntityMoveHelper))]}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00007}00007\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}StartJump"{}})]}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00008}\mbox{\hyperlink{class_harmony_1_1_entity_move_helper_1_1_start_jump}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_move_helper_1_1_start_jump}{StartJump}}}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityMoveHelper\ \_\_instance,\ ref\ global::EntityAlive\ \_\_\_entity,\ \textcolor{keywordtype}{bool}\ calcYaw,\ \textcolor{keywordtype}{float}\ distance\ =\ 0f,\ \textcolor{keywordtype}{float}\ heightDiff\ =\ 0)}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.IsHuman(\_\_\_entity.entityId))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.IsBlocked)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.BlockedTime\ >\ 0.5)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Stop(\_\_\_entity.entityId);}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_start_jump_8cs_source_l00021}00021\ \}}
+
+\end{DoxyCode}

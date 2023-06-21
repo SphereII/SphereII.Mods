@@ -1,0 +1,44 @@
+\hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source}{}\doxysection{Net\+Package\+Entity\+Alive\+SDXCollect.\+cs}
+\label{_net_package_entity_alive_s_d_x_collect_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/NetPackage/NetPackageEntityAliveSDXCollect.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/NetPackage/NetPackageEntityAliveSDXCollect.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00001}00001\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_core_1_1_scripts_1_1_net_package}{SCore.Scripts.NetPackage}}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00003}\mbox{\hyperlink{class_s_core_1_1_scripts_1_1_net_package_1_1_net_package_entity_alive_s_d_x_collect}{00003}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_scripts_1_1_net_package_1_1_net_package_entity_alive_s_d_x_collect}{NetPackageEntityAliveSDXCollect}}\ :\ NetPackageEntityCollect}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00004}00004\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00005}00005\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ entityId;}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ playerId;}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ProcessPackage(World\ \_world,\ GameManager\ \_callbacks)}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_world\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ CollectEntityServer(entityId,\ playerId);}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ CollectEntityServer(\textcolor{keywordtype}{int}\ \_entityId,\ \textcolor{keywordtype}{int}\ \_playerId)}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<\mbox{\hyperlink{class_s_core_1_1_scripts_1_1_net_package_1_1_net_package_entity_alive_s_d_x_collect}{NetPackageEntityAliveSDXCollect}}>().Setup(\_entityId,\ \_playerId),\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ GameManager.Instance.World.GetEntity(\_entityId);}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.IsLocalPlayer(\_playerId))}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ myEntity\ =\ GameManager.Instance.World.GetEntity(\_entityId)\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myEntity.Collect(\_playerId);}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<\mbox{\hyperlink{class_s_core_1_1_scripts_1_1_net_package_1_1_net_package_entity_alive_s_d_x_collect}{NetPackageEntityAliveSDXCollect}}>().Setup(\_entityId,\ \_playerId),\ \textcolor{keyword}{false},\ \_playerId,\ -\/1,\ -\/1,\ -\/1);}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.RemoveEntity(entity.entityId,\ EnumRemoveEntityReason.Killed);}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_entity_alive_s_d_x_collect_8cs_source_l00038}00038\ \}}
+
+\end{DoxyCode}

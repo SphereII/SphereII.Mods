@@ -1,0 +1,18 @@
+\hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source}{}\doxysection{Dialog\+Action\+Reward\+Skill\+Point.\+cs}
+\label{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogActionRewardSkillPoint.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogActionRewardSkillPoint.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00003}00003\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_reward_skill_point_s_d_x}{DialogActionRewardSkillPointSDX}}\ :\ DialogActionAddBuff}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \textcolor{keywordtype}{string}\ name\ =\ \textcolor{keywordtype}{string}.Empty;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ player.Progression.SkillPoints\ +=\ Convert.ToInt32(Value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(player\ as\ EntityPlayerLocal,\ \textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}You\ have\ recieved\ \{0\}\ Skill\ Points"{}},\ Value),\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00011}00011\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_action_reward_skill_point_8cs_source_l00012}00012\ \}}
+
+\end{DoxyCode}

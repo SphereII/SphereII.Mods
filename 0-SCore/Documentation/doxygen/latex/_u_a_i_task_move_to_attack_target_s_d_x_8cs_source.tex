@@ -1,0 +1,46 @@
+\hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source}{}\doxysection{UAITask\+Move\+To\+Attack\+Target\+SDX.\+cs}
+\label{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToAttackTargetSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToAttackTargetSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }GamePath;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00004}00004\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utilities\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}MoveToAttackTargetSDX,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discover.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00009}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_attack_target_s_d_x}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_attack_target_s_d_x}{UAITaskMoveToAttackTargetSDX}}\ :\ \mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_target_s_d_x}{UAITaskMoveToTargetSDX}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_actionIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_targetTimeout\ =\ 20;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}action\_index"{}}))\ \_actionIndex\ =\ \textcolor{keywordtype}{int}.Parse(Parameters[\textcolor{stringliteral}{"{}action\_index"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}target\_timeout"{}}))\ \_targetTimeout\ =\ \textcolor{keywordtype}{int}.Parse(Parameters[\textcolor{stringliteral}{"{}target\_timeout"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Stop(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ range\ on\ the\ item\ action}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemAction\ =\ \_context.Self.inventory.holdingItem.Actions[\_actionIndex];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ ((itemAction\ !=\ \textcolor{keyword}{null})\ ?\ Utils.FastMax(0.8f,\ itemAction.Range)\ :\ 1.095f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ minDistance\ =\ distance\ *\ distance;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ a\ =\ entityAlive.position\ -\/\ \_context.Self.position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ within\ range,\ attack!}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (a.sqrMagnitude\ <=\ minDistance)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Attack(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.SetAttackTarget(entityAlive,\ \_targetTimeout);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_attack_target_s_d_x_8cs_source_l00040}00040\ \}}
+
+\end{DoxyCode}

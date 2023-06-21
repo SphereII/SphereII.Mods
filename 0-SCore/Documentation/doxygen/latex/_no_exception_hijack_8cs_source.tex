@@ -1,0 +1,26 @@
+\hypertarget{_no_exception_hijack_8cs_source}{}\doxysection{No\+Exception\+Hijack.\+cs}
+\label{_no_exception_hijack_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ErrorHandling/NoExceptionHijack.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ErrorHandling/NoExceptionHijack.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00003}\mbox{\hyperlink{namespace_harmony_1_1_error_handling}{00003}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_error_handling}{Harmony.ErrorHandling}}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00011}\mbox{\hyperlink{class_harmony_1_1_error_handling_1_1_no_exception_hijack}{00011}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_error_handling_1_1_no_exception_hijack}{NoExceptionHijack}}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}ErrorHandling"{}};}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}NoExceptionHijack"{}};}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(GUIWindowConsole))]}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}openConsole"{}})]}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_error_handling_1_1_no_exception_hijack_1_1_disable_exception_hijack}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_error_handling_1_1_no_exception_hijack_1_1_disable_exception_hijack}{DisableExceptionHijack}}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix()}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature);}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_no_exception_hijack_8cs_source_l00026}00026\ \}}
+
+\end{DoxyCode}

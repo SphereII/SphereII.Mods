@@ -1,0 +1,97 @@
+\hypertarget{_objective_buff_s_d_x_8cs_source}{}\doxysection{Objective\+Buff\+SDX.\+cs}
+\label{_objective_buff_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveBuffSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveBuffSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }ObjectiveBuffSDX\ :\ BaseObjective}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ strBuff\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ useUpdateLoop\ =>\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ method\ to\ clone\ the\ Objective}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseObjective\ Clone()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ var\ objectiveBuff\ =\ \textcolor{keyword}{new}\ ObjectiveBuffSDX();}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ CopyValues(objectiveBuff);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ objectiveBuff;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{comment}{//\ Helper\ to\ the\ clone}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ CopyValues(ObjectiveBuffSDX\ objective)}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ objective.ID\ =\ ID;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ objective.Value\ =\ Value;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ objective.Optional\ =\ Optional;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ objective.currentValue\ =\ currentValue;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ objective.Phase\ =\ Phase;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ objective.strBuff\ =\ strBuff;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ AddHooks()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ do\ anything.\ Rely\ on\ the\ PumpQuest\ event\ \ \ }}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ RemoveHooks()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupObjective()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ this.keyword\ =\ Localization.Get(\textcolor{stringliteral}{"{}ObjectiveBuffSDX\_keyword"{}});}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ \textcolor{keywordtype}{string}.IsNullOrEmpty(\ this.keyword\ )\ )}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ this.keyword\ =\ Localization.Get(\textcolor{stringliteral}{"{}ObjectiveBuff\_keyword"{}});}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupDisplay()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ var\ buff\ =\ BuffManager.GetBuff(strBuff);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buff\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ Description\ =\ \textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}\{0\}\ \{1\}:"{}},\ keyword,\ buff.LocalizedName);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Refresh()}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strBuff))}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ its\ a\ player\ entity.}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ EntityAlive\ myEntity\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.OwnerJournal.OwnerPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ myEntity\ =\ OwnerQuest.OwnerJournal.OwnerPlayer;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ not\ a\ player\ entity,\ check\ for\ the\ SharedOwnerID}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ make\ sure\ that\ the\ entity\ is\ in\ the\ world\ before\ polling\ it.}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.Entities.dict.ContainsKey(OwnerQuest.SharedOwnerID))}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myEntity\ =\ GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID]\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ entity\ is\ *something*,\ check\ to\ see\ if\ it\ has\ the\ objective\ buff,\ and\ pass\ to\ completion.}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ it\ has\ the\ desired\ buff.}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ Checking\ if\ Entity\ has\ Buff:\ "{}}\ +\ strBuff);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ Buffs:\ "{}}\ +\ myEntity.Buffs.ActiveBuffs.ToArray());}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ Complete\ =\ myEntity.Buffs.HasBuff(strBuff);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Complete)}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ObjectiveState\ =\ ObjectiveStates.Complete;}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.CheckForCompletion();}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ParseProperties(DynamicProperties\ properties)}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ base.ParseProperties(properties);}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(\textcolor{stringliteral}{"{}buff"{}}))}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ strBuff\ =\ properties.Values[\textcolor{stringliteral}{"{}buff"{}}];}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_buff_s_d_x_8cs_source_l00091}00091\ \}}
+
+\end{DoxyCode}

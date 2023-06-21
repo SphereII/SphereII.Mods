@@ -1,0 +1,129 @@
+\hypertarget{_block_plant_growing_s_d_x_8cs_source}{}\doxysection{Block\+Plant\+Growing\+SDX.\+cs}
+\label{_block_plant_growing_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockPlantGrowingSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockPlantGrowingSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00008}\mbox{\hyperlink{class_block_plant_growing_s_d_x}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_plant_growing_s_d_x}{BlockPlantGrowingSDX}}\ :\ BlockPlantGrowing}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Dictionary<Vector3i,\ Vector3i>\ WaterSources\ =\ \textcolor{keyword}{new}\ Dictionary<Vector3i,\ Vector3i>();}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ requireWater\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ waterRange\ =\ 5;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ willWilt\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{protected}\ BlockValue\ wiltedPlant\ =\ BlockValue.Air;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ LateInit()}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ base.LateInit();}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RequireWater"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ this.requireWater\ =\ StringParsers.ParseBool(this.Properties.Values[\textcolor{stringliteral}{"{}RequireWater"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}Wilt"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ this.willWilt\ =\ StringParsers.ParseBool(this.Properties.Values[\textcolor{stringliteral}{"{}Wilt"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}WaterRange"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ this.waterRange\ =\ \textcolor{keywordtype}{int}.Parse(this.Properties.Values[\textcolor{stringliteral}{"{}WaterRange"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}PlantGrowing.Wilt"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ this.wiltedPlant\ =\ ItemClass.GetItem(this.Properties.Values[\textcolor{stringliteral}{"{}PlantGrowing.Wilt"{}}],\ \textcolor{keyword}{false}).ToBlockValue();}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ Records\ the\ plant\ when\ placed\ as\ a\ seed}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PlaceBlock(WorldBase\ \_world,\ BlockPlacement.Result\ \_result,\ EntityAlive\ \_ea)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ base.PlaceBlock(\_world,\ \_result,\ \_ea);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.Add(\_result.blockPos,\ waterRange);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//\ Checks\ the\ preview\ if\ the\ plant\ can\ actually\ go\ there.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CanPlaceBlockAt(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ \_bOmitCollideCheck\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!base.CanPlaceBlockAt(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \_bOmitCollideCheck))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (requireWater\ ==\ \textcolor{keyword}{false})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.IsNearWater(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ When\ chunk\ is\ loaded,\ force\ add\ the\ block.\ This\ will\ be\ valiated\ on\ the\ update\ check\ in\ the\ crop\ manager,\ but}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ the\ assumption\ here\ is\ if\ the\ block\ was\ there\ to\ begin\ with,\ it's\ allowed.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockLoaded(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ base.OnBlockLoaded(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.ForceAdd(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \textcolor{comment}{//\ Remove\ from\ the\ map\ when\ unloading}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockUnloaded(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ base.OnBlockUnloaded(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.Remove(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \textcolor{comment}{//\ When\ the\ block\ is\ added}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockAdded(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ base.OnBlockAdded(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.Add(\_blockPos,\ waterRange);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ UpdateTick(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ \_bRandomTick,\ ulong\ \_ticksIfLoaded,\ GameRandom\ \_rnd)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (requireWater)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ var\ plantData\ =\ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.GetPlant(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plantData\ !=\ \textcolor{keyword}{null}\ \&\&\ plantData.CanStay()\ ==\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ Removes\ unregisters\ the\ block\ if\ it\ cannot\ stay,\ such\ as\ if\ it\ can't\ find\ water,\ etc.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ It'll\ call\ CheckPlantAlive()\ and\ re-\/scan\ for\ water\ before\ it\ dies.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plantData.Remove();}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.UpdateTick(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \_bRandomTick,\ \_ticksIfLoaded,\ \_rnd);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckPlantAlive(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allow\ the\ plant\ to\ follow\ the\ basic\ rules.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ var\ result\ =\ base.CheckPlantAlive(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ \textcolor{keyword}{false})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ if\ we\ are\ near\ a\ water\ source.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.IsNearWater(\_blockPos))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ wilt\ if\ the\ property\ is\ set.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (willWilt)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ Wilt(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Wilt(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ wilting.}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \_blockValue.type\ =\ this.wiltedPlant.type;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ BiomeDefinition\ biome\ =\ ((World)\_world).GetBiome(\_blockPos.x,\ \_blockPos.z);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (biome\ !=\ \textcolor{keyword}{null}\ \&\&\ biome.Replacements.ContainsKey(\_blockValue.type))}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \_blockValue.type\ =\ biome.Replacements[\_blockValue.type];}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ BlockValue\ blockValue\ =\ BlockPlaceholderMap.Instance.Replace(\_blockValue,\ \_world.GetGameRandom(),\ \_blockPos.x,\ \_blockPos.z,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ blockValue.rotation\ =\ \_blockValue.rotation;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ blockValue.meta\ =\ \_blockValue.meta;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ blockValue.meta2\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \_blockValue\ =\ blockValue;}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \_world.SetBlockRPC(\_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00122}00122\ \}}
+\DoxyCodeLine{\Hypertarget{_block_plant_growing_s_d_x_8cs_source_l00123}00123\ }
+
+\end{DoxyCode}

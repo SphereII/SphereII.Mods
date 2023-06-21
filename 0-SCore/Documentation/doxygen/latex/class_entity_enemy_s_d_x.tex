@@ -1,0 +1,329 @@
+\hypertarget{class_entity_enemy_s_d_x}{}\doxysection{Entity\+Enemy\+SDX Class Reference}
+\label{class_entity_enemy_s_d_x}\index{EntityEnemySDX@{EntityEnemySDX}}
+
+
+Inherits Entity\+Enemy, and \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntity\+Order\+Receiver\+SDX}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override float \mbox{\hyperlink{class_entity_enemy_s_d_x_ad55e7fd9b0a4668a42276d3627bf8def}{Get\+Eye\+Height}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_enemy_s_d_x_a13699d602fb9e886df51b3513253d8ea}{Post\+Init}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_enemy_s_d_x_a122be856f712699982ce89a0e4711ec6}{On\+Update\+Live}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_enemy_s_d_x_a157162d95ebf92fff7ecf610e27ea2bc}{On\+Added\+To\+World}} ()
+\item 
+override bool \mbox{\hyperlink{class_entity_enemy_s_d_x_a7fd2a4c6b0e2b796f019cc4c7601900b}{Is\+Saved\+To\+File}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_enemy_s_d_x_af6b67aefe2b0306ae1c3e52f817fc580}{Copy\+Properties\+From\+Entity\+Class}} ()
+\item 
+void \mbox{\hyperlink{class_entity_enemy_s_d_x_ab348125d465447cdc4787d54ba30b0fe}{Setup\+Auto\+Pathing\+Blocks}} ()
+\begin{DoxyCompactList}\small\item\em When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_enemy_s_d_x_a980b3dcd25be32bd0dd7b67f62be9681}{Update\+Patrol\+Points}} (Vector3 position)
+\begin{DoxyCompactList}\small\item\em Updates the list of patrol coordinates with the point at the given position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ad46d039dbeeb1963ad0e2fdbce98f581}{Setup\+Auto\+Pathing\+Blocks}} ()
+\begin{DoxyCompactList}\small\item\em When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae32f59791a2b41987faa93f1470f1665}{Update\+Patrol\+Points}} (Vector3 position)
+\begin{DoxyCompactList}\small\item\em Updates the list of patrol coordinates with the point at the given position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_entity_enemy_s_d_x_adde6af946c922bd4b548736a2a6ed45c}{fl\+Eye\+Height}} = -\/1f
+\item 
+bool \mbox{\hyperlink{class_entity_enemy_s_d_x_a70d01f8943a5fb2305720de5b7978962}{is\+Always\+Awake}}
+\item 
+Random \mbox{\hyperlink{class_entity_enemy_s_d_x_afa642f71ab24d10b5d0281cd85a729af}{random}} = new Random()
+\item 
+ulong \mbox{\hyperlink{class_entity_enemy_s_d_x_afbb52f021089ca47b06bb482bd4e93fb}{time\+To\+Die}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_entity_enemy_s_d_x_a2b61985b807235f8f68d7a8300643710}{Setup\+Starting\+Items}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{class_entity_enemy_s_d_x_a9710472406269b49ec9e0cf1fc5eed87}{Patrol\+Coordinates}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is patrolling, this is the list of coordinates on its route. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_enemy_s_d_x_a0c8dac4c54c9fec44fc610cd7890a903}{Guard\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is guarding a location, this is the position where it is guarding. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_enemy_s_d_x_ab6fa6c4a34f9ad54be3aabc295cdab3f}{Guard\+Look\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If an entity is guarding a location, this is its look position. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_enemy_s_d_x_ad128f13ed81c39a576de639602293247}{Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The entity\textquotesingle{}s current position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties inherited from \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntity\+Order\+Receiver\+SDX}}}
+\begin{DoxyCompactItemize}
+\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae2f9e0a03fad3fafe069ec2ceb438b9e}{Guard\+Look\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If an entity is guarding a location, this is its look position. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_abfa8c1b13c671f9d5c81d01d4638b6a2}{Guard\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is guarding a location, this is the position where it is guarding. \end{DoxyCompactList}\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a646e07c602a1d1e3b3531e2497cce000}{Patrol\+Coordinates}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is patrolling, this is the list of coordinates on its route. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a4a488e240febcf2a6fe1b711c3d03fac}{Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The entity\textquotesingle{}s current position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This mod is an extension of the base Entity\+Enemy. This is meant to be a base class, which other classes can extend from, giving them the ability to spawn into horde spawners and accept orders. 
+
+Add the following class to entities that are meant to use these features. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keyword}{property}\ name=\textcolor{stringliteral}{"{}Class"{}}\ value=\textcolor{stringliteral}{"{}EntityEnemySDX,\ SCore"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_af6b67aefe2b0306ae1c3e52f817fc580}\label{class_entity_enemy_s_d_x_af6b67aefe2b0306ae1c3e52f817fc580}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!CopyPropertiesFromEntityClass@{CopyPropertiesFromEntityClass}}
+\index{CopyPropertiesFromEntityClass@{CopyPropertiesFromEntityClass}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{CopyPropertiesFromEntityClass()}{CopyPropertiesFromEntityClass()}}
+{\footnotesize\ttfamily override void Entity\+Enemy\+SDX.\+Copy\+Properties\+From\+Entity\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00158}{158}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_ad55e7fd9b0a4668a42276d3627bf8def}\label{class_entity_enemy_s_d_x_ad55e7fd9b0a4668a42276d3627bf8def}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!GetEyeHeight@{GetEyeHeight}}
+\index{GetEyeHeight@{GetEyeHeight}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{GetEyeHeight()}{GetEyeHeight()}}
+{\footnotesize\ttfamily override float Entity\+Enemy\+SDX.\+Get\+Eye\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00064}{64}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a7fd2a4c6b0e2b796f019cc4c7601900b}\label{class_entity_enemy_s_d_x_a7fd2a4c6b0e2b796f019cc4c7601900b}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!IsSavedToFile@{IsSavedToFile}}
+\index{IsSavedToFile@{IsSavedToFile}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{IsSavedToFile()}{IsSavedToFile()}}
+{\footnotesize\ttfamily override bool Entity\+Enemy\+SDX.\+Is\+Saved\+To\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00142}{142}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a157162d95ebf92fff7ecf610e27ea2bc}\label{class_entity_enemy_s_d_x_a157162d95ebf92fff7ecf610e27ea2bc}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!OnAddedToWorld@{OnAddedToWorld}}
+\index{OnAddedToWorld@{OnAddedToWorld}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{OnAddedToWorld()}{OnAddedToWorld()}}
+{\footnotesize\ttfamily override void Entity\+Enemy\+SDX.\+On\+Added\+To\+World (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00115}{115}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a122be856f712699982ce89a0e4711ec6}\label{class_entity_enemy_s_d_x_a122be856f712699982ce89a0e4711ec6}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!OnUpdateLive@{OnUpdateLive}}
+\index{OnUpdateLive@{OnUpdateLive}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{OnUpdateLive()}{OnUpdateLive()}}
+{\footnotesize\ttfamily override void Entity\+Enemy\+SDX.\+On\+Update\+Live (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00095}{95}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a13699d602fb9e886df51b3513253d8ea}\label{class_entity_enemy_s_d_x_a13699d602fb9e886df51b3513253d8ea}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!PostInit@{PostInit}}
+\index{PostInit@{PostInit}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{PostInit()}{PostInit()}}
+{\footnotesize\ttfamily override void Entity\+Enemy\+SDX.\+Post\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00072}{72}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_ab348125d465447cdc4787d54ba30b0fe}\label{class_entity_enemy_s_d_x_ab348125d465447cdc4787d54ba30b0fe}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!SetupAutoPathingBlocks@{SetupAutoPathingBlocks}}
+\index{SetupAutoPathingBlocks@{SetupAutoPathingBlocks}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{SetupAutoPathingBlocks()}{SetupAutoPathingBlocks()}}
+{\footnotesize\ttfamily void Entity\+Enemy\+SDX.\+Setup\+Auto\+Pathing\+Blocks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ad46d039dbeeb1963ad0e2fdbce98f581}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00222}{222}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a2b61985b807235f8f68d7a8300643710}\label{class_entity_enemy_s_d_x_a2b61985b807235f8f68d7a8300643710}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!SetupStartingItems@{SetupStartingItems}}
+\index{SetupStartingItems@{SetupStartingItems}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{SetupStartingItems()}{SetupStartingItems()}}
+{\footnotesize\ttfamily virtual void Entity\+Enemy\+SDX.\+Setup\+Starting\+Items (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00081}{81}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a980b3dcd25be32bd0dd7b67f62be9681}\label{class_entity_enemy_s_d_x_a980b3dcd25be32bd0dd7b67f62be9681}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!UpdatePatrolPoints@{UpdatePatrolPoints}}
+\index{UpdatePatrolPoints@{UpdatePatrolPoints}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{UpdatePatrolPoints()}{UpdatePatrolPoints()}}
+{\footnotesize\ttfamily void Entity\+Enemy\+SDX.\+Update\+Patrol\+Points (\begin{DoxyParamCaption}\item[{Vector3}]{position }\end{DoxyParamCaption})}
+
+
+
+Updates the list of patrol coordinates with the point at the given position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae32f59791a2b41987faa93f1470f1665}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00276}{276}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_adde6af946c922bd4b548736a2a6ed45c}\label{class_entity_enemy_s_d_x_adde6af946c922bd4b548736a2a6ed45c}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!flEyeHeight@{flEyeHeight}}
+\index{flEyeHeight@{flEyeHeight}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{flEyeHeight}{flEyeHeight}}
+{\footnotesize\ttfamily float Entity\+Enemy\+SDX.\+fl\+Eye\+Height = -\/1f}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a70d01f8943a5fb2305720de5b7978962}\label{class_entity_enemy_s_d_x_a70d01f8943a5fb2305720de5b7978962}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!isAlwaysAwake@{isAlwaysAwake}}
+\index{isAlwaysAwake@{isAlwaysAwake}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{isAlwaysAwake}{isAlwaysAwake}}
+{\footnotesize\ttfamily bool Entity\+Enemy\+SDX.\+is\+Always\+Awake}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_afa642f71ab24d10b5d0281cd85a729af}\label{class_entity_enemy_s_d_x_afa642f71ab24d10b5d0281cd85a729af}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!random@{random}}
+\index{random@{random}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{random}{random}}
+{\footnotesize\ttfamily Random Entity\+Enemy\+SDX.\+random = new Random()}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_afbb52f021089ca47b06bb482bd4e93fb}\label{class_entity_enemy_s_d_x_afbb52f021089ca47b06bb482bd4e93fb}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!timeToDie@{timeToDie}}
+\index{timeToDie@{timeToDie}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{timeToDie}{timeToDie}}
+{\footnotesize\ttfamily ulong Entity\+Enemy\+SDX.\+time\+To\+Die}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_ab6fa6c4a34f9ad54be3aabc295cdab3f}\label{class_entity_enemy_s_d_x_ab6fa6c4a34f9ad54be3aabc295cdab3f}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!GuardLookPosition@{GuardLookPosition}}
+\index{GuardLookPosition@{GuardLookPosition}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{GuardLookPosition}{GuardLookPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Enemy\+SDX.\+Guard\+Look\+Position\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+If an entity is guarding a location, this is its look position. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae2f9e0a03fad3fafe069ec2ceb438b9e}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a0c8dac4c54c9fec44fc610cd7890a903}\label{class_entity_enemy_s_d_x_a0c8dac4c54c9fec44fc610cd7890a903}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!GuardPosition@{GuardPosition}}
+\index{GuardPosition@{GuardPosition}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{GuardPosition}{GuardPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Enemy\+SDX.\+Guard\+Position\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+If the entity is guarding a location, this is the position where it is guarding. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_abfa8c1b13c671f9d5c81d01d4638b6a2}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00056}{56}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_a9710472406269b49ec9e0cf1fc5eed87}\label{class_entity_enemy_s_d_x_a9710472406269b49ec9e0cf1fc5eed87}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!PatrolCoordinates@{PatrolCoordinates}}
+\index{PatrolCoordinates@{PatrolCoordinates}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{PatrolCoordinates}{PatrolCoordinates}}
+{\footnotesize\ttfamily List$<$Vector3$>$ Entity\+Enemy\+SDX.\+Patrol\+Coordinates\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+If the entity is patrolling, this is the list of coordinates on its route. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a646e07c602a1d1e3b3531e2497cce000}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_enemy_s_d_x_ad128f13ed81c39a576de639602293247}\label{class_entity_enemy_s_d_x_ad128f13ed81c39a576de639602293247}} 
+\index{EntityEnemySDX@{EntityEnemySDX}!Position@{Position}}
+\index{Position@{Position}!EntityEnemySDX@{EntityEnemySDX}}
+\doxysubsubsection{\texorpdfstring{Position}{Position}}
+{\footnotesize\ttfamily Vector3 Entity\+Enemy\+SDX.\+Position\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The entity\textquotesingle{}s current position. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a4a488e240febcf2a6fe1b711c3d03fac}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_entity_enemy_s_d_x_8cs_source}{Entity\+Enemy\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Entities/Entity\+Enemy\+SDX.\+cs\end{DoxyCompactItemize}

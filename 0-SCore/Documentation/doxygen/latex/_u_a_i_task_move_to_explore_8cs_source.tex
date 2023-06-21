@@ -1,0 +1,165 @@
+\hypertarget{_u_a_i_task_move_to_explore_8cs_source}{}\doxysection{UAITask\+Move\+To\+Explore.\+cs}
+\label{_u_a_i_task_move_to_explore_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToExplore.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskMoveToExplore.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00005}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_explore}{00005}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_move_to_explore}{UAITaskMoveToExplore}}\ :\ UAITaskMoveToTarget}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}UtilityAILoggingMin"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ \_buff;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_hadBuff;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ \_vector;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}buff"{}}))\ \_buff\ =\ Parameters[\textcolor{stringliteral}{"{}buff"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ true\ if\ you\ looted\ it.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CheckContainer(\_context))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.CheckForClosedDoor(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SCoreUtils.IsBlocked(\_context))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Stop(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ Am\ Blocked.:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}\ "{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.getNavigator().clearPath();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Reset(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \_hadBuff\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \_vector\ =\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ base.Reset(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Stop(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SCoreUtils.HasBuff(\_context,\ \_buff))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Stop(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Interrupt\ the\ buff\ we\ are\ being\ attacked.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.GetAttackOrRevengeTarget(\_context.Self.entityId)\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ Stop:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}\ "{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \_vector\ =\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ base.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ var\ path\ =\ SphereCache.GetPaths(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetCrouching(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path?.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_vector\ =\ path[0];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ Start\ Workstation:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}\ Position:\ \{\_vector\}\ "{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(\_context,\ \_vector\ +\ Vector3.forward,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\_context.Self.FindPath(\_vector\ +\ Vector3.forward,\ \_context.Self.GetMoveSpeed(),\ true,\ null);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Started\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Executing\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ targets,\ don't\ bother.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ this.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ GetItemFromContainer(Context\ \_context,\ TileEntityLootContainer\ tileLootContainer)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockPos\ =\ tileLootContainer.ToWorldPos();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(tileLootContainer.lootListName))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileLootContainer.bTouched)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ tileLootContainer.bTouched\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ tileLootContainer.bWasTouched\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Nothing\ to\ loot.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileLootContainer.items\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ SCoreUtils.SetLookPosition(\_context,blockPos);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.MinEventContext.TileEntity\ =\ tileLootContainer;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootContainer\ =\ LootContainer.GetLootContainer(tileLootContainer.lootListName);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootContainer\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ gameStage\ =\ EffectManager.GetValue(PassiveEffects.LootGamestage,\ null,\ 10,\ \_context.Self);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//var\ array\ =\ lootContainer.Spawn(\_context.Self.rand,\ tileLootContainer.items.Length,\ gameStage,\ 0f,\ null,\ new\ FastTags());}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ var\ array\ =\ lootContainer.Spawn(\_context.Self.rand,\ tileLootContainer.items.Length,\ (\textcolor{keywordtype}{float})\_context.Self.Progression.GetLevel(),\ 0f,\ \textcolor{keyword}{null},\ \textcolor{keyword}{new}\ FastTags(),\ lootContainer.UniqueItems);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}GetItemFromContainers():\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ array.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.lootContainer.AddItem(array[i].Clone());}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.FireEvent(MinEventTypes.onSelfLootContainer);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ CheckContainer(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.onGround)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ SCoreUtils.SetLookPosition(\_context,\ \_vector);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lookRay\ =\ \textcolor{keyword}{new}\ Ray(\_context.Self.position,\ \_context.Self.GetLookVector());}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Voxel.Raycast(\_context.Self.world,\ lookRay,\ 3f,\ \textcolor{keyword}{false},\ \textcolor{keyword}{false}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Not\ seeing\ the\ target.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Voxel.voxelRayHitInfo.bHitValid)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ Missed\ the\ target.\ Overlooking?}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Still\ too\ far\ away.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ var\ sqrMagnitude2\ =\ (\_vector\ -\/\ \_context.Self.position).sqrMagnitude;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sqrMagnitude2\ >\ 2f)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntity\ =\ \_context.Self.world.GetTileEntity(Voxel.voxelRayHitInfo.hit.clrIdx,\ \textcolor{keyword}{new}\ Vector3i(\_vector));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (tileEntity)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ the\ TileEntity\ is\ a\ loot\ container,\ then\ loot\ it.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityLootContainer\ tileEntityLootContainer:}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GetItemFromContainer(\_context,\ tileEntityLootContainer);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ the\ move\ helper,\ so\ the\ entity\ does\ not\ slide\ around.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Stop(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Trigger\ a\ buff\ if\ its\ defined.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(\_buff)\ ||\ \_hadBuff)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}ExplorationPoint():\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}\ I\ am\ close\ enough\ to\ \{tileEntity.ToString()\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \_hadBuff\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.AddBuff(\_buff);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ SphereCache.RemovePath(\_context.Self.entityId,\ \_vector);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00158}00158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_move_to_explore_8cs_source_l00159}00159\ \}}
+
+\end{DoxyCode}

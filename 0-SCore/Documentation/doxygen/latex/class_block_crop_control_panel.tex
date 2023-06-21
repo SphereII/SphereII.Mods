@@ -1,0 +1,132 @@
+\hypertarget{class_block_crop_control_panel}{}\doxysection{Block\+Crop\+Control\+Panel Class Reference}
+\label{class_block_crop_control_panel}\index{BlockCropControlPanel@{BlockCropControlPanel}}
+
+
+Block that allows you to control the water pipes and systems in the enhanced farming features.  
+
+
+
+
+Inherits Block.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_block_crop_control_panel_a8b57ea478adb93d910cfcfadc5155f3c}{Init}} ()
+\begin{DoxyCompactList}\small\item\em Reads in the following Properties from the blocks.\+xml entry\+: \end{DoxyCompactList}\item 
+override bool \mbox{\hyperlink{class_block_crop_control_panel_af97192a0151fe04edf83249e964cdd6b}{Can\+Place\+Block\+At}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value, bool \+\_\+b\+Omit\+Collide\+Check=false)
+\item 
+override string \mbox{\hyperlink{class_block_crop_control_panel_af8780e5dea2303d88601071cbc93195b}{Get\+Activation\+Text}} (World\+Base \+\_\+world, Block\+Value \+\_\+block\+Value, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Entity\+Alive \+\_\+entity\+Focusing)
+\item 
+override Block\+Activation\+Command\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_block_crop_control_panel_aa92e9018a8173d7dfc1ef5453efeb389}{Get\+Block\+Activation\+Commands}} (World\+Base \+\_\+world, Block\+Value \+\_\+block\+Value, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Entity\+Alive \+\_\+entity\+Focusing)
+\item 
+void \mbox{\hyperlink{class_block_crop_control_panel_a3bbd7978c3d4e94c142a13dea52342fb}{Update\+Valves}} (Vector3i \+\_\+block\+Pos, bool turn\+On)
+\item 
+override bool \mbox{\hyperlink{class_block_crop_control_panel_a4fdec0119587fbfa41de611281cc2785}{On\+Block\+Activated}} (string \+\_\+command\+Name, World\+Base \+\_\+world, int \+\_\+c\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value, Entity\+Alive \+\_\+player)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static List$<$ Block\+Value $>$ \mbox{\hyperlink{class_block_crop_control_panel_ab9b46813629031a56bdf3c5adaae7be5}{Get\+Neighbor\+By\+Name}} (Vector3i \+\_\+block\+Pos, string block\+Name)
+\item 
+static List$<$ Block\+Value $>$ \mbox{\hyperlink{class_block_crop_control_panel_a537fa3f43eafa595c6bda8392e73786f}{Get\+Neighbors}} (Vector3i \+\_\+block\+Pos)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Block that allows you to control the water pipes and systems in the enhanced farming features. 
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00012}{12}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_block_crop_control_panel_af97192a0151fe04edf83249e964cdd6b}\label{class_block_crop_control_panel_af97192a0151fe04edf83249e964cdd6b}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!CanPlaceBlockAt@{CanPlaceBlockAt}}
+\index{CanPlaceBlockAt@{CanPlaceBlockAt}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{CanPlaceBlockAt()}{CanPlaceBlockAt()}}
+{\footnotesize\ttfamily override bool Block\+Crop\+Control\+Panel.\+Can\+Place\+Block\+At (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{bool}]{\+\_\+b\+Omit\+Collide\+Check = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00069}{69}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_af8780e5dea2303d88601071cbc93195b}\label{class_block_crop_control_panel_af8780e5dea2303d88601071cbc93195b}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!GetActivationText@{GetActivationText}}
+\index{GetActivationText@{GetActivationText}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{GetActivationText()}{GetActivationText()}}
+{\footnotesize\ttfamily override string Block\+Crop\+Control\+Panel.\+Get\+Activation\+Text (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Entity\+Alive}]{\+\_\+entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_aa92e9018a8173d7dfc1ef5453efeb389}\label{class_block_crop_control_panel_aa92e9018a8173d7dfc1ef5453efeb389}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!GetBlockActivationCommands@{GetBlockActivationCommands}}
+\index{GetBlockActivationCommands@{GetBlockActivationCommands}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{GetBlockActivationCommands()}{GetBlockActivationCommands()}}
+{\footnotesize\ttfamily override Block\+Activation\+Command\mbox{[}$\,$\mbox{]} Block\+Crop\+Control\+Panel.\+Get\+Block\+Activation\+Commands (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Entity\+Alive}]{\+\_\+entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00082}{82}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_ab9b46813629031a56bdf3c5adaae7be5}\label{class_block_crop_control_panel_ab9b46813629031a56bdf3c5adaae7be5}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!GetNeighborByName@{GetNeighborByName}}
+\index{GetNeighborByName@{GetNeighborByName}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{GetNeighborByName()}{GetNeighborByName()}}
+{\footnotesize\ttfamily static List$<$ Block\+Value $>$ Block\+Crop\+Control\+Panel.\+Get\+Neighbor\+By\+Name (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{string}]{block\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_a537fa3f43eafa595c6bda8392e73786f}\label{class_block_crop_control_panel_a537fa3f43eafa595c6bda8392e73786f}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!GetNeighbors@{GetNeighbors}}
+\index{GetNeighbors@{GetNeighbors}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{GetNeighbors()}{GetNeighbors()}}
+{\footnotesize\ttfamily static List$<$ Block\+Value $>$ Block\+Crop\+Control\+Panel.\+Get\+Neighbors (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_a8b57ea478adb93d910cfcfadc5155f3c}\label{class_block_crop_control_panel_a8b57ea478adb93d910cfcfadc5155f3c}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!Init@{Init}}
+\index{Init@{Init}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily override void Block\+Crop\+Control\+Panel.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Reads in the following Properties from the blocks.\+xml entry\+: 
+
+Control\+Panel\+Name\+: Used for display purposes Activate\+Sound\+: The sound used to activate the block 
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_a4fdec0119587fbfa41de611281cc2785}\label{class_block_crop_control_panel_a4fdec0119587fbfa41de611281cc2785}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!OnBlockActivated@{OnBlockActivated}}
+\index{OnBlockActivated@{OnBlockActivated}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{OnBlockActivated()}{OnBlockActivated()}}
+{\footnotesize\ttfamily override bool Block\+Crop\+Control\+Panel.\+On\+Block\+Activated (\begin{DoxyParamCaption}\item[{string}]{\+\_\+command\+Name,  }\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+c\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{Entity\+Alive}]{\+\_\+player }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00111}{111}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+\mbox{\Hypertarget{class_block_crop_control_panel_a3bbd7978c3d4e94c142a13dea52342fb}\label{class_block_crop_control_panel_a3bbd7978c3d4e94c142a13dea52342fb}} 
+\index{BlockCropControlPanel@{BlockCropControlPanel}!UpdateValves@{UpdateValves}}
+\index{UpdateValves@{UpdateValves}!BlockCropControlPanel@{BlockCropControlPanel}}
+\doxysubsubsection{\texorpdfstring{UpdateValves()}{UpdateValves()}}
+{\footnotesize\ttfamily void Block\+Crop\+Control\+Panel.\+Update\+Valves (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{bool}]{turn\+On }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_crop_control_panel_8cs_source_l00097}{97}} of file \mbox{\hyperlink{_block_crop_control_panel_8cs_source}{Block\+Crop\+Control\+Panel.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Blocks/Block\+Crop\+Control\+Panel.\+cs\end{DoxyCompactItemize}

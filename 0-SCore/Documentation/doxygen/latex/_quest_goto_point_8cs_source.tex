@@ -1,0 +1,85 @@
+\hypertarget{_quest_goto_point_8cs_source}{}\doxysection{Quest\+Goto\+Point.\+cs}
+\label{_quest_goto_point_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NetPackage/QuestGotoPoint.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NetPackage/QuestGotoPoint.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00001}00001\ \textcolor{comment}{//using\ HarmonyLib;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00002}00002\ \textcolor{comment}{//using\ System.Collections.Generic;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00003}00003\ \textcolor{comment}{//using\ UnityEngine;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00005}00005\ \textcolor{comment}{//namespace\ Harmony.NetPackage}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00006}00006\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ [HarmonyPatch(typeof(NetPackageQuestGotoPoint))]}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00008}00008\ \textcolor{comment}{//\ \ \ \ [HarmonyPatch("{}ProcessPackage"{})]}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00009}00009\ \textcolor{comment}{//\ \ \ \ public\ class\ QuestGotoPointProcessPackage}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00010}00010\ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00011}00011\ \textcolor{comment}{//\ \ \ \ \ \ \ \ public\ static\ PrefabInstance\ FindClosesPrefabs(Vector3\ position,\ List<PrefabInstance>\ prefabs,\ List<Vector2>\ usedPOILocations)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00012}00012\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00013}00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ PrefabInstance\ prefab\ =\ null;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ float\ minDist\ =\ Mathf.Infinity;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00015}00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ foreach\ (var\ t\ in\ prefabs)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00016}00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ //\ Have\ we\ already\ went\ to\ this\ one?}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector2\ vector\ =\ new\ Vector2((float)t.boundingBoxPosition.x,\ (float)t.boundingBoxPosition.z);}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (usedPOILocations\ !=\ null\ \&\&\ usedPOILocations.Contains(vector))}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00020}00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ continue;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00022}00022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ float\ dist\ =\ Vector3.Distance(t.boundingBoxPosition,\ position);}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00023}00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (dist\ <\ minDist)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00025}00025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefab\ =\ t;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00026}00026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minDist\ =\ dist;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00027}00027\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00028}00028\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00030}00030\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return\ prefab;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00031}00031\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00032}00032\ \textcolor{comment}{//\ \ \ \ \ \ \ \ public\ static\ bool\ Prefix(NetPackageQuestGotoPoint\ \_\_instance,\ World\ \_world,\ string\ \_\_\_biomeFilter,\ int\ \_\_\_playerId,\ int\ \_\_\_questCode,\ QuestTags\ \_\_\_questTags,\ byte\ \_\_\_difficulty,}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00033}00033\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ Vector2\ \_\_\_position,\ Vector3\ \_\_\_size)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00034}00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00035}00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (\_world\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00036}00036\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00038}00038\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ //\ Only\ check\ if\ the\ biomeFilter\ is\ being\ used\ as\ a\ POI\ name}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00039}00039\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (string.IsNullOrEmpty(\_\_\_biomeFilter))}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00040}00040\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00042}00042\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ strPOIname\ =\ \_\_\_biomeFilter;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00043}00043\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ listOfPrefabs\ =\ GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance\ =>\ instance.name.Contains(strPOIname));}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00044}00044\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (listOfPrefabs\ ==\ null)\ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00046}00046\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ EntityPlayer\ entityAlive\ =\ GameManager.Instance.World.GetEntity(\_\_\_playerId)\ as\ EntityPlayer;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00048}00048\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ //\ Find\ the\ closes\ Prefab}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00049}00049\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ prefabInstance\ =\ FindClosesPrefabs(entityAlive.position,\ listOfPrefabs,\ new\ List<Vector2>());}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00050}00050\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (prefabInstance\ ==\ null)\ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00052}00052\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00053}00053\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00054}00054\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (var\ i\ =\ 0;\ i\ <\ 5;\ i++)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00055}00055\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00056}00056\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (\_\_instance.GotoType\ !=\ NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI)\ continue;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00058}00058\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00059}00059\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(\_\_\_playerId,\ \_\_\_questTags,\ \_\_\_questCode,\ \_\_instance.GotoType,\ \_\_\_difficulty,}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00060}00060\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxPosition.x,\ prefabInstance.boundingBoxPosition.z,\ prefabInstance.boundingBoxSize.x,\ prefabInstance.boundingBoxSize.y,}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00061}00061\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prefabInstance.boundingBoxSize.z,\ -\/1f,\ BiomeFilterTypes.AnyBiome,\ \_\_\_biomeFilter),\ false,\ \_\_\_playerId);}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00062}00062\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00063}00063\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00065}00065\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00066}00066\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00068}00068\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ EntityPlayer\ primaryPlayer\ =\ GameManager.Instance.World.GetPrimaryPlayer();}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00069}00069\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ quest\ =\ primaryPlayer.QuestJournal.FindActiveQuest(\_\_\_questCode);}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00070}00070\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (quest\ ==\ null)\ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00071}00071\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ foreach\ (var\ t\ in\ quest.Objectives)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00072}00072\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00073}00073\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (t\ is\ ObjectiveRandomPOIGoto\ \&\&\ \_\_instance.GotoType\ ==\ NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI)}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00074}00074\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((ObjectiveRandomPOIGoto)t).FinalizePoint(new\ Vector3(\_\_\_position.x,\ primaryPlayer.position.y,\ \_\_\_position.y),\ \_\_\_size);}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00075}00075\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00076}00076\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00077}00077\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00078}00078\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_quest_goto_point_8cs_source_l00079}00079\ \textcolor{comment}{//\}}}
+
+\end{DoxyCode}

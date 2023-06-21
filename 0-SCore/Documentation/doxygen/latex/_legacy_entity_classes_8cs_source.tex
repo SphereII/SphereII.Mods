@@ -1,0 +1,201 @@
+\hypertarget{_legacy_entity_classes_8cs_source}{}\doxysection{Legacy\+Entity\+Classes.\+cs}
+\label{_legacy_entity_classes_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Entities/LegacyEntityClasses.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Entities/LegacyEntityClasses.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00003}00003\ \textcolor{comment}{//\ Legacy\ classes\ for\ backwards\ compatibility.\ These\ won't\ be\ expanded}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00004}\mbox{\hyperlink{class_entity_bandit_s_d_x}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity_bandit_s_d_x}{EntityBanditSDX}}\ :\ EntityBandit}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ updateSpeedForwardAndStrafe(Vector3\ \_dist,\ \textcolor{keywordtype}{float}\ \_partialTicks)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isEntityRemote\ \&\&\ \_partialTicks\ >\ 1f)\ \_dist\ /=\ \_partialTicks;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ speedForward\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ speedStrafe\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ speedVertical\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.x)\ >\ 0.001f\ ||\ Mathf.Abs(\_dist.z)\ >\ 0.001f)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ Mathf.Sin(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ Mathf.Cos(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ speedForward\ +=\ num2\ *\ \_dist.z\ -\/\ num\ *\ \_dist.x;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ speedStrafe\ +=\ num2\ *\ \_dist.x\ +\ num\ *\ \_dist.z;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.y)\ >\ 0.001f)\ speedVertical\ +=\ \_dist.y;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ SetMovementState();}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00023}00023\ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00025}\mbox{\hyperlink{class_entity_generic_s_d_x}{00025}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity_generic_s_d_x}{EntityGenericSDX}}\ :\ EntityAlive}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init(\textcolor{keywordtype}{int}\ \_entityClass)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ base.Init(\_entityClass);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ inventory.SetSlots(\textcolor{keyword}{new}[]}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ItemStack(inventory.GetBareHandItemValue(),\ 1)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ InitFromPrefab(\textcolor{keywordtype}{int}\ \_entityClass)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00037}00037\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ base.InitFromPrefab(\_entityClass);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ inventory.SetSlots(\textcolor{keyword}{new}[]}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ItemStack(inventory.GetBareHandItemValue(),\ 1)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00047}\mbox{\hyperlink{class_entity_survivor_s_d_x}{00047}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity_survivor_s_d_x}{EntitySurvivorSDX}}\ :\ EntitySurvivor}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00048}00048\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00049}00049\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ updateSpeedForwardAndStrafe(Vector3\ \_dist,\ \textcolor{keywordtype}{float}\ \_partialTicks)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00050}00050\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isEntityRemote\ \&\&\ \_partialTicks\ >\ 1f)\ \_dist\ /=\ \_partialTicks;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ speedForward\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ speedStrafe\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ speedVertical\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.x)\ >\ 0.001f\ ||\ Mathf.Abs(\_dist.z)\ >\ 0.001f)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ Mathf.Sin(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ Mathf.Cos(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ speedForward\ +=\ num2\ *\ \_dist.z\ -\/\ num\ *\ \_dist.x;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ speedStrafe\ +=\ num2\ *\ \_dist.x\ +\ num\ *\ \_dist.z;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.y)\ >\ 0.001f)\ speedVertical\ +=\ \_dist.y;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ SetMovementState();}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00065}00065\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00066}00066\ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00069}\mbox{\hyperlink{class_entity_zombie_cop_s_d_x}{00069}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity_zombie_cop_s_d_x}{EntityZombieCopSDX}}\ :\ EntityZombie}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00070}00070\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00071}00071\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init(\textcolor{keywordtype}{int}\ \_entityClass)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00072}00072\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ base.Init(\_entityClass);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ inventory.SetSlots(\textcolor{keyword}{new}[]}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ItemStack(inventory.GetBareHandItemValue(),\ 1)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00078}00078\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00080}00080\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ InitFromPrefab(\textcolor{keywordtype}{int}\ \_entityClass)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00081}00081\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ base.InitFromPrefab(\_entityClass);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ inventory.SetSlots(\textcolor{keyword}{new}[]}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ ItemStack(inventory.GetBareHandItemValue(),\ 1)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00088}00088\ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00091}\mbox{\hyperlink{class_entity_zombie_crawl_s_d_x}{00091}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_entity_zombie_crawl_s_d_x}{EntityZombieCrawlSDX}}\ :\ EntityZombie}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00092}00092\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00093}00093\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{int}\ GetWalkType()}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00094}00094\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00097}00097\ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00100}00100\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }EntityWanderingTrader\ :\ EntityNPC}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00101}00101\ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00102}00102\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ DefaultTraderID;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00104}00104\ \ \ \ \ \textcolor{comment}{//\ Post\ Init\ turns\ on\ God\ mode,\ so\ we'll\ turn\ it\ off.}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00105}00105\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PostInit()}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00106}00106\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ base.PostInit();}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ IsGodMode.Value\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NPCInfo\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ DefaultTraderID\ =\ NPCInfo.TraderID;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00112}00112\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00114}00114\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ToggleTraderID(\textcolor{keywordtype}{bool}\ Restore)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00115}00115\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NPCInfo\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ are\ restoring\ the\ default\ trader\ ID.}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Restore)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ NPCInfo.TraderID\ =\ DefaultTraderID;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ NPCInfo.TraderID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00124}00124\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00126}00126\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnUpdateLive()}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00127}00127\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ there's\ a\ player\ within\ 10\ meters\ of\ us.\ If\ not,\ resume\ wandering.}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ emodel.avatarController.UpdateBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ var\ entitiesInBounds\ =\ GameManager.Instance.World.GetEntitiesInBounds(\textcolor{keyword}{this},\ \textcolor{keyword}{new}\ Bounds(position,\ Vector3.one\ *\ 10f));}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entitiesInBounds.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ entitiesInBounds.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entitiesInBounds[i]\ is\ EntityPlayer)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ emodel.avatarController.UpdateBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ state\ to\ see\ if\ the\ controller\ IsBusy\ or\ not.\ If\ it's\ not,\ then\ let\ it\ walk.}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ var\ isBusy\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ emodel.avatarController.TryGetBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ out\ isBusy);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAlert)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ isBusy\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isBusy\ ==\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ base.OnUpdateLive();}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00147}00147\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00149}00149\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ OnEntityActivated(\textcolor{keywordtype}{int}\ \_indexInBlockActivationCommands,\ Vector3i\ \_tePos,\ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00150}00150\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ emodel.avatarController.UpdateBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.OnEntityActivated(\_indexInBlockActivationCommands,\ \_tePos,\ \_entityFocusing);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00153}00153\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00155}00155\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{int}\ DamageEntity(DamageSource\ \_damageSource,\ \textcolor{keywordtype}{int}\ \_strength,\ \textcolor{keywordtype}{bool}\ \_criticalHit,\ \textcolor{keywordtype}{float}\ \_impulseScale)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00156}00156\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ being\ attacked,\ let\ the\ state\ machine\ know\ it\ can\ fight\ back}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ emodel.avatarController.UpdateBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ off\ the\ trader\ ID\ while\ it\ deals\ damage\ to\ the\ entity}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ ToggleTraderID(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ var\ Damage\ =\ base.DamageEntity(\_damageSource,\ \_strength,\ \_criticalHit,\ \_impulseScale);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ ToggleTraderID(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Damage;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00165}00165\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00167}00167\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ProcessDamageResponseLocal(DamageResponse\ \_dmResponse)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00168}00168\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ being\ attacked,\ let\ the\ state\ machine\ know\ it\ can\ fight\ back}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ emodel.avatarController.UpdateBool(\textcolor{stringliteral}{"{}IsBusy"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ off\ the\ trader\ ID\ while\ it\ deals\ damage\ to\ the\ entity}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ ToggleTraderID(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ base.ProcessDamageResponseLocal(\_dmResponse);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ ToggleTraderID(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00176}00176\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00178}00178\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ updateSpeedForwardAndStrafe(Vector3\ \_dist,\ \textcolor{keywordtype}{float}\ \_partialTicks)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00179}00179\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isEntityRemote\ \&\&\ \_partialTicks\ >\ 1f)\ \_dist\ /=\ \_partialTicks;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ speedForward\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ speedStrafe\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ speedVertical\ *=\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.x)\ >\ 0.001f\ ||\ Mathf.Abs(\_dist.z)\ >\ 0.001f)}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ Mathf.Sin(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ Mathf.Cos(-\/rotation.y\ *\ 3.14159274f\ /\ 180f);}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ speedForward\ +=\ num2\ *\ \_dist.z\ -\/\ num\ *\ \_dist.x;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ speedStrafe\ +=\ num2\ *\ \_dist.x\ +\ num\ *\ \_dist.z;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(\_dist.y)\ >\ 0.001f)\ speedVertical\ +=\ \_dist.y;}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ SetMovementState();}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00194}00194\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_legacy_entity_classes_8cs_source_l00195}00195\ \}}
+
+\end{DoxyCode}

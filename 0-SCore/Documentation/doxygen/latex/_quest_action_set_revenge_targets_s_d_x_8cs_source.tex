@@ -1,0 +1,132 @@
+\hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source}{}\doxysection{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}
+\label{_quest_action_set_revenge_targets_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionSetRevengeTargetsSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionSetRevengeTargetsSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00057}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x}{00057}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x}{QuestActionSetRevengeTargetsSDX}}\ :\ BaseQuestAction}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00058}00058\ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00062}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}{00062}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}{DEFAULT\_DISTANCE}}\ =\ 15f;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00067}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}{00067}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}{OWNER\_ID}}\ =\ \textcolor{stringliteral}{"{}owner"{}};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00073}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}{00073}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}{SHARED\_ID}}\ =\ \textcolor{stringliteral}{"{}party"{}};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00081}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}{00081}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}{REVENGE\_TICKS}}\ =\ 5000;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00084}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a2238108a50fede282480b754d16d4914}{00084}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseQuestAction\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a2238108a50fede282480b754d16d4914}{Clone}}()}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ var\ questAction\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x}{QuestActionSetRevengeTargetsSDX}}();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ CopyValues(questAction);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ questAction;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00092}\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_ab2d30c17bd1c361555d51c1bf167169d}{00092}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_ab2d30c17bd1c361555d51c1bf167169d}{PerformAction}}(Quest\ ownerQuest)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ var\ targetEntities\ =\ GetTargetEntities(ownerQuest);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntities\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ var\ entitiesInRange\ =\ GetEntitiesInRange(ownerQuest);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entitiesInRange\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ entity\ \textcolor{keywordflow}{in}\ entitiesInRange)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ is\ EntityPlayer)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ set\ the\ revenge\ targets\ of\ entities\ hired\ by\ the\ quest\ owner,}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ or\ by\ entities\ hired\ by\ members\ of\ the\ quest\ owner's\ party}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityTargetingUtilities.IsAllyOfParty(entity,\ ownerQuest.OwnerJournal.OwnerPlayer))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ var\ target\ =\ GetRandomTarget(targetEntities);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ entity.SetRevengeTarget(target);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ entity.SetRevengeTimer(\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}{REVENGE\_TICKS}});}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \textcolor{keyword}{private}\ Bounds\ GetBounds(Quest\ ownerQuest)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distance\ =\ \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}{DEFAULT\_DISTANCE}};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ Vector3\ center\ =\ ownerQuest.OwnerJournal.OwnerPlayer.position;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{stringliteral}{"{}location"{}}.EqualsCaseInsensitive(Value))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ var\ size\ =\ ownerQuest.GetLocationSize();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ !=\ Vector3.zero)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ center\ should\ be\ the\ center\ of\ the\ POI,\ not\ the\ player\ position}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ location\ =\ ownerQuest.GetLocation();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ center\ =\ \textcolor{keyword}{new}\ Vector3(}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ location.x\ +\ size.x\ /\ 2f,}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ location.y\ +\ size.y\ /\ 2f,}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ location.z\ +\ size.z\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ bounds\ constructor\ shrinks\ the\ size\ vector\ in\ half,\ compensate\ here}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ Bounds(center,\ 2f\ *\ size);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(Value)\ \&\&\ !\textcolor{keywordtype}{float}.TryParse(Value,\ out\ distance))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ Bounds(center,\ \textcolor{keyword}{new}\ Vector3(distance,\ distance,\ distance));}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00146}00146\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00148}00148\ \ \ \ \ \textcolor{keyword}{private}\ IEnumerable<EntityAlive>\ GetEntitiesInRange(Quest\ ownerQuest)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00149}00149\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ var\ bounds\ =\ GetBounds(ownerQuest);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bounds\ ==\ \textcolor{keywordflow}{default})}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GameManager.Instance.World.GetLivingEntitiesInBounds(}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ ownerQuest.OwnerJournal.OwnerPlayer,}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ bounds);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00157}00157\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00159}00159\ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ GetRandomTarget(EntityAlive[]\ targetEntities)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00160}00160\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ var\ index\ =\ GameManager.Instance.World.GetGameRandom().RandomRange(targetEntities.Length);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetEntities[index];}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00166}00166\ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive[]\ GetTargetEntities(Quest\ ownerQuest)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00167}00167\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ var\ targetEntities\ =\ \textcolor{keyword}{new}\ List<EntityAlive>()\ \{\ ownerQuest.OwnerJournal.OwnerPlayer\ \};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ID\ ==\ \textcolor{keyword}{null}\ ||\ ID.EqualsCaseInsensitive(\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}{OWNER\_ID}}))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetEntities.ToArray();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ID.EqualsCaseInsensitive(\mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}{SHARED\_ID}}))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ var\ shared\ =\ ownerQuest.GetSharedWithIDList();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shared\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetEntities.ToArray();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ var\ notInRange\ =\ ownerQuest.GetSharedWithListNotInRange();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ entityid\ \textcolor{keywordflow}{in}\ shared)}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ GameManager.Instance.World.GetEntity(entityid)\ as\ EntityPlayer;}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ entity\ ==\ \textcolor{keyword}{null}\ )\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (notInRange\ !=\ \textcolor{keyword}{null}\ \&\&\ notInRange.Contains(entity))}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetEntities.Add(entity);}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetEntities.ToArray();}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ "{}owner"{}\ and\ "{}party"{}\ are\ the\ only\ allowed\ ID\ values}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00195}00195\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00196}00196\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00197}00197\ \}}
+
+\end{DoxyCode}

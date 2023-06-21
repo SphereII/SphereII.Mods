@@ -1,0 +1,112 @@
+\hypertarget{_d_m_t_e_a_i_utilities_8cs_source}{}\doxysection{DMTEAIUtilities.\+cs}
+\label{_d_m_t_e_a_i_utilities_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/DMTEAIUtilities.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/DMTEAIUtilities.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00004}00004\ \textcolor{keyword}{internal}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }SphereII\_DMTEAIUtilities}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{bool}\ blDisplayLog\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ DisplayLog(\textcolor{keywordtype}{string}\ strMessage)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blDisplayLog)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(strMessage);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00012}00012\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CheckFactionForEnemy(EntityAlive\ theEntity,\ EntityAlive\ Entity)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (theEntity.factionId\ ==\ Entity.factionId)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ myRelationship\ =\ FactionManager.Instance.GetRelationshipTier(theEntity,\ Entity);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ CheckFactionForEnemy:\ "{}}\ +\ myRelationship);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myRelationship\ ==\ FactionManager.Relationship.Hate)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ I\ hate\ this\ entity:\ "{}}\ +\ Entity);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ My\ relationship\ with\ this\ "{}}\ +\ Entity\ +\ \textcolor{stringliteral}{"{}\ is:\ "{}}\ +\ myRelationship);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CheckSurroundingEntities(EntityAlive\ theEntity)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00033}00033\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ var\ NearbyEntities\ =\ \textcolor{keyword}{new}\ List<Entity>();}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ var\ NearbyEnemies\ =\ \textcolor{keyword}{new}\ List<Entity>();}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ var\ leader\ =\ EntityUtilities.GetLeaderOrOwner(theEntity.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ var\ originalView\ =\ theEntity.GetMaxViewAngle();}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ theEntity.SetMaxViewAngle(250f);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Search\ in\ the\ bounds\ are\ to\ try\ to\ find\ the\ most\ appealing\ entity\ to\ follow.}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ var\ bb\ =\ \textcolor{keyword}{new}\ Bounds(theEntity.position,\ \textcolor{keyword}{new}\ Vector3(20f,\ 20f,\ 20f));}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ theEntity.world.GetEntitiesInBounds(typeof(EntityAlive),\ bb,\ NearbyEntities);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ Nearby\ Entities:\ "{}}\ +\ NearbyEntities.Count);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ NearbyEntities.Count\ -\/\ 1;\ i\ >=\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ var\ x\ =\ (EntityAlive)NearbyEntities[i];}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ is\ EntityVehicle)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ !=\ theEntity\ \&\&\ x.IsAlive())}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (leader\ !=\ \textcolor{keyword}{null}\ \&\&\ x\ ==\ leader)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.CanSee(theEntity.position))}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ I\ can\ be\ seen\ by\ an\ enemy."{}});}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!theEntity.CanSee(x.position))}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ I\ know\ an\ entity\ is\ there,\ but\ I\ can't\ see\ it:\ "{}}\ +\ x.EntityName);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}Nearby\ Entity:\ "{}}\ +\ x.EntityName);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CheckFactionForEnemy(theEntity,\ x))}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NearbyEnemies.Add(x);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ theEntity.SetMaxViewAngle(originalView);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NearestEnemy(theEntity,\ NearbyEnemies);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00077}00077\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ NearestEnemy(EntityAlive\ theEntity,\ List<Entity>\ NearbyEnemies)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00078}00078\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NearbyEnemies.Count\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Finds\ the\ closet\ block\ we\ matched\ with.}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ EntityAlive\ closeEnemy\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ var\ minDist\ =\ Mathf.Infinity;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ var\ currentPos\ =\ theEntity.position;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (EntityAlive\ enemy\ \textcolor{keywordflow}{in}\ NearbyEnemies)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ var\ dist\ =\ Vector3.Distance(enemy.position,\ currentPos);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ Entity:\ "{}}\ +\ enemy.EntityName\ +\ \textcolor{stringliteral}{"{}'s\ distance\ is:\ "{}}\ +\ dist);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ <\ minDist)}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ closeEnemy\ =\ enemy;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minDist\ =\ dist;}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (closeEnemy\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ DisplayLog(\textcolor{stringliteral}{"{}\ Closes\ Enemy:\ "{}}\ +\ closeEnemy);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ theEntity.SetRevengeTarget(closeEnemy);}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_d_m_t_e_a_i_utilities_8cs_source_l00106}00106\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,165 @@
+\hypertarget{class_block_plant_growing_s_d_x}{}\doxysection{Block\+Plant\+Growing\+SDX Class Reference}
+\label{class_block_plant_growing_s_d_x}\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+
+
+Inherits Block\+Plant\+Growing.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_block_plant_growing_s_d_x_ad68d8ca9d76df97a34a4df9a570e3269}{Late\+Init}} ()
+\item 
+override void \mbox{\hyperlink{class_block_plant_growing_s_d_x_a9c3918a4d103ee8fec8bbf5ff472ce75}{Place\+Block}} (World\+Base \+\_\+world, Block\+Placement.\+Result \+\_\+result, Entity\+Alive \+\_\+ea)
+\item 
+override bool \mbox{\hyperlink{class_block_plant_growing_s_d_x_a141e4a2d659a0f6f9ad5bf8a0ac359a8}{Can\+Place\+Block\+At}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value, bool \+\_\+b\+Omit\+Collide\+Check=false)
+\item 
+override void \mbox{\hyperlink{class_block_plant_growing_s_d_x_a62c2185e783819c122a295fda2ec8946}{On\+Block\+Loaded}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+override void \mbox{\hyperlink{class_block_plant_growing_s_d_x_a98bde849f6794a255fb86246fa9a8021}{On\+Block\+Unloaded}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+override void \mbox{\hyperlink{class_block_plant_growing_s_d_x_aacc7199ee6d7d39fe1e26f254170cb64}{On\+Block\+Added}} (World\+Base \+\_\+world, Chunk \+\_\+chunk, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+override bool \mbox{\hyperlink{class_block_plant_growing_s_d_x_a3508b09a0eb1fcc3d6fbf7dfaac4f4f7}{Update\+Tick}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value, bool \+\_\+b\+Random\+Tick, ulong \+\_\+ticks\+If\+Loaded, Game\+Random \+\_\+rnd)
+\item 
+override bool \mbox{\hyperlink{class_block_plant_growing_s_d_x_adff12929174682e93b9e3bacbe204614}{Check\+Plant\+Alive}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+void \mbox{\hyperlink{class_block_plant_growing_s_d_x_a29e0f1371dc7197e7cb69f60e40552d6}{Wilt}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Dictionary$<$ Vector3i, Vector3i $>$ \mbox{\hyperlink{class_block_plant_growing_s_d_x_ab65d919ebc55839fe362ec7b5dd90e58}{Water\+Sources}} = new Dictionary$<$Vector3i, Vector3i$>$()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Block\+Value \mbox{\hyperlink{class_block_plant_growing_s_d_x_aa481858dcde60df72d9aaeac2acda968}{wilted\+Plant}} = Block\+Value.\+Air
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a141e4a2d659a0f6f9ad5bf8a0ac359a8}\label{class_block_plant_growing_s_d_x_a141e4a2d659a0f6f9ad5bf8a0ac359a8}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!CanPlaceBlockAt@{CanPlaceBlockAt}}
+\index{CanPlaceBlockAt@{CanPlaceBlockAt}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{CanPlaceBlockAt()}{CanPlaceBlockAt()}}
+{\footnotesize\ttfamily override bool Block\+Plant\+Growing\+SDX.\+Can\+Place\+Block\+At (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{bool}]{\+\_\+b\+Omit\+Collide\+Check = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00041}{41}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_adff12929174682e93b9e3bacbe204614}\label{class_block_plant_growing_s_d_x_adff12929174682e93b9e3bacbe204614}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!CheckPlantAlive@{CheckPlantAlive}}
+\index{CheckPlantAlive@{CheckPlantAlive}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{CheckPlantAlive()}{CheckPlantAlive()}}
+{\footnotesize\ttfamily override bool Block\+Plant\+Growing\+SDX.\+Check\+Plant\+Alive (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00089}{89}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_ad68d8ca9d76df97a34a4df9a570e3269}\label{class_block_plant_growing_s_d_x_ad68d8ca9d76df97a34a4df9a570e3269}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!LateInit@{LateInit}}
+\index{LateInit@{LateInit}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{LateInit()}{LateInit()}}
+{\footnotesize\ttfamily override void Block\+Plant\+Growing\+SDX.\+Late\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_aacc7199ee6d7d39fe1e26f254170cb64}\label{class_block_plant_growing_s_d_x_aacc7199ee6d7d39fe1e26f254170cb64}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!OnBlockAdded@{OnBlockAdded}}
+\index{OnBlockAdded@{OnBlockAdded}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{OnBlockAdded()}{OnBlockAdded()}}
+{\footnotesize\ttfamily override void Block\+Plant\+Growing\+SDX.\+On\+Block\+Added (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Chunk}]{\+\_\+chunk,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00067}{67}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a62c2185e783819c122a295fda2ec8946}\label{class_block_plant_growing_s_d_x_a62c2185e783819c122a295fda2ec8946}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!OnBlockLoaded@{OnBlockLoaded}}
+\index{OnBlockLoaded@{OnBlockLoaded}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{OnBlockLoaded()}{OnBlockLoaded()}}
+{\footnotesize\ttfamily override void Block\+Plant\+Growing\+SDX.\+On\+Block\+Loaded (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a98bde849f6794a255fb86246fa9a8021}\label{class_block_plant_growing_s_d_x_a98bde849f6794a255fb86246fa9a8021}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!OnBlockUnloaded@{OnBlockUnloaded}}
+\index{OnBlockUnloaded@{OnBlockUnloaded}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{OnBlockUnloaded()}{OnBlockUnloaded()}}
+{\footnotesize\ttfamily override void Block\+Plant\+Growing\+SDX.\+On\+Block\+Unloaded (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00060}{60}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a9c3918a4d103ee8fec8bbf5ff472ce75}\label{class_block_plant_growing_s_d_x_a9c3918a4d103ee8fec8bbf5ff472ce75}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!PlaceBlock@{PlaceBlock}}
+\index{PlaceBlock@{PlaceBlock}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{PlaceBlock()}{PlaceBlock()}}
+{\footnotesize\ttfamily override void Block\+Plant\+Growing\+SDX.\+Place\+Block (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Block\+Placement\+::\+Result}]{\+\_\+result,  }\item[{Entity\+Alive}]{\+\_\+ea }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a3508b09a0eb1fcc3d6fbf7dfaac4f4f7}\label{class_block_plant_growing_s_d_x_a3508b09a0eb1fcc3d6fbf7dfaac4f4f7}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!UpdateTick@{UpdateTick}}
+\index{UpdateTick@{UpdateTick}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{UpdateTick()}{UpdateTick()}}
+{\footnotesize\ttfamily override bool Block\+Plant\+Growing\+SDX.\+Update\+Tick (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{bool}]{\+\_\+b\+Random\+Tick,  }\item[{ulong}]{\+\_\+ticks\+If\+Loaded,  }\item[{Game\+Random}]{\+\_\+rnd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_a29e0f1371dc7197e7cb69f60e40552d6}\label{class_block_plant_growing_s_d_x_a29e0f1371dc7197e7cb69f60e40552d6}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!Wilt@{Wilt}}
+\index{Wilt@{Wilt}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{Wilt()}{Wilt()}}
+{\footnotesize\ttfamily void Block\+Plant\+Growing\+SDX.\+Wilt (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00108}{108}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_ab65d919ebc55839fe362ec7b5dd90e58}\label{class_block_plant_growing_s_d_x_ab65d919ebc55839fe362ec7b5dd90e58}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!WaterSources@{WaterSources}}
+\index{WaterSources@{WaterSources}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{WaterSources}{WaterSources}}
+{\footnotesize\ttfamily Dictionary$<$Vector3i, Vector3i$>$ Block\+Plant\+Growing\+SDX.\+Water\+Sources = new Dictionary$<$Vector3i, Vector3i$>$()\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00010}{10}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_block_plant_growing_s_d_x_aa481858dcde60df72d9aaeac2acda968}\label{class_block_plant_growing_s_d_x_aa481858dcde60df72d9aaeac2acda968}} 
+\index{BlockPlantGrowingSDX@{BlockPlantGrowingSDX}!wiltedPlant@{wiltedPlant}}
+\index{wiltedPlant@{wiltedPlant}!BlockPlantGrowingSDX@{BlockPlantGrowingSDX}}
+\doxysubsubsection{\texorpdfstring{wiltedPlant}{wiltedPlant}}
+{\footnotesize\ttfamily Block\+Value Block\+Plant\+Growing\+SDX.\+wilted\+Plant = Block\+Value.\+Air\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_block_plant_growing_s_d_x_8cs_source}{Block\+Plant\+Growing\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Blocks/Block\+Plant\+Growing\+SDX.\+cs\end{DoxyCompactItemize}

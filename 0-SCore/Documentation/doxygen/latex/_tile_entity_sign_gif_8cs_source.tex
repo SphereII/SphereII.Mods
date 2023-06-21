@@ -1,0 +1,63 @@
+\hypertarget{_tile_entity_sign_gif_8cs_source}{}\doxysection{Tile\+Entity\+Sign\+Gif.\+cs}
+\label{_tile_entity_sign_gif_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/TileEntitySignGif.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/TileEntities/TileEntitySignGif.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_tile_entities}{Harmony.TileEntities}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00006}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_sign_gif}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_sign_gif}{TileEntitySignGif}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{bool}\ enableExtendedSigns\ =\ Configuration.CheckFeatureStatus(\textcolor{stringliteral}{"{}AdvancedPlayerFeatures"{}},\ \textcolor{stringliteral}{"{}ExtendedSigns"{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(TileEntitySign))]}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetText"{}})]}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00013}\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_sign_gif_1_1_tile_entity_sign_set_text}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_tile_entities_1_1_tile_entity_sign_gif_1_1_tile_entity_sign_set_text}{TileEntitySignSetText}}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(TileEntitySign\ \_\_instance,\ SmartTextMesh\ \_\_\_smartTextMesh,\ \textcolor{keywordtype}{string}\ \_text)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.IsDedicatedServer)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_smartTextMesh\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (enableExtendedSigns)}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_text.StartsWith(\textcolor{stringliteral}{"{}http"{}}))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ wrapper\ =\ \_\_\_smartTextMesh.transform.parent.transform.GetComponent<\mbox{\hyperlink{class_image_wrapper}{ImageWrapper}}>();}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (wrapper\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wrapper\ =\ \_\_\_smartTextMesh.transform.parent.transform.gameObject.AddComponent<\mbox{\hyperlink{class_image_wrapper}{ImageWrapper}}>();}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ for\ supported\ url,\ and\ do\ some\ converting\ if\ necessary}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!wrapper.ValidURL(ref\ \_text))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}ImageWrapper:\ Only\ supported\ files:\ .gif,\ .gifs,\ .jpg,\ and\ .png"{}});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (wrapper.IsNewURL(\_text))}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wrapper.Pause();}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ wrapper.Init(\_text);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.SetModified();}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_smartTextMesh.gameObject.SetActive(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ wrapper2\ =\ \_\_\_smartTextMesh.transform.parent.transform.GetComponent<\mbox{\hyperlink{class_image_wrapper}{ImageWrapper}}>();}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (wrapper2\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameObject.Destroy(wrapper2);}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_tile_entity_sign_gif_8cs_source_l00057}00057\ \}}
+
+\end{DoxyCode}

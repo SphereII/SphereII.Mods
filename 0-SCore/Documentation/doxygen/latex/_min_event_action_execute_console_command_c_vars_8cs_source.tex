@@ -1,0 +1,87 @@
+\hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source}{}\doxysection{Min\+Event\+Action\+Execute\+Console\+Command\+CVars.\+cs}
+\label{_min_event_action_execute_console_command_c_vars_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionExecuteConsoleCommandCVars.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionExecuteConsoleCommandCVars.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00007}00007\ \textcolor{comment}{//\ <triggered\_effect\ trigger\ =\ "{}onSelfBuffStart"{}\ action\ =\ "{}ExecuteConsoleCommandCVars,\ SCore"{}\ command\ =\ "{}testCommand\ \{0\}\ \{1\}"{}\ cvars\ =\ "{}cvar1,cvar2"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00009}\mbox{\hyperlink{class_min_event_action_execute_console_command_c_vars}{00009}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_execute_console_command_c_vars}{MinEventActionExecuteConsoleCommandCVars}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ command\ =\ \textcolor{keywordtype}{string}.Empty;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ List<string>\ cvars;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{private}\ List<float>\ cvarsValues;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(command))}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ t\ \textcolor{keywordflow}{in}\ targets)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ t;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ cvarsValues\ =\ \textcolor{keyword}{new}\ List<float>();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ cvarsValues.Clear();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ cvar\ \textcolor{keywordflow}{in}\ cvars)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ \ value\ =\ entity.Buffs.CVars.GetValueSafe(cvar);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cvarsValues.Add(value);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ command\ =\ AssembleString(command,\ cvarsValues);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsClient)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<SdtdConsole>.Instance.ExecuteSync(command,\ \textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NetPackageManager.GetPackage<NetPackageConsoleCmdServer>().Setup(command),\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00044}00044\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ AssembleString(\textcolor{keywordtype}{string}\ \_command,\ List<float>\ \_cvars)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00047}00047\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ str\ =\ \_command;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ index\ =\ 0;\ index\ <\ \_cvars.Count;\ index++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ str\ =\ str.Replace(\textcolor{stringliteral}{"{}\{"{}}\ +\ index\ +\ \textcolor{stringliteral}{"{}\}"{}},\ \_cvars[index].ToString());}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}command"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ command\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}cvars"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cvars\ =\ \_attribute.Value.Split(\textcolor{charliteral}{','}).ToList();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00080}00080\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_execute_console_command_c_vars_8cs_source_l00081}00081\ \}}
+
+\end{DoxyCode}

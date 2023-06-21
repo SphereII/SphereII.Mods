@@ -1,0 +1,56 @@
+\hypertarget{_transmogrifier_8cs_source}{}\doxysection{Transmogrifier.\+cs}
+\label{_transmogrifier_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/Transmogrifier.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/Transmogrifier.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_zombie_features}{Harmony.ZombieFeatures}}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00021}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_transmogrifier}{00021}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_transmogrifier}{Transmogrifier}}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00022}00022\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedZombieFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}RandomWalk"{}};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}CopyPropertiesFromEntityClass"{}})]}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00028}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_transmogrifier_1_1_entity_alive_copy_properties_from_entity_class}{00028}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_transmogrifier_1_1_entity_alive_copy_properties_from_entity_class}{EntityAliveCopyPropertiesFromEntityClass}}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::EntityAlive\ \_\_instance,\ ref\ \textcolor{keywordtype}{int}\ \_\_\_walkType)}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ random\ =\ \textcolor{keyword}{new}\ Random();}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityClass\ =\ \_\_instance.EntityClass;}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RandomWalkTypes"{}}))}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ ranges\ =\ \textcolor{keyword}{new}\ List<int>();}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ text\ \textcolor{keywordflow}{in}\ entityClass.Properties.Values[\textcolor{stringliteral}{"{}RandomWalkTypes"{}}].Split(\textcolor{charliteral}{','}))}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ranges.Add(StringParsers.ParseSInt32(text));}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomIndex\ =\ random.Next(0,\ ranges.Count);}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_walkType\ =\ ranges[randomIndex];}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\ Random\ Walk\ Type:\ "{}}\ +\ \_\_\_walkType);}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_walkType\ is\ 21\ or\ 22\ ||\ \_\_instance\ is\ not\ EntityZombie)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Distribution\ of\ Walk\ Types\ in\ an\ array.\ Adjust\ the\ numbers\ as\ you\ want\ for\ distribution.}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ numbers\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{int}[]\ \{1,\ 2,\ 2,\ 3,\ 21,22,5,\ 6,\ 7,\ 7\};}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Randomly\ generates\ a\ number\ between\ 0\ and\ the\ maximum\ number\ of\ elements\ in\ the\ numbers.}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomNumber\ =\ random.Next(0,\ numbers.Length);}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ return\ the\ randomly\ selected\ walk\ type}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_walkType\ =\ numbers[randomNumber];}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\ Random\ Walk\ Type:\ "{}}\ +\ \_\_\_walkType);}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_transmogrifier_8cs_source_l00064}00064\ \}}
+
+\end{DoxyCode}

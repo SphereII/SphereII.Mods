@@ -1,0 +1,32 @@
+\hypertarget{_pathing_cube_parser_8cs_source}{}\doxysection{Pathing\+Cube\+Parser.\+cs}
+\label{_pathing_cube_parser_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ProgrammableLogic/PathingCubeParser.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ProgrammableLogic/PathingCubeParser.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00008}00008\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }PathingCubeParser}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ GetValue(\textcolor{keywordtype}{string}\ signText,\ \textcolor{keywordtype}{string}\ key)}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ \textcolor{keywordtype}{string}.IsNullOrEmpty(\ signText\ )\ )}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{string}.Empty;\ }
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ text\ \textcolor{keywordflow}{in}\ signText.Split(\textcolor{charliteral}{';'}))}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ parse\ =\ text.Split(\textcolor{charliteral}{'='});}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parse.Length\ ==\ 2)}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parse[0].ToLower()\ ==\ key.ToLower())}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parse[1];}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00025}00025\ \}}
+\DoxyCodeLine{\Hypertarget{_pathing_cube_parser_8cs_source_l00026}00026\ }
+
+\end{DoxyCode}

@@ -1,0 +1,37 @@
+\hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source}{}\doxysection{Dialog\+Requirement\+Has\+Item\+SDX.\+cs}
+\label{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasItemSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasItemSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_has_item_s_d_x}{DialogRequirementHasItemSDX}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedDialogDebugging"{}};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ var\ count\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(Value))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ Value\ =\ \textcolor{stringliteral}{"{}1"{}};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ var\ flValue\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}.TryParse(Value,\ out\ flValue);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ var\ uiforPlayer\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ var\ playerInventory\ =\ uiforPlayer.xui.PlayerInventory;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ var\ item\ =\ ItemClass.GetItem(ID);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ count\ =\ playerInventory.Backpack.GetItemCount(item);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ count\ +=\ playerInventory.Toolbelt.GetItemCount(item);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}HasItemSDX:\ "{}}\ +\ item.ItemClass.GetItemName()\ +\ \textcolor{stringliteral}{"{}\ Player\ has\ Count:\ "{}}\ +\ count\ +\ \textcolor{stringliteral}{"{}\ Needs:\ "{}}\ +\ flValue);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flValue\ <=\ count)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}HasItemSDX:\ Player\ does\ not\ have\ enough\ "{}}\ +\ item.ItemClass.GetItemName()\ +\ \textcolor{stringliteral}{"{}\ Count:\ "{}}\ +\ count\ +\ \textcolor{stringliteral}{"{}\ Needs:\ "{}}\ +\ flValue);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_item_s_d_x_8cs_source_l00031}00031\ \}}
+
+\end{DoxyCode}

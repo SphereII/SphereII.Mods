@@ -1,0 +1,90 @@
+\hypertarget{_quest_action_replace_entity_s_d_x_8cs_source}{}\doxysection{Quest\+Action\+Replace\+Entity\+SDX.\+cs}
+\label{_quest_action_replace_entity_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionReplaceEntitySDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionReplaceEntitySDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }Random\ =\ UnityEngine.Random;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00007}00007\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }QuestActionReplaceEntitySDX\ :\ QuestActionSpawnEntitySDX}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ List<int>\ entityIDs\ =\ \textcolor{keyword}{new}\ List<int>();}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ count\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ read\ in\ the\ entities\ IDs\ that\ we\ want\ to\ spawn.}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupAction()}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ var\ array\ =\ ID.Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ array.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ keyValuePair\ in\ EntityClass.list.Dict)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (keyValuePair.Value.entityClassName\ ==\ array[i])}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we'll\ only\ need\ their\ entity\ ID\ to\ store,\ not\ their\ name.}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityIDs.Add(keyValuePair.Key);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityIDs.Count\ ==\ array.Length)\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(Quest\ action)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ HandleSpawnEntities();}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{void}\ HandleSpawnEntities()}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Value\ !=\ \textcolor{keyword}{null}\ \&\&\ Value\ !=\ \textcolor{keywordtype}{string}.Empty)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{int}.TryParse(Value,\ out\ count))}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Value.Contains(\textcolor{stringliteral}{"{}-\/"{}}))}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ array\ =\ Value.Split(\textcolor{charliteral}{'-\/'});}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ min\ =\ Convert.ToInt32(array[0]);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ max\ =\ Convert.ToInt32(array[1]);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ count\ =\ Random.Range(min,\ max);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ GameManager.Instance.StartCoroutine(SpawnEntities());}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{new}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ SpawnQuestEntity(\textcolor{keywordtype}{int}\ spawnedEntityID,\ \textcolor{keywordtype}{int}\ entityIDQuestHolder,\ EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.Entities.dict.ContainsKey(entityIDQuestHolder))}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ var\ questEntity\ =\ GameManager.Instance.World.Entities.dict[entityIDQuestHolder]\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (questEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ var\ transformPos\ =\ questEntity.position;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rotation\ =\ \textcolor{keyword}{new}\ Vector3(0f,\ questEntity.transform.eulerAngles.y\ +\ 180f,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ EntityFactory.CreateEntity(spawnedEntityID,\ transformPos,\ rotation);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.SpawnEntityInWorld(entity);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ questEntity.MarkToUnload();}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseQuestAction\ Clone()}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ var\ questActionSpawnEntity\ =\ \textcolor{keyword}{new}\ QuestActionReplaceEntitySDX();}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ CopyValues(questActionSpawnEntity);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ questActionSpawnEntity.entityIDs.AddRange(entityIDs);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ questActionSpawnEntity;}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{private}\ IEnumerator\ SpawnEntities()}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.5f);}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ var\ spawnKey\ =\ entityIDs[Random.Range(0,\ entityIDs.Count)];}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SpawnQuestEntity(spawnKey,\ OwnerQuest.SharedOwnerID,\ \textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestEntitySpawn>().Setup(spawnKey));}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_replace_entity_s_d_x_8cs_source_l00084}00084\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,67 @@
+\hypertarget{_spook_8cs_source}{}\doxysection{Spook.\+cs}
+\label{_spook_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Atmosphere/Spook.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Atmosphere/Spook.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00004}\mbox{\hyperlink{namespace_harmony_1_1_atmosphere}{00004}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_atmosphere}{Harmony.Atmosphere}}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00009}\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook}{Spook}}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}Theme"{}};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}Spook"{}};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Constant\ Blood\ Moon}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00019}00019\ \textcolor{comment}{}\ \ \ \ \ \ \ \ [HarmonyPatch(typeof(SkyManager))]}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}IsBloodMoonVisible"{}})]}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00021}\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook_1_1_sky_manager_is_blood_moon_visible}{00021}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook_1_1_sky_manager_is_blood_moon_visible}{SkyManagerIsBloodMoonVisible}}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Postfix(\textcolor{keywordtype}{bool}\ \_\_result)}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_result;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Darken\ the\ sun\ a\ bit.}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SkyManager.SetSunIntensity(0.3f);}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnEntityDeath"{}})]}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00040}\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook_1_1_entity_alive___on_entity_death___blood_splatter}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_atmosphere_1_1_spook_1_1_entity_alive___on_entity_death___blood_splatter}{EntityAlive\_OnEntityDeath\_BloodSplatter}}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Spawn\ location}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3i\ blockPos;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.x\ =\ (int)\_\_instance.position.x;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.y\ =\ (\textcolor{keywordtype}{int})\_\_instance.position.y\ -\/\ 1;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockPos.z\ =\ (int)\_\_instance.position.z;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ skip\ if\ the\ decal\ isn't\ there.}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ GameManager.Instance.World.GetBlock(blockPos);}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block.hasdecal)}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ blood\ decals}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}[]\ decals\ =\ \{\ 1,\ 4,\ 8\ \};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block.hasdecal\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block.decalface\ =\ BlockFace.Top;}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ index\ =\ Random.Range(0,\ decals.Length);}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block.decaltex\ =\ (byte)decals[index];}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ chunk\ =\ (Chunk)GameManager.Instance.World.GetChunkFromWorldPos(blockPos);}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunk\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.world.SetBlockRPC(blockPos,\ block);}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_spook_8cs_source_l00071}00071\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,90 @@
+\hypertarget{_requirement_looking_at_8cs_source}{}\doxysection{Requirement\+Looking\+At.\+cs}
+\label{_requirement_looking_at_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Buffs/RequirementLookingAt.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Buffs/RequirementLookingAt.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00004}00004\ \textcolor{comment}{//\ \ <requirement\ name="{}RequirementLookingAt,\ SCore"{}\ block="{}Campfire"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00005}00005\ \textcolor{comment}{//\ \ <requirement\ name="{}RequirementLookingAt,\ SCore"{}\ block="{}Campfire,\ Workstation"{}\ cvar="{}focusBlockLocation"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00006}\mbox{\hyperlink{class_requirement_looking_at}{00006}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_requirement_looking_at}{RequirementLookingAt}}\ :\ RequirementBase}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ blocks\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ cvar\ =\ \textcolor{stringliteral}{"{}focusBlockLocation"{}};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParamsValid(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ var\ blockPosition\ =\ \_params.Self.GetBlockPosition();}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ var\ num\ =\ World.toChunkXZ(blockPosition.x);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ var\ num2\ =\ World.toChunkXZ(blockPosition.z);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blocks.Contains(\textcolor{stringliteral}{"{}Any"{}})\ ||\ \textcolor{keywordtype}{string}.IsNullOrEmpty(blocks))}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ world\ =\ \_params.Self.world;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ -\/1;\ i\ <\ 2;\ i++)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ j\ =\ -\/1;\ j\ <\ 2;\ j++)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ chunk\ =\ (Chunk)world.GetChunkSync(num\ +\ j,\ num2\ +\ i);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunk\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ chunk.GetTileEntities();}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ tileEntity\ \textcolor{keywordflow}{in}\ tileEntities.list)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ tileEntity.ToWorldPos().ToVector3();}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distanceSq\ =\ \_params.Self.GetDistanceSq(position);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ TileEntity\ is\ greater\ than\ 2\ away,\ don't\ bother\ checking.}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distanceSq\ >\ 2)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blocks.Contains(tileEntity.GetTileEntityType().ToString()))}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ lower\ than\ my\ feet}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position.y\ <\ \_params.Self.position.y)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_params.Self.Buffs.AddCustomVar(cvar,\ -\/1);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ at\ my\ feet}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (position.y\ ==\ \_params.Self.position.y\ +\ 0.1f)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_params.Self.Buffs.AddCustomVar(cvar,\ 0);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ at\ my\ eye\ level}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (position.y\ <=\ \_params.Self.GetEyeHeight())}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_params.Self.Buffs.AddCustomVar(cvar,\ 1);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (position.y\ >\ \_params.Self.GetHeight())}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_params.Self.Buffs.AddCustomVar(cvar,\ 2);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_params.Self.Buffs.AddCustomVar(cvar,\ 0);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \_params.Self.Buffs.RemoveCustomVar(cvar);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00068}00068\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00069}00069\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}cvar"{}})}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ cvar\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}block"{}})}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ blocks\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.ParseXAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_requirement_looking_at_8cs_source_l00084}00084\ \}}
+
+\end{DoxyCode}

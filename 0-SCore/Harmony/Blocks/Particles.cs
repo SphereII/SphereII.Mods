@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace Harmony.Blocks
+namespace Features.LockPicking
 {
     /**
      * * Adding to new blocks:

@@ -1,0 +1,106 @@
+\hypertarget{_block_workarounds_8cs_source}{}\doxysection{Block\+Workarounds.\+cs}
+\label{_block_workarounds_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Blocks/BlockWorkarounds.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Blocks/BlockWorkarounds.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }JetBrains.Annotations;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Reflection.Emit;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_features_1_1_lock_picking}{Features.LockPicking}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00010}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds}{BlockWorkarounds}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00012}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_block_add_childs}{00012}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_block_add_childs}{BlockAddChilds}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Removes\ the\ WRN\ about\ block\ position\ WRN\ No\ chunk\ for\ position\ -\/2368,\ 23,\ -\/696,\ can\ not\ add\ childs\ to\ pos\ -\/2369,\ 22,\ -\/696!\ Block\ cntCollapsedChemistryStation}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(Block.MultiBlockArray))]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}AddChilds"{}})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ [UsedImplicitly]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ IEnumerable<CodeInstruction>\ Transpiler(IEnumerable<CodeInstruction>\ instructions)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Grab\ all\ the\ instructions}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ codes\ =\ \textcolor{keyword}{new}\ List<CodeInstruction>(instructions);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ t\ \textcolor{keywordflow}{in}\ codes)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t.opcode\ !=\ OpCodes.Ldc\_I4\_0)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ t.opcode\ =\ OpCodes.Ldc\_I4\_1;}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ codes.AsEnumerable();}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Removes\ the\ Block\ error:\ ERR\ Block\ on\ position\ 1636,\ 42,\ -\/2404\ with\ name\ 'bodyBagPile'\ should\ be\ a\ parent\ but\ is\ not!\ (1)}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(Block))]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}IsMovementBlocked"{}})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(IBlockAccess),\ typeof(Vector3i),\ typeof(BlockValue),\ typeof(BlockFace)\ \})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00040}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_block_is_movement_block}{00040}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_block_is_movement_block}{BlockIsMovementBlock}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ Block\ \_\_instance,\ IBlockAccess\ \_world,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_instance.isMultiBlock\ ||\ !\_blockValue.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ parentPos\ =\ \_\_instance.multiBlockPos.GetParentPos(\_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ \_world.GetBlock(parentPos);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!block.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(Block))]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}IsMovementBlocked"{}})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(IBlockAccess),\ typeof(Vector3i),\ typeof(BlockValue),\ typeof(BlockFaceFlag)\ \})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00061}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_s_core_block_is_movement_block_flag}{00061}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_s_core_block_is_movement_block_flag}{SCoreBlockIsMovementBlockFlag}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ Block\ \_\_instance,\ IBlockAccess\ \_world,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_instance.isMultiBlock\ ||\ \_blockValue.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ parentPos\ =\ \_\_instance.multiBlockPos.GetParentPos(\_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ \_world.GetBlock(parentPos);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!block.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(Block))]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}IsMovementBlocked"{}})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(IBlockAccess),\ typeof(Vector3i),\ typeof(BlockValue),\ typeof(Vector3)\ \})]}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00082}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_s_core_block_is_movement_block}{00082}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_features_1_1_lock_picking_1_1_block_workarounds_1_1_s_core_block_is_movement_block}{SCoreBlockIsMovementBlock}}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ Block\ \_\_instance,\ IBlockAccess\ \_world,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_instance.isMultiBlock\ ||\ \_blockValue.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ parentPos\ =\ \_\_instance.multiBlockPos.GetParentPos(\_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ \_world.GetBlock(parentPos);}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!block.ischild)}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_workarounds_8cs_source_l00100}00100\ \}}
+
+\end{DoxyCode}

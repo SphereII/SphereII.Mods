@@ -1,0 +1,35 @@
+\hypertarget{_u_a_i_consideration_is_alerted_8cs_source}{}\doxysection{UAIConsideration\+Is\+Alerted.\+cs}
+\label{_u_a_i_consideration_is_alerted_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationIsAlerted.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationIsAlerted.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00001}00001\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00006}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_is_not_alerted}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_is_not_alerted}{UAIConsiderationIsNotAlerted}}\ :\ \mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_is_alerted}{UAIConsiderationIsAlerted}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ var\ score\ =\ base.GetScore(context,\ target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ score\ ==\ 0f\ ?\ 1f\ :\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00023}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_is_alerted}{00023}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_is_alerted}{UAIConsiderationIsAlerted}}\ :\ UAIConsiderationBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ attackTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ revengeTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.GetAttackAndRevengeTarget(context.Self.entityId,\ ref\ attackTarget,\ ref\ revengeTarget))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !context.Self.IsAlert\ ?\ 0f\ :\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (attackTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ attackTarget.IsAlive())\ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (revengeTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ revengeTarget.IsAlive())\ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !context.Self.IsAlert\ ?\ 0f\ :\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_is_alerted_8cs_source_l00040}00040\ \}}
+
+\end{DoxyCode}

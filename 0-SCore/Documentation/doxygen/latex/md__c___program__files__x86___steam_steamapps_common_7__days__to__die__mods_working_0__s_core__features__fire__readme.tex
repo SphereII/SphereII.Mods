@@ -1,0 +1,54 @@
+The Fire Manager introduces fire mechanics into the game. This includes starting, spreading and extinguishing fires, and allowing blocks to explode.
+
+The blocks.\+xml contains configurations and settings to adjust the fire behaviour from its defaults.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Enables\ or\ disables\ verbose\ logging\ for\ troubleshooting\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Logging"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}false"{}}/>}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Enables\ or\ disables\ the\ fire\ manager\ completely\ -\/-\/>}\ }
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}FireEnable"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}false"{}}/>}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Determines\ how\ often\ the\ fire\ manager\ should\ damage\ a\ block,\ determine\ fire\ spreading,\ etc\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}CheckInterval"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}20"{}}/>}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Determines\ how\ much\ damage\ is\ done\ to\ a\ block\ per\ CheckInterval.\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ this\ property\ is\ defined\ on\ a\ specific\ block,\ that\ value\ will\ be\ used,\ rather\ than\ the\ default\ -\/-\/>}\ }
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}FireDamage"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}10"{}}/>}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Determines\ the\ length\ of\ time,\ in\ seconds,\ that\ the\ smoke\ particle\ will\ appear\ on\ an\ extinguished\ block\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ this\ property\ is\ defined\ on\ a\ specific\ block,\ that\ value\ will\ be\ used,\ rather\ than\ the\ default\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}SmokeTime"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}60"{}}/>}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Determines\ which\ SoundDataNode\ entry\ will\ be\ used\ to\ play\ the\ sound\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ this\ property\ is\ defined\ on\ a\ specific\ block,\ that\ value\ will\ be\ used,\ rather\ than\ the\ default\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}FireSound"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}ScoreMediumLoop"{}}/>}
+
+\end{DoxyCode}
+ 

@@ -1,0 +1,35 @@
+\hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source}{}\doxysection{Objective\+Entity\+Enemy\+SDXKill.\+cs}
+\label{_objective_entity_enemy_s_d_x_kill_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveEntityEnemySDXKill.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveEntityEnemySDXKill.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00001}00001\ \textcolor{comment}{//\ using\ System;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00002}00002\ \textcolor{comment}{//\ using\ System.Collections.Generic;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00003}00003\ \textcolor{comment}{//\ using\ System.Linq;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00004}00004\ \textcolor{comment}{//\ using\ System.Text;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00005}00005\ \textcolor{comment}{//\ using\ System.Threading.Tasks;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00006}00006\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00007}00007\ \textcolor{comment}{//\ //\ \ \ \ \ \ \ \ \ <objective\ type="{}EntityEnemySDXKill,\ SCore"{}\ id="{}npcHarleyEmptyHand"{}\ value="{}2"{}\ phase="{}3"{}/>}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00008}00008\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00009}00009\ \textcolor{comment}{//\ public\ class\ ObjectiveEntityEnemySDXKill\ :\ ObjectiveEntityAliveSDXKill}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00010}00010\ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00011}00011\ \textcolor{comment}{//\ \ \ \ \ public\ override\ void\ AddHooks()}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00012}00012\ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00013}00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ SCoreQuestEventManager.Instance.EntityEnemySDXKill\ +=\ Current\_EntityAliveSDX;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00015}00015\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00016}00016\ \textcolor{comment}{//\ \ \ \ \ public\ override\ void\ RemoveHooks()}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ SCoreQuestEventManager.Instance.EntityEnemySDXKill\ -\/=\ Current\_EntityAliveSDX;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00020}00020\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00021}00021\ \textcolor{comment}{//\ \ \ \ \ public\ override\ BaseObjective\ Clone()}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00022}00022\ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00023}00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ var\ cloneObject\ =\ new\ ObjectiveEntityEnemySDXKill();}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ this.CopyValues(cloneObject);}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00025}00025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ cloneObject.localizedName\ =\ this.localizedName;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00026}00026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ return\ cloneObject;}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00027}00027\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00028}00028\ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_objective_entity_enemy_s_d_x_kill_8cs_source_l00029}00029\ \textcolor{comment}{//}}
+
+\end{DoxyCode}

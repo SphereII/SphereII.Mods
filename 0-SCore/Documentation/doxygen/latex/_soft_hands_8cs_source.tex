@@ -1,0 +1,55 @@
+\hypertarget{_soft_hands_8cs_source}{}\doxysection{Soft\+Hands.\+cs}
+\label{_soft_hands_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/PlayerFeatures/SoftHands.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/PlayerFeatures/SoftHands.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_player_features}{Harmony.PlayerFeatures}}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00010}\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_soft_hands}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_soft_hands}{SoftHands}}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedPlayerFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}SoftHands"{}};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adds\ new\ feature\ where\ Durability\ affects\ the\ damage\ a\ weapon\ can\ do.}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionAttack))]}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Hit"{}})]}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_soft_hands_1_1_item_action_hit_entity_player_local}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_player_features_1_1_soft_hands_1_1_item_action_hit_entity_player_local}{ItemActionHitEntityPlayerLocal}}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ItemActionAttack\ \_\_instance,\ ItemActionAttack.AttackHitInfo\ \_attackDetails,\ ref\ \textcolor{keywordtype}{float}\ \_weaponCondition,\ \textcolor{keywordtype}{int}\ \_attackerEntityId,\ ItemValue\ damagingItemValue)}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ GameManager.Instance.World.GetEntity(\_attackerEntityId)\ as\ global::EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entityAlive)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ isWearingGloves\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Throw\ weapon,\ skipping}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (damagingItemValue\ !=\ \textcolor{keyword}{null}\ \&\&\ damagingItemValue.ItemClass.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}thrownWeapon"{}})))}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ its\ the\ player\ hand}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.inventory.holdingItem.GetItemName()\ !=\ \textcolor{stringliteral}{"{}meleeHandPlayer"{}}\ ||\ \_attackDetails.damageGiven\ <=\ 0\ ||\ isWearingGloves)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_attackDetails.bBlockHit)}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_attackDetails.blockBeingDamaged.Block.blockMaterial.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}DamageOnHit"{}}))}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ damageFromBlock\ =\ StringParsers.ParseSInt32(\_attackDetails.blockBeingDamaged.Block.blockMaterial.Properties.Values[\textcolor{stringliteral}{"{}DamageOnHit"{}}]);}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dmgFromBlock\ =\ \textcolor{keyword}{new}\ DamageSource(EnumDamageSource.Internal,\ EnumDamageTypes.Bashing);}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.DamageEntity(dmgFromBlock,\ damageFromBlock,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Attacking\ Entity\ is\ an\ EntityAlive:\ "{}}\ +\ entityAlive.inventory.holdingItemItemValue.ItemClass.GetItemName()\ +\ \textcolor{stringliteral}{"{}\ Inflicting\ Damage"{}});}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dmg\ =\ \textcolor{keyword}{new}\ DamageSource(EnumDamageSource.Internal,\ EnumDamageTypes.Bashing);}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.DamageEntity(dmg,\ 1,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_soft_hands_8cs_source_l00054}00054\ \}}
+
+\end{DoxyCode}

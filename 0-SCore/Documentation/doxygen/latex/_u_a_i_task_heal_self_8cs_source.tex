@@ -1,0 +1,69 @@
+\hypertarget{_u_a_i_task_heal_self_8cs_source}{}\doxysection{UAITask\+Heal\+Self.\+cs}
+\label{_u_a_i_task_heal_self_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskHealSelf.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskHealSelf.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00001}00001\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utilities\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00002}00002\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}HealSelf,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00003}00003\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discover.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Collections;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00010}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_heal_self}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_heal_self}{UAITaskHealSelf}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ isRunning\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_maxDistance\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}max\_distance"{}}))\ \_maxDistance\ =\ (int)StringParsers.ParseFloat(Parameters[\textcolor{stringliteral}{"{}max\_distance"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isRunning)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.inventory.IsHoldingItemActionRunning())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Current\ holding\ index}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ var\ originalIndex\ =\ \_context.Self.inventory.GetFocusedItemIdx();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ var\ stack\ =\ EntityUtilities.GetItemStackByTag(\_context.Self.entityId,\ \textcolor{stringliteral}{"{}medical"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Equals(stack,\ ItemStack.Empty))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ isRunning\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ NPC\ doesn't\ have\ this\ cvar,\ give\ it\ an\ initial\ value,\ so\ it\ can\ heal\ somewhat\ from\ a\ bandage\ that\ it\ found\ in\ its\ inventory.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}medRegHealthIncSpeed"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.SetCustomVar(\textcolor{stringliteral}{"{}medRegHealthIncSpeed"{}},\ 1f,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.StartCoroutine(\_context.Self.inventory.SimulateActionExecution(0,\ stack,\ delegate}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.DecItem(stack.itemValue,\ 1,\ false);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(originalIndex);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(\_context.Self.inventory.DUMMY\_SLOT\_IDX,\ ItemStack.Empty.Clone());}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.OnUpdate();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.StartCoroutine(SwitchBack(\_context,\ originalIndex));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ IEnumerator\ SwitchBack(Context\ \_context,\ \textcolor{keywordtype}{int}\ oldSlot)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\_context.Self.inventory.IsHolsterDelayActive())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(oldSlot);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ isRunning\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ this.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_heal_self_8cs_source_l00063}00063\ \}}
+
+\end{DoxyCode}

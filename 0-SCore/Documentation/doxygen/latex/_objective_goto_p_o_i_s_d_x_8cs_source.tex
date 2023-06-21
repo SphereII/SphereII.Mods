@@ -1,0 +1,136 @@
+\hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source}{}\doxysection{Objective\+Goto\+POISDX.\+cs}
+\label{_objective_goto_p_o_i_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveGotoPOISDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/ObjectiveGotoPOISDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }Random\ =\ System.Random;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{\ *\ \ <objective\ type="{}GotoPOISDX,\ SCore"{}\ value="{}500-\/800"{}\ phase="{}1"{}>}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00007}00007\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ <property\ name="{}completion\_distance"{}\ value="{}50"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00008}00008\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ <property\ name="{}PrefabName"{}\ value="{}prefabName"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ \ \ </objective>}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00010}00010\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00011}00011\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }ObjectiveGotoPOISDX\ :\ ObjectiveRandomPOIGoto}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00012}00012\ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ strPOIname\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ useUpdateLoop\ =>\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseObjective\ Clone()}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ objectiveGotoPOI\ =\ \textcolor{keyword}{new}\ ObjectiveGotoPOISDX();}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ CopyValues(objectiveGotoPOI);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ objectiveGotoPOI.strPOIname\ =\ strPOIname;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ objectiveGotoPOI;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetDistanceOffset(Vector3\ POISize)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (POISize.x\ >\ POISize.z)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ distanceOffset\ =\ POISize.x;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ distanceOffset\ =\ POISize.z;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00034}00034\ \ \ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ Vector3\ GetPosition(EntityNPC\ ownerNPC\ =\ \textcolor{keyword}{null},\ EntityPlayer\ entityPlayer\ =\ \textcolor{keyword}{null},\ List<Vector2>\ usedPOILocations\ =\ \textcolor{keyword}{null},\ \textcolor{keywordtype}{int}\ entityIDforQuests\ =\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.GetPositionData(out\ position,\ Quest.PositionDataTypes.POIPosition))}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ Vector3\ vector;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.GetPositionData(out\ vector,\ Quest.PositionDataTypes.POISize);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ var\ vector2\ =\ \textcolor{keyword}{new}\ Vector2(position.x\ +\ vector.x\ /\ 2f,\ position.z\ +\ vector.z\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ (int)vector2.x;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ (\textcolor{keywordtype}{int})GameManager.Instance.World.GetHeightAt(vector2.x,\ vector2.y);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num3\ =\ (int)vector2.y;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ \textcolor{keyword}{new}\ Vector3(num,\ num2,\ num3);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.Position\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ SetDistanceOffset(vector);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ positionSet\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition,\ NavObjectName);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ CurrentValue\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ EntityAlive\ entityAlive\ =\ ownerNPC;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ownerNPC\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive\ =\ OwnerQuest.OwnerJournal.OwnerPlayer;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ var\ randomPOINearWorldPos\ =\ QuestUtils.FindPrefab(strPOIname,\ entityAlive.position,\ ref\ usedPOILocations,\ biomeFilterType,\ biomeFilter);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (randomPOINearWorldPos\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ var\ vector\ =\ \textcolor{keyword}{new}\ Vector2(randomPOINearWorldPos.boundingBoxPosition.x\ +\ randomPOINearWorldPos.boundingBoxSize.x\ /\ 2f,}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ randomPOINearWorldPos.boundingBoxPosition.z\ +\ randomPOINearWorldPos.boundingBoxSize.z\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (vector.x\ ==\ -\/0.1f\ \&\&\ vector.y\ ==\ -\/0.1f)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ (int)vector.x;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ (\textcolor{keywordtype}{int})GameManager.Instance.World.GetHeightAt(vector.x,\ vector.y);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num3\ =\ (int)vector.y;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ \textcolor{keyword}{new}\ Vector3(num,\ num2,\ num3);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.Position\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FinalizePoint(\textcolor{keyword}{new}\ Vector3(randomPOINearWorldPos.boundingBoxPosition.x,\ randomPOINearWorldPos.boundingBoxPosition.y,\ randomPOINearWorldPos.boundingBoxPosition.z),}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ Vector3(randomPOINearWorldPos.boundingBoxSize.x,\ randomPOINearWorldPos.boundingBoxSize.y,\ randomPOINearWorldPos.boundingBoxSize.z));}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestPrefab\ =\ randomPOINearWorldPos;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.DataVariables.Add(\textcolor{stringliteral}{"{}POIName"{}},\ OwnerQuest.QuestPrefab.location.Name);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (usedPOILocations\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ usedPOILocations.Add(\textcolor{keyword}{new}\ Vector2(randomPOINearWorldPos.boundingBoxPosition.x,\ randomPOINearWorldPos.boundingBoxPosition.z));}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.HandleMapObject(Quest.PositionDataTypes.POIPosition,\ NavObjectName);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<\mbox{\hyperlink{class_net_package_goto_p_o_i_s_d_x}{NetPackageGotoPOISDX}}>().Setup(entityAlive.entityId,\ OwnerQuest.QuestTags,}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.QuestCode,\ NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI,\ OwnerQuest.QuestClass.DifficultyTier,\ (\textcolor{keywordtype}{int})position.x,\ (\textcolor{keywordtype}{int})position.z,\ 0f,\ 0f,\ 0f,\ -\/1f,\ biomeFilterType,\ biomeFilter,\ strPOIname));}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CurrentValue\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ OwnerQuest.MarkFailed();}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ParseProperties(DynamicProperties\ properties)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(\textcolor{stringliteral}{"{}PrefabName"{}}))}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ strPOIname\ =\ properties.Values[\textcolor{stringliteral}{"{}PrefabName"{}}];}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (properties.Values.ContainsKey(\textcolor{stringliteral}{"{}PrefabNames"{}}))}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ var\ TempList\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strTemp\ =\ properties.Values[\textcolor{stringliteral}{"{}PrefabNames"{}}];}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ var\ array\ =\ strTemp.Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ array.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (TempList.Contains(array[i]))}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TempList.Add(array[i]);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ var\ random\ =\ \textcolor{keyword}{new}\ Random();}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ var\ index\ =\ random.Next(TempList.Count);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (TempList.Count\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ ObjectiveGoToPOISDX\ PrefabNames\ Contains\ no\ prefabs."{}});}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strPOIname\ =\ TempList[index];}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ base.ParseProperties(properties);}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_objective_goto_p_o_i_s_d_x_8cs_source_l00130}00130\ \}}
+
+\end{DoxyCode}

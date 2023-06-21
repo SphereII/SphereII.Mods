@@ -1,0 +1,24 @@
+\hypertarget{_sounds_from_x_m_l_8cs_source}{}\doxysection{Sounds\+From\+XML.\+cs}
+\label{_sounds_from_x_m_l_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SoundFeatures/SoundsFromXML.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SoundFeatures/SoundsFromXML.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00005}00005\ \textcolor{comment}{//\ This\ class\ populates\ a\ static\ variable\ that\ will\ help\ us\ link\ Sound\ Data\ with\ Buff\ /\ Quests.}}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00006}00006\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_sound_features}{Harmony.SoundFeatures}}}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00008}00008\ \ \ \ \ [HarmonyPatch(typeof(SoundsFromXml))]}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00009}00009\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Parse"{}})]}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00010}\mbox{\hyperlink{class_harmony_1_1_sound_features_1_1_sounds_from_x_m_l}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_sound_features_1_1_sounds_from_x_m_l}{SoundsFromXML}}}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(XElement\ node)}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ SoundDataNodeClassSDX.AddSoundData(node);}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00017}00017\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sounds_from_x_m_l_8cs_source_l00018}00018\ \}}
+
+\end{DoxyCode}

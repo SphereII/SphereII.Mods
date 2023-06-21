@@ -1,0 +1,71 @@
+\hypertarget{_item_action_melee_8cs_source}{}\doxysection{Item\+Action\+Melee.\+cs}
+\label{_item_action_melee_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/ItemActionMelee.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/ItemActionMelee.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00001}00001\ \textcolor{comment}{//using\ HarmonyLib;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00002}00002\ \textcolor{comment}{//using\ UnityEngine;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00003}00003\ \textcolor{comment}{//using\ UAI;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00004}00004\ \textcolor{comment}{//namespace\ SCore.Harmony.ItemActions}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00005}00005\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ //public\ class\ ItemActionMelee}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00008}00008\ \textcolor{comment}{//\ \ \ \ //\{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00011}00011\ \textcolor{comment}{//\ \ \ \ //\ Adds\ new\ feature\ where\ Durability\ affects\ the\ damage\ a\ weapon\ can\ do.}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00012}00012\ \textcolor{comment}{//\ \ \ \ [HarmonyPatch(typeof(ItemActionMelee))]}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00013}00013\ \textcolor{comment}{//\ \ \ \ [HarmonyPatch("{}GetExecuteActionTarget"{})]}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ public\ class\ ItemActionHit\_GetExecuteActionTarget}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00015}00015\ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00016}00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ public\ class\ InventoryDataMelee\ :\ ItemActionAttackData}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ public\ InventoryDataMelee(ItemInventoryData\ \_invData,\ int\ \_indexInEntityOfAction)\ :\ base(\_invData,\ \_indexInEntityOfAction)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00020}00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00022}00022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ public\ bool\ bAttackStarted;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ public\ Ray\ ray;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00026}00026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ public\ bool\ bHarvesting;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00028}00028\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ public\ bool\ bFirstHitInARow;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00029}00029\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00031}00031\ \textcolor{comment}{//\ \ \ \ \ \ \ \ public\ static\ WorldRayHitInfo\ Postfix(WorldRayHitInfo\ \_\_result,\ ref\ ItemActionData\ \_actionData,\ float\ \_\_\_Range,\ float\ \_\_\_BlockRange)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00032}00032\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00033}00033\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ Log.Out("{}GetExecuteActionTarget()"{});}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00034}00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ holdingEntity\ =\ \_actionData.invData.holdingEntity;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00035}00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ float\ distance\ =\ Utils.FastMax(\_\_\_Range,\ \_\_\_BlockRange)\ +\ 0.15f;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00036}00036\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (holdingEntity.IsBreakingBlocks)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00037}00037\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00038}00038\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ ray\ =\ holdingEntity.GetLookRay();}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00039}00039\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$"{}Is\ Breaking\ Blocks:\ \{distance\}"{});}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00040}00040\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ hitMask\ =\ SCoreUtils.GetHitMaskByWeaponBuff(holdingEntity);}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00041}00041\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ hit\ =\ Voxel.Raycast(\_actionData.invData.world,\ ray,\ distance,\ 1073807360,\ 128,\ 20f);}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00042}00042\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (hit)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00043}00043\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00044}00044\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$"{}I\ hit\ something!\ Distance\ \{distance\}"{});}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00045}00045\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00047}00047\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for(float\ x\ =\ 0f;\ x<\ distance;\ x++)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00048}00048\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00049}00049\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ hit\ =\ Voxel.Raycast(\_actionData.invData.world,\ ray,\ x,\ 1073807360,\ hitMask,\ 20f);}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00050}00050\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (hit)}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00051}00051\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00052}00052\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$"{}I\ hit\ something!\ \ \{x\}"{});}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00053}00053\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00055}00055\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00057}00057\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result.ray\ =\ ray;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00058}00058\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00060}00060\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return\ \_\_result;}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00062}00062\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00063}00063\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00064}00064\ \textcolor{comment}{//\ \ \ \ //\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_8cs_source_l00065}00065\ \textcolor{comment}{//\}}}
+
+\end{DoxyCode}

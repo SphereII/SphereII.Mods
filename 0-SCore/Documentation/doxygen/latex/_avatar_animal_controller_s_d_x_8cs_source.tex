@@ -1,0 +1,67 @@
+\hypertarget{_avatar_animal_controller_s_d_x_8cs_source}{}\doxysection{Avatar\+Animal\+Controller\+SDX.\+cs}
+\label{_avatar_animal_controller_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Animation/AvatarAnimalControllerSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Animation/AvatarAnimalControllerSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00006}00006\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }AvatarAnimalControllerSDX\ :\ AvatarAnimalController}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ rightHand;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ This\ controls\ the\ animations\ if\ we\ are\ holding\ a\ weapon.}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{protected}\ Animator\ rightHandAnimator;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ rightHandItemTransform;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SwitchModelAndView(\textcolor{keywordtype}{string}\ \_modelName,\ \textcolor{keywordtype}{bool}\ \_bFPV,\ \textcolor{keywordtype}{bool}\ \_bMale)}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ base.SwitchModelAndView(\_modelName,\ \_bFPV,\ \_bMale);}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ rightHand\ =\ bipedTransform.FindInChilds(entity.GetRightHandTransformName());}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.parent\ =\ rightHand;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].position;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rotation\ =\ AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].rotation;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.localPosition\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.localEulerAngles\ =\ rotation;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity.inventory.holdingItem.HoldingItemHidden)}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.localScale\ =\ \textcolor{keyword}{new}\ Vector3(0,\ 0,\ 0);}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetInRightHand(Transform\ \_transform)}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ idleTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_transform\ !=\ \textcolor{keyword}{null})\ \_transform.parent\ =\ rightHand;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ rightHandItemTransform\ =\ \_transform;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ rightHandAnimator\ =\ \_transform\ !=\ \textcolor{keyword}{null}\ ?\ \_transform.GetComponent<Animator>()\ :\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandAnimator\ !=\ \textcolor{keyword}{null})\ rightHandAnimator.logWarnings\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform\ !=\ \textcolor{keyword}{null})\ Utils.SetLayerRecursively(rightHandItemTransform.gameObject,\ 0);}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ Transform\ GetRightHandTransform()}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rightHandItemTransform;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationReloading()}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ idleTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bipedTransform\ ==\ \textcolor{keyword}{null}\ ||\ !bipedTransform.gameObject.activeInHierarchy)}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ var\ value\ =\ EffectManager.GetValue(PassiveEffects.ReloadSpeedMultiplier,\ entity.inventory.holdingItemItemValue,\ 1f,\ entity);}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}Reload"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ UpdateFloat(\textcolor{stringliteral}{"{}ReloadSpeed"{}},\ value);}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Work\ around\ for\ the\ Ranged2\ EAI\ Task\ that\ needs\ meta\ to\ be\ greater\ than\ 0\ to\ fire.}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ same\ EAI\ task\ decrements\ the\ meta\ flag\ for\ each\ bullet\ it\ consumes.}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ entity.inventory.holdingItemItemValue.Meta\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationFiring()}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ base.StartAnimationFiring();}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}WeaponFire"{}});}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_animal_controller_s_d_x_8cs_source_l00064}00064\ \}}
+
+\end{DoxyCode}

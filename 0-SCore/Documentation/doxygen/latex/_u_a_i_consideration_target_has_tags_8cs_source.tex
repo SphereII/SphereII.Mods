@@ -1,0 +1,39 @@
+\hypertarget{_u_a_i_consideration_target_has_tags_8cs_source}{}\doxysection{UAIConsideration\+Target\+Has\+Tags.\+cs}
+\label{_u_a_i_consideration_target_has_tags_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationTargetHasTags.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationTargetHasTags.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00002}00002\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00003}00003\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00004}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_not_has_tags}{00004}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_not_has_tags}{UAIConsiderationTargetNotHasTags}}\ :\ \mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_tags}{UAIConsiderationTargetHasTags}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00005}00005\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityUtilities.SameValue(base.GetScore(\_context,\ target),\ 1f)\ ?\ 0f\ :\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00011}00011\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00014}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_tags}{00014}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_tags}{UAIConsiderationTargetHasTags}}\ :\ UAIConsiderationBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ FastTags\ fastTags\ =\ FastTags.none;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init(Dictionary<string,\ string>\ \_parameters)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ base.Init(\_parameters);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_parameters.ContainsKey(\textcolor{stringliteral}{"{}tags"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fastTags\ =\ FastTags.Parse(\_parameters[\textcolor{stringliteral}{"{}tags"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ var\ targetEntity\ =\ UAIUtils.ConvertToEntityAlive(target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetEntity.HasAnyTags(fastTags)\ ?\ 1f\ :\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_tags_8cs_source_l00033}00033\ \}}
+
+\end{DoxyCode}

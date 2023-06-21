@@ -1,0 +1,177 @@
+\hypertarget{_music_box_script_8cs_source}{}\doxysection{Music\+Box\+Script.\+cs}
+\label{_music_box_script_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MusicBoxes/MusicBoxScript.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MusicBoxes/MusicBoxScript.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }Audio;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine.Video;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }Random\ =\ System.Random;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00007}00007\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }MusicBoxScript\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ This\ is\ the\ entity\ that\ initialized\ the\ music\ box.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ Entity\ myEntity;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ strSoundSource\ is\ the\ current\ SoundDataNode\ being\ played.\ It\ gets\ updated\ from\ the\ list\ of\ SoundGroups.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ strSoundSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00015}00015\ \ \ \ \ \textcolor{comment}{//\ strVideoSource\ is\ the\ current\ video\ clip\ being\ played.\ It\ gets\ updated\ from\ the\ list\ of\ video\ clips.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ strVideoSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00018}00018\ \ \ \ \ \textcolor{comment}{//\ These\ are\ the\ optional\ list\ of\ sound\ and\ videos\ clips\ that\ can\ be\ part\ of\ this.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{public}\ List<string>\ SoundGroups\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}\ List<string>\ VideoGroups\ =\ \textcolor{keyword}{new}\ List<string>();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ AudioSource\ is\ the\ SoundData's\ Node\ AudioSource\ attribute.\ It's\ the\ "{}speaker"{}}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ strAudioSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ References\ to\ our\ Animator\ and\ Video\ Player,\ if\ it\ exists.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ Animator\ anim;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{public}\ VideoPlayer\ videoPlayer;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{public}\ VideoClip\ defaultClip;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ The\ video\ clip\ reference,\ which\ gets\ loaded\ from\ the\ asset\ bundle.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{public}\ VideoClip\ myVideoClip;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00034}00034\ \ \ \ \ \textcolor{comment}{//\ We\ need\ a\ randomize\ element\ to\ pick\ the\ sound\ and\ video\ from\ their\ groups.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{public}\ Random\ random\ =\ \textcolor{keyword}{new}\ Random();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ CheckDelay\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ IsVideoPaused;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ myBlockPos;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//\ Set\ up\ a\ throttle\ to\ delay\ the\ Update(),\ since\ we\ don't\ really\ need\ it\ called\ each\ frame}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ nextCheck;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00043}00043\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Start()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00044}00044\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (videoPlayer\ \&\&\ videoPlayer.clip\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ defaultClip\ =\ videoPlayer.clip;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ myAudioSource\ =\ gameObject.AddComponent<AudioSource>();}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ Update\ is\ called\ once\ per\ frame}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00053}00053\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nextCheck\ <\ Time.time)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ nextCheck\ =\ Time.time\ +\ CheckDelay;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ CheckAudioPlayer();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ CheckVideoPlayer();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnEnable()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Toggle\ the\ animation\ if\ it's\ available}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (anim)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ anim.enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ anim.SetBool(\textcolor{stringliteral}{"{}IsOn"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00072}00072\ \ \ \ \ \textcolor{comment}{//\ Disable\ the\ script;\ turning\ off\ any\ sounds\ that\ may\ be\ playing,\ and\ shutting\ down\ the\ animation.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnDisable()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (videoPlayer)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ videoPlayer.Stop();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (anim)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ anim.enabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ order\ for\ BroadcastStop()\ to\ work,\ when\ you\ are\ using\ an\ external\ audio\ source,\ is\ that\ it\ must\ be\ set\ to\ Loop.\ This\ is\ the\ Unity\ AudioSource,\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ not\ the\ sounds.xml\ AudioClip\ line.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ Manager.BroadcastStop(myBlockPos.ToVector3(),\ strSoundSource);}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00086}00086\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ CheckVideoPlayer()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00087}00087\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!videoPlayer)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.IsPaused())}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ videoPlayer.Pause();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ IsVideoPaused\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{comment}{//videoPlayer.EnableAudioTrack(0,\ false);}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsVideoPaused)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ video\ was\ paused,\ and\ we\ want\ to\ resume\ it,\ just\ re-\/play,\ and\ not\ change\ any\ clips.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsVideoPaused)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ videoPlayer.Play();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IsVideoPaused\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (videoPlayer.isPlaying)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ video\ has\ a\ clip\ already\ attached,\ then\ check\ if\ there's\ another\ clip\ we\ could\ use\ instead.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (videoPlayer.clip)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ if\ we\ have\ another\ video\ clip\ specified,\ use\ that.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myVideoClip)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ videoPlayer.clip\ =\ myVideoClip;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ still\ no\ video\ clip,\ try\ to\ parse\ the\ Video\ Source\ as\ a\ URL}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!videoPlayer.clip)\ videoPlayer.url\ =\ strVideoSource;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ VideoGroups\ is\ populated,\ that\ means\ we\ can\ randomize\ based\ on\ all\ the\ videos\ groups\ in\ our\ container.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (VideoGroups.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomIndex\ =\ random.Next(0,\ VideoGroups.Count);}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ strVideoSource\ =\ VideoGroups[randomIndex];}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (strVideoSource.StartsWith(\textcolor{stringliteral}{"{}\#"{}}))\ videoPlayer.clip\ =\ DataLoader.LoadAsset<VideoClip>(strVideoSource);}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (defaultClip)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ videoPlayer.clip\ =\ defaultClip;}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}There\ are\ no\ Groups\ of\ video\ detected."{}});}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ videoPlayer.Play();}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00139}00139\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ CheckAudioPlayer()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00140}00140\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ we\ are\ still\ playing\ music\ or\ not,\ and\ if\ everything\ is\ initialized.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!IsPlaying())}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Toggle\ the\ sound\ if\ we\ have\ sound\ references.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ \&\&\ !\textcolor{keywordtype}{string}.IsNullOrEmpty(strSoundSource)\ \&\&\ !\textcolor{keywordtype}{string}.IsNullOrEmpty(strAudioSource))}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ SoundGroups\ is\ populated,\ that\ means\ we\ can\ randomize\ based\ on\ all\ the\ sound\ groups\ in\ our\ container.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SoundGroups.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ randomIndex\ =\ random.Next(0,\ SoundGroups.Count);}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strSoundSource\ =\ SoundGroups[randomIndex];}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Manager.BroadcastPlay(myBlockPos.ToVector3(),\ strSoundSource);}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00155}00155\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//\ Since\ the\ Manager.Audio\ doesn't\ give\ us\ access\ to\ our\ playing\ source,\ we\ have\ to\ poll\ the\ List<>\ of\ sources\ to\ see\ if\ ours\ is\ still\ playing.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00158}00158\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ IsPlaying()}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00159}00159\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ audio\ source\ isn't\ set,\ don't\ blindly\ try\ to\ play,\ but\ tell\ the\ loop\ that\ something\ is\ playing\ to\ prevent\ it\ starting\ something.}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strAudioSource))}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ look\ for\ the\ audio\ sources\ }}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ each\ \textcolor{keywordflow}{in}\ Manager.playingAudioSources)}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (each.ToString().Contains(strAudioSource))}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00170}00170\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_music_box_script_8cs_source_l00171}00171\ \}}
+
+\end{DoxyCode}

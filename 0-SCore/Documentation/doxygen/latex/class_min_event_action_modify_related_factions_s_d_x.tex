@@ -1,0 +1,114 @@
+\hypertarget{class_min_event_action_modify_related_factions_s_d_x}{}\doxysection{Min\+Event\+Action\+Modify\+Related\+Factions\+SDX Class Reference}
+\label{class_min_event_action_modify_related_factions_s_d_x}\index{MinEventActionModifyRelatedFactionsSDX@{MinEventActionModifyRelatedFactionsSDX}}
+
+
+Inherits Min\+Event\+Action\+Targeted\+Base.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_min_event_action_modify_related_factions_s_d_x_a75dbc8782226b7967c33963c35497078}{Execute}} (Min\+Event\+Params \+\_\+params)
+\item 
+override bool \mbox{\hyperlink{class_min_event_action_modify_related_factions_s_d_x_a8a0ef5b75c7432133e7bcdc828d4541d}{Parse\+Xml\+Attribute}} (XAttribute \+\_\+attribute)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Changes the target\textquotesingle{}s relationship with the specified faction, and all the specified related factions (if any), according to the relationships between the faction and the related factions. 
+
+Supported tag attributes\+: 
+\begin{DoxyItemize}
+\item target  The entity target(s), to change relationships with the factions. Valid target values\+: \char`\"{}self\char`\"{}, \char`\"{}other\char`\"{}, \char`\"{}self\+AOE\char`\"{}, \char`\"{}other\+AOE\char`\"{}, \char`\"{}position\+AOE\char`\"{}. In most cases you should use \char`\"{}self\char`\"{} (the player). Required.   
+\item range  Maximum range (distance in meters) to include entities as targets. Used only when the target is one of the AOE (Area Of Effect) values. Optional.   
+\item target\+\_\+tags  Adds entities with these tags, to the list of entity targets. Special tag values\+: \char`\"{}party\char`\"{}, \char`\"{}ally\char`\"{}, \char`\"{}enemy\char`\"{}. Optional.   
+\item faction  The primary faction whose relationship will change with the target. Required.   
+\item value  The amount to add to the relationship between the target and \char`\"{}primary\char`\"{} faction. Positive numbers represent amity, negative numbers represent antagonism. It takes 200 points to change a faction relationship entirely (e.\+g. from \char`\"{}neutral\char`\"{} to \char`\"{}like\char`\"{}). Required.   
+\item related  One or more related factions, whose relationships will change with the target according to each one\textquotesingle{}s relationship with the primary faction. It should be a comma-\/separated list of faction names (without spaces). You can not include either the target\textquotesingle{}s faction, nor the \char`\"{}primary\char`\"{} faction. Optional; if not specified, no faction relationships are affected, other than the one between the target and primary faction. In this case, it behaves exactly like the Modify\+Faction\+SDX action.   
+\item scale  A ratio by which to scale the target relationship to related factions. Suggested values are between 0 and 1 (exclusive). Optional; defaults to 1. (Ignored if \char`\"{}related\char`\"{} is not specified.)   
+\end{DoxyItemize}
+
+Default multiplier, to determine the relationship value betwen the target and each related faction, by related faction\textquotesingle{}s relationship with the primary faction. These multipliers are then multiplied by the \char`\"{}scale\char`\"{} property (if specified). \tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{2}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Relationship to primary faction }&\cellcolor{\tableheadbgcolor}\textbf{ Value multiplier  }\\\cline{1-2}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Relationship to primary faction }&\cellcolor{\tableheadbgcolor}\textbf{ Value multiplier  }\\\cline{1-2}
+\endhead
+Hate &-\/0.\+6666667  \\\cline{1-2}
+Dislike &-\/0.\+3333333  \\\cline{1-2}
+Neutral &0 (no effect)  \\\cline{1-2}
+Like &0.\+3333333  \\\cline{1-2}
+Love &0.\+6666667  \\\cline{1-2}
+Leader &1.\+0  \\\cline{1-2}
+\end{longtabu}
+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<triggered\_effect\ trigger=\textcolor{stringliteral}{"{}onSelfBuffStart"{}}\ action=\textcolor{stringliteral}{"{}ModifyRelatedFactionsSDX,\ SCore"{}}\ target=\textcolor{stringliteral}{"{}self"{}}\ faction=\textcolor{stringliteral}{"{}bandits"{}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ value=\textcolor{stringliteral}{"{}10"{}}\ related=\textcolor{stringliteral}{"{}whisperers"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{<triggered\_effect\ trigger=\textcolor{stringliteral}{"{}onSelfBuffStart"{}}\ action=\textcolor{stringliteral}{"{}ModifyRelatedFactionsSDX,\ SCore"{}}\ target=\textcolor{stringliteral}{"{}self"{}}\ faction=\textcolor{stringliteral}{"{}bandits"{}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ value=\textcolor{stringliteral}{"{}10"{}}\ related=\textcolor{stringliteral}{"{}whisperers"{}}\ scale=\textcolor{stringliteral}{"{}0.5"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{<triggered\_effect\ trigger=\textcolor{stringliteral}{"{}onSelfPrimaryActionEnd"{}}\ action=\textcolor{stringliteral}{"{}ModifyRelatedFactionsSDX,\ SCore"{}}\ target=\textcolor{stringliteral}{"{}self"{}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ faction=\textcolor{stringliteral}{"{}whiteriver"{}}\ value=\textcolor{stringliteral}{"{}-\/10"{}}\ related=\textcolor{stringliteral}{"{}bandits,redteam,blueteam,greenteam"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{<triggered\_effect\ trigger=\textcolor{stringliteral}{"{}onSelfPrimaryActionEnd"{}}\ action=\textcolor{stringliteral}{"{}ModifyRelatedFactionsSDX,\ SCore"{}}\ target=\textcolor{stringliteral}{"{}self"{}}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ faction=\textcolor{stringliteral}{"{}redteam"{}}\ value=\textcolor{stringliteral}{"{}10"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source_l00155}{155}} of file \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source}{Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_min_event_action_modify_related_factions_s_d_x_a75dbc8782226b7967c33963c35497078}\label{class_min_event_action_modify_related_factions_s_d_x_a75dbc8782226b7967c33963c35497078}} 
+\index{MinEventActionModifyRelatedFactionsSDX@{MinEventActionModifyRelatedFactionsSDX}!Execute@{Execute}}
+\index{Execute@{Execute}!MinEventActionModifyRelatedFactionsSDX@{MinEventActionModifyRelatedFactionsSDX}}
+\doxysubsubsection{\texorpdfstring{Execute()}{Execute()}}
+{\footnotesize\ttfamily override void Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+Execute (\begin{DoxyParamCaption}\item[{Min\+Event\+Params}]{\+\_\+params }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source_l00167}{167}} of file \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source}{Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_min_event_action_modify_related_factions_s_d_x_a8a0ef5b75c7432133e7bcdc828d4541d}\label{class_min_event_action_modify_related_factions_s_d_x_a8a0ef5b75c7432133e7bcdc828d4541d}} 
+\index{MinEventActionModifyRelatedFactionsSDX@{MinEventActionModifyRelatedFactionsSDX}!ParseXmlAttribute@{ParseXmlAttribute}}
+\index{ParseXmlAttribute@{ParseXmlAttribute}!MinEventActionModifyRelatedFactionsSDX@{MinEventActionModifyRelatedFactionsSDX}}
+\doxysubsubsection{\texorpdfstring{ParseXmlAttribute()}{ParseXmlAttribute()}}
+{\footnotesize\ttfamily override bool Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+Parse\+Xml\+Attribute (\begin{DoxyParamCaption}\item[{XAttribute}]{\+\_\+attribute }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source_l00231}{231}} of file \mbox{\hyperlink{_min_event_action_modify_related_factions_s_d_x_8cs_source}{Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Min\+Events/Min\+Event\+Action\+Modify\+Related\+Factions\+SDX.\+cs\end{DoxyCompactItemize}

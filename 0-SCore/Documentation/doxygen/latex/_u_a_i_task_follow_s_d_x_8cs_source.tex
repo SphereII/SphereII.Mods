@@ -1,0 +1,125 @@
+\hypertarget{_u_a_i_task_follow_s_d_x_8cs_source}{}\doxysection{UAITask\+Follow\+SDX.\+cs}
+\label{_u_a_i_task_follow_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFollowSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFollowSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.ComponentModel.Design.Serialization;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }GamePath;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utilities\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}FollowSDX,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00007}00007\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discover.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00008}00008\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00010}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_follow_s_d_x}{00010}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_follow_s_d_x}{UAITaskFollowSDX}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ \_leader;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_distance\ =\ 2f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_maxDistance\ =\ 25;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ \_position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_timeOut\ =\ 100f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_currentTimeout;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}stop\_distance"{}}))\ \_distance\ =\ StringParsers.ParseFloat(Parameters[\textcolor{stringliteral}{"{}stop\_distance"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}max\_distance"{}}))\ \_maxDistance\ =\ (int)StringParsers.ParseFloat(Parameters[\textcolor{stringliteral}{"{}max\_distance"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}teleportTime"{}}))\ \_timeOut\ =\ StringParsers.ParseFloat(Parameters[\textcolor{stringliteral}{"{}teleportTime"{}}]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \_currentTimeout\ =\ \_timeOut;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \_leader\ =\ EntityUtilities.GetLeaderOrOwner(context.Self.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_leader\ ==\ \textcolor{keyword}{null})\ \textcolor{comment}{//\ No\ leader?\ You\ shouldn't\ be\ following.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetCrouching(context,\ \_leader.IsCrouching);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.ClearAttackTargets(context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sets\ up\ the\ original\ position\ of\ the\ leader.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \_position\ =\ \_leader.position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ SCoreUtils.SetLookPosition(\_context,\ \_leader);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(context,\ \_position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetSpeed(\_context,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ CheckProximityToLeader(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Are\ we\ blocked?\ Can\ we\ see\ our\ leader?\ If\ not,\ start\ counting\ down.\ This\ should\ slow\ down\ aggressive\ teleports\ to\ the\ leader,\ while}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ also\ helping\ keep\ the\ NPC\ close\ to\ the\ leader.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SCoreUtils.IsBlocked(\_context))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_currentTimeout-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_currentTimeout\ >\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.TeleportToLeader(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reset\ the\ timeout.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \_currentTimeout\ =\ \_timeOut;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Contains\ logic\ to\ determine\ if\ the\ NPC\ should\ be\ move\ towards\ its\ leader,\ etc.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ CheckProximityToLeader(Context\ context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ lost\ our\ leader,\ check\ to\ see\ if\ we\ have\ one.\ If\ we\ don't,\ end\ the\ task.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_leader\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_leader\ =\ EntityUtilities.GetLeaderOrOwner(context.Self.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ \_leader\ ==\ \textcolor{keyword}{null}\ )}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetCrouching(context,\ \_leader.IsCrouching);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ var\ distanceToLeader\ =\ Vector3.Distance(context.Self.position,\ \_leader.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ close\ to\ the\ leader,\ stop.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distanceToLeader\ >\ \_distance\ \&\&\ distanceToLeader\ <\ \_distance\ *\ 2)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.Self.RotateTo(\_leader.position.x,\ \_leader.position.y,\ \_leader.position.z,\ 8f,8f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ they\ are\ too\ far\ away,\ then\ teleport.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distanceToLeader\ >\ \_maxDistance)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.TeleportToLeader(context,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ have\ a\ path,\ check\ to\ see\ if\ the\ player\ has\ moved.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!context.Self.navigator.noPathAndNotPlanningOne())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ leader\ hasn't\ moved\ much,\ don't\ repath.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dist\ =\ Vector3.Distance(\_leader.position,\ \_position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dist\ <\ \_distance\ *\ 2)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ leader\ has\ moved\ quite\ a\ bit,\ re-\/position.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \_position\ =\ \_leader.position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(context,\ \_position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_follow_s_d_x_8cs_source_l00119}00119\ \}}
+
+\end{DoxyCode}

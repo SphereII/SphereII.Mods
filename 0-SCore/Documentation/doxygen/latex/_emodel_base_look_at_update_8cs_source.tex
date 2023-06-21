@@ -1,0 +1,69 @@
+\hypertarget{_emodel_base_look_at_update_8cs_source}{}\doxysection{Emodel\+Base\+Look\+At\+Update.\+cs}
+\label{_emodel_base_look_at_update_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/EmodelBaseLookAtUpdate.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/EmodelBaseLookAtUpdate.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_harmony_1_1_x_ui_c}{Harmony.XUiC}};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_animation}{Harmony.Animation}}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00010}00010\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00011}00011\ \ \ \ \ [HarmonyPatch(typeof(EModelBase))]}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00012}00012\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}LookAtUpdate"{}})]}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00013}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_e_model_base_look_at_update}{00013}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_e_model_base_look_at_update}{EModelBaseLookAtUpdate}}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(EModelBase\ \_\_instance,\ Entity\ \_\_\_entity,\ Transform\ \_\_\_neckParentTransform,\ Transform\ \_\_\_headTransform,\ ref\ Vector3\ \_\_\_lookAtPos,\ \textcolor{keywordtype}{float}\ \_\_\_lookAtMaxAngle,}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ ref\ Quaternion\ \_\_\_lookAtRot,\ Transform\ \_\_\_neckTransform,\ ref\ \textcolor{keywordtype}{float}\ \_\_\_lookAtBlendPer,\ ref\ \textcolor{keywordtype}{float}\ \_\_\_lookAtBlendPerTarget,\ \textcolor{keywordtype}{bool}\ \_\_\_lookAtIsPos)}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ \_\_\_entity\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Disable\ this\ check\ for\ any\ entity\ that\ has\ UMA2\ as\ a\ tag}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}UMA2"{}})))}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ var\ currentStun\ =\ entityAlive.bodyDamage.CurrentStun;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ var\ deltaTime\ =\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.IsDead()\ ||\ currentStun\ !=\ EnumEntityStunType.None\ \&\&\ currentStun\ !=\ EnumEntityStunType.Getup)\ \_\_\_lookAtBlendPerTarget\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ entity\ has\ an\ attack\ target,\ look\ at\ them,\ instead\ of\ hte\ player.}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ var\ target\ =\ EntityUtilities.GetAttackOrRevengeTarget(entityAlive.entityId);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtBlendPerTarget\ -\/=\ deltaTime;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target.IsAlive()\ \&\&\ entityAlive.CanSee(target\ as\ global::EntityAlive))}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtPos\ =\ target.getHeadPosition();}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtBlendPerTarget\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtPos\ =\ entityAlive.getHeadPosition()\ +\ Vector3.forward;\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_lookAtBlendPer\ <=\ 0f\ \&\&\ \_\_\_lookAtBlendPerTarget\ <=\ 0f)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtBlendPer\ =\ Mathf.MoveTowards(\_\_\_lookAtBlendPer,\ \_\_\_lookAtBlendPerTarget,\ deltaTime\ *\ 2f);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_neckParentTransform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rotation3\ =\ \_\_\_neckParentTransform.rotation;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ var\ transform\ =\ \_\_\_headTransform;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ var\ quaternion\ =\ Quaternion.LookRotation(\_\_\_lookAtPos\ -\/\ Origin.position\ -\/\ transform.position);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ quaternion\ *=\ Quaternion.Slerp(Quaternion.identity,\ transform.localRotation,\ 0.5f);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ var\ b\ =\ Quaternion.RotateTowards(rotation3,\ quaternion,\ \_\_\_lookAtMaxAngle);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookAtRot\ =\ Quaternion.Slerp(\_\_\_lookAtRot,\ b,\ 0.16f);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ \_\_\_lookAtBlendPer;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_neckTransform.rotation\ =\ Quaternion.Slerp(\_\_\_neckTransform.rotation,\ \_\_\_lookAtRot,\ num\ *\ 0.4f);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rotation2\ =\ transform.rotation;}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ transform.rotation\ =\ Quaternion.Slerp(rotation2,\ \_\_\_lookAtRot,\ num);}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00065}00065\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_emodel_base_look_at_update_8cs_source_l00066}00066\ \}}
+
+\end{DoxyCode}

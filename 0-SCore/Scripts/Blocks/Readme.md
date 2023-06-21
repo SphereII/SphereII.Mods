@@ -1,4 +1,4 @@
-﻿# Blocks
+﻿Blocks
 ---
 
 The following new block types are supported by the SCore.
