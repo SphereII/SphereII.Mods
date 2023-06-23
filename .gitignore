@@ -1,23 +1,7 @@
-.vs/
-bin/
-obj/
-*.cache
-0-XNPCCore/
-1-NPCPackAnimals/
-*.zip
-/POI_Light_Enabler/POI Light Enabler
-/POI Light Enabler
-/ElectricityWindmill
-/Fix
-/Locks
-/Z-SphereIIDebugging
-/0-SCore/ProfileReports
-/0-XNPCCoreEXP
-/0-XNPCCoreUI
-/9-npcPortraitInjector
-/1-SphereIICore_khzmusik_Food_Spoilage
-/SphereII Food Spoilage
-/1-NPCXMechPack
-/0-SCore - Copy
-/The Wasteland
-/1-SoldierPack
+# block everything by default.
+*
+!*/
+!0-SCore/
+!SampleProject/
+!SphereII*/
+!*.sln
