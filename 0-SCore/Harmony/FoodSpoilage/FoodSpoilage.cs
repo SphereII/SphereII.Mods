@@ -46,59 +46,12 @@ using UnityEngine;
  */
 public class SphereII_FoodSpoilage
 {
+    public static readonly string KeyNextSpoilageTick = "NextSpoilageTick";
     public static readonly string PropSpoilable = "Spoilable";
 
     private static readonly string AdvFeatureClass = "FoodSpoilage";
     private static readonly string Feature = "FoodSpoilage";
     private static readonly bool foodSpoilage = Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
-
-    [HarmonyPatch(typeof(ItemValue))]
-    [HarmonyPatch("Read")]
-    public class SphereII_itemValue_Read
-    {
-        /// <summary>
-        /// The vanilla code reads the Meta value as a ushort, and we need the int value.
-        /// </summary>
-        /// <param name="_br"></param>
-        /// <param name="__instance"></param>
-        public static void Postfix(BinaryReader _br, ref ItemValue __instance)
-        {
-            if (!foodSpoilage)
-                return;
-
-            try
-            {
-                __instance.Meta = _br.ReadInt32();
-                // This is to match the logic in the original, presumably to avoid overflow
-                if (__instance.Meta < 0)
-                    __instance.Meta = -1;
-            }
-            catch (Exception e)
-            {
-                // Failsafe for first start up
-                Log.Warning($"Error when reading Meta value: {e}");
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(ItemValue))]
-    [HarmonyPatch("Write")]
-    public class SphereII_ItemValue_Write
-    {
-        /// <summary>
-        /// The vanilla code writes the Meta value as a ushort, we need to save the int value.
-        /// </summary>
-        /// <param name="_bw"></param>
-        /// <param name="__instance"></param>
-        public static void Postfix(BinaryWriter _bw, ItemValue __instance)
-        {
-            if (!foodSpoilage)
-                return;
-
-
-            _bw.Write(__instance.Meta);
-        }
-    }
 
     // hook into the ItemStack, which should cover all types of containers. This will run in the update task.
     // It is used to calculate the amount of spoilage necessary, and display the amount of freshness is left in the item.
@@ -153,13 +106,11 @@ public class SphereII_FoodSpoilage
                 strDisplay += " Ticks Per Loss: " + TickPerLoss;
 
                 var worldTime = GameManager.Instance.World.GetWorldTime();
-
-                // ItemValue.Meta will hold the world time + how many ticks until the next spoilage.
-                var nextTick = __instance.ItemStack.itemValue.Meta;
+                int nextTick = GetNextSpoilageTick(__instance);
                 if (nextTick <= 0)
                 {
-                    nextTick = GetNextSpoilageTick(worldTime, TickPerLoss);
-                    __instance.ItemStack.itemValue.Meta = nextTick;
+                    nextTick = CalculateNextSpoilageTick(worldTime, TickPerLoss);
+                    SetNextSpoilageTick(__instance, nextTick);
                 }
 
                 // Throttles the amount of times it'll trigger the spoilage, based on the TickPerLoss
@@ -259,8 +210,8 @@ public class SphereII_FoodSpoilage
                         __instance.ItemStack.itemValue.UseTimes += TotalSpoilage;
 
                     // Update the NextSpoilageTick value
-                    int NextSpoilageTick = GetNextSpoilageTick(worldTime, TickPerLoss);
-                    __instance.ItemStack.itemValue.Meta = NextSpoilageTick;
+                    int NextSpoilageTick = CalculateNextSpoilageTick(worldTime, TickPerLoss);
+                    SetNextSpoilageTick(__instance, NextSpoilageTick);
 
                     strDisplay += " Next Spoilage Tick: " + NextSpoilageTick;
                     strDisplay += " Recorded Spoilage: " + __instance.ItemStack.itemValue.UseTimes;
@@ -381,15 +332,43 @@ public class SphereII_FoodSpoilage
 
 
         /// <summary>
-        /// Gets the tick for the next loss as a signed integer value.
+        /// Calculates the tick for the next loss as a signed integer value.
         /// </summary>
         /// <param name="worldTime"></param>
         /// <param name="ticksPerLoss"></param>
         /// <returns></returns>
-        private static int GetNextSpoilageTick(ulong worldTime, int ticksPerLoss)
+        private static int CalculateNextSpoilageTick(ulong worldTime, int ticksPerLoss)
         {
             ulong nextTickActual = worldTime + (ulong)ticksPerLoss;
             return ToInt(nextTickActual);
+        }
+
+        /// <summary>
+        /// Gets the next spoilage tick from the item value. If not found, returns -1.
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <returns></returns>
+        private static int GetNextSpoilageTick(XUiC_ItemStack __instance)
+        {
+            if (__instance.ItemStack.itemValue.HasMetadata(KeyNextSpoilageTick, TypedMetadataValue.TypeTag.Integer))
+            {
+                return (int)__instance.ItemStack.itemValue.GetMetadata(KeyNextSpoilageTick);
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Sets the next spoilage tick in the item value.
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="nextTick"></param>
+        private static void SetNextSpoilageTick(XUiC_ItemStack __instance, int nextTick)
+        {
+            __instance.ItemStack.itemValue.SetMetadata(
+                KeyNextSpoilageTick,
+                nextTick,
+                TypedMetadataValue.TypeTag.Integer);
         }
 
         /// <summary>
