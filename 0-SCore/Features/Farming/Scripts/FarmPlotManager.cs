@@ -7,64 +7,57 @@ using UnityEngine;
 
 public class FarmPlotManager
 {
-    private static FarmPlotManager instance = null;
-    private Dictionary<Vector3i, FarmPlotData> FarmPlots = new Dictionary<Vector3i, FarmPlotData>();
-    private GameRandom random;
+    private static FarmPlotManager _instance = null;
+    private Dictionary<Vector3i, FarmPlotData> _farmPlots = new Dictionary<Vector3i, FarmPlotData>();
+    private readonly GameRandom _random;
 
     public static FarmPlotManager Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = new FarmPlotManager();
-            }
-            return instance;
+            if (_instance != null) return _instance;
+            Log.Out("Initialing Farm Plot Manager.");
+            _instance = new FarmPlotManager();
+            return _instance;
         }
     }
 
-    public FarmPlotManager()
+    private FarmPlotManager()
     {
-        random = GameManager.Instance.World.GetGameRandom();
+        _random = GameManager.Instance.World.GetGameRandom();
     }
+
     public void Add(Vector3i position)
     {
-        if (FarmPlots.ContainsKey(position))
+        if (_farmPlots.ContainsKey(position))
             return;
-        FarmPlots.Add(position, new FarmPlotData(position));
+        _farmPlots.Add(position, new FarmPlotData(position));
     }
 
 
     public void Remove(Vector3i position)
     {
-        if (FarmPlots.ContainsKey(position))
-            FarmPlots.Remove(position);
+        if (_farmPlots.ContainsKey(position))
+            _farmPlots.Remove(position);
     }
 
     public FarmPlotData Get(Vector3i position)
     {
-        if (FarmPlots.ContainsKey(position))
-            return FarmPlots[position];
+        if (_farmPlots.ContainsKey(position))
+            return _farmPlots[position];
 
         var lowerPosition = position + Vector3i.down;
-        if (FarmPlots.ContainsKey(lowerPosition))
-            return FarmPlots[lowerPosition];
-
-
-
-        return null;
+        return _farmPlots.ContainsKey(lowerPosition) ? _farmPlots[lowerPosition] : null;
     }
+
     public FarmPlotData GetRandomCloseEntry(Vector3i position, float range = 50)
     {
         var close = GetCloseEntry(position, range);
-        if (close.Count > 0)
-            return close[random.RandomRange(0, close.Count)];
-        return null;
+        return close.Count > 0 ? close[_random.RandomRange(0, close.Count)] : null;
     }
 
     public FarmPlotData GetFarmPlotsNearby(Vector3i position, bool needWater = true)
     {
-
         var range = 1;
         for (var x = -range; x <= range; x++)
         {
@@ -73,15 +66,13 @@ public class FarmPlotManager
                 for (var y = position.y - 2; y <= position.y + 2; y++)
                 {
                     var blockPos = new Vector3i(position.x + x, y, position.z + z);
-                    if (FarmPlots.ContainsKey(blockPos) && FarmPlots[blockPos].Visited == false)
+                    if (!_farmPlots.ContainsKey(blockPos) || _farmPlots[blockPos].Visited) continue;
+                    switch (needWater)
                     {
-                        if (needWater)
-                        {
-                            if (FarmPlots[blockPos].HasWater())
-                                return FarmPlots[blockPos];
-                        }
-                        if (!needWater)
-                            return FarmPlots[blockPos];
+                        case true when _farmPlots[blockPos].HasWater():
+                            return _farmPlots[blockPos];
+                        case false:
+                            return _farmPlots[blockPos];
                     }
                 }
             }
@@ -92,7 +83,6 @@ public class FarmPlotManager
 
     public FarmPlotData GetFarmPlotsNearbyWithPlants(Vector3i position)
     {
-
         var range = 1;
         for (var x = -range; x <= range; x++)
         {
@@ -101,17 +91,19 @@ public class FarmPlotManager
                 for (var y = position.y - 2; y <= position.y + 2; y++)
                 {
                     var blockPos = new Vector3i(position.x + x, y, position.z + z);
-                    if (FarmPlots.ContainsKey(blockPos) && FarmPlots[blockPos].HasPlant() && FarmPlots[blockPos].Visited == false)
-                        return FarmPlots[blockPos];
+                    if (_farmPlots.ContainsKey(blockPos) && _farmPlots[blockPos].HasPlant() &&
+                        _farmPlots[blockPos].Visited == false)
+                        return _farmPlots[blockPos];
                 }
             }
         }
 
         return null;
     }
+
     public FarmPlotData GetClosesUnmaintainedWithPlants(Vector3i position, float range = 50)
     {
-        float distance = range * range;
+        var distance = range * range;
         FarmPlotData farmData = null;
         foreach (var entry in GetCloseFarmPlots(position, range))
         {
@@ -120,17 +112,17 @@ public class FarmPlotManager
             if (!entry.HasWater()) continue;
 
             var distance2 = Vector3.Distance(position, entry.GetBlockPos());
-            if (distance > distance2)
-            {
-                distance = distance2;
-                farmData = entry;
-            }
+            if (distance < distance2) continue;
+            distance = distance2;
+            farmData = entry;
         }
+
         return farmData;
     }
+
     public FarmPlotData GetClosesUnmaintained(Vector3i position, float range = 50)
     {
-        float distance = range * range;
+        var distance = range * range;
         FarmPlotData farmData = null;
         foreach (var entry in GetCloseFarmPlots(position, range))
         {
@@ -139,30 +131,30 @@ public class FarmPlotManager
             if (!entry.HasWater()) continue;
 
             var distance2 = Vector3.Distance(position, entry.GetBlockPos());
-            if (distance > distance2)
-            {
-                distance = distance2;
-                farmData = entry;
-            }
+            if (distance < distance2) continue;
+            distance = distance2;
+            farmData = entry;
         }
 
         return farmData;
     }
+
     public List<FarmPlotData> GetCloseEntry(Vector3i position, float range = 50)
     {
         var close = new List<FarmPlotData>();
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             var distance = Vector3.Distance(position, entry.Key);
             if (distance < range)
                 close.Add(entry.Value);
         }
+
         return close;
     }
 
     public void ResetPlantsInRange(Vector3i position, float range = 50)
     {
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             var distance = Vector3.Distance(position, entry.Key);
             if (distance < range)
@@ -172,25 +164,28 @@ public class FarmPlotManager
 
     public bool AllPlotsVisited(Vector3i position, float range = 50)
     {
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             var distance = Vector3.Distance(position, entry.Key);
             if (distance > range) continue;
             if (entry.Value.Visited == false)
                 return false;
         }
+
         return true;
     }
+
     public void ResetAllPlants()
     {
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
             entry.Value.Reset();
     }
+
     public List<Vector3> GetClosePositions(Vector3i position, float range = 50, bool ignoreEmpty = false)
     {
         var counter = 0;
         var close = new List<Vector3>();
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             counter++;
             var distance = Vector3.Distance(position, entry.Key);
@@ -214,7 +209,7 @@ public class FarmPlotManager
     {
         var counter = 0;
         var close = new List<FarmPlotData>();
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             counter++;
             var distance = Vector3.Distance(position, entry.Key);
@@ -224,6 +219,7 @@ public class FarmPlotManager
                     return entry.Value;
             }
         }
+
         return null;
     }
 
@@ -231,7 +227,7 @@ public class FarmPlotManager
     {
         var counter = 0;
         var close = new List<FarmPlotData>();
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             counter++;
             var distance = Vector3.Distance(position, entry.Key);
@@ -241,13 +237,15 @@ public class FarmPlotManager
                     close.Add(entry.Value);
             }
         }
+
         return close;
     }
+
     public List<FarmPlotData> GetCloseFarmPlots(Vector3i position, float range = 50, bool ignoreEmpty = false)
     {
         var counter = 0;
         var close = new List<FarmPlotData>();
-        foreach (var entry in FarmPlots)
+        foreach (var entry in _farmPlots)
         {
             counter++;
             var distance = Vector3.Distance(position, entry.Key);
@@ -266,4 +264,3 @@ public class FarmPlotManager
         return close;
     }
 }
-

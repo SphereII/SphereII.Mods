@@ -22,6 +22,7 @@ public static class HeightMapTunneler
     public static Color[,] caveMapColor;
     public static HeightMap heightMap;
 
+    
     public static float GetPixel(int x, int z)
     {
         int numX = Mathf.Abs(x);

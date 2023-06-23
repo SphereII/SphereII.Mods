@@ -44,7 +44,6 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             return false;
 
         if (requireWater == false) return true;
-
         return CropManager.Instance.IsNearWater(_blockPos);
     }
 

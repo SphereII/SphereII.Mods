@@ -46,7 +46,7 @@ public class BlockFarmPlotSDX : Block
     {
         var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
         if (localPlayer == null) return base.GetCustomDescription(_blockPos, _bv);
-
+        
         if (localPlayer.playerInput.PermanentActions.Activate.IsPressed || localPlayer.playerInput.Activate.IsPressed)
         {
             return WaterPipeManager.Instance.GetWaterSummary(_blockPos);

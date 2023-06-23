@@ -42,6 +42,20 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockPlantGrowingSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockRobot.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\CropManager.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\FarmPlotData.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\Pipe.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\PipeData.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\PlantData.cs" />
+    <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
+    <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
     <Compile Include="Features\Fire\Harmony\Explosion.cs" />
     <Compile Include="Features\Fire\Harmony\FireInit.cs" />
     <Compile Include="Features\Fire\Harmony\PerformanceTweaks.cs" />
@@ -70,6 +84,10 @@
     <Compile Include="Features\LockPicking\Scripts\LockObjectRotation.cs" />
     <Compile Include="Features\LockPicking\Scripts\LocksetAudio.cs" />
     <Compile Include="Features\LockPicking\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
+    <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
+    <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingUtils.cs" />
+    <Compile Include="Features\RemoteCrafting\Scripts\XUiC\XUiC_BroadcastButton.cs" />
     <Compile Include="Harmony\AIDirectorBloodMoon\AiDirectorBloodMoonParty.cs" />
     <Compile Include="Harmony\Animation\AnimalAvatarController.cs" />
     <Compile Include="Harmony\Animation\AnimatorMapper.cs" />
@@ -120,7 +138,6 @@
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
     <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
     <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
-    <Compile Include="Harmony\PlayerFeatures\ItemActionRepairPatches.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
     <Compile Include="Harmony\PlayerFeatures\OneBlockCrouch.cs" />
     <Compile Include="Harmony\PlayerFeatures\PlayerMoveControllerUpdate.cs" />
@@ -132,7 +149,6 @@
     <Compile Include="Harmony\Progression\Progression.cs" />
     <Compile Include="Harmony\Quests\QuestEventManager.cs" />
     <Compile Include="Harmony\QuickContinue\QuickContinue.cs" />
-    <Compile Include="Harmony\Recipes\IngredientsFromContainers.cs" />
     <Compile Include="Harmony\SleeperVolume\SleeperVolumeSpawn.cs" />
     <Compile Include="Harmony\SoundFeatures\AudioClientPlay.cs" />
     <Compile Include="Harmony\SoundFeatures\AudioManagerPlay.cs" />
@@ -180,26 +196,19 @@
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockClockDMT.cs" />
     <Compile Include="Scripts\Blocks\BlockClockScript.cs" />
-    <Compile Include="Scripts\Blocks\BlockCropControlPanel.cs" />
-    <Compile Include="Scripts\Blocks\BlockFarmPlotSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockMortSpawner.cs" />
     <Compile Include="Scripts\Blocks\BlockPathFinding.cs" />
     <Compile Include="Scripts\Blocks\BlockPickUpAndReplace.cs" />
-    <Compile Include="Scripts\Blocks\BlockPlantGrowingSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockDecoAoE.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPortal.cs" />
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
     <Compile Include="Scripts\Blocks\BlockPrefabPlacer.cs" />
-    <Compile Include="Scripts\Blocks\BlockRobot.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockUtilitiesSDX.cs" />
-    <Compile Include="Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
-    <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
-    <Compile Include="Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
     <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
@@ -221,10 +230,6 @@
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionDelaySDX.cs" />
-    <Compile Include="Scripts\DataClasses\FarmPlotData.cs" />
-    <Compile Include="Scripts\DataClasses\Pipe.cs" />
-    <Compile Include="Scripts\DataClasses\PipeData.cs" />
-    <Compile Include="Scripts\DataClasses\PlantData.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVarSelf.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAddCVar.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionAnimatorSet.cs" />
@@ -295,10 +300,8 @@
     <Compile Include="Scripts\Items\ItemActionEntryResharpenSDX.cs" />
     <Compile Include="Scripts\Items\ItemsUtilities.cs" />
     <Compile Include="Scripts\Managers\Broadcastmanager.cs" />
-    <Compile Include="Scripts\Managers\FarmPlotManager.cs" />
     <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
-    <Compile Include="Scripts\Managers\WaterPipeManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
@@ -448,7 +451,6 @@
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
-    <Compile Include="Scripts\Managers\CropManager.cs" />
     <Compile Include="Scripts\WorldGen\HeightMapTunneler.cs" />
     <Compile Include="Scripts\WorldGen\LegacyCaveTunneler.cs" />
     <Compile Include="Scripts\WorldGen\SebastianCaveTunneler.cs" />
@@ -571,6 +573,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Documentation\CropManagement\ReadMe.md" />
+    <None Include="Features\Farming\Readme.md" />
     <None Include="Features\Fire\Readme.md" />
     <None Include="Licenses\CaveGeneration.md" />
     <None Include="Prefabs\caveOpening02.blocks.nim" />
@@ -641,6 +644,8 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Features\Farming\Harmony" />
+    <Folder Include="Harmony\Recipes" />
     <Folder Include="Harmony\Weather\" />
   </ItemGroup>
   <ItemGroup>

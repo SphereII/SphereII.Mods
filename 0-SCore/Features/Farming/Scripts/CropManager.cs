@@ -10,44 +10,39 @@ public class CropManager
 {
     private static readonly string AdvFeatureClass = "CropManagement";
 
-    private static CropManager instance = null;
-    private static Dictionary<Vector3i, PlantData> CropMap = new Dictionary<Vector3i, PlantData>();
+    private static CropManager _instance = null;
+    private static Dictionary<Vector3i, PlantData> _cropMap = new Dictionary<Vector3i, PlantData>();
 
-    private float checkTime = 120f;
-    private float currentTime = 0f;
-    private GameRandom random;
+    private float _checkTime = 120f;
+    private float _currentTime = 0f;
+    private GameRandom _random;
     private bool _debugMode = false;
     public bool DebugMode
     {
-        get
-        {
-            return _debugMode;
-        }
+        get => _debugMode;
         set
         {
             _debugMode = value;
             WaterPipeManager.Instance.ToggleWaterParticles(_debugMode);
         }
     }
-    
-  
-    public bool Enabled { private set; get; }
+
+
+    private bool Enabled { set; get; }
     public static CropManager Instance
     {
         get
         {
-            if (instance == null)
-            {
-                instance = new CropManager();
-                instance.Init();
-            }
-            return instance;
+            if (_instance != null) return _instance;
+            _instance = new CropManager();
+            _instance.Init();
+            return _instance;
         }
     }
-    public void Init()
-    {
 
-        // Water Manament
+    private void Init()
+    {
+        // Water Management
         var option = Configuration.GetPropertyValue(AdvFeatureClass, "CropEnable");
         if (!StringParsers.ParseBool(option))
         {
@@ -55,27 +50,27 @@ public class CropManager
             Enabled = false;
             return;
         }
-        random = GameManager.Instance.World.GetGameRandom();
+        _random = GameManager.Instance.World.GetGameRandom();
 
         Enabled = true;
         option = Configuration.GetPropertyValue(AdvFeatureClass, "CheckInterval");
         if (!string.IsNullOrEmpty(option))
-            checkTime = StringParsers.ParseFloat(option);
+            _checkTime = StringParsers.ParseFloat(option);
 
-        currentTime = checkTime;
+        _currentTime = _checkTime;
 
         Log.Out("Starting Crop Manager");
-        Log.Out($" :: Crop Interval Check time: {checkTime}");
+        Log.Out($" :: Crop Interval Check time: {_checkTime}");
         ModEvents.GameUpdate.RegisterHandler(new Action(this.CropUpdate));
     }
 
 
-    public void CropUpdate()
+    private void CropUpdate()
     {
-        if (CropMap.Count == 0) return;
+        if (_cropMap.Count == 0) return;
 
-        currentTime -= Time.deltaTime;
-        if (currentTime > 0f) return;
+        _currentTime -= Time.deltaTime;
+        if (_currentTime > 0f) return;
 
         CheckCrops();
     }
@@ -84,14 +79,14 @@ public class CropManager
     {
         var closePlants = GetClosePlants(position, range);
         if ( closePlants.Count > 0 )
-            return closePlants[random.RandomRange(0, closePlants.Count)];
+            return closePlants[_random.RandomRange(0, closePlants.Count)];
         return null;
     }
    
     public List<PlantData> GetClosePlants( Vector3i position, float range = 50 )
     {
         var closePlants = new List<PlantData>();
-        foreach( var plant in CropMap)
+        foreach( var plant in _cropMap)
         {
             var plantDistance = Vector3.Distance(position, plant.Key);
             if (plantDistance < 50)
@@ -103,7 +98,7 @@ public class CropManager
     public List<Vector3> GetClosePlantPositions(Vector3i position, float range = 50)
     {
         var closePlants = new List<Vector3>();
-        foreach (var plant in CropMap)
+        foreach (var plant in _cropMap)
         {
             var plantDistance = Vector3.Distance(position, plant.Key);
             if (plantDistance < range)
@@ -122,8 +117,8 @@ public class CropManager
                 for (var y = position.y - 2; y <= position.y + 2; y++)
                 {
                     var blockPos = new Vector3i(position.x + x, y, position.z + z);
-                    if (CropMap.ContainsKey(blockPos) && CropMap[blockPos].Visited == false)
-                        return CropMap[blockPos];
+                    if (_cropMap.ContainsKey(blockPos) && _cropMap[blockPos].Visited == false)
+                        return _cropMap[blockPos];
                 }
             }
         }
@@ -140,33 +135,27 @@ public class CropManager
     public PlantData GetClosesUnmaintained(Vector3i position, float range = 50)
     {
         var lastMaintainedTime = float.MaxValue;
-        PlantData plantData = new PlantData(position);
-        foreach (var plant in CropMap)
+        var plantData = new PlantData(position);
+        foreach (var plant in _cropMap)
         {
-            if ( lastMaintainedTime > plant.Value.LastMaintained)
-            {
-                lastMaintainedTime = plant.Value.LastMaintained;
-                plantData = plant.Value;
-            }
+            if (!(lastMaintainedTime > plant.Value.LastMaintained)) continue;
+            lastMaintainedTime = plant.Value.LastMaintained;
+            plantData = plant.Value;
         }
         return plantData;
     }
     public PlantData GetPlant(Vector3i position)
     {
-        if (CropMap.ContainsKey(position))
-            return CropMap[position];
-        return null;
+        return _cropMap.ContainsKey(position) ? _cropMap[position] : null;
     }
     public void CheckCrops()
     {
-        AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Crops for Water: {CropMap.Count} Plants registered.");
-        currentTime = checkTime;
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Checking Crops for Water: {_cropMap.Count} Plants registered.");
+        _currentTime = _checkTime;
     }
     public bool IsNearWater(Vector3i _blockPos, float waterRange = 5f)
     {
-        var plantData = Get(_blockPos);
-        if ( plantData == null )
-            plantData = new PlantData(_blockPos); 
+        var plantData = Get(_blockPos) ?? new PlantData(_blockPos);
         return plantData.IsNearWater(waterRange);
     }
 
@@ -174,15 +163,13 @@ public class CropManager
     {
         AdvLogging.DisplayLog(AdvFeatureClass, $"Removing {_blockPos}");
 
-        if (CropMap.ContainsKey(_blockPos))
-            CropMap.Remove(_blockPos);
+        if (_cropMap.ContainsKey(_blockPos))
+            _cropMap.Remove(_blockPos);
     }
     public PlantData Get(Vector3i _blockPos)
     {
-       // AdvLogging.DisplayLog(AdvFeatureClass, $"Getting Water Value from {_blockPos}");
-        if (CropMap.ContainsKey(_blockPos))
-            return CropMap[_blockPos];
-        return null;
+        // AdvLogging.DisplayLog(AdvFeatureClass, $"Getting Water Value from {_blockPos}");
+        return _cropMap.ContainsKey(_blockPos) ? _cropMap[_blockPos] : null;
     }
 
     // Forcefully adds the block to the mapper. This will be checked on the updater to see if its still valid,
@@ -194,10 +181,10 @@ public class CropManager
     }
     public void Add(PlantData plantData)
     {
-        if ( CropMap.ContainsKey(plantData.BlockPos))
-            CropMap[plantData.BlockPos] = plantData;
+        if ( _cropMap.ContainsKey(plantData.BlockPos))
+            _cropMap[plantData.BlockPos] = plantData;
         else
-            CropMap.Add(plantData.BlockPos, plantData);
+            _cropMap.Add(plantData.BlockPos, plantData);
 
     }
     public void Add(Vector3i _blockPos, int range = 5)

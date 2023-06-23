@@ -23,6 +23,7 @@ public class WaterPipeManager
         {
             if (instance == null)
             {
+                Log.Out("Initializing Water Pipe Manager");
                 instance = new WaterPipeManager();
                 instance.Init();
             }
@@ -191,7 +192,9 @@ public class WaterPipeManager
                 return true;
             }
         }
-        return false;
+
+        // A21 water support
+        return GameManager.Instance.World.GetWaterPercent(position) > 0.25;
     }
 
     // Counts how many water blocks are in the surrounding area.

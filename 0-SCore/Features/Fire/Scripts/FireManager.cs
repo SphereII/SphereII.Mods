@@ -592,6 +592,8 @@ public class FireManager
             var blockValue = GameManager.Instance.World.GetBlock(position);
             if (blockValue.isWater) return true;
             if (blockValue.Block is BlockLiquidv2) return true;
+            // A21 water check.
+            if (GameManager.Instance.World.GetWaterPercent(position) > 0.25f) return true;
         }
 
         return false;

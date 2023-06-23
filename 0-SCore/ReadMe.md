@@ -10,6 +10,16 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 |Features | Features will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted. |
 
 [ Change Log ]
+Version: 21.0.24.1146
+	[ Farming ]
+		- Code moved to Features
+		- Added support for new water system
+		- Added readme.md description its functionality.
+
+	[ Remote Crafting ]
+		- Code moved to Features
+		- Code refactored for clarity
+
 Version: 21.0.22.1422
 
 	Introducing the Features Folder
