@@ -9,7 +9,31 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 |Features | Features will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted. |
 
+Note: An auto-mirror is available on gitlab that allows you to download individual mods: https://gitlab.com/sphereii/SphereII-Mods
+
+### Direct Downloads
+Direct Download to the 0-SCore.zip available on gitlab mirror:
+
+[ 0 - SCore (Alpha 20 ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
+[ 0 - SCore ( Alpha 21) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/alpha21-experimental/SphereII-Mods-alpha21-experimental.zip?path=0-SCore
+
+### Change Logs
+
 [ Change Log ]
+Version: 21.0.28.902
+	[ Remote Crafting ]
+		- Fixed a broken reference to the broadcast button
+
+	[ Food spoilage ]
+		- Integrated khzmusik's food spoilage adaptage to use the ItemValue dictionary.
+			[ This change may be a save-breaking change ]
+
+
+	[ UAI ]
+		- Adjusted the ConsiderationCanSeeTarget to remove the 20 distance change.
+			- This will now use the CanSee Distance from the entity itself.
+		- Code formatting clean up for Wander Task
+
 Version: 21.0.24.1146
 	[ Farming ]
 		- Code moved to Features

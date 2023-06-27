@@ -1,4 +1,6 @@
-﻿using Harmony.ZombieFeatures;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Harmony.ZombieFeatures;
 using UnityEngine;
 
 namespace UAI
@@ -25,7 +27,7 @@ namespace UAI
             
             if (InertEntity.IsInert(targetEntity)) return 0f;
 
-            if (SCoreUtils.CanSee(_context.Self, targetEntity, 20))
+            if (SCoreUtils.CanSee(_context.Self, targetEntity))
                 return 1f;
             return 0f;
         }
