@@ -21,7 +21,7 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
             var container = LootContainer.GetLootContainer(_lootGroup);
             if (container != null)
             {
-                var array = container.Spawn(_params.Self.rand, _createItemCount, (float)_params.Self.Progression.GetLevel(), 0f, null, new FastTags(), container.UniqueItems);
+                var array = container.Spawn(_params.Self.rand, _createItemCount, (float)_params.Self.Progression.GetLevel(), 0f, null, new FastTags(), container.UniqueItems, false);
 
                 //                var array = container.Spawn(GameManager.Instance.lootManager.Random, _createItemCount,
                 //EffectManager.GetValue(PassiveEffects.LootGamestage, null, entityPlayer.HighestPartyGameStage, entityPlayer), 0f, entityPlayer, new FastTags());

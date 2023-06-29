@@ -20,6 +20,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.30.1335
+	[ Entity Alive Patch ]
+		- Added patch from Zilox to fix the animation issue on animals that do not use root motion, on servers.
+	[ Fixes ]
+		- Fixes for the LootContainer's spawn calls, which have seen a parameter change in A21 b232.
+
 Version: 21.0.28.902
 	[ Remote Crafting ]
 		- Fixed a broken reference to the broadcast button

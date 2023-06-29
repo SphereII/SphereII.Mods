@@ -11,6 +11,8 @@ namespace UAI
 {
     public static class SCoreUtils
     {
+        private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
+        private static readonly string Feature = "UtilityAILoggingMin";
         public static void DisplayDebugInformation(Context _context, string prefix = "", string postfix = "")
         {
             if (!GameManager.IsDedicatedServer)
@@ -323,109 +325,138 @@ namespace UAI
 
         public static bool CanSee(EntityAlive sourceEntity, EntityAlive targetEntity, float maxDistance = -1)
         {
+            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"CanSee: {sourceEntity.EntityName} Looking at {targetEntity.EntityName} ( {targetEntity.entityId} ) ");
             // If they are dead, you can't see them anymore...
             if (targetEntity.IsDead())
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is Dead. False.");
                 return false;
+            }
 
             // If the entity isn't very close to us, make sure they are in our viewcone.
             var distance = sourceEntity.GetDistanceSq(targetEntity);
             if (distance > 100)
             {
                 if (!sourceEntity.IsInViewCone(targetEntity.position))
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is far away, but not in my view cone. False.");
                     return false;
+                }
             }
 
             // Check to see if its in our "See" cache
             if (sourceEntity.CanSee(targetEntity))
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is in the Source's CanSee cache. True");
                 return true;
-
-            // This may have caused them to path incorrect, so make sure they are fairly close.
-            // Are we already targetting each other?
-            //var target = EntityUtilities.GetAttackOrRevengeTarget(targetEntity.entityId);
-            //if (target != null)
-            //{
-            //    if (distance < 20)
-            //        return true;
-            //}
+            }
 
             var target = EntityUtilities.GetAttackOrRevengeTarget(sourceEntity.entityId);
             if (target != null && targetEntity.entityId == target.entityId)
             {
                 if (distance < 20)
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is is the Source's attack / revenge target, and is close. True");
                     return true;
+                }
             }
 
             var headPosition = sourceEntity.getHeadPosition();
             var headPosition2 = targetEntity.getHeadPosition();
             var direction = headPosition2 - headPosition;
-            var seeDistance = maxDistance;
+            float seeDistance;
             if (maxDistance > -1)
                 seeDistance = maxDistance;
             else
                 seeDistance = sourceEntity.GetSeeDistance();
 
             if (direction.magnitude > seeDistance)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is is out of range of see distance. False");
                 return false;
+            }
 
             var ray = new Ray(headPosition, direction);
             ray.origin += direction.normalized * 0.2f;
 
-            int hitMask = GetHitMaskByWeaponBuff(sourceEntity);
-            if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask,
-                    0.0f)) //|| Voxel.Raycast(sourceEntity.world, ray, seeDistance, false, false))
-                //if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
+            var hitMask = GetHitMaskByWeaponBuff(sourceEntity);
+            if (!Voxel.Raycast(sourceEntity.world, ray, seeDistance, hitMask, 0.0f))
             {
-                var hitRootTransform =
-                    GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);
-                if (hitRootTransform == null)
-                    return false;
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource's ray cast failed to find anything. False");
+                return false;
+            } 
+            
+            //|| Voxel.Raycast(sourceEntity.world, ray, seeDistance, false, false))
+            //if (Voxel.Raycast(sourceEntity.world, ray, seeDistance, true, true)) // Original code
+            var hitRootTransform =
+                GameUtils.GetHitRootTransform(Voxel.voxelRayHitInfo.tag, Voxel.voxelRayHitInfo.transform);
+            if (hitRootTransform == null)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees something, but it's not an entity. False");
+                return false;
+            }
 
-                var component = hitRootTransform.GetComponent<EntityAlive>();
-                if (component != null && component.IsAlive() && targetEntity == component)
+            var component = hitRootTransform.GetComponent<EntityAlive>();
+            if (component == null || !component.IsAlive() || targetEntity != component)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees something, but it's not an entity alive, and or it's dead, or its not the same target. False");
+                return false;
+            }
+            // Check to see if its in our "See" cache
+            if (sourceEntity.CanSee(targetEntity))
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource has target in its CanSee cache. Double check? True");
+                return true;
+            }
+
+            // Don't wake up the sleeping zombies if the leader is crouching.
+            var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
+            if (leader != null && leader.IsCrouching && component.IsSleeping)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a valid target, but leader is crouching and its sleeping. False");
+                return false;
+            }
+
+            // if they are fairly far away, do a view cone check
+            if (sourceEntity.GetDistanceSq(targetEntity) > 30)
+            {
+                if (!sourceEntity.IsInViewCone(targetEntity.position))
                 {
-                    // Check to see if its in our "See" cache
-                    if (sourceEntity.CanSee(targetEntity))
-                        return true;
-
-                    // Don't wake up the sleeping zombies if the leader is crouching.
-                    var leader = EntityUtilities.GetLeaderOrOwner(sourceEntity.entityId) as EntityAlive;
-                    if (leader != null && leader.IsCrouching && component.IsSleeping)
-                        return false;
-
-                    // if they are fairly far away, do a view cone check
-                    if (sourceEntity.GetDistanceSq(targetEntity) > 30)
-                    {
-                        if (!sourceEntity.IsInViewCone(targetEntity.position))
-                            return false;
-                    }
-
-
-                    // If the target is the player, check to see if they are stealth
-                    var player = target as EntityPlayer;
-                    if (player != null)
-                    {
-                        var distance2 = sourceEntity.GetDistance(player);
-                        if (!sourceEntity.CanSeeStealth(distance2, player.Stealth.lightLevel))
-                            return false;
-                    }
-
-                    // If the leader is the player, use the player's stealth check against the presumed NPC.
-                    if (leader != null)
-                    {
-                        var player2 = leader as EntityPlayer;
-                        var distance2 = sourceEntity.GetDistance(leader);
-                        if (leader is EntityPlayer &&
-                            !sourceEntity.CanSeeStealth(distance2, player2.Stealth.lightLevel))
-                            return false;
-                    }
-
-                    /// Add the entity to our CanSee Cache, which expires.
-                    sourceEntity.SetCanSee(targetEntity);
-                    return true;
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a valid target, and it's a bit away from it, and not in the view cone. False");
+                    return false;
                 }
             }
 
-            return false;
+
+            // If the target is the player, check to see if they are stealth
+            var player = target as EntityPlayer;
+            if (player != null)
+            {
+                var distance2 = sourceEntity.GetDistance(player);
+                if (!sourceEntity.CanSeeStealth(distance2, player.Stealth.lightLevel))
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a player, but player passes the stealth check so the source cant see the player.. False");
+                    return false;
+                }
+            }
+
+            // If the leader is the player, use the player's stealth check against the presumed NPC.
+            if (leader != null)
+            {
+                var player2 = leader as EntityPlayer;
+                var distance2 = sourceEntity.GetDistance(leader);
+                if (leader is EntityPlayer && !sourceEntity.CanSeeStealth(distance2, player2.Stealth.lightLevel))
+                {
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a valid target, and has a leader. The Source can't see the stealth. False");
+                    return false;
+                }
+            }
+
+            // Add the entity to our CanSee Cache, which expires.
+            sourceEntity.SetCanSee(targetEntity);
+            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource passes all the checks. We can see it. Adding to see cache.");
+            return true;
+
         }
 
 
@@ -836,7 +867,7 @@ namespace UAI
 
             //            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, 0f, null, new FastTags(), false);
             var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length,
-                (float) _context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems);
+                (float) _context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems, true);
 
             for (var i = 0; i < array.Count; i++)
                 _context.Self.lootContainer.AddItem(array[i].Clone());

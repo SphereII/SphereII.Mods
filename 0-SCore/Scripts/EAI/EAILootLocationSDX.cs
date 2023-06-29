@@ -360,7 +360,7 @@ internal class EAILootLocationSDX : EAIApproachSpot
             var state = UnityEngine.Random.state;
             UnityEngine.Random.InitState((int)(GameManager.Instance.World.worldTime % 2147483647UL));
             var array = LootContainer.GetLootContainer(tileLootContainer.lootListName).Spawn(Random, tileLootContainer.items.Length,
-               player.Progression.GetLevel(), 0f, player, new FastTags(), false);
+               player.Progression.GetLevel(), 0f, player, new FastTags(), false, false);
             UnityEngine.Random.state = state;
             for (var i = 0; i < array.Count; i++)
                 if (theEntity.lootContainer.AddItem(array[i].Clone()))

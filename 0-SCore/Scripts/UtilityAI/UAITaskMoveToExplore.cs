@@ -103,7 +103,7 @@ namespace UAI
                 return;
             //            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
             //var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
-            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems);
+            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems, false);
 
 
 

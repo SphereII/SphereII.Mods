@@ -106,6 +106,7 @@
     <Compile Include="Harmony\EAI\EAITarget.cs" />
     <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
+    <Compile Include="Harmony\EntityAlive\ReplicateSpeed.cs" />
     <Compile Include="Harmony\EntityDrone\EntityDronePatches.cs" />
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
     <Compile Include="Harmony\EntityMoveHelper\StartJump.cs" />
