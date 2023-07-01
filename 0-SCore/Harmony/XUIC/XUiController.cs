@@ -43,11 +43,11 @@ namespace Harmony.XUiC
                     if (mod != null)
                     {
                         if (info == "version")
-                            _value = mod.ModInfo.Version.Value;
+                            _value = mod.Version.ToString();
                         if (info == "author")
-                            _value = mod.ModInfo.Author.Value;
+                            _value = mod.Author;
                         if (info == "description")
-                            _value = mod.ModInfo.Description.Value;
+                            _value = mod.Description;
                     }
 
                     return true;

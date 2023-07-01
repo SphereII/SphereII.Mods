@@ -5,8 +5,8 @@ using Random = System.Random;
 
 public static class WinterProjectPrefab
 {
-    private static BlockValue snow = new BlockValue((uint)Block.GetBlockByName("terrSnow").blockID);
-    private static BlockValue ice = new BlockValue((uint)Block.GetBlockByName("terrIce").blockID);
+    private static BlockValue snow = new BlockValue((uint) Block.GetBlockByName("terrSnow").blockID);
+    private static BlockValue ice = new BlockValue((uint) Block.GetBlockByName("terrIce").blockID);
 
     //  static BlockValue ice = new BlockValue((uint)Block.GetBlockByName("terrIce", false).blockID);
 
@@ -23,20 +23,22 @@ public static class WinterProjectPrefab
         //SetSnow(position.x, position.z, 16, 16, GameManager.Instance.World.ChunkCache, false, true);
     }
 
-    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, QuestTags _questTag)
+    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags _questTag)
     {
         var AlreadyFilled = false;
-         // if (_questTag != QuestTags.none)
-         // {
-         //     AlreadyFilled = true;
-         //     prefab.yOffset -= 8;
-         //     position.y -= 8;
-         // }
+        // if (_questTag != QuestTags.none)
+        // {
+        //     AlreadyFilled = true;
+        //     prefab.yOffset -= 8;
+        //     position.y -= 8;
+        // }
 
-        SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled, prefab.size.y);
+        SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled,
+            prefab.size.y);
     }
 
-    private static void ProcessChunk(Chunk chunk, Vector3i position, Vector3i size, bool regen, bool log, bool notifyRpc, bool isPrefab)
+    private static void ProcessChunk(Chunk chunk, Vector3i position, Vector3i size, bool regen, bool log,
+        bool notifyRpc, bool isPrefab)
     {
         if (chunk == null)
         {
@@ -45,11 +47,8 @@ public static class WinterProjectPrefab
         }
 
 
-       // notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
-       
-       // Disable the notify RPC as it causes bad lag on quest activation
-        notifyRpc = false;
-        
+        notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
+
         List<BlockChangeInfo> Changes = null;
         if (notifyRpc)
             Changes = new List<BlockChangeInfo>();
@@ -80,8 +79,8 @@ public static class WinterProjectPrefab
                 // If we are resetting for a quest, the terrain has already been moved up.
                 if (regen) tHeightWithSnow = tHeight;
 
-              //  for (var y = 255; y >= 0; y--)
-              for (var y = 255; y >= 0; y--)
+                //  for (var y = 255; y >= 0; y--)
+                for (var y = 255; y >= 0; y--)
                 {
                     // Test if we still need to go down further
                     var b = chunk.GetBlock(chunkX, y, chunkZ);
@@ -89,7 +88,7 @@ public static class WinterProjectPrefab
                         continue; //still air 
 
                     if (b.Block is BlockModelTree) break;
-                    
+
                     //if (Block.list[b.type].blockMaterial.StabilitySupport == false)
                     //    continue;
 
@@ -118,8 +117,10 @@ public static class WinterProjectPrefab
                     //}
 
                     if (log)
-                        Write(worldX + "," + worldZ + " found block (" + b.Block.GetBlockName() + ") id " + b.type + " at height " + y + " setting depth of " + snowHeight + " Prefab Height: " +
-                              size.y + "  cx " + chunkX + "/" + chunk.X + "," + chunkZ + "/" + chunk.Z + "  t " + tHeight + " Height With Snow: " + tHeightWithSnow);
+                        Write(worldX + "," + worldZ + " found block (" + b.Block.GetBlockName() + ") id " + b.type +
+                              " at height " + y + " setting depth of " + snowHeight + " Prefab Height: " +
+                              size.y + "  cx " + chunkX + "/" + chunk.X + "," + chunkZ + "/" + chunk.Z + "  t " +
+                              tHeight + " Height With Snow: " + tHeightWithSnow);
 
                     // Are we re-generating or is this a fresh? if we are regenerating, we don't want to keep adding another 8 blocks of snow
 
@@ -142,25 +143,8 @@ public static class WinterProjectPrefab
                         //    Write("Set " + worldX + "," + snowY + "," + worldZ + " to snow || world  " + chunk.GetWorldPos() + " applied: " + (check.type != snow.type) + "  rpc: " + Rpc);
 
                         if (check.type == snow.type) continue;
-                        if (notifyRpc)
-                        {
-                            var pos = chunk.GetWorldPos();
-                            pos.x += chunkX;
-                            pos.y = snowY;
-                            pos.z += chunkZ;
-                            //GameManager.Instance.World.SetBlockRPC(pos, snow, MarchingCubes.DensityTerrain);
-                            var density = snowY == y + snowHeight - 1 ? (sbyte)-Rand.Next(1, 127) : MarchingCubes.DensityTerrain;
-
-                            //Changes.Add(new BlockChangeInfo(pos, snow, MarchingCubes.DensityTerrain));
-                            Changes.Add(new BlockChangeInfo(pos, snow, density));
-                        }
-                        else
-                        {
-                            chunk.SetBlock(GameManager.Instance.World, chunkX, snowY, chunkZ, snow);
-
-                            var density = snowY == y + snowHeight - 1 ? (sbyte)-Rand.Next(1, 127) : MarchingCubes.DensityTerrain;
-                            chunk.SetDensity(chunkX, snowY, chunkZ, density);
-                        }
+                        chunk.SetBlock(GameManager.Instance.World, chunkX, snowY, chunkZ, snow);
+                        chunk.SetDensity(chunkX, snowY, chunkZ, MarchingCubes.DensityTerrain);
                     }
 
                     Write("Total SnowY was: " + snowY);
@@ -171,14 +155,12 @@ public static class WinterProjectPrefab
 
             Write("Changes: " + (Changes == null ? "null" : Changes.Count.ToString()));
             if (Changes != null) GameManager.Instance.SetBlocksRPC(Changes);
-            
-            
-            
         }
     }
 
 
-    public static void SetSnow(int startX, int startZ, int width, int depth, ChunkCluster cluster, bool notifyRpc, bool log, bool AlreadyFilled, int height)
+    public static void SetSnow(int startX, int startZ, int width, int depth, ChunkCluster cluster, bool notifyRpc,
+        bool log, bool AlreadyFilled, int height)
     {
         Write("Set snow " + startX + "," + startZ + " by " + width + "," + depth);
 
@@ -191,6 +173,7 @@ public static class WinterProjectPrefab
         var processed = new List<long>();
 
         for (var x = 0; x < width; x++)
+        {
             for (var z = 0; z <= depth; z++)
             {
                 var worldX = x + startX;
@@ -204,15 +187,16 @@ public static class WinterProjectPrefab
                     Write("Getting chunk at " + chunkWorldX + "," + chunkWorldZ + "     " + worldX + "," + worldZ);
                     chunk = cluster.GetChunkSync(chunkWorldX, chunkWorldZ);
 
-                    if (chunk == null) continue;
-                    if (processed.Contains(chunk.Key))
-                        continue;
-                    processed.Add(chunk.Key);
-                    //ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, true);
-                    // Setting isPrefab to false because otherwise it locks the chunk too much.
-                    ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, false);
+                    if (chunk != null)
+                    {
+                        if (processed.Contains(chunk.Key))
+                            continue;
+                        processed.Add(chunk.Key);
+                        ProcessChunk(chunk, worldPos, size, AlreadyFilled, log, notifyRpc, true);
+                    }
                 }
             }
+        }
 
         Write("Set Snow Complete");
     }

@@ -85,7 +85,7 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
-			<property name="Tags" value="entity,npc"/>
+			<property name="Tags" value="entity"/>
 		</entity_class>
 
 		<entity_class name="fishTurtle" extends="PassiveFish" >

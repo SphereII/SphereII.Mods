@@ -1,6 +1,5 @@
 ﻿<configs>
 
-	<removeattribute xpath="/blocks/block[@name='houseFrontDoor1_v1']/drop[@event='Destroy']/@tag" />
 
 	<append xpath="/blocks">
 
@@ -335,7 +334,7 @@
 				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Fire particle to use -->
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
 				<property name="FireSpread" value="true" /> <!-- When enabled, fire can spread to neighborblocks.-->
-
+				<property name="ChanceToExtinguish" value="0.05" /> <!-- chance that each block has to self-extinguish. This is re-tested for each CheckInterval -->
 				<!-- Alternative included particles -->
 				<!--
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />
@@ -398,6 +397,7 @@
 		<block name="caveBlock02">
 			<property name="Extends" value="air"/>
 			<property name="StabilityFull" value="true"/>
+			<property name="Material" value="McaveAir" />
 		</block>
 
 		<block name="cntCaveFloorRandomLootHelper">

@@ -10,7 +10,7 @@ public class ConsoleCmdActionFireClear : ConsoleCmdAbstract
         get { return true; }
     }
 
-    public override string[] GetCommands()
+    protected override string[] getCommands()
     {
         return new string[]
         {
@@ -23,7 +23,7 @@ public class ConsoleCmdActionFireClear : ConsoleCmdAbstract
         FireManager.Instance.Reset();
     }
 
-    public override string GetDescription()
+    protected override string getDescription()
     {
         return "SCore: Clears the Fire cache.";
     }

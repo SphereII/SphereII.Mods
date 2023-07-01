@@ -18,16 +18,13 @@ namespace Harmony.NPCFeatures
         {
             public static bool Prefix(global::EntityMoveHelper __instance, ref float heightDiff, global::EntityAlive ___entity)
             {
-                var JumpHeight = EntityUtilities.GetFloatValue(___entity.entityId, "JumpHeight");
-                if (JumpHeight == -1f)
-                    return true;
-
-                if (JumpHeight == 0f)
+                var jumpHeight = EntityUtilities.GetFloatValue(___entity.entityId, "JumpHeight");
+                if (jumpHeight <= 0f)
                     return true;
 
                 // These are the values set in the EntityMoveHelper's update. They are filtered here so that the EAI Task Swim and Leap will be unaffected.
                 //   if ( heightDiff > 1.1f && heightDiff < 1.5f)
-                heightDiff = JumpHeight;
+                heightDiff = jumpHeight;
 
                 return true;
             }

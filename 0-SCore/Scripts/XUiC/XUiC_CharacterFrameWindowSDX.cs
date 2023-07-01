@@ -7,8 +7,8 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
     private XUiV_Label lbldescriptionText;
     private EntityPlayerLocal player;
 
-    private List<ProgressionValue> skills = new List<ProgressionValue>();
-    private List<ProgressionValue> currentSkills = new List<ProgressionValue>();
+    private Dictionary<int, ProgressionValue> skills = new Dictionary<int, ProgressionValue>();
+    private Dictionary<int, ProgressionValue> currentSkills = new Dictionary<int, ProgressionValue>();
 
     public override void OnClose()
     {
@@ -34,37 +34,38 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
         description += $"Skills:\n";
         skills.Clear();
         currentSkills.Clear();
-        entity.Progression.ProgressionValues.Dict.CopyValuesTo(skills);
+        skills = entity.Progression.GetDict();
+        //entity.Progression.ProgressionValues.Dict.CopyValuesTo(skills);
         foreach (var progressionValue in this.skills)
         {
-            if (progressionValue.Level > 1)
-                this.currentSkills.Add(progressionValue);
+            if (progressionValue.Value.Level > 1)
+                this.currentSkills.Add(progressionValue.Key, progressionValue.Value);
 
             if (player.IsGodMode != true) continue;
 
-            var temp = $"{Localization.Get(progressionValue.Name)} ";
-            if (progressionValue.ProgressionClass.IsPerk)
+            var temp = $"{Localization.Get(progressionValue.Value.Name)} ";
+            if (progressionValue.Value.ProgressionClass.IsPerk)
                 temp += " (Perk): ";
-            if (progressionValue.ProgressionClass.IsAttribute)
+            if (progressionValue.Value.ProgressionClass.IsAttribute)
                 temp += " (Attribute): ";
-            if (progressionValue.ProgressionClass.IsBook)
+            if (progressionValue.Value.ProgressionClass.IsBook)
                 temp += " (Book): ";
 
           //  Log.Out($" {temp}: {progressionValue.Level}");
         }
 
-        currentSkills.Sort(ProgressionClass.ListSortOrderComparer.Instance);
+       // currentSkills.Sort(ProgressionClass.ListSortOrderComparer.Instance);
         foreach (var skill in currentSkills)
         {
-            var temp = $"{Localization.Get(skill.Name)} ";
-            if (skill.ProgressionClass.IsPerk)
+            var temp = $"{Localization.Get(skill.Value.Name)} ";
+            if (skill.Value.ProgressionClass.IsPerk)
                 temp += " (Perk): ";
-            if (skill.ProgressionClass.IsAttribute)
+            if (skill.Value.ProgressionClass.IsAttribute)
                 temp += " (Attribute): ";
-            if (skill.ProgressionClass.IsBook)
+            if (skill.Value.ProgressionClass.IsBook)
                 temp += " (Book): ";
 
-            description += $" {temp}: {skill.Level}\n";
+            description += $" {temp}: {skill.Value.Level}\n";
         }
 
         description += "Buffs:\n";

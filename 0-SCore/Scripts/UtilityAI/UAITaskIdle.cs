@@ -15,9 +15,9 @@ namespace UAI
             if (Parameters.ContainsKey("timeout")) _timeOut = StringParsers.ParseFloat(Parameters["timeout"]);
         }
 
-        public override void Start(Context _context)
+        public override void Start(Context context)
         {
-            base.Start(_context);
+            base.Start(context);
             _currentTimeout = _timeOut;
         }
         public override void Update(Context _context)
@@ -41,6 +41,8 @@ namespace UAI
 
             // Don't look at yourself, that's shameful.
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            
+            // Align the crouching to the leader, if it exists.
             if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)
             {
                 if ( leader != null && entityAlive.entityId == leader.entityId)
@@ -87,7 +89,7 @@ namespace UAI
           //  }
 
                _currentTimeout--;
-            if (_currentTimeout < 0) Stop(_context);
+         //   if (_currentTimeout < 0) Stop(_context);
         }
     }
 }

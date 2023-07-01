@@ -40,7 +40,8 @@ public class SCoreModEvents
             if (ParticleEffect.IsAvailable(particlePath)) continue;
 
             Debug.Log($"Registering External Particle: Index: {particlePath.GetHashCode()} for {particlePath}");
-            ParticleEffect.RegisterBundleParticleEffect(particlePath);
+            if (!ParticleEffect.IsAvailable(particlePath))
+                ParticleEffect.LoadAsset(particlePath);
         }
         Debug.Log("Done Reading External Particles.");
     }

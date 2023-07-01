@@ -1077,16 +1077,32 @@ public static class EntityUtilities
         return result;
     }
 
-    public static Entity GetAttackOrRevengeTarget(int EntityID)
+    public static void ClearAttackTargets(int entityId)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
-        if (myEntity != null)
-        {
-            if (myEntity.GetAttackTarget() != null)
-                return myEntity.GetAttackTarget();
-            if (myEntity.GetRevengeTarget() != null)
-                return myEntity.GetRevengeTarget();
-        }
+        var myEntity = GameManager.Instance.World?.GetEntity(entityId) as EntityAlive;
+        if (myEntity == null) return;
+        myEntity.SetAttackTarget(null, 50);
+        myEntity.SetRevengeTarget(null);
+    }
+    public static bool GetAttackAndRevengeTarget(int entityId, ref EntityAlive attackTarget,
+        ref EntityAlive revengeTarget)
+    {
+        var myEntity = GameManager.Instance.World?.GetEntity(entityId) as EntityAlive;
+        if (myEntity == null) return false;
+        attackTarget = myEntity.GetAttackTarget();
+        revengeTarget = myEntity.GetRevengeTarget();
+        return true;
+    }
+    public static Entity GetAttackOrRevengeTarget(int entityID)
+    {
+        var myEntity = GameManager.Instance.World?.GetEntity(entityID) as EntityAlive;
+        if (myEntity == null) return null;
+        
+        var target = myEntity.GetAttackTarget();
+        if (target != null ) return target;
+        
+        target = myEntity.GetRevengeTarget();
+        if (target != null ) return target;
 
         return null;
     }

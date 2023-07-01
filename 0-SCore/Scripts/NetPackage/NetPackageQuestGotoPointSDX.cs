@@ -5,7 +5,7 @@ using UnityEngine;
 public class NetPackageQuestGotoPointSDX : NetPackage
 {
 	// Token: 0x060031E6 RID: 12774 RVA: 0x0015996C File Offset: 0x00157B6C
-	public NetPackageQuestGotoPointSDX Setup(int _playerId, QuestTags _questTags, int _questCode, NetPackageQuestGotoPointSDX.QuestGotoTypes _gotoType, byte _difficulty, int posX = 0, int posZ = -1, float sizeX = 0f, float sizeY = 0f, float sizeZ = 0f, float offset = -1f, BiomeFilterTypes _biomeFilterType = BiomeFilterTypes.AnyBiome, string _biomeFilter = "")
+	public NetPackageQuestGotoPointSDX Setup(int _playerId, FastTags _questTags, int _questCode, NetPackageQuestGotoPointSDX.QuestGotoTypes _gotoType, byte _difficulty, int posX = 0, int posZ = -1, float sizeX = 0f, float sizeY = 0f, float sizeZ = 0f, float offset = -1f, BiomeFilterTypes _biomeFilterType = BiomeFilterTypes.AnyBiome, string _biomeFilter = "")
 	{
 		//Log.Out("NetPackageQuestGotoPointSDX-Setup");
 		this.playerId = _playerId;
@@ -27,7 +27,7 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 		this.playerId = _br.ReadInt32();
 		this.questCode = _br.ReadInt32();
 		this.GotoType = (NetPackageQuestGotoPointSDX.QuestGotoTypes)_br.ReadByte();
-		this.questTags = (QuestTags)_br.ReadByte();
+		this.questTags = FastTags.Parse(_br.ReadString());
 		this.position = new Vector2((float)_br.ReadInt32(), (float)_br.ReadInt32());
 		this.size = StreamUtils.ReadVector3(_br);
 		this.difficulty = _br.ReadByte();
@@ -43,7 +43,7 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 		_bw.Write(this.playerId);
 		_bw.Write(this.questCode);
 		_bw.Write((byte)this.GotoType);
-		_bw.Write((byte)this.questTags);
+		_bw.Write(this.questTags.ToString());
 		_bw.Write((int)this.position.x);
 		_bw.Write((int)this.position.y);
 		StreamUtils.Write(_bw, this.size);
@@ -167,7 +167,7 @@ public class NetPackageQuestGotoPointSDX : NetPackage
 	private int questCode;
 
 	// Token: 0x0400220A RID: 8714
-	private QuestTags questTags;
+	private FastTags questTags;
 
 	// Token: 0x0400220B RID: 8715
 	private Vector2 position;

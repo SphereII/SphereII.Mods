@@ -4,12 +4,12 @@ using UnityEngine;
 public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 {
     // Private fields from NetPackageQuestGotoPoint
-    
+
     private int entityId;
 
     private int questCode;
 
-    private QuestTags questTags;
+    private FastTags questTags;
 
     private Vector2 position;
 
@@ -44,7 +44,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         }
 
         EntityPlayer primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
-        
+
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             EntityAlive questOwner = GameManager.Instance.World.GetEntity(entityId) as EntityAlive;
@@ -141,7 +141,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         // from NetPackageQuestGotoPoint
         entityId = _br.ReadInt32();
         questCode = _br.ReadInt32();
-        questTags = (QuestTags)_br.ReadByte();
+        questTags = FastTags.Parse(_br.ReadString());
         position = new Vector2(_br.ReadInt32(), _br.ReadInt32());
         size = StreamUtils.ReadVector3(_br);
         difficulty = _br.ReadByte();
@@ -164,7 +164,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         // from NetPackageQuestGotoPoint
         _bw.Write(entityId);
         _bw.Write(questCode);
-        _bw.Write((byte)questTags);
+        _bw.Write(questTags.ToString());
         _bw.Write((int)position.x);
         _bw.Write((int)position.y);
         StreamUtils.Write(_bw, size);
@@ -181,7 +181,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public NetPackageRandomTaggedPOIGotoSDX Setup(
         int _ownerId,
-        QuestTags _questTags,
+        FastTags _questTags,
         int _questCode,
         byte _difficulty,
         POITags _includeTags,

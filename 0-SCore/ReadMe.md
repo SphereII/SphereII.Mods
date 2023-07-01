@@ -7,68 +7,206 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Config | XML Files that serve as documentation, basic setup for required items. blocks.xml contains many default settings to review and adjust as needed.|
 | Harmony | Many harmony scripts to make small adjustments to the game. These scripts, for the most part, can be turned on and off via the blocks.xml|
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
+|Features | Features will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted. |
 
-Each release could potentially include fixes or entries here that say "Code Cleanup". This implies that the functionality remained the same, 
-but was just refactored in someway. This may include additional null checks, formatting issues, or variable renames. XML hooks will remain unchanged.
+Note: An auto-mirror is available on gitlab that allows you to download individual mods: https://gitlab.com/sphereii/SphereII-Mods
+
+### Direct Downloads
+Direct Download to the 0-SCore.zip available on gitlab mirror:
+
+[ 0 - SCore (Alpha 20 ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
+[ 0 - SCore ( Alpha 21) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/alpha21-experimental/SphereII-Mods-alpha21-experimental.zip?path=0-SCore
+
+### Change Logs
 
 [ Change Log ]
-Version: 20.6.479.849
+Version: 21.0.30.1335
+	[ Entity Alive Patch ]
+		- Added patch from Zilox to fix the animation issue on animals that do not use root motion, on servers.
+	[ Fixes ]
+		- Fixes for the LootContainer's spawn calls, which have seen a parameter change in A21 b232.
 
-	[ Fire Managers ]
-		- Final Audio / Particle fixes for crashes in some instances.
-			- Particles would throw exceptions if they were being placed there off the main thread.
-			- Fire / Smoke Particles are now being pre-registered in the Init() of the Fire Manager
-		- Sound: Changed to BroadcastPlay / BroadCastStop, in addition to a mainthread check
+Version: 21.0.28.902
+	[ Remote Crafting ]
+		- Fixed a broken reference to the broadcast button
 
-Version: 20.6.478.2052
+	[ Food spoilage ]
+		- Integrated khzmusik's food spoilage adaptage to use the ItemValue dictionary.
+			[ This change may be a save-breaking change ]
+
+
+	[ UAI ]
+		- Adjusted the ConsiderationCanSeeTarget to remove the 20 distance change.
+			- This will now use the CanSee Distance from the entity itself.
+		- Code formatting clean up for Wander Task
+
+Version: 21.0.24.1146
+	[ Farming ]
+		- Code moved to Features
+		- Added support for new water system
+		- Added readme.md description its functionality.
+
+	[ Remote Crafting ]
+		- Code moved to Features
+		- Code refactored for clarity
+
+Version: 21.0.22.1422
+
+	Introducing the Features Folder
+		Features folder will contain the harmony and scripts for an isolated feature set, rather than spread across the Harmony and Scripts folder now.
+		This will help with future extraction into seperate DLLs.
+
+	[ Locks ]
+		- Fixed Unity crash when pick locking doors. 
+				- Sound was trying to play on a non-main thread.
+		- Code moved to Features
 
 	[ Fire Manager ]
-		- Added a check for particles being registered on dedi
+		- Modified the Walk On Fire trigger to fire off the block, rather than the entity.
+		- Code moved to Features
+		- Added documentation to the Features/Fire/Readme.md
 
-	[ Sound Feature ]
-		- Disable the sound logging by default in blocks.xml
+Version: 21.0.21.1610
+	[ Broadcast Feature ]
+		- Fixed an issue where the game would allow you to craft if you had a single ingredient.
+	
+	[ UAI ]
+		- Fixed an issue where the NPC would not face you when following
+		- Added a rotation of 90f in the TaskMoveToTargetSDX for when the entity is blocked.
 
+	[ NPCs ]
+		- Added yet another fix to the jumping.
 
-Version: 20.6.478.1822
+Version: 21.0.20.1553
+	[ Dialog ]
+		- Added a toolbar / bag search for the NPCHasItemSDX Condition
 
-	[ Fire Manager ] 
-		- Re-added main thread check for adding sounds.
+	[ NPC ]
+		- Fixed an issue where the NPC would stare at a dead body
+		- Added the ability to add items directly into the NPC's private bag slot, defined in the entityclass.
+			<property name="BagItems" value="itemMeleeStoneAxe" />
+			<property name="BagItems" value="itemMeleeStoneAxe, foodWater=2" />
+		- If the leader has the cvar "quietNPC" set, the hired NPCs will not make foot steps.
+		- Added Shared EXP, so hired NPCs will share their exp with you, and the party members.
+		- Fixed a few issues with angles
+		- Fixed shared exp with party
+		- Fixed issue where dead zombies stayed standing
+		
+	[ Broadcast Storage ]
+		- Added FuriousRamsay's suggestion to filter button when in entity or vehicle.
 
-	[ HoldingItemDurability ]
-		- Addes a new Buff Requirement that tests the item durability of the holding item:
-			<requirement name="HoldingItemDurability, SCore" value="0.5"/>
+	[ Console Command ]
+		- Created a new console command to set cvar's on the player.
+			setcvar <cvarName> <cvarValue>
 
-	[ Sound / Buff / Quest ]
-		- Code cleanup.
+		- To Remove a cvar, set it to 0
+			setcvar <cvarName> 0  
 
-	[ MinEventActionAddScriptToTransform ] 
-		- This will attach scripts to entity's using the minevent.
-		- This is probably okay to try to use.
-		- It will recursively go through the entity's, walking through all its transform, looking for matches.
-			- If more than one match is found, the script is added to each one.
-			- At least one component, or one transform, must be defined. 
-			- A component and transform values are both valid, on the same event.
-				- The script will be attached to every component and transform that is found.
+		Example:
+			setcvar quietNPC 1  
+			setcvar FailOnDistanceToLeader 10
 
-			<triggered_effect trigger="onSelfEnteredGame" 
-				action="AddScriptToTransform, SCore"
-				component="Animator"	// Optional: Add the script to this component, regardless of transform name.
-				transform="Camera" 		// Optional: Add the script to the transform that has this name.
-				script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>  // Namespace.Class, Assembly
+	[ UAI ]
+		- Updated the FailOnDistanceToLeader consideration to check the distance of the target entity, to see if the entity is outside of the allowed range.
+			- This should prevent the NPC from walking halfway to a zombie, then turning around, as it'd take it out of this range.
+		- Updated the FaceToEntity code to try to look at the player a bit more often.
+		- When the NPC starts the Follow Task, it will clear its attack / revenge targets, as not to obsess over them.
+		- Adjusted the yaw and pitch of NPCs to be 8f,8f, which should line them up better. 
+Version 21.0.15.1058
+	[ Upgrade log ]
+		- Updated all XMLAttributes to XAttributes. Gosh
+		- Removed QuestTags and converted over to FastTags
+		- Oh geeze, XMLAttributes are everywhere
 
-		- This MinEvent supports the following:
-			- Transform: This searches for the transform with matching name.
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" transform="Camera" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
+	[ Dialog ]
+		Added a DialogActionSwapWeapon to allow a NPC to change weapon
+			<action type="SwapWeapon, SCore" id="gunNPCPipeShotgun"  />
+		Added DialogActionAnimatorSet to change parameter.
+			<action type="AnimatorSet, SCore" id="PistolUser" value="0" />
+		Added a DialogActionRemoveBuffNPCSDX to remove a buff from a NPC
+			<action type="RemoveBuffNPCSDX, SCore" id="PistolUser" />
+		Added a DialogActionPickUpNPC, allowing you to pick up an NPC as an Item
+			<action type="PickUpNPC, SCore" />
+			- Item is hard coded, and defined in SCore's items.xml
+		Added A DialogActionDisplayInfo to dump the NPCs Buffs and CVars to thelog file.
+			<action type="DisplayInfo, SCore" />
 
-			- Component: This searches for the type of component. 
-				Supported Components:  Animator, RigidBody, Renderer, EntityAlive, Collider
+		Reminder: Console command  dialog   or dialogs    will reload dialogs.xml without restarting the game.
 
+	[ EntityAlive SDX ]
+		Added New Feature to allow NPCs to change weapons on the fly.
+		Added a UpdateWeapon( item ) call to allow an NPC to change weapons
+		Added PickUp NPC option.
+			- This preserves ownership and name of Entity.
+			- Entity gets created into an items.xml entry (defined in SCore's Items.xml
+		Re-added Progression for NPCs under the following conditions:
+			- If they are EntityAliveSDX
+			- If they do not hava a cvar called "noprogression" with a value greater than 0
+			- if they do not have a tag called "noprogression"
+		Fixed an issue where the PhysicsTransform was not active, allowing NPCs to clip inside of each other.
+
+	[ MinEvent ]
+		Added MinEventActionAnimatorSetFloatSDX
+		Added MinEventActionAnimatorSetIntSDX
+			- Triggers as UpdateInt / UpdateFloat on the animator, updating the parameter with the supplied value.
+			- If the value starts with a @, the cvar value will be used.
 			Example:
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="Animator" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="RigidBody" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="Renderer" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
-				<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" component="EntityAlive" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetIntSDX, SCore" property="HoldType" value="@WeaponType" duration="1" /> 
+		Added MinActionSwapWeapon
+			Causes the NPC to have the specified Item.
+			Example:
+				<triggered_effect trigger="onSelfBuffUpdate" action="SwapWeapon, SCore" item="meleeClub" />
 
+	[ Entity Player ]
+		Fixed One Block Crouch to prevent clipping in terrain.
+
+	[ Winter Project Snow ]
+		- Fixed an issue where terrain was bumpy around POIs when buried in snow ( Winter Project Only )
+		- Fixed an issue with snow material that caused collapses.
+
+	[ Caves ]
+		- Added Pillars from bedrock to strengthen POIs weakened SI
+
+	[ Lock Picking ]
+		- Fixed a hard crash when trying to access Progression
+
+	[ Fire Manager ]
+		- Added the ability to specify on a per block basis the chance to extinguish itself.
+			<property name="ChanceToExtinguish" value="0.05" /> <!-- 5% chance to exintguish -->
+		Note: This is checked per block, per CheckInterval.
+
+Version: 20.6.471.1518
+	[ Quest Utils ]
+		- Uncommented code that was accidentally commented out.
+
+Version: 20.6.470.1151
+
+	[ Quests / Entity Targetting ]
+		- Merged in a bug fix for khzmusik.
+
+		The revenge targets were being set on all entities in bounds, including the player hires. 
+		This is now fixed, and in addition the revenge targets also will not be set on other players in the party, 
+			provided those players are protected from friendly fire.
+
+		To detect whether an entity is an ally of the player's party, I created a new IsAllyOfParty method in EntityTargetingUtilities. 
+		I did not change any existing methods so there should be no risk of breaking anything.
+
+		I also fixed an issue where the POI's full area was not covered (the Bounds constructor shrinks the size vector 
+			argument in half so only a quarter of the prefab was covered).
+
+	[ MinEvent ] 
+		-Added a MinEvent to attach scripts to entity transforms.
+		- Note: This should not be used yet. I've added it for xyth's testing for getting zombies to create foot prints in the snow.
+
+		Example:
+			<effect_group>
+				<triggered_effect trigger="onSelfFirstSpawn" 
+					action="AddScriptToTransform, SCore" 
+					transform="RightFoot"    // The Game Object's Name to target.
+					script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"  // The script you want to attach:  Namespace.Script, Assembly
+				/>
+				<triggered_effect trigger="onSelfFirstSpawn" action="AddScriptToTransform, SCore" transform="LeftFoot" script="GlobalSnowEffect.GlobalSnowCollisionDetector, SphereII_Winter_Project"/>
+			</effect_group>
 
 Version:  20.6.467.917
 

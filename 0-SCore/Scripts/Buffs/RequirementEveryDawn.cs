@@ -6,6 +6,8 @@ public class RequirementEveryDawn : RequirementBase
     public override bool ParamsValid(MinEventParams _params)
     {
         var hour = GameUtils.WorldTimeToHours(GameManager.Instance.World.GetWorldTime());
-        return hour == value;
+        if (hour == value)
+            return true;
+        return false;
     }
 }

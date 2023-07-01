@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -9,97 +8,100 @@ using Random = UnityEngine.Random;
 /// </summary>
 internal class MecanimSDX : AvatarController
 {
-    public float checkDelay = 5f;
+    public float CheckDelay = 5f;
+    public new float animSyncWaitTime = 0.5f;
 
     // Our transforms for key elements
     public Transform bipedTransform;
     public Transform modelTransform;
-    private int _attackIdleIndexes;
+    private int AttackIdleIndexes;
 
 
     // Indexes used to add more variety to state machines
-    private int _attackIndexes;
+    private int AttackIndexes;
 
     // If set to true, logging will be very verbose for troubleshooting
-    private readonly bool blDisplayLog = false;
-    private int _crouchIndexes;
-    private int _deathIndexes;
-    private int _eatingIndexes;
-    private int _electrocutionIndexes;
-    private int _harvestIndexes;
-    private int _idleIndexes;
-    private  int _jumpIndexes;
-    private readonly bool Jumping = false;
-    private  int _ragingIndexes;
-    private  int _randomIndexes;
-    private  string _rightHand = "RightHand";
-    private  int _runIndexes;
-    private  int _sleeperIndexes;
-    private  int _specialAttackIndexes;
-    private  int _specialSecondIndexes;
-    private  int _stunIndexes;
-    private  int _walkIndexes;
-    private int _painIndexes;
+    private bool blDisplayLog = false;
+    private int CrouchIndexes;
+    private int DeathIndexes;
+    private int EatingIndexes;
+    private int ElectrocutionIndexes;
+    private int HarvestIndexes;
+    private int IdleIndexes;
+    private int JumpIndexes;
+    private bool Jumping = false;
+    private int RagingIndexes;
+    private int RandomIndexes;
+    private string RightHand = "RightHand";
+    private int RunIndexes;
+    private int SleeperIndexes;
+    private int SpecialAttackIndexes;
+    private int SpecialSecondIndexes;
+    private int StunIndexes;
+    private int WalkIndexes;
+    private int PainIndexes;
     // Animator support method to keep our current state
-    private AnimatorStateInfo _currentBaseState;
-    private Transform _head;
-    private float _idleTime;
-    private bool _isEating;
+    protected AnimatorStateInfo currentBaseState;
+    protected Transform head;
+    protected float idleTime;
+    private bool isEating;
 
     // bools to check if we are performing an action already
-    private bool _isHarvesting;
+    private bool IsHarvesting;
 
     // Jumping tags and bools
-    private new int _jumpTag;
+    protected new int jumpTag;
 
     // Maintenance varaibles
-    private bool _mBVisible;
+    protected bool m_bVisible;
 
-    private int _movementStateOverride = -1;
+    protected int movementStateOverride = -1;
 
     // interval between changing the indexes in the LateUpdate
-    private float _nextCheck;
+    private float nextCheck;
+    private Transform rightHand;
 
     // This controls the animations if we are holding a weapon.
-    private Transform rightHand;
-    private Animator _rightHandAnimator;
-    private Transform _rightHandItemTransform;
+    protected Animator rightHandAnimator;
+    private Transform rightHandItemTransform;
 
     // support variable for timing attacks.
-    private int _specialAttackTicks;
-    private float _timeAttackAnimationPlaying;
-    private float _timeSpecialAttackPlaying;
+    protected int specialAttackTicks;
+    protected float timeAttackAnimationPlaying;
+    protected float timeSpecialAttackPlaying;
 
-   
+
 
     private new void Awake()
     {
+        Log("Method: " + MethodBase.GetCurrentMethod().Name);
+
         entity = transform.gameObject.GetComponent<EntityAlive>();
         var entityClass = EntityClass.list[entity.entityClass];
 
         // this.AttackHash = this.GenerateLists(entityClass, "AttackAnimations");
-        int.TryParse(entityClass.Properties.Values["AttackIndexes"], out _attackIndexes);
-        int.TryParse(entityClass.Properties.Values["SpecialAttackIndexes"], out _specialAttackIndexes);
-        int.TryParse(entityClass.Properties.Values["SpecialSecondIndexes"], out _specialSecondIndexes);
-        int.TryParse(entityClass.Properties.Values["RagingIndexes"], out _ragingIndexes);
-        int.TryParse(entityClass.Properties.Values["ElectrocutionIndexes"], out _electrocutionIndexes);
-        int.TryParse(entityClass.Properties.Values["CrouchIndexes"], out _crouchIndexes);
-        int.TryParse(entityClass.Properties.Values["StunIndexes"], out _stunIndexes);
-        int.TryParse(entityClass.Properties.Values["SleeperIndexes"], out _sleeperIndexes);
-        int.TryParse(entityClass.Properties.Values["HarvestIndexes"], out _harvestIndexes);
-        int.TryParse(entityClass.Properties.Values["PainIndexes"], out _painIndexes);
-        int.TryParse(entityClass.Properties.Values["DeathIndexes"], out _deathIndexes);
-        int.TryParse(entityClass.Properties.Values["RunIndexes"], out _runIndexes);
-        int.TryParse(entityClass.Properties.Values["WalkIndexes"], out _walkIndexes);
-        int.TryParse(entityClass.Properties.Values["IdleIndexes"], out _idleIndexes);
-        int.TryParse(entityClass.Properties.Values["JumpIndexes"], out _jumpIndexes);
-        int.TryParse(entityClass.Properties.Values["EatingIndexes"], out _eatingIndexes);
-        int.TryParse(entityClass.Properties.Values["RandomIndexes"], out _randomIndexes);
-        int.TryParse(entityClass.Properties.Values["AttackIdleIndexes"], out _attackIdleIndexes);
-        if (entityClass.Properties.Values.ContainsKey("RightHandJointName")) _rightHand = entityClass.Properties.Values["RightHandJointName"];
-        _jumpTag = Animator.StringToHash("Jump");
+        int.TryParse(entityClass.Properties.Values["AttackIndexes"], out AttackIndexes);
+        int.TryParse(entityClass.Properties.Values["SpecialAttackIndexes"], out SpecialAttackIndexes);
+        int.TryParse(entityClass.Properties.Values["SpecialSecondIndexes"], out SpecialSecondIndexes);
+        int.TryParse(entityClass.Properties.Values["RagingIndexes"], out RagingIndexes);
+        int.TryParse(entityClass.Properties.Values["ElectrocutionIndexes"], out ElectrocutionIndexes);
+        int.TryParse(entityClass.Properties.Values["CrouchIndexes"], out CrouchIndexes);
+        int.TryParse(entityClass.Properties.Values["StunIndexes"], out StunIndexes);
+        int.TryParse(entityClass.Properties.Values["SleeperIndexes"], out SleeperIndexes);
+        int.TryParse(entityClass.Properties.Values["HarvestIndexes"], out HarvestIndexes);
+        int.TryParse(entityClass.Properties.Values["PainIndexes"], out PainIndexes);
+        int.TryParse(entityClass.Properties.Values["DeathIndexes"], out DeathIndexes);
+        int.TryParse(entityClass.Properties.Values["RunIndexes"], out RunIndexes);
+        int.TryParse(entityClass.Properties.Values["WalkIndexes"], out WalkIndexes);
+        int.TryParse(entityClass.Properties.Values["IdleIndexes"], out IdleIndexes);
+        int.TryParse(entityClass.Properties.Values["JumpIndexes"], out JumpIndexes);
+        int.TryParse(entityClass.Properties.Values["EatingIndexes"], out EatingIndexes);
+        int.TryParse(entityClass.Properties.Values["RandomIndexes"], out RandomIndexes);
+        int.TryParse(entityClass.Properties.Values["AttackIdleIndexes"], out AttackIdleIndexes);
+        if (entityClass.Properties.Values.ContainsKey("RightHandJointName")) RightHand = entityClass.Properties.Values["RightHandJointName"];
+        jumpTag = Animator.StringToHash("Jump");
 
-        if (entityClass.Properties.Values.ContainsKey("RightHandJointName")) _rightHand = entityClass.Properties.Values["RightHandJointName"];
+        if (entityClass.Properties.Values.ContainsKey("RightHandJointName")) RightHand = entityClass.Properties.Values["RightHandJointName"];
         Log("Initializing " + entity.name);
         try
         {
@@ -143,11 +145,11 @@ internal class MecanimSDX : AvatarController
             Log("My Animator Controller has: " + anim.runtimeAnimatorController.animationClips.Length + " Animations");
             foreach (var animationClip in anim.runtimeAnimatorController.animationClips) Log("Animation Clip: " + animationClip.name);
 
-            _rightHandItemTransform = FindTransform(bipedTransform, bipedTransform, _rightHand);
-            if (_rightHandItemTransform)
-                Log("Right Hand Item Transform: " + _rightHandItemTransform.name);
+            rightHandItemTransform = FindTransform(bipedTransform, bipedTransform, RightHand);
+            if (rightHandItemTransform)
+                Log("Right Hand Item Transform: " + rightHandItemTransform.name);
             else
-                Log("Right Hand Item Transform: Could not find Transform: " + _rightHand);
+                Log("Right Hand Item Transform: Could not find Transform: " + RightHand);
         }
         catch (Exception arg)
         {
@@ -158,9 +160,9 @@ internal class MecanimSDX : AvatarController
     // Main Update method
     protected override void Update()
     {
-        if (_timeAttackAnimationPlaying > 0f) _timeAttackAnimationPlaying -= Time.deltaTime;
+        if (timeAttackAnimationPlaying > 0f) timeAttackAnimationPlaying -= Time.deltaTime;
 
-        if (!_mBVisible && (entity == null || entity.isEntityRemote)) return;
+        if (!m_bVisible && (entity == null || entity.isEntityRemote)) return;
 
         // No need to proceed if the model isn't initialized.
         if (bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy) return;
@@ -178,39 +180,39 @@ internal class MecanimSDX : AvatarController
 
             var num3 = num2;
             if (num3 >= 1234f) num3 = 0f;
-            SetFloat("Forward", num);
-            SetFloat("Strafe", num3);
+            UpdateFloat("Forward", num);
+            UpdateFloat("Strafe", num3);
             if (!entity.IsDead())
             {
-                if (_movementStateOverride != -1)
+                if (movementStateOverride != -1)
                 {
-                    SetInt("MovementState", _movementStateOverride);
-                    _movementStateOverride = -1;
+                    UpdateInt("MovementState", movementStateOverride);
+                    movementStateOverride = -1;
                 }
                 else if (num2 >= 1234f)
                 {
-                    SetInt("MovementState", 4);
+                    UpdateInt("MovementState", 4);
                 }
                 else
                 {
                     var num4 = num * num + num3 * num3;
-                    SetInt("MovementState", num4 <= entity.moveSpeedAggro * entity.moveSpeedAggro ? num4 <= entity.moveSpeed * entity.moveSpeed ? num4 <= 0.001f ? 0 : 1 : 2 : 3);
+                    UpdateInt("MovementState", num4 <= entity.moveSpeedAggro * entity.moveSpeedAggro ? num4 <= entity.moveSpeed * entity.moveSpeed ? num4 <= 0.001f ? 0 : 1 : 2 : 3);
                 }
             }
 
             if (Mathf.Abs(num) <= 0.01f && Mathf.Abs(num2) <= 0.01f)
             {
-                SetBool("IsMoving", false);
+                UpdateBool("IsMoving", false);
             }
             else
             {
-                _idleTime = 0f;
-                SetBool("IsMoving", true);
+                idleTime = 0f;
+                UpdateBool("IsMoving", true);
             }
 
-            if (_nextCheck == 0.0f || _nextCheck < Time.time)
+            if (nextCheck == 0.0f || nextCheck < Time.time)
             {
-                _nextCheck = Time.time + checkDelay;
+                nextCheck = Time.time + CheckDelay;
                 SetRandomIndex("RandomIndex");
 
                 SetRandomIndex("WalkIndex");
@@ -218,9 +220,9 @@ internal class MecanimSDX : AvatarController
                 SetRandomIndex("IdleIndex");
             }
 
-            SetFloat("IdleTime", _idleTime);
-            _idleTime += Time.deltaTime;
-            SetFloat("RotationPitch", entity.rotation.x);
+            UpdateFloat("IdleTime", idleTime);
+            idleTime += Time.deltaTime;
+            UpdateFloat("RotationPitch", entity.rotation.x);
 
             SendAnimParameters(0.05f);
         }
@@ -230,36 +232,36 @@ internal class MecanimSDX : AvatarController
     public override void SwitchModelAndView(string _modelName, bool _bFPV, bool _bMale)
     {
         Log("Running Switch and Model View");
-        SetBool("IsDead", entity.IsDead());
-        SetBool("IsAlive", entity.IsAlive());
+        UpdateBool("IsDead", entity.IsDead());
+        UpdateBool("IsAlive", entity.IsAlive());
 
         // dummy assign body parts
         assignBodyParts();
 
         // Check if this entity has a weapon or not
-        if (_rightHandItemTransform != null)
+        if (rightHandItemTransform != null)
         {
             Log("Setting Right hand position");
-            _rightHandItemTransform.parent = _rightHandItemTransform;
+            rightHandItemTransform.parent = rightHandItemTransform;
             var position = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].position;
             var rotation = AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].rotation;
-            _rightHandItemTransform.localPosition = position;
-            _rightHandItemTransform.localEulerAngles = rotation;
-            SetInRightHand(_rightHandItemTransform);
+            rightHandItemTransform.localPosition = position;
+            rightHandItemTransform.localEulerAngles = rotation;
+            SetInRightHand(rightHandItemTransform);
         }
     }
 
     public override bool IsAnimationAttackPlaying()
     {
-        return _timeAttackAnimationPlaying > 0f;
+        return timeAttackAnimationPlaying > 0f;
     }
 
     public override void StartAnimationAttack()
     {
         SetRandomIndex("AttackIndex");
-        SetTrigger("Attack");
+        TriggerEvent("Attack");
         SetRandomIndex("AttackIdleIndex");
-        _timeAttackAnimationPlaying = 0.3f;
+        timeAttackAnimationPlaying = 0.3f;
     }
 
     public override bool IsAnimationSpecialAttackPlaying()
@@ -273,10 +275,10 @@ internal class MecanimSDX : AvatarController
         {
             Log("Firing Special attack");
             SetRandomIndex("SpecialAttackIndex");
-            SetTrigger("SpecialAttack");
-            _idleTime = 0f;
-            _specialAttackTicks = 3;
-            _timeSpecialAttackPlaying = 0.8f;
+            TriggerEvent("SpecialAttack");
+            idleTime = 0f;
+            specialAttackTicks = 3;
+            timeSpecialAttackPlaying = 0.8f;
         }
     }
     //public override void StartAnimationSpecialAttack(bool _b)
@@ -302,7 +304,7 @@ internal class MecanimSDX : AvatarController
     {
         Log("Firing Second Special attack");
         SetRandomIndex("SpecialSecondAttack");
-        SetTrigger("SpecialSecondAttack");
+        TriggerEvent("SpecialSecondAttack");
     }
 
 
@@ -310,7 +312,7 @@ internal class MecanimSDX : AvatarController
     public override void StartAnimationRaging()
     {
         SetRandomIndex("RagingIndex");
-        SetTrigger("Raging");
+        TriggerEvent("Raging");
     }
 
     // Logic to handle electrocution A19 b180
@@ -330,24 +332,24 @@ internal class MecanimSDX : AvatarController
 
     public override bool IsAnimationHarvestingPlaying()
     {
-        return _isHarvesting;
+        return IsHarvesting;
     }
 
     public override void StartAnimationHarvesting()
     {
         if (!IsAnimationHarvestingPlaying())
         {
-            _isHarvesting = true;
+            IsHarvesting = true;
             SetRandomIndex("HarvestIndex");
-            SetTrigger("Harvest");
+            TriggerEvent("Harvest");
         }
     }
 
     public override void SetAlive()
     {
-        SetBool("IsAlive", true);
-        SetBool("IsDead", false);
-        SetTrigger("Alive");
+        UpdateBool("IsAlive", true);
+        UpdateBool("IsDead", false);
+        TriggerEvent("Alive");
     }
 
     public override void SetDrunk(float _numBeers)
@@ -355,7 +357,7 @@ internal class MecanimSDX : AvatarController
         if (_numBeers > 3f)
         {
             SetRandomIndex("DrunkIndex");
-            SetTrigger("Drunk");
+            TriggerEvent("Drunk");
         }
     }
 
@@ -363,14 +365,14 @@ internal class MecanimSDX : AvatarController
     public override void SetCrouching(bool _bEnable)
     {
         if (_bEnable) SetRandomIndex("CrouchIndex");
-        SetBool("IsCrouching", _bEnable);
+        UpdateBool("IsCrouching", _bEnable);
     }
 
     public override void SetVisible(bool _b)
     {
-        if (_mBVisible != _b)
+        if (m_bVisible != _b)
         {
-            _mBVisible = _b;
+            m_bVisible = _b;
             var transform = bipedTransform;
             if (transform != null)
             {
@@ -391,7 +393,7 @@ internal class MecanimSDX : AvatarController
     public override void StartAnimationJumping()
     {
         SetRandomIndex("JumpIndex");
-        SetTrigger("Jump");
+        TriggerEvent("Jump");
     }
 
     public override void StartAnimationFiring()
@@ -401,7 +403,7 @@ internal class MecanimSDX : AvatarController
     public override void StartAnimationHit(EnumBodyPartHit _bodyPart, int _dir, int _hitDamage, bool _criticalHit, int _movementState, float _random, float _duration)
     {
         SetRandomIndex("PainIndex");
-        SetTrigger("Pain");
+        TriggerEvent("Pain");
 
         base.StartAnimationHit(_bodyPart, _dir, _hitDamage, _criticalHit, _movementState, _random, _duration);
     }
@@ -414,26 +416,26 @@ internal class MecanimSDX : AvatarController
     public override void StartDeathAnimation(EnumBodyPartHit _bodyPart, int _movementState, float _random)
     {
         SetRandomIndex("DeathIndex");
-        SetBool("IsDead", true);
+        UpdateBool("IsDead", true);
     }
 
     public override void SetInRightHand(Transform _transform)
     {
-        if (!(_rightHandItemTransform == null) && !(_transform == null))
+        if (!(rightHandItemTransform == null) && !(_transform == null))
         {
-            Log("Setting Right Hand: " + _rightHandItemTransform.name);
-            _idleTime = 0f;
+            Log("Setting Right Hand: " + rightHandItemTransform.name);
+            idleTime = 0f;
             Log("Setting Right Hand Transform");
-            _rightHandItemTransform = _transform;
-            if (_rightHandItemTransform == null)
+            rightHandItemTransform = _transform;
+            if (rightHandItemTransform == null)
             {
                 Log("Right Hand Animator is Null");
             }
             else
             {
                 Log("Right Hand Animator is NOT NULL ");
-                _rightHandAnimator = _rightHandItemTransform.GetComponent<Animator>();
-                if (_rightHandItemTransform != null) Utils.SetLayerRecursively(_rightHandItemTransform.gameObject, 0);
+                rightHandAnimator = rightHandItemTransform.GetComponent<Animator>();
+                if (rightHandItemTransform != null) Utils.SetLayerRecursively(rightHandItemTransform.gameObject, 0);
                 Log("Done with SetInRightHand");
             }
         }
@@ -441,7 +443,7 @@ internal class MecanimSDX : AvatarController
 
     public override Transform GetRightHandTransform()
     {
-        return _rightHandItemTransform;
+        return rightHandItemTransform;
     }
 
     public override Transform GetActiveModelRoot()
@@ -453,23 +455,23 @@ internal class MecanimSDX : AvatarController
     public override void BeginStun(EnumEntityStunType stun, EnumBodyPartHit _bodyPart, Utils.EnumHitDirection _hitDirection, bool _criticalHit, float random)
     {
         SetRandomIndex("StunIndex");
-        SetBool("IsStunned", true);
+        UpdateBool("IsStunned", true);
     }
 
     public override void EndStun()
     {
-        SetBool("IsStunned", false);
+        UpdateBool("IsStunned", false);
     }
 
 
-    public override void TriggerSleeperPose(int pose)
-    {
-        if (anim != null)
-        {
-            anim.SetInteger("SleeperPose", pose);
-            SetTrigger("SleeperTrigger");
-        }
-    }
+    // public override void TriggerSleeperPose(int pose)
+    // {
+    //     if (anim != null)
+    //     {
+    //         anim.SetInteger("SleeperPose", pose);
+    //         TriggerEvent("SleeperTrigger");
+    //     }
+    // }
 
     private void Log(string strLog)
     {
@@ -508,7 +510,7 @@ internal class MecanimSDX : AvatarController
 
     private void UpdateCurrentState()
     {
-        _currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
+        currentBaseState = anim.GetCurrentAnimatorStateInfo(0);
     }
 
 
@@ -519,63 +521,63 @@ internal class MecanimSDX : AvatarController
         switch (strParam)
         {
             case "AttackIndex":
-                index = GetRandomIndex(_attackIndexes);
+                index = GetRandomIndex(AttackIndexes);
                 break;
             case "SpecialAttackIndex":
-                index = GetRandomIndex(_specialAttackIndexes);
+                index = GetRandomIndex(SpecialAttackIndexes);
                 break;
             case "SpecialSecondIndex":
-                index = GetRandomIndex(_specialSecondIndexes);
+                index = GetRandomIndex(SpecialSecondIndexes);
                 break;
             case "RagingIndex":
-                index = GetRandomIndex(_ragingIndexes);
+                index = GetRandomIndex(RagingIndexes);
                 break;
             case "ElectrocutionIndex":
-                index = GetRandomIndex(_electrocutionIndexes);
+                index = GetRandomIndex(ElectrocutionIndexes);
                 break;
             case "CrouchIndex":
-                index = GetRandomIndex(_crouchIndexes);
+                index = GetRandomIndex(CrouchIndexes);
                 break;
             case "StunIndex":
-                index = GetRandomIndex(_stunIndexes);
+                index = GetRandomIndex(StunIndexes);
                 break;
             case "SleeperIndex":
-                index = GetRandomIndex(_sleeperIndexes);
+                index = GetRandomIndex(SleeperIndexes);
                 break;
             case "HarvestIndex":
-                index = GetRandomIndex(_harvestIndexes);
+                index = GetRandomIndex(HarvestIndexes);
                 break;
             case "PainIndex":
-                index = GetRandomIndex(_painIndexes);
+                index = GetRandomIndex(PainIndexes);
                 break;
             case "DeathIndex":
-                index = GetRandomIndex(_deathIndexes);
+                index = GetRandomIndex(DeathIndexes);
                 break;
             case "RunIndex":
-                index = GetRandomIndex(_runIndexes);
+                index = GetRandomIndex(RunIndexes);
                 break;
             case "WalkIndex":
-                index = GetRandomIndex(_walkIndexes);
+                index = GetRandomIndex(WalkIndexes);
                 break;
             case "IdleIndex":
-                index = GetRandomIndex(_idleIndexes);
+                index = GetRandomIndex(IdleIndexes);
                 break;
             case "JumpIndex":
-                index = GetRandomIndex(_jumpIndexes);
+                index = GetRandomIndex(JumpIndexes);
                 break;
             case "RandomIndex":
-                index = GetRandomIndex(_randomIndexes);
+                index = GetRandomIndex(RandomIndexes);
                 break;
             case "EatingIndex":
-                index = GetRandomIndex(_eatingIndexes);
+                index = GetRandomIndex(EatingIndexes);
                 break;
             case "AttackIdleIndex":
-                index = GetRandomIndex(_attackIdleIndexes);
+                index = GetRandomIndex(AttackIdleIndexes);
                 break;
         }
 
         Log(string.Format("Random Generator: {0} Value: {1}", strParam, index));
-        SetInt(strParam, index);
+        UpdateInt(strParam, index);
     }
 
     public int GetRandomIndex(int intMax)
@@ -645,34 +647,34 @@ internal class MecanimSDX : AvatarController
         else
         {
             Log("Mapping Body Parts");
-            _head = FindTransform(bipedTransform, bipedTransform, "Head");
-            rightHand = FindTransform(bipedTransform, bipedTransform, _rightHand);
+            head = FindTransform(bipedTransform, bipedTransform, "Head");
+            rightHand = FindTransform(bipedTransform, bipedTransform, RightHand);
         }
     }
 
     public override bool IsAnimationJumpRunning()
     {
-        return Jumping || _jumpTag == _currentBaseState.tagHash;
+        return Jumping || jumpTag == currentBaseState.tagHash;
     }
 
 
     public override void StartEating()
     {
-        if (!_isEating)
+        if (!isEating)
         {
             SetRandomIndex("EatingIndex");
-            SetBool("IsEating", true);
-            SetTrigger("IsEatingTrigger");
-            _isEating = true;
+            UpdateBool("IsEating", true);
+            TriggerEvent("IsEatingTrigger");
+            isEating = true;
         }
     }
 
     public override void StopEating()
     {
-        if (_isEating)
+        if (isEating)
         {
-            SetBool("IsEating", false);
-            _isEating = false;
+            UpdateBool("IsEating", false);
+            isEating = false;
         }
     }
 }

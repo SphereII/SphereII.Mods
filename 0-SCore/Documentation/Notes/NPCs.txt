@@ -1,0 +1,10 @@
+﻿
+Special CVars for NPCs:
+
+If the player has this cvar, hired NPCs won't make foot steps.
+    quietNPC        > 0     
+
+If the player has this cvar, then it over-rides the FailOnDistanceToLeader distance.
+    FailOnDistance
+    
+    

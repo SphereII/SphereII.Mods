@@ -94,7 +94,26 @@
 		  </effect_group>
 	  </item>
 
-	 
+
+    <item name="spherePickUpNPC">
+      <property name="HoldType" value="7"/>
+      <property name="Meshfile" value="@:Entities/Vehicles/minibike_Prefab.prefab"/>
+      <property name="DropMeshfile" value="@:Other/Items/Misc/sack_droppedPrefab.prefab"/>
+      <property name="Material" value="Mmetal"/>
+      <property name="HoldingItemHidden" value="true"/>
+      <property name="Weight" value="0"/>
+      <property name="Stacknumber" value="1"/>
+      <property name="EconomicValue" value="6000"/>
+      <property name="CustomIcon" value="schematicMaster" />
+      <property name="IsQuestItem" value="true" />
+      
+      <!-- Probably not a good precedent to be sellable.-->
+      <property name="SellableToTrader" value="false"/>
+      <property class="Action1">
+        <property name="Class" value="DeployNPCSDX, SCore"/>
+      </property>
+
+  </item>
 	  <!-- Example of an item that can spoil, when the foot spoilage is turned on 
 		  <item name="foodSpoilageTest">
 			  <property name="Extends" value="foodShamSandwich"/>

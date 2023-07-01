@@ -1,0 +1,38 @@
+<configs>
+  <append xpath="/Sounds">
+
+    <!-- sounds from http://soundbible.com/tags-horror.html -->
+    <SoundDataNode name="sphereiiAtmospheric">
+      <AudioSource name="Sounds/AudioSource_VO" />
+      <Channel name="Mouth"/>
+      <Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+      <AudioClip ClipName="#@modfolder:Resources/SpookySounds.unity3d?Demon_Girls_Mockingbir-Hello-1365708396" />
+      <AudioClip ClipName="#@modfolder:Resources/SpookySounds.unity3d?I_will_kill_you-Grandpa-13673816" />
+      <AudioClip ClipName="#@modfolder:Resources/SpookySounds.unity3d?Little_Demon_Girl_Song-KillahChipmunk-2101926733" />
+      <AudioClip ClipName="#@modfolder:Resources/SpookySounds.unity3d?Wheres_My_Mummy-KillahChipmunl-717920453" />
+      <LocalCrouchVolumeScale name="1.0" />
+      <CrouchNoiseScale name="0.5" />
+      <NoiseScale name="1" />
+      <MaxVoices name="10" />
+      <maxVoicesPerEntity name="1" />
+      <MaxRepeatRate name="3.0" />
+    </SoundDataNode>
+
+    <SoundDataNode name="sphereiiAtmosphericDeath">
+      <AudioSource name="Sounds/AudioSource_VO" />
+      <Channel name="Mouth"/>
+      <Noise ID="3" range="100" volume="15" time="10" muffled_when_crouched="0.65" heat_map_strength="0.1" heat_map_time="60" />
+      <AudioClip ClipName="#@modfolder:Resources/SpookySounds.unity3d?7_Days-KillahChipmunk-39171653" />
+      <LocalCrouchVolumeScale name="1.0" />
+      <CrouchNoiseScale name="0.5" />
+      <NoiseScale name="1" />
+      <MaxVoices name="10" />
+      <maxVoicesPerEntity name="1" />
+      <MaxRepeatRate name="3.0" />
+    </SoundDataNode>
+  
+  </append>
+
+
+
+</configs>

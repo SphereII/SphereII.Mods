@@ -20,22 +20,22 @@ namespace Harmony.Blocks
                 {
                     strParticleName = __instance.Properties.Values["ParticleName"];
                     if (!ParticleEffect.IsAvailable(strParticleName))
-                        ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+                        ParticleEffect.LoadAsset(strParticleName);
                 }
 
-                if ( __instance.blockMaterial != null )
+                if (__instance.blockMaterial != null)
                 {
-                    if ( __instance.blockMaterial.Properties.Contains("FireParticle"))
+                    if (__instance.blockMaterial.Properties.Contains("FireParticle"))
                     {
                         var fireParticle = __instance.blockMaterial.Properties.Values["FireParticle"];
-                        if ( !ParticleEffect.IsAvailable(fireParticle) )
-                            ParticleEffect.RegisterBundleParticleEffect(fireParticle);
+                        if (!ParticleEffect.IsAvailable(fireParticle))
+                            ParticleEffect.LoadAsset(fireParticle);
                     }
                     if (__instance.blockMaterial.Properties.Contains("SmokeParticle"))
                     {
                         var smokeParticle = __instance.blockMaterial.Properties.Values["SmokeParticle"];
                         if (!ParticleEffect.IsAvailable(smokeParticle))
-                            ParticleEffect.RegisterBundleParticleEffect(smokeParticle);
+                            ParticleEffect.LoadAsset(smokeParticle);
                     }
 
                 }
@@ -44,13 +44,13 @@ namespace Harmony.Blocks
                 {
                     var fireParticle = __instance.Properties.Values["FireParticle"];
                     if (!ParticleEffect.IsAvailable(fireParticle))
-                        ParticleEffect.RegisterBundleParticleEffect(fireParticle);
+                        ParticleEffect.LoadAsset(fireParticle);
                 }
                 if (__instance.Properties.Contains("SmokeParticle"))
                 {
                     var smokeParticle = __instance.Properties.Values["SmokeParticle"];
                     if (!ParticleEffect.IsAvailable(smokeParticle))
-                        ParticleEffect.RegisterBundleParticleEffect(smokeParticle);
+                        ParticleEffect.LoadAsset(smokeParticle);
                 }
 
             }

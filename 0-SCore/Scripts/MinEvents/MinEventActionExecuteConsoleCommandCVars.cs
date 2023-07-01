@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using System.Xml.Linq;
 using HarmonyLib;
 
 // <triggered_effect trigger = "onSelfBuffStart" action = "ExecuteConsoleCommandCVars, SCore" command = "testCommand {0} {1}" cvars = "cvar1,cvar2" />
@@ -53,12 +54,12 @@ public class MinEventActionExecuteConsoleCommandCVars : MinEventActionTargetedBa
         return str;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         bool flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            string name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
             {
                 if (name == "command")

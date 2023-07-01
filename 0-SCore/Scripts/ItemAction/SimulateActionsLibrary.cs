@@ -62,7 +62,7 @@ public static class SimulateActionsLibrary
             vector -= headPosition;
             invData.gameManager.ItemDropServer(new ItemStack(holdingEntity.inventory.holdingItemItemValue, 1), vector, Vector3.zero, Vector3.zero, holdingEntity.entityId, 30f, true, -1);
         }
-        _actionData.invData.holdingEntity.emodel.avatarController.SetTrigger("ItemThrownTrigger");
+        _actionData.invData.holdingEntity.emodel.avatarController.TriggerEvent("ItemThrownTrigger");
         myInventoryData.m_LastThrowTime = 0f;
 
         _context.Self.inventory.SetItem(slotID, originalItem);

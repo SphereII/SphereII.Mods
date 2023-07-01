@@ -19,7 +19,7 @@
             defaultcolor="[white]"
             selectedcolor="[disabledColor]"
             sound="[paging_click]"
-            controller="SCore.Harmony.Recipes.BroadcastButton, SCore" />
+            controller="BroadcastButton, SCore" />
   </append>
 
 </configs>

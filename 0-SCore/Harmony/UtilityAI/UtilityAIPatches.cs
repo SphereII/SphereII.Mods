@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using System.Xml.Linq;
 using UAI;
 using UnityEngine;
 
@@ -53,7 +54,7 @@ public class UtilityAIPatches
         /// </code>
         /// </example>
         /// <param name="_element"></param>
-        static void Postfix(XmlElement _element)
+        static void Postfix(XElement _element)
         {
             if (_element.HasAttribute("max_entities"))
             {

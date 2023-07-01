@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class MinEventActionChangeFactionSDX : MinEventActionRemoveBuff
@@ -57,12 +58,12 @@ public class MinEventActionChangeFactionSDX : MinEventActionRemoveBuff
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "value")
                 {

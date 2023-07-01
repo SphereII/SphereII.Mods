@@ -69,6 +69,7 @@
 
 		</quest>
 
+		<!--
 		<quest id="challenge_killsomeNPCs">
 			<property name="name_key" value="challenge_silenceofthelambs"/>
 			<property name="subtitle_key" value="challenge_silenceofthelambs_subtitle"/>
@@ -99,10 +100,10 @@
 			</objective>
 
 			<reward type="Exp" value="500"/>
-			<!-- You can define a range of rewards like <reward type="Item" id="casinoCoin" value="200-500"/> -->
-			<reward type="Item" id="casinoCoin" value="350"/>
+					<reward type="Item" id="casinoCoin" value="350"/>
 		</quest>
-		<!--
+		
+		-->
       Sample quest using RandomTaggedPOIGotoSDX to specify POI tags.
       This quest will send players only to POIs that have the "residential" or "countryresidential"
       tags, and will not send players to POIs that have either the "industrial" or "rural" tags.

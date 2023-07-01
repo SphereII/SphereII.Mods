@@ -1,0 +1,23 @@
+﻿<configs>
+ 
+<!--
+  <append xpath="//lootcontainer[@id='34']">
+    <item name="ammoGasCan" count="500,2000" prob="1" />
+  </append>
+  
+  <append xpath="//lootcontainer[@id='6']">
+    <item name="Carousel" prob="0.06"/>
+    <item name="VideoPlayer" prob="0.06"/>
+    <item name="VideoPlayerTV" prob="0.06" />
+  </append>
+
+  <append xpath="/lootcontainers/lootgroup[@name='groupWeaponsMeleeScaled']">
+    <item name="candyCane" prob="0.05" />
+    <item name="snowShovel" prob="0.05" />
+  </append>
+
+  <append xpath="/lootcontainers/lootgroup[@name='junk']">
+    <item name="Cookies" count="1,4" prob="0.1" />
+  </append>
+-->
+</configs>

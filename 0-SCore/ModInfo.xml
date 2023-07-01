@@ -1,17 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <xml>
-  <ModInfo>
-    <Name value="0-SCore" />
-    <Description value="SCore Mod" />
-    <Author value="sphereii" />
-    <Version value="20.6.479.849" />
-    <Website value="" />
-  </ModInfo>
-
-  <!-- To Compile using DMT, uncomment out these lines.
-  <DMT>
-    <AssemblyName>SCore</AssemblyName>
-    <DestinationFolderName>0-SCore</DestinationFolderName>
-  </DMT>
-  -->
- </xml>
+  <Name value="0-SCore_sphereii" />
+  <Author value="sphereii" />
+  <Description value="SCore Mod" />
+  <DisplayName value="0-SCore" />
+  <Website value="" />
+  <Version value="21.0.30.1439" />
+</xml>

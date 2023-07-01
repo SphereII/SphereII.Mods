@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 // Authored by Soleil Plein, and InnocuousChaos
 // Example: <triggered_effect trigger="onSelfBuffStart" action="ExecuteConsoleCommand, SCore" command="st night"/>
@@ -20,10 +21,10 @@ public class MinEventActionExecuteConsoleCommand : MinEventActionBase
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var xmlAttribute = base.ParseXmlAttribute(_attribute);
-        if (xmlAttribute || !(_attribute.Name == "command"))
+        if (xmlAttribute || !(_attribute.Name.LocalName == "command"))
             return xmlAttribute;
         command = _attribute.Value;
         return true;

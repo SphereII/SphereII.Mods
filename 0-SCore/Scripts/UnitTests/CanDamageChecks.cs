@@ -36,7 +36,7 @@ public class CanDamageChecks
     {
         foreach (KeyValuePair<int, EntityClass> keyValuePair3 in EntityClass.list.Dict)
         {
-            if (keyValuePair3.Value.bAllowUserInstantiate)
+            //if (keyValuePair3.Value.)
             {
                 if (keyValuePair3.Value.entityClassName.Equals(entityClass, StringComparison.CurrentCultureIgnoreCase))
                 {

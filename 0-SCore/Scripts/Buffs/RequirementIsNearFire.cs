@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Xml;
+using System.Xml.Linq;
 
 // 	<requirement name="RequirementIsNearFire, SCore" range="5" />
 
@@ -8,12 +9,12 @@ public class RequirementIsNearFire : RequirementBase
     float maxRange = 5f;
     public override bool ParamsValid(MinEventParams _params)
     {
-        return FireManager.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
+        return FireManager.Instance.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXAttribute(XAttribute _attribute)
     {
-        var name = _attribute.Name;
+        var name = _attribute.Name.LocalName;
         if (name != null)
         {
             if (name == "range")
@@ -23,7 +24,7 @@ public class RequirementIsNearFire : RequirementBase
             }
         }
 
-        return base.ParseXmlAttribute(_attribute);
+        return base.ParseXAttribute(_attribute);
     }
-  
+
 }

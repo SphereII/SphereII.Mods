@@ -22,12 +22,11 @@ namespace UAI
                 if (entityAlive.IsWalkTypeACrawl())
                     _position = entityAlive.getHeadPosition();
                 _context.Self.SetInvestigatePosition(_position, 1200);
-
             }
+
             if (_context.ActionData.Target is Vector3 vector)
                 _position = vector;
 
-            SCoreUtils.FindPath(_context, _position, run);
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
         }
@@ -41,14 +40,22 @@ namespace UAI
                 var num = _context.Self.CalcInvestigateTicks(Constants.cEnemySenseMemory * 20, entityAlive);
                 _context.Self.SetInvestigatePosition(_position, num);
             }
+
             base.Stop(_context);
         }
+
         public override void Update(Context _context)
         {
             // We don't call base.Update() here, because it's checking if the entity has no path, then it stops the task.
             // However, at times, we do want the opportunity to repath without stopping the task. This stops the pauses the entity does.
             if (SCoreUtils.IsBlocked(_context))
             {
+                var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+                if (entityAlive != null && entityAlive.IsAlive())
+                {
+                    _context.Self.RotateTo(entityAlive, 90f,90f);
+                }
+
                 Stop(_context);
                 return;
             }
@@ -56,56 +63,50 @@ namespace UAI
             CheckProximityToPosition(_context);
         }
 
-        public void CheckProximityToPosition(Context _context)
+        private void CheckProximityToPosition(Context context)
         {
-            _context.Self.SetLookPosition(Vector3.zero);
-            if (_context.ActionData.Target.GetType() == typeof(Vector3))
+            context.Self.SetLookPosition(Vector3.zero);
+            if (context.ActionData.Target is Vector3)
             {
-                if (_context.Self.getNavigator().noPathAndNotPlanningOne())
-                    this.Stop(_context);
+                if (context.Self.getNavigator().noPathAndNotPlanningOne())
+                    Stop(context);
 
-                var distance = Vector3.Distance(_context.Self.position, _position);
-                if (distance < 1f)
-                    Stop(_context);
-
-            }
-
-            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-            if (entityAlive == null) return;
-
-            if (entityAlive.IsDead())
-            {
-                Stop(_context);
-                return;
-            }
-
-
-            //// I'm close enough to the entity.
-            //if (Vector3.Distance(_context.Self.position, entityAlive.position) < 2f)
-            //{
-            //    Stop(_context);
-            //    return;
-            //}
-
-            // The entity hasn't moved very much, keep going.
-            if (Vector3.Distance(entityAlive.position, _position) < 2f)
-            {
-              //  if (SCoreUtils.CanSee(_context.Self, entityAlive))
+                var distance = Vector3.Distance(context.Self.position, _position);
+                if (distance < 2f)
                 {
-                    _context.Self.SetLookPosition(_position);
-                    _context.Self.RotateTo(entityAlive, 30f, 30f);
-                    _context.Self.moveHelper.SetMoveTo(_position, true);
+                    Stop(context);
                     return;
                 }
             }
 
+            var entityAlive = UAIUtils.ConvertToEntityAlive(context.ActionData.Target);
+            if (entityAlive == null) return;
+            if (entityAlive.IsDead())
+            {
+                Stop(context);
+                return;
+            }
+
+            // The entity hasn't moved very much, keep going.
+            if (Vector3.Distance(entityAlive.position, _position) < 2f)
+            {
+                context.Self.SetLookPosition(_position);
+                context.Self.RotateTo(entityAlive, 30f, 30f);
+                context.Self.moveHelper.SetMoveTo(_position, true);
+                return;
+            }
+
+            // We are close enough
+            if (Vector3.Distance(context.Self.position, entityAlive.position) < 1.2)
+            {
+                Stop(context);
+                return;
+            }
+
             _position = entityAlive.position;
-            SCoreUtils.FindPath(_context, _position, run);
-
-
+            SCoreUtils.FindPath(context, _position, run);
+            // 
+            // SCoreUtils.FindPath(_context, _position, run);
         }
-
-
-
     }
 }

@@ -82,7 +82,7 @@ public static class BlockUtilitiesSDX
             strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
         if (!ParticleEffect.IsAvailable(strParticleName))
-            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+            ParticleEffect.LoadAsset(strParticleName);
 
         var blockValue = GameManager.Instance.World.GetBlock(position);
         GameManager.Instance.World.GetGameManager().SpawnBlockParticleEffect(position,
@@ -91,8 +91,6 @@ public static class BlockUtilitiesSDX
 
     public static void addParticlesCentered(string strParticleName, Vector3i position)
     {
-        if (GameManager.IsDedicatedServer) return;
-
         if (string.IsNullOrEmpty(strParticleName))
             strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
@@ -100,11 +98,12 @@ public static class BlockUtilitiesSDX
             return;
 
         if (!ParticleEffect.IsAvailable(strParticleName))
-            ParticleEffect.RegisterBundleParticleEffect(strParticleName);
+            ParticleEffect.LoadAsset(strParticleName);
 
         if (GameManager.Instance.HasBlockParticleEffect(position)) 
             return;
 
+        if (GameManager.IsDedicatedServer) return;
         
         var centerPosition = EntityUtilities.CenterPosition(position);
         var blockValue = GameManager.Instance.World.GetBlock(position);

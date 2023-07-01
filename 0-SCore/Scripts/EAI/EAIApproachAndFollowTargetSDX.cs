@@ -237,7 +237,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
 
         // Let the entity keep looking at you, otherwise it may just sping around.
         theEntity.SetLookPosition(entityTargetPos);
-        theEntity.RotateTo(entityTargetPos.x, entityTargetPos.y + 2, entityTargetPos.z, 30f, 30f);
+        theEntity.RotateTo(entityTargetPos.x, entityTargetPos.y + 2, entityTargetPos.z, 8f, 8f);
 
         if (theEntity is IEntityOrderReceiverSDX entityOrderReceiver)
             if (EntityUtilities.CanExecuteTask(theEntity.entityId, EntityUtilities.Orders.SetPatrolPoint))

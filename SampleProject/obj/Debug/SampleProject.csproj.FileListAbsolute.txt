@@ -1,0 +1,24 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\obj\Debug\SampleProject.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\obj\Debug\SampleProject.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\obj\Debug\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\obj\Debug\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SampleProject\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\obj\Debug\SampleProject.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\obj\Debug\SampleProject.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\obj\Debug\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\obj\Debug\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SampleProject\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\obj\Debug\SampleProject.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\obj\Debug\SampleProject.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\obj\Debug\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\obj\Debug\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SampleProject\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\obj\Debug\SampleProject.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\obj\Debug\SampleProject.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\obj\Debug\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\obj\Debug\SampleProject.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\SampleProject.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SampleProject\SampleProject.pdb

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -42,6 +42,54 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockPlantGrowingSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\BlockRobot.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockBaseWaterSystem.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
+    <Compile Include="Features\Farming\Scripts\CropManager.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\FarmPlotData.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\Pipe.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\PipeData.cs" />
+    <Compile Include="Features\Farming\Scripts\DataClasses\PlantData.cs" />
+    <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
+    <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
+    <Compile Include="Features\Fire\Harmony\Explosion.cs" />
+    <Compile Include="Features\Fire\Harmony\FireInit.cs" />
+    <Compile Include="Features\Fire\Harmony\PerformanceTweaks.cs" />
+    <Compile Include="Features\Fire\Harmony\UpdateCurrentBlockposAndValueFire.cs" />
+    <Compile Include="Features\Fire\Scripts\FireManager.cs" />
+    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamage.cs" />
+    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamageCascade.cs" />
+    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionCheckFireProximity.cs" />
+    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionRemoveFire.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
+    <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
+    <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
+    <Compile Include="Features\LockPicking\Harmony\TileEntityLootContainerPatch.cs" />
+    <Compile Include="Features\LockPicking\Scripts\Cipher.cs" />
+    <Compile Include="Features\LockPicking\Scripts\CipherControls.cs" />
+    <Compile Include="Features\LockPicking\Scripts\CipherDemoUI.cs" />
+    <Compile Include="Features\LockPicking\Scripts\Keyhole.cs" />
+    <Compile Include="Features\LockPicking\Scripts\KeyholeDemoUI.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockButton.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockControls.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockDemoCommonControls.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockEmissive.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockEmissiveControls.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LockObjectRotation.cs" />
+    <Compile Include="Features\LockPicking\Scripts\LocksetAudio.cs" />
+    <Compile Include="Features\LockPicking\Scripts\SphereII_Locks.cs" />
+    <Compile Include="Features\LockPicking\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
+    <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
+    <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingUtils.cs" />
+    <Compile Include="Features\RemoteCrafting\Scripts\XUiC\XUiC_BroadcastButton.cs" />
     <Compile Include="Harmony\AIDirectorBloodMoon\AiDirectorBloodMoonParty.cs" />
     <Compile Include="Harmony\Animation\AnimalAvatarController.cs" />
     <Compile Include="Harmony\Animation\AnimatorMapper.cs" />

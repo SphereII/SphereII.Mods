@@ -1,0 +1,16 @@
+﻿<configs>
+  <!-- lower the level where water spawns naturally on the surface 
+  <set xpath="//terrain_generator/@water_level">40</set>
+  -->
+  <!-- remove sky scrappers 
+  <remove xpath="//prefab[ contains( @name, 'skyscraper')]" />
+  -->
+<!--
+  <remove xpath="//terrain_generators/terrain_generator/module[@name='Noise From Stamp Node19434']" />
+  <set xpath="//terrain_generators/terrain_generator/module[@name='Blend Modifier Node19374']/property[@name='controlModule']/@value">Noise From Stamp Node19420</set>
+
+  <set xpath="//biome_generators/biome_generator/module[@name='Noise From Stamp Node19418']/property[@name='stampNames']/@value">ground01.raw</set>
+  <set xpath="//module/property[starts-with(@name, 'biomemap') and contains(@name, 'BiomeName')]/@value">Snow</set>
+  <set xpath="//module/property[starts-with(@name, 'biomemap') and contains(@name, 'ID')]/@value">1</set>
+  -->
+</configs>

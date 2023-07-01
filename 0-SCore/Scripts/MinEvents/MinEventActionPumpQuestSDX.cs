@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 public class MinEventActionPumpQuestSDX : MinEventActionRemoveBuff
 {
@@ -34,7 +35,7 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
     public override void Execute(MinEventParams _params)
     {
         var entityPlayer = _params.Self as EntityPlayer;
-        foreach( var quest in entityPlayer.QuestJournal.quests)
+        foreach (var quest in entityPlayer.QuestJournal.quests)
         {
             Log.Out($"Quest: {quest.ID} POI: {quest.GetPOIName()} Position: {quest.Position}");
             if (quest.ID == questName)
@@ -46,19 +47,19 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
                 break;
             }
         }
-        
+
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
                 if (name == "quest")
                 {
-                    questName= _attribute.Value;
+                    questName = _attribute.Value;
                     return true;
                 }
         }

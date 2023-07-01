@@ -1,0 +1,36 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\obj\Debug\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\obj\Debug\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\0-SCore\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\obj\Debug\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\obj\Debug\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\0-SCore\SCore.pdb
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\obj\Debug\SCore.dll
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\obj\Debug\SCore.pdb
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\SCore.dll
+C:\Builds\WinterProjectA20\7 Days To Die\Mods\0-SCore\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\obj\Debug\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\obj\Debug\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\0-SCore\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\obj\Debug\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\obj\Debug\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\0-SCore\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\obj\Debug\0-SCore.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\obj\Debug\0-SCore.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\obj\Debug\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\obj\Debug\SCore.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\SCore.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.working\0-SCore\SCore.pdb

@@ -1,0 +1,6 @@
+﻿<configs>
+
+  <!-- increase stability strength of snow-->
+  <set xpath="//material[@id='Msnow']/property[@name='stability_glue']/@value">20</set>
+  <set xpath="//material[@id='Msnow']/property[@name='Mass']/@value">1</set>
+</configs>

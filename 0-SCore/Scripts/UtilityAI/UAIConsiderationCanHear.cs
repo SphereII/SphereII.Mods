@@ -31,12 +31,12 @@ namespace UAI
                 return 1f;
 
             // Taken from PlayerStealth's Tick()
-            float distance = targetEntity.GetDistance(_context.Self);
+            var distance = targetEntity.GetDistance(_context.Self);
 
             // figure out the noise volume and distance, using the EAI system settings for zombies.
-            float num11 = targetEntity.Stealth.noiseVolume * (1f + EAIManager.CalcSenseScale() * _context.Self.aiManager.feralSense);
+            var num11 = targetEntity.Stealth.noiseVolume * (1f + EAIManager.CalcSenseScale() * _context.Self.aiManager.feralSense);
             num11 /= distance * 0.6f + 0.4f;
-            bool flag = true;
+            var flag = true;
             if (_context.Self.noisePlayer)
                 flag = (num11 > _context.Self.noisePlayerVolume);
 
@@ -49,16 +49,11 @@ namespace UAI
             }
 
             // If we have a noisy player, and we can hear them.
-            if (_context.Self.noisePlayer)
-            {
-                if (_context.Self.noisePlayerVolume >= _context.Self.noiseWake)
-                {
-                    _context.Self.SetInvestigatePosition(_context.Self.noisePlayer.position, 1200, true);
-                    return 1;
-                }
-            }
+            if (!_context.Self.noisePlayer) return 0f;
+            if (!(_context.Self.noisePlayerVolume >= _context.Self.noiseWake)) return 0f;
+            _context.Self.SetInvestigatePosition(_context.Self.noisePlayer.position, 1200, true);
+            return 1;
 
-            return 0f;
         }
     }
 }

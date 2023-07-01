@@ -1,0 +1,33 @@
+﻿<configs>
+
+    <insertBefore xpath="/lootcontainers/lootgroup[@name='groupJunk03']">
+        <lootgroup name="groupMusicBox">
+            <item name="audioCD00" loot_prob_template="veryLow"/>
+            <item name="audioCD01" loot_prob_template="veryLow"/>
+            <item name="audioCD03" loot_prob_template="veryLow"/>
+            <item name="audioCD04" loot_prob_template="veryLow"/>
+            <item name="audioCD05" loot_prob_template="veryLow"/>
+            <item name="audioCD06" loot_prob_template="veryLow"/>
+            <item name="dvd01" loot_prob_template="veryLow"/>
+            <item name="dvd02" loot_prob_template="veryLow"/>
+            <item name="dvd03" loot_prob_template="veryLow"/>
+            <item name="dvd04" loot_prob_template="veryLow"/>
+            <item name="dvd05" loot_prob_template="veryLow"/>
+            <item name="dvd06" loot_prob_template="veryLow"/>
+
+        </lootgroup>
+    </insertBefore>
+    <append xpath="/lootcontainers/lootgroup[@name='groupJunk03']">
+        <item group="groupMusicBox" prob="0.06"/>
+    </append>
+
+<append xpath="/lootcontainers">
+    <lootgroup name="questVideoPlayer">
+        <item name="VideoPlayer"/>
+        <item name="VideoPlayerTV"/>
+    </lootgroup>
+    <lootgroup name="questMusic">
+        <item name="Carousel"/>
+    </lootgroup>
+</append>
+</configs>

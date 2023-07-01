@@ -93,16 +93,19 @@ namespace UAI
             // Nothing to loot.
             if (tileLootContainer.items == null) return;
 
-         //   SCoreUtils.SetLookPosition(_context,blockPos);
-            
+            //   SCoreUtils.SetLookPosition(_context,blockPos);
+
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
 
             var lootContainer = LootContainer.GetLootContainer(tileLootContainer.lootListName);
             if (lootContainer == null)
                 return;
-            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
-            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
+            //            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
+            //var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
+            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems, false);
+
+
 
             AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"GetItemFromContainers(): {_context.Self.EntityName} ( {_context.Self.entityId}");
             for (var i = 0; i < array.Count; i++)
@@ -116,7 +119,7 @@ namespace UAI
             if (!_context.Self.onGround)
                 return false;
 
-        //    SCoreUtils.SetLookPosition(_context, _vector);
+            //    SCoreUtils.SetLookPosition(_context, _vector);
 
             var lookRay = new Ray(_context.Self.position, _context.Self.GetLookVector());
             if (!Voxel.Raycast(_context.Self.world, lookRay, 3f, false, false))

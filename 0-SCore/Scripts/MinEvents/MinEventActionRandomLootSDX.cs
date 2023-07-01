@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 // <triggered_effect trigger="onSelfBuffRemove" action="RandomLootSDX, SCore" lootgroup="brassResource" count="1" />
@@ -46,12 +47,12 @@ public class MinEventActionRandomLootSDX : MinEventActionBase
         return base.CanExecute(_eventType, _params) && _params.Self as EntityAliveSDX != null;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (!flag)
         {
-            var name = _attribute.Name;
+            var name = _attribute.Name.LocalName;
             if (name != null)
             {
                 if (name == "lootgroup")

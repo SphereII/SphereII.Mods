@@ -1,4 +1,5 @@
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -82,7 +83,7 @@ using UnityEngine;
 /// <example>
 /// <code>
 /// <!-- Sets the player's relationship with bandits to 400 ("Neutral"). -->
-/// <triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationshipSDX, SCore" target="self" faction="bandits" value="400" />
+/// <triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationshipSDX, Mods" target="self" faction="bandits" value="400" />
 /// </code>
 /// </example>
 public class MinEventActionSetFactionRelationship : MinEventActionTargetedBase
@@ -117,14 +118,14 @@ public class MinEventActionSetFactionRelationship : MinEventActionTargetedBase
         }
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         if (base.ParseXmlAttribute(_attribute))
         {
             return true;
         }
 
-        string name = _attribute.Name;
+        string name = _attribute.Name.LocalName;
         if (name == "faction")
         {
             faction = _attribute.Value.Trim();

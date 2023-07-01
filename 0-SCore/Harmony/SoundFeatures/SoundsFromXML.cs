@@ -1,15 +1,15 @@
 using HarmonyLib;
 using System.Xml;
-using UnityEngine;
+using System.Xml.Linq;
 
 // This class populates a static variable that will help us link Sound Data with Buff / Quests.
 namespace Harmony.SoundFeatures
 {
     [HarmonyPatch(typeof(SoundsFromXml))]
     [HarmonyPatch("Parse")]
-    public class SoundsFromXMLPrefix
+    public class SoundsFromXML
     {
-        private static bool Prefix(ref XmlNode node)
+        private static bool Prefix(XElement node)
         {
             SoundDataNodeClassSDX.AddSoundData(node);
             return true;

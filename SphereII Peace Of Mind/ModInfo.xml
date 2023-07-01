@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-  <ModInfo>
-    <Name value="SphereII Peace Of Mind" />
+  <Name value="SphereII_Peace_Of_Mind_sphereii"/>
+    <DisplayName value="SphereII Peace Of Mind" />
     <Description value="Removes potential triggers from the game, such as nooses." />
     <Author value="sphereii" />
-    <Version value="20.0.0.17930" />
-  </ModInfo>
+    <Version value="21.0.0.17930" />
 </xml>
+
+

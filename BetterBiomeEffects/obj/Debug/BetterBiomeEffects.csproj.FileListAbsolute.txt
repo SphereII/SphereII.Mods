@@ -1,0 +1,26 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\BetterBiomeEffects\BetterBiomeEffects.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\BetterBiomeEffects.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\System.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\System.Xml.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\UnityEngine.ImageConversionModule.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\UnityEngine.ParticleSystemModule.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\UnityEngine.TerrainModule.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\UnityEngine.VehiclesModule.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\BetterBiomeEffects\UnityEngine.VRModule.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\obj\Debug\BetterBiomeEffects.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\BetterBiomeEffects.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\BetterBiomeEffects\BetterBiomeEffects.pdb

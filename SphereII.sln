@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z-SphereIIDebugging", "Z-Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blooms Family Farming", "Blooms Family Farming\Blooms Family Farming.csproj", "{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterBiomeEffects", "BetterBiomeEffects\BetterBiomeEffects.csproj", "{C6AFD252-2407-4925-9398-6FE0B33F0D58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

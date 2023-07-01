@@ -68,9 +68,9 @@ public class EntityBackpackNPC : EntityItem
         this.bRemoved = true;
     }
 
-    public override void Write(BinaryWriter _bw)
+    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
     {
-        base.Write(_bw);
+        base.Write(_bw, bNetworkWrite);
         _bw.Write(this.RefPlayerId);
     }
 

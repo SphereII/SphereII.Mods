@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xml>
-  <ModInfo>
-    <Name value="SphereII Skip Tutorial Quests" />
-    <Description value="SphereII Skip Tutorial Questline" />
-    <Author value="sphereii" />
-    <Version value="20.0.0.17930" />
-  </ModInfo>
+    <Name value="SphereII_Skip_Tutorial_Quest_line_sphereii" />
+    <DisplayName value="SphereII Skip Tutorial Quests"/>
+    <Description value="SphereII Skip Tutorial Questline"/>
+    <Author value="sphereii"/>
+    <Version value="20.0.0.17930"/>
 </xml>

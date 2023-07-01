@@ -26,17 +26,17 @@ namespace UAI
             SCoreUtils.SetCrouching(_context);
             this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
 
-            EntityAlive entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
                 _context.Self.SetLookPosition( entityAlive.getHeadPosition());
-                _context.Self.RotateTo(entityAlive, 30f, 30f);
+                var targetPosition = entityAlive.getHeadPosition();
+                _context.Self.RotateTo(targetPosition.x, targetPosition.y, targetPosition.y, 30f, 30f);
                 _context.Self.SetAttackTarget(entityAlive, 1200);
             }
 
-            if (_context.ActionData.Target.GetType() == typeof(Vector3))
+            if (_context.ActionData.Target is Vector3 vector)
             {
-                Vector3 vector = (Vector3)_context.ActionData.Target;
                 // Center the vector so its looking directly at the middle.
                 vector = EntityUtilities.CenterPosition(vector);
                 _context.Self.IsBreakingBlocks = true;
@@ -62,7 +62,7 @@ namespace UAI
             if (!_context.Self.onGround || _context.Self.Climbing)
                 return;
 
-            Vector3 position = Vector3.zero;
+            var position = Vector3.zero;
 
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
@@ -77,6 +77,7 @@ namespace UAI
                         entityAlive = attacker;
                     }
                 }
+
                 if (entityAlive.IsDead())
                 {
                     Stop(_context);
@@ -84,15 +85,33 @@ namespace UAI
                 }
 
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
-                _context.Self.RotateTo(entityAlive, 30f, 30f);
+                position = entityAlive.getBellyPosition();
 
-                position = entityAlive.position;
+                _context.Self.RotateTo(position.x, position.y, position.z, 8f,8f);
+                //_context.Self.RotateTo(entityAlive, 30f, 30f);
+
+                if (!_context.Self.IsInViewCone(position))
+                {
+                    return;
+                }
+
+                // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
+                var headPosition = _context.Self.getHeadPosition();
+                var dir = position - headPosition;
+                var forwardVector = _context.Self.GetForwardVector();
+                var angleBetween = Utils.GetAngleBetween(forwardVector, dir);
+                if (angleBetween is > 15 or < -15)
+                {
+                    // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
+                    attackTimeout = 10;
+                    return;
+                }
             }
 
             if (_context.ActionData.Target is Vector3 vector)
             {
                 position = vector;
-                _context.Self.SetLookPosition( position );
+                _context.Self.SetLookPosition(position);
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
                 if (targetType.Equals(BlockValue.Air))
                 {
@@ -105,7 +124,9 @@ namespace UAI
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
                 return;
 
-
+            var num = UAIUtils.DistanceSqr(_context.Self.position, position);
+            var entityAliveSdx = _context.Self as EntityAliveSDX;
+    
             // Check the range on the item action
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
@@ -117,20 +138,23 @@ namespace UAI
                 {
                     var range = itemActionRanged.GetRange(itemActionData);
                     distance = Utils.FastMax(0.8f, range);
-
+                    
+                    // Check if we are already running.
+                    if (itemAction.IsActionRunning(itemActionData))
+                        return;
                 }
             }
             var minDistance = distance * distance;
             var a = position - _context.Self.position;
 
             //not within range ?
-            if (a.sqrMagnitude > minDistance)
-            {
-                // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
-                if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
-                    _context.Self.moveHelper.SetMoveTo(position, true);
-                Stop(_context);
-            }
+            // if (a.sqrMagnitude > minDistance)
+            // {
+            //     // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
+            //     if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
+            //         _context.Self.moveHelper.SetMoveTo(position, true);
+            //     Stop(_context);
+            // }
 
             attackTimeout--;
             if (attackTimeout > 0)
@@ -150,14 +174,15 @@ namespace UAI
                     _context.Self.Use(true);
                     break;
                 default:
-                    var entityAliveSDX = _context.Self as EntityAliveSDX;
-                    if (entityAliveSDX)
+                    if (entityAliveSdx)
                     {
-                        if (!entityAliveSDX.ExecuteAction(false, _actionIndex)) return;
-                        entityAliveSDX.ExecuteAction(true, _actionIndex);
+                        if (!entityAliveSdx.ExecuteAction(false, _actionIndex)) return;
+                        entityAliveSdx.ExecuteAction(true, _actionIndex);
                     }
                     break;
             }
+
+           // Stop(_context);
         }
     }
 }

@@ -1,0 +1,24 @@
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods\SphereII Clear UI\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die-Alpha20.6\Mods\SphereII Clear UI\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - Copy\Mods\SphereII Clear UI\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\SphereII Clear UI.dll
+C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods.work\SphereII Clear UI\SphereII Clear UI.pdb

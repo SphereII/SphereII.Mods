@@ -44,7 +44,8 @@ public class DialogActionTeleport : DialogActionAddBuff
                 }
                 break;
             case "Backpack":
-                destination = entityplayerLocal.GetDroppedBackpackPosition();
+                
+                destination = entityplayerLocal.GetLastDroppedBackpackPosition();
                 break;
             case "Landclaim":
                 PlatformUserIdentifierAbs internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;

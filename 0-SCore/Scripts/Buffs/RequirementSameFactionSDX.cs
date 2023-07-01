@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 // If targeting the player, you can add target="self" or just omit the target property:
 // 	<requirement name="RequirementSameFactionSDX, SCore" faction="animalsCows" />
@@ -21,14 +22,14 @@ public class RequirementSameFactionSDX : TargetedCompareRequirementBase
         return false;
     }
 
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXAttribute(XAttribute _attribute)
     {
-        if (_attribute.Name == "faction")
+        if (_attribute.Name.LocalName == "faction")
         {
             strFaction = _attribute.Value;
             return true;
         }
 
-        return base.ParseXmlAttribute(_attribute);
+        return base.ParseXAttribute(_attribute);
     }
 }

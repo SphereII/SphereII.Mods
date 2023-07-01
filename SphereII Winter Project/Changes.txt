@@ -1,0 +1,15 @@
+Winter zeds Blue: 
+    Commented out zombieFarmer, zombieFootballPlayer, zombieOldTimer, zombieSnow, zombieCheerleader
+Winter zeds White:    
+    
+Samara:
+    Changed loot.xml's junk entry to groupJunk
+    Added name="" entry to Samara Diary + Samara body
+    Changed LootList for all block entries.
+    
+WinterSkins:
+    Changed zombieStripper reference in entitygroups.xml to zombiePartyGirl
+
+
+Music Boxes:
+    Changed LootList to storageCrate from 98    

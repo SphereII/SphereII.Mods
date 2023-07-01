@@ -364,9 +364,9 @@ internal class EntityZombieFlyingSDX : EntityFlying
     }
 
     // binary read
-    public override void Write(BinaryWriter _bw)
+    public override void Write(BinaryWriter _bw, bool bNetworkWrite)
     {
-        base.Write(_bw);
+        base.Write(_bw, bNetworkWrite);
         // persisting current state
         try
         {
@@ -645,7 +645,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
                 //if (Array.Exists(naturalEnemies, s => s.Equals(_other.EntityName)))
                 if (naturalEnemies.Contains(_other.EntityName))
                     if (_other.IsAlive())
-                        if (_other.GetWaterLevel() < 0.5f)
+                        if (_other.Water < 0.5f)
                         {
                             //if (debug) Debug.Log("Found natural enemy!");
                             SetRevengeTarget(_other);
@@ -661,7 +661,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
     {
         var closestPlayer = world.GetClosestPlayer(this, 80f, false);
         if (CanSee(closestPlayer))
-            if (closestPlayer.GetWaterLevel() < 0.5f)
+            if (closestPlayer.Water < 0.5f)
                 SetRevengeTarget(closestPlayer);
     }
 

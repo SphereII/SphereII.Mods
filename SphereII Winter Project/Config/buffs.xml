@@ -1,0 +1,58 @@
+﻿<configs>
+  <append xpath="/buffs">
+
+    <buff name="buffsmallBed" name_key="buffsmallBed" description_key="buffsmallBedDesc" tags="drug" >
+      <stack_type value="replace"/>
+      <duration value="3"/>
+      <effect_group>
+        <passive_effect name="HypothermalResist" operation="base_add" value="5"/>
+        <passive_effect name="HealthChangeOT" operation="base_add" value="0.5"/>
+        <passive_effect name="StaminaChangeOT" operation="base_add" value="2"/>
+        <passive_effect name="WaterChangeOT" operation="base_subtract" value="0.5"/>
+      </effect_group>
+    </buff>
+
+
+    <buff name="buffRemoveDuplicateTrader">
+      <stack_type value="replace"/>
+      <update_rate value="1"/>
+      <effect_group>
+        <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" target="selfAOE" range="5" buff="buffInfection04" target_tags="trader"/>
+      </effect_group>
+    </buff>
+  
+ 				  
+    <buff name="buffFrostShield" name_key="buffsmallBed" description_key="buffsmallBedDesc" tags="drug" >
+      <stack_type value="replace"/>
+      <duration value="0"/>
+      
+		<effect_group>
+ 			<triggered_effect trigger="onSelfBuffStart" action="AttachParticleEffectToEntity" particle="#@modfolder:Resources/FrostShieldParticle.unity3d?p_FrostShield_X" local_offset="0,1.2,0" parent_transform="Origin" />
+			<triggered_effect trigger="onSelfEnteredGame" action="AttachParticleEffectToEntity" particle="#@modfolder:Resources/FrostShieldParticle.unity3d?p_FrostShield_X" local_offset="0,1.2,0" parent_transform="Origin" />			
+			<triggered_effect trigger="onSelfBuffRemove" action="RemoveParticleEffectFromEntity" particle="p_FrostShield_X"/>
+			<triggered_effect trigger="onSelfDied" action="RemoveParticleEffectFromEntity" particle="p_FrostShield_X"/>
+		</effect_group>
+    </buff>
+	
+	<buff name="BedTerrors"> <stack_type value="replace"/> <duration value="8"/>  
+		<effect_group name="BedTerrorsChange">
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="BedTerror" operation="set" value="randomint(1,3)"/>
+		</effect_group>
+		
+		<effect_group>
+			<requirement name="CVarCompare" cvar="BedTerror" operation="Equals" value="1"/>
+			<requirement name="HasBuff" buff="buffCursed"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffCutscene07"/>
+			<triggered_effect trigger="onSelfBuffFinish" action="RemoveBuff" buff="buffCutscene07"/>
+		</effect_group>
+		
+		<effect_group>
+			<requirement name="CVarCompare" cvar="BedTerror" operation="Equals" value="2"/>
+			<requirement name="HasBuff" buff="buffCursed"/>
+			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffCutscene08"/>
+			<triggered_effect trigger="onSelfBuffFinish" action="RemoveBuff" buff="buffCutscene08"/>
+		</effect_group>	
+	</buff>
+
+ </append>
+</configs>
