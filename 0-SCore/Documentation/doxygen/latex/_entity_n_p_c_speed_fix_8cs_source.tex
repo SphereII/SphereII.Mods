@@ -1,0 +1,55 @@
+\hypertarget{_entity_n_p_c_speed_fix_8cs_source}{}\doxysection{Entity\+NPCSpeed\+Fix.\+cs}
+\label{_entity_n_p_c_speed_fix_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCSpeedFix.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCSpeedFix.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00011}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_speed_fix}{00011}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_speed_fix}{EntityNPCSpeedFix}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00013}00013\ \ \ \ \ \ \ \textcolor{comment}{//\ \ private\ static\ readonly\ string\ AdvFeatureClass\ =\ "{}AdvancedNPCFeatures"{};}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ private\ static\ readonly\ string\ Feature\ =\ "{}NPCSpeedFix"{};}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00016}00016\ \ \ \ \ \textcolor{comment}{//\ \ \ \ [HarmonyPatch(typeof(EntityTrader))]}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00017}00017\ \ \ \ \ \textcolor{comment}{//\ \ \ \ [HarmonyPatch("{}updateSpeedForwardAndStrafe"{})]}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00018}00018\ \ \ \ \ \textcolor{comment}{//\ \ \ \ public\ class\ SCoreUpdateSpeedForward}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00019}00019\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00020}00020\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ private\ static\ void\ SetMovementState(EntityTrader\ \_\_instance)}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00021}00021\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ \_\_instance.speedStrafe;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (num\ >=\ 1234f)\ num\ =\ 0f;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ \_\_instance.speedForward\ *\ \_\_instance.speedForward\ +\ num\ *\ num;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.MovementState\ =\ num2\ >\ \_\_instance.moveSpeedAggro\ *\ \_\_instance.moveSpeedAggro\ ?\ 3\ :\ num2\ >\ \_\_instance.moveSpeed\ *\ \_\_instance.moveSpeed\ ?\ 2\ :\ num2\ >\ 0.001f\ ?\ 1\ :\ 0;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ public\ static\ bool\ Prefix(EntityTrader\ \_\_instance,\ ref\ Vector3\ \_dist,\ float\ \_partialTicks)}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ //\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00034}00034\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (\_\_instance.isEntityRemote\ \&\&\ \_partialTicks\ >\ 1f)\ \_dist\ /=\ \_partialTicks;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.speedForward\ *=\ 0.5f;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.speedStrafe\ *=\ 0.5f;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.speedVertical\ *=\ 0.5f;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00039}00039\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (Mathf.Abs(\_dist.x)\ >\ 0.001f\ ||\ Mathf.Abs(\_dist.z)\ >\ 0.001f)}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00041}00041\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ Mathf.Sin(-\/\_\_instance.rotation.y\ *\ 3.14159274f\ /\ 180f);}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00042}00042\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ Mathf.Cos(-\/\_\_instance.rotation.y\ *\ 3.14159274f\ /\ 180f);}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.speedForward\ +=\ num2\ *\ \_dist.z\ -\/\ num\ *\ \_dist.x;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.speedStrafe\ +=\ num2\ *\ \_dist.x\ +\ num\ *\ \_dist.z;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00047}00047\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (Mathf.Abs(\_dist.y)\ >\ 0.001f)\ \_\_instance.speedVertical\ +=\ \_dist.y;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ SetMovementState(\_\_instance);}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_speed_fix_8cs_source_l00054}00054\ \}}
+
+\end{DoxyCode}

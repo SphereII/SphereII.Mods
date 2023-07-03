@@ -1,0 +1,75 @@
+\hypertarget{_can_damage_checks_8cs_source}{}\doxysection{Can\+Damage\+Checks.\+cs}
+\label{_can_damage_checks_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UnitTests/CanDamageChecks.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UnitTests/CanDamageChecks.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00005}\mbox{\hyperlink{class_can_damage_checks}{00005}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_can_damage_checks}{CanDamageChecks}}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00007}00007\ \ \ \ \ EntityAlive\ source;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00008}00008\ \ \ \ \ EntityAlive\ target;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00009}00009\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Start(\textcolor{keywordtype}{string}\ sourceEntityClass,\ \textcolor{keywordtype}{string}\ targetEntityClass)}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ generate\ the\ entities}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ source\ =\ CreateEntity(sourceEntityClass);}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ target\ =\ CreateEntity(targetEntityClass);}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (source\ ==\ \textcolor{keyword}{null}\ ||\ target\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\{GetType()\}\ Failed\ to\ Start.\ Source:\ \{sourceEntityClass\}\ or\ Target:\ \{targetEntityClass\}\ could\ not\ be\ created."{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Test\ all\ your\ conditions}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ TestConditions();}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clean\ up\ the\ ghost\ entities.}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ source.OnEntityUnload();}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ target.OnEntityUnload();}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ TestConditions()}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00030}00030\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ Compare(source,\ target);}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ Compare(target,\ source);}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ CreateEntity(\textcolor{keywordtype}{string}\ entityClass)}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (KeyValuePair<int,\ EntityClass>\ keyValuePair3\ \textcolor{keywordflow}{in}\ EntityClass.list.Dict)}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (keyValuePair3.Value.)}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (keyValuePair3.Value.entityClassName.Equals(entityClass,\ StringComparison.CurrentCultureIgnoreCase))}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityFactory.CreateEntity(keyValuePair3.Key,\ \textcolor{keyword}{new}\ Vector3(0,\ 0,\ 0))\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Could\ not\ create\ \{entityClass\}:\ Does\ not\ exist."{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00051}00051\ \ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Compare(EntityAlive\ \_source,\ EntityAlive\ \_target)}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00053}00053\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Testing\ \{GetEntityID(\_source)\}\ to\ \{GetEntityID(\_target)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\(\backslash\)tCan\ Damage?\ \{EntityTargetingUtilities.CanDamage(\_source,\ \_target)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\(\backslash\)tIs\ Enemy?\ \{EntityTargetingUtilities.IsEnemy(\_source,\ \_target)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\(\backslash\)tIs\ Friend?\ \{EntityTargetingUtilities.IsFriend(\_source,\ \_target)\}"{}});}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\(\backslash\)tIs\ Ally?\ \{EntityTargetingUtilities.IsAlly(\_source,\ \_target)\}"{}});\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ GetEntityID(EntityAlive\ entityAlive)}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00064}00064\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \$\textcolor{stringliteral}{"{}\{entityAlive.EntityName\}\ (\{entityAlive.entityId\})\ "{}};}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_can_damage_checks_8cs_source_l00069}00069\ }
+
+\end{DoxyCode}

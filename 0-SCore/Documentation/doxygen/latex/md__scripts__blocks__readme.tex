@@ -1,0 +1,149 @@
+The following new block types are supported by the \mbox{\hyperlink{namespace_s_core}{SCore}}.\hypertarget{md__scripts__blocks__readme_autotoc_md1}{}\doxysection{Table of Contents}\label{md__scripts__blocks__readme_autotoc_md1}
+
+\begin{DoxyEnumerate}
+\item \mbox{\hyperlink{class_block_deco_ao_e}{Block\+Deco\+AoE}}
+\item \mbox{\hyperlink{class_block_farm_plot_s_d_x}{Block\+Farm\+Plot\+SDX}} ( Advanced Farming Feature )
+\item \mbox{\hyperlink{class_block_crop_control_panel}{Block\+Crop\+Control\+Panel}} ( Advanced Farming Feature )
+\item Block\+Mort\+Spawner
+\item 
+\end{DoxyEnumerate}\hypertarget{md__scripts__blocks__readme_autotoc_md2}{}\doxysubsubsection{Block\+Deco\+AoE}\label{md__scripts__blocks__readme_autotoc_md2}
+This block allows a buff to be emitted from it, such as the campfire\textquotesingle{}s heat. The Block is always active, thus always radiating this buff when a player is nearby.
+
+Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}DecoAoE,\ SCore"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ActiveRadiusEffects"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}buffCampfireAOE(3)"{}}/>}
+
+\end{DoxyCode}
+
+
+Full Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{block}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}sphereiiAoETest"{}}>}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}DecoAoE,\ SCore"{}}\ />}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ActiveRadiusEffects"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}buffCampfireAOE(3)"{}}/>}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Material"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}Mwood\_weak"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Tags"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}coalBurnedDmg"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}StabilitySupport"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}false"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Shape"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}Ext3dModel"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Texture"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}293"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Mesh"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}models"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Model"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}OutdoorDecor/ember\_pile\_1"{}}\ \textcolor{keyword}{param1}=\textcolor{stringliteral}{"{}main\_mesh"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}IsTerrainDecoration"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}true"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}BuffsWhenWalkedOn"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}buffBurningEnvironment"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Collide"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}melee,bullet,arrow,rocket"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}VehicleHitScale"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}999"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}FilterTags"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}MC\_outdoor,SC\_decor"{}}/>}
+\DoxyCodeLine{</\textcolor{keywordtype}{block}>}
+
+\end{DoxyCode}
+\hypertarget{md__scripts__blocks__readme_autotoc_md3}{}\doxysubsubsection{Block\+Farm\+Plot\+SDX}\label{md__scripts__blocks__readme_autotoc_md3}
+This block is a replacement to vanilla\textquotesingle{}s Farm\+Plot block, with additional hooks into the \mbox{\hyperlink{class_farm_plot_manager}{Farm\+Plot\+Manager}}. The \mbox{\hyperlink{class_farm_plot_manager}{Farm\+Plot\+Manager}} allows plants and planters to require water to grow.
+
+Usage\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}FarmPlotSDX,\ SCore"{}}\ />}
+
+\end{DoxyCode}
+
+
+XPath Usage, to update all vanilla farmplots to Farm\+Plot\+SDX\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Farming\ Plot\ hooks\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{append}\ \textcolor{keyword}{xpath}=\textcolor{stringliteral}{"{}/blocks/block[starts-\/with(@name,\ 'farmPlot')]"{}}>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}FarmPlotSDX,\ SCore"{}}\ />}
+\DoxyCodeLine{</\textcolor{keywordtype}{append}>}
+
+\end{DoxyCode}
+\hypertarget{md__scripts__blocks__readme_autotoc_md4}{}\doxysubsubsection{Block\+Crop\+Control\+Panel}\label{md__scripts__blocks__readme_autotoc_md4}
+\mbox{[}Advanced Farming Feature\mbox{]} (../../\+Documentation/\+Crop\+Management/\+Read\+Me.md)
+
+This block is a test control panel, allowing players to turn on water particles and test to see if water is available on connected pipes.
+
+Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}CropControlPanel,\ SCore"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ControlPanelName"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}debugcontrolpanel"{}}\ />}
+
+\end{DoxyCode}
+
+
+Full Example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{block}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}cropControlPanelBase01"{}}>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Extends"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}controlPanelBase01"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Shape"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}ModelEntity"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Model"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}Entities/Industrial/controlPanelBase\_02Prefab"{}}/>}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}CustomIcon"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}controlPanelBase01"{}}\ />}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}CropControlPanel,\ SCore"{}}\ />}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ControlPanelName"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}debugcontrolpanel"{}}\ />}
+\DoxyCodeLine{\ \ \ \ <\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ActivateSound"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}button4"{}}/>}
+\DoxyCodeLine{</\textcolor{keywordtype}{block}>}
+
+\end{DoxyCode}
+\hypertarget{md__scripts__blocks__readme_autotoc_md5}{}\doxysubsubsection{Block\+Mort\+Spawner}\label{md__scripts__blocks__readme_autotoc_md5}
+This block will act as an entity spawner.
+
+Note\+: It\textquotesingle{}s an older class made by Mortelentus and brought forward by sphereii. No new features are being added, and as time goes on, functionality may be reduced.
+
+Usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Class"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}MortSpawner,\ SCore"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ this\ determines\ how\ fast\ zombies\ are\ spawned\ (s)\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}TickRate"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}30"{}}\ />\ \ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ this\ is\ the\ spawn\ trigger\ area\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ if\ a\ player\ gets\ inside\ this\ are\ it\ starts\ spawning\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}SpawnRadius"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}15"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ spawning\ area\ it\ will\ try\ to\ spawn\ the\ entities\ inside\ this\ area\ only\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}SpawnArea"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}5"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ you\ dont\ want\ it\ to\ make\ radiation\ damage,\ set\ this\ values\ to\ 0\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}RadiationArea"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}5"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}RadiationDamage"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}5"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ you\ want\ any\ buff\ to\ be\ applied\ inside\ the\ radiation\ area,\ uncomment\ next\ line\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ <property\ name="{}Buffs"{}\ value="{}radiation1"{}\ />\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ spawns\ a\ maximum\ of\ 4\ zombies\ at\ a\ time\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}NumberToSpawn"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}4"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Maximum\ zombies\ allowed\ inside\ the\ spawnarea\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}MaxSpawned"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}8"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ area\ to\ check\ for\ max\ spawned\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}CheckArea"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}20"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Time\ to\ Pause\ spawning,\ in\ minutes,\ after\ the\ total\ number\ of\ spawned\ zombies\ have\ reached\ NumberToPause\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ If\ this\ number\ is\ >=\ 999,\ the\ spawning\ will\ stop\ forever\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ this\ WILL\ NOT\ STOP\ radiation\ damage\ and\ buffs\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}PauseTime"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}0"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Total\ number\ of\ zombies\ to\ pause\ the\ spawning.\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}NumberToPause"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}0"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ EntityGroup\ used\ to\ choose\ the\ entity\ to\ spawn\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}EntityGroup"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}ZombiesAll"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ Lootable\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Lootable"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}false"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}LootList"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}10"{}}\ />}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ empty\ since\ it's\ not\ lootable\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ What\ to\ do\ to\ particles\ when\ the\ nest\ is\ stopped\ -\/-\/>}}
+\DoxyCodeLine{\textcolor{comment}{<!-\/-\/\ None,\ Start\ particles,\ Stop\ particles\ -\/-\/>}}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}ParticleAction"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}None"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}LPHardnessScale"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}8"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}Group"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}Decor"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{drop}\ \textcolor{keyword}{event}=\textcolor{stringliteral}{"{}Destroy"{}}\ \textcolor{keyword}{count}=\textcolor{stringliteral}{"{}0"{}}\ />}
+\DoxyCodeLine{<\textcolor{keywordtype}{property}\ \textcolor{keyword}{name}=\textcolor{stringliteral}{"{}debug"{}}\ \textcolor{keyword}{value}=\textcolor{stringliteral}{"{}false"{}}\ />}
+
+\end{DoxyCode}
+ 

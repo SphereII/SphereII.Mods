@@ -1,0 +1,230 @@
+\hypertarget{class_water_pipe_manager}{}\doxysection{Water\+Pipe\+Manager Class Reference}
+\label{class_water_pipe_manager}\index{WaterPipeManager@{WaterPipeManager}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dictionary$<$ Vector3i, Vector3i $>$ \mbox{\hyperlink{class_water_pipe_manager_a7ab62edb718cc288fdcf39ba4e81b8eb}{Get\+Water\+Valves}} ()
+\item 
+int \mbox{\hyperlink{class_water_pipe_manager_ae2b7b626310b2fb7538c426820f944ae}{Get\+Water\+Damage}} (Vector3i Water\+Pos)
+\item 
+string \mbox{\hyperlink{class_water_pipe_manager_a0c12d6c45884af4e92f81c469bc16839}{Get\+Water\+Summary}} (Vector3i plant\+Pos)
+\item 
+Vector3i \mbox{\hyperlink{class_water_pipe_manager_a18b4d531940bb689ee2da6c15db2608f}{Get\+Water\+For\+Position}} (Vector3i position)
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_a7c54ad71092bf545819a8748a15233c2}{Toggle\+Water\+Valve}} (Vector3i valve, Vector3i pipe\+Position, bool turn\+On=false)
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_a6adb6bfef2204c3f279a7a73562bcac0}{Remove\+Valve}} (Vector3i valve)
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_a99245b81a0312fbe9f1b2d17135f09af}{Add\+Valve}} (Vector3i valve)
+\item 
+bool \mbox{\hyperlink{class_water_pipe_manager_abddb4d30b2c9db6ffe4f60a26f5e33be}{Is\+Valve\+Off}} (Vector3i position)
+\item 
+int \mbox{\hyperlink{class_water_pipe_manager_a15b8b6e83f6695ead16ab246ae48ac06}{Get\+Max\+Pipe\+Count}} ()
+\item 
+\mbox{\hyperlink{class_pipe_data}{Pipe\+Data}} \mbox{\hyperlink{class_water_pipe_manager_adfeb97df9b12f269e4dd42bd6e624c29}{Get\+Pipe\+Data}} (Vector3i position)
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_a2dba7ade18cfc1ee29fd1a06e276a560}{Init}} ()
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_ad565021b4e20b1a70876f5e4d862961b}{Clear\+Pipes}} ()
+\item 
+void \mbox{\hyperlink{class_water_pipe_manager_aa2d72ee1264ed929ff978639d7e079f9}{Toggle\+Water\+Particles}} (bool turn\+On=true)
+\item 
+bool \mbox{\hyperlink{class_water_pipe_manager_a40960a49c09c4b76705ad95e45e3c30d}{Is\+Water\+Source}} (Vector3i position)
+\item 
+bool \mbox{\hyperlink{class_water_pipe_manager_a4ce1aea06ddb27cb4f55aff6bdf5e365}{Is\+Direct\+Water\+Source}} (Vector3i position)
+\item 
+int \mbox{\hyperlink{class_water_pipe_manager_ab78d77f243845284adb0d89ba14eaf8a}{Count\+Water\+Blocks}} (Vector3i position, int range=4)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_water_pipe_manager}{Water\+Pipe\+Manager}} \mbox{\hyperlink{class_water_pipe_manager_a7ff724235b435511dd000ce20cdf1398}{Instance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00011}{11}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_water_pipe_manager_a99245b81a0312fbe9f1b2d17135f09af}\label{class_water_pipe_manager_a99245b81a0312fbe9f1b2d17135f09af}} 
+\index{WaterPipeManager@{WaterPipeManager}!AddValve@{AddValve}}
+\index{AddValve@{AddValve}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{AddValve()}{AddValve()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Add\+Valve (\begin{DoxyParamCaption}\item[{Vector3i}]{valve }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00113}{113}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_ad565021b4e20b1a70876f5e4d862961b}\label{class_water_pipe_manager_ad565021b4e20b1a70876f5e4d862961b}} 
+\index{WaterPipeManager@{WaterPipeManager}!ClearPipes@{ClearPipes}}
+\index{ClearPipes@{ClearPipes}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{ClearPipes()}{ClearPipes()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Clear\+Pipes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00147}{147}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_ab78d77f243845284adb0d89ba14eaf8a}\label{class_water_pipe_manager_ab78d77f243845284adb0d89ba14eaf8a}} 
+\index{WaterPipeManager@{WaterPipeManager}!CountWaterBlocks@{CountWaterBlocks}}
+\index{CountWaterBlocks@{CountWaterBlocks}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{CountWaterBlocks()}{CountWaterBlocks()}}
+{\footnotesize\ttfamily int Water\+Pipe\+Manager.\+Count\+Water\+Blocks (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{int}]{range = {\ttfamily 4} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00198}{198}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a15b8b6e83f6695ead16ab246ae48ac06}\label{class_water_pipe_manager_a15b8b6e83f6695ead16ab246ae48ac06}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetMaxPipeCount@{GetMaxPipeCount}}
+\index{GetMaxPipeCount@{GetMaxPipeCount}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetMaxPipeCount()}{GetMaxPipeCount()}}
+{\footnotesize\ttfamily int Water\+Pipe\+Manager.\+Get\+Max\+Pipe\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00126}{126}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_adfeb97df9b12f269e4dd42bd6e624c29}\label{class_water_pipe_manager_adfeb97df9b12f269e4dd42bd6e624c29}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetPipeData@{GetPipeData}}
+\index{GetPipeData@{GetPipeData}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetPipeData()}{GetPipeData()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_pipe_data}{Pipe\+Data}} Water\+Pipe\+Manager.\+Get\+Pipe\+Data (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00130}{130}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_ae2b7b626310b2fb7538c426820f944ae}\label{class_water_pipe_manager_ae2b7b626310b2fb7538c426820f944ae}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetWaterDamage@{GetWaterDamage}}
+\index{GetWaterDamage@{GetWaterDamage}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetWaterDamage()}{GetWaterDamage()}}
+{\footnotesize\ttfamily int Water\+Pipe\+Manager.\+Get\+Water\+Damage (\begin{DoxyParamCaption}\item[{Vector3i}]{Water\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00037}{37}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a18b4d531940bb689ee2da6c15db2608f}\label{class_water_pipe_manager_a18b4d531940bb689ee2da6c15db2608f}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetWaterForPosition@{GetWaterForPosition}}
+\index{GetWaterForPosition@{GetWaterForPosition}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetWaterForPosition()}{GetWaterForPosition()}}
+{\footnotesize\ttfamily Vector3i Water\+Pipe\+Manager.\+Get\+Water\+For\+Position (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00086}{86}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a0c12d6c45884af4e92f81c469bc16839}\label{class_water_pipe_manager_a0c12d6c45884af4e92f81c469bc16839}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetWaterSummary@{GetWaterSummary}}
+\index{GetWaterSummary@{GetWaterSummary}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetWaterSummary()}{GetWaterSummary()}}
+{\footnotesize\ttfamily string Water\+Pipe\+Manager.\+Get\+Water\+Summary (\begin{DoxyParamCaption}\item[{Vector3i}]{plant\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a7ab62edb718cc288fdcf39ba4e81b8eb}\label{class_water_pipe_manager_a7ab62edb718cc288fdcf39ba4e81b8eb}} 
+\index{WaterPipeManager@{WaterPipeManager}!GetWaterValves@{GetWaterValves}}
+\index{GetWaterValves@{GetWaterValves}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{GetWaterValves()}{GetWaterValves()}}
+{\footnotesize\ttfamily Dictionary$<$ Vector3i, Vector3i $>$ Water\+Pipe\+Manager.\+Get\+Water\+Valves (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a2dba7ade18cfc1ee29fd1a06e276a560}\label{class_water_pipe_manager_a2dba7ade18cfc1ee29fd1a06e276a560}} 
+\index{WaterPipeManager@{WaterPipeManager}!Init@{Init}}
+\index{Init@{Init}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00136}{136}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a4ce1aea06ddb27cb4f55aff6bdf5e365}\label{class_water_pipe_manager_a4ce1aea06ddb27cb4f55aff6bdf5e365}} 
+\index{WaterPipeManager@{WaterPipeManager}!IsDirectWaterSource@{IsDirectWaterSource}}
+\index{IsDirectWaterSource@{IsDirectWaterSource}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{IsDirectWaterSource()}{IsDirectWaterSource()}}
+{\footnotesize\ttfamily bool Water\+Pipe\+Manager.\+Is\+Direct\+Water\+Source (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00174}{174}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_abddb4d30b2c9db6ffe4f60a26f5e33be}\label{class_water_pipe_manager_abddb4d30b2c9db6ffe4f60a26f5e33be}} 
+\index{WaterPipeManager@{WaterPipeManager}!IsValveOff@{IsValveOff}}
+\index{IsValveOff@{IsValveOff}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{IsValveOff()}{IsValveOff()}}
+{\footnotesize\ttfamily bool Water\+Pipe\+Manager.\+Is\+Valve\+Off (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00122}{122}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a40960a49c09c4b76705ad95e45e3c30d}\label{class_water_pipe_manager_a40960a49c09c4b76705ad95e45e3c30d}} 
+\index{WaterPipeManager@{WaterPipeManager}!IsWaterSource@{IsWaterSource}}
+\index{IsWaterSource@{IsWaterSource}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{IsWaterSource()}{IsWaterSource()}}
+{\footnotesize\ttfamily bool Water\+Pipe\+Manager.\+Is\+Water\+Source (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00166}{166}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a6adb6bfef2204c3f279a7a73562bcac0}\label{class_water_pipe_manager_a6adb6bfef2204c3f279a7a73562bcac0}} 
+\index{WaterPipeManager@{WaterPipeManager}!RemoveValve@{RemoveValve}}
+\index{RemoveValve@{RemoveValve}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{RemoveValve()}{RemoveValve()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Remove\+Valve (\begin{DoxyParamCaption}\item[{Vector3i}]{valve }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00108}{108}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_aa2d72ee1264ed929ff978639d7e079f9}\label{class_water_pipe_manager_aa2d72ee1264ed929ff978639d7e079f9}} 
+\index{WaterPipeManager@{WaterPipeManager}!ToggleWaterParticles@{ToggleWaterParticles}}
+\index{ToggleWaterParticles@{ToggleWaterParticles}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{ToggleWaterParticles()}{ToggleWaterParticles()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Toggle\+Water\+Particles (\begin{DoxyParamCaption}\item[{bool}]{turn\+On = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00152}{152}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_water_pipe_manager_a7c54ad71092bf545819a8748a15233c2}\label{class_water_pipe_manager_a7c54ad71092bf545819a8748a15233c2}} 
+\index{WaterPipeManager@{WaterPipeManager}!ToggleWaterValve@{ToggleWaterValve}}
+\index{ToggleWaterValve@{ToggleWaterValve}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{ToggleWaterValve()}{ToggleWaterValve()}}
+{\footnotesize\ttfamily void Water\+Pipe\+Manager.\+Toggle\+Water\+Valve (\begin{DoxyParamCaption}\item[{Vector3i}]{valve,  }\item[{Vector3i}]{pipe\+Position,  }\item[{bool}]{turn\+On = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00096}{96}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_water_pipe_manager_a7ff724235b435511dd000ce20cdf1398}\label{class_water_pipe_manager_a7ff724235b435511dd000ce20cdf1398}} 
+\index{WaterPipeManager@{WaterPipeManager}!Instance@{Instance}}
+\index{Instance@{Instance}!WaterPipeManager@{WaterPipeManager}}
+\doxysubsubsection{\texorpdfstring{Instance}{Instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_water_pipe_manager}{Water\+Pipe\+Manager}} Water\+Pipe\+Manager.\+Instance\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_water_pipe_manager_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_water_pipe_manager_8cs_source}{Water\+Pipe\+Manager.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Managers/Water\+Pipe\+Manager.\+cs\end{DoxyCompactItemize}

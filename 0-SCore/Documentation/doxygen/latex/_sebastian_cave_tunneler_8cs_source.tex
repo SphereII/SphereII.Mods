@@ -1,0 +1,213 @@
+\hypertarget{_sebastian_cave_tunneler_8cs_source}{}\doxysection{Sebastian\+Cave\+Tunneler.\+cs}
+\label{_sebastian_cave_tunneler_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/WorldGen/SebastianCaveTunneler.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/WorldGen/SebastianCaveTunneler.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00005}00005\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }Sebastian\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}CaveConfiguration"{}};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ private\ static\ FastNoise\ fastNoise;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ Special\ air\ that\ has\ stability}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ BlockValue\ caveAir\ =\ \textcolor{keyword}{new}\ BlockValue((uint)Block.GetBlockByName(\textcolor{stringliteral}{"{}air"{}}).blockID);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ BlockValue\ bottomCaveDecoration\ =\ \textcolor{keyword}{new}\ BlockValue((uint)Block.GetBlockByName(\textcolor{stringliteral}{"{}cntCaveFloorRandomLootHelper"{}}).blockID);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ BlockValue\ bottomDeepCaveDecoration\ =\ \textcolor{keyword}{new}\ BlockValue((uint)Block.GetBlockByName(\textcolor{stringliteral}{"{}cntDeepCaveFloorRandomLootHelper"{}}).blockID);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ BlockValue\ topCaveDecoration\ =\ \textcolor{keyword}{new}\ BlockValue((uint)Block.GetBlockByName(\textcolor{stringliteral}{"{}cntCaveCeilingRandomLootHelper"{}}).blockID);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ CaveType}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ Normal,}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ Chaotic,}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ Worm}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ GenerateCave(Vector3i\ startPos,\ \textcolor{keywordtype}{int}\ width\ =\ 100,\ \textcolor{keywordtype}{int}\ height\ =\ 100,\ CaveType\ caveType\ =\ CaveType.Normal)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ var\ mapGenerator\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_map_generator}{MapGenerator}}();}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ var\ map\ =\ mapGenerator.GenerateMap(startPos,\ width,\ height,\ startPos.ToString());}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ new\ map\ to\ the\ cache.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ x\ =\ 0;\ x\ <\ width;\ x++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ z\ =\ 0;\ z\ <\ height;\ z++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (map[x,\ z]\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SphereCache.caveMap.Add(\textcolor{keyword}{new}\ Vector2(startPos.x\ +\ x,\ startPos.z\ +\ z));}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddLevel(Chunk\ chunk,\ \textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{bool}\ reverse\ =\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ var\ chunkPos\ =\ chunk.GetWorldPos();}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ chunkX\ =\ 0;\ chunkX\ <\ 16;\ chunkX++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ chunkZ\ =\ 0;\ chunkZ\ <\ 16;\ chunkZ++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ worldX\ =\ (chunkPos.x\ +\ chunkX);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ worldZ\ =\ (chunkPos.z\ +\ chunkZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ vector\ =\ \textcolor{keyword}{new}\ Vector2(worldX,\ worldZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ reverse)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vector\ =\ \textcolor{keyword}{new}\ Vector2(worldZ,\ worldX);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SphereCache.caveMap.Contains(vector))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ y\ =\ chunk.GetTerrainHeight(chunkX,\ chunkZ)\ -\/\ depth;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (y\ <\ 5)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ caveHeight\ =\ 0;\ caveHeight\ <\ 4;\ caveHeight++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk.SetBlockRaw(chunkX,\ y\ +\ caveHeight,\ chunkZ,\ BlockValue.Air);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk.SetDensity(chunkX,\ y\ +\ caveHeight,\ chunkZ,\ MarchingCubes.DensityAir);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00069}00069\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddCaveToChunk(Chunk\ chunk)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00070}00070\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Populates\ the\ pois}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ var\ noise\ =\ SphereCache.GetFastNoise(chunk);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ AddLevel(chunk,\ 5);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ var\ MaxLevels\ =\ \textcolor{keywordtype}{int}.Parse(Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}MaxCaveLevels"{}}));}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ MaxLevels\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ var\ depth\ =\ 10;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ x\ =\ 0;\ x\ <=\ MaxLevels;\ x++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ AddLevel(chunk,\ depth,\ x\%2\ ==\ 0);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ depth\ +=\ 8;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00086}00086\ \ \ \ \ \textcolor{comment}{//\ Helper\ method\ is\ check\ the\ prefab\ decorator\ first\ to\ see\ if\ its\ there,\ then\ create\ it\ if\ it\ does\ not\ exist.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00087}00087\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ Prefab\ FindOrCreatePrefab(\textcolor{keywordtype}{string}\ strPOIname)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00088}00088\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ prefab\ already\ exists.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ var\ prefab\ =\ GameManager.Instance.GetDynamicPrefabDecorator().GetPrefab(strPOIname,\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prefab\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ prefab;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ not\ in\ the\ prefab\ decorator,\ load\ it\ up.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ prefab\ =\ \textcolor{keyword}{new}\ Prefab();}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ prefab.Load(strPOIname,\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ var\ location\ =\ PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ prefab.LoadXMLData(location);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(prefab.PrefabName))}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ prefab.PrefabName\ =\ strPOIname;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ prefab;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00104}00104\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00105}00105\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddDecorationsToCave(Chunk\ chunk)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00106}00106\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunk\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ var\ chunkPos\ =\ chunk.GetWorldPos();}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Decorating\ new\ Cave\ System..."{}});}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ var\ random\ =\ GameManager.Instance.World.GetGameRandom();}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Decorate\ decorate\ the\ cave\ spots\ with\ blocks.\ Shrink\ the\ chunk\ loop\ by\ 1\ on\ its\ edges\ so\ we\ can\ safely\ check\ surrounding\ blocks.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ var\ MaxPrefab\ =\ \textcolor{keywordtype}{int}.Parse(Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}MaxPrefabPerChunk"{}}));}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ var\ prefabCounter\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ chunkX\ =\ 1;\ chunkX\ <\ 15;\ chunkX++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ chunkZ\ =\ 1;\ chunkZ\ <\ 15;\ chunkZ++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ worldX\ =\ chunkPos.x\ +\ chunkX;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ worldZ\ =\ chunkPos.z\ +\ chunkZ;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tHeight\ =\ chunk.GetTerrainHeight(chunkX,\ chunkZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ tHeight\ -\/=\ 10;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ One\ test\ world,\ we\ blew\ through\ a\ threshold.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tHeight\ >\ 250)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tHeight\ =\ 240;}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00131}00131\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Move\ from\ the\ bottom\ up,\ leaving\ the\ last\ few\ blocks\ untouched.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//for\ (int\ y\ =\ tHeight;\ y\ >\ 5;\ y-\/-\/)}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ y\ =\ 5;\ y\ <\ tHeight\ -\/\ 10;\ y++)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ b\ =\ chunk.GetBlock(chunkX,\ y,\ chunkZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (b.type\ !=\ caveAir.type)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ under\ =\ chunk.GetBlock(chunkX,\ y\ -\/\ 1,\ chunkZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ above\ =\ chunk.GetBlock(chunkX,\ y\ +\ 1,\ chunkZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ floor\ for\ possible\ decoration}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (under.Block.shape.IsTerrain())}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue2\ =\ BlockPlaceholderMap.Instance.Replace(bottomCaveDecoration,\ random,\ worldX,\ worldZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Place\ alternative\ blocks\ down\ deeper}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (y\ <\ 30)}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ blockValue2\ =\ BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration,\ random,\ worldX,\ worldZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk.SetBlock(GameManager.Instance.World,\ chunkX,\ y,\ chunkZ,\ blockValue2);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ we\ can\ place\ a\ prefab\ here.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (prefabCounter\ >=\ MaxPrefab)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (random.RandomRange(0,\ 10)\ >\ 1)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//string\ strPOI;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (y\ <\ 30)}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ strPOI\ =\ SphereCache.DeepCavePrefabs[random.RandomRange(0,\ SphereCache.DeepCavePrefabs.Count)];}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//else}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ strPOI\ =\ SphereCache.POIs[random.RandomRange(0,\ SphereCache.POIs.Count)];}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//var\ newPrefab\ =\ FindOrCreatePrefab(strPOI);}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (newPrefab\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ var\ prefab\ =\ newPrefab.Clone();}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ prefab.RotateY(true,\ random.RandomRange(4));}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ var\ destination\ =\ chunk.ToWorldPos(new\ Vector3i(chunkX,\ y\ ,\ chunkZ));}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ try}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Winter\ Project\ counter-\/sinks\ all\ prefabs\ -\/8\ into\ the\ ground.\ However,\ for\ underground\ spawning,\ we\ want\ to\ avoid\ this,\ as\ they\ are\ already\ deep\ enough}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Instead,\ temporarily\ replace\ the\ tag\ with\ a\ custom\ one,\ so\ that\ the\ Harmony\ patch\ for\ the\ CopyIntoLocal\ of\ the\ winter\ project\ won't\ execute.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ var\ temp\ =\ prefab.Tags;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefab.Tags\ =\ POITags.Parse("{}SKIP\_HARMONY\_COPY\_INTO\_LOCAL"{});}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefab.yOffset\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World,\ chunk,\ destination,\ true);}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ var\ entityInstanceIds\ =\ new\ List<int>();}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefab.CopyEntitiesIntoChunkStub(chunk,\ destination,\ entityInstanceIds,\ true);}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Restore\ any\ of\ the\ tags\ that\ might\ have\ existed\ before.}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefab.Tags\ =\ temp;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ prefabCounter++;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ catch\ (Exception\ ex)}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ Debug.Log("{}Warning:\ Could\ not\ copy\ over\ prefab:\ "{}\ +\ strPOI\ +\ "{}\ "{}\ +\ ex);}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ ceiling\ to\ see\ if\ its\ a\ ceiling\ decoration}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (above.Block.shape.IsTerrain())}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue2\ =\ BlockPlaceholderMap.Instance.Replace(topCaveDecoration,\ random,\ worldX,\ worldZ);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk.SetBlock(GameManager.Instance.World,\ chunkX,\ y,\ chunkZ,\ blockValue2);}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ chunk.NeedsRegeneration\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00206}00206\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sebastian_cave_tunneler_8cs_source_l00207}00207\ \}}
+
+\end{DoxyCode}

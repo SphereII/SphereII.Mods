@@ -1,0 +1,183 @@
+\hypertarget{_u_a_i_base_8cs_source}{}\doxysection{UAIBase.\+cs}
+\label{_u_a_i_base_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/UtilityAI/UAIBase.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/UtilityAI/UAIBase.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00007}\mbox{\hyperlink{namespace_harmony_1_1_utility_a_i}{00007}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_utility_a_i}{Harmony.UtilityAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00009}\mbox{\hyperlink{class_harmony_1_1_utility_a_i_1_1_u_a_i_base_patches}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_utility_a_i_1_1_u_a_i_base_patches}{UAIBasePatches}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}UtilityAILogging"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(UAIBase))]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}updateAction"{}})]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }UAIBasePatch}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.CurrentTask\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.ActionData.Initialized)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Init(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.ActionData.Started)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Start(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.Executing)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Reset(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.TaskIndex\ +\ 1\ <\ \_context.ActionData.Action.GetTasks().Count)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.TaskIndex\ =\ \_context.ActionData.TaskIndex\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reset\ the\ task\ index\ to\ 0\ if\ there's\ nothing\ else\ to\ do\ here.\ This\ resets\ the\ task\ index.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.TaskIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(UAIBase))]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Update"{}})]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }UAIBase\_Update}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.IsSleeping)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(UAIBase))]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}chooseAction"{}})]}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }UAIBase\_considerAction}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddEntityTargetsToConsider(Context\ context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (context.ConsiderationData.EntityTargets\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets\ =\ \textcolor{keyword}{new}\ List<Entity>();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets.Clear();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ needed\ for\ UAIFilterIsSelf.\ In\ theory\ it\ should\ be\ possible\ to\ just\ pass}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ null\ as\ the\ first\ argument\ of\ GetEntitiesInBounds,\ but\ I\ looked\ in\ that\ code,}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ I\ suspect\ there\ might\ be\ unintended\ consequences\ to\ doing\ that.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets.Add(context.Self);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ revengeTarget\ =\ context.Self.GetRevengeTarget();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (revengeTarget\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets.Add(revengeTarget);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ seeDistance\ =\ context.Self.GetSeeDistance();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets.AddRange(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.Self.world.GetEntitiesInBounds(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.Self,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BoundsUtils.ExpandBounds(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.Self.boundingBox,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seeDistance,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seeDistance,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seeDistance)));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (context.ConsiderationData.EntityTargets.Count\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.EntityTargets.Sort(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ UAIUtils.NearestEntitySorter(context.Self));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ AddWaypointTargetsToConsider(Context\ context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (context.ConsiderationData.WaypointTargets\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.WaypointTargets\ =\ \textcolor{keyword}{new}\ List<Vector3>();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.WaypointTargets.Clear();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (context.ConsiderationData.WaypointTargets.Count\ >\ 1)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context.ConsiderationData.WaypointTargets.Sort(\textcolor{keyword}{new}\ UAIUtils.NearestWaypointSorter(context.Self));}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}Scanned\ WayPoints\ \{context.ConsiderationData.WaypointTargets.Count\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}Scanning\ WayPoints..."{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ highScore\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AddEntityTargetsToConsider(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AddWaypointTargetsToConsider(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UAIAction\ chosenAction\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object}\ chosenTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_context.AIPackages.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ pkg\ =\ \_context.AIPackages[i];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!UAIBase.AIPackages.ContainsKey(pkg))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ score\ =\ UAIBase.AIPackages[pkg].DecideAction(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\ var\ action,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\ var\ target)\ *\ UAIBase.AIPackages[pkg].Weight;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ two\ actions'\ scores\ are\ equal,\ the\ last\ action\ wins.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Changing\ the\ test\ to\ <=\ would\ mean\ the\ first\ action\ wins.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (score\ <\ highScore)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chosenAction\ =\ action;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chosenTarget\ =\ target;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ highScore\ =\ score;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ NPC\ should\ stick\ with\ the\ current\ action\ if\ none\ of\ the\ packages\ found\ an}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ action\ to\ perform,\ or\ if\ the\ winning\ action\ is\ already\ being\ performed\ on\ the}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ winning\ target.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chosenAction\ ==\ \textcolor{keyword}{null}\ ||}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\_context.ActionData.Action\ ==\ chosenAction\ \&\&}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Target\ ==\ chosenTarget))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.CurrentTask\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.Started)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.ActionData.Initialized)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.CurrentTask.Reset(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Action\ =\ chosenAction;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Target\ =\ chosenTarget;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.TaskIndex\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00176}00176\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_base_8cs_source_l00177}00177\ \}}
+
+\end{DoxyCode}

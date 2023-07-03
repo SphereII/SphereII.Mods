@@ -1,0 +1,91 @@
+\hypertarget{_u_a_i_task_guard_8cs_source}{}\doxysection{UAITask\+Guard.\+cs}
+\label{_u_a_i_task_guard_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskGuard.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskGuard.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00001}00001\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utility\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00002}00002\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}Guard,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00003}00003\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discovery.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00016}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_guard}{00016}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_guard}{UAITaskGuard}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_timeOut\ =\ 100f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_currentTimeout;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \_currentTimeout\ =\ \_timeOut;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Clear\ out\ any\ pathing\ on\ the\ target\ that\ was\ set\ by\ other\ tasks.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ is\ \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntityOrderReceiverSDX}})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.moveHelper.Stop();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.navigator.clearPath();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(entityAlive\ is\ \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntityOrderReceiverSDX}}\ entityOrderReceiver))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ do\ anything\ until\ the\ entity\ touches\ the\ ground;\ avoid\ the\ free\ in\ mid-\/air\ scenario.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entityAlive.onGround)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ don't\ have\ a\ path,\ then\ either\ we\ started\ this\ task\ away\ from\ the\ guard}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ position\ and\ need\ to\ find\ our\ way\ back,\ or\ we\ are\ already\ there.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.navigator.noPathAndNotPlanningOne())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compare\ the\ block\ centers\ of\ the\ current\ position\ and\ guard\ position\ to\ avoid}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ repathing\ for\ tiny\ position\ changes.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityPosition\ =\ EntityUtilities.CenterPosition(entityOrderReceiver.Position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ guardPosition\ =\ EntityUtilities.CenterPosition(entityOrderReceiver.GuardPosition);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (guardPosition\ !=\ entityPosition)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ NPCs\ can't\ break\ blocks,\ setting\ this\ to\ false\ results\ in\ weird\ pathing.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ canBreakBlocks\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.moveHelper.SetMoveTo(entityOrderReceiver.GuardPosition,\ canBreakBlocks);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.FindPath(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardPosition,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.GetMoveSpeedPanic(),}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ canBreakBlocks,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Turn\ around\ and\ face\ the\ same\ way\ as\ when\ the\ order\ was\ given.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.SetLookPosition(entityOrderReceiver.GuardLookPosition);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.RotateTo(}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardLookPosition.x,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardLookPosition.y,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardLookPosition.z,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 30f,}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 30f);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ a\ player\ is\ in\ your\ bounds,\ and\ face\ them\ if\ they\ are.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ var\ leader\ =\ EntityUtilities.GetLeaderOrOwner(\_context.Self.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.TurnToFaceEntity(\_context,\ leader);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \_currentTimeout-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_currentTimeout\ <\ 0)\ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_guard_8cs_source_l00095}00095\ \}}
+
+\end{DoxyCode}

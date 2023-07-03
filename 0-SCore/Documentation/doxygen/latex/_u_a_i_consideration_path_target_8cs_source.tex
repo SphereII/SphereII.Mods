@@ -1,0 +1,56 @@
+\hypertarget{_u_a_i_consideration_path_target_8cs_source}{}\doxysection{UAIConsideration\+Path\+Target.\+cs}
+\label{_u_a_i_consideration_path_target_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationPathTarget.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationPathTarget.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00001}00001\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00003}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_path_target}{00003}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_path_target}{UAIConsiderationPathTarget}}\ :\ UAIConsiderationTargetType}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00004}00004\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00005}00005\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}UtilityAILoggingMin"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ var\ paths\ =\ SphereCache.GetPaths(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (paths.Count\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ this.type.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ vector\ =\ \textcolor{keyword}{new}\ Vector3i(paths[0]);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ filterType\ =\ this.type[i];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ targetType\ =\ EnumUtils.Parse<TileEntityType>(filterType,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetType\ ==\ TileEntityType.None)\ \textcolor{comment}{//\ Not\ a\ tile\ entity.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntity\ =\ \_context.World.GetTileEntity(0,\ vector);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetType\ ==\ TileEntityType.None)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity.GetTileEntityType()\ ==\ targetType)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ :\ \{tileEntity.ToString()\}\ \ My\ Position:\ \{\_context.Self.position\}\ \ Type:\ \{tileEntity.GetTileEntityType()\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (tileEntity.GetTileEntityType())}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ loot\ containers\ were\ already\ touched,\ don't\ path\ to\ them.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityType.Loot:}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!((TileEntityLootContainer)tileEntity).bTouched)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityType.SecureLoot:}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!((TileEntitySecureLootContainer)tileEntity).bTouched)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_path_target_8cs_source_l00050}00050\ \}}
+
+\end{DoxyCode}

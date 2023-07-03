@@ -1,0 +1,119 @@
+\hypertarget{_x_m_l_debugging_8cs_source}{}\doxysection{XMLDebugging.\+cs}
+\label{_x_m_l_debugging_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Standard/XMLDebugging.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Standard/XMLDebugging.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00001}00001\ \textcolor{comment}{//\ using\ HarmonyLib;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00002}00002\ \textcolor{comment}{//\ using\ System.Xml;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00003}00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00004}00004\ \textcolor{comment}{//\ namespace\ Harmony.Standard}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00005}00005\ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00006}00006\ \textcolor{comment}{//\ \ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ \ *\ SCoreXML\_Debugging}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00008}00008\ \textcolor{comment}{//\ \ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00009}00009\ \textcolor{comment}{//\ \ \ \ \ \ *\ This\ class\ includes\ a\ Harmony\ patch\ allows\ additiona\ logging\ features\ to\ be\ turned\ on\ during\ XML\ parsing,\ enabled\ through\ the\ Config/blocks.xml'\ VerboseXMLParser\ and\ PhysicsBody.}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00010}00010\ \textcolor{comment}{//\ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00011}00011\ \textcolor{comment}{//\ \ \ \ \ public\ class\ XMLDebugging}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00012}00012\ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00013}00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ private\ static\ readonly\ string\ AdvFeatureClass\ =\ "{}AdvancedTroubleshootingFeatures"{};}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ private\ static\ readonly\ string\ Feature\ =\ "{}VerboseXMLParser"{};}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00015}00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ private\ static\ readonly\ string\ SecondFeature\ =\ "{}PhysicsBody"{};}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00016}00016\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XmlPatcher))]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch("{}singlePatch"{})]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ public\ class\ XmlPatcherSinglePatch}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00020}00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00021}00021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ private\ static\ bool\ Prefix(XmlFile\ \_targetFile,\ XmlElement\ \_patchElement,\ string\ \_patchName)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00022}00022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00023}00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00025}00025\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00026}00026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strDisplay\ =\ \_patchName\ +\ "{}:\ Attempting\ to\ Patch:\ "{}\ +\ \_patchElement.GetAttribute("{}xpath"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00027}00027\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00028}00028\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00029}00029\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00030}00030\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00031}00031\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00032}00032\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00033}00033\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(DialogFromXml))]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00034}00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch("{}ParseResponse"{})]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00035}00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ public\ class\ SCoreDialogFromXML}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00036}00036\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00037}00037\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ private\ static\ bool\ Prefix(global::Dialog\ dialog,\ XmlElement\ e)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00038}00038\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00039}00039\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00040}00040\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00041}00041\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00042}00042\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strDisplay\ =\ "{}"{};}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00043}00043\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (dialog\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00044}00044\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00045}00045\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ =\ "{}DialogFromXML\ ParseResponse:\ Dialog:\ "{}\ +\ dialog.ID;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00046}00046\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00047}00047\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00048}00048\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00049}00049\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (e\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00050}00050\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00051}00051\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ =\ "{}DialogFromXML\ ParseResponse:\ Element:\ "{}\ +\ e.OuterXml.Trim();}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00052}00052\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00053}00053\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00054}00054\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00055}00055\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00056}00056\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00057}00057\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00058}00058\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00059}00059\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(PhysicsBodyColliderConfiguration))]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00060}00060\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch("{}Read"{})]}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00061}00061\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ public\ class\ PhysicsBodyColliderConfigurationRead}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00062}00062\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00063}00063\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ private\ static\ void\ CheckTag(DynamicProperties\ dynamicProperties,\ string\ strTag)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00064}00064\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00065}00065\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strDisplay\ =\ "{}Property:\ "{}\ +\ strTag;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00066}00066\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (dynamicProperties.Contains(strTag))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00067}00067\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ +=\ "{}\ Value:\ "{}\ +\ dynamicProperties.GetStringValue(strTag);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00068}00068\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00069}00069\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ strDisplay\ +=\ "{}\ Property\ is\ not\ set."{};}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00070}00070\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00071}00071\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00072}00072\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00073}00073\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00074}00074\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ private\ static\ bool\ Prefix(XmlElement\ \_e)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00075}00075\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00076}00076\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ SecondFeature))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00077}00077\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00078}00078\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00079}00079\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ physicsBodyColliderConfiguration\ =\ new\ PhysicsBodyColliderConfiguration();}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00080}00080\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties\ =\ new\ DynamicProperties();}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00081}00081\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ foreach\ (var\ obj\ in\ \_e.ChildNodes)}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00082}00082\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00083}00083\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xmlNode\ =\ (XmlNode)obj;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00084}00084\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (xmlNode.NodeType\ ==\ XmlNodeType.Element\ \&\&\ xmlNode.Name.Equals("{}property"{}))\ dynamicProperties.Add(xmlNode);}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00085}00085\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00086}00086\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00087}00087\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ "{}\(\backslash\)n=======\ Physics\ Bodies\ ============"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00088}00088\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}tag"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00089}00089\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}path"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00090}00090\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}collisionLayer"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00091}00091\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}ragdollLayer"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00092}00092\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}layer"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00093}00093\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}ragdollScale"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00094}00094\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}type"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00095}00095\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CheckTag(dynamicProperties,\ "{}flags"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00096}00096\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00097}00097\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (dynamicProperties.Contains("{}collisionLayer"{}))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00098}00098\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00099}00099\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!dynamicProperties.Contains("{}ragdollLayer"{}))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00100}00100\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ "{}\(\backslash\)tWARNING:\ Collision\ Layer\ is\ set,\ but\ does\ not\ contain\ a\ ragdollLayer"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00101}00101\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00102}00102\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ else}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00103}00103\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00104}00104\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!dynamicProperties.Contains("{}layer"{}))}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00105}00105\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ "{}\(\backslash\)tWARNING:\ Collision\ Layer\ IS\ NOT\ SET.\ Falling\ back\ to\ layer\ property,\ but\ that\ is\ not\ found\ either!\ "{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00106}00106\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00107}00107\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00108}00108\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ "{}=======\ End\ Physics\ Bodies\ ============"{});}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00109}00109\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00110}00110\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00111}00111\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00112}00112\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_m_l_debugging_8cs_source_l00113}00113\ \textcolor{comment}{//\ \}}}
+
+\end{DoxyCode}

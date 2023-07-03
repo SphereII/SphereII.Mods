@@ -1,0 +1,23 @@
+\hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source}{}\doxysection{Dialog\+Action\+Execute\+Command\+SDX.\+cs}
+\label{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionExecuteCommandSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionExecuteCommandSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00001}\mbox{\hyperlink{class_dialog_action_execute_command_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_execute_command_s_d_x}{DialogActionExecuteCommandSDX}}\ :\ DialogActionAddBuff}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseDialogAction.ActionTypes\ ActionType\ =>\ BaseDialogAction.ActionTypes.AddBuff;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ var\ entityId\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}}))}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ entityId\ =\ (int)player.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}});}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityId\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ EntityUtilities.ExecuteCMD(entityId,\ base.ID,\ player);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_execute_command_s_d_x_8cs_source_l00017}00017\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,59 @@
+\hypertarget{class_sphere_i_i___food_spoilage}{}\doxysection{Sphere\+II\+\_\+\+Food\+Spoilage Class Reference}
+\label{class_sphere_i_i___food_spoilage}\index{SphereII\_FoodSpoilage@{SphereII\_FoodSpoilage}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_sphere_i_i___food_spoilage_1_1_sphere_i_i__item_value___read}{Sphere\+II\+\_\+item\+Value\+\_\+\+Read}}
+\item 
+class \mbox{\hyperlink{class_sphere_i_i___food_spoilage_1_1_sphere_i_i___item_value___write}{Sphere\+II\+\_\+\+Item\+Value\+\_\+\+Write}}
+\item 
+class \mbox{\hyperlink{class_sphere_i_i___food_spoilage_1_1_sphere_i_i___x_ui_c___item_stack___update}{Sphere\+II\+\_\+\+XUi\+C\+\_\+\+Item\+Stack\+\_\+\+Update}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static readonly string \mbox{\hyperlink{class_sphere_i_i___food_spoilage_af5ea04e368ab427e2d9ff086d08988f8}{Prop\+Spoilable}} = \char`\"{}Spoilable\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_sphere_i_i___food_spoilage}{Sphere\+II\+\_\+\+Food\+Spoilage}}
+
+This class includes a \mbox{\hyperlink{namespace_harmony}{Harmony}} patches to enable Food spoilage, including trigger times and delays. The main trigger spoilage code occurs on the XUi\+C\+\_\+\+Item\+Stack, so all stacks of items will be affected, if the right XML is used. This needs to be enabled through the Config/blocks.\+xml, as well as XML changes to food or other items you want to degrade over time.
+
+XML Usage ( Taken from the Sphere\+II Food Spoilage Mod )
+
+$<$append xpath=\char`\"{}/items\char`\"{}$>$  $<$property name=\char`\"{}\+Extends\char`\"{} value=\char`\"{}food\+Sham\+Sandwich\char`\"{}$>$ $<$property name=\char`\"{}\+Display\+Type\char`\"{} value=\char`\"{}melee\char`\"{}$>$ $<$property name=\char`\"{}\+Tags\char`\"{} value=\char`\"{}perk\+Master\+Chef\char`\"{}$>$
+
+$<$property name=\char`\"{}\+Spoilable\char`\"{} value=\char`\"{}true\char`\"{} $>$ $<$property name=\char`\"{}\+Spoiled\+Item\char`\"{} value=\char`\"{}food\+Rotting\+Flesh\char`\"{} $>$ $<$property name=\char`\"{}\+Tick\+Per\+Loss\char`\"{} value=\char`\"{}500\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Show\+Quality\char`\"{} value=\char`\"{}false\char`\"{}$>$
+
+$<$property name=\char`\"{}\+Spoilage\+Max\char`\"{} value=\char`\"{}1000\char`\"{} $>$ $<$property name=\char`\"{}\+Spoilage\+Per\+Tick\char`\"{} value=\char`\"{}1\char`\"{} $>$  $<$/append$>$
+
+$<$append xpath=\char`\"{}/items/item\mbox{[}starts-\/with(@name, \textquotesingle{}food\textquotesingle{}) and not(contains(@name, \textquotesingle{}food\+Can\textquotesingle{}))\mbox{]}\char`\"{}$>$ $<$property name=\char`\"{}\+Spoilable\char`\"{} value=\char`\"{}true\char`\"{} $>$ $<$property name=\char`\"{}\+Show\+Quality\char`\"{} value=\char`\"{}false\char`\"{}$>$ $<$property name=\char`\"{}\+Spoiled\+Item\char`\"{} value=\char`\"{}food\+Rotting\+Flesh\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Tick\+Per\+Loss\char`\"{} value=\char`\"{}5000\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Spoilage\+Max\char`\"{} value=\char`\"{}1000\char`\"{} $>$ $<$property name=\char`\"{}\+Spoilage\+Per\+Tick\char`\"{} value=\char`\"{}1\char`\"{} $>$ $<$/append$>$ $<$append xpath=\char`\"{}/items/item\mbox{[}starts-\/with(@name, \textquotesingle{}food\textquotesingle{}) and not(contains(@name, \textquotesingle{}food\+Can\textquotesingle{}))\mbox{]}/property\mbox{[}@name=\textquotesingle{}\+Tags\textquotesingle{}\mbox{]}/@value\char`\"{}$>$,perk\+Master\+Chef$<$/append$>$ 
+
+Definition at line \mbox{\hyperlink{_food_spoilage_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_food_spoilage_8cs_source}{Food\+Spoilage.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_sphere_i_i___food_spoilage_af5ea04e368ab427e2d9ff086d08988f8}\label{class_sphere_i_i___food_spoilage_af5ea04e368ab427e2d9ff086d08988f8}} 
+\index{SphereII\_FoodSpoilage@{SphereII\_FoodSpoilage}!PropSpoilable@{PropSpoilable}}
+\index{PropSpoilable@{PropSpoilable}!SphereII\_FoodSpoilage@{SphereII\_FoodSpoilage}}
+\doxysubsubsection{\texorpdfstring{PropSpoilable}{PropSpoilable}}
+{\footnotesize\ttfamily readonly string Sphere\+II\+\_\+\+Food\+Spoilage.\+Prop\+Spoilable = \char`\"{}Spoilable\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_food_spoilage_8cs_source_l00049}{49}} of file \mbox{\hyperlink{_food_spoilage_8cs_source}{Food\+Spoilage.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Harmony/\+Food\+Spoilage/Food\+Spoilage.\+cs\end{DoxyCompactItemize}

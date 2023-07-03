@@ -1,0 +1,92 @@
+\mbox{[} Crop Management \mbox{]}
+\begin{DoxyItemize}
+\item Initial Implementation of Advanced Crop Management features. This will likely be buggy.
+\item There\textquotesingle{}s a lot to unpack here. Buckle up.
+\item When enabled, crops will need to be within a 5x5 block radious of water block. This is configurable with the Water\+Range on a per-\/plant basis. Default is 5. Each plant will record where it\textquotesingle{}s water blocks are. The Check\+Interval is used to determine how often the plant will check its water source.
+\begin{DoxyItemize}
+\item If the water is gone when checked, the plant will rescan for a new block.
+\item If no new water block is found, it will wilt.
+\item Whenever a plant successfully checks in with water, it will do 1 point of damage to the water.
+\begin{DoxyItemize}
+\item When a water block\textquotesingle{}s damage exceeds its max damage (100 by default), it will turn into air. Crop data is not persisted to disk. Rather, if data is missing, it simply rechecks and re-\/discovers.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item \mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s blocks.\+xml contains a new entry\+:
+
+$<$property class=\char`\"{}\+Crop\+Management\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Logging\char`\"{} value=\char`\"{}false\char`\"{}$>$
+
+$<$property name=\char`\"{}\+Crop\+Enable\char`\"{} value=\char`\"{}false\char`\"{}$>$
+
+$<$property name=\char`\"{}\+Check\+Interval\char`\"{} value=\char`\"{}600\char`\"{} $>$
+
+$<$property name=\char`\"{}\+Max\+Pipe\+Length\char`\"{} value=\char`\"{}500\char`\"{} $>$ $<$/property$>$
+
+As always, it is not recommended to change the \mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s blocks.\+xml directly when adjusting, but rather use a modlet\+:
+
+$<$set xpath=\char`\"{}/blocks/block\mbox{[}@name=\textquotesingle{}\+Config\+Feature\+Block\textquotesingle{}\mbox{]}/property\mbox{[}@class=\textquotesingle{}\+Crop\+Management\textquotesingle{}\mbox{]}/property\mbox{[}@name=\textquotesingle{}\+Crop\+Enable\textquotesingle{}\mbox{]}/@value\char`\"{}$>$true$<$/set$>$
+
+$<$set xpath=\char`\"{}/blocks/block\mbox{[}@name=\textquotesingle{}\+Config\+Feature\+Block\textquotesingle{}\mbox{]}/property\mbox{[}@class=\textquotesingle{}\+Crop\+Management\textquotesingle{}\mbox{]}/property\mbox{[}@name=\textquotesingle{}\+Check\+Interval\textquotesingle{}\mbox{]}/@value\char`\"{}$>$120$<$/set$>$
+\end{DoxyItemize}
+
+\begin{DoxyVerb}    - Crops that you want to manage under the advanced crop management must use the new classes:
+        BlockPlantGrowingSDX
+
+        It supports the following properties:
+            RequireWater: [ true/false ]
+                Allows invidiaul plants to control whether they need water or not. 
+                - This can be read using extends, but overridden by the individual block
+            WaterRange: [ 5 ]
+                Allows individual plants to control how far away their water can be.
+                - This can be read using extends, but overridden by the individual block
+            PlantGrowing.Wilt: [ treeDeadPineLeaf ]
+                If a plant goes without water for tool long, it will wilt into this block.
+                - Can be air as well.
+            Wilt: [ true / false ]: default false.
+                - If a plant cannot find a water source, it will wilt and destroy itself.
+
+        Example XML to convert all growable crops to use water.
+
+            <!-- Setting up defaults -->
+            <!-- Changing all crops to using the PlantGrowingSDX class -->
+            <set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='Class']/@value">PlantGrowingSDX, SCore</set>
+            <append xpath="/blocks/block[@name='cropsGrowingMaster']">
+                <!-- If the crop needs water to survive. Default: false -->
+                <property name="RequireWater" value="true" /> 
+
+                <!-- how far away that block can be from a water source: Default is 5 -->
+                <property name="WaterRange" value="5" />  
+
+                <!-- The block the crop downgrades too if its dead. Default: Air-->
+                <property name="PlantGrowing.Wilt" value="treeDeadPineLeaf"/>
+
+                <!-- if set to true, the plant will die when there is no water near by. -->
+                <property name="Wilt" value="true" />
+            </append>
+
+    - In order to better support crops, and make them more fun, support for water pipes have been added.
+        Two new classes have been written:
+            BlockWaterPipeSDX: This block designates a block as a water carrier. It is not a water source itself, but can allow water to 'move' through. 
+                - One section of the pipe must touch a water source block.
+
+                - In this example, I convert all metalPipe's to be used as water pipes
+                    <append xpath="/blocks/block[starts-with(@name, 'metalPipe')]">
+                        <property name="Class" value="WaterPipeSDX, SCore" />
+                    </append>
+
+            BlockWaterSourceSDX: This block designates a block as a water distributor. It is not a water source itself.
+                - if the BlockWaterSourceSDX is connected to a series of BlockWaterPipeSDX which is connected to a water source block, it will act like a water source block.
+
+                - In this example, I'm using the metalPipeValue as a distributor
+                    <set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Class']/@value">WaterSourceSDX, SCore</set>
+
+
+        A water source block is currently defined as:
+            BlockLiquidV2 : Water from a river, lake, or dumped from a bucket
+            terrBedRock: if you connect a pipe to bedrock, it will act as an unlimited water source.
+
+            Any block is the property WaterSource is set on it, and set to true
+                <property name="WaterSource" value="true" />
+\end{DoxyVerb}
+ 

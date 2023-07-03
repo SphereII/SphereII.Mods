@@ -1,0 +1,91 @@
+\hypertarget{_e_a_i_target_8cs_source}{}\doxysection{EAITarget.\+cs}
+\label{_e_a_i_target_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EAI/EAITarget.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EAI/EAITarget.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_e_a_i}{Harmony.EAI}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(typeof(EAITarget))]}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00007}00007\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}check"{}})]}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00008}\mbox{\hyperlink{class_harmony_1_1_e_a_i_1_1_e_a_i_target__check}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_e_a_i_1_1_e_a_i_target__check}{EAITarget\_check}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ EAITarget\ \_\_instance,\ global::EntityAlive\ \_e)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_result)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ "{}humans"{}\ and\ entities\ with\ Use\ Factions\ tags\ should\ use\ faction-\/based\ targeting}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.IsHuman(\_\_instance.theEntity.entityId)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ !EntityUtilities.UseFactions(\_\_instance.theEntity))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ a\ vehicle..\ umm..\ no.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_e\ is\ EntityVehicle)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Checks\ if\ we\ are\ allies,\ either\ share\ a\ leader,\ or\ is\ our\ leader.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityTargetingUtilities.IsAlly(\_\_instance.theEntity,\ \_e))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ we\ have\ a\ revenge\ target?\ Are\ they\ the\ ones\ attacking\ us?}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityTargetingUtilities.IsCurrentRevengeTarget(\_\_instance.theEntity,\ \_e))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ target\ entity\ is\ attacking\ our\ ally,\ target\ them\ too.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ var\ leader\ =\ EntityUtilities.GetLeaderOrOwner(\_\_instance.theEntity.entityId);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityTargetingUtilities.IsFightingFollowers(leader,\ \_e))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ allow\ an\ override\ for\ the\ action\ stuff.\ If\ its\ set\ here,\ then\ use\ faction\ targeting.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.CheckProperty(\_\_instance.theEntity.entityId,\ \textcolor{stringliteral}{"{}AllEntitiesUseFactionTargeting"{}}))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ patches\ the\ check\ for\ all\ entities,\ so\ if\ we're\ not\ supposed\ to\ use\ faction}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ targeting\ for\ everything,\ stop\ now.\ Otherwise,\ do\ the\ faction\ check.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(\textcolor{stringliteral}{"{}AdvancedNPCFeatures"{}},\ \textcolor{stringliteral}{"{}AllEntitiesUseFactionTargeting"{}}))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ *all*\ entities\ don't\ use\ faction\ targeting,\ this\ entity\ still\ should}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ it\ has\ one\ of\ the\ UseFactions\ tags.\ Only\ stop\ now\ if\ it\ doesn't.}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.UseFactions(\_\_instance.theEntity))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ var\ myRelationship\ =\ FactionManager.Instance.GetRelationshipTier(\_\_instance.theEntity,\ \_e);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (myRelationship)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Hate:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Dislike:\ \ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Neutral:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Like:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Love:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FactionManager.Relationship.Leader:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_target_8cs_source_l00085}00085\ \}}
+
+\end{DoxyCode}

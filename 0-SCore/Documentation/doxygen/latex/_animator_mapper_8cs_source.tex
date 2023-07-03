@@ -1,0 +1,31 @@
+\hypertarget{_animator_mapper_8cs_source}{}\doxysection{Animator\+Mapper.\+cs}
+\label{_animator_mapper_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/AnimatorMapper.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/AnimatorMapper.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_animation}{Harmony.Animation}}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00005}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_harmony___animal_animation}{00005}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_harmony___animal_animation}{Harmony\_AnimalAnimation}}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}EntitySpeedCheck"{}};}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(AvatarAnimalController))]}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}LateUpdate"{}})]}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00015}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_harmony___animal_animation_1_1_sphere_i_i___animal_avatar_controller}{00015}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_harmony___animal_animation_1_1_sphere_i_i___animal_avatar_controller}{SphereII\_AnimalAvatarController}}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(AvatarAnimalController\ \_\_instance,\ global::EntityAlive\ \_\_\_entity)}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \$\textcolor{stringliteral}{"{}\ AnimalAvatarController:\ \{\_\_\_entity.EntityName\}\ (\ \{\_\_\_entity.entityId\}\ Entity\ Speed\ Forward:\ "{}}\ +\ \_\_\_entity.speedForward\ +\ \textcolor{stringliteral}{"{}\ \ \ Strafe:\ "{}}\ +\ \_\_\_entity.speedStrafe);}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_animator_mapper_8cs_source_l00028}00028\ \}}
+
+\end{DoxyCode}

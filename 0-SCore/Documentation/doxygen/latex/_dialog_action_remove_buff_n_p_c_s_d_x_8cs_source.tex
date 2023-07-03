@@ -1,0 +1,20 @@
+\hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source}{}\doxysection{Dialog\+Action\+Remove\+Buff\+NPCSDX.\+cs}
+\label{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionRemoveBuffNPCSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionRemoveBuffNPCSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00001}\mbox{\hyperlink{class_dialog_action_remove_buff_n_p_c_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_remove_buff_n_p_c_s_d_x}{DialogActionRemoveBuffNPCSDX}}\ :\ DialogActionAddBuff}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \ \ \ \ var\ playerUI\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ playerUI.xui.Dialog.Respondent\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ myEntity.Buffs.RemoveBuff(base.ID,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_remove_buff_n_p_c_s_d_x_8cs_source_l00014}00014\ \}}
+
+\end{DoxyCode}

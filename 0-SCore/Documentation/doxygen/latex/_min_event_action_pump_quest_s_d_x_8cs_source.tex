@@ -1,0 +1,75 @@
+\hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source}{}\doxysection{Min\+Event\+Action\+Pump\+Quest\+SDX.\+cs}
+\label{_min_event_action_pump_quest_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionPumpQuestSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionPumpQuestSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00004}\mbox{\hyperlink{class_min_event_action_pump_quest_s_d_x}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_pump_quest_s_d_x}{MinEventActionPumpQuestSDX}}\ :\ MinEventActionRemoveBuff}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ This\ loops\ through\ all\ the\ targets,\ refreshing\ the\ quest.\ }}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}PumpQuestSDX,\ SCore"{}\ target="{}self"{}\ \ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ j\ =\ 0;\ j\ <\ targets.Count;\ j++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ targets[j]\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ k\ =\ 0;\ k\ <\ entity.questJournal.quests.Count;\ k++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ l\ =\ 0;\ l\ <\ entity.questJournal.quests[k].Objectives.Count;\ l++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity.questJournal.quests[k].Objectives[l].Refresh();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityPlayer\ =\ targets[j]\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ k\ =\ 0;\ k\ <\ entityPlayer.QuestJournal.quests.Count;\ k++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ l\ =\ 0;\ l\ <\ entityPlayer.QuestJournal.quests[k].Objectives.Count;\ l++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityPlayer.QuestJournal.quests[k].Objectives[l].Refresh();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00028}00028\ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00030}\mbox{\hyperlink{class_min_event_action_teleport_to_quest}{00030}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_teleport_to_quest}{MinEventActionTeleportToQuest}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ This\ loops\ through\ all\ the\ targets,\ refreshing\ the\ quest.\ }}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ \ <triggered\_effect\ trigger="{}onSelfBuffStart"{}\ action="{}TeleportToQuest,\ SCore"{}\ quest="{}sorcery\_trader\_arcane"{}\ \ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{string}\ questName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ var\ entityPlayer\ =\ \_params.Self\ as\ EntityPlayer;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ quest\ \textcolor{keywordflow}{in}\ entityPlayer.QuestJournal.quests)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Quest:\ \{quest.ID\}\ POI:\ \{quest.GetPOIName()\}\ Position:\ \{quest.Position\}"{}});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (quest.ID\ ==\ questName)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ quest.GetPositionData(out\ var\ pos,\ Quest.PositionDataTypes.POIPosition);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//quest.GetPositionData(out\ var\ pos,\ Quest.PositionDataTypes.POIPosition);}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//quest.GetPositionData(out\ var\ pos,\ Quest.PositionDataTypes.Activate);}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityPlayer.Teleport(pos);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}quest"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ questName\ =\ \_attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_pump_quest_s_d_x_8cs_source_l00069}00069\ \}}
+
+\end{DoxyCode}

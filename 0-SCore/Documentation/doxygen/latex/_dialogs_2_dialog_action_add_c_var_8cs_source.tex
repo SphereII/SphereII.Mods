@@ -1,0 +1,46 @@
+\hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source}{}\doxysection{Dialog\+Action\+Add\+CVar.\+cs}
+\label{_dialogs_2_dialog_action_add_c_var_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAddCVar.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAddCVar.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00001}\mbox{\hyperlink{class_dialog_action_add_c_var}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_add_c_var}{DialogActionAddCVar}}\ :\ DialogActionAddBuff}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedDialogDebugging"{}};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ strOperator\ =\ \textcolor{stringliteral}{"{}add"{}};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(Value))}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ Value\ =\ \textcolor{stringliteral}{"{}1"{}};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(Value,\ out\ var\ flValue);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ var\ strDisplay\ =\ \textcolor{stringliteral}{"{}AddCVar:\ "{}}\ +\ ID\ +\ \textcolor{stringliteral}{"{}\ Value:\ "{}}\ +\ flValue\ +\ \textcolor{stringliteral}{"{}\ Operator:\ "{}}\ +\ strOperator;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!player.Buffs.HasCustomVar(ID))}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay\ +\ \textcolor{stringliteral}{"{}\ Adding\ Custom\ CVAr"{}});}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ player.Buffs.AddCustomVar(ID,\ 0);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ var\ currentValue\ =\ player.Buffs.GetCustomVar(ID);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (strOperator.ToLower())}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}add"{}}:}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentValue\ +=\ flValue;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}sub"{}}:}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentValue\ -\/=\ flValue;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ default\ is\ set}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ currentValue\ =\ flValue;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ player.Buffs.SetCustomVar(ID,\ currentValue,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ strDisplay\ +\ \textcolor{stringliteral}{"{}\ Setting\ to\ "{}}\ +\ currentValue);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00039}00039\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_action_add_c_var_8cs_source_l00040}00040\ \}}
+
+\end{DoxyCode}

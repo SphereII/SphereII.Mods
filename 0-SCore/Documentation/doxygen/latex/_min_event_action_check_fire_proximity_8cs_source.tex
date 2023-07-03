@@ -1,0 +1,35 @@
+\hypertarget{_min_event_action_check_fire_proximity_8cs_source}{}\doxysection{Min\+Event\+Action\+Check\+Fire\+Proximity.\+cs}
+\label{_min_event_action_check_fire_proximity_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/MinEvent/MinEventActionCheckFireProximity.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/MinEvent/MinEventActionCheckFireProximity.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }JetBrains.Annotations;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00013}00013\ [UsedImplicitly]}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00014}\mbox{\hyperlink{class_min_event_action_check_fire_proximity}{00014}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_check_fire_proximity}{MinEventActionCheckFireProximity}}\ :\ MinEventActionRemoveBuff}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00015}00015\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keywordtype}{string}\ cvar\ =\ \textcolor{stringliteral}{"{}\_closeFires"{}};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ @params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00020}00020\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Enabled\ ==\ \textcolor{keyword}{false})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ var\ position\ =\ \textcolor{keyword}{new}\ Vector3i(@params.Self.position);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ var\ count\ =\ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.CloseFires(position,\ (\textcolor{keywordtype}{int})maxRange);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ @params.Self.Buffs.SetCustomVar(cvar,\ count);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flag)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ var\ name\ =\ attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{stringliteral}{"{}cvar"{}})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ cvar\ =\ attribute.Value;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_check_fire_proximity_8cs_source_l00038}00038\ \}}
+
+\end{DoxyCode}

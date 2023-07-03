@@ -1,0 +1,60 @@
+\hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source}{}\doxysection{UAIConsideration\+Target\+Has\+CVar.\+cs}
+\label{_u_a_i_consideration_target_has_c_var_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationTargetHasCVar.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationTargetHasCVar.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00006}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_not_has_c_var}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_not_has_c_var}{UAIConsiderationTargetNotHasCVar}}\ :\ \mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_c_var}{UAIConsiderationTargetHasCVar}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityUtilities.SameValue(base.GetScore(\_context,\ target),\ 1f)\ ?\ 0f\ :\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00014}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_c_var}{00014}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_target_has_c_var}{UAIConsiderationTargetHasCVar}}\ :\ UAIConsiderationBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ \_cvar;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_value\ =\ \textcolor{keywordtype}{float}.MaxValue;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init(Dictionary<string,\ string>\ parameters)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ base.Init(parameters);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parameters.ContainsKey(\textcolor{stringliteral}{"{}cvar"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_cvar\ =\ parameters[\textcolor{stringliteral}{"{}cvar"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parameters.ContainsKey(\textcolor{stringliteral}{"{}value"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_value\ =\ StringParsers.ParseFloat(parameters[\textcolor{stringliteral}{"{}value"{}}],\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ targetEntity\ =\ UAIUtils.ConvertToEntityAlive(target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ for\ defined\ \_cvar}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(\_cvar))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ npc\ does\ not\ have\ the\ cvar,\ don't\ process.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.Buffs.HasCustomVar(\_cvar))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ value\ is\ not\ defined,\ assume\ just\ the\ existence\ of\ the\ cvar\ is\ fine.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.SameValue(\_value,\ \textcolor{keywordtype}{float}.MaxValue))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ the\ cvar\ matches\ the\ expected\ value,\ return\ 1}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.SameValue(\_value,\ \_context.Self.Buffs.GetCustomVar(\_cvar)))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_target_has_c_var_8cs_source_l00054}00054\ \}}
+
+\end{DoxyCode}

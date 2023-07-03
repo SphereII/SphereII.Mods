@@ -1,0 +1,44 @@
+\hypertarget{_give_buff_or_quest_by_sound_8cs_source}{}\doxysection{Give\+Buff\+Or\+Quest\+By\+Sound.\+cs}
+\label{_give_buff_or_quest_by_sound_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SoundFeatures/GiveBuffOrQuestBySound.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SoundFeatures/GiveBuffOrQuestBySound.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }Audio;}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_sound_features}{Harmony.SoundFeatures}}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_sound_features_1_1_give_buff_or_quest_by_sound}{00018}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_sound_features_1_1_give_buff_or_quest_by_sound}{GiveBuffOrQuestBySound}}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedSoundFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ CheckForBuffOrQuest(\textcolor{keywordtype}{string}\ soundGroupName,\ Vector3\ position)}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Searching\ for\ "{}}\ +\ soundGroupName);}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Dictionary\ search\ for\ substring}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SoundDataNodeClassSDX.SoundDataSDXInfo.ContainsKey(soundGroupName))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Found\ Sound\ Node.\ Checking\ for\ buffs"{}});}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ use\ xmlData\ to\ grab\ the\ sound\ node\ information,\ which\ can\ contain\ how\ far\ away\ the\ sound\ can\ be\ heard.}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Manager.audioData.TryGetValue(soundGroupName,\ out\ var\ xmlData))}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ var\ radius\ =\ Utils.Fastfloor(xmlData.distantFadeEnd);}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ var\ data\ =\ SoundDataNodeClassSDX.SoundDataSDXInfo[soundGroupName];}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data.Buff\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}:\ Found\ Buff\ for\ Sound\ Node:\ "{}}\ +\ data.Buff);}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.AddBuffToRadius(data.Buff,\ position,\ radius);}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Scanning\ for\ quest"{}});}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data.Quest\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Adding\ Quest\ "{}}\ +\ data.Quest\ +\ \textcolor{stringliteral}{"{}\ to\ surrounding\ entities"{}});}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.AddQuestToRadius(data.Quest,\ position,\ radius);}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_give_buff_or_quest_by_sound_8cs_source_l00050}00050\ \}}
+
+\end{DoxyCode}

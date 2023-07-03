@@ -1,0 +1,419 @@
+\hypertarget{class_old_moat_games_1_1_animated_gif_player}{}\doxysection{Old\+Moat\+Games.\+Animated\+Gif\+Player Class Reference}
+\label{class_old_moat_games_1_1_animated_gif_player}\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+
+
+Inherits Mono\+Behaviour.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ae2a380c8ba604e9e448c3a9535b11ae2}\label{class_old_moat_games_1_1_animated_gif_player_ae2a380c8ba604e9e448c3a9535b11ae2}} 
+delegate void {\bfseries On\+Ready\+Action} ()
+\begin{DoxyCompactList}\small\item\em Called when GIF is ready to play. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_aa673417d79c036edb8b59bd0e4db1dc7}\label{class_old_moat_games_1_1_animated_gif_player_aa673417d79c036edb8b59bd0e4db1dc7}} 
+delegate void {\bfseries On\+Load\+Error\+Action} ()
+\begin{DoxyCompactList}\small\item\em Called when GIF could not be loaded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a3d9e2b08ab2a0b7632d35b79817a470a}{Update}} ()
+\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a94371941a5bb9a653c1134dad8df34ac}{Init}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the component with callbacks that are triggered when loading has finished or has failed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ab3b9aeeb4abe516016d039f562c7ad42}{Play}} ()
+\begin{DoxyCompactList}\small\item\em Start playback. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a80f5d44b421d83fb7e9fb94efe063257}{Pause}} ()
+\begin{DoxyCompactList}\small\item\em Pause playback. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_adb35aaf5280bd758de447be13e342e46}{Get\+Number\+Of\+Frames}} ()
+\begin{DoxyCompactList}\small\item\em Returns the number of frames in the GIF. Only shows the number of frames that have been decoded. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a421e6176176e6ae536946456aa2792d1}{Set\+Texture}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aedc50024fe726eb8c9dd9ff2898deeae}{Loop}} = true
+\begin{DoxyCompactList}\small\item\em Sets the GIF to continue playing from the start after it is finished. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ab956a8e216b2438259affb69bca775ec}{Auto\+Play}} = true
+\begin{DoxyCompactList}\small\item\em Sets the GIF to automatically start playing after it is loaded. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a11ccec69615bd17ca718acdf3d13660d}{File\+Name}} = \char`\"{}http\+://i.\+imgur.\+com/3v\+W7\+Vk6.\+gif\char`\"{}
+\begin{DoxyCompactList}\small\item\em File used for GIF. Use Gif\+Path to set the base path to Streaming\+Assets\+Path, Persistent\+Data\+Path or Temporary\+Cache\+Path. \end{DoxyCompactList}\item 
+Gif\+Path \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a9c30707267ce0094a5d133ee7aafbc1e}{Path}} = Gif\+Path.\+Streaming\+Assets\+Path
+\begin{DoxyCompactList}\small\item\em Path to the GIF. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a69d521585a911bedfa080a31c9fd111e}{Cache\+Frames}}
+\begin{DoxyCompactList}\small\item\em Sets caching for decoded frames. Reload the GIF for it to take effect. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a334b768492d4b4f0fdd93ce875bcf5e0}{Buffer\+All\+Frames}}
+\begin{DoxyCompactList}\small\item\em Sets buffering for frames. When set all frames are loaded and cached at once. Reload GIF for it to take effect. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a21fc0dc6f963927f33c7c8ef39b4fbc5}{Use\+Threaded\+Decoder}} = true
+\begin{DoxyCompactList}\small\item\em Sets whether or not the decoder runs in a separate thread. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ab6a7791439a5e01eac15f77da37a123c}{Compatibility\+Mode}}
+\begin{DoxyCompactList}\small\item\em Sets whether or not to run the player in compatibility mode. This mode supports more decoding methods but uses more memory and CPU. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aec30d21d7228391cbbef6c1dceaea5bf}{Override\+Time\+Scale}}
+\begin{DoxyCompactList}\small\item\em Sets whether or not playback speed is independent of Time.\+time\+Scale. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a7762e8455fe6f680e2edcefd3c1ee0e7}{Time\+Scale}} = 1
+\begin{DoxyCompactList}\small\item\em Sets time scale of Gif playback. \end{DoxyCompactList}\item 
+Texture2D \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ac7ed6c0854162893e7db9a2545866c6c}{Gif\+Texture}}
+\begin{DoxyCompactList}\small\item\em Texture on which the frame is displayed. Texture should be a RGBA32 texture of the same piel size as the GIF. If no texture specified a new one will be created. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a1646ce4188d9a6181cfe75eede2c600d}{Width}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Returns the width of the GIF. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aabca581f81dd42b6a5f17925bb0e73f7}{Height}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Returns the heigth of the GIF. \end{DoxyCompactList}\item 
+Component \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a2ac14ed7cbc53232fabe96f26496ae01}{Target\+Component}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The current target component for the GIF. Reload GIF for it to take effect. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aac49dd66fb07acc9b939a6a1daf3cce2}{Target\+Material\+Number}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The current target material in the component. Used when there is more than 1 material. \end{DoxyCompactList}\item 
+Gif\+Player\+State \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ac7767a541f20c35eca5f7e5e6cfb1d77}{State}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Current state of the GIF player. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Events}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ae2a380c8ba604e9e448c3a9535b11ae2}{On\+Ready\+Action}} \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_acc012db0a0ed02887b92e846fa74bcc8}{On\+Ready}}
+\item 
+\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aa673417d79c036edb8b59bd0e4db1dc7}{On\+Load\+Error\+Action}} \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_afad6162fc8ca4f6ea0b55a91f8454763}{On\+Load\+Error}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_adb35aaf5280bd758de447be13e342e46}\label{class_old_moat_games_1_1_animated_gif_player_adb35aaf5280bd758de447be13e342e46}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!GetNumberOfFrames@{GetNumberOfFrames}}
+\index{GetNumberOfFrames@{GetNumberOfFrames}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{GetNumberOfFrames()}{GetNumberOfFrames()}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Get\+Number\+Of\+Frames (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the number of frames in the GIF. Only shows the number of frames that have been decoded. 
+
+\begin{DoxyReturn}{Returns}
+Number of frames 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00320}{320}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a94371941a5bb9a653c1134dad8df34ac}\label{class_old_moat_games_1_1_animated_gif_player_a94371941a5bb9a653c1134dad8df34ac}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Init@{Init}}
+\index{Init@{Init}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Initializes the component with callbacks that are triggered when loading has finished or has failed. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00214}{214}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a80f5d44b421d83fb7e9fb94efe063257}\label{class_old_moat_games_1_1_animated_gif_player_a80f5d44b421d83fb7e9fb94efe063257}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Pause@{Pause}}
+\index{Pause@{Pause}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Pause()}{Pause()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Pause (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Pause playback. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00306}{306}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ab3b9aeeb4abe516016d039f562c7ad42}\label{class_old_moat_games_1_1_animated_gif_player_ab3b9aeeb4abe516016d039f562c7ad42}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Play@{Play}}
+\index{Play@{Play}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Play()}{Play()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Play (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Start playback. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00295}{295}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a421e6176176e6ae536946456aa2792d1}\label{class_old_moat_games_1_1_animated_gif_player_a421e6176176e6ae536946456aa2792d1}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!SetTexture@{SetTexture}}
+\index{SetTexture@{SetTexture}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{SetTexture()}{SetTexture()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Set\+Texture (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00461}{461}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a3d9e2b08ab2a0b7632d35b79817a470a}\label{class_old_moat_games_1_1_animated_gif_player_a3d9e2b08ab2a0b7632d35b79817a470a}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Update@{Update}}
+\index{Update@{Update}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Update()}{Update()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00196}{196}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ab956a8e216b2438259affb69bca775ec}\label{class_old_moat_games_1_1_animated_gif_player_ab956a8e216b2438259affb69bca775ec}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!AutoPlay@{AutoPlay}}
+\index{AutoPlay@{AutoPlay}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{AutoPlay}{AutoPlay}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Auto\+Play = true}
+
+
+
+Sets the GIF to automatically start playing after it is loaded. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a334b768492d4b4f0fdd93ce875bcf5e0}\label{class_old_moat_games_1_1_animated_gif_player_a334b768492d4b4f0fdd93ce875bcf5e0}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!BufferAllFrames@{BufferAllFrames}}
+\index{BufferAllFrames@{BufferAllFrames}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{BufferAllFrames}{BufferAllFrames}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Buffer\+All\+Frames}
+
+
+
+Sets buffering for frames. When set all frames are loaded and cached at once. Reload GIF for it to take effect. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00084}{84}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a69d521585a911bedfa080a31c9fd111e}\label{class_old_moat_games_1_1_animated_gif_player_a69d521585a911bedfa080a31c9fd111e}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!CacheFrames@{CacheFrames}}
+\index{CacheFrames@{CacheFrames}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{CacheFrames}{CacheFrames}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Cache\+Frames}
+
+
+
+Sets caching for decoded frames. Reload the GIF for it to take effect. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ab6a7791439a5e01eac15f77da37a123c}\label{class_old_moat_games_1_1_animated_gif_player_ab6a7791439a5e01eac15f77da37a123c}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!CompatibilityMode@{CompatibilityMode}}
+\index{CompatibilityMode@{CompatibilityMode}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{CompatibilityMode}{CompatibilityMode}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Compatibility\+Mode}
+
+
+
+Sets whether or not to run the player in compatibility mode. This mode supports more decoding methods but uses more memory and CPU. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00095}{95}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a11ccec69615bd17ca718acdf3d13660d}\label{class_old_moat_games_1_1_animated_gif_player_a11ccec69615bd17ca718acdf3d13660d}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!FileName@{FileName}}
+\index{FileName@{FileName}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{FileName}{FileName}}
+{\footnotesize\ttfamily string Old\+Moat\+Games.\+Animated\+Gif\+Player.\+File\+Name = \char`\"{}http\+://i.\+imgur.\+com/3v\+W7\+Vk6.\+gif\char`\"{}}
+
+
+
+File used for GIF. Use Gif\+Path to set the base path to Streaming\+Assets\+Path, Persistent\+Data\+Path or Temporary\+Cache\+Path. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ac7ed6c0854162893e7db9a2545866c6c}\label{class_old_moat_games_1_1_animated_gif_player_ac7ed6c0854162893e7db9a2545866c6c}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!GifTexture@{GifTexture}}
+\index{GifTexture@{GifTexture}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{GifTexture}{GifTexture}}
+{\footnotesize\ttfamily Texture2D Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Gif\+Texture}
+
+
+
+Texture on which the frame is displayed. Texture should be a RGBA32 texture of the same piel size as the GIF. If no texture specified a new one will be created. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00135}{135}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_aedc50024fe726eb8c9dd9ff2898deeae}\label{class_old_moat_games_1_1_animated_gif_player_aedc50024fe726eb8c9dd9ff2898deeae}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Loop@{Loop}}
+\index{Loop@{Loop}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Loop}{Loop}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Loop = true}
+
+
+
+Sets the GIF to continue playing from the start after it is finished. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_aec30d21d7228391cbbef6c1dceaea5bf}\label{class_old_moat_games_1_1_animated_gif_player_aec30d21d7228391cbbef6c1dceaea5bf}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!OverrideTimeScale@{OverrideTimeScale}}
+\index{OverrideTimeScale@{OverrideTimeScale}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{OverrideTimeScale}{OverrideTimeScale}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Override\+Time\+Scale}
+
+
+
+Sets whether or not playback speed is independent of Time.\+time\+Scale. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00100}{100}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a9c30707267ce0094a5d133ee7aafbc1e}\label{class_old_moat_games_1_1_animated_gif_player_a9c30707267ce0094a5d133ee7aafbc1e}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Path@{Path}}
+\index{Path@{Path}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Path}{Path}}
+{\footnotesize\ttfamily Gif\+Path Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Path = Gif\+Path.\+Streaming\+Assets\+Path}
+
+
+
+Path to the GIF. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00058}{58}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a7762e8455fe6f680e2edcefd3c1ee0e7}\label{class_old_moat_games_1_1_animated_gif_player_a7762e8455fe6f680e2edcefd3c1ee0e7}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!TimeScale@{TimeScale}}
+\index{TimeScale@{TimeScale}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{TimeScale}{TimeScale}}
+{\footnotesize\ttfamily float Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Time\+Scale = 1}
+
+
+
+Sets time scale of Gif playback. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00105}{105}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a21fc0dc6f963927f33c7c8ef39b4fbc5}\label{class_old_moat_games_1_1_animated_gif_player_a21fc0dc6f963927f33c7c8ef39b4fbc5}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!UseThreadedDecoder@{UseThreadedDecoder}}
+\index{UseThreadedDecoder@{UseThreadedDecoder}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{UseThreadedDecoder}{UseThreadedDecoder}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Use\+Threaded\+Decoder = true}
+
+
+
+Sets whether or not the decoder runs in a separate thread. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00089}{89}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_aabca581f81dd42b6a5f17925bb0e73f7}\label{class_old_moat_games_1_1_animated_gif_player_aabca581f81dd42b6a5f17925bb0e73f7}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Height@{Height}}
+\index{Height@{Height}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Height}{Height}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Height\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Returns the heigth of the GIF. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00074}{74}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_ac7767a541f20c35eca5f7e5e6cfb1d77}\label{class_old_moat_games_1_1_animated_gif_player_ac7767a541f20c35eca5f7e5e6cfb1d77}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!State@{State}}
+\index{State@{State}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily Gif\+Player\+State Old\+Moat\+Games.\+Animated\+Gif\+Player.\+State\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Current state of the GIF player. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00129}{129}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a2ac14ed7cbc53232fabe96f26496ae01}\label{class_old_moat_games_1_1_animated_gif_player_a2ac14ed7cbc53232fabe96f26496ae01}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!TargetComponent@{TargetComponent}}
+\index{TargetComponent@{TargetComponent}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{TargetComponent}{TargetComponent}}
+{\footnotesize\ttfamily Component Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Target\+Component\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The current target component for the GIF. Reload GIF for it to take effect. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00110}{110}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_aac49dd66fb07acc9b939a6a1daf3cce2}\label{class_old_moat_games_1_1_animated_gif_player_aac49dd66fb07acc9b939a6a1daf3cce2}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!TargetMaterialNumber@{TargetMaterialNumber}}
+\index{TargetMaterialNumber@{TargetMaterialNumber}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{TargetMaterialNumber}{TargetMaterialNumber}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Target\+Material\+Number\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+The current target material in the component. Used when there is more than 1 material. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00119}{119}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_a1646ce4188d9a6181cfe75eede2c600d}\label{class_old_moat_games_1_1_animated_gif_player_a1646ce4188d9a6181cfe75eede2c600d}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!Width@{Width}}
+\index{Width@{Width}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{Width}{Width}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Animated\+Gif\+Player.\+Width\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Returns the width of the GIF. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00063}{63}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+
+
+\doxysubsection{Event Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_afad6162fc8ca4f6ea0b55a91f8454763}\label{class_old_moat_games_1_1_animated_gif_player_afad6162fc8ca4f6ea0b55a91f8454763}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!OnLoadError@{OnLoadError}}
+\index{OnLoadError@{OnLoadError}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{OnLoadError}{OnLoadError}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_aa673417d79c036edb8b59bd0e4db1dc7}{On\+Load\+Error\+Action}} Old\+Moat\+Games.\+Animated\+Gif\+Player.\+On\+Load\+Error}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00153}{153}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_animated_gif_player_acc012db0a0ed02887b92e846fa74bcc8}\label{class_old_moat_games_1_1_animated_gif_player_acc012db0a0ed02887b92e846fa74bcc8}} 
+\index{OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}!OnReady@{OnReady}}
+\index{OnReady@{OnReady}!OldMoatGames.AnimatedGifPlayer@{OldMoatGames.AnimatedGifPlayer}}
+\doxysubsubsection{\texorpdfstring{OnReady}{OnReady}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ae2a380c8ba604e9e448c3a9535b11ae2}{On\+Ready\+Action}} Old\+Moat\+Games.\+Animated\+Gif\+Player.\+On\+Ready}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_player_8cs_source_l00146}{146}} of file \mbox{\hyperlink{_animated_gif_player_8cs_source}{Animated\+Gif\+Player.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Signs/Animated\+Gif\+Player.\+cs\end{DoxyCompactItemize}

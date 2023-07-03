@@ -1,0 +1,101 @@
+\hypertarget{_entity_flying_e_a_i_tasks_8cs_source}{}\doxysection{Entity\+Flying\+EAITasks.\+cs}
+\label{_entity_flying_e_a_i_tasks_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/EntityFlyingEAITasks.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ZombieFeatures/EntityFlyingEAITasks.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }GamePath;}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00005}\mbox{\hyperlink{namespace_harmony_1_1_zombie_features}{00005}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_zombie_features}{Harmony.ZombieFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00007}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks}{EntityFlyingEAITasks}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch(typeof(EntityVulture))]}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch("{}Init"{})]}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{comment}{//public\ class\ EntityFlyingEAITasksInit}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ public\ static\ void\ Postfix(ref\ global::EntityAlive\ \_\_instance)}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (!\_\_instance.HasAnyTags(FastTags.Parse("{}allowEAI"{})))}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return;}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ var\ entityClass\ =\ EntityClass.list[\_\_instance.entityClass];}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)\ \_\_instance.aiManager.CopyPropertiesFromEntityClass(entityClass);}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityVulture))]}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}updateTasks"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00024}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks_1_1_entity_flying_e_a_i_tasks_update_task}{00024}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks_1_1_entity_flying_e_a_i_tasks_update_task}{EntityFlyingEAITasksUpdateTask}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(EntityVulture\ \_\_instance,\ Context\ \_\_\_utilityAIContext,\ EntitySeeCache\ \_\_\_seeCache,\ EntityLookHelper\ \_\_\_lookHelper)}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_instance.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}allowEAI"{}})))}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving))}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.SetMoveForwardWithModifiers(0f,\ 0f,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.aiManager?.UpdateDebugName();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ useAIPackages\ =\ EntityClass.list[\_\_instance.entityClass].UseAIPackages;}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!useAIPackages)}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.aiManager.Update();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UAIBase.Update(\_\_\_utilityAIContext);}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PathInfo\ path\ =\ PathFinderThread.Instance.GetPath(\_\_instance.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (path.path\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ flag\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!useAIPackages)}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ flag\ =\ \_\_instance.aiManager.CheckPath(path);}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flag)}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.navigator.SetPath(path,\ path.speed);}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.navigator.UpdateNavigation();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.GetAttackTarget()\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.SetRevengeTarget(\_\_instance.GetAttackTarget());}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.CheckDespawn();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_seeCache.ClearIfExpired();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.moveHelper.UpdateMoveHelper();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_lookHelper.onUpdateLook();}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.distraction\ !=\ \textcolor{keyword}{null}\ \&\&\ (\_\_instance.distraction.IsDead()\ ||\ \_\_instance.distraction.IsMarkedForUnload()))\ \_\_instance.distraction\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.pendingDistraction\ !=\ \textcolor{keyword}{null}\ \&\&\ (\_\_instance.pendingDistraction.IsDead()\ ||\ \_\_instance.pendingDistraction.IsMarkedForUnload()))\ \_\_instance.pendingDistraction\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityVulture))]}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Init"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(\textcolor{keywordtype}{int})\ \})]}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00082}\mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks_1_1_entity_flying_e_a_i_tasks_init_entity_vulture}{00082}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_harmony_1_1_zombie_features_1_1_entity_flying_e_a_i_tasks_1_1_entity_flying_e_a_i_tasks_init_entity_vulture}{EntityFlyingEAITasksInitEntityVulture}}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ref\ global::EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_instance.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}allowEAI"{}})))}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityClass\ =\ EntityClass.list[\_\_instance.entityClass];}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)\ \_\_instance.aiManager.CopyPropertiesFromEntityClass(entityClass);}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_flying_e_a_i_tasks_8cs_source_l00095}00095\ \}}
+
+\end{DoxyCode}

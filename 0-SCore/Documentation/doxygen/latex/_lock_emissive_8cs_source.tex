@@ -1,0 +1,145 @@
+\hypertarget{_lock_emissive_8cs_source}{}\doxysection{Lock\+Emissive.\+cs}
+\label{_lock_emissive_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockEmissive.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockEmissive.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00003}\mbox{\hyperlink{class_lock_emissive}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_lock_emissive}{LockEmissive}}\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00005}00005\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Behavior"{}})]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ pulse\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ breakpoint;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ success;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ off;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00011}00011\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Settings"{}})]\ [Range(0f,\ 5f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ pulseSpeedMod\ =\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00013}00013\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Colors"{}})]\ \textcolor{keyword}{public}\ Color\ hightlightColor\ =\ Color.yellow;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ Color[]\ colors\ =\ \{\ Color.cyan,\ Color.red,\ Color.yellow,\ Color.green,\ Color.blue,\ Color.magenta,\ Color.white,\ Color.grey,\ Color.yellow,\ Color.blue\ \};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00017}00017\ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Renderers"{}})]\ [SerializeField]\ \textcolor{keyword}{private}\ Renderer[]\ \_renderers;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00019}00019\ \ \ \ \ \textcolor{keyword}{public}\ Renderer\ highlightRenderer;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00021}00021\ \ \ \ \ \textcolor{comment}{//\ Hidden\ from\ Inspector}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00022}00022\ \ \ \ \ [HideInInspector]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ breakpointValue;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00023}00023\ \ \ \ \ [HideInInspector]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ successValue;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_colorIndex;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ Private\ variables}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_pulseValue;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Start()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00030}00030\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (off)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ SetAllMaterials(0f);}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pulse)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \_pulseValue\ =\ Mathf.PingPong(Time.time\ *\ pulseSpeedMod,\ 1);\ \textcolor{comment}{//\ Pulse\ the\ value\ over\ time}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ SetAllMaterials(\_pulseValue);\ \textcolor{comment}{//\ Set\ the\ values}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (breakpoint)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ SetAllMaterials(breakpointValue);\ \textcolor{comment}{//\ Set\ the\ values}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (success)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ SetAllMaterials(Mathf.Clamp(Mathf.Abs(successValue\ -\/\ 1),\ 0,\ 1));\ \textcolor{comment}{//\ Set\ the\ values}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (highlightRenderer)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ SetHighlightMaterial();}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{private}\ Color\ \_activeColor()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00058}00058\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ colors[\_colorIndex];}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetRenders(Renderer[]\ newRenders)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \_renderers\ =\ newRenders;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00065}00065\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00067}00067\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetHighlightRenderer(Renderer\ value)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00068}00068\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ highlightRenderer\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetHighlightMaterial()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00073}00073\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ sphereii:\ disable\ the\ high\ light\ color\ }}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{//highlightRenderer.material.SetColor("{}\_EmissionColor"{},\ hightlightColor);}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ highlightRenderer.material.SetColor(\textcolor{stringliteral}{"{}\_EmissionColor"{}},\ Color.clear);}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetAllMaterials(\textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00084}00084\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_renderers\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ \_renderers.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_renderers[i]\ !=\ \textcolor{keyword}{null}\ \&\&\ \_renderers[i].gameObject\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_renderers[i].gameObject.activeSelf)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetMaterial(\_renderers[i].material,\ value);}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00090}00090\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00097}00097\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetMaterial(Material\ material,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00098}00098\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ var\ finalColor\ =\ \_activeColor()\ *\ Mathf.LinearToGammaSpace(value);}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{//material.SetColor("{}\_EmissionColor"{},\ finalColor);}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ sphereii:\ give\ it\ a\ nice\ bronze\ color}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ material.SetColor(\textcolor{stringliteral}{"{}\_EmissionColor"{}},\ \textcolor{keyword}{new}\ Color(0.666f,\ 0.588f,\ 0.275f,\ 1f));}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00105}00105\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00107}00107\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ NextColor()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00108}00108\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \_colorIndex\ =\ \_colorIndex\ +\ 1\ >=\ colors.Length\ ?\ 0\ :\ \_colorIndex\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00110}00110\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00112}00112\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ PrevColor()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00113}00113\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \_colorIndex\ =\ \_colorIndex\ -\/\ 1\ <\ 0\ ?\ colors.Length\ -\/\ 1\ :\ \_colorIndex\ -\/\ 1;}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetPulse()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00118}00118\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ pulse\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ breakpoint\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ off\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00123}00123\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00125}00125\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetBreakpoint()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00126}00126\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ pulse\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ breakpoint\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ off\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00131}00131\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00133}00133\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetSuccess()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00134}00134\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ pulse\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ breakpoint\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ off\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00141}00141\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetOff()}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00142}00142\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ pulse\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ breakpoint\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ success\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ off\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00147}00147\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_emissive_8cs_source_l00148}00148\ \}}
+
+\end{DoxyCode}

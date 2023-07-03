@@ -1,0 +1,51 @@
+\hypertarget{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally}{}\doxysection{Harmony.\+Entity\+Drone.\+Entity\+Drone\+Patches.\+Entity\+Drone\+\_\+is\+Ally Class Reference}
+\label{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally}\index{Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly@{Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly}}
+
+
+\mbox{\hyperlink{namespace_harmony}{Harmony}} patch of global\+::\+Entity\+Drone.\+is\+Ally(global\+::\+Entity\+Alive) so that it will not produce an NRE if the target is null.  
+
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally_ad03609e7c9b67c28dc11dfdf658ca903}{Prefix}} (ref bool \+\_\+\+\_\+result, global\+::\+Entity\+Alive \+\_\+target)
+\begin{DoxyCompactList}\small\item\em The \+\_\+target argument was cast to an Entity\+Player before this method was called, so it will be null for ranged weapon attacks from any NPC. This will cause a Null\+Reference\+Exception in the original method, so we need to skip it entirely in this case. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{namespace_harmony}{Harmony}} patch of global\+::\+Entity\+Drone.\+is\+Ally(global\+::\+Entity\+Alive) so that it will not produce an NRE if the target is null. 
+
+Definition at line \mbox{\hyperlink{_entity_drone_patches_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_entity_drone_patches_8cs_source}{Entity\+Drone\+Patches.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally_ad03609e7c9b67c28dc11dfdf658ca903}\label{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally_ad03609e7c9b67c28dc11dfdf658ca903}} 
+\index{Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly@{Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly}!Prefix@{Prefix}}
+\index{Prefix@{Prefix}!Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly@{Harmony.EntityDrone.EntityDronePatches.EntityDrone\_isAlly}}
+\doxysubsubsection{\texorpdfstring{Prefix()}{Prefix()}}
+{\footnotesize\ttfamily static bool Harmony.\+Entity\+Drone.\+Entity\+Drone\+Patches.\+Entity\+Drone\+\_\+is\+Ally.\+Prefix (\begin{DoxyParamCaption}\item[{ref bool}]{\+\_\+\+\_\+result,  }\item[{global\+::\+Entity\+Alive}]{\+\_\+target }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The \+\_\+target argument was cast to an Entity\+Player before this method was called, so it will be null for ranged weapon attacks from any NPC. This will cause a Null\+Reference\+Exception in the original method, so we need to skip it entirely in this case. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em \+\_\+\+\_\+result} & \\
+\hline
+{\em \+\_\+target} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_entity_drone_patches_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_entity_drone_patches_8cs_source}{Entity\+Drone\+Patches.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Harmony/\+Entity\+Drone/Entity\+Drone\+Patches.\+cs\end{DoxyCompactItemize}

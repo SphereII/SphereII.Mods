@@ -1,0 +1,17 @@
+\hypertarget{_min_event_action_guard_there_8cs_source}{}\doxysection{Min\+Event\+Action\+Guard\+There.\+cs}
+\label{_min_event_action_guard_there_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionGuardThere.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionGuardThere.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00010}\mbox{\hyperlink{class_min_event_action_guard_there}{00010}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_guard_there}{MinEventActionGuardThere}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\_params.Self\ is\ \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntityOrderReceiverSDX}}\ entityOrderReceiver))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardPosition\ =\ \_params.Self.position;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ entityOrderReceiver.GuardLookPosition\ =\ \_params.Self.position\ +\ \_params.Self.GetLookVector();}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_guard_there_8cs_source_l00019}00019\ \}}
+
+\end{DoxyCode}

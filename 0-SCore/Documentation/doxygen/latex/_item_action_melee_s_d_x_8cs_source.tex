@@ -1,0 +1,58 @@
+\hypertarget{_item_action_melee_s_d_x_8cs_source}{}\doxysection{Item\+Action\+Melee\+SDX.\+cs}
+\label{_item_action_melee_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ItemAction/ItemActionMeleeSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ItemAction/ItemActionMeleeSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00005}\mbox{\hyperlink{class_item_action_melee_s_d_x}{00005}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_item_action_melee_s_d_x}{ItemActionMeleeSDX}}\ :\ ItemActionMelee}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//\ This\ is\ a\ copy\ of\ the\ GetExecuteActionTarget()\ minus\ the\ EntityEnemey\ check\ on\ the\ line\ 32\ (\ holdingEntity.IsBreakingBlocks}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ WorldRayHitInfo\ GetExecuteActionTarget(ItemActionData\ \_actionData)}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ ItemActionMelee.InventoryDataMelee\ inventoryDataMelee\ =\ (ItemActionMelee.InventoryDataMelee)\_actionData;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ EntityAlive\ holdingEntity\ =\ inventoryDataMelee.invData.holdingEntity;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ inventoryDataMelee.ray\ =\ holdingEntity.GetLookRay();}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (holdingEntity.IsBreakingBlocks)}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (inventoryDataMelee.ray.direction.y\ <\ 0f)}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ inventoryDataMelee.ray.direction\ =\ \textcolor{keyword}{new}\ Vector3(inventoryDataMelee.ray.direction.x,\ 0f,\ inventoryDataMelee.ray.direction.z);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemActionMelee.InventoryDataMelee\ inventoryDataMelee2\ =\ inventoryDataMelee;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ inventoryDataMelee2.ray.origin\ =\ inventoryDataMelee2.ray.origin\ +\ \textcolor{keyword}{new}\ Vector3(0f,\ -\/0.7f,\ 0f);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (holdingEntity.GetAttackTarget()\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ Vector3\ direction\ =\ holdingEntity.GetAttackTargetHitPosition()\ -\/\ inventoryDataMelee.ray.origin;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ inventoryDataMelee.ray\ =\ \textcolor{keyword}{new}\ Ray(inventoryDataMelee.ray.origin,\ direction);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ ItemActionMelee.InventoryDataMelee\ inventoryDataMelee3\ =\ inventoryDataMelee;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ inventoryDataMelee3.ray.origin\ =\ inventoryDataMelee3.ray.origin\ -\/\ 0.15f\ *\ inventoryDataMelee.ray.direction;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ modelLayer\ =\ holdingEntity.GetModelLayer();}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ holdingEntity.SetModelLayer(2,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distance\ =\ Utils.FastMax(this.Range,\ this.BlockRange)\ +\ 0.15f;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ holdingEntity.IsBreakingBlocks)}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ Voxel.Raycast(inventoryDataMelee.invData.world,\ inventoryDataMelee.ray,\ distance,\ 1073807360,\ 128,\ 0.4f);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ x\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ layerMask\ =\ -\/538767381;}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Voxel.Raycast(inventoryDataMelee.invData.world,\ inventoryDataMelee.ray,\ distance,\ layerMask,\ 128,\ \textcolor{keyword}{this}.SphereRadius))}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x\ =\ (ItemActionAttack.GetEntityFromHit(Voxel.voxelRayHitInfo)\ as\ EntityAlive);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Voxel.Raycast(inventoryDataMelee.invData.world,\ inventoryDataMelee.ray,\ distance,\ -\/538488837,\ 128,\ \textcolor{keyword}{this}.SphereRadius);}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ holdingEntity.SetModelLayer(modelLayer,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_actionData.GetUpdatedHitInfo();}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_item_action_melee_s_d_x_8cs_source_l00052}00052\ \}}
+
+\end{DoxyCode}

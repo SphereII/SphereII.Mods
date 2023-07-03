@@ -1,0 +1,198 @@
+\hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source}{}\doxysection{EAIRanged\+Attack\+Target\+SDX.\+cs}
+\label{_e_a_i_ranged_attack_target_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/EAIRangedAttackTargetSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/EAI/EAIRangedAttackTargetSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00001}\mbox{\hyperlink{class_e_a_i_ranged_attack_target_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_e_a_i_ranged_attack_target_s_d_x}{EAIRangedAttackTargetSDX}}\ :\ EAIRangedAttackTarget2}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ entityTarget;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ attackTimeout;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ itemActionType;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ bCanSee;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ curAttackPeriod;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ attackPeriodMax;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_e_a_i_ranged_attack_target_s_d_x}{EAIRangedAttackTargetSDX}}()\ :\ base()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetData(DictionarySave<string,\ string>\ data)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ base.SetData(data);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ base.GetData(data,\ \textcolor{stringliteral}{"{}itemType"{}},\ ref\ this.itemActionType);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ base.GetData(data,\ \textcolor{stringliteral}{"{}attackPeriod"{}},\ ref\ this.attackPeriodMax);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ inRange(\textcolor{keywordtype}{float}\ \_distanceSq)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ value\ =\ EffectManager.GetValue(PassiveEffects.DamageFalloffRange,\ \textcolor{keyword}{this}.theEntity.inventory.holdingItemItemValue,\ 0f,\ \textcolor{keyword}{this}.theEntity,\ \textcolor{keyword}{null},\ \textcolor{keywordflow}{default}(FastTags),\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ 1,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_distanceSq\ <\ value\ *\ value\ *\ 0.25f;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CanExecute()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.theEntity.inventory.holdingItem.Actions\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ ItemActionRanged\ itemActionRanged\ =\ this.theEntity.inventory.holdingItem.Actions[itemActionType]\ as\ ItemActionRanged;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemActionRanged\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (this.theEntity.inventory.holdingItemItemValue.Meta\ <=\ 0)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ if\ (itemActionRanged.CanReload(this.theEntity.inventory.holdingItemData.actionData[1]))}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ itemActionRanged.ReloadGun(this.theEntity.inventory.holdingItemData.actionData[1]);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.attackTimeout\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ this.attackTimeout-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!this.theEntity.Spawned\ ||\ !\textcolor{keyword}{this}.theEntity.IsAttackValid())}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ entityTarget\ =\ EntityUtilities.GetAttackOrRevengeTarget(theEntity.entityId)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityTarget\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distanceSq\ =\ this.entityTarget.GetDistanceSq(this.theEntity);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!this.inRange(distanceSq))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ this.bCanSee\ =\ this.theEntity.CanSee(this.entityTarget);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this.bCanSee;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ Continue()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ distanceSq\ =\ this.entityTarget.GetDistanceSq(this.theEntity);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!this.inRange(distanceSq))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \textcolor{comment}{//return\ this.curAttackPeriod\ >\ 0\ \&\&\ this.theEntity.hasBeenAttackedTime\ <=\ 0;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ delay\ =\ this.theEntity.inventory.holdingItem.Actions[0].Delay;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ this.attackTimeout\ =\ (int)(delay\ *\ 20f);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ this.curAttackPeriod\ =\ this.attackPeriodMax;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ this.curAttackPeriod-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.inRange(this.entityTarget.GetDistanceSq(\textcolor{keyword}{this}.theEntity))\ \&\&\ \textcolor{keyword}{this}.theEntity.IsInFrontOfMe(\textcolor{keyword}{this}.entityTarget.getHeadPosition()))}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.itemActionType\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this.theEntity.Attack((\textcolor{keywordtype}{float})this.curAttackPeriod\ <\ (\textcolor{keywordtype}{float})this.attackPeriodMax\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ this.theEntity.Use((\textcolor{keywordtype}{float})this.curAttackPeriod\ <\ (\textcolor{keywordtype}{float})this.attackPeriodMax\ /\ 2f);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Reset()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00103}00103\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ this.entityTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ this.curAttackPeriod\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ delay\ =\ this.theEntity.inventory.holdingItem.Actions[0].Delay;}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ this.attackTimeout\ =\ (int)(delay\ *\ 20f);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ this.attackTimeout\ =\ 5\ +\ base.GetRandom(5);}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.itemActionType\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ this.theEntity.Attack(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ this.theEntity.Use(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00115}00115\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ ToString()}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ flag\ =\ this.entityTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ this.inRange(this.entityTarget.GetDistanceSq(\textcolor{keyword}{this}.theEntity));}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{string}.Concat(\textcolor{keyword}{new}\ \textcolor{keywordtype}{string}[]}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ base.ToString(),}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}:\ "{}},}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ (this.entityTarget\ !=\ \textcolor{keyword}{null})\ ?\ this.entityTarget.EntityName\ :\ \textcolor{stringliteral}{"{}null"{}},}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ see:\ "{}},}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{this}.bCanSee\ ?\ \textcolor{stringliteral}{"{}Y"{}}\ :\ \textcolor{stringliteral}{"{}N"{}},}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ range="{}},}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ flag\ ?\ \textcolor{stringliteral}{"{}Y"{}}\ :\ \textcolor{stringliteral}{"{}N"{}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00130}00130\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00131}00131\ \}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00133}00133\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00134}00134\ \textcolor{comment}{internal\ class\ EAIRangedAttackTargetSDX\ :\ EAIRangedAttackTarget2}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00135}00135\ \textcolor{comment}{\{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00136}00136\ \textcolor{comment}{\ \ \ \ private\ EntityAlive\ entityTarget;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00137}00137\ \textcolor{comment}{\ \ \ \ private\ static\ FieldInfo\ EntityTargetField;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00138}00138\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00139}00139\ \textcolor{comment}{\ \ \ \ public\ override\ void\ Init(EntityAlive\ \_theEntity)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00140}00140\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00141}00141\ \textcolor{comment}{\ \ \ \ \ \ \ \ base.Init(\_theEntity);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00142}00142\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (EntityTargetField\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00143}00143\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ EntityTargetField\ =\ AccessTools.Field(typeof(EAIRangedAttackTarget2),\ "{}entityTarget"{});}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00144}00144\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00145}00145\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00146}00146\ \textcolor{comment}{\ \ \ \ public\ override\ void\ Start()}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00147}00147\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00148}00148\ \textcolor{comment}{\ \ \ \ \ \ \ \ base.Start();}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00149}00149\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00150}00150\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ Face\ the\ entity;\ no\ trick\ shots!}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00151}00151\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (entityTarget\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00152}00152\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ theEntity.RotateTo(entityTarget,\ 45f,\ 45f);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00153}00153\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00154}00154\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00155}00155\ \textcolor{comment}{\ \ \ \ public\ override\ bool\ CanExecute()}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00156}00156\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00157}00157\ \textcolor{comment}{\ \ \ \ \ \ \ \ if\ (base.CanExecute())}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00158}00158\ \textcolor{comment}{\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00159}00159\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ entityTarget\ =\ EntityUtilities.GetAttackOrRevengeTarget(theEntity.entityId)\ as\ EntityAlive;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00160}00160\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ EntityTargetField.SetValue(EntityTargetField,\ entityTarget);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00161}00161\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ if\ (entityTarget\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00162}00162\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00163}00163\ \textcolor{comment}{\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00164}00164\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00165}00165\ \textcolor{comment}{\ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00166}00166\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00167}00167\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00168}00168\ \textcolor{comment}{\ \ \ \ public\ override\ void\ Reset()}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00169}00169\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00170}00170\ \textcolor{comment}{\ \ \ \ \ \ \ \ base.Reset();}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00171}00171\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ \ \ EntityUtilities.ChangeHandholdItem(this.theEntity.entityId,\ EntityUtilities.Need.Ranged);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00172}00172\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00173}00173\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00174}00174\ \textcolor{comment}{\ \ \ \ public\ override\ bool\ Continue()}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00175}00175\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00176}00176\ \textcolor{comment}{\ \ \ \ \ \ \ \ var\ result\ =\ base.Continue();}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00177}00177\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00179}00179\ \textcolor{comment}{\ \ \ \ \ \ \ \ //if\ (this.entityTarget.IsDead())}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00180}00180\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ \ \ \ EntityUtilities.ChangeHandholdItem(this.theEntity.entityId,\ EntityUtilities.Need.Ranged);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00181}00181\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00183}00183\ \textcolor{comment}{\ \ \ \ \ \ \ \ //if\ (\ result\ )}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00184}00184\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ \ \ \ \ EntityUtilities.ChangeHandholdItem(theEntity.entityId,\ EntityUtilities.Need.Ranged);}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00185}00185\ \textcolor{comment}{\ \ \ \ \ \ \ \ return\ result;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00186}00186\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00187}00187\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00188}00188\ \textcolor{comment}{\ \ \ \ public\ override\ void\ Update()}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00189}00189\ \textcolor{comment}{\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00190}00190\ \textcolor{comment}{\ \ \ \ \ \ \ \ //if\ (this.theEntity.HasInvestigatePosition)}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00191}00191\ \textcolor{comment}{\ \ \ \ \ \ \ \ //\ \ \ \ return;}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00192}00192\ \textcolor{comment}{\ \ \ \ \ \ \ \ base.Update();}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00193}00193\ \textcolor{comment}{\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_e_a_i_ranged_attack_target_s_d_x_8cs_source_l00194}00194\ \textcolor{comment}{\}*/}}
+
+\end{DoxyCode}

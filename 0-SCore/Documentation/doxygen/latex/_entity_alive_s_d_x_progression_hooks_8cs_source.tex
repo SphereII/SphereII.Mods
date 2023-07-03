@@ -1,0 +1,73 @@
+\hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source}{}\doxysection{Entity\+Alive\+SDXProgression\+Hooks.\+cs}
+\label{_entity_alive_s_d_x_progression_hooks_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Progression/EntityAliveSDXProgressionHooks.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Progression/EntityAliveSDXProgressionHooks.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00006}00006\ \ \textcolor{comment}{//\ ?\ Disabled\ due\ to\ Potential\ Performance\ issues}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00009}\mbox{\hyperlink{namespace_harmony_1_1_progression}{00009}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_progression}{Harmony.Progression}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ This\ gives\ "{}human"{}\ tagged\ entityalives\ access\ to\ the\ progression\ and\ levelling\ system.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00013}\mbox{\hyperlink{class_harmony_1_1_progression_1_1_entity_alive_s_d_x_progression_hooks}{00013}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_progression_1_1_entity_alive_s_d_x_progression_hooks}{EntityAliveSDXProgressionHooks}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::Progression))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(MethodType.Constructor)]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(global::EntityAlive)\ \})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_progression_1_1_entity_alive_s_d_x_progression_hooks_1_1_progression_add_perks_to_n_p_cs}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_harmony_1_1_progression_1_1_entity_alive_s_d_x_progression_hooks_1_1_progression_add_perks_to_n_p_cs}{ProgressionAddPerksToNPCs}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ getExpForLevel(\textcolor{keywordtype}{float}\ \_level)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{int})Math.Min((\textcolor{keywordtype}{float})global::Progression.BaseExpToLevel\ *\ Mathf.Pow(global::Progression.ExpMultiplier,\ \_level),\ 2.1474836E+09f);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ CalcEventList(global::Progression\ \_\_instance,\ ref\ ProgressionValue[]\ \_\_\_ProgressionValueQuickList,\ ref\ List<ProgressionClass>\ \_\_\_eventList)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_eventList\ =\ \textcolor{keyword}{new}\ List<ProgressionClass>();}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_\_\_ProgressionValueQuickList.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ProgressionClass\ progressionClass\ =\ \_\_\_ProgressionValueQuickList[i].ProgressionClass;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (progressionClass.HasEvents())}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_eventList.Add(progressionClass);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::Progression\ \_\_instance,\ ref\ DictionaryNameId<ProgressionValue>\ \_\_\_ProgressionValues,\ global::EntityAlive\ \_\_\_parent,\ ref\ global::EntityAlive\ \_parent,\ ref\ ProgressionValue[]\ \_\_\_ProgressionValueQuickList,\ ref\ List<ProgressionClass>\ \_\_\_eventList)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_parent\ is\ not\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ entityAliveSdx)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAliveSdx.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}noprogression"{}})\ >\ 0f)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAliveSdx.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}noprogression"{}})))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_parent\ =\ \_parent;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.ExpToNextLevel\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.ExpToNextLevel\ =\ getExpForLevel((\textcolor{keywordtype}{float})(\_\_instance.Level\ +\ 1));}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ProgressionValueQuickList\ =\ \textcolor{keyword}{new}\ ProgressionValue[global::Progression.ProgressionClasses.Count];}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (KeyValuePair<string,\ ProgressionClass>\ keyValuePair\ \textcolor{keywordflow}{in}\ global::Progression.ProgressionClasses)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ProgressionValue\ progressionValue\ =\ \textcolor{keyword}{new}\ ProgressionValue(keyValuePair.Value.Name)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Level\ =\ keyValuePair.Value.MinLevel,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CostForNextLevel\ =\ keyValuePair.Value.CalculatedCostForLevel(\_\_instance.Level\ +\ 1)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ProgressionValues.Add(keyValuePair.Key,\ progressionValue);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ProgressionValueQuickList[num++]\ =\ progressionValue;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CalcEventList(\_\_instance,\ ref\ \_\_\_ProgressionValueQuickList,\ ref\ \_\_\_eventList);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_s_d_x_progression_hooks_8cs_source_l00067}00067\ \}}
+
+\end{DoxyCode}

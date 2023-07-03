@@ -1,0 +1,243 @@
+\hypertarget{class_farm_plot_manager}{}\doxysection{Farm\+Plot\+Manager Class Reference}
+\label{class_farm_plot_manager}\index{FarmPlotManager@{FarmPlotManager}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_farm_plot_manager_ab78dfa7e29ab6c2f9494c46f4dc7e5f4}{Add}} (Vector3i position)
+\item 
+void \mbox{\hyperlink{class_farm_plot_manager_a10e350b37ce30367a9f50f5b0f8559a2}{Remove}} (Vector3i position)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_ade0e545eeda9b79be53bfa7c8c0e82f1}{Get}} (Vector3i position)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_a4fc4c7ed55bc9dfb893ca3c9ba0565fe}{Get\+Random\+Close\+Entry}} (Vector3i position, float range=50)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_a971e35e97ca421e247a4120419a59dc3}{Get\+Farm\+Plots\+Nearby}} (Vector3i position, bool need\+Water=true)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_a0b4fe5c4e148dadfc66ed6821a2bf472}{Get\+Farm\+Plots\+Nearby\+With\+Plants}} (Vector3i position)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_aa19aaf03cdd5b5737064bc938ac76104}{Get\+Closes\+Unmaintained\+With\+Plants}} (Vector3i position, float range=50)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_a86de621246deb4b2427801a249bfed1b}{Get\+Closes\+Unmaintained}} (Vector3i position, float range=50)
+\item 
+List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ \mbox{\hyperlink{class_farm_plot_manager_a5ee9fed1b16933276b57ee0dec5adcdf}{Get\+Close\+Entry}} (Vector3i position, float range=50)
+\item 
+void \mbox{\hyperlink{class_farm_plot_manager_a7b5a3b8a5665ef8a36d218bd636696be}{Reset\+Plants\+In\+Range}} (Vector3i position, float range=50)
+\item 
+bool \mbox{\hyperlink{class_farm_plot_manager_ab11873b3d92940874c593b39e784df25}{All\+Plots\+Visited}} (Vector3i position, float range=50)
+\item 
+void \mbox{\hyperlink{class_farm_plot_manager_a8faa8276fc014db62d9d306e4215e443}{Reset\+All\+Plants}} ()
+\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{class_farm_plot_manager_a419bb4b789b5849b8c2ed7dd8c171a48}{Get\+Close\+Positions}} (Vector3i position, float range=50, bool ignore\+Empty=false)
+\item 
+\mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} \mbox{\hyperlink{class_farm_plot_manager_a157ac17cbd13a1e07ec82bafba3826d4}{Get\+Closes\+Farm\+Plots\+Wilted}} (Vector3i position, float range=50)
+\item 
+List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ \mbox{\hyperlink{class_farm_plot_manager_a4ec2079f25fd80f4f0f573be4b536d59}{Get\+Close\+Farm\+Plots\+Wilted}} (Vector3i position, float range=50)
+\item 
+List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ \mbox{\hyperlink{class_farm_plot_manager_a5f02c669d2044a5b973adad3f0cebda4}{Get\+Close\+Farm\+Plots}} (Vector3i position, float range=50, bool ignore\+Empty=false)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+static \mbox{\hyperlink{class_farm_plot_manager}{Farm\+Plot\+Manager}} \mbox{\hyperlink{class_farm_plot_manager_ab0597c68c90db9f473d17d4b8c06774a}{Instance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_farm_plot_manager_a9b3f307c6f6b14106d1fed4fa5096065}\label{class_farm_plot_manager_a9b3f307c6f6b14106d1fed4fa5096065}} 
+\index{FarmPlotManager@{FarmPlotManager}!FarmPlotManager@{FarmPlotManager}}
+\index{FarmPlotManager@{FarmPlotManager}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{FarmPlotManager()}{FarmPlotManager()}}
+{\footnotesize\ttfamily Farm\+Plot\+Manager.\+Farm\+Plot\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_farm_plot_manager_ab78dfa7e29ab6c2f9494c46f4dc7e5f4}\label{class_farm_plot_manager_ab78dfa7e29ab6c2f9494c46f4dc7e5f4}} 
+\index{FarmPlotManager@{FarmPlotManager}!Add@{Add}}
+\index{Add@{Add}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}}
+{\footnotesize\ttfamily void Farm\+Plot\+Manager.\+Add (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00030}{30}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_ab11873b3d92940874c593b39e784df25}\label{class_farm_plot_manager_ab11873b3d92940874c593b39e784df25}} 
+\index{FarmPlotManager@{FarmPlotManager}!AllPlotsVisited@{AllPlotsVisited}}
+\index{AllPlotsVisited@{AllPlotsVisited}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{AllPlotsVisited()}{AllPlotsVisited()}}
+{\footnotesize\ttfamily bool Farm\+Plot\+Manager.\+All\+Plots\+Visited (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00173}{173}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_ade0e545eeda9b79be53bfa7c8c0e82f1}\label{class_farm_plot_manager_ade0e545eeda9b79be53bfa7c8c0e82f1}} 
+\index{FarmPlotManager@{FarmPlotManager}!Get@{Get}}
+\index{Get@{Get}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{Get()}{Get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a5ee9fed1b16933276b57ee0dec5adcdf}\label{class_farm_plot_manager_a5ee9fed1b16933276b57ee0dec5adcdf}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetCloseEntry@{GetCloseEntry}}
+\index{GetCloseEntry@{GetCloseEntry}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetCloseEntry()}{GetCloseEntry()}}
+{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ Farm\+Plot\+Manager.\+Get\+Close\+Entry (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00151}{151}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a5f02c669d2044a5b973adad3f0cebda4}\label{class_farm_plot_manager_a5f02c669d2044a5b973adad3f0cebda4}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetCloseFarmPlots@{GetCloseFarmPlots}}
+\index{GetCloseFarmPlots@{GetCloseFarmPlots}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetCloseFarmPlots()}{GetCloseFarmPlots()}}
+{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ Farm\+Plot\+Manager.\+Get\+Close\+Farm\+Plots (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50},  }\item[{bool}]{ignore\+Empty = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00246}{246}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a4ec2079f25fd80f4f0f573be4b536d59}\label{class_farm_plot_manager_a4ec2079f25fd80f4f0f573be4b536d59}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetCloseFarmPlotsWilted@{GetCloseFarmPlotsWilted}}
+\index{GetCloseFarmPlotsWilted@{GetCloseFarmPlotsWilted}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetCloseFarmPlotsWilted()}{GetCloseFarmPlotsWilted()}}
+{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} $>$ Farm\+Plot\+Manager.\+Get\+Close\+Farm\+Plots\+Wilted (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00230}{230}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a419bb4b789b5849b8c2ed7dd8c171a48}\label{class_farm_plot_manager_a419bb4b789b5849b8c2ed7dd8c171a48}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetClosePositions@{GetClosePositions}}
+\index{GetClosePositions@{GetClosePositions}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetClosePositions()}{GetClosePositions()}}
+{\footnotesize\ttfamily List$<$ Vector3 $>$ Farm\+Plot\+Manager.\+Get\+Close\+Positions (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50},  }\item[{bool}]{ignore\+Empty = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00189}{189}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a157ac17cbd13a1e07ec82bafba3826d4}\label{class_farm_plot_manager_a157ac17cbd13a1e07ec82bafba3826d4}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetClosesFarmPlotsWilted@{GetClosesFarmPlotsWilted}}
+\index{GetClosesFarmPlotsWilted@{GetClosesFarmPlotsWilted}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetClosesFarmPlotsWilted()}{GetClosesFarmPlotsWilted()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Closes\+Farm\+Plots\+Wilted (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00213}{213}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a86de621246deb4b2427801a249bfed1b}\label{class_farm_plot_manager_a86de621246deb4b2427801a249bfed1b}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetClosesUnmaintained@{GetClosesUnmaintained}}
+\index{GetClosesUnmaintained@{GetClosesUnmaintained}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetClosesUnmaintained()}{GetClosesUnmaintained()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Closes\+Unmaintained (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00131}{131}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_aa19aaf03cdd5b5737064bc938ac76104}\label{class_farm_plot_manager_aa19aaf03cdd5b5737064bc938ac76104}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetClosesUnmaintainedWithPlants@{GetClosesUnmaintainedWithPlants}}
+\index{GetClosesUnmaintainedWithPlants@{GetClosesUnmaintainedWithPlants}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetClosesUnmaintainedWithPlants()}{GetClosesUnmaintainedWithPlants()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Closes\+Unmaintained\+With\+Plants (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00112}{112}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a971e35e97ca421e247a4120419a59dc3}\label{class_farm_plot_manager_a971e35e97ca421e247a4120419a59dc3}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetFarmPlotsNearby@{GetFarmPlotsNearby}}
+\index{GetFarmPlotsNearby@{GetFarmPlotsNearby}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetFarmPlotsNearby()}{GetFarmPlotsNearby()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Farm\+Plots\+Nearby (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{bool}]{need\+Water = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00065}{65}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a0b4fe5c4e148dadfc66ed6821a2bf472}\label{class_farm_plot_manager_a0b4fe5c4e148dadfc66ed6821a2bf472}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetFarmPlotsNearbyWithPlants@{GetFarmPlotsNearbyWithPlants}}
+\index{GetFarmPlotsNearbyWithPlants@{GetFarmPlotsNearbyWithPlants}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetFarmPlotsNearbyWithPlants()}{GetFarmPlotsNearbyWithPlants()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Farm\+Plots\+Nearby\+With\+Plants (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00093}{93}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a4fc4c7ed55bc9dfb893ca3c9ba0565fe}\label{class_farm_plot_manager_a4fc4c7ed55bc9dfb893ca3c9ba0565fe}} 
+\index{FarmPlotManager@{FarmPlotManager}!GetRandomCloseEntry@{GetRandomCloseEntry}}
+\index{GetRandomCloseEntry@{GetRandomCloseEntry}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{GetRandomCloseEntry()}{GetRandomCloseEntry()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_data}{Farm\+Plot\+Data}} Farm\+Plot\+Manager.\+Get\+Random\+Close\+Entry (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a10e350b37ce30367a9f50f5b0f8559a2}\label{class_farm_plot_manager_a10e350b37ce30367a9f50f5b0f8559a2}} 
+\index{FarmPlotManager@{FarmPlotManager}!Remove@{Remove}}
+\index{Remove@{Remove}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily void Farm\+Plot\+Manager.\+Remove (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a8faa8276fc014db62d9d306e4215e443}\label{class_farm_plot_manager_a8faa8276fc014db62d9d306e4215e443}} 
+\index{FarmPlotManager@{FarmPlotManager}!ResetAllPlants@{ResetAllPlants}}
+\index{ResetAllPlants@{ResetAllPlants}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{ResetAllPlants()}{ResetAllPlants()}}
+{\footnotesize\ttfamily void Farm\+Plot\+Manager.\+Reset\+All\+Plants (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00184}{184}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_farm_plot_manager_a7b5a3b8a5665ef8a36d218bd636696be}\label{class_farm_plot_manager_a7b5a3b8a5665ef8a36d218bd636696be}} 
+\index{FarmPlotManager@{FarmPlotManager}!ResetPlantsInRange@{ResetPlantsInRange}}
+\index{ResetPlantsInRange@{ResetPlantsInRange}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{ResetPlantsInRange()}{ResetPlantsInRange()}}
+{\footnotesize\ttfamily void Farm\+Plot\+Manager.\+Reset\+Plants\+In\+Range (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00163}{163}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_farm_plot_manager_ab0597c68c90db9f473d17d4b8c06774a}\label{class_farm_plot_manager_ab0597c68c90db9f473d17d4b8c06774a}} 
+\index{FarmPlotManager@{FarmPlotManager}!Instance@{Instance}}
+\index{Instance@{Instance}!FarmPlotManager@{FarmPlotManager}}
+\doxysubsubsection{\texorpdfstring{Instance}{Instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_farm_plot_manager}{Farm\+Plot\+Manager}} Farm\+Plot\+Manager.\+Instance\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_farm_plot_manager_8cs_source_l00014}{14}} of file \mbox{\hyperlink{_farm_plot_manager_8cs_source}{Farm\+Plot\+Manager.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Managers/Farm\+Plot\+Manager.\+cs\end{DoxyCompactItemize}

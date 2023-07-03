@@ -1,0 +1,47 @@
+\hypertarget{_mod_init_mod_code_8cs_source}{}\doxysection{Mod\+Init\+Mod\+Code.\+cs}
+\label{_mod_init_mod_code_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Standard/ModInitModCode.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Standard/ModInitModCode.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00005}\mbox{\hyperlink{namespace_harmony_1_1_standard}{00005}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_standard}{Harmony.Standard}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00007}00007\ \ \ \ \ [HarmonyPatch(typeof(Mod))]}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00008}00008\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}InitModCode"{}})]}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00009}\mbox{\hyperlink{class_harmony_1_1_standard_1_1_s_core_mod___init_mod_code}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_standard_1_1_s_core_mod___init_mod_code}{SCoreMod\_InitModCode}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(Mod\ \_\_instance,\ Dictionary<string,\ Assembly>\ \_\_\_allAssemblies)}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//string[]\ files\ =\ Directory.GetFiles(\_\_instance.Path);}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (files.Length\ !=\ 0)}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ foreach\ (string\ text\ in\ files)}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ Debug.Log("{}\(\backslash\)t"{}\ +\ text);}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ if\ (text.EndsWith("{}.dll"{},\ StringComparison.OrdinalIgnoreCase))}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ try}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ String\ Key\ =\ text.GetHashCode().ToString();}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (\ !\_\_\_allAssemblies.ContainsKey(Key))}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_allAssemblies.Add(Key,\ Assembly.LoadFrom(text));}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ catch\ (Exception\ e)}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log("{}[MODS]\ Failed\ loading\ DLL\ "{}\ +\ text);}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(e);}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00040}00040\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mod_init_mod_code_8cs_source_l00041}00041\ \}}
+
+\end{DoxyCode}

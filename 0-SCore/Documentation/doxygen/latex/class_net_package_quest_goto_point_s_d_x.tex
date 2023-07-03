@@ -1,0 +1,123 @@
+\hypertarget{class_net_package_quest_goto_point_s_d_x}{}\doxysection{Net\+Package\+Quest\+Goto\+Point\+SDX Class Reference}
+\label{class_net_package_quest_goto_point_s_d_x}\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+
+
+Inherits Net\+Package.
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Quest\+Goto\+Types} \{ {\bfseries Trader}
+, {\bfseries Closest}
+, {\bfseries Random\+POI}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x}{Net\+Package\+Quest\+Goto\+Point\+SDX}} \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_aacb192a9312db2677610c303d806752a}{Setup}} (int \+\_\+player\+Id, Fast\+Tags \+\_\+quest\+Tags, int \+\_\+quest\+Code, Net\+Package\+Quest\+Goto\+Point\+SDX.\+Quest\+Goto\+Types \+\_\+goto\+Type, byte \+\_\+difficulty, int posX=0, int posZ=-\/1, float sizeX=0f, float sizeY=0f, float sizeZ=0f, float offset=-\/1f, Biome\+Filter\+Types \+\_\+biome\+Filter\+Type=Biome\+Filter\+Types.\+Any\+Biome, string \+\_\+biome\+Filter=\char`\"{}\char`\"{})
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_acb1b8f4554188b3a95fe01cb5c0c1e33}{read}} (Pooled\+Binary\+Reader \+\_\+br)
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_a0846e31afb53f820226a61f1f4d065f4}{write}} (Pooled\+Binary\+Writer \+\_\+bw)
+\item 
+override void \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_aa8d3c7873b66ba18ffea8cb3b63b81e1}{Process\+Package}} (World \+\_\+world, Game\+Manager \+\_\+callbacks)
+\item 
+override int \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_a454c272fc236868e8669516930fe5411}{Get\+Length}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Net\+Package\+Quest\+Goto\+Point\+SDX.\+Quest\+Goto\+Types \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x_addb31f4914a039f1bca7bbed7f38758b}{Goto\+Type}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00005}{5}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_a355ab13b3c5eccf16a8ea2bc59c17c1d}\label{class_net_package_quest_goto_point_s_d_x_a355ab13b3c5eccf16a8ea2bc59c17c1d}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!QuestGotoTypes@{QuestGotoTypes}}
+\index{QuestGotoTypes@{QuestGotoTypes}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{QuestGotoTypes}{QuestGotoTypes}}
+{\footnotesize\ttfamily enum Net\+Package\+Quest\+Goto\+Point\+SDX.\+Quest\+Goto\+Types}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00191}{191}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_a454c272fc236868e8669516930fe5411}\label{class_net_package_quest_goto_point_s_d_x_a454c272fc236868e8669516930fe5411}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!GetLength@{GetLength}}
+\index{GetLength@{GetLength}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{GetLength()}{GetLength()}}
+{\footnotesize\ttfamily override int Net\+Package\+Quest\+Goto\+Point\+SDX.\+Get\+Length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00158}{158}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_aa8d3c7873b66ba18ffea8cb3b63b81e1}\label{class_net_package_quest_goto_point_s_d_x_aa8d3c7873b66ba18ffea8cb3b63b81e1}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!ProcessPackage@{ProcessPackage}}
+\index{ProcessPackage@{ProcessPackage}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{ProcessPackage()}{ProcessPackage()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Goto\+Point\+SDX.\+Process\+Package (\begin{DoxyParamCaption}\item[{World}]{\+\_\+world,  }\item[{Game\+Manager}]{\+\_\+callbacks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00056}{56}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_acb1b8f4554188b3a95fe01cb5c0c1e33}\label{class_net_package_quest_goto_point_s_d_x_acb1b8f4554188b3a95fe01cb5c0c1e33}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!read@{read}}
+\index{read@{read}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Goto\+Point\+SDX.\+read (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Reader}]{\+\_\+br }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_aacb192a9312db2677610c303d806752a}\label{class_net_package_quest_goto_point_s_d_x_aacb192a9312db2677610c303d806752a}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!Setup@{Setup}}
+\index{Setup@{Setup}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{Setup()}{Setup()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_net_package_quest_goto_point_s_d_x}{Net\+Package\+Quest\+Goto\+Point\+SDX}} Net\+Package\+Quest\+Goto\+Point\+SDX.\+Setup (\begin{DoxyParamCaption}\item[{int}]{\+\_\+player\+Id,  }\item[{Fast\+Tags}]{\+\_\+quest\+Tags,  }\item[{int}]{\+\_\+quest\+Code,  }\item[{Net\+Package\+Quest\+Goto\+Point\+SDX\+::\+Quest\+Goto\+Types}]{\+\_\+goto\+Type,  }\item[{byte}]{\+\_\+difficulty,  }\item[{int}]{posX = {\ttfamily 0},  }\item[{int}]{posZ = {\ttfamily -\/1},  }\item[{float}]{sizeX = {\ttfamily 0f},  }\item[{float}]{sizeY = {\ttfamily 0f},  }\item[{float}]{sizeZ = {\ttfamily 0f},  }\item[{float}]{offset = {\ttfamily -\/1f},  }\item[{Biome\+Filter\+Types}]{\+\_\+biome\+Filter\+Type = {\ttfamily BiomeFilterTypes\+:\+:AnyBiome},  }\item[{string}]{\+\_\+biome\+Filter = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_a0846e31afb53f820226a61f1f4d065f4}\label{class_net_package_quest_goto_point_s_d_x_a0846e31afb53f820226a61f1f4d065f4}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!write@{write}}
+\index{write@{write}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily override void Net\+Package\+Quest\+Goto\+Point\+SDX.\+write (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Writer}]{\+\_\+bw }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_net_package_quest_goto_point_s_d_x_addb31f4914a039f1bca7bbed7f38758b}\label{class_net_package_quest_goto_point_s_d_x_addb31f4914a039f1bca7bbed7f38758b}} 
+\index{NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}!GotoType@{GotoType}}
+\index{GotoType@{GotoType}!NetPackageQuestGotoPointSDX@{NetPackageQuestGotoPointSDX}}
+\doxysubsubsection{\texorpdfstring{GotoType}{GotoType}}
+{\footnotesize\ttfamily Net\+Package\+Quest\+Goto\+Point\+SDX.\+Quest\+Goto\+Types Net\+Package\+Quest\+Goto\+Point\+SDX.\+Goto\+Type}
+
+
+
+Definition at line \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source_l00182}{182}} of file \mbox{\hyperlink{_net_package_quest_goto_point_s_d_x_8cs_source}{Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Net\+Package/Net\+Package\+Quest\+Goto\+Point\+SDX.\+cs\end{DoxyCompactItemize}

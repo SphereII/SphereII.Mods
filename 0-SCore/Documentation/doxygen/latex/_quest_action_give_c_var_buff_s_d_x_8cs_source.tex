@@ -1,0 +1,30 @@
+\hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source}{}\doxysection{Quest\+Action\+Give\+CVar\+Buff\+SDX.\+cs}
+\label{_quest_action_give_c_var_buff_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionGiveCVarBuffSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionGiveCVarBuffSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00003}\mbox{\hyperlink{class_quest_action_give_c_var_buff_s_d_x}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quest_action_give_c_var_buff_s_d_x}{QuestActionGiveCVarBuffSDX}}\ :\ BaseQuestAction}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupAction()}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(Quest\ action)}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ var\ value\ =\ StringParsers.ParseFloat(Value,\ 0,\ -\/1,\ NumberStyles.Float);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.OwnerJournal.OwnerPlayer.Buffs.HasCustomVar(ID))}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ value\ +=\ OwnerQuest.OwnerJournal.OwnerPlayer.Buffs.GetCustomVar(ID);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ OwnerQuest.OwnerJournal.OwnerPlayer.Buffs.SetCustomVar(ID,\ value);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseQuestAction\ Clone()}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ var\ questActionShowTip\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_quest_action_give_c_var_buff_s_d_x}{QuestActionGiveCVarBuffSDX}}();}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ CopyValues(questActionShowTip);}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ questActionShowTip;}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_give_c_var_buff_s_d_x_8cs_source_l00024}00024\ \}}
+
+\end{DoxyCode}

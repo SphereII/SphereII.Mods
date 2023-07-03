@@ -1,0 +1,355 @@
+\hypertarget{class_objective_random_goto_s_d_x}{}\doxysection{Objective\+Random\+Goto\+SDX Class Reference}
+\label{class_objective_random_goto_s_d_x}\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+
+
+Inherits Base\+Objective.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a3360f85ef95cce5b5441656e7b5080f4}{Setup\+Objective}} ()
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a3061f5fd088253f38d5976066ebfbb3f}{Setup\+Display}} ()
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a495bea36c9694654653b750d5ceefc50}{Add\+Hooks}} ()
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a03d7eea5e688a374c9cd92312969db28}{Remove\+Hooks}} ()
+\item 
+void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a2151bd5c6b995984ff29d3f809c937af}{Finalize\+Point}} (int x, int y, int z)
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a1809c7424009390f8177e8afc753273a}{Update}} (float delta\+Time)
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a21d01eea8d15f3fa8f2d7fd95def0e0f}{Refresh}} ()
+\item 
+override Base\+Objective \mbox{\hyperlink{class_objective_random_goto_s_d_x_a9de2e811ecc988a3583fc584f8d050e5}{Clone}} ()
+\item 
+override bool \mbox{\hyperlink{class_objective_random_goto_s_d_x_a17a7d1f5d61be2891dd2c17362614f61}{Set\+Location}} (Vector3 pos, Vector3 size)
+\item 
+override void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a372c3e58372a86ef82bc5b94cfd882c9}{Parse\+Properties}} (Dynamic\+Properties properties)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Vector3i \mbox{\hyperlink{class_objective_random_goto_s_d_x_a726746fd54d0ba4e79f55d1c53a2af4c}{Calculate\+Random\+Point}} (int entity\+ID, float distance, string quest\+ID)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static string \mbox{\hyperlink{class_objective_random_goto_s_d_x_a840bae339adf3280a543ae72c53eb367}{Prop\+Distance}} = \char`\"{}distance\char`\"{}
+\item 
+static string \mbox{\hyperlink{class_objective_random_goto_s_d_x_afa338287436257ad87fd38dd393c023c}{Prop\+Completion\+Distance}} = \char`\"{}completion\+\_\+distance\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Goto\+States} \{ {\bfseries No\+Position}
+, {\bfseries Waiting\+For\+Point}
+, {\bfseries Try\+Complete}
+, {\bfseries Completed}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_objective_random_goto_s_d_x_a650c8f4acf8e08c380f1a917ce693e60}{Setup\+Icon}} ()
+\item 
+virtual Vector3 \mbox{\hyperlink{class_objective_random_goto_s_d_x_a1722adc74de1954ce5f89f21cf712af7}{Get\+Position}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_objective_random_goto_s_d_x_a1128b273e01de6bc4577afd328d34bdd}{position\+Set}}
+\item 
+float \mbox{\hyperlink{class_objective_random_goto_s_d_x_a5cde1d7aa70bcc4d5e99b356ddd99abc}{distance}}
+\item 
+float \mbox{\hyperlink{class_objective_random_goto_s_d_x_ab58da0aebc185e180d753bf7348287e0}{completion\+Distance}} = 10f
+\item 
+Vector3 \mbox{\hyperlink{class_objective_random_goto_s_d_x_a1c33b27b9633b36c8d11b329ad44c561}{position}}
+\item 
+string \mbox{\hyperlink{class_objective_random_goto_s_d_x_a7e7789f041efaa209eb35d9be8f1c392}{icon}} = \char`\"{}ui\+\_\+game\+\_\+symbol\+\_\+quest\char`\"{}
+\item 
+bool \mbox{\hyperlink{class_objective_random_goto_s_d_x_a065d4579e3e050375383ec5733885b73}{complete\+Within\+Range}} = true
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+override Base\+Objective.\+Objective\+Value\+Types \mbox{\hyperlink{class_objective_random_goto_s_d_x_a669ce6aa02d4ec90ba340d784a2b2e79}{Objective\+Value\+Type}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+override bool \mbox{\hyperlink{class_objective_random_goto_s_d_x_a3aab49095e6d375734a69717ac0fb649}{Update\+UI}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+override string \mbox{\hyperlink{class_objective_random_goto_s_d_x_af4540d9ae8d98fe0906569c2e7e31d6c}{Status\+Text}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a085094b36f0554fb29d1dd08b4e66bfe}\label{class_objective_random_goto_s_d_x_a085094b36f0554fb29d1dd08b4e66bfe}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!GotoStates@{GotoStates}}
+\index{GotoStates@{GotoStates}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{GotoStates}{GotoStates}}
+{\footnotesize\ttfamily enum Objective\+Random\+Goto\+SDX.\+Goto\+States\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00302}{302}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a495bea36c9694654653b750d5ceefc50}\label{class_objective_random_goto_s_d_x_a495bea36c9694654653b750d5ceefc50}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!AddHooks@{AddHooks}}
+\index{AddHooks@{AddHooks}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{AddHooks()}{AddHooks()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Add\+Hooks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00065}{65}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a726746fd54d0ba4e79f55d1c53a2af4c}\label{class_objective_random_goto_s_d_x_a726746fd54d0ba4e79f55d1c53a2af4c}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!CalculateRandomPoint@{CalculateRandomPoint}}
+\index{CalculateRandomPoint@{CalculateRandomPoint}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{CalculateRandomPoint()}{CalculateRandomPoint()}}
+{\footnotesize\ttfamily static Vector3i Objective\+Random\+Goto\+SDX.\+Calculate\+Random\+Point (\begin{DoxyParamCaption}\item[{int}]{entity\+ID,  }\item[{float}]{distance,  }\item[{string}]{quest\+ID }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00136}{136}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a9de2e811ecc988a3583fc584f8d050e5}\label{class_objective_random_goto_s_d_x_a9de2e811ecc988a3583fc584f8d050e5}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!Clone@{Clone}}
+\index{Clone@{Clone}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily override Base\+Objective Objective\+Random\+Goto\+SDX.\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00243}{243}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a2151bd5c6b995984ff29d3f809c937af}\label{class_objective_random_goto_s_d_x_a2151bd5c6b995984ff29d3f809c937af}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!FinalizePoint@{FinalizePoint}}
+\index{FinalizePoint@{FinalizePoint}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{FinalizePoint()}{FinalizePoint()}}
+{\footnotesize\ttfamily void Objective\+Random\+Goto\+SDX.\+Finalize\+Point (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y,  }\item[{int}]{z }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00160}{160}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a1722adc74de1954ce5f89f21cf712af7}\label{class_objective_random_goto_s_d_x_a1722adc74de1954ce5f89f21cf712af7}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!GetPosition@{GetPosition}}
+\index{GetPosition@{GetPosition}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{GetPosition()}{GetPosition()}}
+{\footnotesize\ttfamily virtual Vector3 Objective\+Random\+Goto\+SDX.\+Get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a372c3e58372a86ef82bc5b94cfd882c9}\label{class_objective_random_goto_s_d_x_a372c3e58372a86ef82bc5b94cfd882c9}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!ParseProperties@{ParseProperties}}
+\index{ParseProperties@{ParseProperties}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{ParseProperties()}{ParseProperties()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Parse\+Properties (\begin{DoxyParamCaption}\item[{Dynamic\+Properties}]{properties }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00261}{261}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a21d01eea8d15f3fa8f2d7fd95def0e0f}\label{class_objective_random_goto_s_d_x_a21d01eea8d15f3fa8f2d7fd95def0e0f}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!Refresh@{Refresh}}
+\index{Refresh@{Refresh}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{Refresh()}{Refresh()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Refresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00232}{232}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a03d7eea5e688a374c9cd92312969db28}\label{class_objective_random_goto_s_d_x_a03d7eea5e688a374c9cd92312969db28}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!RemoveHooks@{RemoveHooks}}
+\index{RemoveHooks@{RemoveHooks}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{RemoveHooks()}{RemoveHooks()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Remove\+Hooks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00072}{72}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a17a7d1f5d61be2891dd2c17362614f61}\label{class_objective_random_goto_s_d_x_a17a7d1f5d61be2891dd2c17362614f61}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!SetLocation@{SetLocation}}
+\index{SetLocation@{SetLocation}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{SetLocation()}{SetLocation()}}
+{\footnotesize\ttfamily override bool Objective\+Random\+Goto\+SDX.\+Set\+Location (\begin{DoxyParamCaption}\item[{Vector3}]{pos,  }\item[{Vector3}]{size }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00254}{254}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a3061f5fd088253f38d5976066ebfbb3f}\label{class_objective_random_goto_s_d_x_a3061f5fd088253f38d5976066ebfbb3f}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!SetupDisplay@{SetupDisplay}}
+\index{SetupDisplay@{SetupDisplay}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{SetupDisplay()}{SetupDisplay()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Setup\+Display (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a650c8f4acf8e08c380f1a917ce693e60}\label{class_objective_random_goto_s_d_x_a650c8f4acf8e08c380f1a917ce693e60}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!SetupIcon@{SetupIcon}}
+\index{SetupIcon@{SetupIcon}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{SetupIcon()}{SetupIcon()}}
+{\footnotesize\ttfamily virtual void Objective\+Random\+Goto\+SDX.\+Setup\+Icon (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00078}{78}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a3360f85ef95cce5b5441656e7b5080f4}\label{class_objective_random_goto_s_d_x_a3360f85ef95cce5b5441656e7b5080f4}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!SetupObjective@{SetupObjective}}
+\index{SetupObjective@{SetupObjective}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{SetupObjective()}{SetupObjective()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Setup\+Objective (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a1809c7424009390f8177e8afc753273a}\label{class_objective_random_goto_s_d_x_a1809c7424009390f8177e8afc753273a}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!Update@{Update}}
+\index{Update@{Update}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{Update()}{Update()}}
+{\footnotesize\ttfamily override void Objective\+Random\+Goto\+SDX.\+Update (\begin{DoxyParamCaption}\item[{float}]{delta\+Time }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00171}{171}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a065d4579e3e050375383ec5733885b73}\label{class_objective_random_goto_s_d_x_a065d4579e3e050375383ec5733885b73}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!completeWithinRange@{completeWithinRange}}
+\index{completeWithinRange@{completeWithinRange}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{completeWithinRange}{completeWithinRange}}
+{\footnotesize\ttfamily bool Objective\+Random\+Goto\+SDX.\+complete\+Within\+Range = true\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00293}{293}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_ab58da0aebc185e180d753bf7348287e0}\label{class_objective_random_goto_s_d_x_ab58da0aebc185e180d753bf7348287e0}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!completionDistance@{completionDistance}}
+\index{completionDistance@{completionDistance}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{completionDistance}{completionDistance}}
+{\footnotesize\ttfamily float Objective\+Random\+Goto\+SDX.\+completion\+Distance = 10f\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00281}{281}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a5cde1d7aa70bcc4d5e99b356ddd99abc}\label{class_objective_random_goto_s_d_x_a5cde1d7aa70bcc4d5e99b356ddd99abc}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!distance@{distance}}
+\index{distance@{distance}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily float Objective\+Random\+Goto\+SDX.\+distance\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00278}{278}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a7e7789f041efaa209eb35d9be8f1c392}\label{class_objective_random_goto_s_d_x_a7e7789f041efaa209eb35d9be8f1c392}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!icon@{icon}}
+\index{icon@{icon}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{icon}{icon}}
+{\footnotesize\ttfamily string Objective\+Random\+Goto\+SDX.\+icon = \char`\"{}ui\+\_\+game\+\_\+symbol\+\_\+quest\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00287}{287}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a1c33b27b9633b36c8d11b329ad44c561}\label{class_objective_random_goto_s_d_x_a1c33b27b9633b36c8d11b329ad44c561}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!position@{position}}
+\index{position@{position}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily Vector3 Objective\+Random\+Goto\+SDX.\+position\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00284}{284}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a1128b273e01de6bc4577afd328d34bdd}\label{class_objective_random_goto_s_d_x_a1128b273e01de6bc4577afd328d34bdd}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!positionSet@{positionSet}}
+\index{positionSet@{positionSet}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{positionSet}{positionSet}}
+{\footnotesize\ttfamily bool Objective\+Random\+Goto\+SDX.\+position\+Set\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00275}{275}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_afa338287436257ad87fd38dd393c023c}\label{class_objective_random_goto_s_d_x_afa338287436257ad87fd38dd393c023c}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!PropCompletionDistance@{PropCompletionDistance}}
+\index{PropCompletionDistance@{PropCompletionDistance}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{PropCompletionDistance}{PropCompletionDistance}}
+{\footnotesize\ttfamily string Objective\+Random\+Goto\+SDX.\+Prop\+Completion\+Distance = \char`\"{}completion\+\_\+distance\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00299}{299}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a840bae339adf3280a543ae72c53eb367}\label{class_objective_random_goto_s_d_x_a840bae339adf3280a543ae72c53eb367}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!PropDistance@{PropDistance}}
+\index{PropDistance@{PropDistance}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{PropDistance}{PropDistance}}
+{\footnotesize\ttfamily string Objective\+Random\+Goto\+SDX.\+Prop\+Distance = \char`\"{}distance\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00296}{296}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a669ce6aa02d4ec90ba340d784a2b2e79}\label{class_objective_random_goto_s_d_x_a669ce6aa02d4ec90ba340d784a2b2e79}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!ObjectiveValueType@{ObjectiveValueType}}
+\index{ObjectiveValueType@{ObjectiveValueType}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{ObjectiveValueType}{ObjectiveValueType}}
+{\footnotesize\ttfamily override Base\+Objective.\+Objective\+Value\+Types Objective\+Random\+Goto\+SDX.\+Objective\+Value\+Type\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00010}{10}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_af4540d9ae8d98fe0906569c2e7e31d6c}\label{class_objective_random_goto_s_d_x_af4540d9ae8d98fe0906569c2e7e31d6c}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!StatusText@{StatusText}}
+\index{StatusText@{StatusText}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{StatusText}{StatusText}}
+{\footnotesize\ttfamily override string Objective\+Random\+Goto\+SDX.\+Status\+Text\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_objective_random_goto_s_d_x_a3aab49095e6d375734a69717ac0fb649}\label{class_objective_random_goto_s_d_x_a3aab49095e6d375734a69717ac0fb649}} 
+\index{ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}!UpdateUI@{UpdateUI}}
+\index{UpdateUI@{UpdateUI}!ObjectiveRandomGotoSDX@{ObjectiveRandomGotoSDX}}
+\doxysubsubsection{\texorpdfstring{UpdateUI}{UpdateUI}}
+{\footnotesize\ttfamily override bool Objective\+Random\+Goto\+SDX.\+Update\+UI\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_objective_random_goto_s_d_x_8cs_source}{Objective\+Random\+Goto\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Quests/Objective\+Random\+Goto\+SDX.\+cs\end{DoxyCompactItemize}

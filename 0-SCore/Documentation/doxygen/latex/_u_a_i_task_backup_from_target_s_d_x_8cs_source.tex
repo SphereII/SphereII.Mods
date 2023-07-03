@@ -1,0 +1,71 @@
+\hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source}{}\doxysection{UAITask\+Backup\+From\+Target\+SDX.\+cs}
+\label{_u_a_i_task_backup_from_target_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskBackupFromTargetSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskBackupFromTargetSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00004}00004\ \textcolor{comment}{//\ using\ this\ namespace\ is\ necessary\ for\ Utilities\ AI\ Tasks}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{//\ \ \ \ \ \ \ <task\ class="{}BackupFromTargetSDX,\ SCore"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{//\ The\ game\ adds\ UAI.UAITask\ to\ the\ class\ name\ for\ discover.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00009}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_backup_from_target_s_d_x}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_backup_from_target_s_d_x}{UAITaskBackupFromTargetSDX}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ EntityAlive\ entityAlive;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ maxFleeDistance;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.Parameters.ContainsKey(\textcolor{stringliteral}{"{}max\_distance"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this.maxFleeDistance\ =\ StringParsers.ParseFloat(this.Parameters[\textcolor{stringliteral}{"{}max\_distance"{}}],\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive\ =\ UAIUtils.ConvertToEntityAlive(\_context.ActionData.Target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.detachHome();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ RandomPositionGenerator.CalcAway(\_context.Self,\ 2,\ (\textcolor{keywordtype}{int})\textcolor{keyword}{this}.maxFleeDistance,\ (\textcolor{keywordtype}{int})\textcolor{keyword}{this}.maxFleeDistance,\ entityAlive.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ flee\ distance\ is\ small,\ we\ are\ just\ backing\ away\ from\ the\ entity\ in\ a\ friendly\ way}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ maxFleeDistance\ <\ 5)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3\ dist\ =\ entityAlive.position\ -\/\ \_context.Self.position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Vector3.Distance(entityAlive.position,\ \_context.Self.position)\ <\ 3)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ a\ position\ behind\ the\ npc,\ and\ move\ there.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ dist.normalized\ *\ -\/3f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ +=\ \_context.Self.position;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.moveHelper.SetMoveTo(position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.FindPath(\_context,\ position,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.ActionData.Failed\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ SCoreUtils.SetCrouching(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.SetLookPosition(entityAlive.getHeadPosition());}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//SCoreUtils.SetLookPosition(\_context,\ entityAlive);}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.getNavigator().noPathAndNotPlanningOne())\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ this.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_backup_from_target_s_d_x_8cs_source_l00065}00065\ \}}
+
+\end{DoxyCode}

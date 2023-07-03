@@ -1,0 +1,38 @@
+\hypertarget{_u_a_i_filter_is_leader_8cs_source}{}\doxysection{UAIFilter\+Is\+Leader.\+cs}
+\label{_u_a_i_filter_is_leader_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/Filters/UAIFilterIsLeader.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/Filters/UAIFilterIsLeader.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00007}00007\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00009}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_filter_is_leader}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_filter_is_leader}{UAIFilterIsLeader}}\ :\ \mbox{\hyperlink{interface_u_a_i_1_1_i_u_a_i_target_filter}{IUAITargetFilter}}<Entity>}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ EntityAlive\ \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ selfSDX;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_u_a_i_1_1_u_a_i_filter_is_leader}{UAIFilterIsLeader}}(EntityAlive\ \textcolor{keyword}{self})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ this.self\ =\ \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ selfSDX\ =\ \textcolor{keyword}{self}\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ Test(Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ the\ EntityAliveSDX,\ do\ a\ quick\ check\ to\ see\ if\ its\ hirable\ or\ not.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfSDX\ !=\ \textcolor{keyword}{null}\ \&\&\ !selfSDX.isHirable)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ var\ myLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myLeader\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ target.entityId\ ==\ myLeader.entityId;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_filter_is_leader_8cs_source_l00032}00032\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,20 @@
+\hypertarget{_dialog_action_play_sound_s_d_x_8cs_source}{}\doxysection{Dialog\+Action\+Play\+Sound\+SDX.\+cs}
+\label{_dialog_action_play_sound_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionPlaySoundSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionPlaySoundSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00003}\mbox{\hyperlink{class_dialog_action_play_sound_s_d_x}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_play_sound_s_d_x}{DialogActionPlaySoundSDX}}\ :\ BaseDialogAction}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{string}\ \_lastSound\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ we\ want\ to\ make\ sure\ the\ sound\ is\ not\ playing\ anymore\ before\ starting\ a\ new\ one.}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ !\textcolor{keywordtype}{string}.IsNullOrEmpty(\_lastSound))}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ player.StopOneShot(\_lastSound);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \_lastSound\ =\ ID;}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ player.PlayOneShot(ID,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_play_sound_s_d_x_8cs_source_l00014}00014\ \}}
+
+\end{DoxyCode}

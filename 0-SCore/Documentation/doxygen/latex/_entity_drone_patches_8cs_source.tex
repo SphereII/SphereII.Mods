@@ -1,0 +1,32 @@
+\hypertarget{_entity_drone_patches_8cs_source}{}\doxysection{Entity\+Drone\+Patches.\+cs}
+\label{_entity_drone_patches_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityDrone/EntityDronePatches.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityDrone/EntityDronePatches.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00004}\mbox{\hyperlink{namespace_harmony_1_1_entity_drone}{00004}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_entity_drone}{Harmony.EntityDrone}}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00009}\mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches}{00009}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches}{EntityDronePatches}}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityDrone))]}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}isAlly"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00017}\mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally}{EntityDrone\_isAlly}}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00028}\mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally_ad03609e7c9b67c28dc11dfdf658ca903}{00028}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_harmony_1_1_entity_drone_1_1_entity_drone_patches_1_1_entity_drone__is_ally_ad03609e7c9b67c28dc11dfdf658ca903}{Prefix}}(ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ global::EntityAlive\ \_target)}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_target\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ not\ a\ player,\ consider\ it\ an\ ally\ so\ it\ can't\ damage\ the\ drone.}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ consistent\ with\ vanilla\ zombies\ not\ being\ able\ to\ damage\ it.}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_drone_patches_8cs_source_l00042}00042\ \}}
+
+\end{DoxyCode}

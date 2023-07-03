@@ -1,0 +1,500 @@
+\hypertarget{_fast_noise_s_i_m_d_8cs_source}{}\doxysection{Fast\+Noise\+SIMD.\+cs}
+\label{_fast_noise_s_i_m_d_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/WorldGen/Utilities/FastNoiseSIMD.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/WorldGen/Utilities/FastNoiseSIMD.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }POINTER\ =\ System.IntPtr;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00004}\mbox{\hyperlink{class_fast_noise_s_i_m_d}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_fast_noise_s_i_m_d}{FastNoiseSIMD}}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ NoiseType}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ Value,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ ValueFractal,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ Perlin,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ PerlinFractal,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ Simplex,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ SimplexFractal,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ WhiteNoise,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ Cellular,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ Cubic,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ CubicFractal}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ FractalType}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ FBM,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ Billow,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ RigidMulti}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ CellularDistanceFunction}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ Euclidean,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ Manhattan,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ Natural}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ CellularReturnType}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ CellValue,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ Distance,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ Distance2,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ Distance2Add,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ Distance2Sub,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ Distance2Mul,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ Distance2Div,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ NoiseLookup,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ Distance2Cave}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00045}00045\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ PerturbType}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00048}00048\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ None,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ Gradient,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ GradientFractal,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ Normalise,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ Gradient\_Normalise,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ GradientFractal\_Normalise}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00057}00057\ \ \ \ \ \textcolor{keyword}{private}\ readonly\ POINTER\ nativePointer;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00059}00059\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d}{FastNoiseSIMD}}(\textcolor{keywordtype}{int}\ seed\ =\ 1337)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00060}00060\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ nativePointer\ =\ NewFastNoiseSIMD(seed);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00064}00064\ \ \ \ \ \mbox{\hyperlink{class_fast_noise_s_i_m_d}{\string~FastNoiseSIMD}}()}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00065}00065\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ NativeFree(nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00073}\mbox{\hyperlink{class_fast_noise_s_i_m_d_aeeae662be8361229b2097f4b0540f8f9}{00073}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_aeeae662be8361229b2097f4b0540f8f9}{GetSeed}}()}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NativeGetSeed(nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00083}\mbox{\hyperlink{class_fast_noise_s_i_m_d_adc88ef3fe7a0683a6965834e7fc4b7e3}{00083}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_adc88ef3fe7a0683a6965834e7fc4b7e3}{SetSeed}}(\textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00084}00084\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ NativeSetSeed(nativePointer,\ seed);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00086}00086\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00093}\mbox{\hyperlink{class_fast_noise_s_i_m_d_afa929724b17a8a4fb0aff03cafe561c2}{00093}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_afa929724b17a8a4fb0aff03cafe561c2}{SetFrequency}}(\textcolor{keywordtype}{float}\ frequency)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00094}00094\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ NativeSetFrequency(nativePointer,\ frequency);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00103}\mbox{\hyperlink{class_fast_noise_s_i_m_d_ae1692ab8bf0187fb37e596e6c856af70}{00103}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae1692ab8bf0187fb37e596e6c856af70}{SetNoiseType}}(NoiseType\ noiseType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ NativeSetNoiseType(nativePointer,\ (\textcolor{keywordtype}{int})noiseType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00115}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a91182e429f32d410cca11d3755e91905}{00115}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a91182e429f32d410cca11d3755e91905}{SetAxisScales}}(\textcolor{keywordtype}{float}\ xScale,\ \textcolor{keywordtype}{float}\ yScale,\ \textcolor{keywordtype}{float}\ zScale)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00116}00116\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ NativeSetAxisScales(nativePointer,\ xScale,\ yScale,\ zScale);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00118}00118\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00126}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a6e35e7119316da448e56417c51d6bc14}{00126}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a6e35e7119316da448e56417c51d6bc14}{SetFractalOctaves}}(\textcolor{keywordtype}{int}\ octaves)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00127}00127\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ NativeSetFractalOctaves(nativePointer,\ octaves);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00129}00129\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00136}\mbox{\hyperlink{class_fast_noise_s_i_m_d_ad99fc192375c7ef7bcc3b626227e5386}{00136}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_ad99fc192375c7ef7bcc3b626227e5386}{SetFractalLacunarity}}(\textcolor{keywordtype}{float}\ lacunarity)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00137}00137\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ NativeSetFractalLacunarity(nativePointer,\ lacunarity);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00146}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a722dfdc2a7e878101f2b116ea84b19f3}{00146}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a722dfdc2a7e878101f2b116ea84b19f3}{SetFractalGain}}(\textcolor{keywordtype}{float}\ gain)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00147}00147\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ NativeSetFractalGain(nativePointer,\ gain);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00149}00149\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00156}\mbox{\hyperlink{class_fast_noise_s_i_m_d_ab832959187f13a91343685b5ab51a11e}{00156}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_ab832959187f13a91343685b5ab51a11e}{SetFractalType}}(FractalType\ fractalType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00157}00157\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ NativeSetFractalType(nativePointer,\ (\textcolor{keywordtype}{int})fractalType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00159}00159\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00167}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a30b9bd5177ac0177a770ec3a949d2200}{00167}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a30b9bd5177ac0177a770ec3a949d2200}{SetCellularReturnType}}(CellularReturnType\ cellularReturnType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00168}00168\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ NativeSetCellularReturnType(nativePointer,\ (\textcolor{keywordtype}{int})cellularReturnType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00170}00170\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00177}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a81d902b7cd5c34890064ccf7857efecd}{00177}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a81d902b7cd5c34890064ccf7857efecd}{SetCellularDistanceFunction}}(CellularDistanceFunction\ cellularDistanceFunction)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00178}00178\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ NativeSetCellularDistanceFunction(nativePointer,\ (\textcolor{keywordtype}{int})cellularDistanceFunction);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00180}00180\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00187}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a523fdfb8d2c68485b7716909a5560fbe}{00187}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a523fdfb8d2c68485b7716909a5560fbe}{SetCellularNoiseLookupType}}(NoiseType\ cellularNoiseLookupType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00188}00188\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ NativeSetCellularNoiseLookupType(nativePointer,\ (\textcolor{keywordtype}{int})cellularNoiseLookupType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00190}00190\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00197}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a13c820c04b7a32c041caf09987f8ccae}{00197}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a13c820c04b7a32c041caf09987f8ccae}{SetCellularNoiseLookupFrequency}}(\textcolor{keywordtype}{float}\ cellularNoiseLookupFrequency)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00198}00198\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ NativeSetCellularNoiseLookupFrequency(nativePointer,\ cellularNoiseLookupFrequency);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00200}00200\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00210}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a1ca5a3a3bdad83bd184646b8cc08f8d8}{00210}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a1ca5a3a3bdad83bd184646b8cc08f8d8}{SetCellularDistance2Indicies}}(\textcolor{keywordtype}{int}\ cellularDistanceIndex0,\ \textcolor{keywordtype}{int}\ cellularDistanceIndex1)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00211}00211\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ NativeSetCellularDistance2Indicies(nativePointer,\ cellularDistanceIndex0,\ cellularDistanceIndex1);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00221}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a81eb2f2753f56b96b824f5f9983963ed}{00221}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a81eb2f2753f56b96b824f5f9983963ed}{SetCellularJitter}}(\textcolor{keywordtype}{float}\ cellularJitter)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00222}00222\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ NativeSetCellularJitter(nativePointer,\ cellularJitter);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00224}00224\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00232}\mbox{\hyperlink{class_fast_noise_s_i_m_d_ae0ec6f8fc4b4b5ce94438b6192fd8595}{00232}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae0ec6f8fc4b4b5ce94438b6192fd8595}{SetPerturbType}}(PerturbType\ perturbType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00233}00233\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ NativeSetPerturbType(nativePointer,\ (\textcolor{keywordtype}{int})perturbType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00235}00235\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00242}\mbox{\hyperlink{class_fast_noise_s_i_m_d_aaf6f922ccd72556f7c6eb57fbc8c0d2c}{00242}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_aaf6f922ccd72556f7c6eb57fbc8c0d2c}{SetPerturbFrequency}}(\textcolor{keywordtype}{float}\ perturbFreq)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00243}00243\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ NativeSetPerturbFrequency(nativePointer,\ perturbFreq);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00245}00245\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00252}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a98db7be28de562f1d2461c6b16c34485}{00252}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a98db7be28de562f1d2461c6b16c34485}{SetPerturbAmp}}(\textcolor{keywordtype}{float}\ perturbAmp)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00253}00253\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ NativeSetPerturbAmp(nativePointer,\ perturbAmp);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00255}00255\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00262}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a245ee33763fde1b3385d00d532ba2194}{00262}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a245ee33763fde1b3385d00d532ba2194}{SetPerturbFractalOctaves}}(\textcolor{keywordtype}{int}\ perturbOctaves)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00263}00263\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ NativeSetPerturbFractalOctaves(nativePointer,\ perturbOctaves);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00265}00265\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00272}\mbox{\hyperlink{class_fast_noise_s_i_m_d_adfdf96eb6d08d1ab1797ee0d8ae0f51e}{00272}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_adfdf96eb6d08d1ab1797ee0d8ae0f51e}{SetPerturbFractalLacunarity}}(\textcolor{keywordtype}{float}\ perturbFractalLacunarity)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00273}00273\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ NativeSetPerturbFractalLacunarity(nativePointer,\ perturbFractalLacunarity);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00275}00275\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00282}\mbox{\hyperlink{class_fast_noise_s_i_m_d_a4f51bbfafa716d13a85a2810422dcbb1}{00282}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_a4f51bbfafa716d13a85a2810422dcbb1}{SetPerturbFractalGain}}(\textcolor{keywordtype}{float}\ perturbFractalGain)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00283}00283\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ NativeSetPerturbFractalGain(nativePointer,\ perturbFractalGain);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00285}00285\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00292}\mbox{\hyperlink{class_fast_noise_s_i_m_d_ae23b4fa2f7f3a3c5fc0647265f993e28}{00292}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae23b4fa2f7f3a3c5fc0647265f993e28}{SetPerturbNormaliseLength}}(\textcolor{keywordtype}{float}\ perturbNormaliseLength)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00293}00293\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00294}00294\ \ \ \ \ \ \ \ \ NativeSetPerturbNormaliseLength(nativePointer,\ perturbNormaliseLength);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00295}00295\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00298}00298\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ FillNoiseSet(\textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,\ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{float}\ scaleModifier\ =\ 1.0f)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00299}00299\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ NativeFillNoiseSet(nativePointer,\ noiseSet,\ xStart,\ yStart,\ zStart,\ xSize,\ ySize,\ zSize,\ scaleModifier);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00301}00301\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00303}00303\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ FillSampledNoiseSet(\textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,\ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{int}\ sampleScale)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00304}00304\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ NativeFillSampledNoiseSet(nativePointer,\ noiseSet,\ xStart,\ yStart,\ zStart,\ xSize,\ ySize,\ zSize,\ sampleScale);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00306}00306\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00308}00308\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ FillNoiseSetVector(\textcolor{keywordtype}{float}[]\ noiseSet,\ VectorSet\ vectorSet,\ \textcolor{keywordtype}{float}\ xOffset\ =\ 0f,\ \textcolor{keywordtype}{float}\ yOffset\ =\ 0f,\ \textcolor{keywordtype}{float}\ zOffset\ =\ 0f)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00309}00309\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00310}00310\ \ \ \ \ \ \ \ \ NativeFillNoiseSetVector(nativePointer,\ noiseSet,\ vectorSet.nativePointer,\ xOffset,\ yOffset,\ zOffset);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00311}00311\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00313}00313\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ FillSampledNoiseSetVector(\textcolor{keywordtype}{float}[]\ noiseSet,\ VectorSet\ vectorSet,\ \textcolor{keywordtype}{float}\ xOffset\ =\ 0f,\ \textcolor{keywordtype}{float}\ yOffset\ =\ 0f,\ \textcolor{keywordtype}{float}\ zOffset\ =\ 0f)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00314}00314\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00315}00315\ \ \ \ \ \ \ \ \ NativeFillSampledNoiseSetVector(nativePointer,\ noiseSet,\ vectorSet.nativePointer,\ xOffset,\ yOffset,\ zOffset);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00316}00316\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00318}00318\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}[]\ GetNoiseSet(\textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,\ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{float}\ scaleModifier\ =\ 1.0f)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00319}00319\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00320}00320\ \ \ \ \ \ \ \ \ var\ noiseSet\ =\ GetEmptyNoiseSet(xSize,\ ySize,\ zSize);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00321}00321\ \ \ \ \ \ \ \ \ NativeFillNoiseSet(nativePointer,\ noiseSet,\ xStart,\ yStart,\ zStart,\ xSize,\ ySize,\ zSize,\ scaleModifier);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ noiseSet;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00323}00323\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00325}00325\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}[]\ GetSampledNoiseSet(\textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,\ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{int}\ sampleScale)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00326}00326\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00327}00327\ \ \ \ \ \ \ \ \ var\ noiseSet\ =\ GetEmptyNoiseSet(xSize,\ ySize,\ zSize);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00328}00328\ \ \ \ \ \ \ \ \ NativeFillSampledNoiseSet(nativePointer,\ noiseSet,\ xStart,\ yStart,\ zStart,\ xSize,\ ySize,\ zSize,\ sampleScale);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ noiseSet;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00330}00330\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00332}00332\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}[]\ GetEmptyNoiseSet(\textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00333}00333\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{float}[xSize\ *\ ySize\ *\ zSize];}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00335}00335\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00337}00337\ \textcolor{preprocessor}{\#if\ UNITY\_STANDALONE\ ||\ UNITY\_ANDROID\ ||\ UNITY\_IOS}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00338}00338\ \textcolor{preprocessor}{\#if\ UNITY\_IOS\ \&\&\ !UNITY\_EDITOR}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00339}00339\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ NATIVE\_LIB\ =\ \textcolor{stringliteral}{"{}\_\_Internal"{}};}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00340}00340\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00341}00341\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ NATIVE\_LIB\ =\ \textcolor{stringliteral}{"{}FastNoiseSIMD\_CLib"{}};}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00342}00342\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00343}00343\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00344}00344\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00345}00345\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ GetSIMDLevel();}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00347}00347\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00348}00348\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ SetSIMDLevel(\textcolor{keywordtype}{int}\ level);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00350}00350\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00351}00351\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ POINTER\ NewFastNoiseSIMD(\textcolor{keywordtype}{int}\ seed);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00353}00353\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00354}00354\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFree(POINTER\ nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00356}00356\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00357}00357\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetSeed(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ seed);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00359}00359\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00360}00360\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ NativeGetSeed(POINTER\ nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00362}00362\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00363}00363\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ freq);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00365}00365\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00366}00366\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetNoiseType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ noiseType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00368}00368\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00369}00369\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetAxisScales(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ xScale,\ \textcolor{keywordtype}{float}\ yScale,\ \textcolor{keywordtype}{float}\ zScale);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00371}00371\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00372}00372\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetFractalOctaves(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ octaves);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00373}00373\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00374}00374\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00375}00375\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetFractalLacunarity(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ lacunarity);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00377}00377\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00378}00378\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetFractalGain(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ gain);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00379}00379\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00380}00380\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00381}00381\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetFractalType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ fractalType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00383}00383\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00384}00384\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularDistanceFunction(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ distanceFunction);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00385}00385\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00386}00386\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00387}00387\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularReturnType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ returnType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00389}00389\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00390}00390\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularNoiseLookupType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ noiseType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00392}00392\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00393}00393\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularNoiseLookupFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ freq);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00395}00395\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00396}00396\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularDistance2Indicies(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ cellularDistanceIndex0,\ \textcolor{keywordtype}{int}\ cellularDistanceIndex1);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00398}00398\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00399}00399\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetCellularJitter(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ cellularJitter);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00401}00401\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00402}00402\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ perturbType);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00404}00404\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00405}00405\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFreq);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00407}00407\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00408}00408\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbAmp(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbAmp);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00410}00410\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00411}00411\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalOctaves(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ perturbOctaves);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00413}00413\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00414}00414\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalLacunarity(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFractalLacunarity);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00415}00415\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00416}00416\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00417}00417\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalGain(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFractalGain);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00418}00418\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00419}00419\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00420}00420\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeSetPerturbNormaliseLength(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbNormaliseLength);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00421}00421\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00422}00422\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00423}00423\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFillNoiseSet(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{float}\ scaleModifier);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00425}00425\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00426}00426\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00427}00427\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFillSampledNoiseSet(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{int}\ sampleScale);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00430}00430\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00431}00431\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFillNoiseSetVector(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ POINTER\ vectorSetPointer,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ xOffset,\ \textcolor{keywordtype}{float}\ yOffset,\ \textcolor{keywordtype}{float}\ zOffset);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00433}00433\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00434}00434\ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00435}00435\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFillSampledNoiseSetVector(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ POINTER\ vectorSetPointer,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00436}00436\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ xOffset,\ \textcolor{keywordtype}{float}\ yOffset,\ \textcolor{keywordtype}{float}\ zOffset);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00438}00438\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00439}00439\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ GetSIMDLevel()}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00440}00440\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00441}00441\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/2;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00442}00442\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00444}00444\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ SetSIMDLevel(\textcolor{keywordtype}{int}\ level)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00445}00445\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00446}00446\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00448}00448\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ POINTER\ NewFastNoiseSIMD(\textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00449}00449\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00450}00450\ \ \ \ \ \ \ \ \ Debug.LogError(\textcolor{stringliteral}{"{}FastNoise\ SIMD\ not\ supported\ on\ this\ platform"{}});}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ POINTER.Zero;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00452}00452\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00454}00454\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFree(POINTER\ nativePointer)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00455}00455\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00456}00456\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00458}00458\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetSeed(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ seed)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00459}00459\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00460}00460\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00461}00461\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00462}00462\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ NativeGetSeed(POINTER\ nativePointer)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00463}00463\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00465}00465\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00466}00466\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00467}00467\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ freq)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00468}00468\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00469}00469\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00471}00471\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetNoiseType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ noiseType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00472}00472\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00473}00473\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00474}00474\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00475}00475\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetAxisScales(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ xScale,\ \textcolor{keywordtype}{float}\ yScale,\ \textcolor{keywordtype}{float}\ zScale)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00476}00476\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00477}00477\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00478}00478\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00479}00479\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetFractalOctaves(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ octaves)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00480}00480\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00481}00481\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00482}00482\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00483}00483\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetFractalLacunarity(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ lacunarity)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00484}00484\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00485}00485\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00487}00487\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetFractalGain(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ gain)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00488}00488\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00489}00489\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00491}00491\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetFractalType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ fractalType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00492}00492\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00493}00493\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00494}00494\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00495}00495\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularDistanceFunction(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ distanceFunction)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00496}00496\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00497}00497\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00499}00499\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularReturnType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ returnType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00500}00500\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00501}00501\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00503}00503\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularNoiseLookupType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ noiseType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00504}00504\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00505}00505\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00507}00507\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularNoiseLookupFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ freq)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00508}00508\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00509}00509\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00510}00510\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00511}00511\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularDistance2Indicies(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ cellularDistanceIndex0,\ \textcolor{keywordtype}{int}\ cellularDistanceIndex1)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00512}00512\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00513}00513\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00515}00515\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetCellularJitter(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ cellularJitter)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00516}00516\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00517}00517\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00518}00518\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00519}00519\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbType(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ perturbType)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00520}00520\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00521}00521\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00523}00523\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFrequency(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFreq)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00524}00524\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00525}00525\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00526}00526\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00527}00527\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbAmp(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbAmp)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00528}00528\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00529}00529\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00530}00530\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00531}00531\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalOctaves(POINTER\ nativePointer,\ \textcolor{keywordtype}{int}\ perturbOctaves)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00532}00532\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00533}00533\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00535}00535\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalLacunarity(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFractalLacunarity)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00536}00536\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00537}00537\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00539}00539\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbFractalGain(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbFractalGain)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00540}00540\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00541}00541\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00543}00543\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeSetPerturbNormaliseLength(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}\ perturbNormaliseLength)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00544}00544\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00545}00545\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00546}00546\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00547}00547\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFillNoiseSet(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00548}00548\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{float}\ scaleModifier)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00549}00549\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00550}00550\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00552}00552\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFillSampledNoiseSet(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ \textcolor{keywordtype}{int}\ xStart,\ \textcolor{keywordtype}{int}\ yStart,\ \textcolor{keywordtype}{int}\ zStart,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00553}00553\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ xSize,\ \textcolor{keywordtype}{int}\ ySize,\ \textcolor{keywordtype}{int}\ zSize,\ \textcolor{keywordtype}{int}\ sampleScale)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00554}00554\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00555}00555\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00557}00557\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFillNoiseSetVector(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ POINTER\ vectorSetPointer,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00558}00558\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ xOffset,\ \textcolor{keywordtype}{float}\ yOffset,\ \textcolor{keywordtype}{float}\ zOffset)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00559}00559\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00560}00560\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00561}00561\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00562}00562\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFillSampledNoiseSetVector(POINTER\ nativePointer,\ \textcolor{keywordtype}{float}[]\ noiseSet,\ POINTER\ vectorSetPointer,}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00563}00563\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ xOffset,\ \textcolor{keywordtype}{float}\ yOffset,\ \textcolor{keywordtype}{float}\ zOffset)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00564}00564\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00565}00565\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00566}00566\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00567}00567\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00568}\mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{00568}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{VectorSet}}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00569}00569\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00570}00570\ \ \ \ \ \ \ \ \ \textcolor{keyword}{internal}\ readonly\ POINTER\ nativePointer;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00571}00571\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00572}00572\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{VectorSet}}(Vector3[]\ vectors,\ \textcolor{keywordtype}{int}\ sampleSizeX\ =\ -\/1,\ \textcolor{keywordtype}{int}\ sampleSizeY\ =\ -\/1,\ \textcolor{keywordtype}{int}\ sampleSizeZ\ =\ -\/1,\ \textcolor{keywordtype}{int}\ samplingScale\ =\ 0)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00573}00573\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ var\ vectorSetArray\ =\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{float}[vectors.Length\ *\ 3];}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ vectors.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vectorSetArray[i]\ =\ vectors[i].x;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vectorSetArray[i\ +\ vectors.Length]\ =\ vectors[i].y;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vectorSetArray[i\ +\ vectors.Length\ *\ 2]\ =\ vectors[i].z;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00582}00582\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ nativePointer\ =\ NewVectorSet(vectorSetArray,\ vectorSetArray.Length,\ samplingScale,\ sampleSizeX,\ sampleSizeY,\ sampleSizeZ);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00584}00584\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00585}00585\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00586}00586\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{\string~VectorSet}}()}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00587}00587\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ NativeFreeVectorSet(nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00589}00589\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00591}00591\ \textcolor{preprocessor}{\#if\ UNITY\_STANDALONE\ ||\ UNITY\_ANDROID\ ||\ UNITY\_IOS}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00592}00592\ \ \ \ \ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00593}00593\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ POINTER\ NewVectorSet(\textcolor{keywordtype}{float}[]\ vectorSetArray,\ \textcolor{keywordtype}{int}\ arraySize,\ \textcolor{keywordtype}{int}\ samplingScale,\ \textcolor{keywordtype}{int}\ sampleSizeX,\ \textcolor{keywordtype}{int}\ sampleSizeY,\ \textcolor{keywordtype}{int}\ sampleSizeZ);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00594}00594\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00595}00595\ \ \ \ \ \ \ \ \ [DllImport(NATIVE\_LIB)]}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{void}\ NativeFreeVectorSet(POINTER\ nativePointer);}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00597}00597\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00598}00598\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ POINTER\ NewVectorSet(\textcolor{keywordtype}{float}[]\ vectorSetArray,\ \textcolor{keywordtype}{int}\ arraySize,\ \textcolor{keywordtype}{int}\ samplingScale,\ \textcolor{keywordtype}{int}\ sampleSizeX,\ \textcolor{keywordtype}{int}\ sampleSizeY,\ \textcolor{keywordtype}{int}\ sampleSizeZ)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00599}00599\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.LogError(\textcolor{stringliteral}{"{}FastNoise\ SIMD\ Vector\ Set\ not\ supported\ on\ this\ platform"{}});}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ POINTER.Zero;}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00602}00602\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00604}00604\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ NativeFreeVectorSet(POINTER\ nativePointer)}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00605}00605\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00606}00606\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00607}00607\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00608}00608\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_fast_noise_s_i_m_d_8cs_source_l00609}00609\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,49 @@
+\hypertarget{_explosion_8cs_source}{}\doxysection{Explosion.\+cs}
+\label{_explosion_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/Explosion.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Harmony/Explosion.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00002}\mbox{\hyperlink{namespace_features}{00002}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_features_1_1_fire_1_1_harmony}{Features.Fire.Harmony}}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00003}00003\ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00004}00004\ \ \ \ \ \textcolor{comment}{//\ Allows\ the\ spread\ of\ the\ particles\ to\ catch\ things\ on\ fire.}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00005}00005\ \ \ \ \ [HarmonyPatch(typeof(Explosion))]}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}AttackBlocks"{}})]}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00007}\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_s_core_explosionattack_blocks}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_fire_1_1_harmony_1_1_s_core_explosionattack_blocks}{SCoreExplosionattackBlocks}}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(Explosion\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_entityThatCausedExplosion,\ ExplosionData\ \_\_\_explosionData)}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Enabled\ ==\ \textcolor{keyword}{false})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ BlockDamage\ set\ to\ 0\ does\ nothing.}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_explosionData.BlockDamage\ ==\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ GameManager.Instance.World.GetEntity(\_entityThatCausedExplosion)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.EntityClass.Properties.Contains(\textcolor{stringliteral}{"{}SpreadFire"{}}))}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.EntityClass.Properties.GetBool(\textcolor{stringliteral}{"{}SpreadFire"{}})\ ==\ \textcolor{keyword}{false})}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}SpreadFire"{}}))}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ spreadFire\ =\ entityAlive.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}SpreadFire"{}});}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (spreadFire\ ==\ -\/1f)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ position\ \textcolor{keywordflow}{in}\ \_\_instance.ChangedBlockPositions)}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Negative\ block\ damages\ extinguishes}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_explosionData.BlockDamage\ <\ 0f)}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Extinguish(position.Key);}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Add(position.Key);}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_explosion_8cs_source_l00043}00043\ \}}
+
+\end{DoxyCode}

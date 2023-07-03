@@ -1,0 +1,746 @@
+\hypertarget{_keyhole_8cs_source}{}\doxysection{Keyhole.\+cs}
+\label{_keyhole_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/Keyhole.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/Keyhole.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine.Events;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00004}00004\ \textcolor{comment}{/*\ }}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00005}00005\ \textcolor{comment}{\ *\ Thank\ you\ for\ using\ my\ Lockpicking\ asset!\ I\ hope\ it\ works\ great\ in\ your\ game.\ You\ can\ extend\ it\ to\ suit\ your\ game\ by}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00006}00006\ \textcolor{comment}{\ *\ manipulating\ some\ of\ the\ code\ below.\ For\ instance,\ if\ your\ player\ can\ have\ a\ various\ level\ of\ "{}lockpicking"{}\ skill,}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00007}00007\ \textcolor{comment}{\ *\ you\ may\ consider\ multiplying\ the\ value\ of\ lockGive\ by\ their\ skill,\ so\ that\ a\ higher\ skilled\ player\ would\ find\ it}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00008}00008\ \textcolor{comment}{\ *\ easier\ to\ open\ a\ lock.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00009}00009\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00010}00010\ \textcolor{comment}{\ *\ Enjoy!}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00011}00011\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00013}00013\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_lockpicking}{Lockpicking}}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00014}00014\ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00015}00015\ \ \ \ \ [RequireComponent(typeof(\mbox{\hyperlink{class_lock_emissive}{LockEmissive}}))]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00016}\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{00016}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_lockpicking_1_1_keyhole}{Keyhole}}\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 7\ Days\ To\ Die\ stuff}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ NumLockPicks;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ EntityPlayer\ player;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ BlockValue\ blockValue;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Plumbing"{}})]\ \textcolor{keyword}{public}\ GameObject\ keyhole;\ \textcolor{comment}{//\ The\ keyhole\ with\ lockpick\ A\ that\ turns\ the\ entire\ keyhole\ object\ to\ open\ it}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ GameObject\ lockpickObject;\ \textcolor{comment}{//\ The\ lockpick\ that\ turns\ to\ match\ the\ secret\ lockAngle}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Animator\ lockpickAnimator;\ \textcolor{comment}{//\ Animator\ on\ the\ lockpick\ in\ the\ lockpickObject}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ Animator\ \_padlockAnimator;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ GameObject\ padlock1;\ \textcolor{comment}{//\ Link\ to\ the\ padlock\ 1\ game\ object}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ GameObject\ button;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioTurnClick;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioSqueek;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioOpen;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioJiggle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioJiggle2;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioJiggle3;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioPadlockOpen;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioPadlockJiggle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioLockpickBreak;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioLockpickEnter;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_lockset_audio}{LocksetAudio}}\ audioLockpickClick;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Audio\ Settings}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ [Range(0f,\ 1f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ clickVolumeMin\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ [Range(0f,\ 1f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ clickVolumeMax\ =\ 0.4f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ [Range(0,\ 100)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ clickChance\ =\ 100;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ [Range(0f,\ 15f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ clickRate\ =\ 10f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ [Range(0f,\ 1f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ squeekVolumeMin\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ [Range(0f,\ 1f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ squeekVolumeMax\ =\ 0.4f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ [Range(0,\ 100)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ squeekChance\ =\ 50;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ [Range(0f,\ 360f)]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ squeekRate\ =\ 20f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ buttonDown;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_lock_emissive}{LockEmissive}}\ \_lockEmissive;\ \textcolor{comment}{//\ Link\ to\ the\ lockEmissive\ script\ on\ this\ object}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_lockpickAnglePrev;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Private\ variables}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ breakCounter;\ \textcolor{comment}{//\ Counter\ for\ taking\ a\ break\ after\ a\ broken\ lockpick}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ breakTimeCounter;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ isShaking;\ \textcolor{comment}{//\ Whether\ we\ are\ currently\ shaking\ or\ not}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ preshakeKeyhole;\ \textcolor{comment}{//\ Saves\ the\ pre-\/shake\ angles}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ preshakeLockpick;\ \textcolor{comment}{//\ Saves\ the\ pre-\/shake\ angles}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ shakeTimer;\ \textcolor{comment}{//\ Counter\ for\ the\ shake\ Time}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ squeekTimer;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Awake()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ squeekTimer\ =\ squeekRate;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \_pickAnglesDefault\ =\ LockpickAngles();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockEmissive\ =\ gameObject.GetComponent<\mbox{\hyperlink{class_lock_emissive}{LockEmissive}}>();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockEmissive\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gameObject.AddComponent<\mbox{\hyperlink{class_lock_emissive}{LockEmissive}}>();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (padlock1\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_padlockAnimator\ =\ padlock1.gameObject.GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_padlockAnimator\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_padlockAnimator\ =\ padlock1.gameObject.AddComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \_closeTrigger\ =\ Animator.StringToHash(closeTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \_openTrigger\ =\ Animator.StringToHash(openTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockpickBreakTrigger\ =\ Animator.StringToHash(lockPickBreakTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockpickInsertTrigger\ =\ Animator.StringToHash(lockPickInsertTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (resetOnAwake)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ResetLock();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NumLockPicks\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PassValuesToEmissiveScript();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (BreakingForAnimation())}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ HandlePlayerInput();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RefreshLockPicks();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnEnable()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ RefreshLockPicks();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ ResetLock();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NumLockPicks\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnDisable()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ NumLockPicks\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnValidate()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ LockAngle\ =\ LockAngle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ LockGive\ =\ LockGive;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ CloseDistance\ =\ CloseDistance;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \_pickAngleMin\ =\ Mathf.Clamp(\_pickAngleMin,\ minLockAngle,\ maxLockAngle);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \_pickAngleMax\ =\ Mathf.Clamp(\_pickAngleMax,\ minLockAngle,\ maxLockAngle);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ minGiveAmount\ =\ Mathf.Clamp(minGiveAmount,\ 1f,\ 360f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ maxGiveAmount\ =\ Mathf.Clamp(maxGiveAmount,\ 1f,\ 360f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ minCloseDistance\ =\ Mathf.Clamp(minCloseDistance,\ 5f,\ 360f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ maxCloseDistance\ =\ Mathf.Clamp(maxCloseDistance,\ 5f,\ 360f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ BreakTimeCounter()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ breakTimeCounter;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ LockPickAngle()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GetAngle(LockpickAngles().z);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ KeyholeAngle()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GetAngle(KeyholeAngles().z);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ EditorOnValidate()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00154}00154\ \textcolor{preprocessor}{\#if\ UNITY\_EDITOR}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ EditorUtility.SetDirty(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00156}00156\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ OnValidate();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ UpdateLockPicks(\textcolor{keywordtype}{bool}\ enable)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Hide\ the\ lock\ picks\ or\ show\ them.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.transform.FindInChilds(\textcolor{stringliteral}{"{}LockpickB\ (Turnable)"{}}).gameObject.SetActive(enable);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.transform.FindInChilds(\textcolor{stringliteral}{"{}LockpickA"{}}).gameObject.SetActive(enable);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ RefreshLockPicks()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ var\ uiforPlayer\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ var\ playerInventory\ =\ uiforPlayer.xui.PlayerInventory;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ ItemClass.GetItem(\textcolor{stringliteral}{"{}resourceLockPick"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NumLockPicks\ =\ playerInventory.GetItemCount(item);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NumLockPicks\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ HandlePlayerInput()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_lockIsOpen)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (openPressure\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TryToTurnKeyhole();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StopShaking();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ReturnKeyholeToDefaultPosition();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TurnLockpick(turnSpeedLockpick\ *\ lockpickPressure);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ BreakingForAnimation()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (breakCounter\ >\ 0f)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ breakCounter\ -\/=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ReturnKeyholeToDefaultPosition();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ ReturnKeyholeToDefaultPosition()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ TurnKeyhole(-\/returnSpeedKeyhole);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ TryToTurnKeyhole()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (LockCanTurn())}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ TurnKeyhole(turnSpeedKeyhole\ *\ openPressure);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (KeyholeTurnValue()\ <=\ 0\ \&\&\ LockpickIsInPosition())}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}{OpenLock}}();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Shake();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ PassValuesToEmissiveScript()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00233}00233\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockEmissive.breakpointValue\ =\ Mathf.Clamp(breakTimeCounter\ /\ breakTime,\ 0,\ 1);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockEmissive.successValue\ =\ Mathf.Clamp(KeyholeTurnValue(),\ 0,\ 1);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ LockpickIsInPosition()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00239}00239\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ LockPickAngle()\ <\ \_lockAngle\ +\ \_lockGive\ \&\&\ LockPickAngle()\ >\ \_lockAngle\ -\/\ \_lockGive;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Shake()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ not\ already\ shaking,\ save\ the\ original\ rotations.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isShaking)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioPadlockJiggle\ \&\&\ padlock1\ !=\ \textcolor{keyword}{null}\ \&\&\ padlock1.activeSelf)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioPadlockJiggle.PlayLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioJiggle)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle.PlayLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioJiggle2\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle2.PlayLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioJiggle3\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle3.PlayLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ preshakeKeyhole\ =\ KeyholeAngles();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ preshakeLockpick\ =\ LockpickAngles();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isShaking\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ breakTimeCounter\ to\ stop\ shaking\ at\ the\ right\ time}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ breakTimeCounter\ +=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Break\ Time\ Counter:\ \{breakTimeCounter\}\ Total\ BreakTime:\ \{breakTime\}"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (breakTimeCounter\ >\ breakTime)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StopShaking();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BreakLockpick();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ shakeTimer\ -\/=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (shakeTimer\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Start\ with\ the\ current\ values}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ newShakeKeyhole\ =\ preshakeKeyhole;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ newShakeLockpick\ =\ preshakeLockpick;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ some\ modification}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newShakeKeyhole.z\ +=\ Random.Range(-\/maxShake,\ maxShake);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ newShakeLockpick.z\ +=\ Random.Range(-\/maxShake,\ maxShake);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ value\ +\ modification}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetKeyholeAngles(newShakeKeyhole);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetLockpickAngles(newShakeLockpick);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reset\ the\ timer}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ shakeTimer\ =\ shakeTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00295}00295\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ StopShaking()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00298}00298\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isShaking)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioPadlockJiggle\ \&\&\ padlock1\ !=\ \textcolor{keyword}{null}\ \&\&\ padlock1.activeSelf)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioPadlockJiggle.StopLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (audioJiggle)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle.StopLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioJiggle2\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle2.StopLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioJiggle3\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioJiggle3.StopLoop();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetKeyholeAngles(preshakeKeyhole);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetLockpickAngles(preshakeLockpick);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isShaking\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00318}00318\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetKeyholeAngles(Vector3\ value)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00321}00321\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ keyhole.transform.localEulerAngles\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00323}00323\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetLockpickAngles(Vector3\ value)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00326}00326\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ lockpickObject.transform.localEulerAngles\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00328}00328\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ BreakLockpick()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00331}00331\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioLockpickBreak)\ audioLockpickBreak.PlayOnce();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ breakCounter\ =\ breakPause;\ \textcolor{comment}{//\ Set\ so\ we\ can't\ do\ any\ actions\ for\ a\ short\ time}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ breakTimeCounter\ =\ 0f;\ \textcolor{comment}{//\ Reset\ the\ breakCounter}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ ResetLockpickPosition();\ \textcolor{comment}{//\ Reset\ the\ lockpick\ position}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ lockpickAnimator.SetTrigger(\_lockpickBreakTrigger);\ \textcolor{comment}{//\ Play\ the\ break\ animation}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ lockpickBroke.Invoke();\ \textcolor{comment}{//\ Invoke\ this\ event\ in\ case\ other\ scripts\ are\ listening}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioLockpickEnter\ \&\&\ audioLockpickEnter.isActiveAndEnabled)\ audioLockpickEnter.DelayPlay(1f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Remove\ the\ broke\ pick\ lock.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ playerUI\ =\ (player\ as\ EntityPlayerLocal).PlayerUI;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ playerInventory\ =\ playerUI.xui.PlayerInventory;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ ItemClass.GetItem(\textcolor{stringliteral}{"{}resourceLockPick"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemStack\ =\ \textcolor{keyword}{new}\ ItemStack(item,\ 1);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ playerInventory.RemoveItem(itemStack);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RefreshLockPicks();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NumLockPicks\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateLockPicks(\textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00357}00357\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00363}\mbox{\hyperlink{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}{00363}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}{OpenLock}}()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00364}00364\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_lockIsOpen)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioPadlockOpen\ \&\&\ padlock1\ !=\ \textcolor{keyword}{null}\ \&\&\ padlock1.activeInHierarchy)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioPadlockOpen.PlayOnce();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_padlockAnimator\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_padlockAnimator.SetTrigger(\_openTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (audioOpen)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioOpen.PlayOnce();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Invoke\ the\ event\ for\ any\ other\ scripts\ that\ are\ listening}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lockOpen.Invoke();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_lockIsOpen\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00382}00382\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ DoSqueekAudio(\textcolor{keywordtype}{float}\ speed)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00385}00385\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioSqueek)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (squeekRate\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squeekTimer\ -\/=\ Mathf.Abs(speed)\ *\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (squeekTimer\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Random.Range(0,\ 100)\ <\ squeekChance)\ audioSqueek.PlayAudioClip(Random.Range(squeekVolumeMin,\ squeekVolumeMax));}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ squeekTimer\ =\ squeekRate;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00396}00396\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00398}00398\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ GetAngle(\textcolor{keywordtype}{float}\ eulerAngle)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00399}00399\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ var\ angle\ =\ eulerAngle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ angle\ \%=\ 360;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (angle\ >\ 180)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ angle\ -\/=\ 360;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ angle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00405}00405\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ TurnLockpick(\textcolor{keywordtype}{float}\ speed)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00408}00408\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ at\ or\ outside\ of\ our\ max\ range,\ return}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (LockPickAngle()\ >=\ \_pickAngleMax\ \&\&\ speed\ >\ 0\ ||\ LockPickAngle()\ <=\ \_pickAngleMin\ \&\&\ speed\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00412}00412\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ new\ angle}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ var\ newAngle\ =\ \textcolor{keyword}{new}\ Vector3(LockpickAngles().x,\ LockpickAngles().y,}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ LockpickAngles().z\ +\ speed\ *\ Time.deltaTime);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ SetLockpickAngles(newAngle);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ DoClickAudio(speed,\ newAngle);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00421}00421\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00423}00423\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ DoClickAudio(\textcolor{keywordtype}{float}\ speed,\ Vector3\ newAngle)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00424}00424\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ var\ angleMod\ =\ newAngle.z\ \%\ clickRate;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ var\ prevMod\ =\ \_lockpickAnglePrev\ \%\ clickRate;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00427}00427\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (speed\ >\ 0\ \&\&\ angleMod\ <\ prevMod\ ||\ speed\ <\ 0\ \&\&\ angleMod\ >\ prevMod)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioTurnClick\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ audioTurnClick.PlayAudioClip(Random.Range(clickVolumeMin,\ clickVolumeMax));}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00431}00431\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockpickAnglePrev\ =\ newAngle.z;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00433}00433\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00435}00435\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ LockpickAngles()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00436}00436\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lockpickObject.transform.localEulerAngles;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00438}00438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00440}00440\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ TurnKeyhole(\textcolor{keywordtype}{float}\ speed)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00441}00441\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ at\ or\ outside\ of\ our\ max\ range,\ return}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (KeyholeAngle()\ >=\ \_keyholeAngleMax\ \&\&\ speed\ >\ 0\ ||\ KeyholeAngle()\ <=\ \_keyholeAngleDefault\ \&\&\ speed\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ new\ angle}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ SetKeyholeAngles(\textcolor{keyword}{new}\ Vector3(KeyholeAngles().x,\ KeyholeAngles().y,\ KeyholeAngles().z\ +\ speed\ *\ Time.deltaTime));}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ DoSqueekAudio(speed);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00450}00450\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ KeyholeAngles()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00453}00453\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ keyhole.transform.localEulerAngles;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00455}00455\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ KeyholeTurnValue()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00458}00458\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\_keyholeAngleMax\ -\/\ KeyholeAngle())\ /\ (\_keyholeAngleMax\ -\/\ \_keyholeAngleDefault);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00460}00460\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00461}00461\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00462}00462\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetLock(\textcolor{keywordtype}{float}\ newLockAngle,\ \textcolor{keywordtype}{float}\ newLockGive,\ \textcolor{keywordtype}{float}\ newCloseDistance)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00463}00463\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockAngle\ =\ newLockAngle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \_lockGive\ =\ newLockGive;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \_closeDistance\ =\ newCloseDistance;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (audioLockpickEnter\ \&\&\ audioLockpickEnter.isActiveAndEnabled)\ audioLockpickEnter.DelayPlay(0.7f);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ ResetLockpickPosition();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ lockpickAnimator.SetTrigger(\_lockpickInsertTrigger);\ \textcolor{comment}{//\ Play\ the\ \ animation}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00471}00471\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00472}00472\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00473}00473\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetLock(\textcolor{keywordtype}{float}\ lockAngleMin,\ \textcolor{keywordtype}{float}\ lockAngleMax,\ \textcolor{keywordtype}{float}\ lockGiveMin,}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ lockGiveMax,\ \textcolor{keywordtype}{float}\ closeDistanceMin,\ \textcolor{keywordtype}{float}\ closeDistanceMax)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00475}00475\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ SetLock(Random.Range(lockAngleMin,\ lockAngleMax),}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Random.Range(lockGiveMin,\ lockGiveMax),}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Random.Range(closeDistanceMin,\ closeDistanceMax));}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00479}00479\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00481}00481\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ResetLock()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00482}00482\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ LockIsOpen\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ ProgressionValue\ progressionValue\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ var\ difficulty\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ var\ prevBreakTime\ =\ breakTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ var\ prevMaxGive\ =\ maxGiveAmount;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00489}00489\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ var\ healthLeft\ =\ blockValue.Block.MaxDamage\ -\/\ blockValue.damage;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adjust\ the\ difficulty\ based\ on\ the\ lock\ damage}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (healthLeft\ <=\ 10000)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ difficulty\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (healthLeft\ <=\ 2500)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ difficulty\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (healthLeft\ <=\ 400)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ difficulty\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (healthLeft\ <=\ 200)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ difficulty\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ give\ more\ time\ to\ avoid\ breaking\ pick\ locks.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ secureBlock\ =\ Block.list[blockValue.type];}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (secureBlock\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (secureBlock.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}LockPickDifficulty"{}}))}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ difficulty\ =\ \textcolor{keywordtype}{int}.Parse(secureBlock.Properties.Values[\textcolor{stringliteral}{"{}LockPickDifficulty"{}}]);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ maxGiveAmounts\ =\ Configuration.GetPropertyValue(\textcolor{stringliteral}{"{}AdvancedLockpicking"{}},\ \textcolor{stringliteral}{"{}MaxGiveAmount"{}}).Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ breakTimes\ =\ Configuration.GetPropertyValue(\textcolor{stringliteral}{"{}AdvancedLockpicking"{}},\ \textcolor{stringliteral}{"{}BreakTime"{}}).Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Default\ values.}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxGiveAmount\ =\ 10f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ breakTime\ =\ 2f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (maxGiveAmounts.Length\ >=\ difficulty)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxGiveAmount\ =\ StringParsers.ParseFloat(maxGiveAmounts[difficulty]);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ breakTime\ =\ StringParsers.ParseFloat(breakTimes[difficulty]);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ progressionValue\ =\ player.Progression.GetProgressionValue(\textcolor{stringliteral}{"{}perkLockPicking"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (progressionValue\ is\ \{Level:\ >\ 0\})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevBreakTime\ =\ breakTime;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ prevMaxGive\ =\ maxGiveAmount;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ breakTime\ +=\ (float)progressionValue.Level\ /\ 5;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxGiveAmount\ +=\ (\textcolor{keywordtype}{float})progressionValue.Level\ *\ 2\ ;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00533}00533\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ SetLock(minLockAngle,\ maxLockAngle,}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minGiveAmount,\ maxGiveAmount,}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ minCloseDistance,\ maxCloseDistance);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ progression\ =\ \textcolor{stringliteral}{"{}\ Progression:\ "{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ progression\ =\ progressionValue\ !=\ \textcolor{keyword}{null}\ ?\ \$\textcolor{stringliteral}{"{}\{progression\}\ Level\ \{progressionValue.Level\}\ BreakTime\ Before:\ \{prevBreakTime\}\ MaxGiveAmount\ Before:\ \{prevMaxGive\}"{}}\ :\ \$\textcolor{stringliteral}{"{}\{progression\}\ N/A"{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Configured\ Lock\ Pick:\ Break\ Time:\ \{breakTime\}\ \ MaxGiveAmount:\ \{maxGiveAmount\}\ Lock\ Difficulty:\ \{difficulty\}\ Block\ Damage:\ \{healthLeft\}\ \{progression\}\ "{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}Lock\ Angle:\ "{}}\ +\ \_lockAngle\ +\ \textcolor{stringliteral}{"{}\ Give:\ "{}}\ +\ \_lockGive\ +\ \textcolor{stringliteral}{"{}\ Close\ distance:\ "{}}\ +\ \_closeDistance);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}MinLockAngle:\ \{minLockAngle\}\ MaxLockAngle:\ \{maxLockAngle\}\ Min\ Give\ Amount:\ \{minGiveAmount\}\ Max\ Give\ Amount:\ \{maxGiveAmount\}\ Min\ Close\ distance:\ \{minCloseDistance\}\ Max\ Close\ Distance:\ \{maxCloseDistance\}"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}\ To\ Adjust,\ run\ console\ command\ \ \ lock\ 2\ 34"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}\ For\ breaktime\ of\ 2\ and\ maxgive\ of\ 34"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/"{}});}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00551}00551\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ RefreshLockPicks();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00555}00555\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ResetLockpickPosition()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00558}00558\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ SetLockpickAngles(\_pickAnglesDefault);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_padlockAnimator\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_padlockAnimator.SetTrigger(\_closeTrigger);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00562}00562\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00563}00563\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00564}00564\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ LockCanTurn()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00565}00565\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !(LockPickAngle()\ <\ GetAngle(\_lockAngle)\ -\/\ \_lockGive\ -\/\ \_closeDistance\ *\ KeyholeTurnValue())\ \&\&}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !(LockPickAngle()\ >\ GetAngle(\_lockAngle)\ +\ \_lockGive\ +\ \_closeDistance\ *\ KeyholeTurnValue());}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00568}00568\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00569}00569\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ LockComplete()}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00572}00572\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!LockIsOpen)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00576}00576\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (padlock1\ !=\ \textcolor{keyword}{null}\ \&\&\ padlock1.activeInHierarchy)}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_padlockAnimator\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ padlock\ is\ fully\ animated}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_padlockAnimator.GetCurrentAnimatorStateInfo(0).IsName(\textcolor{stringliteral}{"{}Padlock1Opened"{}}))}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !audioOpen.isAudioPlaying();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00590}00590\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00591}00591\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00592}00592\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#region\ ThirdParty}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Events}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00595}00595\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ UnityEvent\ lockpickBroke\ =\ \textcolor{keyword}{new}\ UnityEvent();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ readonly\ UnityEvent\ lockOpen\ =\ \textcolor{keyword}{new}\ UnityEvent();}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00597}00597\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00598}00598\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00599}00599\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Player\ Input"{}})]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ openPressure;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00601}00601\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ lockpickPressure;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00604}00604\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Speed\ Settings"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00605}00605\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Speed\ of\ the\ lockpick\ when\ input\ value\ is\ full."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00606}00606\ \ \ \ \ \ \ \ \ [Range(1f,\ 720f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00607}00607\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ turnSpeedLockpick\ =\ 50f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00608}00608\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00609}00609\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Speed\ of\ the\ entire\ keyhole\ when\ input\ value\ is\ full."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00610}00610\ \ \ \ \ \ \ \ \ [Range(1f,\ 720f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00611}00611\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ turnSpeedKeyhole\ =\ 50f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00612}00612\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00613}00613\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Speed\ at\ which\ the\ lock\ will\ return\ to\ normal\ when\ the\ input\ value\ is\ 0."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00614}00614\ \ \ \ \ \ \ \ \ [Range(1f,\ 720f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00615}00615\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ returnSpeedKeyhole\ =\ 150f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00616}00616\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00617}00617\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ shake\ distance\ per\ shake\ change."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00618}00618\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ maxShake\ =\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00620}00620\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00621}00621\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Amount\ of\ time\ between\ shake\ changes\ when\ shaking."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00622}00622\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00623}00623\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ shakeTime\ =\ 0.1f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00624}00624\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00626}00626\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Pick\ Settings"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00627}00627\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Starting\ angle\ of\ the\ lock\ pick."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00628}00628\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00629}00629\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ Vector3\ \_pickAnglesDefault;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00630}00630\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00631}00631\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Minimum\ angle\ the\ lock\ pick\ can\ travel\ to."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00632}00632\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00633}00633\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_pickAngleMin\ =\ -\/90f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00634}00634\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00635}00635\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ angle\ the\ lock\ pick\ can\ travel\ to."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00636}00636\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00637}00637\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_pickAngleMax\ =\ 90f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00638}00638\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00640}00640\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Keyhole\ Settings"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00641}00641\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Starting\ angle\ of\ the\ keyhole."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00642}00642\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00643}00643\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_keyholeAngleDefault\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00645}00645\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ angle\ of\ the\ keyhole.\ At\ this\ angle,\ the\ lock\ will\ open."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00646}00646\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00647}00647\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_keyholeAngleMax\ =\ 90f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00649}00649\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00650}00650\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Lock\ Settings"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00651}00651\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}If\ true,\ lock\ details\ will\ be\ randomized\ on\ awake"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00652}00652\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ resetOnAwake\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00653}00653\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00654}00654\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Minimum\ angle\ the\ lock\ can\ be\ set\ to."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00655}00655\ \ \ \ \ \ \ \ \ [Range(0f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00656}00656\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ minLockAngle\ =\ -\/90f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00657}00657\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00658}00658\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ angle\ the\ lock\ can\ be\ set\ to."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00659}00659\ \ \ \ \ \ \ \ \ [Range(0f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ maxLockAngle\ =\ 90f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00662}00662\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Minimum\ distance\ (plus\ and\ minus)\ from\ the\ lock\ angle\ that\ the\ lock\ will\ open."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00663}00663\ \ \ \ \ \ \ \ \ [Range(1f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00664}00664\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ minGiveAmount\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00665}00665\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00666}00666\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ distance\ (plus\ and\ minus)\ from\ the\ lock\ angle\ that\ the\ lock\ will\ open."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00667}00667\ \ \ \ \ \ \ \ \ [Range(1f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00668}00668\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ maxGiveAmount\ =\ 30f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00669}00669\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00670}00670\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Minimum\ distance\ for\ the\ pick\ to\ be\ in\ for\ the\ lock\ will\ turn\ partially."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00671}00671\ \ \ \ \ \ \ \ \ [Range(5f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00672}00672\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ minCloseDistance\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00673}00673\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00674}00674\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Maximum\ distance\ for\ the\ pick\ to\ be\ in\ for\ the\ lock\ will\ turn\ partially."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00675}00675\ \ \ \ \ \ \ \ \ [Range(5f,\ 180f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00676}00676\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ maxCloseDistance\ =\ 10f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00677}00677\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00678}00678\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}Amount\ of\ time\ to\ ignore\ player\ input\ after\ a\ lock\ pick\ breaks."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00679}00679\ \ \ \ \ \ \ \ \ [Range(0f,\ 5f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00680}00680\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ breakPause\ =\ 2f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00681}00681\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00682}00682\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00683}00683\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Lock\ Details"{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00684}00684\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}True\ if\ the\ lock\ is\ already\ open\ (unlocked)."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00685}00685\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00686}00686\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_lockIsOpen;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00687}00687\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00688}00688\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ LockIsOpen}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00689}00689\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ =>\ \_lockIsOpen;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{set}\ =>\ \_lockIsOpen\ =\ value;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00692}00692\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00693}00693\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00695}00695\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}The\ exact\ angle\ the\ lock\ is\ set\ to."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00696}00696\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_lockAngle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00697}00697\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00698}00698\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ LockAngle}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00699}00699\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ =>\ \_lockAngle;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00701}00701\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{set}\ =>\ \_lockAngle\ =\ Mathf.Clamp(value,\ minLockAngle,\ maxLockAngle);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00702}00702\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00703}00703\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00704}00704\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}The\ distance\ to/from\ the\ LockAngle\ the\ lock\ pick\ needs\ to\ be\ in\ for\ the\ lock\ to\ open\ successfully."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00705}00705\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00706}00706\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_lockGive;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00707}00707\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00708}00708\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ LockGive}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00709}00709\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00710}00710\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ =>\ \_lockGive;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00711}00711\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{set}\ =>\ \_lockGive\ =\ Mathf.Clamp(value,\ 1,\ maxGiveAmount);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00712}00712\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00713}00713\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00714}00714\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}If\ the\ lock\ pick\ is\ within\ this\ distance\ to\ the\ angle\ range\ which\ the\ lock\ will\ open,\ the\ lock\ will\ turn\ partially\ when\ an\ open\ attempt\ is\ made."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00715}00715\ \ \ \ \ \ \ \ \ [SerializeField]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00716}00716\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_closeDistance;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00717}00717\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00718}00718\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ CloseDistance}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00719}00719\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00720}00720\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{get}\ =>\ \_closeDistance;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00721}00721\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{set}\ =>\ \_closeDistance\ =\ Mathf.Clamp(value,\ 5,\ maxCloseDistance);}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00722}00722\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00723}00723\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00724}00724\ \ \ \ \ \ \ \ \ [Tooltip(\textcolor{stringliteral}{"{}The\ amount\ of\ time\ before\ a\ lock\ pick\ breaks\ when\ the\ lock\ is\ unable\ to\ be\ opened,\ but\ the\ player\ is\ attempting\ to\ open\ it."{}})]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00725}00725\ \ \ \ \ \ \ \ \ [Range(0f,\ 5f)]}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00726}00726\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ breakTime\ =\ 1f;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00727}00727\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00728}00728\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00729}00729\ \ \ \ \ \ \ \ \ [Header(\textcolor{stringliteral}{"{}Animation\ Trigger\ Strings"{}})]\ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ openTrigger\ =\ \textcolor{stringliteral}{"{}OpenPadlock"{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00730}00730\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00731}00731\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ closeTrigger\ =\ \textcolor{stringliteral}{"{}ClosePadlock"{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00732}00732\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ lockPickBreakTrigger\ =\ \textcolor{stringliteral}{"{}BreakLockpick1"{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00733}00733\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{string}\ lockPickInsertTrigger\ =\ \textcolor{stringliteral}{"{}InsertLockpick"{}};}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00734}00734\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00735}00735\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Private\ animation\ hashes}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00736}00736\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_openTrigger;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00737}00737\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_closeTrigger;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00738}00738\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_lockpickBreakTrigger;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00739}00739\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_lockpickInsertTrigger;}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00740}00740\ }
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00741}00741\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \#endregion}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00742}00742\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_keyhole_8cs_source_l00743}00743\ \}}
+
+\end{DoxyCode}

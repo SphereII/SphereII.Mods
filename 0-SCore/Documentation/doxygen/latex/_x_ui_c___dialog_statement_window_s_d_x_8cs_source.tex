@@ -1,0 +1,82 @@
+\hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source}{}\doxysection{XUi\+C\+\_\+\+Dialog\+Statement\+Window\+SDX.\+cs}
+\label{_x_ui_c___dialog_statement_window_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/XUiC/XUiC\_DialogStatementWindowSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/XUiC/XUiC\_DialogStatementWindowSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00001}00001\ \textcolor{comment}{//\ Token:\ 0x0200097B\ RID:\ 2427}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00003}\mbox{\hyperlink{class_x_ui_c___dialog_window_group_s_d_x}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_x_ui_c___dialog_window_group_s_d_x}{XUiC\_DialogWindowGroupSDX}}\ :\ XUiController}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x04003AE1\ RID:\ 15073}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ XUiC\_DialogResponseList\ responseWindow;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x04003AE0\ RID:\ 15072}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{private}\ XUiC\_DialogStatementWindow\ statementWindow;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x17000794\ RID:\ 1940}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ (get)\ Token:\ 0x060049BE\ RID:\ 18878\ RVA:\ 0x001F5E10\ File\ Offset:\ 0x001F4010}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \textcolor{comment}{//\ (set)\ Token:\ 0x060049BF\ RID:\ 18879\ RVA:\ 0x001F5E18\ File\ Offset:\ 0x001F4018}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ Dialog\ CurrentDialog\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{private}\ \textcolor{keyword}{set};\ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C0\ RID:\ 18880\ RVA:\ 0x001F5E24\ File\ Offset:\ 0x001F4024}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init()}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ base.Init();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ statementWindow\ =\ GetChildByType<XUiC\_DialogStatementWindow>();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ responseWindow\ =\ GetChildByType<XUiC\_DialogResponseList>();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C1\ RID:\ 18881\ RVA:\ 0x001F5E44\ File\ Offset:\ 0x001F4044}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(\textcolor{keywordtype}{float}\ \_dt)}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ base.Update(\_dt);}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C2\ RID:\ 18882}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnOpen()}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ base.OnOpen();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}windowpaging"{}}))\ xui.playerUI.windowManager.Close(\textcolor{stringliteral}{"{}windowpaging"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.Contains(\textcolor{stringliteral}{"{}compass"{}})\ \&\&\ xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}compass"{}}))\ xui.playerUI.windowManager.Close(\textcolor{stringliteral}{"{}compass"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.Contains(\textcolor{stringliteral}{"{}toolbelt"{}})\ \&\&\ xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}toolbelt"{}}))\ xui.playerUI.windowManager.Close(\textcolor{stringliteral}{"{}toolbelt"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ CurrentDialog\ =\ Dialog.DialogList[\textcolor{stringliteral}{"{}humanEveBandit"{}}];}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ CurrentDialog.CurrentOwner\ =\ xui.Dialog.Respondent;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ CurrentDialog.RestartDialog(xui.playerUI.entityPlayer);}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ statementWindow.CurrentDialog\ =\ CurrentDialog;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ responseWindow.CurrentDialog\ =\ CurrentDialog;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ GameManager.Instance.SetToolTipPause(xui.playerUI.nguiWindowManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C3\ RID:\ 18883\ RVA:\ 0x001F5FEC\ File\ Offset:\ 0x001F41EC}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnClose()}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ base.OnClose();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.Contains(\textcolor{stringliteral}{"{}questOffer"{}})\ \&\&\ xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}questOffer"{}}))\ xui.playerUI.windowManager.Close(\textcolor{stringliteral}{"{}questOffer"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.Contains(\textcolor{stringliteral}{"{}compass"{}})\ \&\&\ !xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}compass"{}}))\ xui.playerUI.windowManager.Open(\textcolor{stringliteral}{"{}compass"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.playerUI.windowManager.Contains(\textcolor{stringliteral}{"{}toolbelt"{}})\ \&\&\ !xui.playerUI.windowManager.IsWindowOpen(\textcolor{stringliteral}{"{}toolbelt"{}}))\ xui.playerUI.windowManager.Open(\textcolor{stringliteral}{"{}toolbelt"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ xui.Dialog.Respondent\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ GameManager.Instance.SetToolTipPause(xui.playerUI.nguiWindowManager,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C4\ RID:\ 18884\ RVA:\ 0x001F6128\ File\ Offset:\ 0x001F4328}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ RefreshDialog()}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ statementWindow.Refresh();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CurrentDialog.CurrentStatement\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ statementWindow.Refresh();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ responseWindow.Refresh();}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ xui.playerUI.windowManager.Close(\textcolor{stringliteral}{"{}dialog"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060049C5\ RID:\ 18885\ RVA:\ 0x001F6180\ File\ Offset:\ 0x001F4380}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ ShowResponseWindow(\textcolor{keywordtype}{bool}\ isVisible)}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ responseWindow.Parent.ViewComponent.IsVisible\ =\ isVisible;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_statement_window_s_d_x_8cs_source_l00076}00076\ \}}
+
+\end{DoxyCode}

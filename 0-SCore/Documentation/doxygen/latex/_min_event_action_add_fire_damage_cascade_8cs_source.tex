@@ -1,0 +1,88 @@
+\hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source}{}\doxysection{Min\+Event\+Action\+Add\+Fire\+Damage\+Cascade.\+cs}
+\label{_min_event_action_add_fire_damage_cascade_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/MinEvent/MinEventActionAddFireDamageCascade.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/MinEvent/MinEventActionAddFireDamageCascade.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }JetBrains.Annotations;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00023}00023\ [UsedImplicitly]}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00024}\mbox{\hyperlink{class_min_event_action_add_fire_damage_cascade}{00024}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_add_fire_damage_cascade}{MinEventActionAddFireDamageCascade}}\ :\ MinEventActionRemoveBuff}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00025}00025\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{enum}\ FilterTypeCascade}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ Type,}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ Material,}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ MaterialDamage,}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ MaterialSurface}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{private}\ FilterTypeCascade\ \_filterType\ =\ FilterTypeCascade.Type;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00035}00035\ \ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ @params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00037}00037\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ var\ position\ =\ @params.Position;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetType\ !=\ TargetTypes.positionAOE)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Voxel.voxelRayHitInfo.bHitValid)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ hitInfo\ =\ Voxel.voxelRayHitInfo;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hitInfo\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\ =\ hitInfo.hit.blockPos;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ SpreadFire(position);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00049}00049\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00051}00051\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SpreadFire(Vector3\ position)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00052}00052\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ var\ targetBlock\ =\ GameManager.Instance.World.GetBlock(\textcolor{keyword}{new}\ Vector3i(position));}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ var\ range\ =\ (int)\ maxRange;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ x\ =\ -\/range;\ x\ <=\ range;\ x++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ z\ =\ -\/range;\ z\ <=\ range;\ z++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ y\ =\ -\/range;\ y\ <=\ range;\ y++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ vector\ =\ \textcolor{keyword}{new}\ Vector3i(position.x\ +\ x,\ position.y\ +\ y,\ position.z\ +\ z);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ neighborBlock\ =\ GameManager.Instance.World.GetBlock(vector);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (\_filterType)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FilterTypeCascade.Type:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighborBlock.type\ ==\ targetBlock.type)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Add(vector);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FilterTypeCascade.Material:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighborBlock.Block.blockMaterial.id\ ==\ targetBlock.Block.blockMaterial.id)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Add(vector);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FilterTypeCascade.MaterialDamage:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighborBlock.Block.blockMaterial.DamageCategory\ ==}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetBlock.Block.blockMaterial.DamageCategory)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Add(vector);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ FilterTypeCascade.MaterialSurface:}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (neighborBlock.Block.blockMaterial.SurfaceCategory\ ==}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetBlock.Block.blockMaterial.SurfaceCategory)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Add(vector);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00088}00088\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00091}00091\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00092}00092\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flag)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ var\ name\ =\ attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{stringliteral}{"{}filter"{}})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \_filterType\ =\ EnumUtils.Parse<FilterTypeCascade>(attribute.Value,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_fire_damage_cascade_8cs_source_l00100}00100\ \}}
+
+\end{DoxyCode}

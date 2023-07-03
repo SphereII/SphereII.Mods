@@ -1,0 +1,41 @@
+\hypertarget{_entity_trader_e_modal_set_look_at_8cs_source}{}\doxysection{Entity\+Trader\+EModal\+Set\+Look\+At.\+cs}
+\label{_entity_trader_e_modal_set_look_at_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityTraderEModalSetLookAt.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityTraderEModalSetLookAt.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(typeof(EModelBase))]}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00007}00007\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetLookAt"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00008}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_emodel_base_set_look_at}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_emodel_base_set_look_at}{EmodelBaseSetLookAt}}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(EModelBase\ \_\_instance,\ Entity\ \_\_\_entity,\ Vector3\ \_pos)}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ it's\ a\ trader.\ This\ controls\ whether\ the\ NPC\ will\ look\ at\ you\ if\ you\ are\ within\ a\ particular\ radius.}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_entity.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}trader"{}})))}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ global::EntityAlive\ attackTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ global::EntityAlive\ revengeTarget\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ don't\ have\ any\ attack\ or\ revenge\ then\ change\ the\ distance\ for\ the\ look}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.GetAttackAndRevengeTarget(\_\_\_entity.entityId,\ ref\ attackTarget,\ ref\ revengeTarget))}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_\_entity.GetDistanceSq(\_pos)\ <\ 10;}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (attackTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ attackTarget.IsAlive())}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (revengeTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ revengeTarget.IsAlive())}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ var\ target\ =\ EntityUtilities.GetAttackOrRevengeTarget(\_\_\_entity.entityId);}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (\ target\ ==\ null\ )\ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (target.IsDead())\ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_\_entity.GetDistanceSq(\_pos)\ <\ 10;}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_trader_e_modal_set_look_at_8cs_source_l00035}00035\ \}}
+
+\end{DoxyCode}

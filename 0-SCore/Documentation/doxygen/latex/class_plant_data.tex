@@ -1,0 +1,227 @@
+\hypertarget{class_plant_data}{}\doxysection{Plant\+Data Class Reference}
+\label{class_plant_data}\index{PlantData@{PlantData}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_plant_data_a90571c09b38ae6ccab4c358da2ac8723}{Plant\+Data}} (Vector3i \+\_\+block\+Pos)
+\item 
+\mbox{\hyperlink{class_plant_data_aa066f550f2cb91478ba2e6b14e688bd9}{Plant\+Data}} (Vector3i \+\_\+block\+Pos, Vector3i \+\_\+water\+Pos)
+\item 
+void \mbox{\hyperlink{class_plant_data_a374135570381b758939e115b7aa48fb3}{Manage}} ()
+\item 
+void \mbox{\hyperlink{class_plant_data_ac2b8743e9debd22738b507c66803a60d}{Register\+Plant}} ()
+\item 
+bool \mbox{\hyperlink{class_plant_data_ac9323859f1dd8be4f84b5bc930db749b}{Can\+Stay}} ()
+\item 
+void \mbox{\hyperlink{class_plant_data_a5b7c4a0aebbe96ae866491db59dfedab}{Consume}} ()
+\item 
+void \mbox{\hyperlink{class_plant_data_a73dfdd343718f712cb7e92ff9c026e69}{Remove}} ()
+\item 
+bool \mbox{\hyperlink{class_plant_data_aa4231028fb9585a20f1150dfe52da510}{Requires\+Water}} ()
+\item 
+bool \mbox{\hyperlink{class_plant_data_a3db2648f6efd5121158b03bf3e57d75f}{Is\+Near\+Water}} (float water\+Range=-\/1f)
+\item 
+Vector3i \mbox{\hyperlink{class_plant_data_a6143b8f9af9392b32467b84a075a7ac8}{Scan\+For\+Water}} (Vector3i \+\_\+block\+Pos, float range=-\/1f)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_plant_data_a643fc490f01d469357fb1e4ddf6c7c54}{Visited}} = false
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+Vector3i \mbox{\hyperlink{class_plant_data_a1777c9ed1293235da0f3b0c66526b435}{Block\+Pos}} = Vector3i.\+zero\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Vector3i \mbox{\hyperlink{class_plant_data_a5ee7d774e1d2b1caa4a58ebae86400f5}{Water\+Pos}} = Vector3i.\+zero\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Block\+Value \mbox{\hyperlink{class_plant_data_a6346dbfe69c17d059ef69834df5da332}{block\+Value}} = Block\+Value.\+Air\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+ulong \mbox{\hyperlink{class_plant_data_a631eb8b4693ec252620249f3c9f3f68b}{Last\+Check}} = 0ul\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_plant_data_ab2679719d097a3f885a137520b77726e}{Last\+Maintained}} = 0f\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00003}{3}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_plant_data_a90571c09b38ae6ccab4c358da2ac8723}\label{class_plant_data_a90571c09b38ae6ccab4c358da2ac8723}} 
+\index{PlantData@{PlantData}!PlantData@{PlantData}}
+\index{PlantData@{PlantData}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{PlantData()}{PlantData()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Plant\+Data.\+Plant\+Data (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_aa066f550f2cb91478ba2e6b14e688bd9}\label{class_plant_data_aa066f550f2cb91478ba2e6b14e688bd9}} 
+\index{PlantData@{PlantData}!PlantData@{PlantData}}
+\index{PlantData@{PlantData}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{PlantData()}{PlantData()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Plant\+Data.\+Plant\+Data (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Vector3i}]{\+\_\+water\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_plant_data_ac9323859f1dd8be4f84b5bc930db749b}\label{class_plant_data_ac9323859f1dd8be4f84b5bc930db749b}} 
+\index{PlantData@{PlantData}!CanStay@{CanStay}}
+\index{CanStay@{CanStay}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{CanStay()}{CanStay()}}
+{\footnotesize\ttfamily bool Plant\+Data.\+Can\+Stay (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00050}{50}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a5b7c4a0aebbe96ae866491db59dfedab}\label{class_plant_data_a5b7c4a0aebbe96ae866491db59dfedab}} 
+\index{PlantData@{PlantData}!Consume@{Consume}}
+\index{Consume@{Consume}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{Consume()}{Consume()}}
+{\footnotesize\ttfamily void Plant\+Data.\+Consume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00058}{58}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a3db2648f6efd5121158b03bf3e57d75f}\label{class_plant_data_a3db2648f6efd5121158b03bf3e57d75f}} 
+\index{PlantData@{PlantData}!IsNearWater@{IsNearWater}}
+\index{IsNearWater@{IsNearWater}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{IsNearWater()}{IsNearWater()}}
+{\footnotesize\ttfamily bool Plant\+Data.\+Is\+Near\+Water (\begin{DoxyParamCaption}\item[{float}]{water\+Range = {\ttfamily -\/1f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00165}{165}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a374135570381b758939e115b7aa48fb3}\label{class_plant_data_a374135570381b758939e115b7aa48fb3}} 
+\index{PlantData@{PlantData}!Manage@{Manage}}
+\index{Manage@{Manage}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{Manage()}{Manage()}}
+{\footnotesize\ttfamily void Plant\+Data.\+Manage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_ac2b8743e9debd22738b507c66803a60d}\label{class_plant_data_ac2b8743e9debd22738b507c66803a60d}} 
+\index{PlantData@{PlantData}!RegisterPlant@{RegisterPlant}}
+\index{RegisterPlant@{RegisterPlant}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{RegisterPlant()}{RegisterPlant()}}
+{\footnotesize\ttfamily void Plant\+Data.\+Register\+Plant (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a73dfdd343718f712cb7e92ff9c026e69}\label{class_plant_data_a73dfdd343718f712cb7e92ff9c026e69}} 
+\index{PlantData@{PlantData}!Remove@{Remove}}
+\index{Remove@{Remove}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily void Plant\+Data.\+Remove (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00147}{147}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_aa4231028fb9585a20f1150dfe52da510}\label{class_plant_data_aa4231028fb9585a20f1150dfe52da510}} 
+\index{PlantData@{PlantData}!RequiresWater@{RequiresWater}}
+\index{RequiresWater@{RequiresWater}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{RequiresWater()}{RequiresWater()}}
+{\footnotesize\ttfamily bool Plant\+Data.\+Requires\+Water (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00161}{161}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a6143b8f9af9392b32467b84a075a7ac8}\label{class_plant_data_a6143b8f9af9392b32467b84a075a7ac8}} 
+\index{PlantData@{PlantData}!ScanForWater@{ScanForWater}}
+\index{ScanForWater@{ScanForWater}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{ScanForWater()}{ScanForWater()}}
+{\footnotesize\ttfamily Vector3i Plant\+Data.\+Scan\+For\+Water (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{float}]{range = {\ttfamily -\/1f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00218}{218}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_plant_data_a643fc490f01d469357fb1e4ddf6c7c54}\label{class_plant_data_a643fc490f01d469357fb1e4ddf6c7c54}} 
+\index{PlantData@{PlantData}!Visited@{Visited}}
+\index{Visited@{Visited}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{Visited}{Visited}}
+{\footnotesize\ttfamily bool Plant\+Data.\+Visited = false}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00013}{13}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_plant_data_a1777c9ed1293235da0f3b0c66526b435}\label{class_plant_data_a1777c9ed1293235da0f3b0c66526b435}} 
+\index{PlantData@{PlantData}!BlockPos@{BlockPos}}
+\index{BlockPos@{BlockPos}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{BlockPos}{BlockPos}}
+{\footnotesize\ttfamily Vector3i Plant\+Data.\+Block\+Pos = Vector3i.\+zero\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00007}{7}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a6346dbfe69c17d059ef69834df5da332}\label{class_plant_data_a6346dbfe69c17d059ef69834df5da332}} 
+\index{PlantData@{PlantData}!blockValue@{blockValue}}
+\index{blockValue@{blockValue}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{blockValue}{blockValue}}
+{\footnotesize\ttfamily Block\+Value Plant\+Data.\+block\+Value = Block\+Value.\+Air\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00009}{9}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a631eb8b4693ec252620249f3c9f3f68b}\label{class_plant_data_a631eb8b4693ec252620249f3c9f3f68b}} 
+\index{PlantData@{PlantData}!LastCheck@{LastCheck}}
+\index{LastCheck@{LastCheck}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{LastCheck}{LastCheck}}
+{\footnotesize\ttfamily ulong Plant\+Data.\+Last\+Check = 0ul\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00159}{159}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_ab2679719d097a3f885a137520b77726e}\label{class_plant_data_ab2679719d097a3f885a137520b77726e}} 
+\index{PlantData@{PlantData}!LastMaintained@{LastMaintained}}
+\index{LastMaintained@{LastMaintained}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{LastMaintained}{LastMaintained}}
+{\footnotesize\ttfamily float Plant\+Data.\+Last\+Maintained = 0f\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00160}{160}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+\mbox{\Hypertarget{class_plant_data_a5ee7d774e1d2b1caa4a58ebae86400f5}\label{class_plant_data_a5ee7d774e1d2b1caa4a58ebae86400f5}} 
+\index{PlantData@{PlantData}!WaterPos@{WaterPos}}
+\index{WaterPos@{WaterPos}!PlantData@{PlantData}}
+\doxysubsubsection{\texorpdfstring{WaterPos}{WaterPos}}
+{\footnotesize\ttfamily Vector3i Plant\+Data.\+Water\+Pos = Vector3i.\+zero\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_plant_data_8cs_source_l00008}{8}} of file \mbox{\hyperlink{_plant_data_8cs_source}{Plant\+Data.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Data\+Classes/Plant\+Data.\+cs\end{DoxyCompactItemize}

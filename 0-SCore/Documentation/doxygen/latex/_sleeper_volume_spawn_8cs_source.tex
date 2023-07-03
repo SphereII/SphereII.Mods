@@ -1,0 +1,41 @@
+\hypertarget{_sleeper_volume_spawn_8cs_source}{}\doxysection{Sleeper\+Volume\+Spawn.\+cs}
+\label{_sleeper_volume_spawn_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SleeperVolume/SleeperVolumeSpawn.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/SleeperVolume/SleeperVolumeSpawn.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00003}\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_sleeper_volume}{00003}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_sleeper_volume}{SCore.Harmony.SleeperVolume}}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00005}00005\ \ \ \ \ [HarmonyPatch(typeof(global::SleeperVolume))]}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00006}00006\ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Spawn"{}})]}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00007}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_sleeper_volume_1_1_sleeper_volume_spawn}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_sleeper_volume_1_1_sleeper_volume_spawn}{SleeperVolumeSpawn}}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \_initialized;}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ \_enabled;}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ref\ EntityAlive\ \_\_result,\ \textcolor{keywordtype}{int}\ \_\_\_flags)}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Enabled())}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \_\_\_flags\ has\ an\ int\ representation\ of\ ETriggerType;\ "{}Attack"{}\ is\ 2}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ trigger\ =\ \_\_\_flags\ \&\ 7;}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (trigger\ ==\ 2\ \&\&\ (\_\_result\ is\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ ||\ \_\_result\ is\ \mbox{\hyperlink{class_entity_enemy_s_d_x}{EntityEnemySDX}}))}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result.ConditionalTriggerSleeperWakeUp();}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Enabled()}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_initialized)}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_enabled\ =\ Configuration.CheckFeatureStatus(\textcolor{stringliteral}{"{}AdvancedNPCFeatures"{}},\ \textcolor{stringliteral}{"{}AttackVolumeInstantAwake"{}});}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_initialized\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_enabled;}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_sleeper_volume_spawn_8cs_source_l00035}00035\ \}}
+
+\end{DoxyCode}

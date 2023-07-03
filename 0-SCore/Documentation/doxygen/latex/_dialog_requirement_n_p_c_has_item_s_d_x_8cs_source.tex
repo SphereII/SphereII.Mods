@@ -1,0 +1,29 @@
+\hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source}{}\doxysection{Dialog\+Requirement\+NPCHas\+Item\+SDX.\+cs}
+\label{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementNPCHasItemSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementNPCHasItemSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00013}\mbox{\hyperlink{class_dialog_requirement_n_p_c_has_item_s_d_x}{00013}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_n_p_c_has_item_s_d_x}{DialogRequirementNPCHasItemSDX}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00014}00014\ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedDialogDebugging"{}};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ talkingTo\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ var\ item\ =\ ItemClass.GetItem(ID);}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity.lootContainer.HasItem(item))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity.inventory.GetItemCount(item)\ >\ 0\ )\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity.bag.GetItemCount(item)\ >\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00030}00030\ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_dialog_requirement_n_p_c_has_item_s_d_x_8cs_source_l00032}00032\ }
+
+\end{DoxyCode}

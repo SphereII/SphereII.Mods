@@ -1,0 +1,262 @@
+\hypertarget{class_old_moat_games_1_1_gif_decoder}{}\doxysection{Old\+Moat\+Games.\+Gif\+Decoder Class Reference}
+\label{class_old_moat_games_1_1_gif_decoder}\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_1_1_gif_frame}{Gif\+Frame}}
+\begin{DoxyCompactList}\small\item\em Holds frame data and frame delay. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Status} \{ {\bfseries Status\+Ok}
+, {\bfseries Status\+Format\+Error}
+, {\bfseries Status\+Open\+Error}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a694daaf62f8f1f5fd88180d08953e618}{Gif\+Decoder}} (bool compatibility\+Mode)
+\item 
+float \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a1e4b86d6aa08ee9b2ad9d9b4201d29aa}{Get\+Delay\+Current\+Frame}} ()
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a307c1ae3e0b8c4cfe95d176ea365fee0}{Get\+Frame\+Count}} ()
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_ace87dea55071892a182007cec788b223}{Get\+Loop\+Count}} ()
+\item 
+\mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_1_1_gif_frame}{Gif\+Frame}} \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a58f3e6b98e18473e4e402c28530a0849}{Get\+Current\+Frame}} ()
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a16ccff5157cd8db29b0f63cae8512ea8}{Get\+Frame\+Width}} ()
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a3e2f1c569c611cae95f2c357df44f0d7}{Get\+Frame\+Height}} ()
+\item 
+Status \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_af1ff9552e66854c7fec146ecdc079353}{Read}} (Stream in\+Stream)
+\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a97b8032d2b2183a7fc2d54a0548990b3}{Reset}} ()
+\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a89b2edcb09c8be442774dca867b75e66}{Close}} ()
+\item 
+void \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_acf6f9f4af74ed636b7006cfaf5b62ea8}{Read\+Next\+Frame}} (bool loop)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_ac04b34d4c5409444415f954b25325d33}{Number\+Of\+Frames}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Number of frames in GIF. Value is 0 as long as the last frame has not been reached. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_a420fad6fb9aed7171506697930b27137}{All\+Frames\+Read}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em Set to true when all frames have been read. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00014}{14}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_af77e99367e47bbf495742db384292ef8}\label{class_old_moat_games_1_1_gif_decoder_af77e99367e47bbf495742db384292ef8}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!Status@{Status}}
+\index{Status@{Status}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{Status}{Status}}
+{\footnotesize\ttfamily enum Old\+Moat\+Games.\+Gif\+Decoder.\+Status}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a694daaf62f8f1f5fd88180d08953e618}\label{class_old_moat_games_1_1_gif_decoder_a694daaf62f8f1f5fd88180d08953e618}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GifDecoder@{GifDecoder}}
+\index{GifDecoder@{GifDecoder}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GifDecoder()}{GifDecoder()}}
+{\footnotesize\ttfamily Old\+Moat\+Games.\+Gif\+Decoder.\+Gif\+Decoder (\begin{DoxyParamCaption}\item[{bool}]{compatibility\+Mode }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a89b2edcb09c8be442774dca867b75e66}\label{class_old_moat_games_1_1_gif_decoder_a89b2edcb09c8be442774dca867b75e66}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!Close@{Close}}
+\index{Close@{Close}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{Close()}{Close()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Gif\+Decoder.\+Close (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Close the stream 
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00755}{755}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a58f3e6b98e18473e4e402c28530a0849}\label{class_old_moat_games_1_1_gif_decoder_a58f3e6b98e18473e4e402c28530a0849}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetCurrentFrame@{GetCurrentFrame}}
+\index{GetCurrentFrame@{GetCurrentFrame}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetCurrentFrame()}{GetCurrentFrame()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_old_moat_games_1_1_gif_decoder_1_1_gif_frame}{Gif\+Frame}} Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Current\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets the next image frame
+
+\begin{DoxyReturn}{Returns}
+Buffered\+Image representation of frame, or null if n is invalid. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00695}{695}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a1e4b86d6aa08ee9b2ad9d9b4201d29aa}\label{class_old_moat_games_1_1_gif_decoder_a1e4b86d6aa08ee9b2ad9d9b4201d29aa}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetDelayCurrentFrame@{GetDelayCurrentFrame}}
+\index{GetDelayCurrentFrame@{GetDelayCurrentFrame}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetDelayCurrentFrame()}{GetDelayCurrentFrame()}}
+{\footnotesize\ttfamily float Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Delay\+Current\+Frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets display duration for specified frame.
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & int index of frame \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+delay in milliseconds 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00665}{665}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a307c1ae3e0b8c4cfe95d176ea365fee0}\label{class_old_moat_games_1_1_gif_decoder_a307c1ae3e0b8c4cfe95d176ea365fee0}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetFrameCount@{GetFrameCount}}
+\index{GetFrameCount@{GetFrameCount}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetFrameCount()}{GetFrameCount()}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Frame\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets the number of frames read from file. \begin{DoxyReturn}{Returns}
+frame count. Only those frames that are decoded are counted 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00674}{674}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a3e2f1c569c611cae95f2c357df44f0d7}\label{class_old_moat_games_1_1_gif_decoder_a3e2f1c569c611cae95f2c357df44f0d7}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetFrameHeight@{GetFrameHeight}}
+\index{GetFrameHeight@{GetFrameHeight}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetFrameHeight()}{GetFrameHeight()}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Frame\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets image height.
+
+\begin{DoxyReturn}{Returns}
+GIF image height 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00715}{715}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a16ccff5157cd8db29b0f63cae8512ea8}\label{class_old_moat_games_1_1_gif_decoder_a16ccff5157cd8db29b0f63cae8512ea8}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetFrameWidth@{GetFrameWidth}}
+\index{GetFrameWidth@{GetFrameWidth}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetFrameWidth()}{GetFrameWidth()}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Frame\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets image width.
+
+\begin{DoxyReturn}{Returns}
+GIF image width 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00705}{705}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_ace87dea55071892a182007cec788b223}\label{class_old_moat_games_1_1_gif_decoder_ace87dea55071892a182007cec788b223}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!GetLoopCount@{GetLoopCount}}
+\index{GetLoopCount@{GetLoopCount}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{GetLoopCount()}{GetLoopCount()}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Gif\+Decoder.\+Get\+Loop\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Gets the \char`\"{}\+Netscape\char`\"{} iteration count, if any. A count of 0 means repeat indefinitely.
+
+\begin{DoxyReturn}{Returns}
+iteration count if one was specified, else 1. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00685}{685}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_af1ff9552e66854c7fec146ecdc079353}\label{class_old_moat_games_1_1_gif_decoder_af1ff9552e66854c7fec146ecdc079353}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!Read@{Read}}
+\index{Read@{Read}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily Status Old\+Moat\+Games.\+Gif\+Decoder.\+Read (\begin{DoxyParamCaption}\item[{Stream}]{in\+Stream }\end{DoxyParamCaption})}
+
+Reads GIF image from stream
+
+
+\begin{DoxyParams}{Parameters}
+{\em Buffered\+Input\+Stream} & containing GIF file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+read status code (0 = no errors) 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00726}{726}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_acf6f9f4af74ed636b7006cfaf5b62ea8}\label{class_old_moat_games_1_1_gif_decoder_acf6f9f4af74ed636b7006cfaf5b62ea8}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!ReadNextFrame@{ReadNextFrame}}
+\index{ReadNextFrame@{ReadNextFrame}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{ReadNextFrame()}{ReadNextFrame()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Gif\+Decoder.\+Read\+Next\+Frame (\begin{DoxyParamCaption}\item[{bool}]{loop }\end{DoxyParamCaption})}
+
+Reads the next frame 
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00771}{771}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a97b8032d2b2183a7fc2d54a0548990b3}\label{class_old_moat_games_1_1_gif_decoder_a97b8032d2b2183a7fc2d54a0548990b3}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!Reset@{Reset}}
+\index{Reset@{Reset}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{Reset()}{Reset()}}
+{\footnotesize\ttfamily void Old\+Moat\+Games.\+Gif\+Decoder.\+Reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Reset reading of the GIF 
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00746}{746}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_a420fad6fb9aed7171506697930b27137}\label{class_old_moat_games_1_1_gif_decoder_a420fad6fb9aed7171506697930b27137}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!AllFramesRead@{AllFramesRead}}
+\index{AllFramesRead@{AllFramesRead}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{AllFramesRead}{AllFramesRead}}
+{\footnotesize\ttfamily bool Old\+Moat\+Games.\+Gif\+Decoder.\+All\+Frames\+Read\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Set to true when all frames have been read. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00590}{590}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+\mbox{\Hypertarget{class_old_moat_games_1_1_gif_decoder_ac04b34d4c5409444415f954b25325d33}\label{class_old_moat_games_1_1_gif_decoder_ac04b34d4c5409444415f954b25325d33}} 
+\index{OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}!NumberOfFrames@{NumberOfFrames}}
+\index{NumberOfFrames@{NumberOfFrames}!OldMoatGames.GifDecoder@{OldMoatGames.GifDecoder}}
+\doxysubsubsection{\texorpdfstring{NumberOfFrames}{NumberOfFrames}}
+{\footnotesize\ttfamily int Old\+Moat\+Games.\+Gif\+Decoder.\+Number\+Of\+Frames\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Number of frames in GIF. Value is 0 as long as the last frame has not been reached. 
+
+
+
+Definition at line \mbox{\hyperlink{_animated_gif_decoder_8cs_source_l00585}{585}} of file \mbox{\hyperlink{_animated_gif_decoder_8cs_source}{Animated\+Gif\+Decoder.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Signs/Animated\+Gif\+Decoder.\+cs\end{DoxyCompactItemize}

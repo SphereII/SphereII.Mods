@@ -1,0 +1,722 @@
+\hypertarget{class_fast_noise_s_i_m_d}{}\doxysection{Fast\+Noise\+SIMD Class Reference}
+\label{class_fast_noise_s_i_m_d}\index{FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{Vector\+Set}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum {\bfseries Noise\+Type} \{ \newline
+{\bfseries Value}
+, {\bfseries Value\+Fractal}
+, {\bfseries Perlin}
+, {\bfseries Perlin\+Fractal}
+, \newline
+{\bfseries Simplex}
+, {\bfseries Simplex\+Fractal}
+, {\bfseries White\+Noise}
+, {\bfseries Cellular}
+, \newline
+{\bfseries Cubic}
+, {\bfseries Cubic\+Fractal}
+ \}
+\item 
+enum {\bfseries Fractal\+Type} \{ {\bfseries FBM}
+, {\bfseries Billow}
+, {\bfseries Rigid\+Multi}
+ \}
+\item 
+enum {\bfseries Cellular\+Distance\+Function} \{ {\bfseries Euclidean}
+, {\bfseries Manhattan}
+, {\bfseries Natural}
+ \}
+\item 
+enum {\bfseries Cellular\+Return\+Type} \{ \newline
+{\bfseries Cell\+Value}
+, {\bfseries Distance}
+, {\bfseries Distance2}
+, {\bfseries Distance2\+Add}
+, \newline
+{\bfseries Distance2\+Sub}
+, {\bfseries Distance2\+Mul}
+, {\bfseries Distance2\+Div}
+, {\bfseries Noise\+Lookup}
+, \newline
+{\bfseries Distance2\+Cave}
+ \}
+\item 
+enum {\bfseries Perturb\+Type} \{ \newline
+{\bfseries None}
+, {\bfseries Gradient}
+, {\bfseries Gradient\+Fractal}
+, {\bfseries Normalise}
+, \newline
+{\bfseries Gradient\+\_\+\+Normalise}
+, {\bfseries Gradient\+Fractal\+\_\+\+Normalise}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_fast_noise_s_i_m_d_a793cd913b9ffdad275278f98abf89830}{Fast\+Noise\+SIMD}} (int seed=1337)
+\item 
+int \mbox{\hyperlink{class_fast_noise_s_i_m_d_aeeae662be8361229b2097f4b0540f8f9}{Get\+Seed}} ()
+\begin{DoxyCompactList}\small\item\em Returns seed used for all noise types. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_adc88ef3fe7a0683a6965834e7fc4b7e3}{Set\+Seed}} (int seed)
+\begin{DoxyCompactList}\small\item\em Sets seed used for all noise types -\/ Default\+: 1337. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_afa929724b17a8a4fb0aff03cafe561c2}{Set\+Frequency}} (float frequency)
+\begin{DoxyCompactList}\small\item\em Sets frequency for all noise types -\/ Default\+: 0.\+01. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae1692ab8bf0187fb37e596e6c856af70}{Set\+Noise\+Type}} (Noise\+Type noise\+Type)
+\begin{DoxyCompactList}\small\item\em Sets noise return type of (Get/\+Fill)Noise\+Set() -\/ Default\+: Simplex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a91182e429f32d410cca11d3755e91905}{Set\+Axis\+Scales}} (float x\+Scale, float y\+Scale, float z\+Scale)
+\begin{DoxyCompactList}\small\item\em Sets scaling factor for individual axis -\/ Defaults\+: 1.\+0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a6e35e7119316da448e56417c51d6bc14}{Set\+Fractal\+Octaves}} (int octaves)
+\begin{DoxyCompactList}\small\item\em Sets octave count for all fractal noise types -\/ Default\+: 3. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_ad99fc192375c7ef7bcc3b626227e5386}{Set\+Fractal\+Lacunarity}} (float lacunarity)
+\begin{DoxyCompactList}\small\item\em Sets octave lacunarity for all fractal noise types -\/ Default\+: 2.\+0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a722dfdc2a7e878101f2b116ea84b19f3}{Set\+Fractal\+Gain}} (float gain)
+\begin{DoxyCompactList}\small\item\em Sets octave gain for all fractal noise types -\/ Default\+: 0.\+5. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_ab832959187f13a91343685b5ab51a11e}{Set\+Fractal\+Type}} (Fractal\+Type fractal\+Type)
+\begin{DoxyCompactList}\small\item\em Sets method for combining octaves in all fractal noise types -\/ Default\+: FBM. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a30b9bd5177ac0177a770ec3a949d2200}{Set\+Cellular\+Return\+Type}} (Cellular\+Return\+Type cellular\+Return\+Type)
+\begin{DoxyCompactList}\small\item\em Sets return type from cellular noise calculations -\/ Default\+: Distance. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a81d902b7cd5c34890064ccf7857efecd}{Set\+Cellular\+Distance\+Function}} (Cellular\+Distance\+Function cellular\+Distance\+Function)
+\begin{DoxyCompactList}\small\item\em Sets distance function used in cellular noise calculations -\/ Default\+: Euclidean. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a523fdfb8d2c68485b7716909a5560fbe}{Set\+Cellular\+Noise\+Lookup\+Type}} (Noise\+Type cellular\+Noise\+Lookup\+Type)
+\begin{DoxyCompactList}\small\item\em Sets the type of noise used if cellular return type is set the Noise\+Lookup -\/ Default\+: Simplex. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a13c820c04b7a32c041caf09987f8ccae}{Set\+Cellular\+Noise\+Lookup\+Frequency}} (float cellular\+Noise\+Lookup\+Frequency)
+\begin{DoxyCompactList}\small\item\em Sets relative frequency on the cellular noise lookup return type -\/ Default\+: 0.\+2. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a1ca5a3a3bdad83bd184646b8cc08f8d8}{Set\+Cellular\+Distance2\+Indicies}} (int cellular\+Distance\+Index0, int cellular\+Distance\+Index1)
+\begin{DoxyCompactList}\small\item\em Sets the 2 distance indicies used for distance2 return types Default\+: 0, 1 Note\+: index0 should be lower than index1 Both indicies must be \texorpdfstring{$>$}{>}= 0, index1 must be less than 4. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a81eb2f2753f56b96b824f5f9983963ed}{Set\+Cellular\+Jitter}} (float cellular\+Jitter)
+\begin{DoxyCompactList}\small\item\em Sets the maximum distance a cellular point can move from it\textquotesingle{}s grid position Setting this high will make artifacts more common Default\+: 0.\+45. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae0ec6f8fc4b4b5ce94438b6192fd8595}{Set\+Perturb\+Type}} (Perturb\+Type perturb\+Type)
+\begin{DoxyCompactList}\small\item\em Enables position perturbing for all noise types -\/ Default\+: None. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_aaf6f922ccd72556f7c6eb57fbc8c0d2c}{Set\+Perturb\+Frequency}} (float perturb\+Freq)
+\begin{DoxyCompactList}\small\item\em Set the relative frequency for the perturb gradient -\/ Default\+: 0.\+5. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a98db7be28de562f1d2461c6b16c34485}{Set\+Perturb\+Amp}} (float perturb\+Amp)
+\begin{DoxyCompactList}\small\item\em Sets the maximum distance the input position can be perturbed -\/ Default\+: 1.\+0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a245ee33763fde1b3385d00d532ba2194}{Set\+Perturb\+Fractal\+Octaves}} (int perturb\+Octaves)
+\begin{DoxyCompactList}\small\item\em Sets octave count for perturb fractal types -\/ Default\+: 3. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_adfdf96eb6d08d1ab1797ee0d8ae0f51e}{Set\+Perturb\+Fractal\+Lacunarity}} (float perturb\+Fractal\+Lacunarity)
+\begin{DoxyCompactList}\small\item\em Sets octave lacunarity for perturb fractal types -\/ Default\+: 2.\+0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a4f51bbfafa716d13a85a2810422dcbb1}{Set\+Perturb\+Fractal\+Gain}} (float perturb\+Fractal\+Gain)
+\begin{DoxyCompactList}\small\item\em Sets octave gain for perturb fractal types -\/ Default\+: 0.\+5. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_ae23b4fa2f7f3a3c5fc0647265f993e28}{Set\+Perturb\+Normalise\+Length}} (float perturb\+Normalise\+Length)
+\begin{DoxyCompactList}\small\item\em Sets the length for vectors after perturb normalising Default\+: 1.\+0. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_adf722fad4f4d330313916caebac43cf6}{Fill\+Noise\+Set}} (float\mbox{[}$\,$\mbox{]} noise\+Set, int x\+Start, int y\+Start, int z\+Start, int x\+Size, int y\+Size, int z\+Size, float scale\+Modifier=1.\+0f)
+\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a25d4267505beba3ff676b922b25dd7b9}{Fill\+Sampled\+Noise\+Set}} (float\mbox{[}$\,$\mbox{]} noise\+Set, int x\+Start, int y\+Start, int z\+Start, int x\+Size, int y\+Size, int z\+Size, int sample\+Scale)
+\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_adef40a6107a299803cf3531d2d11214c}{Fill\+Noise\+Set\+Vector}} (float\mbox{[}$\,$\mbox{]} noise\+Set, \mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{Vector\+Set}} vector\+Set, float x\+Offset=0f, float y\+Offset=0f, float z\+Offset=0f)
+\item 
+void \mbox{\hyperlink{class_fast_noise_s_i_m_d_a07ce15b88e24b2e17cd4bcccad474492}{Fill\+Sampled\+Noise\+Set\+Vector}} (float\mbox{[}$\,$\mbox{]} noise\+Set, \mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{Vector\+Set}} vector\+Set, float x\+Offset=0f, float y\+Offset=0f, float z\+Offset=0f)
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_fast_noise_s_i_m_d_aa79ea410e131010bfb80f9416573289a}{Get\+Noise\+Set}} (int x\+Start, int y\+Start, int z\+Start, int x\+Size, int y\+Size, int z\+Size, float scale\+Modifier=1.\+0f)
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_fast_noise_s_i_m_d_a11428aff02ffd1fac0ac1e926b130688}{Get\+Sampled\+Noise\+Set}} (int x\+Start, int y\+Start, int z\+Start, int x\+Size, int y\+Size, int z\+Size, int sample\+Scale)
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_fast_noise_s_i_m_d_a287e15014dedf45ce4328beeaabdd46b}{Get\+Empty\+Noise\+Set}} (int x\+Size, int y\+Size, int z\+Size)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \mbox{\hyperlink{class_fast_noise_s_i_m_d_a40329d90e02d2a964b35f2e74c8af957}{Get\+SIMDLevel}} ()
+\item 
+static void \mbox{\hyperlink{class_fast_noise_s_i_m_d_aa8b7be05e5d3aed6a8341cd20d026f4f}{Set\+SIMDLevel}} (int level)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00004}{4}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a58be79b0804f08a9259982cd4b600ce1}\label{class_fast_noise_s_i_m_d_a58be79b0804f08a9259982cd4b600ce1}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!CellularDistanceFunction@{CellularDistanceFunction}}
+\index{CellularDistanceFunction@{CellularDistanceFunction}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{CellularDistanceFunction}{CellularDistanceFunction}}
+{\footnotesize\ttfamily enum Fast\+Noise\+SIMD.\+Cellular\+Distance\+Function}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a2a7c461cb6deba8a3d018d3420a0c4b2}\label{class_fast_noise_s_i_m_d_a2a7c461cb6deba8a3d018d3420a0c4b2}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!CellularReturnType@{CellularReturnType}}
+\index{CellularReturnType@{CellularReturnType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{CellularReturnType}{CellularReturnType}}
+{\footnotesize\ttfamily enum Fast\+Noise\+SIMD.\+Cellular\+Return\+Type}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a5fa0aabc780911bed3f0f1d57098f78a}\label{class_fast_noise_s_i_m_d_a5fa0aabc780911bed3f0f1d57098f78a}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FractalType@{FractalType}}
+\index{FractalType@{FractalType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FractalType}{FractalType}}
+{\footnotesize\ttfamily enum Fast\+Noise\+SIMD.\+Fractal\+Type}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a91f703e920891d8828b0494d1f015c7d}\label{class_fast_noise_s_i_m_d_a91f703e920891d8828b0494d1f015c7d}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!NoiseType@{NoiseType}}
+\index{NoiseType@{NoiseType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{NoiseType}{NoiseType}}
+{\footnotesize\ttfamily enum Fast\+Noise\+SIMD.\+Noise\+Type}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00006}{6}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_afa5cf6337eee7529642cb66c6da1e03a}\label{class_fast_noise_s_i_m_d_afa5cf6337eee7529642cb66c6da1e03a}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!PerturbType@{PerturbType}}
+\index{PerturbType@{PerturbType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{PerturbType}{PerturbType}}
+{\footnotesize\ttfamily enum Fast\+Noise\+SIMD.\+Perturb\+Type}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a793cd913b9ffdad275278f98abf89830}\label{class_fast_noise_s_i_m_d_a793cd913b9ffdad275278f98abf89830}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FastNoiseSIMD@{FastNoiseSIMD}}
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FastNoiseSIMD()}{FastNoiseSIMD()}}
+{\footnotesize\ttfamily Fast\+Noise\+SIMD.\+Fast\+Noise\+SIMD (\begin{DoxyParamCaption}\item[{int}]{seed = {\ttfamily 1337} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_adf722fad4f4d330313916caebac43cf6}\label{class_fast_noise_s_i_m_d_adf722fad4f4d330313916caebac43cf6}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FillNoiseSet@{FillNoiseSet}}
+\index{FillNoiseSet@{FillNoiseSet}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FillNoiseSet()}{FillNoiseSet()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Fill\+Noise\+Set (\begin{DoxyParamCaption}\item[{float\mbox{[}$\,$\mbox{]}}]{noise\+Set,  }\item[{int}]{x\+Start,  }\item[{int}]{y\+Start,  }\item[{int}]{z\+Start,  }\item[{int}]{x\+Size,  }\item[{int}]{y\+Size,  }\item[{int}]{z\+Size,  }\item[{float}]{scale\+Modifier = {\ttfamily 1\+:\+:0f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00298}{298}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_adef40a6107a299803cf3531d2d11214c}\label{class_fast_noise_s_i_m_d_adef40a6107a299803cf3531d2d11214c}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FillNoiseSetVector@{FillNoiseSetVector}}
+\index{FillNoiseSetVector@{FillNoiseSetVector}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FillNoiseSetVector()}{FillNoiseSetVector()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Fill\+Noise\+Set\+Vector (\begin{DoxyParamCaption}\item[{float\mbox{[}$\,$\mbox{]}}]{noise\+Set,  }\item[{\mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{Vector\+Set}}}]{vector\+Set,  }\item[{float}]{x\+Offset = {\ttfamily 0f},  }\item[{float}]{y\+Offset = {\ttfamily 0f},  }\item[{float}]{z\+Offset = {\ttfamily 0f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00308}{308}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a25d4267505beba3ff676b922b25dd7b9}\label{class_fast_noise_s_i_m_d_a25d4267505beba3ff676b922b25dd7b9}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FillSampledNoiseSet@{FillSampledNoiseSet}}
+\index{FillSampledNoiseSet@{FillSampledNoiseSet}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FillSampledNoiseSet()}{FillSampledNoiseSet()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Fill\+Sampled\+Noise\+Set (\begin{DoxyParamCaption}\item[{float\mbox{[}$\,$\mbox{]}}]{noise\+Set,  }\item[{int}]{x\+Start,  }\item[{int}]{y\+Start,  }\item[{int}]{z\+Start,  }\item[{int}]{x\+Size,  }\item[{int}]{y\+Size,  }\item[{int}]{z\+Size,  }\item[{int}]{sample\+Scale }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00303}{303}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a07ce15b88e24b2e17cd4bcccad474492}\label{class_fast_noise_s_i_m_d_a07ce15b88e24b2e17cd4bcccad474492}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!FillSampledNoiseSetVector@{FillSampledNoiseSetVector}}
+\index{FillSampledNoiseSetVector@{FillSampledNoiseSetVector}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{FillSampledNoiseSetVector()}{FillSampledNoiseSetVector()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Fill\+Sampled\+Noise\+Set\+Vector (\begin{DoxyParamCaption}\item[{float\mbox{[}$\,$\mbox{]}}]{noise\+Set,  }\item[{\mbox{\hyperlink{class_fast_noise_s_i_m_d_1_1_vector_set}{Vector\+Set}}}]{vector\+Set,  }\item[{float}]{x\+Offset = {\ttfamily 0f},  }\item[{float}]{y\+Offset = {\ttfamily 0f},  }\item[{float}]{z\+Offset = {\ttfamily 0f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00313}{313}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a287e15014dedf45ce4328beeaabdd46b}\label{class_fast_noise_s_i_m_d_a287e15014dedf45ce4328beeaabdd46b}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!GetEmptyNoiseSet@{GetEmptyNoiseSet}}
+\index{GetEmptyNoiseSet@{GetEmptyNoiseSet}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{GetEmptyNoiseSet()}{GetEmptyNoiseSet()}}
+{\footnotesize\ttfamily float\mbox{[}$\,$\mbox{]} Fast\+Noise\+SIMD.\+Get\+Empty\+Noise\+Set (\begin{DoxyParamCaption}\item[{int}]{x\+Size,  }\item[{int}]{y\+Size,  }\item[{int}]{z\+Size }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00332}{332}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_aa79ea410e131010bfb80f9416573289a}\label{class_fast_noise_s_i_m_d_aa79ea410e131010bfb80f9416573289a}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!GetNoiseSet@{GetNoiseSet}}
+\index{GetNoiseSet@{GetNoiseSet}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{GetNoiseSet()}{GetNoiseSet()}}
+{\footnotesize\ttfamily float\mbox{[}$\,$\mbox{]} Fast\+Noise\+SIMD.\+Get\+Noise\+Set (\begin{DoxyParamCaption}\item[{int}]{x\+Start,  }\item[{int}]{y\+Start,  }\item[{int}]{z\+Start,  }\item[{int}]{x\+Size,  }\item[{int}]{y\+Size,  }\item[{int}]{z\+Size,  }\item[{float}]{scale\+Modifier = {\ttfamily 1\+:\+:0f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00318}{318}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a11428aff02ffd1fac0ac1e926b130688}\label{class_fast_noise_s_i_m_d_a11428aff02ffd1fac0ac1e926b130688}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!GetSampledNoiseSet@{GetSampledNoiseSet}}
+\index{GetSampledNoiseSet@{GetSampledNoiseSet}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{GetSampledNoiseSet()}{GetSampledNoiseSet()}}
+{\footnotesize\ttfamily float\mbox{[}$\,$\mbox{]} Fast\+Noise\+SIMD.\+Get\+Sampled\+Noise\+Set (\begin{DoxyParamCaption}\item[{int}]{x\+Start,  }\item[{int}]{y\+Start,  }\item[{int}]{z\+Start,  }\item[{int}]{x\+Size,  }\item[{int}]{y\+Size,  }\item[{int}]{z\+Size,  }\item[{int}]{sample\+Scale }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00325}{325}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_aeeae662be8361229b2097f4b0540f8f9}\label{class_fast_noise_s_i_m_d_aeeae662be8361229b2097f4b0540f8f9}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!GetSeed@{GetSeed}}
+\index{GetSeed@{GetSeed}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{GetSeed()}{GetSeed()}}
+{\footnotesize\ttfamily int Fast\+Noise\+SIMD.\+Get\+Seed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns seed used for all noise types. 
+
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a40329d90e02d2a964b35f2e74c8af957}\label{class_fast_noise_s_i_m_d_a40329d90e02d2a964b35f2e74c8af957}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!GetSIMDLevel@{GetSIMDLevel}}
+\index{GetSIMDLevel@{GetSIMDLevel}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{GetSIMDLevel()}{GetSIMDLevel()}}
+{\footnotesize\ttfamily static int Fast\+Noise\+SIMD.\+Get\+SIMDLevel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00439}{439}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a91182e429f32d410cca11d3755e91905}\label{class_fast_noise_s_i_m_d_a91182e429f32d410cca11d3755e91905}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetAxisScales@{SetAxisScales}}
+\index{SetAxisScales@{SetAxisScales}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetAxisScales()}{SetAxisScales()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Axis\+Scales (\begin{DoxyParamCaption}\item[{float}]{x\+Scale,  }\item[{float}]{y\+Scale,  }\item[{float}]{z\+Scale }\end{DoxyParamCaption})}
+
+
+
+Sets scaling factor for individual axis -\/ Defaults\+: 1.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x\+Scale} & \\
+\hline
+{\em y\+Scale} & \\
+\hline
+{\em z\+Scale} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00115}{115}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a1ca5a3a3bdad83bd184646b8cc08f8d8}\label{class_fast_noise_s_i_m_d_a1ca5a3a3bdad83bd184646b8cc08f8d8}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularDistance2Indicies@{SetCellularDistance2Indicies}}
+\index{SetCellularDistance2Indicies@{SetCellularDistance2Indicies}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularDistance2Indicies()}{SetCellularDistance2Indicies()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Distance2\+Indicies (\begin{DoxyParamCaption}\item[{int}]{cellular\+Distance\+Index0,  }\item[{int}]{cellular\+Distance\+Index1 }\end{DoxyParamCaption})}
+
+
+
+Sets the 2 distance indicies used for distance2 return types Default\+: 0, 1 Note\+: index0 should be lower than index1 Both indicies must be \texorpdfstring{$>$}{>}= 0, index1 must be less than 4. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Distance\+Index0} & \\
+\hline
+{\em cellular\+Distance\+Index1} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00210}{210}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a81d902b7cd5c34890064ccf7857efecd}\label{class_fast_noise_s_i_m_d_a81d902b7cd5c34890064ccf7857efecd}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularDistanceFunction@{SetCellularDistanceFunction}}
+\index{SetCellularDistanceFunction@{SetCellularDistanceFunction}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularDistanceFunction()}{SetCellularDistanceFunction()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Distance\+Function (\begin{DoxyParamCaption}\item[{Cellular\+Distance\+Function}]{cellular\+Distance\+Function }\end{DoxyParamCaption})}
+
+
+
+Sets distance function used in cellular noise calculations -\/ Default\+: Euclidean. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Distance\+Function} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00177}{177}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a81eb2f2753f56b96b824f5f9983963ed}\label{class_fast_noise_s_i_m_d_a81eb2f2753f56b96b824f5f9983963ed}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularJitter@{SetCellularJitter}}
+\index{SetCellularJitter@{SetCellularJitter}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularJitter()}{SetCellularJitter()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Jitter (\begin{DoxyParamCaption}\item[{float}]{cellular\+Jitter }\end{DoxyParamCaption})}
+
+
+
+Sets the maximum distance a cellular point can move from it\textquotesingle{}s grid position Setting this high will make artifacts more common Default\+: 0.\+45. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Jitter} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00221}{221}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a13c820c04b7a32c041caf09987f8ccae}\label{class_fast_noise_s_i_m_d_a13c820c04b7a32c041caf09987f8ccae}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularNoiseLookupFrequency@{SetCellularNoiseLookupFrequency}}
+\index{SetCellularNoiseLookupFrequency@{SetCellularNoiseLookupFrequency}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularNoiseLookupFrequency()}{SetCellularNoiseLookupFrequency()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Noise\+Lookup\+Frequency (\begin{DoxyParamCaption}\item[{float}]{cellular\+Noise\+Lookup\+Frequency }\end{DoxyParamCaption})}
+
+
+
+Sets relative frequency on the cellular noise lookup return type -\/ Default\+: 0.\+2. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Noise\+Lookup\+Frequency} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00197}{197}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a523fdfb8d2c68485b7716909a5560fbe}\label{class_fast_noise_s_i_m_d_a523fdfb8d2c68485b7716909a5560fbe}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularNoiseLookupType@{SetCellularNoiseLookupType}}
+\index{SetCellularNoiseLookupType@{SetCellularNoiseLookupType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularNoiseLookupType()}{SetCellularNoiseLookupType()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Noise\+Lookup\+Type (\begin{DoxyParamCaption}\item[{Noise\+Type}]{cellular\+Noise\+Lookup\+Type }\end{DoxyParamCaption})}
+
+
+
+Sets the type of noise used if cellular return type is set the Noise\+Lookup -\/ Default\+: Simplex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Noise\+Lookup\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00187}{187}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a30b9bd5177ac0177a770ec3a949d2200}\label{class_fast_noise_s_i_m_d_a30b9bd5177ac0177a770ec3a949d2200}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetCellularReturnType@{SetCellularReturnType}}
+\index{SetCellularReturnType@{SetCellularReturnType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetCellularReturnType()}{SetCellularReturnType()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Cellular\+Return\+Type (\begin{DoxyParamCaption}\item[{Cellular\+Return\+Type}]{cellular\+Return\+Type }\end{DoxyParamCaption})}
+
+
+
+Sets return type from cellular noise calculations -\/ Default\+: Distance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cellular\+Return\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00167}{167}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a722dfdc2a7e878101f2b116ea84b19f3}\label{class_fast_noise_s_i_m_d_a722dfdc2a7e878101f2b116ea84b19f3}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetFractalGain@{SetFractalGain}}
+\index{SetFractalGain@{SetFractalGain}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetFractalGain()}{SetFractalGain()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Fractal\+Gain (\begin{DoxyParamCaption}\item[{float}]{gain }\end{DoxyParamCaption})}
+
+
+
+Sets octave gain for all fractal noise types -\/ Default\+: 0.\+5. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gain} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00146}{146}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_ad99fc192375c7ef7bcc3b626227e5386}\label{class_fast_noise_s_i_m_d_ad99fc192375c7ef7bcc3b626227e5386}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetFractalLacunarity@{SetFractalLacunarity}}
+\index{SetFractalLacunarity@{SetFractalLacunarity}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetFractalLacunarity()}{SetFractalLacunarity()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Fractal\+Lacunarity (\begin{DoxyParamCaption}\item[{float}]{lacunarity }\end{DoxyParamCaption})}
+
+
+
+Sets octave lacunarity for all fractal noise types -\/ Default\+: 2.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em lacunarity} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00136}{136}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a6e35e7119316da448e56417c51d6bc14}\label{class_fast_noise_s_i_m_d_a6e35e7119316da448e56417c51d6bc14}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetFractalOctaves@{SetFractalOctaves}}
+\index{SetFractalOctaves@{SetFractalOctaves}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetFractalOctaves()}{SetFractalOctaves()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Fractal\+Octaves (\begin{DoxyParamCaption}\item[{int}]{octaves }\end{DoxyParamCaption})}
+
+
+
+Sets octave count for all fractal noise types -\/ Default\+: 3. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em octaves} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00126}{126}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_ab832959187f13a91343685b5ab51a11e}\label{class_fast_noise_s_i_m_d_ab832959187f13a91343685b5ab51a11e}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetFractalType@{SetFractalType}}
+\index{SetFractalType@{SetFractalType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetFractalType()}{SetFractalType()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Fractal\+Type (\begin{DoxyParamCaption}\item[{Fractal\+Type}]{fractal\+Type }\end{DoxyParamCaption})}
+
+
+
+Sets method for combining octaves in all fractal noise types -\/ Default\+: FBM. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em fractal\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00156}{156}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_afa929724b17a8a4fb0aff03cafe561c2}\label{class_fast_noise_s_i_m_d_afa929724b17a8a4fb0aff03cafe561c2}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetFrequency@{SetFrequency}}
+\index{SetFrequency@{SetFrequency}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetFrequency()}{SetFrequency()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Frequency (\begin{DoxyParamCaption}\item[{float}]{frequency }\end{DoxyParamCaption})}
+
+
+
+Sets frequency for all noise types -\/ Default\+: 0.\+01. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frequency} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00093}{93}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_ae1692ab8bf0187fb37e596e6c856af70}\label{class_fast_noise_s_i_m_d_ae1692ab8bf0187fb37e596e6c856af70}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetNoiseType@{SetNoiseType}}
+\index{SetNoiseType@{SetNoiseType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetNoiseType()}{SetNoiseType()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Noise\+Type (\begin{DoxyParamCaption}\item[{Noise\+Type}]{noise\+Type }\end{DoxyParamCaption})}
+
+
+
+Sets noise return type of (Get/\+Fill)Noise\+Set() -\/ Default\+: Simplex. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em noise\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00103}{103}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a98db7be28de562f1d2461c6b16c34485}\label{class_fast_noise_s_i_m_d_a98db7be28de562f1d2461c6b16c34485}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbAmp@{SetPerturbAmp}}
+\index{SetPerturbAmp@{SetPerturbAmp}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbAmp()}{SetPerturbAmp()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Amp (\begin{DoxyParamCaption}\item[{float}]{perturb\+Amp }\end{DoxyParamCaption})}
+
+
+
+Sets the maximum distance the input position can be perturbed -\/ Default\+: 1.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Amp} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00252}{252}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a4f51bbfafa716d13a85a2810422dcbb1}\label{class_fast_noise_s_i_m_d_a4f51bbfafa716d13a85a2810422dcbb1}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbFractalGain@{SetPerturbFractalGain}}
+\index{SetPerturbFractalGain@{SetPerturbFractalGain}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbFractalGain()}{SetPerturbFractalGain()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Fractal\+Gain (\begin{DoxyParamCaption}\item[{float}]{perturb\+Fractal\+Gain }\end{DoxyParamCaption})}
+
+
+
+Sets octave gain for perturb fractal types -\/ Default\+: 0.\+5. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Fractal\+Gain} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00282}{282}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_adfdf96eb6d08d1ab1797ee0d8ae0f51e}\label{class_fast_noise_s_i_m_d_adfdf96eb6d08d1ab1797ee0d8ae0f51e}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbFractalLacunarity@{SetPerturbFractalLacunarity}}
+\index{SetPerturbFractalLacunarity@{SetPerturbFractalLacunarity}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbFractalLacunarity()}{SetPerturbFractalLacunarity()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Fractal\+Lacunarity (\begin{DoxyParamCaption}\item[{float}]{perturb\+Fractal\+Lacunarity }\end{DoxyParamCaption})}
+
+
+
+Sets octave lacunarity for perturb fractal types -\/ Default\+: 2.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Fractal\+Lacunarity} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00272}{272}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_a245ee33763fde1b3385d00d532ba2194}\label{class_fast_noise_s_i_m_d_a245ee33763fde1b3385d00d532ba2194}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbFractalOctaves@{SetPerturbFractalOctaves}}
+\index{SetPerturbFractalOctaves@{SetPerturbFractalOctaves}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbFractalOctaves()}{SetPerturbFractalOctaves()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Fractal\+Octaves (\begin{DoxyParamCaption}\item[{int}]{perturb\+Octaves }\end{DoxyParamCaption})}
+
+
+
+Sets octave count for perturb fractal types -\/ Default\+: 3. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Octaves} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00262}{262}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_aaf6f922ccd72556f7c6eb57fbc8c0d2c}\label{class_fast_noise_s_i_m_d_aaf6f922ccd72556f7c6eb57fbc8c0d2c}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbFrequency@{SetPerturbFrequency}}
+\index{SetPerturbFrequency@{SetPerturbFrequency}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbFrequency()}{SetPerturbFrequency()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Frequency (\begin{DoxyParamCaption}\item[{float}]{perturb\+Freq }\end{DoxyParamCaption})}
+
+
+
+Set the relative frequency for the perturb gradient -\/ Default\+: 0.\+5. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Freq} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00242}{242}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_ae23b4fa2f7f3a3c5fc0647265f993e28}\label{class_fast_noise_s_i_m_d_ae23b4fa2f7f3a3c5fc0647265f993e28}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbNormaliseLength@{SetPerturbNormaliseLength}}
+\index{SetPerturbNormaliseLength@{SetPerturbNormaliseLength}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbNormaliseLength()}{SetPerturbNormaliseLength()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Normalise\+Length (\begin{DoxyParamCaption}\item[{float}]{perturb\+Normalise\+Length }\end{DoxyParamCaption})}
+
+
+
+Sets the length for vectors after perturb normalising Default\+: 1.\+0. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Normalise\+Length} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00292}{292}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_ae0ec6f8fc4b4b5ce94438b6192fd8595}\label{class_fast_noise_s_i_m_d_ae0ec6f8fc4b4b5ce94438b6192fd8595}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetPerturbType@{SetPerturbType}}
+\index{SetPerturbType@{SetPerturbType}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetPerturbType()}{SetPerturbType()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Perturb\+Type (\begin{DoxyParamCaption}\item[{Perturb\+Type}]{perturb\+Type }\end{DoxyParamCaption})}
+
+
+
+Enables position perturbing for all noise types -\/ Default\+: None. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em perturb\+Type} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00232}{232}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_adc88ef3fe7a0683a6965834e7fc4b7e3}\label{class_fast_noise_s_i_m_d_adc88ef3fe7a0683a6965834e7fc4b7e3}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetSeed@{SetSeed}}
+\index{SetSeed@{SetSeed}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetSeed()}{SetSeed()}}
+{\footnotesize\ttfamily void Fast\+Noise\+SIMD.\+Set\+Seed (\begin{DoxyParamCaption}\item[{int}]{seed }\end{DoxyParamCaption})}
+
+
+
+Sets seed used for all noise types -\/ Default\+: 1337. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+\mbox{\Hypertarget{class_fast_noise_s_i_m_d_aa8b7be05e5d3aed6a8341cd20d026f4f}\label{class_fast_noise_s_i_m_d_aa8b7be05e5d3aed6a8341cd20d026f4f}} 
+\index{FastNoiseSIMD@{FastNoiseSIMD}!SetSIMDLevel@{SetSIMDLevel}}
+\index{SetSIMDLevel@{SetSIMDLevel}!FastNoiseSIMD@{FastNoiseSIMD}}
+\doxysubsubsection{\texorpdfstring{SetSIMDLevel()}{SetSIMDLevel()}}
+{\footnotesize\ttfamily static void Fast\+Noise\+SIMD.\+Set\+SIMDLevel (\begin{DoxyParamCaption}\item[{int}]{level }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source_l00444}{444}} of file \mbox{\hyperlink{_fast_noise_s_i_m_d_8cs_source}{Fast\+Noise\+SIMD.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+World\+Gen/\+Utilities/Fast\+Noise\+SIMD.\+cs\end{DoxyCompactItemize}

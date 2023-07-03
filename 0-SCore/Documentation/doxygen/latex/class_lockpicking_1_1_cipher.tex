@@ -1,0 +1,624 @@
+\hypertarget{class_lockpicking_1_1_cipher}{}\doxysection{Lockpicking.\+Cipher Class Reference}
+\label{class_lockpicking_1_1_cipher}\index{Lockpicking.Cipher@{Lockpicking.Cipher}}
+
+
+Inherits Mono\+Behaviour.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_cipher_aab2f9dd87370accd8d98c8c5c2092483}{Active\+Wheel}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_afa92007d1783879807cc10f3c307ae1e}{Editor\+On\+Validate}} ()
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_aa6cc503563e977eaa82ff790ed442170}{Distance\+Left}} (int i)
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_cipher_a2c8acc686709a19c7cb444eaa372aff1}{Next\+Wheel\+Index}} ()
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_cipher_a632162db4fee3b4f2f4626d337f4923c}{Prev\+Wheel\+Index}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_aba86383a17d08e4772e2f4d7a9cc9a3a}{Select\+Wheel}} (int value)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_aa4812ae2a3e026f2402d5906dd24b664}{Reset\+Movement}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a8d7d685ca4550c289d8d9773c54914ef}{Move\+To\+Closest\+Spot}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a34b5d9a4c7e89a2e778bb91dfe2a443b}{Try\+Open}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a748a6a1e4e446b0b894099424635431c}{Stop\+Shaking}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a32422267b5b310a8e4ff4559d0f71817}{Get\+Ready}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a802ddf3250668abcf379f59ef5d639a0}{Move\+Active\+Wheel}} (int speed)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a76213f75313636a021a916aabfd0c6b8}{Move\+Wheel}} (int i, int speed, float destination=999f)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_aad457790a40c1d6e9d36813d9f994baa}{Move\+Towards}} (int i, float closest\+Rotation)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_af529671c0ac35d145b471c1f720632b0}{Set\+Turned\+Distance}} (int i, float distance)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_cipher_a9e75077678400faeb5d984b304c6f140}{Reset\+Lock}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_adecf56c0f4e3ebe704e9e30c82ab4b55}{turn\+Speed}} = 180f
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_cipher_a90a8352c8e1c187eea2064c9caa71e95}{symbol\+Count}} = 18
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_ad246a91ecbb0498176e5435b67560c66}{close\+Enough}} = 3f
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_aa9c64d3cf8b6250d60d1497e53d82d32}{quick\+Reset}}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_a1c3403b5d8fc75a71d2da4a3ec3643d2}{highlight\+Active\+Wheel}} = true
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_a91bb9fdeaf392c5f77b2ff9749754537}{move\+To\+Closest\+Spot}}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_a8fb636e3ab67f0b19a16fc20e076524a}{is\+Open}}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_a094abfd099d14d29d519d55878460519}{reset\+On\+Awake}}
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_cipher_ab0724679e0a021bbede872df194da5dc}{open\+Trigger}} = \char`\"{}Open\char`\"{}
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_cipher_aba3e4fd3af4ce40597fed723baf38bba}{close\+Trigger}} = \char`\"{}Close\char`\"{}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_ab01f36562d0739cceb65e98f9bc16341}{click\+Volume\+Min}} = 0.\+1f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_a9c12983f88d63e9a322e978ef0d0d30e}{click\+Volume\+Max}} = 0.\+4f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_a09cc77fd0d5160fa2c4be6a4035da13c}{squeek\+Volume\+Min}} = 0.\+1f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_a26bed053381ef020ee2b9dfb332540f7}{squeek\+Volume\+Max}} = 0.\+4f
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_cipher_afa1710451c959e6873e240deefb38514}{squeek\+Chance}} = 50
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_a90843f3dfb727917f22d8f7259188755}{squeek\+Rate}} = 3.\+5f
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a9afbb880338a3a7f9f57ab1edaadcac2}{unlock\+Angle}}
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a48a7a83e55c6645bc3c7885706710b72}{start\+Angle}}
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a3f94e4ee2dc0baff4e474467acc76f5b}{turned\+Distance}}
+\item 
+float\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a0ce166fdabbbc5a17bf7a4e6b34781bb}{turned\+Distance\+Prev}}
+\item 
+bool\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_ab75b742acef0593d0e2fab3c0a58fd9a}{is\+Moving}}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_ae12aa9f316be55bab84629a666ee714b}{play\+Audio\+On\+Setup}} = true
+\item 
+Game\+Object\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_lockpicking_1_1_cipher_adaba3e0c68b6915da05cf673a6322185}{wheels}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_af3bc4d7aec3c4bbdabf8ece7d3fe6f26}{audio\+Click}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_af89fc9454245a12bfffb2f77471c8cfb}{audio\+Squeek}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a7631e536699f94923fa35fa5728d1a87}{audio\+Jiggle}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_a2c253ebf1d8192f5a1db93f5712f902b}{audio\+Jiggle2}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_ab39d0dbcbd8ad3cdedb6be20b10712fd}{audio\+Jiggle3}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_cipher_aa55d3d716432b24788aeb5195e2f7a2b}{audio\+Open}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_ad2efa0c48ba19daaffb56e99df5107e1}{Visualize\+Solution}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_cipher_aba709fe3a6c78db1d6ba9d8c089adb23}{Visualize\+Start}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_a97bad705a8cfe5a94cb3353727ce8491}{Active\+Wheel\+Start}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_cipher_abd5be68a06d653746c55ef36729ec9f8}{Active\+Wheel\+Solution}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00017}{17}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aab2f9dd87370accd8d98c8c5c2092483}\label{class_lockpicking_1_1_cipher_aab2f9dd87370accd8d98c8c5c2092483}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!ActiveWheel@{ActiveWheel}}
+\index{ActiveWheel@{ActiveWheel}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{ActiveWheel()}{ActiveWheel()}}
+{\footnotesize\ttfamily int Lockpicking.\+Cipher.\+Active\+Wheel (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00189}{189}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aa6cc503563e977eaa82ff790ed442170}\label{class_lockpicking_1_1_cipher_aa6cc503563e977eaa82ff790ed442170}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!DistanceLeft@{DistanceLeft}}
+\index{DistanceLeft@{DistanceLeft}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{DistanceLeft()}{DistanceLeft()}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+Distance\+Left (\begin{DoxyParamCaption}\item[{int}]{i }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00227}{227}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_afa92007d1783879807cc10f3c307ae1e}\label{class_lockpicking_1_1_cipher_afa92007d1783879807cc10f3c307ae1e}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!EditorOnValidate@{EditorOnValidate}}
+\index{EditorOnValidate@{EditorOnValidate}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{EditorOnValidate()}{EditorOnValidate()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Editor\+On\+Validate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00194}{194}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a32422267b5b310a8e4ff4559d0f71817}\label{class_lockpicking_1_1_cipher_a32422267b5b310a8e4ff4559d0f71817}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!GetReady@{GetReady}}
+\index{GetReady@{GetReady}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{GetReady()}{GetReady()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Get\+Ready (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00422}{422}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a802ddf3250668abcf379f59ef5d639a0}\label{class_lockpicking_1_1_cipher_a802ddf3250668abcf379f59ef5d639a0}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!MoveActiveWheel@{MoveActiveWheel}}
+\index{MoveActiveWheel@{MoveActiveWheel}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{MoveActiveWheel()}{MoveActiveWheel()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Move\+Active\+Wheel (\begin{DoxyParamCaption}\item[{int}]{speed }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00455}{455}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a8d7d685ca4550c289d8d9773c54914ef}\label{class_lockpicking_1_1_cipher_a8d7d685ca4550c289d8d9773c54914ef}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!MoveToClosestSpot@{MoveToClosestSpot}}
+\index{MoveToClosestSpot@{MoveToClosestSpot}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{MoveToClosestSpot()}{MoveToClosestSpot()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Move\+To\+Closest\+Spot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00305}{305}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aad457790a40c1d6e9d36813d9f994baa}\label{class_lockpicking_1_1_cipher_aad457790a40c1d6e9d36813d9f994baa}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!MoveTowards@{MoveTowards}}
+\index{MoveTowards@{MoveTowards}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{MoveTowards()}{MoveTowards()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Move\+Towards (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{float}]{closest\+Rotation }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00480}{480}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a76213f75313636a021a916aabfd0c6b8}\label{class_lockpicking_1_1_cipher_a76213f75313636a021a916aabfd0c6b8}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!MoveWheel@{MoveWheel}}
+\index{MoveWheel@{MoveWheel}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{MoveWheel()}{MoveWheel()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Move\+Wheel (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{int}]{speed,  }\item[{float}]{destination = {\ttfamily 999f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00460}{460}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a2c8acc686709a19c7cb444eaa372aff1}\label{class_lockpicking_1_1_cipher_a2c8acc686709a19c7cb444eaa372aff1}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!NextWheelIndex@{NextWheelIndex}}
+\index{NextWheelIndex@{NextWheelIndex}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{NextWheelIndex()}{NextWheelIndex()}}
+{\footnotesize\ttfamily int Lockpicking.\+Cipher.\+Next\+Wheel\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00285}{285}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a632162db4fee3b4f2f4626d337f4923c}\label{class_lockpicking_1_1_cipher_a632162db4fee3b4f2f4626d337f4923c}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!PrevWheelIndex@{PrevWheelIndex}}
+\index{PrevWheelIndex@{PrevWheelIndex}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{PrevWheelIndex()}{PrevWheelIndex()}}
+{\footnotesize\ttfamily int Lockpicking.\+Cipher.\+Prev\+Wheel\+Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00290}{290}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a9e75077678400faeb5d984b304c6f140}\label{class_lockpicking_1_1_cipher_a9e75077678400faeb5d984b304c6f140}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!ResetLock@{ResetLock}}
+\index{ResetLock@{ResetLock}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{ResetLock()}{ResetLock()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Reset\+Lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00497}{497}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aa4812ae2a3e026f2402d5906dd24b664}\label{class_lockpicking_1_1_cipher_aa4812ae2a3e026f2402d5906dd24b664}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!ResetMovement@{ResetMovement}}
+\index{ResetMovement@{ResetMovement}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{ResetMovement()}{ResetMovement()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Reset\+Movement (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00300}{300}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aba86383a17d08e4772e2f4d7a9cc9a3a}\label{class_lockpicking_1_1_cipher_aba86383a17d08e4772e2f4d7a9cc9a3a}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!SelectWheel@{SelectWheel}}
+\index{SelectWheel@{SelectWheel}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{SelectWheel()}{SelectWheel()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Select\+Wheel (\begin{DoxyParamCaption}\item[{int}]{value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00295}{295}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_af529671c0ac35d145b471c1f720632b0}\label{class_lockpicking_1_1_cipher_af529671c0ac35d145b471c1f720632b0}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!SetTurnedDistance@{SetTurnedDistance}}
+\index{SetTurnedDistance@{SetTurnedDistance}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{SetTurnedDistance()}{SetTurnedDistance()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Set\+Turned\+Distance (\begin{DoxyParamCaption}\item[{int}]{i,  }\item[{float}]{distance }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00488}{488}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a748a6a1e4e446b0b894099424635431c}\label{class_lockpicking_1_1_cipher_a748a6a1e4e446b0b894099424635431c}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!StopShaking@{StopShaking}}
+\index{StopShaking@{StopShaking}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{StopShaking()}{StopShaking()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Stop\+Shaking (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00374}{374}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a34b5d9a4c7e89a2e778bb91dfe2a443b}\label{class_lockpicking_1_1_cipher_a34b5d9a4c7e89a2e778bb91dfe2a443b}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!TryOpen@{TryOpen}}
+\index{TryOpen@{TryOpen}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{TryOpen()}{TryOpen()}}
+{\footnotesize\ttfamily void Lockpicking.\+Cipher.\+Try\+Open (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00350}{350}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_af3bc4d7aec3c4bbdabf8ece7d3fe6f26}\label{class_lockpicking_1_1_cipher_af3bc4d7aec3c4bbdabf8ece7d3fe6f26}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioClick@{audioClick}}
+\index{audioClick@{audioClick}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioClick}{audioClick}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Click}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00077}{77}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a7631e536699f94923fa35fa5728d1a87}\label{class_lockpicking_1_1_cipher_a7631e536699f94923fa35fa5728d1a87}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioJiggle@{audioJiggle}}
+\index{audioJiggle@{audioJiggle}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioJiggle}{audioJiggle}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Jiggle}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a2c253ebf1d8192f5a1db93f5712f902b}\label{class_lockpicking_1_1_cipher_a2c253ebf1d8192f5a1db93f5712f902b}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioJiggle2@{audioJiggle2}}
+\index{audioJiggle2@{audioJiggle2}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioJiggle2}{audioJiggle2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Jiggle2}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00080}{80}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ab39d0dbcbd8ad3cdedb6be20b10712fd}\label{class_lockpicking_1_1_cipher_ab39d0dbcbd8ad3cdedb6be20b10712fd}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioJiggle3@{audioJiggle3}}
+\index{audioJiggle3@{audioJiggle3}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioJiggle3}{audioJiggle3}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Jiggle3}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00081}{81}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aa55d3d716432b24788aeb5195e2f7a2b}\label{class_lockpicking_1_1_cipher_aa55d3d716432b24788aeb5195e2f7a2b}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioOpen@{audioOpen}}
+\index{audioOpen@{audioOpen}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioOpen}{audioOpen}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Open}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00082}{82}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_af89fc9454245a12bfffb2f77471c8cfb}\label{class_lockpicking_1_1_cipher_af89fc9454245a12bfffb2f77471c8cfb}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!audioSqueek@{audioSqueek}}
+\index{audioSqueek@{audioSqueek}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{audioSqueek}{audioSqueek}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Cipher.\+audio\+Squeek}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00078}{78}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a9c12983f88d63e9a322e978ef0d0d30e}\label{class_lockpicking_1_1_cipher_a9c12983f88d63e9a322e978ef0d0d30e}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!clickVolumeMax@{clickVolumeMax}}
+\index{clickVolumeMax@{clickVolumeMax}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{clickVolumeMax}{clickVolumeMax}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+click\+Volume\+Max = 0.\+4f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00063}{63}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ab01f36562d0739cceb65e98f9bc16341}\label{class_lockpicking_1_1_cipher_ab01f36562d0739cceb65e98f9bc16341}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!clickVolumeMin@{clickVolumeMin}}
+\index{clickVolumeMin@{clickVolumeMin}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{clickVolumeMin}{clickVolumeMin}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+click\+Volume\+Min = 0.\+1f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ad246a91ecbb0498176e5435b67560c66}\label{class_lockpicking_1_1_cipher_ad246a91ecbb0498176e5435b67560c66}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!closeEnough@{closeEnough}}
+\index{closeEnough@{closeEnough}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{closeEnough}{closeEnough}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+close\+Enough = 3f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00037}{37}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aba3e4fd3af4ce40597fed723baf38bba}\label{class_lockpicking_1_1_cipher_aba3e4fd3af4ce40597fed723baf38bba}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!closeTrigger@{closeTrigger}}
+\index{closeTrigger@{closeTrigger}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{closeTrigger}{closeTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Cipher.\+close\+Trigger = \char`\"{}Close\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a1c3403b5d8fc75a71d2da4a3ec3643d2}\label{class_lockpicking_1_1_cipher_a1c3403b5d8fc75a71d2da4a3ec3643d2}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!highlightActiveWheel@{highlightActiveWheel}}
+\index{highlightActiveWheel@{highlightActiveWheel}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{highlightActiveWheel}{highlightActiveWheel}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+highlight\+Active\+Wheel = true}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ab75b742acef0593d0e2fab3c0a58fd9a}\label{class_lockpicking_1_1_cipher_ab75b742acef0593d0e2fab3c0a58fd9a}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!isMoving@{isMoving}}
+\index{isMoving@{isMoving}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{isMoving}{isMoving}}
+{\footnotesize\ttfamily bool \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+is\+Moving}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00072}{72}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a8fb636e3ab67f0b19a16fc20e076524a}\label{class_lockpicking_1_1_cipher_a8fb636e3ab67f0b19a16fc20e076524a}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!isOpen@{isOpen}}
+\index{isOpen@{isOpen}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{isOpen}{isOpen}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+is\+Open}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a91bb9fdeaf392c5f77b2ff9749754537}\label{class_lockpicking_1_1_cipher_a91bb9fdeaf392c5f77b2ff9749754537}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!moveToClosestSpot@{moveToClosestSpot}}
+\index{moveToClosestSpot@{moveToClosestSpot}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{moveToClosestSpot}{moveToClosestSpot}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+move\+To\+Closest\+Spot}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00046}{46}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ab0724679e0a021bbede872df194da5dc}\label{class_lockpicking_1_1_cipher_ab0724679e0a021bbede872df194da5dc}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!openTrigger@{openTrigger}}
+\index{openTrigger@{openTrigger}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{openTrigger}{openTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Cipher.\+open\+Trigger = \char`\"{}Open\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ae12aa9f316be55bab84629a666ee714b}\label{class_lockpicking_1_1_cipher_ae12aa9f316be55bab84629a666ee714b}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!playAudioOnSetup@{playAudioOnSetup}}
+\index{playAudioOnSetup@{playAudioOnSetup}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{playAudioOnSetup}{playAudioOnSetup}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+play\+Audio\+On\+Setup = true}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aa9c64d3cf8b6250d60d1497e53d82d32}\label{class_lockpicking_1_1_cipher_aa9c64d3cf8b6250d60d1497e53d82d32}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!quickReset@{quickReset}}
+\index{quickReset@{quickReset}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{quickReset}{quickReset}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+quick\+Reset}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00040}{40}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a094abfd099d14d29d519d55878460519}\label{class_lockpicking_1_1_cipher_a094abfd099d14d29d519d55878460519}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!resetOnAwake@{resetOnAwake}}
+\index{resetOnAwake@{resetOnAwake}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{resetOnAwake}{resetOnAwake}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+reset\+On\+Awake}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00054}{54}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_afa1710451c959e6873e240deefb38514}\label{class_lockpicking_1_1_cipher_afa1710451c959e6873e240deefb38514}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!squeekChance@{squeekChance}}
+\index{squeekChance@{squeekChance}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{squeekChance}{squeekChance}}
+{\footnotesize\ttfamily int Lockpicking.\+Cipher.\+squeek\+Chance = 50}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00066}{66}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a90843f3dfb727917f22d8f7259188755}\label{class_lockpicking_1_1_cipher_a90843f3dfb727917f22d8f7259188755}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!squeekRate@{squeekRate}}
+\index{squeekRate@{squeekRate}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{squeekRate}{squeekRate}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+squeek\+Rate = 3.\+5f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00067}{67}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a26bed053381ef020ee2b9dfb332540f7}\label{class_lockpicking_1_1_cipher_a26bed053381ef020ee2b9dfb332540f7}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!squeekVolumeMax@{squeekVolumeMax}}
+\index{squeekVolumeMax@{squeekVolumeMax}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{squeekVolumeMax}{squeekVolumeMax}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+squeek\+Volume\+Max = 0.\+4f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00065}{65}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a09cc77fd0d5160fa2c4be6a4035da13c}\label{class_lockpicking_1_1_cipher_a09cc77fd0d5160fa2c4be6a4035da13c}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!squeekVolumeMin@{squeekVolumeMin}}
+\index{squeekVolumeMin@{squeekVolumeMin}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{squeekVolumeMin}{squeekVolumeMin}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+squeek\+Volume\+Min = 0.\+1f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00064}{64}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a48a7a83e55c6645bc3c7885706710b72}\label{class_lockpicking_1_1_cipher_a48a7a83e55c6645bc3c7885706710b72}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!startAngle@{startAngle}}
+\index{startAngle@{startAngle}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{startAngle}{startAngle}}
+{\footnotesize\ttfamily float \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+start\+Angle}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00069}{69}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a90a8352c8e1c187eea2064c9caa71e95}\label{class_lockpicking_1_1_cipher_a90a8352c8e1c187eea2064c9caa71e95}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!symbolCount@{symbolCount}}
+\index{symbolCount@{symbolCount}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{symbolCount}{symbolCount}}
+{\footnotesize\ttfamily int Lockpicking.\+Cipher.\+symbol\+Count = 18}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a3f94e4ee2dc0baff4e474467acc76f5b}\label{class_lockpicking_1_1_cipher_a3f94e4ee2dc0baff4e474467acc76f5b}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!turnedDistance@{turnedDistance}}
+\index{turnedDistance@{turnedDistance}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{turnedDistance}{turnedDistance}}
+{\footnotesize\ttfamily float \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+turned\+Distance}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00070}{70}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a0ce166fdabbbc5a17bf7a4e6b34781bb}\label{class_lockpicking_1_1_cipher_a0ce166fdabbbc5a17bf7a4e6b34781bb}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!turnedDistancePrev@{turnedDistancePrev}}
+\index{turnedDistancePrev@{turnedDistancePrev}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{turnedDistancePrev}{turnedDistancePrev}}
+{\footnotesize\ttfamily float \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+turned\+Distance\+Prev}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00071}{71}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_adecf56c0f4e3ebe704e9e30c82ab4b55}\label{class_lockpicking_1_1_cipher_adecf56c0f4e3ebe704e9e30c82ab4b55}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!turnSpeed@{turnSpeed}}
+\index{turnSpeed@{turnSpeed}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{turnSpeed}{turnSpeed}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+turn\+Speed = 180f}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00029}{29}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a9afbb880338a3a7f9f57ab1edaadcac2}\label{class_lockpicking_1_1_cipher_a9afbb880338a3a7f9f57ab1edaadcac2}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!unlockAngle@{unlockAngle}}
+\index{unlockAngle@{unlockAngle}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{unlockAngle}{unlockAngle}}
+{\footnotesize\ttfamily float \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+unlock\+Angle}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00068}{68}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_adaba3e0c68b6915da05cf673a6322185}\label{class_lockpicking_1_1_cipher_adaba3e0c68b6915da05cf673a6322185}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!wheels@{wheels}}
+\index{wheels@{wheels}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{wheels}{wheels}}
+{\footnotesize\ttfamily Game\+Object \mbox{[}$\,$\mbox{]} Lockpicking.\+Cipher.\+wheels}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00075}{75}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_abd5be68a06d653746c55ef36729ec9f8}\label{class_lockpicking_1_1_cipher_abd5be68a06d653746c55ef36729ec9f8}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!ActiveWheelSolution@{ActiveWheelSolution}}
+\index{ActiveWheelSolution@{ActiveWheelSolution}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{ActiveWheelSolution}{ActiveWheelSolution}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+Active\+Wheel\+Solution\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00118}{118}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_a97bad705a8cfe5a94cb3353727ce8491}\label{class_lockpicking_1_1_cipher_a97bad705a8cfe5a94cb3353727ce8491}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!ActiveWheelStart@{ActiveWheelStart}}
+\index{ActiveWheelStart@{ActiveWheelStart}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{ActiveWheelStart}{ActiveWheelStart}}
+{\footnotesize\ttfamily float Lockpicking.\+Cipher.\+Active\+Wheel\+Start\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00112}{112}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_ad2efa0c48ba19daaffb56e99df5107e1}\label{class_lockpicking_1_1_cipher_ad2efa0c48ba19daaffb56e99df5107e1}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!VisualizeSolution@{VisualizeSolution}}
+\index{VisualizeSolution@{VisualizeSolution}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{VisualizeSolution}{VisualizeSolution}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+Visualize\+Solution\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00108}{108}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_cipher_aba709fe3a6c78db1d6ba9d8c089adb23}\label{class_lockpicking_1_1_cipher_aba709fe3a6c78db1d6ba9d8c089adb23}} 
+\index{Lockpicking.Cipher@{Lockpicking.Cipher}!VisualizeStart@{VisualizeStart}}
+\index{VisualizeStart@{VisualizeStart}!Lockpicking.Cipher@{Lockpicking.Cipher}}
+\doxysubsubsection{\texorpdfstring{VisualizeStart}{VisualizeStart}}
+{\footnotesize\ttfamily bool Lockpicking.\+Cipher.\+Visualize\+Start\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_cipher_8cs_source_l00110}{110}} of file \mbox{\hyperlink{_cipher_8cs_source}{Cipher.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Features/\+Lock\+Picking/\+Scripts/Cipher.\+cs\end{DoxyCompactItemize}

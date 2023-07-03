@@ -1,0 +1,69 @@
+\hypertarget{_lock_object_rotation_8cs_source}{}\doxysection{Lock\+Object\+Rotation.\+cs}
+\label{_lock_object_rotation_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockObjectRotation.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/LockPicking/Scripts/LockObjectRotation.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00003}\mbox{\hyperlink{class_lock_object_rotation}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_lock_object_rotation}{LockObjectRotation}}\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ mouseMovementOn;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00006}00006\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ maxX\ =\ 30f;\ \textcolor{comment}{//\ Max\ rotation}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00007}00007\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ maxY\ =\ 30f;\ \textcolor{comment}{//\ Max\ rotation}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00009}00009\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ Vector3\ mousePosition;\ \textcolor{comment}{//\ last\ position\ of\ mouse}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00010}00010\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ speed\ =\ 2160f;\ \textcolor{comment}{//\ speed\ of\ rotation}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00011}00011\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ startX;\ \textcolor{comment}{//\ Starting\ rotation}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00012}00012\ \ \ \ \ [SerializeField]\ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ startY;\ \textcolor{comment}{//\ Starting\ rotation}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ Camera\ uiCam;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Start()}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ startX\ =\ GetAngle(transform.localEulerAngles.x);}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ startY\ =\ GetAngle(transform.localEulerAngles.y);}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ MouseMovement();}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ mousePosition\ =\ uiCam.ScreenToViewportPoint(Input.mousePosition);\ \textcolor{comment}{//\ Save\ mouse\ position\ every\ frame.}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{//mousePosition\ =\ Camera.main.ScreenToViewportPoint(Input.mousePosition);\ //\ Save\ mouse\ position\ every\ frame.}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ MouseMovement()}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00030}00030\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ are\ holding\ down\ the\ left\ mouse\ button...}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Input.GetMouseButton(0)\ ||\ mouseMovementOn)}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Grab\ the\ new\ position\ of\ the\ mouse,\ 0,0\ -\/\ 1,1}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ var\ newPosition\ =\ uiCam.ScreenToViewportPoint(Input.mousePosition);}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Vector3\ newPosition\ =\ Camera.main.ScreenToViewportPoint(Input.mousePosition);}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ the\ delta\ in\ the\ x\ and\ y\ positions.\ \ Do\ inversion\ for\ the\ yDelta.\ Note\ X/Y\ are\ flipped.}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ var\ horDelta\ =\ -\/(newPosition.x\ -\/\ mousePosition.x)\ *\ speed\ *\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ var\ verDelta\ =\ (newPosition.y\ -\/\ mousePosition.y)\ *\ speed\ *\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ we\ don't\ go\ over\ our\ max\ range}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GetAngle(transform.localEulerAngles.x)\ +\ verDelta\ >\ startX\ +\ maxX\ ||\ GetAngle(transform.localEulerAngles.x)\ +\ verDelta\ <\ startX\ -\/\ maxX)}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ verDelta\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GetAngle(transform.localEulerAngles.y)\ +\ horDelta\ >\ startY\ +\ maxY\ ||\ GetAngle(transform.localEulerAngles.y)\ +\ horDelta\ <\ startY\ -\/\ maxY)}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ horDelta\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compute\ \&\ assign\ the\ new\ angle}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ var\ newAngles\ =\ \textcolor{keyword}{new}\ Vector3(transform.localEulerAngles.x\ +\ verDelta,}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ transform.localEulerAngles.y\ +\ horDelta,\ transform.localEulerAngles.z);}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ transform.localEulerAngles\ =\ newAngles;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ GetAngle(\textcolor{keywordtype}{float}\ eulerAngle)}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00056}00056\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ var\ angle\ =\ eulerAngle;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ angle\ \%=\ 360;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (angle\ >\ 180)}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ angle\ -\/=\ 360;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ angle;}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_lock_object_rotation_8cs_source_l00063}00063\ \}}
+
+\end{DoxyCode}

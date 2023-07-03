@@ -1,0 +1,57 @@
+\hypertarget{_net_package_remove_fire_position_8cs_source}{}\doxysection{Net\+Package\+Remove\+Fire\+Position.\+cs}
+\label{_net_package_remove_fire_position_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/NetPackage/NetPackageRemoveFirePosition.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Features/Fire/Scripts/NetPackage/NetPackageRemoveFirePosition.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }JetBrains.Annotations;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00007}00007\ [UsedImplicitly]}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00008}\mbox{\hyperlink{class_net_package_remove_fire_position}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_net_package_remove_fire_position}{NetPackageRemoveFirePosition}}\ :\ NetPackage}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{private}\ Vector3i\ \_position;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ \_entityThatCausedIt;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_net_package_remove_fire_position}{NetPackageRemoveFirePosition}}\ Setup(Vector3i\ position,\ \textcolor{keywordtype}{int}\ entityThatCausedIt)}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00014}00014\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \_position\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \_entityThatCausedIt\ =\ entityThatCausedIt;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{this};}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ read(PooledBinaryReader\ br)}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \_position\ =\ \textcolor{keyword}{new}\ Vector3i(br.ReadInt32(),\ \ br.ReadInt32(),\ \ br.ReadInt32());}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \_entityThatCausedIt\ =\ br.ReadInt32();}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ write(PooledBinaryWriter\ bw)}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ base.write(bw);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ bw.Write(\_position.x);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ bw.Write(\_position.y);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ bw.Write(\_position.z);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ bw.Write(\_entityThatCausedIt);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{int}\ GetLength()}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 20;}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ProcessPackage(World\ world,\ GameManager\ callbacks)}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00041}00041\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (world\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!world.IsRemote())}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_fire_manager}{FireManager}}.Instance.Remove(\_position);}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_net_package_remove_fire_position_8cs_source_l00054}00054\ \}}
+
+\end{DoxyCode}

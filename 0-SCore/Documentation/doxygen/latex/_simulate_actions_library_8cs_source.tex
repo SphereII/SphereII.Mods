@@ -1,0 +1,92 @@
+\hypertarget{_simulate_actions_library_8cs_source}{}\doxysection{Simulate\+Actions\+Library.\+cs}
+\label{_simulate_actions_library_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ItemAction/SimulateActionsLibrary.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/ItemAction/SimulateActionsLibrary.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00008}00008\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00009}00009\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }SimulateActionsLibrary}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ IEnumerator\ SimulateActionThrownTimedCharge(Context\ \_context,\ Vector3\ vector)}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \_context.Self.SetLookPosition(vector);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.bodyDamage.HasLimbs)}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.RotateTo(vector.x,\ vector.y,\ vector.z,\ 30f,\ 30f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \_context.Self.Crouching\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ var\ originalItem\ =\ \_context.Self.inventory.GetItem(0);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ var\ slotID\ =\ 0;\ \textcolor{comment}{//\ \_context.Self.inventory.DUMMY\_SLOT\_IDX}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Give\ them\ the\ item,\ and\ place\ it\ in\ their\ hand}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ var\ item\ =\ ItemClass.GetItem(\textcolor{stringliteral}{"{}thrownTimedCharge"{}});}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ var\ \_itemStack\ =\ \textcolor{keyword}{new}\ ItemStack(item,\ 1);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(slotID,\ \_itemStack);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(slotID);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \_context.Self.inventory.CallOnToolbeltChangedInternal();}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\_context.Self.inventory.IsHolsterDelayActive())}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ are\ not\ doing\ a\ full\ execute\ here,\ as\ the\ OnHolding\ Update\ does\ a\ cast\ of\ the\ player,\ to\ get\ the\ look\ position\ from\ its\ camera.}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ want\ to\ avoid\ that,\ so\ we\ just\ skip\ that\ call,\ and\ use\ the\ position\ in\ which\ we\ pass\ in.\ }}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ var\ \_actionData\ =\ \_context.Self.inventory.GetItemActionDataInSlot(slotID,\ 0);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ var\ myInventoryData\ =\ (ItemActionThrowAway.MyInventoryData)\_actionData;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ last\ ThrowTime\ to\ -\/1\ so\ it\ doesn't\ trigger\ the\ base\ throwAway()}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ myInventoryData.m\_LastThrowTime\ =\ -\/1f;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Activating\ the\ timer}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \_context.Self.inventory.Execute(1,\ \textcolor{keyword}{false},\ \textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ myInventoryData.m\_LastThrowTime\ =\ -\/1f;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \_context.Self.inventory.Execute(1,\ \textcolor{keyword}{true},\ \textcolor{keyword}{null});}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ myInventoryData.m\_LastThrowTime\ =\ -\/1f;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ var\ invData\ =\ \_actionData.invData;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ var\ holdingEntity\ =\ invData.holdingEntity;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ var\ lookVector\ =\ holdingEntity.GetLookVector();}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ var\ headPosition\ =\ holdingEntity.getHeadPosition();}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ hit\ something,\ then\ toss\ the\ item\ to\ the\ block}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Physics.Raycast(\textcolor{keyword}{new}\ Ray(vector\ -\/\ Origin.position,\ lookVector),\ out\ var\ raycastHit,\ 0.28f,\ -\/555274245))}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ vector\ +=\ 0.23f\ *\ lookVector;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ vector\ -\/=\ headPosition;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ invData.gameManager.ItemDropServer(\textcolor{keyword}{new}\ ItemStack(holdingEntity.inventory.holdingItemItemValue,\ 1),\ vector,\ Vector3.zero,\ Vector3.zero,\ holdingEntity.entityId,\ 30f,\ \textcolor{keyword}{true},\ -\/1);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \_actionData.invData.holdingEntity.emodel.avatarController.TriggerEvent(\textcolor{stringliteral}{"{}ItemThrownTrigger"{}});}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ myInventoryData.m\_LastThrowTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetItem(slotID,\ originalItem);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \_context.Self.inventory.SetHoldingItemIdx(slotID);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \_context.Self.inventory.CallOnToolbeltChangedInternal();}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\_context.Self.inventory.IsHolsterDelayActive())}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{new}\ WaitForSeconds(0.1f);}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \_context.Self.IsBreakingBlocks\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \_context.Self.IsBreakingDoors\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \_context.Self.Crouching\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ yield\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00085}00085\ \}}
+\DoxyCodeLine{\Hypertarget{_simulate_actions_library_8cs_source_l00086}00086\ }
+
+\end{DoxyCode}

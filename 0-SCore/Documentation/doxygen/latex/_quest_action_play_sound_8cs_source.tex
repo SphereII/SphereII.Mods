@@ -1,0 +1,36 @@
+\hypertarget{_quest_action_play_sound_8cs_source}{}\doxysection{Quest\+Action\+Play\+Sound.\+cs}
+\label{_quest_action_play_sound_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionPlaySound.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/QuestActionPlaySound.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00001}\mbox{\hyperlink{class_quest_action_play_sound_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_quest_action_play_sound_s_d_x}{QuestActionPlaySoundSDX}}\ :\ QuestActionShowTip}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupAction()}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00004}00004\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00005}00005\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(Quest\ action)}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ EntityAlive\ myEntity\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (OwnerQuest.OwnerJournal.OwnerPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ myEntity\ =\ OwnerQuest.OwnerJournal.OwnerPlayer;}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ myEntity.PlayOneShot(ID,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ var\ buff\ =\ BuffManager.GetBuff(Value);}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buff\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!myEntity.Buffs.HasBuff(Value))}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myEntity.Buffs.AddBuff(Value);}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseQuestAction\ Clone()}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ var\ questActionPlaySound\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_quest_action_play_sound_s_d_x}{QuestActionPlaySoundSDX}}();}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ CopyValues(questActionPlaySound);}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ questActionPlaySound;}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00029}00029\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_quest_action_play_sound_8cs_source_l00030}00030\ \}}
+
+\end{DoxyCode}

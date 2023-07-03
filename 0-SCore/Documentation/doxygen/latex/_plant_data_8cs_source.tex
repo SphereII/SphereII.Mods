@@ -1,0 +1,248 @@
+\hypertarget{_plant_data_8cs_source}{}\doxysection{Plant\+Data.\+cs}
+\label{_plant_data_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/PlantData.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/PlantData.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00003}\mbox{\hyperlink{class_plant_data}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_plant_data}{PlantData}}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}CropManagement"{}};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ BlockPos\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ WaterPos\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ BlockValue\ blockValue\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ BlockValue.Air;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00010}00010\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ \_requireWater\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_waterRange\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ Visited\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ waterParticle;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_plant_data}{PlantData}}(Vector3i\ \_blockPos)\ :\ \textcolor{keyword}{this}(\_blockPos,\ Vector3i.zero)\ \{\ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_plant_data}{PlantData}}(Vector3i\ \_blockPos,\ Vector3i\ \_waterPos)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ this.BlockPos\ =\ \_blockPos;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ this.WaterPos\ =\ \_waterPos;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ blockValue\ =\ GameManager.Instance.World.GetBlock(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RequireWater"{}}))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \_requireWater\ =\ StringParsers.ParseBool(blockValue.Block.Properties.Values[\textcolor{stringliteral}{"{}RequireWater"{}}]);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}WaterRange"{}}))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \_waterRange\ =\ StringParsers.ParseFloat(blockValue.Block.Properties.Values[\textcolor{stringliteral}{"{}WaterRange"{}}]);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ waterParticle\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}WaterParticle"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrWhiteSpace(waterParticle))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ waterParticle\ =\ \textcolor{stringliteral}{"{}NoParticle"{}};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Manage()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00037}00037\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}Checking\ for\ bugs\ at\ \{BlockPos\}"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ Visited\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ LastMaintained\ =\ GameManager.Instance.World.GetWorldTime();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00043}00043\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ RegisterPlant()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00044}00044\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ blockValue\ =\ GameManager.Instance.World.GetBlock(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ ToggleWaterParticle();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.Add(\textcolor{keyword}{this});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ CanStay()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00051}00051\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ var\ results\ =\ IsNearWater();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (results)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ Consume();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ results;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00056}00056\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Consume()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00059}00059\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \$\textcolor{stringliteral}{"{}Last\ Checked:\ \{BlockPos\}\ \{WaterPos\}\ Checked\ at:\ \{LastCheck\}\ Maintained\ at:\ \{LastMaintained\}\ Current\ Time:\ \{GameManager.Instance.World.GetWorldTime()\}\ Difference:\ \{GameManager.Instance.World.GetWorldTime()\ -\/\ LastCheck\}"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!RequiresWater())\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (WaterPos\ ==\ Vector3i.zero)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ raining,\ don't\ consume\ water.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((\textcolor{keywordtype}{double})WeatherManager.Instance.GetCurrentRainfallValue()\ >\ 0.25)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \$\textcolor{stringliteral}{"{}Using\ Rain\ Water\ for\ \{BlockPos\}."{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Damage\ the\ water\ block\ to\ simulate\ usage.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ var\ waterBlock\ =\ GameManager.Instance.World.GetBlock(WaterPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ var\ \_waterSource\ =\ WaterPos;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ water\ block\ is\ a\ sprinkler,\ find\ out\ where\ its\ getting\ its\ water\ from.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ waterBlock.Block\ is\ \mbox{\hyperlink{class_block_water_source_s_d_x}{BlockWaterSourceSDX}}\ waterSource)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ waterSource.IsWaterSourceUnlimited()\ )}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ToggleWaterParticle();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \_waterSource\ =\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterForPosition(WaterPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ waterBlock\ =\ GameManager.Instance.World.GetBlock(\_waterSource);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waterBlock.Block\ is\ BlockLiquidv2\ water\ )}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \$\textcolor{stringliteral}{"{}Consuming\ Water:\ \{BlockPos\}\ \{\_waterSource\}\ \{waterBlock.Block.GetBlockName()\}"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (water.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}WaterType"{}})\ )}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (water.Properties.Values[\textcolor{stringliteral}{"{}WaterType"{}}].ToLower()\ ==\ \textcolor{stringliteral}{"{}unlimited"{}})}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ToggleWaterParticle();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ global\ value\ of\ damaging\ water\ for\ this\ growth\ cycle}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ var\ damage\ =\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterDamage(\_waterSource);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ blant\ block\ itself\ has\ its\ own\ water\ damage,\ use\ it\ instead.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block.Properties.Contains(\textcolor{stringliteral}{"{}WaterDamage"{}}))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ damage\ =\ blockValue.Block.Properties.GetInt(\textcolor{stringliteral}{"{}WaterDamage"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Grab\ the\ damage\ value\ from\ a)\ the\ water\ block\ itself,\ or\ b)\ the\ globa\ one}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ waterBlock.damage\ +=\ damage;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waterBlock.damage\ <=\ waterBlock.Block.MaxDamage)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.SetBlockRPC(0,\ \_waterSource,\ waterBlock);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \$\textcolor{stringliteral}{"{}Water\ is\ completely\ consumed\ here:\ \{\_waterSource\}"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.SetBlockRPC(0,\ \_waterSource,\ BlockValue.Air);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ ToggleWaterParticle();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00123}00123\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00125}00125\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ ToggleWaterParticle()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00126}00126\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.HasBlockParticleEffect(BlockPos))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ BlockUtilitiesSDX.removeParticles(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ var\ \_waterParticle\ =\ GetWaterParticle();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ BlockUtilitiesSDX.addParticlesCentered(\_waterParticle,\ BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00133}00133\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00134}00134\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ GetWaterParticle()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00135}00135\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ var\ block\ =\ GameManager.Instance.World.GetBlock(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ var\ \_waterParticle\ =\ waterParticle;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block.Block.Properties.Contains(\textcolor{stringliteral}{"{}WaterParticle"{}}))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \_waterParticle\ =\ block.Block.Properties.GetString(\textcolor{stringliteral}{"{}WaterParticle"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block.Block.blockMaterial.Properties.Contains(\textcolor{stringliteral}{"{}WaterParticle"{}}))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \_waterParticle\ =\ block.Block.blockMaterial.Properties.GetString(\textcolor{stringliteral}{"{}WaterParticle"{}});}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_waterParticle;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00146}00146\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00147}00147\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Remove()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00148}00148\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block\ is\ BlockPlantGrowing\ block)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ BlockUtilitiesSDX.removeParticles(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.Remove(BlockPos);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ var\ chunk\ =\ GameManager.Instance.World.GetChunkFromWorldPos(BlockPos)\ as\ Chunk;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (chunk\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ block.CheckPlantAlive(GameManager.Instance.World,\ chunk.ClrIdx,\ BlockPos,\ blockValue);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00157}00157\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00159}00159\ \ \ \ \ \textcolor{keyword}{public}\ ulong\ LastCheck\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ 0ul;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00160}00160\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ LastMaintained\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00161}00161\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ RequiresWater()}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_requireWater;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00164}00164\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00165}00165\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ IsNearWater(\textcolor{keywordtype}{float}\ waterRange\ =\ -\/1f)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00166}00166\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waterRange\ ==\ -\/1f)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ waterRange\ =\ \_waterRange;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ WaterPos\ !=\ Vector3i.zero\ )}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\ GameManager.Instance.World.IsWater(WaterPos))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ we\ still\ have\ a\ water\ valve\ reference,\ and\ its\ on.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ var\ valves\ =\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterValves();}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ see\ if\ there's\ a\ valve\ that\ can\ provide\ coverage\ for\ this.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ valve\ \textcolor{keywordflow}{in}\ valves)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockValue\ =\ GameManager.Instance.World.GetBlock(valve.Key);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blockValue.Block\ is\ \mbox{\hyperlink{class_block_water_source_s_d_x}{BlockWaterSourceSDX}}\ waterBlock)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (waterBlock.IsWaterSourceUnlimited())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ valve\ itself\ is\ not\ connected\ to\ water,\ skip\ it.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterForPosition(valve.Key)\ ==\ Vector3i.zero)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ num\ =\ Vector3.Distance(BlockPos,\ valve.Key);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num\ <=\ waterBlock.GetWaterRange())}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WaterPos\ =\ valve.Key;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ search\ for\ a\ direct\ water\ source.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ var\ newWaterSource\ =\ ScanForWater(BlockPos,\ waterRange);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.IsDirectWaterSource(newWaterSource))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ WaterPos\ =\ newWaterSource;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ water\ source}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newWaterSource\ ==\ Vector3i.zero)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ newWaterSource\ =\ BlockPos;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ this\ is\ an\ indirect\ water\ source,\ check\ its\ piping\ to\ make\ sure\ its\ connected\ to\ a\ BlockLiquidv2\ or\ legit\ water\ source}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ newWaterSource\ =\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterForPosition(newWaterSource);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (newWaterSource\ ==\ Vector3i.zero)\ \textcolor{comment}{//\ No\ water\ source\ connected?}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ WaterPos\ =\ newWaterSource;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00216}00216\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00218}00218\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ ScanForWater(Vector3i\ \_blockPos,\ \textcolor{keywordtype}{float}\ range\ =\ -\/1f)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00219}00219\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (range\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ range\ =\ \_waterRange;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ var\ \_world\ =\ GameManager.Instance.World;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ x\ =\ -\/range;\ x\ <=\ range;\ x++)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ z\ =\ -\/range;\ z\ <=\ range;\ z++)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ y\ =\ \_blockPos.y\ -\/\ 2;\ y\ <=\ \_blockPos.y\ +\ 2;\ y++)}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ waterCheck\ =\ \textcolor{keyword}{new}\ Vector3i(\_blockPos.x\ +\ x,\ y,\ \_blockPos.z\ +\ z);}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ a\ straight\ up\ water\ block,\ grab\ it.}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.IsWaterSource(waterCheck))}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ waterCheck;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00240}00240\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00241}00241\ \}}
+\DoxyCodeLine{\Hypertarget{_plant_data_8cs_source_l00242}00242\ }
+
+\end{DoxyCode}

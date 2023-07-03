@@ -1,0 +1,375 @@
+\hypertarget{_entity_targeting_utilities_8cs_source}{}\doxysection{Entity\+Targeting\+Utilities.\+cs}
+\label{_entity_targeting_utilities_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Entities/EntityTargetingUtilities.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Entities/EntityTargetingUtilities.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }GamePath;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }Platform;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00008}00008\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00010}00010\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }EntityTargetingUtilities}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00011}00011\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ DamageRelationshipCVarName\ =\ \textcolor{stringliteral}{"{}DamageRelationship"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CanDamage(EntityAlive\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target.IsDead())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Enemy\ animals\ can\ not\ follow\ these\ rules.\ We\ also\ can't\ use\ CanDamageEntity\ here,}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ because\ that\ has\ a\ Harmony\ patch\ that\ calls\ this\ method\ again.\ Instead,\ reproduce\ the}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ logic\ in\ EntityEnemyAnimal.CanDamageEntity.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsEnemyInAnimalsFaction(\textcolor{keyword}{self}))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ target\ !=\ \textcolor{keyword}{null}\ \&\&\ target.entityClass\ !=\ \textcolor{keyword}{self}.entityClass;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ damage\ vehicles\ if\ they\ are\ immune.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsDamageImmuneVehicle(\textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ damage\ your\ leader\ or\ fellow\ followers.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ var\ myLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAllyOfLeader(myLeader,\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CanDamageAlly(\textcolor{keyword}{self},\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ two\ players\ are\ involved\ (directly\ or\ as\ leaders),\ determine\ whether\ they\ or\ their}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ followers\ can\ damage\ each\ other\ from\ the\ "{}Player\ Killing"{}\ setting.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ var\ selfPlayer\ =\ GetPlayerLeader(\textcolor{keyword}{self},\ myLeader);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ var\ targetPlayer\ =\ GetPlayerLeader(target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfPlayer\ !=\ \textcolor{keyword}{null}\ \&\&\ targetPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FriendlyFireCheck\ returns\ true\ if\ the\ players\ can\ damage\ each\ other}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ selfPlayer.FriendlyFireCheck(targetPlayer);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ you\ are\ a\ player,\ don't\ damage\ your\ followers.\ Otherwise,\ use\ factions.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ is\ EntityPlayer)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAlly(target,\ \textcolor{keyword}{self}))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CanDamageAlly(target,\ \textcolor{keyword}{self});}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !IsFriendlyFireByFaction(\textcolor{keyword}{self},\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ You\ can\ always\ damage\ your\ revenge\ target,\ even\ if\ it's\ a\ player\ (since\ they\ hit\ first).}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsCurrentRevengeTarget(\textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ if\ the\ target\ is\ a\ player,\ you\ can\ only\ damage\ them\ if\ you\ or\ your}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (not\ necessarily\ player)\ leader\ hate\ them.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target\ is\ EntityPlayer)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ myLeader\ ==\ \textcolor{keyword}{null}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ IsEnemyByFaction(\textcolor{keyword}{self},\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ IsEnemyByFaction(myLeader,\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ You\ can\ damage\ them\ if\ they\ are\ fighting\ your\ leader\ or\ allies.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsFightingFollowers(myLeader,\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ you\ have\ a\ leader,\ check\ friendly\ fire\ using\ their\ faction.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ all\ other\ cases,\ use\ the\ faction\ relationship\ between\ yourself\ and\ the\ target.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ myLeader\ ==\ \textcolor{keyword}{null}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ !IsFriendlyFireByFaction(\textcolor{keyword}{self},\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ :\ !IsFriendlyFireByFaction(myLeader,\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00091}00091\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00100}00100\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CanDamageAlly(Entity\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00101}00101\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ now,\ just\ return\ false.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ the\ future,\ we\ may\ change\ this\ determination\ according\ to\ the\ "{}Player\ Killing"{}}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ settings\ -\/\ for\ example,\ if\ set\ to\ "{}Kill\ Everyone,"{}\ we\ may\ return\ true.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00115}00115\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CanTakeDamage(EntityAlive\ \textcolor{keyword}{self},\ Entity\ damagingEntity)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00116}00116\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ dead,\ offer\ no\ such\ protection.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}.IsDead())\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ damage\ was\ not\ caused\ by\ a\ living\ entity,\ take\ that\ damage.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(damagingEntity\ is\ EntityAlive\ livingEntity))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CanDamage(livingEntity,\ \textcolor{keyword}{self});}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00135}00135\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{float}\ GetFriendlyFireRelationship(Entity\ entity)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00136}00136\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ damage\ neutral\ NPCs.\ This\ is\ to\ avoid\ cases\ where\ the\ player\ or\ another\ NPC\ steps}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ in\ to\ help\ neutral\ human\ NPCs\ fighting\ an\ enemy\ -\/\ we\ don't\ want\ them\ to\ hurt\ that\ NPC.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ is\ EntityNPC)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{float})FactionManager.Relationship.Neutral;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ all\ other\ NPCs\ (animals,\ etc.)\ attackers\ can\ damage\ them\ if\ they\ don't\ love\ them.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keywordtype}{float})FactionManager.Relationship.Love;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00144}00144\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00152}00152\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsDamageImmuneVehicle(Entity\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00153}00153\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(target\ is\ EntityVehicle))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ is\ EntityNPC)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ now,\ just\ return\ true.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ the\ future\ we\ may\ have\ different\ rules,\ depending\ upon\ your\ entity\ class}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ (EntityBandit,\ EntityDrone);\ if\ the\ vehicle\ is\ owned\ by\ your\ leader;\ if\ it's}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ owned\ by\ a\ rival\ player\ depending\ upon\ the\ "{}Player\ Killing"{}\ setting;\ etc.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00167}00167\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00183}00183\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsAlly(Entity\ \textcolor{keyword}{self},\ Entity\ targetEntity)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00184}00184\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ ==\ \textcolor{keyword}{null}\ ||\ targetEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ var\ myLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ IsAllyOfLeader(myLeader,\ targetEntity);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00190}00190\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00208}00208\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsAllyOfParty(Entity\ \textcolor{keyword}{self},\ Entity\ targetEntity)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00209}00209\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ ==\ \textcolor{keyword}{null}\ ||\ targetEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ assume\ either\ entity's\ leader\ is\ a\ player\ for\ this\ check}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ var\ selfLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId)\ ??\ \textcolor{keyword}{self};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ var\ targetLeader\ =\ EntityUtilities.GetLeaderOrOwner(targetEntity.entityId)\ ??\ targetEntity;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfLeader.entityId\ ==\ targetLeader.entityId)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FriendlyFireCheck\ returns\ true\ if\ friendly\ fire\ is\ allowed}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfLeader\ is\ EntityPlayer\ selfPlayer\ \&\&\ targetLeader\ is\ EntityPlayer\ targetPlayer)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !selfPlayer.FriendlyFireCheck(targetPlayer);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00225}00225\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00233}00233\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsEnemy(EntityAlive\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00234}00234\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(target\ is\ EntityAlive\ targetEntity))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity.IsDead())}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ start\ fights\ with\ vehicles.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsDamageImmuneVehicle(\textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ make\ enemies\ out\ of\ your\ followers,\ your\ leader,\ or\ fellow\ followers.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ var\ myLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAllyOfLeader(myLeader\ ??\ \textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00251}00251\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00252}00252\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ two\ players\ are\ involved\ (directly\ or\ as\ leaders),\ determine\ whether\ they\ or\ their}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00253}00253\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ followers\ can\ damage\ each\ other\ from\ the\ "{}Player\ Killing"{}\ setting.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ to\ make\ sure\ damage-\/immune\ entities\ are\ NOT\ enemies\ -\/\ the\ reverse\ is\ not\ true.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Just\ because\ you\ can\ damage\ them\ does\ not\ make\ them\ enemies.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00256}00256\ \ \ \ \ \ \ \ \ var\ selfPlayer\ =\ GetPlayerLeader(\textcolor{keyword}{self},\ myLeader);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ var\ targetPlayer\ =\ GetPlayerLeader(target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FriendlyFireCheck\ returns\ true\ if\ the\ players\ can\ damage\ each\ other}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfPlayer\ !=\ \textcolor{keyword}{null}\ \&\&\ targetPlayer\ !=\ \textcolor{keyword}{null}\ \&\&\ !selfPlayer.FriendlyFireCheck(targetPlayer))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Our\ current\ revenge\ target\ is\ always\ an\ enemy.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsCurrentRevengeTarget(\textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ they\ are\ fighting\ my\ leader\ or\ allies,\ they're\ an\ enemy.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsFightingFollowers(myLeader,\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ it's\ an\ enemy\ animal,\ we\ can't\ use\ faction\ targeting.\ Instead,\ test\ to\ see\ if\ it's}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ attack\ target.\ (We\ considered\ the\ revenge\ target,\ above.)}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsEnemyInAnimalsFaction(\textcolor{keyword}{self}))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ var\ attackTarget\ =\ \textcolor{keyword}{self}.GetAttackTarget();}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ attackTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ attackTarget.entityId\ ==\ target.entityId;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ They\ are\ an\ enemy\ if\ we\ hate\ them,\ or\ if\ our\ leader\ hates\ them.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ myLeader\ ==\ \textcolor{keyword}{null}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ IsEnemyByFaction(\textcolor{keyword}{self},\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ :\ IsEnemyByFaction(myLeader,\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00282}00282\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00290}00290\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsFightingFollowers(Entity\ leader,\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00291}00291\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (leader\ ==\ \textcolor{keyword}{null}\ ||\ target\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00295}00295\ \ \ \ \ \ \ \ \ var\ theirTarget\ =\ GetAggressionTarget(target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (theirTarget\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00297}00297\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Are\ they\ fighting\ the\ leader?}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (theirTarget.entityId\ ==\ leader.entityId)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Are\ they\ fighting\ the\ leader's\ followers?}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ var\ theirTargetLeader\ =\ EntityUtilities.GetLeaderOrOwner(theirTarget.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (theirTargetLeader\ !=\ \textcolor{keyword}{null}\ \&\&\ theirTargetLeader.entityId\ ==\ leader.entityId)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Is\ the\ leader\ fighting\ them?}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00309}00309\ \ \ \ \ \ \ \ \ var\ leaderTarget\ =\ GetAggressionTarget(leader);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00310}00310\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ leaderTarget\ !=\ \textcolor{keyword}{null}\ \&\&\ leaderTarget.entityId\ ==\ target.entityId;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00311}00311\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00323}00323\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsFriend(EntityAlive\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00324}00324\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(target\ is\ EntityAlive\ targetEntity))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity.IsDead())}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}.entityId\ ==\ target.entityId)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Note:\ We\ can't\ use\ CanDamage\ here,\ because\ depending\ upon\ future\ features,}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ it\ might\ be\ possible\ to\ damage\ your\ friends\ too.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00338}00338\ \ \ \ \ \ \ \ \ var\ myLeader\ =\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsAllyOfLeader(myLeader,\ target)\ ||\ IsAlly(target,\ \textcolor{keyword}{self}))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ two\ players\ are\ involved\ (directly\ or\ as\ leaders),\ determine\ whether\ they\ and\ their}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00343}00343\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ followers\ are\ freinds\ from\ the\ "{}Player\ Killing"{}\ setting.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00344}00344\ \ \ \ \ \ \ \ \ var\ selfPlayer\ =\ GetPlayerLeader(\textcolor{keyword}{self},\ myLeader);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00345}00345\ \ \ \ \ \ \ \ \ var\ targetPlayer\ =\ GetPlayerLeader(target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (selfPlayer\ !=\ \textcolor{keyword}{null}\ \&\&\ targetPlayer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00347}00347\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ FriendlyFireCheck\ returns\ true\ if\ the\ players\ can\ damage\ each\ other}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !selfPlayer.FriendlyFireCheck(targetPlayer);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00350}00350\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Don't\ consider\ revenge\ targets\ to\ be\ our\ friends.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsCurrentRevengeTarget(\textcolor{keyword}{self},\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Targets\ who\ are\ attacking\ our\ allies\ are\ not\ friends.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsFightingFollowers(myLeader,\ target))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ They\ are\ a\ friend\ if\ we\ love\ them,\ or\ our\ leader\ loves\ them.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ myLeader\ ==\ \textcolor{keyword}{null}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ IsFriendlyFireByFaction(\textcolor{keyword}{self},\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ :\ IsFriendlyFireByFaction(myLeader,\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00364}00364\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00372}00372\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsEnemyByFaction(Entity\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00373}00373\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\textcolor{keyword}{self}\ is\ EntityAlive\ livingSelf\ \&\&\ target\ is\ EntityAlive\ livingTarget))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00377}00377\ \ \ \ \ \ \ \ \ var\ relationship\ =\ EntityUtilities.GetFactionRelationship(livingSelf,\ livingTarget);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ relationship\ <\ (int)FactionManager.Relationship.Dislike;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00380}00380\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00388}00388\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsEnemyInAnimalsFaction(Entity\ entity)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00389}00389\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00390}00390\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(entity\ is\ EntityEnemy\ enemy))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00393}00393\ \ \ \ \ \ \ \ \ var\ faction\ =\ FactionManager.Instance.GetFaction(enemy.factionId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ faction\ !=\ \textcolor{keyword}{null}\ \&\&\ faction.Name\ ==\ \textcolor{stringliteral}{"{}animals"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00395}00395\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00396}00396\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00404}00404\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsFriendlyFireByFaction(Entity\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00405}00405\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00406}00406\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\textcolor{keyword}{self}\ is\ EntityAlive\ livingSelf\ \&\&\ target\ is\ EntityAlive\ livingTarget))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ have\ the\ "{}damage\ relationship"{}\ cvar,\ use\ that\ value.\ Otherwise,\ use\ the\ default.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ damageRelationship\ =\ GetFriendlyFireRelationship(target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00412}00412\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (livingSelf.Buffs.HasCustomVar(DamageRelationshipCVarName))}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00413}00413\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ var\ buffValue\ =\ livingSelf.Buffs.GetCustomVar(DamageRelationshipCVarName);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GetCustomVar\ also\ sets\ the\ custom\ var\ to\ zero\ if\ it\ doesn't\ exist;\ check\ that.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (buffValue\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ damageRelationship\ =\ buffValue;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00418}00418\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00419}00419\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00420}00420\ \ \ \ \ \ \ \ \ var\ relationship\ =\ EntityUtilities.GetFactionRelationship(livingSelf,\ livingTarget);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00421}00421\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ relationship\ >=\ damageRelationship;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00422}00422\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00430}00430\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsCurrentRevengeTarget(EntityAlive\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00431}00431\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00432}00432\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target\ ==\ \textcolor{keyword}{null}\ ||\ \textcolor{keyword}{self}\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00434}00434\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00435}00435\ \ \ \ \ \ \ \ \ var\ revengeTarget\ =\ \textcolor{keyword}{self}.GetRevengeTarget();}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00436}00436\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (revengeTarget\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ revengeTarget.entityId\ ==\ target.entityId}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ !ShouldForgiveDamage(\textcolor{keyword}{self},\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00441}00441\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00450}00450\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ ShouldForgiveDamage(EntityAlive\ \textcolor{keyword}{self},\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00451}00451\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ now,\ only\ forgive\ damage\ from\ your\ leader\ or\ other\ followers.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00453}00453\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ In\ the\ future,\ we\ may\ do\ something\ different\ according\ to\ the\ "{}Player\ Killing"{}\ setting}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00454}00454\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ in\ the\ "{}Multiplayer"{}\ tab.}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ IsAlly(\textcolor{keyword}{self},\ target);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00456}00456\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00457}00457\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00464}00464\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ EntityPlayer\ GetPlayerLeader(Entity\ \textcolor{keyword}{self})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00465}00465\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GetPlayerLeader(\textcolor{keyword}{self},\ EntityUtilities.GetLeaderOrOwner(\textcolor{keyword}{self}.entityId));}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00467}00467\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00478}00478\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ EntityPlayer\ GetPlayerLeader(Entity\ \textcolor{keyword}{self},\ Entity\ leader)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00479}00479\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00480}00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{self}\ is\ EntityPlayer\ playerSelf)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerSelf;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00482}00482\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ leader\ as\ EntityPlayer;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00484}00484\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00493}00493\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ IsAllyOfLeader(Entity\ leader,\ Entity\ target)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00494}00494\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00495}00495\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (leader\ ==\ \textcolor{keyword}{null}\ ||\ target\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00497}00497\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00498}00498\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target.entityId\ ==\ leader.entityId)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00501}00501\ \ \ \ \ \ \ \ \ var\ targetLeader\ =\ EntityUtilities.GetLeaderOrOwner(target.entityId);}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetLeader\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00504}00504\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00505}00505\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ targetLeader.entityId\ ==\ leader.entityId;}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00506}00506\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00530}00530\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ Entity\ GetAggressionTarget(Entity\ attacker)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00531}00531\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (attacker\ is\ EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ player.GetRevengeTarget()\ ??\ player.GetAttackTarget();}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (attacker\ is\ EntityAlive\ entityAlive)}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entityAlive.GetRevengeTarget();}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00537}00537\ }
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00538}00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00539}00539\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_targeting_utilities_8cs_source_l00540}00540\ \}}
+
+\end{DoxyCode}

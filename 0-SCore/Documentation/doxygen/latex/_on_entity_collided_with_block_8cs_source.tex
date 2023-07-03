@@ -1,0 +1,61 @@
+\hypertarget{_on_entity_collided_with_block_8cs_source}{}\doxysection{On\+Entity\+Collided\+With\+Block.\+cs}
+\label{_on_entity_collided_with_block_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Blocks/OnEntityCollidedWithBlock.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Blocks/OnEntityCollidedWithBlock.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_features_1_1_lock_picking}{Features.LockPicking}}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00019}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block}{00019}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block}{SCoreOnEntityCollidedWithBlock}}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00020}00020\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ DestructibleTag\ =\ \textcolor{stringliteral}{"{}fcropsDestroy"{}};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}updateCurrentBlockPosAndValue"{}})]}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00026}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block__update_current_block_pos_and_value}{00026}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block__update_current_block_pos_and_value}{SCoreBlock\_updateCurrentBlockPosAndValue}}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityPlayerLocal)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityPlayer)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}notrample"{}})\ >\ 0f)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.HasAnyTags(FastTags.Parse(\textcolor{stringliteral}{"{}notrample"{}})))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Vector3i\ blockPosition\ =\ \_\_instance.GetBlockPosition();}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ block\ =\ GameManager.Instance.World.GetBlock(0,\ blockPosition).Block;}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block.FilterTags\ !=\ \textcolor{keyword}{null}\ \&\&\ block.FilterTags.ContainsCaseInsensitive(DestructibleTag))}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block.DamageBlock(GameManager.Instance.World,\ 0,\ blockPosition,\ block.ToBlockValue(),\ Block.list[block.ToBlockValue().type].MaxDamage,\ (\_\_instance\ !=\ \textcolor{keyword}{null})\ ?\ \_\_instance.entityId\ :\ -\/1,\ \textcolor{keyword}{null},\ \textcolor{keyword}{false})\ ;}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Let\ the\ NPCs\ pass\ by\ traps\ without\ being\ hurt.}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(BlockDamage))]}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnEntityCollidedWithBlock"{}})]}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00045}\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block_damage2071e04e6ca5b3e9a6fe891a76374e01}{00045}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_features_1_1_lock_picking_1_1_s_core_on_entity_collided_with_block_1_1_s_core_block_damage2071e04e6ca5b3e9a6fe891a76374e01}{SCoreBlockDamage\_OnEntityCollidedWithBlock}}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(BlockDamage\ \_\_instance,\ Entity\ \_targetEntity)}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_targetEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ hired\ entities,\ take\ a\ move\ penalty,\ but\ no\ damage.}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityAlive\ =\ \_targetEntity\ as\ global::EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityAlive\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.GetLeaderOrOwner(entityAlive.entityId)\ !=\ \textcolor{keyword}{null}\ )}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.MovementFactor\ !=\ 1f)}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityAlive.SetMotionMultiplier(EffectManager.GetValue(PassiveEffects.MovementFactorMultiplier,\ \textcolor{keyword}{null},\ \_\_instance.MovementFactor,\ entityAlive,\ \textcolor{keyword}{null},\ \textcolor{keywordflow}{default}(FastTags),\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ \textcolor{keyword}{true},\ 1,\ \textcolor{keyword}{true}));}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_on_entity_collided_with_block_8cs_source_l00068}00068\ \}}
+
+\end{DoxyCode}

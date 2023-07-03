@@ -1,0 +1,98 @@
+\hypertarget{_block_triggered_s_d_x_8cs_source}{}\doxysection{Block\+Triggered\+SDX.\+cs}
+\label{_block_triggered_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockTriggeredSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockTriggeredSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00004}00004\ \textcolor{comment}{/*}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{\ \ \ \ \ <property\ name="{}Class"{}\ value="{}TriggeredSDX,\ SCore"{}/>}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{\ \ \ \ \ <property\ name="{}AlwaysActive"{}\ value="{}true"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00007}00007\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00008}00008\ \textcolor{comment}{\ \ \ \ \ \ <!-\/-\/\ How\ far\ out\ the\ tile\ entity\ will\ re-\/scan\ to\ detect\ the\ player\ -\/-\/>}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00009}00009\ \textcolor{comment}{\ \ \ \ \ \ <property\ name="{}ActivationDistance"{}\ value="{}5"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00010}00010\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00011}00011\ \textcolor{comment}{\ \ \ \ \ \ \ <!-\/-\/\ this\ triggers\ a\ SetTrigger("{}On"{})\ when\ looked\ at\ -\/-\/>}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00012}00012\ \textcolor{comment}{\ \ \ \ \ \ <property\ name="{}ActivateOnLook"{}\ value="{}true"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00013}00013\ \textcolor{comment}{\ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00014}00014\ \textcolor{comment}{\ \ \ \ <!-\/-\/\ allows\ the\ block\ to\ be\ used\ as\ a\ storage\ device\ -\/-\/>}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00015}00015\ \textcolor{comment}{\ \ \ \ \ \ <property\ name="{}IsContainer"{}\ value="{}true"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00016}00016\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00017}00017\ \textcolor{comment}{\ \ \ \ \ \ <!-\/-\/\ Triggers\ the\ block\ if\ the\ buff\ buffCursed\ is\ active\ on\ the\ player,\ or\ if\ the\ player\ has\ a\ cvar\ called\ "{}cvar"{}\ with\ a\ value\ of\ 4,\ or\ if\ myOtherCvar\ is\ available,\ regardless\ of\ value\ -\/-\/>}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00018}00018\ \textcolor{comment}{\ \ \ \ \ \ \ <property\ name="{}ActivationBuffs"{}\ value="{}buffCursed,cvar(4),myOtherCvar"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00019}00019\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00020}00020\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00021}00021\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }BlockTriggeredSDX\ :\ BlockLoot}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00022}00022\ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTileEntities"{}};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ RandomIndex;}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init()}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ base.Init();}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RandomIndex"{}}))}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ RandomIndex\ =\ StringParsers.ParseSInt32(Properties.Values[\textcolor{stringliteral}{"{}RandomIndex"{}}],\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ GetActivationText(WorldBase\ \_world,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ EntityAlive\ \_entityFocusing)}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_blockValue.Block.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}ActivateOnLook"{}}))\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ var\ activateOnLook\ =\ StringParsers.ParseBool(\_blockValue.Block.Properties.Values[\textcolor{stringliteral}{"{}ActivateOnLook"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!activateOnLook)\ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Activating\ Block\ on\ GetActivationText"{}});}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ ActivateBlock(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue,\ \textcolor{keyword}{true},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{comment}{//\ don't\ open\ the\ loot\ container.}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ OnBlockActivated(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_cIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ EntityAlive\ \_player)}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_blockValue.Block.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}IsContainer"{}}))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ var\ isContainer\ =\ StringParsers.ParseBool(\_blockValue.Block.Properties.Values[\textcolor{stringliteral}{"{}IsContainer"{}}]);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isContainer)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ base.OnBlockActivated(\_world,\ \_cIdx,\ \_blockPos,\ \_blockValue,\ \_player);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ActivateBlock(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_cIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue,\ \textcolor{keywordtype}{bool}\ isOn,\ \textcolor{keywordtype}{bool}\ isPowered)}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ transform,\ no\ sense\ on\ keeping\ going\ for\ this\ class.}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ var\ ebcd\ =\ \_world.GetChunkFromWorldPos(\_blockPos).GetBlockEntity(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ebcd\ ==\ \textcolor{keyword}{null}\ ||\ ebcd.transform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ var\ componentsInChildren\ =\ ebcd.transform.GetComponentsInChildren<Animator>();}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (componentsInChildren\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ componentsInChildren.Length\ -\/\ 1;\ i\ >=\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ var\ animator\ =\ componentsInChildren[i];}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Animator:\ "{}}\ +\ animator.name\ +\ \textcolor{stringliteral}{"{}\ :\ Active:\ "{}}\ +\ isOn);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isOn)}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ random\ =\ Random.Range(0,\ RandomIndex);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Random\ Index\ for\ "{}}\ +\ animator.name\ +\ \textcolor{stringliteral}{"{}\ Value:\ "{}}\ +\ random);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetInteger(\textcolor{stringliteral}{"{}RandomIndex"{}},\ random);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Setting\ Bool\ for\ On:\ True\ "{}}\ +\ animator.name);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetBool(\textcolor{stringliteral}{"{}On"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Trigger\ for\ On:\ "{}}\ +\ animator.name);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetTrigger(\textcolor{stringliteral}{"{}TriggerOn"{}});}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ \textcolor{stringliteral}{"{}:\ Setting\ Bool\ for\ On:\ false"{}}\ +\ animator.name);}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.SetBool(\textcolor{stringliteral}{"{}On"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \_blockValue.Block.GetBlockName()\ +\ "{}:\ Turning\ Off\ Animator\ "{}\ +\ animator.name);}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ animator.enabled\ =\ false;}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_triggered_s_d_x_8cs_source_l00092}00092\ \}}
+
+\end{DoxyCode}

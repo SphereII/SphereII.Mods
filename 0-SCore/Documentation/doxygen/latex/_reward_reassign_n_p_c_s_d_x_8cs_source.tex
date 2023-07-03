@@ -1,0 +1,54 @@
+\hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source}{}\doxysection{Reward\+Reassign\+NPCSDX.\+cs}
+\label{_reward_reassign_n_p_c_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardReassignNPCSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardReassignNPCSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }RewardReassignNPCSDX\ :\ RewardExp}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ If\ the\ QuestNPC\ has\ other\ NPCs\ that\ have\ assigned\ it\ as\ their\ leader,\ this\ class\ will\ transfer\ the\ leadership\ flag\ to\ the\ player.}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ <reward\ type="{}ReassignNPCSDX,\ SCore"{}\ \ />\ }}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ GiveReward(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ var\ questNPC\ =\ GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID]\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (questNPC)}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ CheckSurroundingEntities(questNPC,\ player);}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseReward\ Clone()}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ var\ rewardNPC\ =\ \textcolor{keyword}{new}\ RewardReassignNPCSDX();}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ CopyValues(rewardNPC);}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rewardNPC;}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupReward()}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ Description\ =\ \textcolor{stringliteral}{"{}Reassign\ NPC\ Quest"{}};}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ SetupValueText();}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ Icon\ =\ \textcolor{stringliteral}{"{}ui\_game\_symbol\_trophy"{}};}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ Token:\ 0x060047B6\ RID:\ 18358\ RVA:\ 0x001FC954\ File\ Offset:\ 0x001FAB54}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetupValueText()}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ ValueText\ =\ \textcolor{stringliteral}{"{}Value\ Test"{}};}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ CheckSurroundingEntities(\mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ questNPC,\ EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ var\ NearbyEntities\ =\ \textcolor{keyword}{new}\ List<Entity>();}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ var\ bb\ =\ \textcolor{keyword}{new}\ Bounds(questNPC.position,\ \textcolor{keyword}{new}\ Vector3(questNPC.GetSeeDistance(),\ 20f,\ questNPC.GetSeeDistance()));}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ questNPC.world.GetEntitiesInBounds(typeof(\mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}),\ bb,\ NearbyEntities);}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ NearbyEntities.Count\ -\/\ 1;\ i\ >=\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ var\ x\ =\ (\mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}})NearbyEntities[i];}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ !=\ questNPC\ \&\&\ x.IsAlive())}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}Leader"{}})\ \&\&\ x.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}Leader"{}})\ ==\ questNPC.entityId)}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.SetOwner(x.entityId,\ player.entityId);}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_reassign_n_p_c_s_d_x_8cs_source_l00048}00048\ \}}
+
+\end{DoxyCode}

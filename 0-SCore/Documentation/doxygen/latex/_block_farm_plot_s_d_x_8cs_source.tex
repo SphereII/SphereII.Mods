@@ -1,0 +1,63 @@
+\hypertarget{_block_farm_plot_s_d_x_8cs_source}{}\doxysection{Block\+Farm\+Plot\+SDX.\+cs}
+\label{_block_farm_plot_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockFarmPlotSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockFarmPlotSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00008}\mbox{\hyperlink{class_block_farm_plot_s_d_x}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_farm_plot_s_d_x}{BlockFarmPlotSDX}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_block_farm_plot_s_d_x}{BlockFarmPlotSDX}}()}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ base.IsNotifyOnLoadUnload\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockRemoved(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.Remove(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ base.OnBlockRemoved(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockLoaded(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ base.OnBlockLoaded(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.Add(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockUnloaded(WorldBase\ \_world,\ \textcolor{keywordtype}{int}\ \_clrIdx,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ base.OnBlockUnloaded(\_world,\ \_clrIdx,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.Remove(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnBlockAdded(WorldBase\ \_world,\ Chunk\ \_chunk,\ Vector3i\ \_blockPos,\ BlockValue\ \_blockValue)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ base.OnBlockAdded(\_world,\ \_chunk,\ \_blockPos,\ \_blockValue);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.Add(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PlaceBlock(WorldBase\ \_world,\ BlockPlacement.Result\ \_result,\ EntityAlive\ \_ea)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_farm_plot_manager}{FarmPlotManager}}.Instance.Add(\_result.blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ base.PlaceBlock(\_world,\ \_result,\ \_ea);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ GetCustomDescription(Vector3i\ \_blockPos,\ BlockValue\ \_bv)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ var\ localPlayer\ =\ GameManager.Instance.World.GetPrimaryPlayer();}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (localPlayer\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ base.GetCustomDescription(\_blockPos,\ \_bv);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (localPlayer.playerInput.PermanentActions.Activate.IsPressed\ ||\ localPlayer.playerInput.Activate.IsPressed)}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_water_pipe_manager}{WaterPipeManager}}.Instance.GetWaterSummary(\_blockPos);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ base.GetCustomDescription(\_blockPos,\ \_bv);}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00056}00056\ \}}
+\DoxyCodeLine{\Hypertarget{_block_farm_plot_s_d_x_8cs_source_l00057}00057\ }
+
+\end{DoxyCode}

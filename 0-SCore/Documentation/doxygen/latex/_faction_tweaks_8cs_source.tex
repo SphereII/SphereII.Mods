@@ -1,0 +1,72 @@
+\hypertarget{_faction_tweaks_8cs_source}{}\doxysection{Faction\+Tweaks.\+cs}
+\label{_faction_tweaks_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Faction/FactionTweaks.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Faction/FactionTweaks.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Reflection.Emit;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00007}\mbox{\hyperlink{namespace_harmony_1_1_faction}{00007}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_faction}{Harmony.Faction}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }FactionTweaks}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fixing\ for\ a\ reverse\ condition\ for\ isGameStarted}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(FactionManager))]}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Update"{}})]}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00020}\mbox{\hyperlink{class_harmony_1_1_faction_1_1_faction_tweaks_1_1_faction_update}{00020}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_faction_1_1_faction_tweaks_1_1_faction_update}{FactionUpdate}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(FactionManager\ \_\_instance,\ ref\ \textcolor{keywordtype}{float}\ \_\_\_saveTime,\ ThreadManager.ThreadInfo\ \_\_\_dataSaveThreadInfo)}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer\ ||\ GameManager.Instance.World\ ==\ \textcolor{keyword}{null}\ ||\ GameManager.Instance.World.Players\ ==\ \textcolor{keyword}{null}\ ||\ GameManager.Instance.World.Players.Count\ ==\ 0\ )}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_saveTime\ -\/=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_saveTime\ <=\ 0f\ \&\&\ (\_\_\_dataSaveThreadInfo\ ==\ \textcolor{keyword}{null}\ ||\ \_\_\_dataSaveThreadInfo.HasTerminated()))}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_saveTime\ =\ 60f;}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.Save();}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//private\ static\ IEnumerable<CodeInstruction>\ Transpiler(IEnumerable<CodeInstruction>\ instructions)}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ //\ Grab\ all\ the\ instructions}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ var\ codes\ =\ new\ List<CodeInstruction>(instructions);}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ var\ counter\ =\ 0;}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ foreach\ (var\ t\ in\ codes)}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (t.opcode\ !=\ OpCodes.Brfalse)\ continue;}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (counter\ ==\ 4)}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ t.opcode\ =\ OpCodes.Brtrue;}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ break;}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ counter++;}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ return\ codes.AsEnumerable();}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fixing\ casting\ bug}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::Faction))]}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetRelationship"{}})]}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00063}\mbox{\hyperlink{class_harmony_1_1_faction_1_1_faction_tweaks_1_1_set_relationship}{00063}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_faction_1_1_faction_tweaks_1_1_set_relationship}{SetRelationship}}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::Faction\ \_\_instance,\ \textcolor{keywordtype}{byte}\ \_factionId,\ \textcolor{keywordtype}{float}\ \_value)}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.Relationships[\_factionId]\ =\ Mathf.Clamp(\_value,\ 0f,\ 1000f);}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00071}00071\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_faction_tweaks_8cs_source_l00073}00073\ \}}
+
+\end{DoxyCode}

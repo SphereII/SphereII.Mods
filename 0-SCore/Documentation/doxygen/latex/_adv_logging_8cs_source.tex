@@ -1,0 +1,49 @@
+\hypertarget{_adv_logging_8cs_source}{}\doxysection{Adv\+Logging.\+cs}
+\label{_adv_logging_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Features/AdvLogging.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Features/AdvLogging.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Runtime.CompilerServices;}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00004}00004\ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keyword}{class\ }AdvLogging}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ DisplayLog(\textcolor{keywordtype}{string}\ AdvFeatureClass,\ \textcolor{keywordtype}{string}\ strDisplay)}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Logging"{}}))}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Configuration.CheckFeatureStatus(\textcolor{stringliteral}{"{}AdvancedLogging"{}},\ \textcolor{stringliteral}{"{}LowOutput"{}}))}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\{strDisplay\}"{}});}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Debug.Log(strDisplay);}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\{AdvFeatureClass\}\ ::\ \{strDisplay\}"{}});}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00019}00019\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00021}00021\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00022}00022\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ DisplayLog(\textcolor{keywordtype}{string}\ AdvFeatureClass,\ \textcolor{keywordtype}{string}\ Feature,\ \textcolor{keywordtype}{string}\ strDisplay)}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00023}00023\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Configuration.CheckFeatureStatus(\textcolor{stringliteral}{"{}AdvancedLogging"{}},\ \textcolor{stringliteral}{"{}LowOutput"{}}))}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\{strDisplay\}"{}});}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\$\textcolor{stringliteral}{"{}\{AdvFeatureClass\}\ ::\ \{Feature\}\ ::\ \{strDisplay\}"{}});}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ LogEnabled(\textcolor{keywordtype}{string}\ AdvFeatureClass)}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Configuration.CheckFeatureStatus(AdvFeatureClass);}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ LogEnabled(\textcolor{keywordtype}{string}\ AdvFeatureClass,\ \textcolor{keywordtype}{string}\ Feature)}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature);}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00042}00042\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_adv_logging_8cs_source_l00043}00043\ \}}
+
+\end{DoxyCode}

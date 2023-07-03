@@ -1,0 +1,796 @@
+\hypertarget{class_lockpicking_1_1_keyhole}{}\doxysection{Lockpicking.\+Keyhole Class Reference}
+\label{class_lockpicking_1_1_keyhole}\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+
+
+Inherits Mono\+Behaviour.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aef324331a43e61a31b0a3655a894e73a}{Break\+Time\+Counter}} ()
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a16e814563924d019c007cc636d069c48}{Lock\+Pick\+Angle}} ()
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a4b3f3fd6835614fb3eca516fa4d84042}{Keyhole\+Angle}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ad449560166ad5752375d262182dd48d9}{Editor\+On\+Validate}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}{Open\+Lock}} ()
+\begin{DoxyCompactList}\small\item\em Call this when the lock is open successfully. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a38ba6843890a74b7839bf14824069e02}{Keyhole\+Turn\+Value}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a26f78fe5e75ab74dd3d584fe7d02e7ea}{Set\+Lock}} (float new\+Lock\+Angle, float new\+Lock\+Give, float new\+Close\+Distance)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a92825e556138d4d861b022be24f729e3}{Set\+Lock}} (float lock\+Angle\+Min, float lock\+Angle\+Max, float lock\+Give\+Min, float lock\+Give\+Max, float close\+Distance\+Min, float close\+Distance\+Max)
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aa0ee517d206d50b93d3b5b5e4f3fc304}{Reset\+Lock}} ()
+\item 
+void \mbox{\hyperlink{class_lockpicking_1_1_keyhole_af646f0b5ea985285d08fec9cd1daed10}{Reset\+Lockpick\+Position}} ()
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_keyhole_abc524c615fc7dc70462a83de37a0b764}{Lock\+Can\+Turn}} ()
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a14902b4f2c7a8595fd5ef3b941ae626c}{Lock\+Complete}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a2029dbdbf74e7082b5bdc731132a1c57}{Num\+Lock\+Picks}}
+\item 
+Entity\+Player \mbox{\hyperlink{class_lockpicking_1_1_keyhole_af8ff1eff2cfc00b08f88cca22b484a20}{player}}
+\item 
+Block\+Value \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a0e8451cbe1296ddeba4070e5cc559fb8}{block\+Value}}
+\item 
+Game\+Object \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a8c4aecf1e6702852f16966ebc82dccbe}{keyhole}}
+\item 
+Game\+Object \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a12f22bcbca07fe4ab7a0fd2696ff4bff}{lockpick\+Object}}
+\item 
+Animator \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a18281be0d28f2a0fcd167091e7a42cf9}{lockpick\+Animator}}
+\item 
+Animator \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ac4077611d97642560be5841b4eb158c7}{\+\_\+padlock\+Animator}}
+\item 
+Game\+Object \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ab129815f8a6c641d45fd1cc311dcc450}{padlock1}}
+\item 
+Game\+Object \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a9517a1c0e1235d3a1a2a9a255a7db18c}{button}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_abce16bc2d2db30991d397eb62178ffe8}{audio\+Turn\+Click}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ab54c92e7faea13a0441777cebb430017}{audio\+Squeek}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ad1e11a8e2ce813b30ddd41240bc7c587}{audio\+Open}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a7096b052df09b8474c4ad561291a7b76}{audio\+Jiggle}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a387fa90865e61569ce712365a8e5ece7}{audio\+Jiggle2}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a1c14e504e58d4de6e0da32e47e38d0df}{audio\+Jiggle3}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a20dd750f9832a1fb414e5efdf0047675}{audio\+Padlock\+Open}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a688a47b157eba1eeebe56e8fa829a153}{audio\+Padlock\+Jiggle}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ac293295e9c115252a4bba366438b8815}{audio\+Lockpick\+Break}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a3f3878a6fd13e580f6c7072f040c98bd}{audio\+Lockpick\+Enter}}
+\item 
+\mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a1395dd96d7681bf34e4ea5a6b8858d95}{audio\+Lockpick\+Click}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a7bb10e4c49beb95573d27ec97d692f8b}{click\+Volume\+Min}} = 0.\+1f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a3c559c874ac8d888b5480e5e65149871}{click\+Volume\+Max}} = 0.\+4f
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_keyhole_abf9166a4c26a694bfd8de97d3362e9ae}{click\+Chance}} = 100
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_afeb6e16c75a29ec39d3728a527b073d8}{click\+Rate}} = 10f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a08cc921ccc34f537843fcfbe709bbb08}{squeek\+Volume\+Min}} = 0.\+1f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ad28493b48c0886f526fb5fc52315641f}{squeek\+Volume\+Max}} = 0.\+4f
+\item 
+int \mbox{\hyperlink{class_lockpicking_1_1_keyhole_af70965fc914d25dfedf37bdfaa2cdd7c}{squeek\+Chance}} = 50
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a72a86698e9bdf80ec643e5945b5c134b}{squeek\+Rate}} = 20f
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a0e8aa379d5a057a02c4e3fd38d350d1c}{button\+Down}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a3f2daac305476d481c49aeb3442c41db}{open\+Pressure}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a5b41db12f1f9b35414ff14d663f4fd4f}{lockpick\+Pressure}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a21754f2ebfad09af58d5361edf9f6dc0}{turn\+Speed\+Lockpick}} = 50f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_ad9257831d2fe9bca873cf3bd3414915f}{turn\+Speed\+Keyhole}} = 50f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a616eb297c7f10dc3a590942bb5661465}{return\+Speed\+Keyhole}} = 150f
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a22a6642b4016ef5eb99d3c49456d4e0e}{reset\+On\+Awake}} = true
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a30726890ea2de39ad8f950ab828c44f4}{min\+Lock\+Angle}} = -\/90f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aff40ea5c746ba050f7fbf4048cc8b852}{max\+Lock\+Angle}} = 90f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aa7ebd5157781bba5e473360358e0102f}{min\+Give\+Amount}} = 1f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_acc78b9f1fdc48f1a736e141693ac387e}{max\+Give\+Amount}} = 30f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aac39df939275b6eee840747ff0f215ac}{min\+Close\+Distance}} = 5f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_acc31879b59fb8a87e8f40537a59a9436}{max\+Close\+Distance}} = 10f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a300277e4862ed4bb2778e6dbd027292a}{break\+Pause}} = 2f
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a404b5376ecd2da17bd049ce1fb6c54c1}{break\+Time}} = 1f
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a1a906bd38ebcca522ca3d608ccbbcea5}{open\+Trigger}} = \char`\"{}Open\+Padlock\char`\"{}
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a9a2ca4818dd5f87f833e9ad167f3b0d1}{close\+Trigger}} = \char`\"{}Close\+Padlock\char`\"{}
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a1ade8a29f60517ddf0fbf5b2c160ca1a}{lock\+Pick\+Break\+Trigger}} = \char`\"{}Break\+Lockpick1\char`\"{}
+\item 
+string \mbox{\hyperlink{class_lockpicking_1_1_keyhole_aa640faec3f0cc433fd508c54a3ecd30e}{lock\+Pick\+Insert\+Trigger}} = \char`\"{}Insert\+Lockpick\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a8f1b5f69eb24cd2f202aee1e7bea55d7}{Lock\+Is\+Open}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a3191da1bdd91928e6a8f4e8dd36e7a4e}{Lock\+Angle}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a1743f573961b16ca3a9c46db40ab472b}{Lock\+Give}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+float \mbox{\hyperlink{class_lockpicking_1_1_keyhole_a0495ed5a72cae6e96aa62d370ba1eaf3}{Close\+Distance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00016}{16}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aef324331a43e61a31b0a3655a894e73a}\label{class_lockpicking_1_1_keyhole_aef324331a43e61a31b0a3655a894e73a}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!BreakTimeCounter@{BreakTimeCounter}}
+\index{BreakTimeCounter@{BreakTimeCounter}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{BreakTimeCounter()}{BreakTimeCounter()}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Break\+Time\+Counter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00137}{137}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ad449560166ad5752375d262182dd48d9}\label{class_lockpicking_1_1_keyhole_ad449560166ad5752375d262182dd48d9}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!EditorOnValidate@{EditorOnValidate}}
+\index{EditorOnValidate@{EditorOnValidate}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{EditorOnValidate()}{EditorOnValidate()}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Editor\+On\+Validate (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00152}{152}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a4b3f3fd6835614fb3eca516fa4d84042}\label{class_lockpicking_1_1_keyhole_a4b3f3fd6835614fb3eca516fa4d84042}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!KeyholeAngle@{KeyholeAngle}}
+\index{KeyholeAngle@{KeyholeAngle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{KeyholeAngle()}{KeyholeAngle()}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Keyhole\+Angle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00147}{147}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a38ba6843890a74b7839bf14824069e02}\label{class_lockpicking_1_1_keyhole_a38ba6843890a74b7839bf14824069e02}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!KeyholeTurnValue@{KeyholeTurnValue}}
+\index{KeyholeTurnValue@{KeyholeTurnValue}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{KeyholeTurnValue()}{KeyholeTurnValue()}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Keyhole\+Turn\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00457}{457}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_abc524c615fc7dc70462a83de37a0b764}\label{class_lockpicking_1_1_keyhole_abc524c615fc7dc70462a83de37a0b764}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockCanTurn@{LockCanTurn}}
+\index{LockCanTurn@{LockCanTurn}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockCanTurn()}{LockCanTurn()}}
+{\footnotesize\ttfamily bool Lockpicking.\+Keyhole.\+Lock\+Can\+Turn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00564}{564}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a14902b4f2c7a8595fd5ef3b941ae626c}\label{class_lockpicking_1_1_keyhole_a14902b4f2c7a8595fd5ef3b941ae626c}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockComplete@{LockComplete}}
+\index{LockComplete@{LockComplete}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockComplete()}{LockComplete()}}
+{\footnotesize\ttfamily bool Lockpicking.\+Keyhole.\+Lock\+Complete (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00571}{571}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a16e814563924d019c007cc636d069c48}\label{class_lockpicking_1_1_keyhole_a16e814563924d019c007cc636d069c48}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockPickAngle@{LockPickAngle}}
+\index{LockPickAngle@{LockPickAngle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockPickAngle()}{LockPickAngle()}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Lock\+Pick\+Angle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00142}{142}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}\label{class_lockpicking_1_1_keyhole_a224f761e72fdb1ca98ae99124830960d}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!OpenLock@{OpenLock}}
+\index{OpenLock@{OpenLock}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{OpenLock()}{OpenLock()}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Open\+Lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Call this when the lock is open successfully. 
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00363}{363}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aa0ee517d206d50b93d3b5b5e4f3fc304}\label{class_lockpicking_1_1_keyhole_aa0ee517d206d50b93d3b5b5e4f3fc304}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!ResetLock@{ResetLock}}
+\index{ResetLock@{ResetLock}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{ResetLock()}{ResetLock()}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Reset\+Lock (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00481}{481}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_af646f0b5ea985285d08fec9cd1daed10}\label{class_lockpicking_1_1_keyhole_af646f0b5ea985285d08fec9cd1daed10}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!ResetLockpickPosition@{ResetLockpickPosition}}
+\index{ResetLockpickPosition@{ResetLockpickPosition}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{ResetLockpickPosition()}{ResetLockpickPosition()}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Reset\+Lockpick\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00557}{557}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a92825e556138d4d861b022be24f729e3}\label{class_lockpicking_1_1_keyhole_a92825e556138d4d861b022be24f729e3}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!SetLock@{SetLock}}
+\index{SetLock@{SetLock}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{SetLock()}{SetLock()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Set\+Lock (\begin{DoxyParamCaption}\item[{float}]{lock\+Angle\+Min,  }\item[{float}]{lock\+Angle\+Max,  }\item[{float}]{lock\+Give\+Min,  }\item[{float}]{lock\+Give\+Max,  }\item[{float}]{close\+Distance\+Min,  }\item[{float}]{close\+Distance\+Max }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00473}{473}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a26f78fe5e75ab74dd3d584fe7d02e7ea}\label{class_lockpicking_1_1_keyhole_a26f78fe5e75ab74dd3d584fe7d02e7ea}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!SetLock@{SetLock}}
+\index{SetLock@{SetLock}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{SetLock()}{SetLock()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Lockpicking.\+Keyhole.\+Set\+Lock (\begin{DoxyParamCaption}\item[{float}]{new\+Lock\+Angle,  }\item[{float}]{new\+Lock\+Give,  }\item[{float}]{new\+Close\+Distance }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00462}{462}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ac4077611d97642560be5841b4eb158c7}\label{class_lockpicking_1_1_keyhole_ac4077611d97642560be5841b4eb158c7}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!\_padlockAnimator@{\_padlockAnimator}}
+\index{\_padlockAnimator@{\_padlockAnimator}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{\_padlockAnimator}{\_padlockAnimator}}
+{\footnotesize\ttfamily Animator Lockpicking.\+Keyhole.\+\_\+padlock\+Animator}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a7096b052df09b8474c4ad561291a7b76}\label{class_lockpicking_1_1_keyhole_a7096b052df09b8474c4ad561291a7b76}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioJiggle@{audioJiggle}}
+\index{audioJiggle@{audioJiggle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioJiggle}{audioJiggle}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Jiggle}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a387fa90865e61569ce712365a8e5ece7}\label{class_lockpicking_1_1_keyhole_a387fa90865e61569ce712365a8e5ece7}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioJiggle2@{audioJiggle2}}
+\index{audioJiggle2@{audioJiggle2}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioJiggle2}{audioJiggle2}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Jiggle2}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a1c14e504e58d4de6e0da32e47e38d0df}\label{class_lockpicking_1_1_keyhole_a1c14e504e58d4de6e0da32e47e38d0df}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioJiggle3@{audioJiggle3}}
+\index{audioJiggle3@{audioJiggle3}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioJiggle3}{audioJiggle3}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Jiggle3}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ac293295e9c115252a4bba366438b8815}\label{class_lockpicking_1_1_keyhole_ac293295e9c115252a4bba366438b8815}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioLockpickBreak@{audioLockpickBreak}}
+\index{audioLockpickBreak@{audioLockpickBreak}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioLockpickBreak}{audioLockpickBreak}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Lockpick\+Break}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00038}{38}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a1395dd96d7681bf34e4ea5a6b8858d95}\label{class_lockpicking_1_1_keyhole_a1395dd96d7681bf34e4ea5a6b8858d95}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioLockpickClick@{audioLockpickClick}}
+\index{audioLockpickClick@{audioLockpickClick}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioLockpickClick}{audioLockpickClick}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Lockpick\+Click}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00040}{40}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a3f3878a6fd13e580f6c7072f040c98bd}\label{class_lockpicking_1_1_keyhole_a3f3878a6fd13e580f6c7072f040c98bd}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioLockpickEnter@{audioLockpickEnter}}
+\index{audioLockpickEnter@{audioLockpickEnter}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioLockpickEnter}{audioLockpickEnter}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Lockpick\+Enter}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00039}{39}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ad1e11a8e2ce813b30ddd41240bc7c587}\label{class_lockpicking_1_1_keyhole_ad1e11a8e2ce813b30ddd41240bc7c587}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioOpen@{audioOpen}}
+\index{audioOpen@{audioOpen}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioOpen}{audioOpen}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Open}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00032}{32}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a688a47b157eba1eeebe56e8fa829a153}\label{class_lockpicking_1_1_keyhole_a688a47b157eba1eeebe56e8fa829a153}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioPadlockJiggle@{audioPadlockJiggle}}
+\index{audioPadlockJiggle@{audioPadlockJiggle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioPadlockJiggle}{audioPadlockJiggle}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Padlock\+Jiggle}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00037}{37}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a20dd750f9832a1fb414e5efdf0047675}\label{class_lockpicking_1_1_keyhole_a20dd750f9832a1fb414e5efdf0047675}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioPadlockOpen@{audioPadlockOpen}}
+\index{audioPadlockOpen@{audioPadlockOpen}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioPadlockOpen}{audioPadlockOpen}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Padlock\+Open}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00036}{36}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ab54c92e7faea13a0441777cebb430017}\label{class_lockpicking_1_1_keyhole_ab54c92e7faea13a0441777cebb430017}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioSqueek@{audioSqueek}}
+\index{audioSqueek@{audioSqueek}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioSqueek}{audioSqueek}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Squeek}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_abce16bc2d2db30991d397eb62178ffe8}\label{class_lockpicking_1_1_keyhole_abce16bc2d2db30991d397eb62178ffe8}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!audioTurnClick@{audioTurnClick}}
+\index{audioTurnClick@{audioTurnClick}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{audioTurnClick}{audioTurnClick}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_lockset_audio}{Lockset\+Audio}} Lockpicking.\+Keyhole.\+audio\+Turn\+Click}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00030}{30}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a0e8451cbe1296ddeba4070e5cc559fb8}\label{class_lockpicking_1_1_keyhole_a0e8451cbe1296ddeba4070e5cc559fb8}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!blockValue@{blockValue}}
+\index{blockValue@{blockValue}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{blockValue}{blockValue}}
+{\footnotesize\ttfamily Block\+Value Lockpicking.\+Keyhole.\+block\+Value}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00021}{21}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a300277e4862ed4bb2778e6dbd027292a}\label{class_lockpicking_1_1_keyhole_a300277e4862ed4bb2778e6dbd027292a}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!breakPause@{breakPause}}
+\index{breakPause@{breakPause}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{breakPause}{breakPause}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+break\+Pause = 2f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00680}{680}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a404b5376ecd2da17bd049ce1fb6c54c1}\label{class_lockpicking_1_1_keyhole_a404b5376ecd2da17bd049ce1fb6c54c1}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!breakTime@{breakTime}}
+\index{breakTime@{breakTime}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{breakTime}{breakTime}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+break\+Time = 1f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00726}{726}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a9517a1c0e1235d3a1a2a9a255a7db18c}\label{class_lockpicking_1_1_keyhole_a9517a1c0e1235d3a1a2a9a255a7db18c}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!button@{button}}
+\index{button@{button}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{button}{button}}
+{\footnotesize\ttfamily Game\+Object Lockpicking.\+Keyhole.\+button}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00029}{29}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a0e8aa379d5a057a02c4e3fd38d350d1c}\label{class_lockpicking_1_1_keyhole_a0e8aa379d5a057a02c4e3fd38d350d1c}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!buttonDown@{buttonDown}}
+\index{buttonDown@{buttonDown}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{buttonDown}{buttonDown}}
+{\footnotesize\ttfamily bool Lockpicking.\+Keyhole.\+button\+Down}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_abf9166a4c26a694bfd8de97d3362e9ae}\label{class_lockpicking_1_1_keyhole_abf9166a4c26a694bfd8de97d3362e9ae}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!clickChance@{clickChance}}
+\index{clickChance@{clickChance}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{clickChance}{clickChance}}
+{\footnotesize\ttfamily int Lockpicking.\+Keyhole.\+click\+Chance = 100}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_afeb6e16c75a29ec39d3728a527b073d8}\label{class_lockpicking_1_1_keyhole_afeb6e16c75a29ec39d3728a527b073d8}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!clickRate@{clickRate}}
+\index{clickRate@{clickRate}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{clickRate}{clickRate}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+click\+Rate = 10f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00046}{46}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a3c559c874ac8d888b5480e5e65149871}\label{class_lockpicking_1_1_keyhole_a3c559c874ac8d888b5480e5e65149871}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!clickVolumeMax@{clickVolumeMax}}
+\index{clickVolumeMax@{clickVolumeMax}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{clickVolumeMax}{clickVolumeMax}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+click\+Volume\+Max = 0.\+4f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a7bb10e4c49beb95573d27ec97d692f8b}\label{class_lockpicking_1_1_keyhole_a7bb10e4c49beb95573d27ec97d692f8b}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!clickVolumeMin@{clickVolumeMin}}
+\index{clickVolumeMin@{clickVolumeMin}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{clickVolumeMin}{clickVolumeMin}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+click\+Volume\+Min = 0.\+1f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00043}{43}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a9a2ca4818dd5f87f833e9ad167f3b0d1}\label{class_lockpicking_1_1_keyhole_a9a2ca4818dd5f87f833e9ad167f3b0d1}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!closeTrigger@{closeTrigger}}
+\index{closeTrigger@{closeTrigger}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{closeTrigger}{closeTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Keyhole.\+close\+Trigger = \char`\"{}Close\+Padlock\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00731}{731}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a8c4aecf1e6702852f16966ebc82dccbe}\label{class_lockpicking_1_1_keyhole_a8c4aecf1e6702852f16966ebc82dccbe}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!keyhole@{keyhole}}
+\index{keyhole@{keyhole}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{keyhole}{keyhole}}
+{\footnotesize\ttfamily Game\+Object Lockpicking.\+Keyhole.\+keyhole}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00023}{23}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a18281be0d28f2a0fcd167091e7a42cf9}\label{class_lockpicking_1_1_keyhole_a18281be0d28f2a0fcd167091e7a42cf9}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!lockpickAnimator@{lockpickAnimator}}
+\index{lockpickAnimator@{lockpickAnimator}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{lockpickAnimator}{lockpickAnimator}}
+{\footnotesize\ttfamily Animator Lockpicking.\+Keyhole.\+lockpick\+Animator}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a1ade8a29f60517ddf0fbf5b2c160ca1a}\label{class_lockpicking_1_1_keyhole_a1ade8a29f60517ddf0fbf5b2c160ca1a}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!lockPickBreakTrigger@{lockPickBreakTrigger}}
+\index{lockPickBreakTrigger@{lockPickBreakTrigger}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{lockPickBreakTrigger}{lockPickBreakTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Keyhole.\+lock\+Pick\+Break\+Trigger = \char`\"{}Break\+Lockpick1\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00732}{732}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aa640faec3f0cc433fd508c54a3ecd30e}\label{class_lockpicking_1_1_keyhole_aa640faec3f0cc433fd508c54a3ecd30e}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!lockPickInsertTrigger@{lockPickInsertTrigger}}
+\index{lockPickInsertTrigger@{lockPickInsertTrigger}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{lockPickInsertTrigger}{lockPickInsertTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Keyhole.\+lock\+Pick\+Insert\+Trigger = \char`\"{}Insert\+Lockpick\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00733}{733}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a12f22bcbca07fe4ab7a0fd2696ff4bff}\label{class_lockpicking_1_1_keyhole_a12f22bcbca07fe4ab7a0fd2696ff4bff}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!lockpickObject@{lockpickObject}}
+\index{lockpickObject@{lockpickObject}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{lockpickObject}{lockpickObject}}
+{\footnotesize\ttfamily Game\+Object Lockpicking.\+Keyhole.\+lockpick\+Object}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00025}{25}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a5b41db12f1f9b35414ff14d663f4fd4f}\label{class_lockpicking_1_1_keyhole_a5b41db12f1f9b35414ff14d663f4fd4f}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!lockpickPressure@{lockpickPressure}}
+\index{lockpickPressure@{lockpickPressure}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{lockpickPressure}{lockpickPressure}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+lockpick\+Pressure}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00601}{601}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_acc31879b59fb8a87e8f40537a59a9436}\label{class_lockpicking_1_1_keyhole_acc31879b59fb8a87e8f40537a59a9436}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!maxCloseDistance@{maxCloseDistance}}
+\index{maxCloseDistance@{maxCloseDistance}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{maxCloseDistance}{maxCloseDistance}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+max\+Close\+Distance = 10f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00676}{676}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_acc78b9f1fdc48f1a736e141693ac387e}\label{class_lockpicking_1_1_keyhole_acc78b9f1fdc48f1a736e141693ac387e}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!maxGiveAmount@{maxGiveAmount}}
+\index{maxGiveAmount@{maxGiveAmount}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{maxGiveAmount}{maxGiveAmount}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+max\+Give\+Amount = 30f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00668}{668}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aff40ea5c746ba050f7fbf4048cc8b852}\label{class_lockpicking_1_1_keyhole_aff40ea5c746ba050f7fbf4048cc8b852}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!maxLockAngle@{maxLockAngle}}
+\index{maxLockAngle@{maxLockAngle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{maxLockAngle}{maxLockAngle}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+max\+Lock\+Angle = 90f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00660}{660}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aac39df939275b6eee840747ff0f215ac}\label{class_lockpicking_1_1_keyhole_aac39df939275b6eee840747ff0f215ac}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!minCloseDistance@{minCloseDistance}}
+\index{minCloseDistance@{minCloseDistance}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{minCloseDistance}{minCloseDistance}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+min\+Close\+Distance = 5f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00672}{672}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_aa7ebd5157781bba5e473360358e0102f}\label{class_lockpicking_1_1_keyhole_aa7ebd5157781bba5e473360358e0102f}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!minGiveAmount@{minGiveAmount}}
+\index{minGiveAmount@{minGiveAmount}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{minGiveAmount}{minGiveAmount}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+min\+Give\+Amount = 1f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00664}{664}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a30726890ea2de39ad8f950ab828c44f4}\label{class_lockpicking_1_1_keyhole_a30726890ea2de39ad8f950ab828c44f4}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!minLockAngle@{minLockAngle}}
+\index{minLockAngle@{minLockAngle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{minLockAngle}{minLockAngle}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+min\+Lock\+Angle = -\/90f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00656}{656}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a2029dbdbf74e7082b5bdc731132a1c57}\label{class_lockpicking_1_1_keyhole_a2029dbdbf74e7082b5bdc731132a1c57}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!NumLockPicks@{NumLockPicks}}
+\index{NumLockPicks@{NumLockPicks}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{NumLockPicks}{NumLockPicks}}
+{\footnotesize\ttfamily int Lockpicking.\+Keyhole.\+Num\+Lock\+Picks}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00019}{19}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a3f2daac305476d481c49aeb3442c41db}\label{class_lockpicking_1_1_keyhole_a3f2daac305476d481c49aeb3442c41db}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!openPressure@{openPressure}}
+\index{openPressure@{openPressure}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{openPressure}{openPressure}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+open\+Pressure}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00599}{599}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a1a906bd38ebcca522ca3d608ccbbcea5}\label{class_lockpicking_1_1_keyhole_a1a906bd38ebcca522ca3d608ccbbcea5}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!openTrigger@{openTrigger}}
+\index{openTrigger@{openTrigger}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{openTrigger}{openTrigger}}
+{\footnotesize\ttfamily string Lockpicking.\+Keyhole.\+open\+Trigger = \char`\"{}Open\+Padlock\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00729}{729}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ab129815f8a6c641d45fd1cc311dcc450}\label{class_lockpicking_1_1_keyhole_ab129815f8a6c641d45fd1cc311dcc450}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!padlock1@{padlock1}}
+\index{padlock1@{padlock1}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{padlock1}{padlock1}}
+{\footnotesize\ttfamily Game\+Object Lockpicking.\+Keyhole.\+padlock1}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_af8ff1eff2cfc00b08f88cca22b484a20}\label{class_lockpicking_1_1_keyhole_af8ff1eff2cfc00b08f88cca22b484a20}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!player@{player}}
+\index{player@{player}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{player}{player}}
+{\footnotesize\ttfamily Entity\+Player Lockpicking.\+Keyhole.\+player}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a22a6642b4016ef5eb99d3c49456d4e0e}\label{class_lockpicking_1_1_keyhole_a22a6642b4016ef5eb99d3c49456d4e0e}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!resetOnAwake@{resetOnAwake}}
+\index{resetOnAwake@{resetOnAwake}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{resetOnAwake}{resetOnAwake}}
+{\footnotesize\ttfamily bool Lockpicking.\+Keyhole.\+reset\+On\+Awake = true}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00652}{652}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a616eb297c7f10dc3a590942bb5661465}\label{class_lockpicking_1_1_keyhole_a616eb297c7f10dc3a590942bb5661465}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!returnSpeedKeyhole@{returnSpeedKeyhole}}
+\index{returnSpeedKeyhole@{returnSpeedKeyhole}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{returnSpeedKeyhole}{returnSpeedKeyhole}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+return\+Speed\+Keyhole = 150f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00615}{615}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_af70965fc914d25dfedf37bdfaa2cdd7c}\label{class_lockpicking_1_1_keyhole_af70965fc914d25dfedf37bdfaa2cdd7c}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!squeekChance@{squeekChance}}
+\index{squeekChance@{squeekChance}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{squeekChance}{squeekChance}}
+{\footnotesize\ttfamily int Lockpicking.\+Keyhole.\+squeek\+Chance = 50}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00049}{49}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a72a86698e9bdf80ec643e5945b5c134b}\label{class_lockpicking_1_1_keyhole_a72a86698e9bdf80ec643e5945b5c134b}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!squeekRate@{squeekRate}}
+\index{squeekRate@{squeekRate}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{squeekRate}{squeekRate}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+squeek\+Rate = 20f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00050}{50}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ad28493b48c0886f526fb5fc52315641f}\label{class_lockpicking_1_1_keyhole_ad28493b48c0886f526fb5fc52315641f}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!squeekVolumeMax@{squeekVolumeMax}}
+\index{squeekVolumeMax@{squeekVolumeMax}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{squeekVolumeMax}{squeekVolumeMax}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+squeek\+Volume\+Max = 0.\+4f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a08cc921ccc34f537843fcfbe709bbb08}\label{class_lockpicking_1_1_keyhole_a08cc921ccc34f537843fcfbe709bbb08}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!squeekVolumeMin@{squeekVolumeMin}}
+\index{squeekVolumeMin@{squeekVolumeMin}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{squeekVolumeMin}{squeekVolumeMin}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+squeek\+Volume\+Min = 0.\+1f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_ad9257831d2fe9bca873cf3bd3414915f}\label{class_lockpicking_1_1_keyhole_ad9257831d2fe9bca873cf3bd3414915f}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!turnSpeedKeyhole@{turnSpeedKeyhole}}
+\index{turnSpeedKeyhole@{turnSpeedKeyhole}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{turnSpeedKeyhole}{turnSpeedKeyhole}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+turn\+Speed\+Keyhole = 50f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00611}{611}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a21754f2ebfad09af58d5361edf9f6dc0}\label{class_lockpicking_1_1_keyhole_a21754f2ebfad09af58d5361edf9f6dc0}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!turnSpeedLockpick@{turnSpeedLockpick}}
+\index{turnSpeedLockpick@{turnSpeedLockpick}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{turnSpeedLockpick}{turnSpeedLockpick}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+turn\+Speed\+Lockpick = 50f}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00607}{607}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a0495ed5a72cae6e96aa62d370ba1eaf3}\label{class_lockpicking_1_1_keyhole_a0495ed5a72cae6e96aa62d370ba1eaf3}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!CloseDistance@{CloseDistance}}
+\index{CloseDistance@{CloseDistance}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{CloseDistance}{CloseDistance}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Close\+Distance\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00718}{718}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a3191da1bdd91928e6a8f4e8dd36e7a4e}\label{class_lockpicking_1_1_keyhole_a3191da1bdd91928e6a8f4e8dd36e7a4e}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockAngle@{LockAngle}}
+\index{LockAngle@{LockAngle}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockAngle}{LockAngle}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Lock\+Angle\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00698}{698}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a1743f573961b16ca3a9c46db40ab472b}\label{class_lockpicking_1_1_keyhole_a1743f573961b16ca3a9c46db40ab472b}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockGive@{LockGive}}
+\index{LockGive@{LockGive}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockGive}{LockGive}}
+{\footnotesize\ttfamily float Lockpicking.\+Keyhole.\+Lock\+Give\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00708}{708}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+\mbox{\Hypertarget{class_lockpicking_1_1_keyhole_a8f1b5f69eb24cd2f202aee1e7bea55d7}\label{class_lockpicking_1_1_keyhole_a8f1b5f69eb24cd2f202aee1e7bea55d7}} 
+\index{Lockpicking.Keyhole@{Lockpicking.Keyhole}!LockIsOpen@{LockIsOpen}}
+\index{LockIsOpen@{LockIsOpen}!Lockpicking.Keyhole@{Lockpicking.Keyhole}}
+\doxysubsubsection{\texorpdfstring{LockIsOpen}{LockIsOpen}}
+{\footnotesize\ttfamily bool Lockpicking.\+Keyhole.\+Lock\+Is\+Open\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_keyhole_8cs_source_l00688}{688}} of file \mbox{\hyperlink{_keyhole_8cs_source}{Keyhole.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Features/\+Lock\+Picking/\+Scripts/Keyhole.\+cs\end{DoxyCompactItemize}

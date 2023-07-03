@@ -1,0 +1,79 @@
+\hypertarget{_water_data_8cs_source}{}\doxysection{Water\+Data.\+cs}
+\label{_water_data_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/WaterData.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/DataClasses/WaterData.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00009}\mbox{\hyperlink{class_water_data}{00009}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_water_data}{WaterData}}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}CropManagement"{}};}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ WaterPos\ \{\ \textcolor{keyword}{get};\ \textcolor{keyword}{set};\ \}\ =\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00013}00013\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ maxPipes\ =\ 50;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ currentPipe\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ Dictionary<Vector3i,\ Pipe>\ Pipes\ =\ \textcolor{keyword}{new}\ Dictionary<Vector3i,\ Pipe>();}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_water_data}{WaterData}}()}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00018}00018\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ option\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}MaxPipeLength"{}});}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(option))}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (StringParsers.TryParseSInt32(option,\ out\ \textcolor{keywordtype}{int}\ maxpipes,\ 0,\ -\/1,\ NumberStyles.Integer))}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ maxPipes\ =\ maxpipes;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00027}00027\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ Searches\ and\ finds\ all\ the\ inter-\/connected\ Pipes.}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ FindAllPipes(\mbox{\hyperlink{class_pipe}{Pipe}}\ \_pipe)}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00031}00031\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ exceeded\ our\ max,\ stop\ searching.\ This\ is\ the\ limit\ of\ the\ pipe\ system.}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPipe\ >\ maxPipes)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ currentPipe++;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ var\ pipeData\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe_data}{PipeData}}(\_pipe.BlockPos);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ position\ \textcolor{keywordflow}{in}\ pipeData.GetPipes())}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Pipes.ContainsKey(position))}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ pipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(position);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Pipes.Add(position,\ pipe);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Keep\ searching\ if\ we\ haven't\ discovered\ this\ pipe\ yet.}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ FindAllPipes(pipe);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00048}00048\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00051}00051\ \ \ \ \ \textcolor{comment}{//\ Search\ for\ a\ water\ block,\ following\ all\ the\ water\ pipes.}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{public}\ Vector3i\ GetWaterSource(Vector3i\ position)}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00053}00053\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ currentPipe\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ var\ startPipe\ =\ \textcolor{keyword}{new}\ \mbox{\hyperlink{class_pipe}{Pipe}}(position);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ FindAllPipes(startPipe);}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ pipe\ \textcolor{keywordflow}{in}\ Pipes)}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pipe.Value.IsWaterSource())}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pipe.Value.GetWaterSource();}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ direction\ \textcolor{keywordflow}{in}\ Vector3i.AllDirections)}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ blockPosition\ =\ pipe.Key\ +\ direction;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_crop_manager}{CropManager}}.Instance.IsWaterSource(blockPosition))}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ blockPosition;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Vector3i.zero;}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00070}00070\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00072}00072\ \}}
+\DoxyCodeLine{\Hypertarget{_water_data_8cs_source_l00073}00073\ }
+
+\end{DoxyCode}

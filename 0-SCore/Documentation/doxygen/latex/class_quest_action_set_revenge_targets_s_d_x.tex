@@ -1,0 +1,153 @@
+\hypertarget{class_quest_action_set_revenge_targets_s_d_x}{}\doxysection{Quest\+Action\+Set\+Revenge\+Targets\+SDX Class Reference}
+\label{class_quest_action_set_revenge_targets_s_d_x}\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+
+
+Inherits Base\+Quest\+Action.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override Base\+Quest\+Action \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a2238108a50fede282480b754d16d4914}{Clone}} ()
+\item 
+override void \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_ab2d30c17bd1c361555d51c1bf167169d}{Perform\+Action}} (Quest owner\+Quest)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const float \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}{DEFAULT\+\_\+\+DISTANCE}} = 15f
+\begin{DoxyCompactList}\small\item\em The default distance to use if none is provided. \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}{OWNER\+\_\+\+ID}} = \char`\"{}owner\char`\"{}
+\begin{DoxyCompactList}\small\item\em ID value to use when setting the revenge targets to the quest owner (only). \end{DoxyCompactList}\item 
+const string \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}{SHARED\+\_\+\+ID}} = \char`\"{}party\char`\"{}
+\begin{DoxyCompactList}\small\item\em ID value to use when setting the revenge targets to either the quest owner, or a random member of the quest owner\textquotesingle{}s party who shared the quest. \end{DoxyCompactList}\item 
+const int \mbox{\hyperlink{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}{REVENGE\+\_\+\+TICKS}} = 5000
+\begin{DoxyCompactList}\small\item\em The number of \char`\"{}ticks\char`\"{} that the entities should keep the player as their revenge target. A \char`\"{}tick\char`\"{} happens each time Entity\+Alive.\+On\+Update\+Entity is called. If you do not set it after calling Entity\+Alive.\+Set\+Revenge\+Target(\+Entity\+Alive), the default value is 500. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This quest objective sets the revenge targets of all entities in range. 
+
+The revenge targets can be set to either the owner of the quest, or to a random member of the quest owner\textquotesingle{}s party which shared the quest. Party members must be in range of the quest. This is set in the \char`\"{}id\char`\"{} attribute. If omitted, defaults to the quest owner only. 
+
+The value attribute is the distance, and can be either a number or the string \char`\"{}location\char`\"{}. If a number, the distance is the diameter (not radius!) around the player, in blocks. If the string \char`\"{}location\char`\"{}, the distance is size of the quest location (usually the POI). If omitted, or if the value is \char`\"{}location\char`\"{} and it can\textquotesingle{}t get the quest location, it defaults to a value of 15 blocks. 
+
+Revenge targets will be set on all living entities in range, except for player entities, entities that the player has hired, or the hires of other players that are allies. Only entities that are awake will have their revenge targets set. 
+
+This sets the revenge targets of all entities within a 20 block area, to the quest owner, and does so in phase 4 of the quest. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<action\ type=\textcolor{stringliteral}{"{}SetRevengeTargetsSDX"{}}\ \textcolor{keywordtype}{id}=\textcolor{stringliteral}{"{}owner"{}}\ value=\textcolor{stringliteral}{"{}20"{}}\ phase=\textcolor{stringliteral}{"{}4"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+This sets the revenge targets of all entities within the quest location (POI), randomly to either the quest owner or a member of the owner\textquotesingle{}s party that shared the quest, and does so in phase 2 of the quest. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<action\ type=\textcolor{stringliteral}{"{}SetRevengeTargetsSDX"{}}\ \textcolor{keywordtype}{id}=\textcolor{stringliteral}{"{}party"{}}\ value=\textcolor{stringliteral}{"{}location"{}}\ phase=\textcolor{stringliteral}{"{}2"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+This example uses defaults. This sets the revenge targets of all entities within a 20 block area, to the quest owner, and does so in phase 1 of the quest. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<action\ type=\textcolor{stringliteral}{"{}SetRevengeTargetsSDX"{}}\ phase=\textcolor{stringliteral}{"{}1"{}}\ />}
+
+\end{DoxyCode}
+ 
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_a2238108a50fede282480b754d16d4914}\label{class_quest_action_set_revenge_targets_s_d_x_a2238108a50fede282480b754d16d4914}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!Clone@{Clone}}
+\index{Clone@{Clone}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily override Base\+Quest\+Action Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00084}{84}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_ab2d30c17bd1c361555d51c1bf167169d}\label{class_quest_action_set_revenge_targets_s_d_x_ab2d30c17bd1c361555d51c1bf167169d}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!PerformAction@{PerformAction}}
+\index{PerformAction@{PerformAction}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{PerformAction()}{PerformAction()}}
+{\footnotesize\ttfamily override void Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+Perform\+Action (\begin{DoxyParamCaption}\item[{Quest}]{owner\+Quest }\end{DoxyParamCaption})}
+
+
+
+
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00092}{92}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}\label{class_quest_action_set_revenge_targets_s_d_x_a6cc876124a04c0d71f07c3dd4d63a4e5}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!DEFAULT\_DISTANCE@{DEFAULT\_DISTANCE}}
+\index{DEFAULT\_DISTANCE@{DEFAULT\_DISTANCE}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_DISTANCE}{DEFAULT\_DISTANCE}}
+{\footnotesize\ttfamily const float Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+DEFAULT\+\_\+\+DISTANCE = 15f\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The default distance to use if none is provided. 
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00062}{62}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}\label{class_quest_action_set_revenge_targets_s_d_x_a620e3b544cdbf3dedd502602264cb0f3}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!OWNER\_ID@{OWNER\_ID}}
+\index{OWNER\_ID@{OWNER\_ID}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{OWNER\_ID}{OWNER\_ID}}
+{\footnotesize\ttfamily const string Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+OWNER\+\_\+\+ID = \char`\"{}owner\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+ID value to use when setting the revenge targets to the quest owner (only). 
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00067}{67}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}\label{class_quest_action_set_revenge_targets_s_d_x_a7da861610607e77621ac1996d47b0dd8}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!REVENGE\_TICKS@{REVENGE\_TICKS}}
+\index{REVENGE\_TICKS@{REVENGE\_TICKS}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{REVENGE\_TICKS}{REVENGE\_TICKS}}
+{\footnotesize\ttfamily const int Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+REVENGE\+\_\+\+TICKS = 5000\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The number of \char`\"{}ticks\char`\"{} that the entities should keep the player as their revenge target. A \char`\"{}tick\char`\"{} happens each time Entity\+Alive.\+On\+Update\+Entity is called. If you do not set it after calling Entity\+Alive.\+Set\+Revenge\+Target(\+Entity\+Alive), the default value is 500. 
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00081}{81}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}\label{class_quest_action_set_revenge_targets_s_d_x_a3f55ebc869500b02c25171dee2351460}} 
+\index{QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}!SHARED\_ID@{SHARED\_ID}}
+\index{SHARED\_ID@{SHARED\_ID}!QuestActionSetRevengeTargetsSDX@{QuestActionSetRevengeTargetsSDX}}
+\doxysubsubsection{\texorpdfstring{SHARED\_ID}{SHARED\_ID}}
+{\footnotesize\ttfamily const string Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+SHARED\+\_\+\+ID = \char`\"{}party\char`\"{}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+ID value to use when setting the revenge targets to either the quest owner, or a random member of the quest owner\textquotesingle{}s party who shared the quest. 
+
+
+
+Definition at line \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_quest_action_set_revenge_targets_s_d_x_8cs_source}{Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Quests/Quest\+Action\+Set\+Revenge\+Targets\+SDX.\+cs\end{DoxyCompactItemize}

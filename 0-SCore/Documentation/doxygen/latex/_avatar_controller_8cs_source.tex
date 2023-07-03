@@ -1,0 +1,72 @@
+\hypertarget{_avatar_controller_8cs_source}{}\doxysection{Avatar\+Controller.\+cs}
+\label{_avatar_controller_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/AvatarController.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Animation/AvatarController.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_animation}{Harmony.Animation}}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00007}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig}{AvatarControllerSetTrig}}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}AnimatorMapper"{}};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(AvatarController))]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}TriggerEvent"{}})]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(\textcolor{keywordtype}{string})\ \})]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00018}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_set_trigger}{00018}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class}\ \mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_set_trigger}{AvatarControllerSetTrigger}}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::AvatarController\ \_\_instance,\ \textcolor{keywordtype}{string}\ \_property)}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Set\ Trigger():\ "{}}\ +\ \_property);}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Provides\ a\ random\ index\ value\ to\ the\ default\ animator.}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.UpdateInt(\textcolor{stringliteral}{"{}RandomIndex"{}},\ Random.Range(0,\ 10));}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.UpdateInt(\_property,\ Random.Range(0,\ 10));}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(AvatarController))]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetCrouching"{}})]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00034}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_set_crouching}{00034}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_set_crouching}{AvatarControllerSetCrouching}}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{int}\ IsCrouchingHash\ =\ Animator.StringToHash(\textcolor{stringliteral}{"{}IsCrouching"{}});}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::AvatarController\ \_\_instance,\ Animator\ \_\_\_anim,\ \textcolor{keywordtype}{bool}\ \_bEnable,\ Dictionary<int,\ AnimParamData>\ \_\_\_ChangedAnimationParameters,\ global::EntityAlive\ \_\_\_entity)}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_anim\ ==\ \textcolor{keyword}{null}\ ||\ \_\_\_anim.GetBool(IsCrouchingHash)\ ==\ \_bEnable)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_anim.SetBool(IsCrouchingHash,\ \_bEnable);}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsCrouchingHash\ ==\ AvatarController.isFPVHash)}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_\_\_entity.isEntityRemote)}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ChangedAnimationParameters[IsCrouchingHash]\ =\ \textcolor{keyword}{new}\ AnimParamData(IsCrouchingHash,\ AnimParamData.ValueTypes.Bool,\ \_bEnable);}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(AvatarZombieController))]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}FindBodyParts"{}})]}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00055}\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_find_body_parts}{00055}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_animation_1_1_avatar_controller_set_trig_1_1_avatar_controller_find_body_parts}{AvatarControllerFindBodyParts}}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::AvatarZombieController\ \_\_instance,\ \ global::EntityAlive\ \_\_\_entity,\ Transform\ \_\_\_bipedT,\ ref\ Transform\ \_\_\_rightHandT)}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_entity\ is\ not\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ entityAliveSdx)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Since\ we\ allow\ weapon\ switching,\ the\ right\ hand\ transform\ may\ change\ depending\ on\ the\ weapon.}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Re-\/read\ the\ right\ hand\ transform,\ which\ will\ give\ it\ the\ option\ to\ specify\ another\ one\ through\ a\ property\ entry\ on\ the\ item.}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_rightHandT\ =\ \_\_\_bipedT.FindInChilds(entityAliveSdx.GetRightHandTransformName(),\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00067}00067\ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00068}00068\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_avatar_controller_8cs_source_l00069}00069\ \}}
+
+\end{DoxyCode}

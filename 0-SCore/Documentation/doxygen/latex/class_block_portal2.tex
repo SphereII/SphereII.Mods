@@ -1,0 +1,144 @@
+\hypertarget{class_block_portal2}{}\doxysection{Block\+Portal2 Class Reference}
+\label{class_block_portal2}\index{BlockPortal2@{BlockPortal2}}
+
+
+Inherits Block\+Player\+Sign.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override void \mbox{\hyperlink{class_block_portal2_a3f076737f56f73c98c0612ded9aa0bf4}{Init}} ()
+\item 
+override void \mbox{\hyperlink{class_block_portal2_a97d8be47025c2ea8a7a621df75933bd1}{On\+Block\+Removed}} (World\+Base world, Chunk \+\_\+chunk, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+override void \mbox{\hyperlink{class_block_portal2_a5ce0d1b5bc1719c78bc100a8714c355a}{On\+Block\+Loaded}} (World\+Base \+\_\+world, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+override void \mbox{\hyperlink{class_block_portal2_aec16fed4c0ee0200e40cb1752e6cea1c}{On\+Block\+Added}} (World\+Base world, Chunk \+\_\+chunk, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value)
+\item 
+void \mbox{\hyperlink{class_block_portal2_a1ebc353ca0d35641519f8a547f9a7217}{Teleport\+Player}} (Entity\+Alive \+\_\+player, Vector3i \+\_\+block\+Pos)
+\item 
+override bool \mbox{\hyperlink{class_block_portal2_a34989f9dc6a354a2e3cb152e91e0cb5e}{On\+Block\+Activated}} (string command\+Name, World\+Base \+\_\+world, int \+\_\+c\+Idx, Vector3i \+\_\+block\+Pos, Block\+Value \+\_\+block\+Value, Entity\+Alive \+\_\+player)
+\item 
+override Block\+Activation\+Command\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_block_portal2_a21b5c7f8bb6de58750e1a75817995d2b}{Get\+Block\+Activation\+Commands}} (World\+Base \+\_\+world, Block\+Value \+\_\+block\+Value, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Entity\+Alive \+\_\+entity\+Focusing)
+\item 
+void \mbox{\hyperlink{class_block_portal2_a03ac38ee0f09cdb13431850b245d4638}{Toggle\+Animator}} (Vector3i block\+Pos)
+\item 
+override void \mbox{\hyperlink{class_block_portal2_ad81f06d4c6e64df77cf918a822e6e44a}{On\+Block\+Entity\+Transform\+After\+Activated}} (World\+Base \+\_\+world, Vector3i \+\_\+block\+Pos, int \+\_\+c\+Idx, Block\+Value \+\_\+block\+Value, Block\+Entity\+Data \+\_\+ebcd)
+\item 
+override string \mbox{\hyperlink{class_block_portal2_a48d07e72a548627429bdc9ba418ca46a}{Get\+Activation\+Text}} (World\+Base \+\_\+world, Block\+Value \+\_\+block\+Value, int \+\_\+clr\+Idx, Vector3i \+\_\+block\+Pos, Entity\+Alive \+\_\+entity\+Focusing)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00024}{24}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_block_portal2_a48d07e72a548627429bdc9ba418ca46a}\label{class_block_portal2_a48d07e72a548627429bdc9ba418ca46a}} 
+\index{BlockPortal2@{BlockPortal2}!GetActivationText@{GetActivationText}}
+\index{GetActivationText@{GetActivationText}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{GetActivationText()}{GetActivationText()}}
+{\footnotesize\ttfamily override string Block\+Portal2.\+Get\+Activation\+Text (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Entity\+Alive}]{\+\_\+entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00223}{223}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a21b5c7f8bb6de58750e1a75817995d2b}\label{class_block_portal2_a21b5c7f8bb6de58750e1a75817995d2b}} 
+\index{BlockPortal2@{BlockPortal2}!GetBlockActivationCommands@{GetBlockActivationCommands}}
+\index{GetBlockActivationCommands@{GetBlockActivationCommands}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{GetBlockActivationCommands()}{GetBlockActivationCommands()}}
+{\footnotesize\ttfamily override Block\+Activation\+Command\mbox{[}$\,$\mbox{]} Block\+Portal2.\+Get\+Block\+Activation\+Commands (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Entity\+Alive}]{\+\_\+entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00166}{166}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a3f076737f56f73c98c0612ded9aa0bf4}\label{class_block_portal2_a3f076737f56f73c98c0612ded9aa0bf4}} 
+\index{BlockPortal2@{BlockPortal2}!Init@{Init}}
+\index{Init@{Init}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily override void Block\+Portal2.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00033}{33}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a34989f9dc6a354a2e3cb152e91e0cb5e}\label{class_block_portal2_a34989f9dc6a354a2e3cb152e91e0cb5e}} 
+\index{BlockPortal2@{BlockPortal2}!OnBlockActivated@{OnBlockActivated}}
+\index{OnBlockActivated@{OnBlockActivated}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{OnBlockActivated()}{OnBlockActivated()}}
+{\footnotesize\ttfamily override bool Block\+Portal2.\+On\+Block\+Activated (\begin{DoxyParamCaption}\item[{string}]{command\+Name,  }\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+c\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{Entity\+Alive}]{\+\_\+player }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00119}{119}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_aec16fed4c0ee0200e40cb1752e6cea1c}\label{class_block_portal2_aec16fed4c0ee0200e40cb1752e6cea1c}} 
+\index{BlockPortal2@{BlockPortal2}!OnBlockAdded@{OnBlockAdded}}
+\index{OnBlockAdded@{OnBlockAdded}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{OnBlockAdded()}{OnBlockAdded()}}
+{\footnotesize\ttfamily override void Block\+Portal2.\+On\+Block\+Added (\begin{DoxyParamCaption}\item[{World\+Base}]{world,  }\item[{Chunk}]{\+\_\+chunk,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00079}{79}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_ad81f06d4c6e64df77cf918a822e6e44a}\label{class_block_portal2_ad81f06d4c6e64df77cf918a822e6e44a}} 
+\index{BlockPortal2@{BlockPortal2}!OnBlockEntityTransformAfterActivated@{OnBlockEntityTransformAfterActivated}}
+\index{OnBlockEntityTransformAfterActivated@{OnBlockEntityTransformAfterActivated}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{OnBlockEntityTransformAfterActivated()}{OnBlockEntityTransformAfterActivated()}}
+{\footnotesize\ttfamily override void Block\+Portal2.\+On\+Block\+Entity\+Transform\+After\+Activated (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{int}]{\+\_\+c\+Idx,  }\item[{Block\+Value}]{\+\_\+block\+Value,  }\item[{Block\+Entity\+Data}]{\+\_\+ebcd }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00203}{203}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a5ce0d1b5bc1719c78bc100a8714c355a}\label{class_block_portal2_a5ce0d1b5bc1719c78bc100a8714c355a}} 
+\index{BlockPortal2@{BlockPortal2}!OnBlockLoaded@{OnBlockLoaded}}
+\index{OnBlockLoaded@{OnBlockLoaded}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{OnBlockLoaded()}{OnBlockLoaded()}}
+{\footnotesize\ttfamily override void Block\+Portal2.\+On\+Block\+Loaded (\begin{DoxyParamCaption}\item[{World\+Base}]{\+\_\+world,  }\item[{int}]{\+\_\+clr\+Idx,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a97d8be47025c2ea8a7a621df75933bd1}\label{class_block_portal2_a97d8be47025c2ea8a7a621df75933bd1}} 
+\index{BlockPortal2@{BlockPortal2}!OnBlockRemoved@{OnBlockRemoved}}
+\index{OnBlockRemoved@{OnBlockRemoved}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{OnBlockRemoved()}{OnBlockRemoved()}}
+{\footnotesize\ttfamily override void Block\+Portal2.\+On\+Block\+Removed (\begin{DoxyParamCaption}\item[{World\+Base}]{world,  }\item[{Chunk}]{\+\_\+chunk,  }\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{Block\+Value}]{\+\_\+block\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00068}{68}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a1ebc353ca0d35641519f8a547f9a7217}\label{class_block_portal2_a1ebc353ca0d35641519f8a547f9a7217}} 
+\index{BlockPortal2@{BlockPortal2}!TeleportPlayer@{TeleportPlayer}}
+\index{TeleportPlayer@{TeleportPlayer}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{TeleportPlayer()}{TeleportPlayer()}}
+{\footnotesize\ttfamily void Block\+Portal2.\+Teleport\+Player (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{\+\_\+player,  }\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00102}{102}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_block_portal2_a03ac38ee0f09cdb13431850b245d4638}\label{class_block_portal2_a03ac38ee0f09cdb13431850b245d4638}} 
+\index{BlockPortal2@{BlockPortal2}!ToggleAnimator@{ToggleAnimator}}
+\index{ToggleAnimator@{ToggleAnimator}!BlockPortal2@{BlockPortal2}}
+\doxysubsubsection{\texorpdfstring{ToggleAnimator()}{ToggleAnimator()}}
+{\footnotesize\ttfamily void Block\+Portal2.\+Toggle\+Animator (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_block_portal_8cs_source_l00185}{185}} of file \mbox{\hyperlink{_block_portal_8cs_source}{Block\+Portal.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Blocks/Block\+Portal.\+cs\end{DoxyCompactItemize}

@@ -1,0 +1,44 @@
+\hypertarget{_add_script_to_transform_8cs_source}{}\doxysection{Add\+Script\+To\+Transform.\+cs}
+\label{_add_script_to_transform_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityAlive/AddScriptToTransform.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/EntityAlive/AddScriptToTransform.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00004}\mbox{\hyperlink{namespace_harmony_1_1_entity_alive}{00004}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_entity_alive}{Harmony.EntityAlive}}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00006}\mbox{\hyperlink{class_harmony_1_1_entity_alive_1_1_add_script_to_transform}{00006}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_alive_1_1_add_script_to_transform}{AddScriptToTransform}}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}ComponentMapper"{}};}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EModelBase))]}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Init"{}})]}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00013}\mbox{\hyperlink{class_harmony_1_1_entity_alive_1_1_add_script_to_transform_1_1_emodel_init_common}{00013}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_entity_alive_1_1_add_script_to_transform_1_1_emodel_init_common}{EmodelInitCommon}}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(EModelBase\ \_\_instance,\ Entity\ \_\_\_entity)}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.GetModelTransform()\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ the\ animation\ Bridge\ to\ all\ entities\ that\ do\ not\ have\ it.}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.GetModelTransform().gameObject.GetOrAddComponent<AnimationEventBridge>();}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ any\ missing\ Root\ TransformRef\ Entity\ scripts\ where\ a\ CollisionCallForward\ exists.}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ collisionCallForward\ \textcolor{keywordflow}{in}\ \_\_instance.GetComponentsInChildren<CollisionCallForward>())}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ collisionCallForward.transform.gameObject.GetOrAddComponent<RootTransformRefEntity>();}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.Traverse(\_\_instance.GetModelTransformParent()?.gameObject);}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00037}00037\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_add_script_to_transform_8cs_source_l00038}00038\ \}}
+
+\end{DoxyCode}

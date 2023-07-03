@@ -1,0 +1,192 @@
+\hypertarget{class_fire_manager}{}\doxysection{Fire\+Manager Class Reference}
+\label{class_fire_manager}\index{FireManager@{FireManager}}
+
+
+\mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s \mbox{\hyperlink{class_fire_manager}{Fire\+Manager}} allows flammable blocks to catch and spread fire.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Concurrent\+Dictionary$<$ Vector3i, Block\+Value $>$ \mbox{\hyperlink{class_fire_manager_a626ef5a3a693c09f0a7c89b06f1f3f19}{Get\+Fire\+Map}} ()
+\item 
+int \mbox{\hyperlink{class_fire_manager_aba9be59e6593c0605f40e56ab86ce1ff}{Close\+Fires}} (Vector3i position, int range=5)
+\item 
+bool \mbox{\hyperlink{class_fire_manager_a76fd28babc09a99d5c9c95e0db65a0db}{Is\+Position\+Close\+To\+Fire}} (Vector3i position, int range=5)
+\item 
+void \mbox{\hyperlink{class_fire_manager_ab8f8dd048f3f05f3799fe53fba454650}{Clear\+Pos}} (Vector3i block\+Pos)
+\item 
+void \mbox{\hyperlink{class_fire_manager_ad9883a10ddd5f50cec86872d8c08ef6f}{Add}} (Vector3i block\+Pos, int entity\+ID=-\/1)
+\item 
+void \mbox{\hyperlink{class_fire_manager_a21c6de9e63c8567281595909cfb8b73a}{Extinguish}} (Vector3i block\+Pos, int entity\+ID=-\/1)
+\item 
+void \mbox{\hyperlink{class_fire_manager_a804cf5265698e5d543ff5d690f082b08}{Remove}} (Vector3i block\+Pos, int entity\+ID=-\/1)
+\item 
+void \mbox{\hyperlink{class_fire_manager_a210ad3c3678a3649fc5121af570eebc8}{Add\+Block}} (Vector3i block\+Pos)
+\item 
+void \mbox{\hyperlink{class_fire_manager_a3f7d79cb077a9d5e28d688b90a5b55f2}{Reset}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{class_fire_manager_ac72910eefb48e4ea80c2ec077051d60a}{Init}} ()
+\item 
+static bool \mbox{\hyperlink{class_fire_manager_a04965519dbfeff99b11639f25ec46206}{Is\+Burning}} (Vector3i block\+Pos)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_fire_manager_a2b1bdf4f895de3acb721ae18e50802fd}{Enabled}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+static \mbox{\hyperlink{class_fire_manager}{Fire\+Manager}} \mbox{\hyperlink{class_fire_manager_a97dcfcdc645107c96861c6c1501ce217}{Instance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{namespace_s_core}{SCore}}\textquotesingle{}s \mbox{\hyperlink{class_fire_manager}{Fire\+Manager}} allows flammable blocks to catch and spread fire. 
+
+The Fire Manager allows blocks to catch on fire, and allows them to spread to other blocks around it at a timed interval. The following parameters are configured through the blocks.\+xml 
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00015}{15}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_fire_manager_ad9883a10ddd5f50cec86872d8c08ef6f}\label{class_fire_manager_ad9883a10ddd5f50cec86872d8c08ef6f}} 
+\index{FireManager@{FireManager}!Add@{Add}}
+\index{Add@{Add}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Add (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos,  }\item[{int}]{entity\+ID = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00692}{692}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a210ad3c3678a3649fc5121af570eebc8}\label{class_fire_manager_a210ad3c3678a3649fc5121af570eebc8}} 
+\index{FireManager@{FireManager}!AddBlock@{AddBlock}}
+\index{AddBlock@{AddBlock}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{AddBlock()}{AddBlock()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Add\+Block (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00770}{770}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_ab8f8dd048f3f05f3799fe53fba454650}\label{class_fire_manager_ab8f8dd048f3f05f3799fe53fba454650}} 
+\index{FireManager@{FireManager}!ClearPos@{ClearPos}}
+\index{ClearPos@{ClearPos}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{ClearPos()}{ClearPos()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Clear\+Pos (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00677}{677}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_aba9be59e6593c0605f40e56ab86ce1ff}\label{class_fire_manager_aba9be59e6593c0605f40e56ab86ce1ff}} 
+\index{FireManager@{FireManager}!CloseFires@{CloseFires}}
+\index{CloseFires@{CloseFires}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{CloseFires()}{CloseFires()}}
+{\footnotesize\ttfamily int Fire\+Manager.\+Close\+Fires (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{int}]{range = {\ttfamily 5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00210}{210}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a21c6de9e63c8567281595909cfb8b73a}\label{class_fire_manager_a21c6de9e63c8567281595909cfb8b73a}} 
+\index{FireManager@{FireManager}!Extinguish@{Extinguish}}
+\index{Extinguish@{Extinguish}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Extinguish()}{Extinguish()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Extinguish (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos,  }\item[{int}]{entity\+ID = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00712}{712}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a626ef5a3a693c09f0a7c89b06f1f3f19}\label{class_fire_manager_a626ef5a3a693c09f0a7c89b06f1f3f19}} 
+\index{FireManager@{FireManager}!GetFireMap@{GetFireMap}}
+\index{GetFireMap@{GetFireMap}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{GetFireMap()}{GetFireMap()}}
+{\footnotesize\ttfamily Concurrent\+Dictionary$<$ Vector3i, Block\+Value $>$ Fire\+Manager.\+Get\+Fire\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00205}{205}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_ac72910eefb48e4ea80c2ec077051d60a}\label{class_fire_manager_ac72910eefb48e4ea80c2ec077051d60a}} 
+\index{FireManager@{FireManager}!Init@{Init}}
+\index{Init@{Init}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily static void Fire\+Manager.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00055}{55}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a04965519dbfeff99b11639f25ec46206}\label{class_fire_manager_a04965519dbfeff99b11639f25ec46206}} 
+\index{FireManager@{FireManager}!IsBurning@{IsBurning}}
+\index{IsBurning@{IsBurning}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{IsBurning()}{IsBurning()}}
+{\footnotesize\ttfamily static bool Fire\+Manager.\+Is\+Burning (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00779}{779}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a76fd28babc09a99d5c9c95e0db65a0db}\label{class_fire_manager_a76fd28babc09a99d5c9c95e0db65a0db}} 
+\index{FireManager@{FireManager}!IsPositionCloseToFire@{IsPositionCloseToFire}}
+\index{IsPositionCloseToFire@{IsPositionCloseToFire}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{IsPositionCloseToFire()}{IsPositionCloseToFire()}}
+{\footnotesize\ttfamily bool Fire\+Manager.\+Is\+Position\+Close\+To\+Fire (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{int}]{range = {\ttfamily 5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00228}{228}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a804cf5265698e5d543ff5d690f082b08}\label{class_fire_manager_a804cf5265698e5d543ff5d690f082b08}} 
+\index{FireManager@{FireManager}!Remove@{Remove}}
+\index{Remove@{Remove}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Remove (\begin{DoxyParamCaption}\item[{Vector3i}]{block\+Pos,  }\item[{int}]{entity\+ID = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00726}{726}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a3f7d79cb077a9d5e28d688b90a5b55f2}\label{class_fire_manager_a3f7d79cb077a9d5e28d688b90a5b55f2}} 
+\index{FireManager@{FireManager}!Reset@{Reset}}
+\index{Reset@{Reset}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Reset()}{Reset()}}
+{\footnotesize\ttfamily void Fire\+Manager.\+Reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00852}{852}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_fire_manager_a2b1bdf4f895de3acb721ae18e50802fd}\label{class_fire_manager_a2b1bdf4f895de3acb721ae18e50802fd}} 
+\index{FireManager@{FireManager}!Enabled@{Enabled}}
+\index{Enabled@{Enabled}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Enabled}{Enabled}}
+{\footnotesize\ttfamily bool Fire\+Manager.\+Enabled\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_fire_manager_a97dcfcdc645107c96861c6c1501ce217}\label{class_fire_manager_a97dcfcdc645107c96861c6c1501ce217}} 
+\index{FireManager@{FireManager}!Instance@{Instance}}
+\index{Instance@{Instance}!FireManager@{FireManager}}
+\doxysubsubsection{\texorpdfstring{Instance}{Instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_fire_manager}{Fire\+Manager}} Fire\+Manager.\+Instance\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_fire_manager_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_fire_manager_8cs_source}{Fire\+Manager.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Features/\+Fire/\+Scripts/Fire\+Manager.\+cs\end{DoxyCompactItemize}

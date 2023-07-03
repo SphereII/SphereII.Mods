@@ -1,0 +1,30 @@
+\hypertarget{_holding_item_durability_8cs_source}{}\doxysection{Holding\+Item\+Durability.\+cs}
+\label{_holding_item_durability_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Buffs/HoldingItemDurability.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Buffs/HoldingItemDurability.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00001}00001\ \textcolor{comment}{//\ Happens\ when\ the\ item\ is\ 100\%\ broken}}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00002}00002\ \textcolor{comment}{//\ \ <requirement\ name="{}HoldingItemDurability,\ SCore"{}\ operation="{}Equals"{}\ value="{}1"{}/>}}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00004}00004\ \textcolor{comment}{//\ Happens\ when\ the\ item\ is\ 50\%\ broken}}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00005}00005\ \textcolor{comment}{//\ \ <requirement\ name="{}HoldingItemDurability,\ SCore"{}\ operation="{}Equals"{}\ value="{}0.5"{}/>}}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00009}\mbox{\hyperlink{class_holding_item_durability}{00009}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_holding_item_durability}{HoldingItemDurability}}\ :\ TargetedCompareRequirementBase}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsValid(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!this.ParamsValid(\_params))}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this.target\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ var\ itemValue\ =\ this.target.inventory.holdingItemItemValue;}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ var\ percent\ =\ itemValue.UseTimes\ /\ itemValue.MaxUseTimes;}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ Debug.Log(\$\textcolor{stringliteral}{"{}Item\ UseTime:\ \{itemValue.UseTimes\}\ \ MaxUser\ Time:\ \{itemValue.MaxUseTimes\}\ \ Percent:\ \{percent\},\ Operation:\ \{operation.ToString()\}\ Value:\ \{value\}"{}});}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ compareValues(percent,\ this.operation,\ value);}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_holding_item_durability_8cs_source_l00024}00024\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,100 @@
+\hypertarget{_image_wrapper_8cs_source}{}\doxysection{Image\+Wrapper.\+cs}
+\label{_image_wrapper_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Signs/ImageWrapper.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Signs/ImageWrapper.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_old_moat_games}{OldMoatGames}};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00004}\mbox{\hyperlink{class_image_wrapper}{00004}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_image_wrapper}{ImageWrapper}}\ :\ MonoBehaviour}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{private}\ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}\ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Awake()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ GIF\ player\ component}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}\ =\ GetComponent<AnimatedGifPlayer>();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}\ =\ gameObject.AddComponent<\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}>();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ file\ to\ use.\ File\ has\ to\ be\ in\ StreamingAssets\ folder\ or\ a\ remote\ url\ (For\ example:\ http://www.example.com/example.gif).}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.FileName\ =\ \textcolor{stringliteral}{"{}AnimatedGIFPlayerExampe\ 3.gif"{}};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Disable\ autoplay}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.AutoPlay\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ ready\ event\ to\ start\ play\ when\ GIF\ is\ ready\ to\ play}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.OnReady\ +=\ OnGifLoaded;}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ ready\ event\ for\ when\ loading\ has\ failed}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.OnLoadError\ +=\ OnGifLoadError;}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00026}00026\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ OnDisable()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00029}00029\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.OnReady\ -\/=\ Play;}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00031}00031\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ ValidURL(ref\ \textcolor{keywordtype}{string}\ url)}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00034}00034\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (url.EndsWith(\textcolor{stringliteral}{"{}gif"{}})\ ||\ url.EndsWith(\textcolor{stringliteral}{"{}gifv"{}}))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (url.EndsWith(\textcolor{stringliteral}{"{}png"{}})\ ||\ url.EndsWith(\textcolor{stringliteral}{"{}jpg"{}}))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (url.EndsWith(\textcolor{stringliteral}{"{}bmp"{}})\ ||\ url.EndsWith(\textcolor{stringliteral}{"{}jpeg"{}}))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (url.EndsWith(\textcolor{stringliteral}{"{}mp4"{}}))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ url.Replace(\textcolor{stringliteral}{"{}.mp4"{}},\ \textcolor{stringliteral}{"{}.gif"{}});}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00050}00050\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00052}00052\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{bool}\ IsNewURL(\textcolor{keywordtype}{string}\ url)}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00053}00053\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(url))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (url\ ==\ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}.\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a11ccec69615bd17ca718acdf3d13660d}{FileName}})}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00060}00060\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Init(\textcolor{keywordtype}{string}\ url)}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00063}00063\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(url))}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ AnimatedGifPlayer.FileName\ =\ url;}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Init\ the\ GIF\ player}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}.\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a94371941a5bb9a653c1134dad8df34ac}{Init}}();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00071}00071\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnGifLoaded()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00074}00074\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ Play();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00078}00078\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ OnGifLoadError()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00079}00079\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Error\ Loading\ GIF"{}});}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00081}00081\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00083}00083\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Play()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00084}00084\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Start\ playing\ the\ GIF}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}.\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_ab3b9aeeb4abe516016d039f562c7ad42}{Play}}();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00089}00089\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ Pause()}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00090}00090\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Stop\ playing\ the\ GIF}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player}{AnimatedGifPlayer}}.\mbox{\hyperlink{class_old_moat_games_1_1_animated_gif_player_a80f5d44b421d83fb7e9fb94efe063257}{Pause}}();}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00093}00093\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_image_wrapper_8cs_source_l00094}00094\ \}}
+
+\end{DoxyCode}

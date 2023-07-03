@@ -1,0 +1,80 @@
+\hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source}{}\doxysection{XUi\+C\+\_\+\+Dialog\+Respondent\+Name\+SDX.\+cs}
+\label{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/XUiC/XUiC\_DialogRespondentNameSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/XUiC/XUiC\_DialogRespondentNameSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00001}\mbox{\hyperlink{class_x_ui_c___dialog_respondent_name_s_d_x}{00001}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_x_ui_c___dialog_respondent_name_s_d_x}{XUiC\_DialogRespondentNameSDX}}\ :\ XUiC\_DialogRespondentName}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{comment}{//public\ override\ void\ OnOpen()}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{comment}{//\ \ \ \ EntityPlayer\ player\ =\ xui.playerUI.entityPlayer;}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ \ \ \ if\ (player\ !=\ null\ \&\&\ player.Buffs.HasCustomVar("{}CurrentNPC"{}))}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ int\ entityID\ =\ (int)player.Buffs.GetCustomVar("{}CurrentNPC"{});}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (entityID\ >\ 0)}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ npc\ =\ player.world.GetEntity(entityID)\ as\ EntityAlive;}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (npc)}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ npc.emodel.avatarController.SetBool("{}IsBusy"{},\ true);}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{comment}{//\ \ \ \ base.OnOpen();}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \textcolor{comment}{//public\ override\ void\ OnClose()}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \textcolor{comment}{//\ \ \ \ EntityPlayer\ player\ =\ xui.playerUI.entityPlayer;}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ \ \ \ if\ (player\ !=\ null\ \&\&\ player.Buffs.HasCustomVar("{}CurrentNPC"{}))}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ int\ entityID\ =\ (int)player.Buffs.GetCustomVar("{}CurrentNPC"{});}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (entityID\ >\ 0)}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ EntityAlive\ npc\ =\ player.world.GetEntity(entityID)\ as\ EntityAlive;}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (npc)}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ npc.emodel.avatarController.SetBool("{}IsBusy"{},\ false);}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ \ \ \ base.OnClose();}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ GetBindingValue(ref\ \textcolor{keywordtype}{string}\ value,\ \textcolor{keywordtype}{string}\ binding)}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (binding\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ base.GetBindingValue(ref\ value,\ binding);}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ var\ fieldName\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ fieldName\ =\ binding;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fieldName\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fieldName\ ==\ \textcolor{stringliteral}{"{}respondentname"{}})}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityPlayer\ player\ =\ xui.playerUI.entityPlayer;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}}))}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entityID\ =\ (int)player.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}});}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityID\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ myEntity\ =\ player.world.GetEntity(entityID)\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity)}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ myEntity.EntityName;}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ \textcolor{stringliteral}{"{}Unknown"{}};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_x_ui_c___dialog_respondent_name_s_d_x_8cs_source_l00074}00074\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,30 @@
+\hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source}{}\doxysection{Dialog\+Requirement\+Has\+Quest\+SDX.\+cs}
+\label{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementHasQuestSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogRequirementHasQuestSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00002}\mbox{\hyperlink{class_dialog_requirement_has_quest_s_d_x}{00002}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_has_quest_s_d_x}{DialogRequirementHasQuestSDX}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00003}00003\ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ var\ entityID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}}))}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ entityID\ =\ (int)player.Buffs.GetCustomVar(\textcolor{stringliteral}{"{}CurrentNPC"{}});}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityID\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ player.world.GetEntity(entityID)\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity.NPCInfo.Quests.Count\ <=\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}NPC\ has\ Quests:\ "{}}\ +\ myEntity.NPCInfo.Quests.Count);}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00022}00022\ \}}
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_dialogs_2_dialog_requirement_has_quest_s_d_x_8cs_source_l00024}00024\ }
+
+\end{DoxyCode}

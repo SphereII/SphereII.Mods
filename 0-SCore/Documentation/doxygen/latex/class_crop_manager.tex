@@ -1,0 +1,242 @@
+\hypertarget{class_crop_manager}{}\doxysection{Crop\+Manager Class Reference}
+\label{class_crop_manager}\index{CropManager@{CropManager}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_crop_manager_aedf17d4c15e4afc0afddbfaafe3081db}{Init}} ()
+\item 
+void \mbox{\hyperlink{class_crop_manager_aa3b42a18bd414383686d697df47db2c7}{Crop\+Update}} ()
+\item 
+\mbox{\hyperlink{class_plant_data}{Plant\+Data}} \mbox{\hyperlink{class_crop_manager_a36de6cad17c779c8dc8e2920d5b75df7}{Get\+Random\+Close\+Plant}} (Vector3i position, float range=50)
+\item 
+List$<$ \mbox{\hyperlink{class_plant_data}{Plant\+Data}} $>$ \mbox{\hyperlink{class_crop_manager_ad0f311c0ccf51ca51b46464b8a352a1e}{Get\+Close\+Plants}} (Vector3i position, float range=50)
+\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{class_crop_manager_aa0595d90829ee7947605b872acbc143a}{Get\+Close\+Plant\+Positions}} (Vector3i position, float range=50)
+\item 
+\mbox{\hyperlink{class_plant_data}{Plant\+Data}} \mbox{\hyperlink{class_crop_manager_a43dce8731f14c6a00e4267289aa2cc1e}{Get\+Plant\+Data\+Nearby}} (Vector3i position)
+\item 
+\mbox{\hyperlink{class_plant_data}{Plant\+Data}} \mbox{\hyperlink{class_crop_manager_af14b4a492e57b525c42197f97d44b1be}{Get\+Closes\+Unmaintained}} (Vector3i position, float range=50)
+\item 
+\mbox{\hyperlink{class_plant_data}{Plant\+Data}} \mbox{\hyperlink{class_crop_manager_a289c582154b6ca5f6060b4eb8fc77810}{Get\+Plant}} (Vector3i position)
+\item 
+void \mbox{\hyperlink{class_crop_manager_a5d5e76b3259b0bac7077850606077b5b}{Check\+Crops}} ()
+\item 
+bool \mbox{\hyperlink{class_crop_manager_abfa389a64119fcecf6ba85838cc5cc66}{Is\+Near\+Water}} (Vector3i \+\_\+block\+Pos, float water\+Range=5f)
+\item 
+void \mbox{\hyperlink{class_crop_manager_a1db9f70c3d8551204f3aaf2a96c6f905}{Remove}} (Vector3i \+\_\+block\+Pos)
+\item 
+\mbox{\hyperlink{class_plant_data}{Plant\+Data}} \mbox{\hyperlink{class_crop_manager_a3ebefe1be08e49ee4995d4cc56b88aef}{Get}} (Vector3i \+\_\+block\+Pos)
+\item 
+void \mbox{\hyperlink{class_crop_manager_a4bb04c031d068436a9995c9ce504e9bf}{Force\+Add}} (Vector3i \+\_\+block\+Pos)
+\item 
+void \mbox{\hyperlink{class_crop_manager_a57d82e6ef923a9c1aaa6ddcac5758164}{Add}} (\mbox{\hyperlink{class_plant_data}{Plant\+Data}} plant\+Data)
+\item 
+void \mbox{\hyperlink{class_crop_manager_ac4991f90cd09d0f6e434ac0168b436d9}{Add}} (Vector3i \+\_\+block\+Pos, int range=5)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{class_crop_manager_a93eff4c6d402287f44725abb84411be8}{Debug\+Mode}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+bool \mbox{\hyperlink{class_crop_manager_afc51510e1a0ac6ee2ee338bf5bc81a6b}{Enabled}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+static \mbox{\hyperlink{class_crop_manager}{Crop\+Manager}} \mbox{\hyperlink{class_crop_manager_a28e8f765d62c67ec855a89bb8f6be893}{Instance}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00009}{9}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_crop_manager_a57d82e6ef923a9c1aaa6ddcac5758164}\label{class_crop_manager_a57d82e6ef923a9c1aaa6ddcac5758164}} 
+\index{CropManager@{CropManager}!Add@{Add}}
+\index{Add@{Add}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Add (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_plant_data}{Plant\+Data}}}]{plant\+Data }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00195}{195}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_ac4991f90cd09d0f6e434ac0168b436d9}\label{class_crop_manager_ac4991f90cd09d0f6e434ac0168b436d9}} 
+\index{CropManager@{CropManager}!Add@{Add}}
+\index{Add@{Add}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Add()}{Add()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Add (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{int}]{range = {\ttfamily 5} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00203}{203}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a5d5e76b3259b0bac7077850606077b5b}\label{class_crop_manager_a5d5e76b3259b0bac7077850606077b5b}} 
+\index{CropManager@{CropManager}!CheckCrops@{CheckCrops}}
+\index{CheckCrops@{CheckCrops}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{CheckCrops()}{CheckCrops()}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Check\+Crops (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00160}{160}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_aa3b42a18bd414383686d697df47db2c7}\label{class_crop_manager_aa3b42a18bd414383686d697df47db2c7}} 
+\index{CropManager@{CropManager}!CropUpdate@{CropUpdate}}
+\index{CropUpdate@{CropUpdate}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{CropUpdate()}{CropUpdate()}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Crop\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00073}{73}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a4bb04c031d068436a9995c9ce504e9bf}\label{class_crop_manager_a4bb04c031d068436a9995c9ce504e9bf}} 
+\index{CropManager@{CropManager}!ForceAdd@{ForceAdd}}
+\index{ForceAdd@{ForceAdd}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{ForceAdd()}{ForceAdd()}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Force\+Add (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00190}{190}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a3ebefe1be08e49ee4995d4cc56b88aef}\label{class_crop_manager_a3ebefe1be08e49ee4995d4cc56b88aef}} 
+\index{CropManager@{CropManager}!Get@{Get}}
+\index{Get@{Get}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Get()}{Get()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_plant_data}{Plant\+Data}} Crop\+Manager.\+Get (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00180}{180}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_aa0595d90829ee7947605b872acbc143a}\label{class_crop_manager_aa0595d90829ee7947605b872acbc143a}} 
+\index{CropManager@{CropManager}!GetClosePlantPositions@{GetClosePlantPositions}}
+\index{GetClosePlantPositions@{GetClosePlantPositions}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetClosePlantPositions()}{GetClosePlantPositions()}}
+{\footnotesize\ttfamily List$<$ Vector3 $>$ Crop\+Manager.\+Get\+Close\+Plant\+Positions (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00103}{103}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_ad0f311c0ccf51ca51b46464b8a352a1e}\label{class_crop_manager_ad0f311c0ccf51ca51b46464b8a352a1e}} 
+\index{CropManager@{CropManager}!GetClosePlants@{GetClosePlants}}
+\index{GetClosePlants@{GetClosePlants}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetClosePlants()}{GetClosePlants()}}
+{\footnotesize\ttfamily List$<$ \mbox{\hyperlink{class_plant_data}{Plant\+Data}} $>$ Crop\+Manager.\+Get\+Close\+Plants (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00091}{91}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_af14b4a492e57b525c42197f97d44b1be}\label{class_crop_manager_af14b4a492e57b525c42197f97d44b1be}} 
+\index{CropManager@{CropManager}!GetClosesUnmaintained@{GetClosesUnmaintained}}
+\index{GetClosesUnmaintained@{GetClosesUnmaintained}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetClosesUnmaintained()}{GetClosesUnmaintained()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_plant_data}{Plant\+Data}} Crop\+Manager.\+Get\+Closes\+Unmaintained (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00140}{140}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a289c582154b6ca5f6060b4eb8fc77810}\label{class_crop_manager_a289c582154b6ca5f6060b4eb8fc77810}} 
+\index{CropManager@{CropManager}!GetPlant@{GetPlant}}
+\index{GetPlant@{GetPlant}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetPlant()}{GetPlant()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_plant_data}{Plant\+Data}} Crop\+Manager.\+Get\+Plant (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00154}{154}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a43dce8731f14c6a00e4267289aa2cc1e}\label{class_crop_manager_a43dce8731f14c6a00e4267289aa2cc1e}} 
+\index{CropManager@{CropManager}!GetPlantDataNearby@{GetPlantDataNearby}}
+\index{GetPlantDataNearby@{GetPlantDataNearby}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetPlantDataNearby()}{GetPlantDataNearby()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_plant_data}{Plant\+Data}} Crop\+Manager.\+Get\+Plant\+Data\+Nearby (\begin{DoxyParamCaption}\item[{Vector3i}]{position }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00115}{115}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a36de6cad17c779c8dc8e2920d5b75df7}\label{class_crop_manager_a36de6cad17c779c8dc8e2920d5b75df7}} 
+\index{CropManager@{CropManager}!GetRandomClosePlant@{GetRandomClosePlant}}
+\index{GetRandomClosePlant@{GetRandomClosePlant}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{GetRandomClosePlant()}{GetRandomClosePlant()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_plant_data}{Plant\+Data}} Crop\+Manager.\+Get\+Random\+Close\+Plant (\begin{DoxyParamCaption}\item[{Vector3i}]{position,  }\item[{float}]{range = {\ttfamily 50} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00083}{83}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_aedf17d4c15e4afc0afddbfaafe3081db}\label{class_crop_manager_aedf17d4c15e4afc0afddbfaafe3081db}} 
+\index{CropManager@{CropManager}!Init@{Init}}
+\index{Init@{Init}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Init()}{Init()}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00047}{47}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_abfa389a64119fcecf6ba85838cc5cc66}\label{class_crop_manager_abfa389a64119fcecf6ba85838cc5cc66}} 
+\index{CropManager@{CropManager}!IsNearWater@{IsNearWater}}
+\index{IsNearWater@{IsNearWater}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{IsNearWater()}{IsNearWater()}}
+{\footnotesize\ttfamily bool Crop\+Manager.\+Is\+Near\+Water (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos,  }\item[{float}]{water\+Range = {\ttfamily 5f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00165}{165}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a1db9f70c3d8551204f3aaf2a96c6f905}\label{class_crop_manager_a1db9f70c3d8551204f3aaf2a96c6f905}} 
+\index{CropManager@{CropManager}!Remove@{Remove}}
+\index{Remove@{Remove}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Remove()}{Remove()}}
+{\footnotesize\ttfamily void Crop\+Manager.\+Remove (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+block\+Pos }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00173}{173}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_crop_manager_a93eff4c6d402287f44725abb84411be8}\label{class_crop_manager_a93eff4c6d402287f44725abb84411be8}} 
+\index{CropManager@{CropManager}!DebugMode@{DebugMode}}
+\index{DebugMode@{DebugMode}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{DebugMode}{DebugMode}}
+{\footnotesize\ttfamily bool Crop\+Manager.\+Debug\+Mode\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00020}{20}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_afc51510e1a0ac6ee2ee338bf5bc81a6b}\label{class_crop_manager_afc51510e1a0ac6ee2ee338bf5bc81a6b}} 
+\index{CropManager@{CropManager}!Enabled@{Enabled}}
+\index{Enabled@{Enabled}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Enabled}{Enabled}}
+{\footnotesize\ttfamily bool Crop\+Manager.\+Enabled\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+\mbox{\Hypertarget{class_crop_manager_a28e8f765d62c67ec855a89bb8f6be893}\label{class_crop_manager_a28e8f765d62c67ec855a89bb8f6be893}} 
+\index{CropManager@{CropManager}!Instance@{Instance}}
+\index{Instance@{Instance}!CropManager@{CropManager}}
+\doxysubsubsection{\texorpdfstring{Instance}{Instance}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_crop_manager}{Crop\+Manager}} Crop\+Manager.\+Instance\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_crop_manager_8cs_source_l00035}{35}} of file \mbox{\hyperlink{_crop_manager_8cs_source}{Crop\+Manager.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Managers/Crop\+Manager.\+cs\end{DoxyCompactItemize}

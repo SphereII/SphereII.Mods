@@ -1,0 +1,1182 @@
+\hypertarget{class_entity_alive_s_d_x}{}\doxysection{Entity\+Alive\+SDX Class Reference}
+\label{class_entity_alive_s_d_x}\index{EntityAliveSDX@{EntityAliveSDX}}
+
+
+Inherits Entity\+Trader, and \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Inherited by \mbox{\hyperlink{class_entity_alive_farming_animal_s_d_x}{Entity\+Alive\+Farming\+Animal\+SDX}}.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override string \mbox{\hyperlink{class_entity_alive_s_d_x_a7ca42190e57ec152d3037facfefc88cc}{Get\+Loot\+List}} ()
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a3bb7a924b1303ccc46bf82c2c9f60fd2}{Is\+Available}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a9ce5742862981b77febe84f7e0c4bff7}{Display\+Log}} (string str\+Message)
+\item 
+override string \mbox{\hyperlink{class_entity_alive_s_d_x_a6805f64d706b8c0d6e9e64e9300287b8}{To\+String}} ()
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a9ab454f441a707a960d62252fc4c41fd}{Can\+Entity\+Jump}} ()
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a57981c0d95b33d3d16fd21f6e7d71c07}{Is\+On\+Mission}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a716dadc85318ddc89f66cce1a0b43425}{Send\+On\+Mission}} (bool send)
+\item 
+override float \mbox{\hyperlink{class_entity_alive_s_d_x_a7bf3ec799d628a76677c72b5f9a6a6c3}{Get\+Eye\+Height}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a5ee11a467ab7f88711429be719f23abf}{Set\+Model\+Layer}} (int \+\_\+layer\+Id, bool \+\_\+force=false, string\mbox{[}$\,$\mbox{]} exclude\+Tags=null)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a07b192b0584e38a9e4bc8423ad2a0a7c}{Copy\+Properties\+From\+Entity\+Class}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_ac76f63080e7882372bb47c3fc531112a}{On\+Added\+To\+World}} ()
+\begin{DoxyCompactList}\small\item\em Overrides Entity\+Alive.\+On\+Added\+To\+World(). When entities are spawned into sleeper volumes, which happens in Sleeper\+Volume.\+Spawn(), several of their properties are set so they are spawned in a sleeping state. If the NPC should always be awake, those properties can be reset here. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_af86c7332ba52a17d2b520f57695c7965}{On\+Chunk\+Displayed}} (long \+\_\+key, bool \+\_\+b\+Displayed)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_aa9741275c2eecf954515b6b8343f9405}{Configure\+Boundary\+Box}} (Vector3 new\+Size, Vector3 center)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a811e2987752f0e9dbdf8a346f34fabaf}{Restore\+Speed}} ()
+\item 
+override Entity\+Activation\+Command\mbox{[}$\,$\mbox{]} \mbox{\hyperlink{class_entity_alive_s_d_x_a2cebf50515a249fd08ae394367f1049e}{Get\+Activation\+Commands}} (Vector3i \+\_\+te\+Pos, Entity\+Alive \+\_\+entity\+Focusing)
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a67792e5df185d90324ad2b7a0ee5d7f7}{On\+Entity\+Activated}} (int index\+In\+Block\+Activation\+Commands, Vector3i te\+Pos, Entity\+Alive entity\+Focusing)
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a64e3bfccc3318ae7120574173899a2b1}{Can\+Be\+Pushed}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_ad27363e0b5517bfe08dc2f145a0a3b76}{Post\+Init}} ()
+\item 
+virtual void \mbox{\hyperlink{class_entity_alive_s_d_x_a7a31604214486ba310819d2f39be38cc}{Update\+Patrol\+Points}} (Vector3 position)
+\begin{DoxyCompactList}\small\item\em Updates the list of patrol coordinates with the point at the given position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & \\
+\hline
+\end{DoxyParams}
+ \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a8ce4e466096f23ab428ab17bd68f2dbf}{Read}} (byte \+\_\+version, Binary\+Reader \+\_\+br)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_aa512f6c6c32195d064a990f8a7073640}{Setup\+Auto\+Pathing\+Blocks}} ()
+\begin{DoxyCompactList}\small\item\em When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. \end{DoxyCompactList}\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_aa64c06a6a3f37d3cd39f8c0a1dd8a1b6}{Write}} (Binary\+Writer \+\_\+bw, bool b\+Network\+Write)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a086553da7970d800097432f8f1be8a94}{Give\+Quest}} (string str\+Quest)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a4085ffe371fe6c2c7d78f0ac6540d136}{Move\+Entity\+Headed}} (Vector3 \+\_\+direction, bool \+\_\+is\+Dir\+Absolute)
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_ab96ca77e5558b7760f1655879b1d5797}{Local\+Player\+Is\+Owner}} ()
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a986fba54bcbfd6ab2975773a94b623b9}{Is\+Saved\+To\+File}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_af769b861191ea13ce417810addbb92ce}{Leader\+Update}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a3d648f69f76ad883dd30cca625d02bda}{On\+Update\+Live}} ()
+\item 
+override Ray \mbox{\hyperlink{class_entity_alive_s_d_x_a69741745a2bf1769f2ffac7be8a9f6d0}{Get\+Look\+Ray}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a379f0188f72d630b1241cce425e8022d}{Toggle\+Trader\+ID}} (bool Restore)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_aa85eb2db598e4e8adf4adf846b4ba198}{Process\+Damage\+Response}} (Damage\+Response \+\_\+dm\+Response)
+\item 
+override int \mbox{\hyperlink{class_entity_alive_s_d_x_a289eae1e8162bdd52315a3287b42dbbe}{Damage\+Entity}} (Damage\+Source \+\_\+damage\+Source, int \+\_\+strength, bool \+\_\+critical\+Hit, float \+\_\+impulse\+Scale)
+\item 
+new void \mbox{\hyperlink{class_entity_alive_s_d_x_a6941d63786e1f0b8711d9b52627f2058}{Set\+Revenge\+Target}} (Entity\+Alive \+\_\+other)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_ad9038414b9938959ab191286066d03b0}{On\+Entity\+Unload}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_af3a46123b4f0d6cef7872aa2f7af3771}{Set\+Dead}} ()
+\item 
+new void \mbox{\hyperlink{class_entity_alive_s_d_x_a1b131660e6153a0ad4c39a4c9eeee67e}{Set\+Attack\+Target}} (Entity\+Alive \+\_\+attack\+Target, int \+\_\+attack\+Target\+Time)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_af751676e3f2bfc664a53de630aacff57}{On\+Update\+Position}} (float \+\_\+partial\+Ticks)
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_adab9c283878def3fe904a4ece72b21c4}{Can\+Damage\+Entity}} (int \+\_\+source\+Entity\+Id)
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a074b2c1c9fb510d9f9943409bb8444f6}{Is\+Attack\+Valid}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a539bac33ef3ed6287a745486a2a85442}{Teleport\+To\+Player}} (Entity\+Alive target, bool random\+Position=false)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_acc83fe2b48def8b8ebbaa550a94fc2f5}{Process\+Damage\+Response\+Local}} (Damage\+Response \+\_\+dm\+Response)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a19d698a3a5bae15499e84741ef5ab0c3}{Mark\+To\+Unload}} ()
+\item 
+override float \mbox{\hyperlink{class_entity_alive_s_d_x_a88f1509c332bc83e36f33a31d32c54ea}{Get\+Move\+Speed}} ()
+\item 
+override float \mbox{\hyperlink{class_entity_alive_s_d_x_afebe8e70d1669758bd6aec9431a52aef}{Get\+Move\+Speed\+Aggro}} ()
+\item 
+new float \mbox{\hyperlink{class_entity_alive_s_d_x_a92d2c08d0b3829d8e8bc286ebb5514ca}{Get\+Move\+Speed\+Panic}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_ab999550b309bfe8df18272ab14bf2b37}{Add\+Kill\+XP}} (Entity\+Alive killed\+Entity, float xp\+Modifier=1f)
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_aab2e0580b685afd5a9e8546c90ef3ac4}{Execute\+Action}} (bool \+\_\+b\+Attack\+Released, int action\+Index)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a98d83ee18814f217a48fb756f949624f}{On\+Entity\+Death}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a60202594260b50cd737d40bb81ef46b0}{Check\+Noise}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_af5026dd528e2e4e89272d574751c78a1}{Award\+Kill}} (Entity\+Alive killer)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a71dfe65a46b6c18fe9a80ff36ec99711}{Collect}} (int \+\_\+player\+Id)
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_afa71049bb3ade483ff2d53684f5ed5be}{Set\+Item\+Value}} (Item\+Value item\+Value)
+\item 
+Item\+Value \mbox{\hyperlink{class_entity_alive_s_d_x_acf7fbac4246d14afcd06d7f383ae6f83}{Get\+Item\+Value}} ()
+\item 
+void \mbox{\hyperlink{class_entity_alive_s_d_x_a18e22289a58ff36f5071f55b2cae4354}{Update\+Weapon}} (Item\+Value item)
+\item 
+new string \mbox{\hyperlink{class_entity_alive_s_d_x_af983db3ac2c954a7e07cc9b3d4c61c73}{Get\+Right\+Hand\+Transform\+Name}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a61e788685d71bf2089f61b0214f2ee14}{Play\+One\+Shot}} (string clip\+Name, bool sound\+\_\+in\+\_\+head=false)
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a2de917b2052403bea4e8eba72d392e27}{On\+Death\+Update}} ()
+\item 
+virtual void \mbox{\hyperlink{class_entity_alive_s_d_x_a193e6823abe5e76628b5118f9086b6d8}{Check\+Stuck}} ()
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ad46d039dbeeb1963ad0e2fdbce98f581}{Setup\+Auto\+Pathing\+Blocks}} ()
+\begin{DoxyCompactList}\small\item\em When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae32f59791a2b41987faa93f1470f1665}{Update\+Patrol\+Points}} (Vector3 position)
+\begin{DoxyCompactList}\small\item\em Updates the list of patrol coordinates with the point at the given position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ string $>$ \mbox{\hyperlink{class_entity_alive_s_d_x_acfedbb0a778d0c083b5574db52754729}{lst\+Quests}} = new List$<$string$>$()
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_adc7bfe742d0a4841d5c8cc0943026977}{is\+Always\+Awake}}
+\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{class_entity_alive_s_d_x_a50936455c82a0b1d902048f055ab2e62}{patrol\+Coordinates}} = new List$<$Vector3$>$()
+\item 
+Vector3 \mbox{\hyperlink{class_entity_alive_s_d_x_aa0698efb0965639f84f5b0dda7d9cf06}{guard\+Position}} = Vector3.\+zero
+\item 
+Vector3 \mbox{\hyperlink{class_entity_alive_s_d_x_a1fa3bbee5495a0ad8d2104b4287c661f}{guard\+Look\+Position}} = Vector3.\+zero
+\item 
+float \mbox{\hyperlink{class_entity_alive_s_d_x_ac600417d5c1bd818a548275e5c067284}{fl\+Eye\+Height}} = -\/1f
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a4a6cf8d5d3c046a55c407b865a5cb0cd}{b\+Went\+Through\+Door}}
+\item 
+Entity\+Alive \mbox{\hyperlink{class_entity_alive_s_d_x_a5427273eb1bf0037436068f68fcf1b28}{Owner}}
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_ad4b977e13318d9b591b3b66ddd8786cb}{is\+Teleporting}} = false
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a6f1e799af0300062b83612b2348e5df5}{is\+Hirable}} = true
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a4507c13f3355828dcb696537c02bdf96}{is\+Quest\+Giver}} = true
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_ade8b531787635525a334d48b314c7e68}{Add\+NPCTo\+Companion}} = Configuration.\+Check\+Feature\+Status(\char`\"{}Advanced\+NPCFeatures\char`\"{}, \char`\"{}Display\+Companions\char`\"{})
+\item 
+bool \mbox{\hyperlink{class_entity_alive_s_d_x_a80f71a87eb22319d0a04f3debe9aef79}{can\+Jump}} = true
+\item 
+Item\+Value \mbox{\hyperlink{class_entity_alive_s_d_x_a1d1575d9f16227c5a0d3b8c6e7dfdab0}{melee\+Weapon}} = Item\+Class.\+Get\+Item(\char`\"{}melee\+Club\+Iron\char`\"{})
+\item 
+Quest\+Journal \mbox{\hyperlink{class_entity_alive_s_d_x_a68bde7c9a301db7a8987d4f94ce75415}{quest\+Journal}} = new Quest\+Journal()
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+override float \mbox{\hyperlink{class_entity_alive_s_d_x_adac6420ee88e5bb747b3bbe53f16635a}{get\+Next\+Step\+Sound\+Distance}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_acaad3995d85cb3ef094c36a15df7bb41}{Update\+Jump}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a528ea85e97fee14cef52748153ea39cf}{Handle\+Nav\+Object}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a033e7237e89bcad38239331e4fc76321}{drop\+Item\+On\+Death}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_a1a615a16532363368060b78e8a6c85e5}{play\+Step\+Sound}} (string step\+Sound)
+\item 
+override Vector3i \mbox{\hyperlink{class_entity_alive_s_d_x_af8ff9d5e07fc934cdce1eec418857226}{drop\+Corpse\+Block}} ()
+\item 
+override void \mbox{\hyperlink{class_entity_alive_s_d_x_ac55ed4233bdda90cda3fffa793376452}{update\+Step\+Sound}} (float distX, float distZ)
+\end{DoxyCompactItemize}
+\doxysubsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{class_entity_alive_s_d_x_a0d943700c840fdf1128132467946bbcc}{Patrol\+Coordinates}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is patrolling, this is the list of coordinates on its route. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_alive_s_d_x_a7e6fe86e67d1e8e7b7fb308cae888e07}{Guard\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is guarding a location, this is the position where it is guarding. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_alive_s_d_x_ab664e0ce5fd1280cc7eeb1dfe4d4bc3e}{Guard\+Look\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If an entity is guarding a location, this is its look position. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{class_entity_alive_s_d_x_acd21e42482886ce31eae6f0e3b30b809}{Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The entity\textquotesingle{}s current position. \end{DoxyCompactList}\item 
+string \mbox{\hyperlink{class_entity_alive_s_d_x_ab9e54c22de756be680fc89ac7efa33df}{Title}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+string \mbox{\hyperlink{class_entity_alive_s_d_x_a666b25ed587d7d8e9e1cca32be5b5277}{First\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+override string \mbox{\hyperlink{class_entity_alive_s_d_x_a279eafb6d3356725fc0b71bfd66f7c30}{Entity\+Name}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+override bool \mbox{\hyperlink{class_entity_alive_s_d_x_a99e892e227dd828100a9259877b68be6}{Is\+Immune\+To\+Leg\+Damage}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Properties inherited from \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x}{IEntity\+Order\+Receiver\+SDX}}}
+\begin{DoxyCompactItemize}
+\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae2f9e0a03fad3fafe069ec2ceb438b9e}{Guard\+Look\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If an entity is guarding a location, this is its look position. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_abfa8c1b13c671f9d5c81d01d4638b6a2}{Guard\+Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is guarding a location, this is the position where it is guarding. \end{DoxyCompactList}\item 
+List$<$ Vector3 $>$ \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a646e07c602a1d1e3b3531e2497cce000}{Patrol\+Coordinates}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em If the entity is patrolling, this is the list of coordinates on its route. \end{DoxyCompactList}\item 
+Vector3 \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a4a488e240febcf2a6fe1b711c3d03fac}{Position}}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\begin{DoxyCompactList}\small\item\em The entity\textquotesingle{}s current position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00025}{25}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ab999550b309bfe8df18272ab14bf2b37}\label{class_entity_alive_s_d_x_ab999550b309bfe8df18272ab14bf2b37}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!AddKillXP@{AddKillXP}}
+\index{AddKillXP@{AddKillXP}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{AddKillXP()}{AddKillXP()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Add\+Kill\+XP (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{killed\+Entity,  }\item[{float}]{xp\+Modifier = {\ttfamily 1f} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01565}{1565}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af5026dd528e2e4e89272d574751c78a1}\label{class_entity_alive_s_d_x_af5026dd528e2e4e89272d574751c78a1}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!AwardKill@{AwardKill}}
+\index{AwardKill@{AwardKill}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{AwardKill()}{AwardKill()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Award\+Kill (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{killer }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01736}{1736}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a64e3bfccc3318ae7120574173899a2b1}\label{class_entity_alive_s_d_x_a64e3bfccc3318ae7120574173899a2b1}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CanBePushed@{CanBePushed}}
+\index{CanBePushed@{CanBePushed}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CanBePushed()}{CanBePushed()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Can\+Be\+Pushed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00549}{549}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_adab9c283878def3fe904a4ece72b21c4}\label{class_entity_alive_s_d_x_adab9c283878def3fe904a4ece72b21c4}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CanDamageEntity@{CanDamageEntity}}
+\index{CanDamageEntity@{CanDamageEntity}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CanDamageEntity()}{CanDamageEntity()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Can\+Damage\+Entity (\begin{DoxyParamCaption}\item[{int}]{\+\_\+source\+Entity\+Id }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01347}{1347}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a9ab454f441a707a960d62252fc4c41fd}\label{class_entity_alive_s_d_x_a9ab454f441a707a960d62252fc4c41fd}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CanEntityJump@{CanEntityJump}}
+\index{CanEntityJump@{CanEntityJump}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CanEntityJump()}{CanEntityJump()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Can\+Entity\+Jump (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00164}{164}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a60202594260b50cd737d40bb81ef46b0}\label{class_entity_alive_s_d_x_a60202594260b50cd737d40bb81ef46b0}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CheckNoise@{CheckNoise}}
+\index{CheckNoise@{CheckNoise}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CheckNoise()}{CheckNoise()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Check\+Noise (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01710}{1710}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a193e6823abe5e76628b5118f9086b6d8}\label{class_entity_alive_s_d_x_a193e6823abe5e76628b5118f9086b6d8}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CheckStuck@{CheckStuck}}
+\index{CheckStuck@{CheckStuck}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CheckStuck()}{CheckStuck()}}
+{\footnotesize\ttfamily virtual void Entity\+Alive\+SDX.\+Check\+Stuck (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l02195}{2195}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a71dfe65a46b6c18fe9a80ff36ec99711}\label{class_entity_alive_s_d_x_a71dfe65a46b6c18fe9a80ff36ec99711}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Collect@{Collect}}
+\index{Collect@{Collect}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Collect()}{Collect()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Collect (\begin{DoxyParamCaption}\item[{int}]{\+\_\+player\+Id }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01750}{1750}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aa9741275c2eecf954515b6b8343f9405}\label{class_entity_alive_s_d_x_aa9741275c2eecf954515b6b8343f9405}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ConfigureBoundaryBox@{ConfigureBoundaryBox}}
+\index{ConfigureBoundaryBox@{ConfigureBoundaryBox}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ConfigureBoundaryBox()}{ConfigureBoundaryBox()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Configure\+Boundary\+Box (\begin{DoxyParamCaption}\item[{Vector3}]{new\+Size,  }\item[{Vector3}]{center }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00385}{385}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a07b192b0584e38a9e4bc8423ad2a0a7c}\label{class_entity_alive_s_d_x_a07b192b0584e38a9e4bc8423ad2a0a7c}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!CopyPropertiesFromEntityClass@{CopyPropertiesFromEntityClass}}
+\index{CopyPropertiesFromEntityClass@{CopyPropertiesFromEntityClass}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{CopyPropertiesFromEntityClass()}{CopyPropertiesFromEntityClass()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Copy\+Properties\+From\+Entity\+Class (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00246}{246}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a289eae1e8162bdd52315a3287b42dbbe}\label{class_entity_alive_s_d_x_a289eae1e8162bdd52315a3287b42dbbe}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!DamageEntity@{DamageEntity}}
+\index{DamageEntity@{DamageEntity}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{DamageEntity()}{DamageEntity()}}
+{\footnotesize\ttfamily override int Entity\+Alive\+SDX.\+Damage\+Entity (\begin{DoxyParamCaption}\item[{Damage\+Source}]{\+\_\+damage\+Source,  }\item[{int}]{\+\_\+strength,  }\item[{bool}]{\+\_\+critical\+Hit,  }\item[{float}]{\+\_\+impulse\+Scale }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01169}{1169}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a9ce5742862981b77febe84f7e0c4bff7}\label{class_entity_alive_s_d_x_a9ce5742862981b77febe84f7e0c4bff7}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!DisplayLog@{DisplayLog}}
+\index{DisplayLog@{DisplayLog}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{DisplayLog()}{DisplayLog()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Display\+Log (\begin{DoxyParamCaption}\item[{string}]{str\+Message }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00152}{152}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af8ff9d5e07fc934cdce1eec418857226}\label{class_entity_alive_s_d_x_af8ff9d5e07fc934cdce1eec418857226}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!dropCorpseBlock@{dropCorpseBlock}}
+\index{dropCorpseBlock@{dropCorpseBlock}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{dropCorpseBlock()}{dropCorpseBlock()}}
+{\footnotesize\ttfamily override Vector3i Entity\+Alive\+SDX.\+drop\+Corpse\+Block (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01975}{1975}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a033e7237e89bcad38239331e4fc76321}\label{class_entity_alive_s_d_x_a033e7237e89bcad38239331e4fc76321}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!dropItemOnDeath@{dropItemOnDeath}}
+\index{dropItemOnDeath@{dropItemOnDeath}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{dropItemOnDeath()}{dropItemOnDeath()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+drop\+Item\+On\+Death (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01658}{1658}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aab2e0580b685afd5a9e8546c90ef3ac4}\label{class_entity_alive_s_d_x_aab2e0580b685afd5a9e8546c90ef3ac4}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ExecuteAction@{ExecuteAction}}
+\index{ExecuteAction@{ExecuteAction}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ExecuteAction()}{ExecuteAction()}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+Execute\+Action (\begin{DoxyParamCaption}\item[{bool}]{\+\_\+b\+Attack\+Released,  }\item[{int}]{action\+Index }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01621}{1621}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a2cebf50515a249fd08ae394367f1049e}\label{class_entity_alive_s_d_x_a2cebf50515a249fd08ae394367f1049e}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetActivationCommands@{GetActivationCommands}}
+\index{GetActivationCommands@{GetActivationCommands}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetActivationCommands()}{GetActivationCommands()}}
+{\footnotesize\ttfamily override Entity\+Activation\+Command\mbox{[}$\,$\mbox{]} Entity\+Alive\+SDX.\+Get\+Activation\+Commands (\begin{DoxyParamCaption}\item[{Vector3i}]{\+\_\+te\+Pos,  }\item[{Entity\+Alive}]{\+\_\+entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00421}{421}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a7bf3ec799d628a76677c72b5f9a6a6c3}\label{class_entity_alive_s_d_x_a7bf3ec799d628a76677c72b5f9a6a6c3}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetEyeHeight@{GetEyeHeight}}
+\index{GetEyeHeight@{GetEyeHeight}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetEyeHeight()}{GetEyeHeight()}}
+{\footnotesize\ttfamily override float Entity\+Alive\+SDX.\+Get\+Eye\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00222}{222}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_acf7fbac4246d14afcd06d7f383ae6f83}\label{class_entity_alive_s_d_x_acf7fbac4246d14afcd06d7f383ae6f83}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetItemValue@{GetItemValue}}
+\index{GetItemValue@{GetItemValue}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetItemValue()}{GetItemValue()}}
+{\footnotesize\ttfamily Item\+Value Entity\+Alive\+SDX.\+Get\+Item\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01835}{1835}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a69741745a2bf1769f2ffac7be8a9f6d0}\label{class_entity_alive_s_d_x_a69741745a2bf1769f2ffac7be8a9f6d0}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetLookRay@{GetLookRay}}
+\index{GetLookRay@{GetLookRay}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetLookRay()}{GetLookRay()}}
+{\footnotesize\ttfamily override Ray Entity\+Alive\+SDX.\+Get\+Look\+Ray (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01137}{1137}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a7ca42190e57ec152d3037facfefc88cc}\label{class_entity_alive_s_d_x_a7ca42190e57ec152d3037facfefc88cc}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetLootList@{GetLootList}}
+\index{GetLootList@{GetLootList}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetLootList()}{GetLootList()}}
+{\footnotesize\ttfamily override string Entity\+Alive\+SDX.\+Get\+Loot\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00072}{72}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a88f1509c332bc83e36f33a31d32c54ea}\label{class_entity_alive_s_d_x_a88f1509c332bc83e36f33a31d32c54ea}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetMoveSpeed@{GetMoveSpeed}}
+\index{GetMoveSpeed@{GetMoveSpeed}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetMoveSpeed()}{GetMoveSpeed()}}
+{\footnotesize\ttfamily override float Entity\+Alive\+SDX.\+Get\+Move\+Speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01544}{1544}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_afebe8e70d1669758bd6aec9431a52aef}\label{class_entity_alive_s_d_x_afebe8e70d1669758bd6aec9431a52aef}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetMoveSpeedAggro@{GetMoveSpeedAggro}}
+\index{GetMoveSpeedAggro@{GetMoveSpeedAggro}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetMoveSpeedAggro()}{GetMoveSpeedAggro()}}
+{\footnotesize\ttfamily override float Entity\+Alive\+SDX.\+Get\+Move\+Speed\+Aggro (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01553}{1553}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a92d2c08d0b3829d8e8bc286ebb5514ca}\label{class_entity_alive_s_d_x_a92d2c08d0b3829d8e8bc286ebb5514ca}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetMoveSpeedPanic@{GetMoveSpeedPanic}}
+\index{GetMoveSpeedPanic@{GetMoveSpeedPanic}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetMoveSpeedPanic()}{GetMoveSpeedPanic()}}
+{\footnotesize\ttfamily new float Entity\+Alive\+SDX.\+Get\+Move\+Speed\+Panic (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01558}{1558}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_adac6420ee88e5bb747b3bbe53f16635a}\label{class_entity_alive_s_d_x_adac6420ee88e5bb747b3bbe53f16635a}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!getNextStepSoundDistance@{getNextStepSoundDistance}}
+\index{getNextStepSoundDistance@{getNextStepSoundDistance}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{getNextStepSoundDistance()}{getNextStepSoundDistance()}}
+{\footnotesize\ttfamily override float Entity\+Alive\+SDX.\+get\+Next\+Step\+Sound\+Distance (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00345}{345}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af983db3ac2c954a7e07cc9b3d4c61c73}\label{class_entity_alive_s_d_x_af983db3ac2c954a7e07cc9b3d4c61c73}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GetRightHandTransformName@{GetRightHandTransformName}}
+\index{GetRightHandTransformName@{GetRightHandTransformName}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GetRightHandTransformName()}{GetRightHandTransformName()}}
+{\footnotesize\ttfamily new string Entity\+Alive\+SDX.\+Get\+Right\+Hand\+Transform\+Name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01929}{1929}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a086553da7970d800097432f8f1be8a94}\label{class_entity_alive_s_d_x_a086553da7970d800097432f8f1be8a94}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GiveQuest@{GiveQuest}}
+\index{GiveQuest@{GiveQuest}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GiveQuest()}{GiveQuest()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Give\+Quest (\begin{DoxyParamCaption}\item[{string}]{str\+Quest }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00743}{743}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a528ea85e97fee14cef52748153ea39cf}\label{class_entity_alive_s_d_x_a528ea85e97fee14cef52748153ea39cf}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!HandleNavObject@{HandleNavObject}}
+\index{HandleNavObject@{HandleNavObject}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{HandleNavObject()}{HandleNavObject()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Handle\+Nav\+Object (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00841}{841}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a074b2c1c9fb510d9f9943409bb8444f6}\label{class_entity_alive_s_d_x_a074b2c1c9fb510d9f9943409bb8444f6}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!IsAttackValid@{IsAttackValid}}
+\index{IsAttackValid@{IsAttackValid}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{IsAttackValid()}{IsAttackValid()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Is\+Attack\+Valid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01353}{1353}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a3bb7a924b1303ccc46bf82c2c9f60fd2}\label{class_entity_alive_s_d_x_a3bb7a924b1303ccc46bf82c2c9f60fd2}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!IsAvailable@{IsAvailable}}
+\index{IsAvailable@{IsAvailable}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{IsAvailable()}{IsAvailable()}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+Is\+Available (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00080}{80}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a57981c0d95b33d3d16fd21f6e7d71c07}\label{class_entity_alive_s_d_x_a57981c0d95b33d3d16fd21f6e7d71c07}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!IsOnMission@{IsOnMission}}
+\index{IsOnMission@{IsOnMission}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{IsOnMission()}{IsOnMission()}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+Is\+On\+Mission (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00170}{170}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a986fba54bcbfd6ab2975773a94b623b9}\label{class_entity_alive_s_d_x_a986fba54bcbfd6ab2975773a94b623b9}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!IsSavedToFile@{IsSavedToFile}}
+\index{IsSavedToFile@{IsSavedToFile}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{IsSavedToFile()}{IsSavedToFile()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Is\+Saved\+To\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00878}{878}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af769b861191ea13ce417810addbb92ce}\label{class_entity_alive_s_d_x_af769b861191ea13ce417810addbb92ce}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!LeaderUpdate@{LeaderUpdate}}
+\index{LeaderUpdate@{LeaderUpdate}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{LeaderUpdate()}{LeaderUpdate()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Leader\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00896}{896}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ab96ca77e5558b7760f1655879b1d5797}\label{class_entity_alive_s_d_x_ab96ca77e5558b7760f1655879b1d5797}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!LocalPlayerIsOwner@{LocalPlayerIsOwner}}
+\index{LocalPlayerIsOwner@{LocalPlayerIsOwner}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{LocalPlayerIsOwner()}{LocalPlayerIsOwner()}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+Local\+Player\+Is\+Owner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00866}{866}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a19d698a3a5bae15499e84741ef5ab0c3}\label{class_entity_alive_s_d_x_a19d698a3a5bae15499e84741ef5ab0c3}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!MarkToUnload@{MarkToUnload}}
+\index{MarkToUnload@{MarkToUnload}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{MarkToUnload()}{MarkToUnload()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Mark\+To\+Unload (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01470}{1470}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a4085ffe371fe6c2c7d78f0ac6540d136}\label{class_entity_alive_s_d_x_a4085ffe371fe6c2c7d78f0ac6540d136}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!MoveEntityHeaded@{MoveEntityHeaded}}
+\index{MoveEntityHeaded@{MoveEntityHeaded}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{MoveEntityHeaded()}{MoveEntityHeaded()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Move\+Entity\+Headed (\begin{DoxyParamCaption}\item[{Vector3}]{\+\_\+direction,  }\item[{bool}]{\+\_\+is\+Dir\+Absolute }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00797}{797}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ac76f63080e7882372bb47c3fc531112a}\label{class_entity_alive_s_d_x_ac76f63080e7882372bb47c3fc531112a}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnAddedToWorld@{OnAddedToWorld}}
+\index{OnAddedToWorld@{OnAddedToWorld}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnAddedToWorld()}{OnAddedToWorld()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Added\+To\+World (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Overrides Entity\+Alive.\+On\+Added\+To\+World(). When entities are spawned into sleeper volumes, which happens in Sleeper\+Volume.\+Spawn(), several of their properties are set so they are spawned in a sleeping state. If the NPC should always be awake, those properties can be reset here. 
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00356}{356}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af86c7332ba52a17d2b520f57695c7965}\label{class_entity_alive_s_d_x_af86c7332ba52a17d2b520f57695c7965}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnChunkDisplayed@{OnChunkDisplayed}}
+\index{OnChunkDisplayed@{OnChunkDisplayed}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnChunkDisplayed()}{OnChunkDisplayed()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+On\+Chunk\+Displayed (\begin{DoxyParamCaption}\item[{long}]{\+\_\+key,  }\item[{bool}]{\+\_\+b\+Displayed }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00374}{374}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a2de917b2052403bea4e8eba72d392e27}\label{class_entity_alive_s_d_x_a2de917b2052403bea4e8eba72d392e27}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnDeathUpdate@{OnDeathUpdate}}
+\index{OnDeathUpdate@{OnDeathUpdate}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnDeathUpdate()}{OnDeathUpdate()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Death\+Update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01949}{1949}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a67792e5df185d90324ad2b7a0ee5d7f7}\label{class_entity_alive_s_d_x_a67792e5df185d90324ad2b7a0ee5d7f7}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnEntityActivated@{OnEntityActivated}}
+\index{OnEntityActivated@{OnEntityActivated}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnEntityActivated()}{OnEntityActivated()}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+On\+Entity\+Activated (\begin{DoxyParamCaption}\item[{int}]{index\+In\+Block\+Activation\+Commands,  }\item[{Vector3i}]{te\+Pos,  }\item[{Entity\+Alive}]{entity\+Focusing }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00448}{448}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a98d83ee18814f217a48fb756f949624f}\label{class_entity_alive_s_d_x_a98d83ee18814f217a48fb756f949624f}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnEntityDeath@{OnEntityDeath}}
+\index{OnEntityDeath@{OnEntityDeath}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnEntityDeath()}{OnEntityDeath()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Entity\+Death (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01648}{1648}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ad9038414b9938959ab191286066d03b0}\label{class_entity_alive_s_d_x_ad9038414b9938959ab191286066d03b0}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnEntityUnload@{OnEntityUnload}}
+\index{OnEntityUnload@{OnEntityUnload}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnEntityUnload()}{OnEntityUnload()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Entity\+Unload (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01217}{1217}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a3d648f69f76ad883dd30cca625d02bda}\label{class_entity_alive_s_d_x_a3d648f69f76ad883dd30cca625d02bda}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnUpdateLive@{OnUpdateLive}}
+\index{OnUpdateLive@{OnUpdateLive}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnUpdateLive()}{OnUpdateLive()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Update\+Live (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01002}{1002}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af751676e3f2bfc664a53de630aacff57}\label{class_entity_alive_s_d_x_af751676e3f2bfc664a53de630aacff57}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!OnUpdatePosition@{OnUpdatePosition}}
+\index{OnUpdatePosition@{OnUpdatePosition}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{OnUpdatePosition()}{OnUpdatePosition()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+On\+Update\+Position (\begin{DoxyParamCaption}\item[{float}]{\+\_\+partial\+Ticks }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01325}{1325}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a61e788685d71bf2089f61b0214f2ee14}\label{class_entity_alive_s_d_x_a61e788685d71bf2089f61b0214f2ee14}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!PlayOneShot@{PlayOneShot}}
+\index{PlayOneShot@{PlayOneShot}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{PlayOneShot()}{PlayOneShot()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Play\+One\+Shot (\begin{DoxyParamCaption}\item[{string}]{clip\+Name,  }\item[{bool}]{sound\+\_\+in\+\_\+head = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01944}{1944}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a1a615a16532363368060b78e8a6c85e5}\label{class_entity_alive_s_d_x_a1a615a16532363368060b78e8a6c85e5}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!playStepSound@{playStepSound}}
+\index{playStepSound@{playStepSound}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{playStepSound()}{playStepSound()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+play\+Step\+Sound (\begin{DoxyParamCaption}\item[{string}]{step\+Sound }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01701}{1701}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ad27363e0b5517bfe08dc2f145a0a3b76}\label{class_entity_alive_s_d_x_ad27363e0b5517bfe08dc2f145a0a3b76}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!PostInit@{PostInit}}
+\index{PostInit@{PostInit}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{PostInit()}{PostInit()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Post\+Init (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00554}{554}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aa85eb2db598e4e8adf4adf846b4ba198}\label{class_entity_alive_s_d_x_aa85eb2db598e4e8adf4adf846b4ba198}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ProcessDamageResponse@{ProcessDamageResponse}}
+\index{ProcessDamageResponse@{ProcessDamageResponse}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ProcessDamageResponse()}{ProcessDamageResponse()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Process\+Damage\+Response (\begin{DoxyParamCaption}\item[{Damage\+Response}]{\+\_\+dm\+Response }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01154}{1154}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_acc83fe2b48def8b8ebbaa550a94fc2f5}\label{class_entity_alive_s_d_x_acc83fe2b48def8b8ebbaa550a94fc2f5}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ProcessDamageResponseLocal@{ProcessDamageResponseLocal}}
+\index{ProcessDamageResponseLocal@{ProcessDamageResponseLocal}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ProcessDamageResponseLocal()}{ProcessDamageResponseLocal()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Process\+Damage\+Response\+Local (\begin{DoxyParamCaption}\item[{Damage\+Response}]{\+\_\+dm\+Response }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01447}{1447}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a8ce4e466096f23ab428ab17bd68f2dbf}\label{class_entity_alive_s_d_x_a8ce4e466096f23ab428ab17bd68f2dbf}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Read@{Read}}
+\index{Read@{Read}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Read()}{Read()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Read (\begin{DoxyParamCaption}\item[{byte}]{\+\_\+version,  }\item[{Binary\+Reader}]{\+\_\+br }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00614}{614}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a811e2987752f0e9dbdf8a346f34fabaf}\label{class_entity_alive_s_d_x_a811e2987752f0e9dbdf8a346f34fabaf}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!RestoreSpeed@{RestoreSpeed}}
+\index{RestoreSpeed@{RestoreSpeed}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{RestoreSpeed()}{RestoreSpeed()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Restore\+Speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00407}{407}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a716dadc85318ddc89f66cce1a0b43425}\label{class_entity_alive_s_d_x_a716dadc85318ddc89f66cce1a0b43425}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SendOnMission@{SendOnMission}}
+\index{SendOnMission@{SendOnMission}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SendOnMission()}{SendOnMission()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Send\+On\+Mission (\begin{DoxyParamCaption}\item[{bool}]{send }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00176}{176}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a1b131660e6153a0ad4c39a4c9eeee67e}\label{class_entity_alive_s_d_x_a1b131660e6153a0ad4c39a4c9eeee67e}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetAttackTarget@{SetAttackTarget}}
+\index{SetAttackTarget@{SetAttackTarget}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetAttackTarget()}{SetAttackTarget()}}
+{\footnotesize\ttfamily new void Entity\+Alive\+SDX.\+Set\+Attack\+Target (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{\+\_\+attack\+Target,  }\item[{int}]{\+\_\+attack\+Target\+Time }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01300}{1300}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_af3a46123b4f0d6cef7872aa2f7af3771}\label{class_entity_alive_s_d_x_af3a46123b4f0d6cef7872aa2f7af3771}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetDead@{SetDead}}
+\index{SetDead@{SetDead}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetDead()}{SetDead()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Set\+Dead (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01226}{1226}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_afa71049bb3ade483ff2d53684f5ed5be}\label{class_entity_alive_s_d_x_afa71049bb3ade483ff2d53684f5ed5be}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetItemValue@{SetItemValue}}
+\index{SetItemValue@{SetItemValue}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetItemValue()}{SetItemValue()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Set\+Item\+Value (\begin{DoxyParamCaption}\item[{Item\+Value}]{item\+Value }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01762}{1762}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a5ee11a467ab7f88711429be719f23abf}\label{class_entity_alive_s_d_x_a5ee11a467ab7f88711429be719f23abf}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetModelLayer@{SetModelLayer}}
+\index{SetModelLayer@{SetModelLayer}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetModelLayer()}{SetModelLayer()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Set\+Model\+Layer (\begin{DoxyParamCaption}\item[{int}]{\+\_\+layer\+Id,  }\item[{bool}]{\+\_\+force = {\ttfamily false},  }\item[{string\mbox{[}$\,$\mbox{]}}]{exclude\+Tags = {\ttfamily null} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00240}{240}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a6941d63786e1f0b8711d9b52627f2058}\label{class_entity_alive_s_d_x_a6941d63786e1f0b8711d9b52627f2058}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetRevengeTarget@{SetRevengeTarget}}
+\index{SetRevengeTarget@{SetRevengeTarget}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetRevengeTarget()}{SetRevengeTarget()}}
+{\footnotesize\ttfamily new void Entity\+Alive\+SDX.\+Set\+Revenge\+Target (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{\+\_\+other }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01193}{1193}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aa512f6c6c32195d064a990f8a7073640}\label{class_entity_alive_s_d_x_aa512f6c6c32195d064a990f8a7073640}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!SetupAutoPathingBlocks@{SetupAutoPathingBlocks}}
+\index{SetupAutoPathingBlocks@{SetupAutoPathingBlocks}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{SetupAutoPathingBlocks()}{SetupAutoPathingBlocks()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Setup\+Auto\+Pathing\+Blocks (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+When this method is called, the entity will scan the area for auto pathing blocks. If it is capable of carrying out the orders on those blocks, it will do so. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ad46d039dbeeb1963ad0e2fdbce98f581}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00652}{652}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a539bac33ef3ed6287a745486a2a85442}\label{class_entity_alive_s_d_x_a539bac33ef3ed6287a745486a2a85442}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!TeleportToPlayer@{TeleportToPlayer}}
+\index{TeleportToPlayer@{TeleportToPlayer}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{TeleportToPlayer()}{TeleportToPlayer()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Teleport\+To\+Player (\begin{DoxyParamCaption}\item[{Entity\+Alive}]{target,  }\item[{bool}]{random\+Position = {\ttfamily false} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01360}{1360}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a379f0188f72d630b1241cce425e8022d}\label{class_entity_alive_s_d_x_a379f0188f72d630b1241cce425e8022d}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ToggleTraderID@{ToggleTraderID}}
+\index{ToggleTraderID@{ToggleTraderID}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ToggleTraderID()}{ToggleTraderID()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Toggle\+Trader\+ID (\begin{DoxyParamCaption}\item[{bool}]{Restore }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01142}{1142}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a6805f64d706b8c0d6e9e64e9300287b8}\label{class_entity_alive_s_d_x_a6805f64d706b8c0d6e9e64e9300287b8}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!ToString@{ToString}}
+\index{ToString@{ToString}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{ToString()}{ToString()}}
+{\footnotesize\ttfamily override string Entity\+Alive\+SDX.\+To\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00158}{158}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_acaad3995d85cb3ef094c36a15df7bb41}\label{class_entity_alive_s_d_x_acaad3995d85cb3ef094c36a15df7bb41}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!UpdateJump@{UpdateJump}}
+\index{UpdateJump@{UpdateJump}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{UpdateJump()}{UpdateJump()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Update\+Jump (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00761}{761}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a7a31604214486ba310819d2f39be38cc}\label{class_entity_alive_s_d_x_a7a31604214486ba310819d2f39be38cc}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!UpdatePatrolPoints@{UpdatePatrolPoints}}
+\index{UpdatePatrolPoints@{UpdatePatrolPoints}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{UpdatePatrolPoints()}{UpdatePatrolPoints()}}
+{\footnotesize\ttfamily virtual void Entity\+Alive\+SDX.\+Update\+Patrol\+Points (\begin{DoxyParamCaption}\item[{Vector3}]{position }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Updates the list of patrol coordinates with the point at the given position.
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & \\
+\hline
+\end{DoxyParams}
+ 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae32f59791a2b41987faa93f1470f1665}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00597}{597}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ac55ed4233bdda90cda3fffa793376452}\label{class_entity_alive_s_d_x_ac55ed4233bdda90cda3fffa793376452}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!updateStepSound@{updateStepSound}}
+\index{updateStepSound@{updateStepSound}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{updateStepSound()}{updateStepSound()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+update\+Step\+Sound (\begin{DoxyParamCaption}\item[{float}]{distX,  }\item[{float}]{distZ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l02029}{2029}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a18e22289a58ff36f5071f55b2cae4354}\label{class_entity_alive_s_d_x_a18e22289a58ff36f5071f55b2cae4354}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!UpdateWeapon@{UpdateWeapon}}
+\index{UpdateWeapon@{UpdateWeapon}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{UpdateWeapon()}{UpdateWeapon()}}
+{\footnotesize\ttfamily void Entity\+Alive\+SDX.\+Update\+Weapon (\begin{DoxyParamCaption}\item[{Item\+Value}]{item }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01897}{1897}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aa64c06a6a3f37d3cd39f8c0a1dd8a1b6}\label{class_entity_alive_s_d_x_aa64c06a6a3f37d3cd39f8c0a1dd8a1b6}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Write@{Write}}
+\index{Write@{Write}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Write()}{Write()}}
+{\footnotesize\ttfamily override void Entity\+Alive\+SDX.\+Write (\begin{DoxyParamCaption}\item[{Binary\+Writer}]{\+\_\+bw,  }\item[{bool}]{b\+Network\+Write }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00716}{716}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ade8b531787635525a334d48b314c7e68}\label{class_entity_alive_s_d_x_ade8b531787635525a334d48b314c7e68}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!AddNPCToCompanion@{AddNPCToCompanion}}
+\index{AddNPCToCompanion@{AddNPCToCompanion}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{AddNPCToCompanion}{AddNPCToCompanion}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+Add\+NPCTo\+Companion = Configuration.\+Check\+Feature\+Status(\char`\"{}Advanced\+NPCFeatures\char`\"{}, \char`\"{}Display\+Companions\char`\"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00063}{63}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a4a6cf8d5d3c046a55c407b865a5cb0cd}\label{class_entity_alive_s_d_x_a4a6cf8d5d3c046a55c407b865a5cb0cd}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!bWentThroughDoor@{bWentThroughDoor}}
+\index{bWentThroughDoor@{bWentThroughDoor}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{bWentThroughDoor}{bWentThroughDoor}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+b\+Went\+Through\+Door}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00054}{54}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a80f71a87eb22319d0a04f3debe9aef79}\label{class_entity_alive_s_d_x_a80f71a87eb22319d0a04f3debe9aef79}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!canJump@{canJump}}
+\index{canJump@{canJump}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{canJump}{canJump}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+can\+Jump = true}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00087}{87}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ac600417d5c1bd818a548275e5c067284}\label{class_entity_alive_s_d_x_ac600417d5c1bd818a548275e5c067284}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!flEyeHeight@{flEyeHeight}}
+\index{flEyeHeight@{flEyeHeight}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{flEyeHeight}{flEyeHeight}}
+{\footnotesize\ttfamily float Entity\+Alive\+SDX.\+fl\+Eye\+Height = -\/1f}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00053}{53}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a1fa3bbee5495a0ad8d2104b4287c661f}\label{class_entity_alive_s_d_x_a1fa3bbee5495a0ad8d2104b4287c661f}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!guardLookPosition@{guardLookPosition}}
+\index{guardLookPosition@{guardLookPosition}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{guardLookPosition}{guardLookPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Alive\+SDX.\+guard\+Look\+Position = Vector3.\+zero}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00037}{37}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_aa0698efb0965639f84f5b0dda7d9cf06}\label{class_entity_alive_s_d_x_aa0698efb0965639f84f5b0dda7d9cf06}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!guardPosition@{guardPosition}}
+\index{guardPosition@{guardPosition}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{guardPosition}{guardPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Alive\+SDX.\+guard\+Position = Vector3.\+zero}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00034}{34}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_adc7bfe742d0a4841d5c8cc0943026977}\label{class_entity_alive_s_d_x_adc7bfe742d0a4841d5c8cc0943026977}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!isAlwaysAwake@{isAlwaysAwake}}
+\index{isAlwaysAwake@{isAlwaysAwake}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{isAlwaysAwake}{isAlwaysAwake}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+is\+Always\+Awake}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00028}{28}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a6f1e799af0300062b83612b2348e5df5}\label{class_entity_alive_s_d_x_a6f1e799af0300062b83612b2348e5df5}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!isHirable@{isHirable}}
+\index{isHirable@{isHirable}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{isHirable}{isHirable}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+is\+Hirable = true}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00059}{59}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a4507c13f3355828dcb696537c02bdf96}\label{class_entity_alive_s_d_x_a4507c13f3355828dcb696537c02bdf96}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!isQuestGiver@{isQuestGiver}}
+\index{isQuestGiver@{isQuestGiver}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{isQuestGiver}{isQuestGiver}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+is\+Quest\+Giver = true}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00060}{60}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ad4b977e13318d9b591b3b66ddd8786cb}\label{class_entity_alive_s_d_x_ad4b977e13318d9b591b3b66ddd8786cb}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!isTeleporting@{isTeleporting}}
+\index{isTeleporting@{isTeleporting}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{isTeleporting}{isTeleporting}}
+{\footnotesize\ttfamily bool Entity\+Alive\+SDX.\+is\+Teleporting = false}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00057}{57}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_acfedbb0a778d0c083b5574db52754729}\label{class_entity_alive_s_d_x_acfedbb0a778d0c083b5574db52754729}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!lstQuests@{lstQuests}}
+\index{lstQuests@{lstQuests}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{lstQuests}{lstQuests}}
+{\footnotesize\ttfamily List$<$string$>$ Entity\+Alive\+SDX.\+lst\+Quests = new List$<$string$>$()}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00027}{27}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a1d1575d9f16227c5a0d3b8c6e7dfdab0}\label{class_entity_alive_s_d_x_a1d1575d9f16227c5a0d3b8c6e7dfdab0}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!meleeWeapon@{meleeWeapon}}
+\index{meleeWeapon@{meleeWeapon}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{meleeWeapon}{meleeWeapon}}
+{\footnotesize\ttfamily Item\+Value Entity\+Alive\+SDX.\+melee\+Weapon = Item\+Class.\+Get\+Item(\char`\"{}melee\+Club\+Iron\char`\"{})}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00106}{106}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a5427273eb1bf0037436068f68fcf1b28}\label{class_entity_alive_s_d_x_a5427273eb1bf0037436068f68fcf1b28}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Owner@{Owner}}
+\index{Owner@{Owner}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Owner}{Owner}}
+{\footnotesize\ttfamily Entity\+Alive Entity\+Alive\+SDX.\+Owner}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00056}{56}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a50936455c82a0b1d902048f055ab2e62}\label{class_entity_alive_s_d_x_a50936455c82a0b1d902048f055ab2e62}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!patrolCoordinates@{patrolCoordinates}}
+\index{patrolCoordinates@{patrolCoordinates}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{patrolCoordinates}{patrolCoordinates}}
+{\footnotesize\ttfamily List$<$Vector3$>$ Entity\+Alive\+SDX.\+patrol\+Coordinates = new List$<$Vector3$>$()}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a68bde7c9a301db7a8987d4f94ce75415}\label{class_entity_alive_s_d_x_a68bde7c9a301db7a8987d4f94ce75415}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!questJournal@{questJournal}}
+\index{questJournal@{questJournal}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{questJournal}{questJournal}}
+{\footnotesize\ttfamily Quest\+Journal Entity\+Alive\+SDX.\+quest\+Journal = new Quest\+Journal()}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00107}{107}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+
+
+\doxysubsection{Property Documentation}
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a279eafb6d3356725fc0b71bfd66f7c30}\label{class_entity_alive_s_d_x_a279eafb6d3356725fc0b71bfd66f7c30}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!EntityName@{EntityName}}
+\index{EntityName@{EntityName}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{EntityName}{EntityName}}
+{\footnotesize\ttfamily override string Entity\+Alive\+SDX.\+Entity\+Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00126}{126}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a666b25ed587d7d8e9e1cca32be5b5277}\label{class_entity_alive_s_d_x_a666b25ed587d7d8e9e1cca32be5b5277}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!FirstName@{FirstName}}
+\index{FirstName@{FirstName}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{FirstName}{FirstName}}
+{\footnotesize\ttfamily string Entity\+Alive\+SDX.\+First\+Name\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00121}{121}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ab664e0ce5fd1280cc7eeb1dfe4d4bc3e}\label{class_entity_alive_s_d_x_ab664e0ce5fd1280cc7eeb1dfe4d4bc3e}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GuardLookPosition@{GuardLookPosition}}
+\index{GuardLookPosition@{GuardLookPosition}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GuardLookPosition}{GuardLookPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Alive\+SDX.\+Guard\+Look\+Position\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+If an entity is guarding a location, this is its look position. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_ae2f9e0a03fad3fafe069ec2ceb438b9e}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00048}{48}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a7e6fe86e67d1e8e7b7fb308cae888e07}\label{class_entity_alive_s_d_x_a7e6fe86e67d1e8e7b7fb308cae888e07}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!GuardPosition@{GuardPosition}}
+\index{GuardPosition@{GuardPosition}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{GuardPosition}{GuardPosition}}
+{\footnotesize\ttfamily Vector3 Entity\+Alive\+SDX.\+Guard\+Position\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}
+
+
+
+If the entity is guarding a location, this is the position where it is guarding. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_abfa8c1b13c671f9d5c81d01d4638b6a2}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00045}{45}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a99e892e227dd828100a9259877b68be6}\label{class_entity_alive_s_d_x_a99e892e227dd828100a9259877b68be6}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!IsImmuneToLegDamage@{IsImmuneToLegDamage}}
+\index{IsImmuneToLegDamage@{IsImmuneToLegDamage}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{IsImmuneToLegDamage}{IsImmuneToLegDamage}}
+{\footnotesize\ttfamily override bool Entity\+Alive\+SDX.\+Is\+Immune\+To\+Leg\+Damage\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l01160}{1160}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_a0d943700c840fdf1128132467946bbcc}\label{class_entity_alive_s_d_x_a0d943700c840fdf1128132467946bbcc}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!PatrolCoordinates@{PatrolCoordinates}}
+\index{PatrolCoordinates@{PatrolCoordinates}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{PatrolCoordinates}{PatrolCoordinates}}
+{\footnotesize\ttfamily List$<$Vector3$>$ Entity\+Alive\+SDX.\+Patrol\+Coordinates\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+If the entity is patrolling, this is the list of coordinates on its route. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a646e07c602a1d1e3b3531e2497cce000}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00042}{42}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_acd21e42482886ce31eae6f0e3b30b809}\label{class_entity_alive_s_d_x_acd21e42482886ce31eae6f0e3b30b809}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Position@{Position}}
+\index{Position@{Position}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Position}{Position}}
+{\footnotesize\ttfamily Vector3 Entity\+Alive\+SDX.\+Position\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+The entity\textquotesingle{}s current position. 
+
+
+
+Implements \mbox{\hyperlink{interface_i_entity_order_receiver_s_d_x_a4a488e240febcf2a6fe1b711c3d03fac}{IEntity\+Order\+Receiver\+SDX}}.
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00051}{51}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+\mbox{\Hypertarget{class_entity_alive_s_d_x_ab9e54c22de756be680fc89ac7efa33df}\label{class_entity_alive_s_d_x_ab9e54c22de756be680fc89ac7efa33df}} 
+\index{EntityAliveSDX@{EntityAliveSDX}!Title@{Title}}
+\index{Title@{Title}!EntityAliveSDX@{EntityAliveSDX}}
+\doxysubsubsection{\texorpdfstring{Title}{Title}}
+{\footnotesize\ttfamily string Entity\+Alive\+SDX.\+Title\hspace{0.3cm}{\ttfamily [get]}}
+
+
+
+Definition at line \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source_l00116}{116}} of file \mbox{\hyperlink{_entity_alive_s_d_x_8cs_source}{Entity\+Alive\+SDX.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Entities/Entity\+Alive\+SDX.\+cs\end{DoxyCompactItemize}

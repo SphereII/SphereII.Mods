@@ -1,0 +1,30 @@
+\hypertarget{_block_clock_d_m_t_8cs_source}{}\doxysection{Block\+Clock\+DMT.\+cs}
+\label{_block_clock_d_m_t_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockClockDMT.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Blocks/BlockClockDMT.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Threading.Tasks;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00008}\mbox{\hyperlink{class_block_clock_d_m_t}{00008}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_block_clock_d_m_t}{BlockClockDMT}}\ :\ Block}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ ForceAnimationState(BlockValue\ \_blockValue,\ BlockEntityData\ \_ebcd)}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_ebcd\ !=\ \textcolor{keyword}{null}\ \&\&\ \_ebcd.bHasTransform)}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ Animator[]\ componentsInChildren\ =\ \_ebcd.transform.GetComponentsInChildren<Animator>();}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ componentsInChildren.Length\ -\/\ 1;\ i\ >=\ 0;\ i-\/-\/)}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Animator\ animator\ =\ componentsInChildren[i];}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (animator.gameObject.GetComponent<\mbox{\hyperlink{class_block_clock_script}{BlockClockScript}}>()\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ animator.gameObject.AddComponent<\mbox{\hyperlink{class_block_clock_script}{BlockClockScript}}>();}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_block_clock_d_m_t_8cs_source_l00024}00024\ \}}
+
+\end{DoxyCode}

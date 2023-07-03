@@ -1,0 +1,82 @@
+\hypertarget{_entity_alive_starting_equipment_8cs_source}{}\doxysection{Entity\+Alive\+Starting\+Equipment.\+cs}
+\label{_entity_alive_starting_equipment_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityAliveStartingEquipment.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityAliveStartingEquipment.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00006}00006\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }EntityAliveStartingEquipment}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00007}00007\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}PostInit"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00010}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_alive_starting_equipment_1_1_entity_alive_starting_equipment_post_init}{00010}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_alive_starting_equipment_1_1_entity_alive_starting_equipment_post_init}{EntityAliveStartingEquipmentPostInit}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ SetupStartingItems(global::EntityAlive\ \_\_instance,\ List<ItemStack>\ \_\_\_itemsOnEnterGame)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ \_\_\_itemsOnEnterGame.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemStack\ =\ \_\_\_itemsOnEnterGame[i];}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(itemStack.itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.HasQuality)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ itemStack.itemValue\ =\ \textcolor{keyword}{new}\ ItemValue(itemStack.itemValue.type,\ 1,\ 6);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ itemStack.count\ =\ forId.Stacknumber.Value;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.inventory.SetItem(i,\ itemStack);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(global::EntityAlive\ \_\_instance,\ List<ItemStack>\ \_\_\_itemsOnEnterGame)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityPlayerLocal)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ (\_\_instance.RootTransform.GetComponentsInChildren<AnimationEventBridge>().Length\ ==\ 0)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ Debug.Log("{}Missing\ AnimationEventBridge,\ adding."{});}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \_\_instance.RootTransform.gameObject.AddComponent<AnimationEventBridge>();}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ foreach\ (var\ component\ in\ \_\_instance.RootTransform.GetComponentsInChildren<Component>())}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //if\ (component\ is\ Animator)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ \ \ \ Debug.Log("{}Adding\ AnimationEvenBridge\ to\ "{}\ +\ component.ToString()\ +\ "{}\ Parent"{});}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ \ \ \ component.gameObject.AddComponent<AnimationEventBridge>();}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ foreach\ (var\ temp\ in\ component.GetComponents<Component>())}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ //\ For\ each\ component\ that\ has\ an\ AvatarRootMotion,\ add\ an\ animationEvenBridge\ to\ it.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (temp\ is\ AvatarRootMotion)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log("{}Adding\ AnimationEvenBridge\ to\ "{}\ +\ component.ToString()\ +\ "{}\ Parent"{});}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (component.gameObject.GetComponentsInChildren<AnimationEventBridge>().Length\ ==\ 0)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ component.gameObject.AddComponent<AnimationEventBridge>();}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ break;\ //\ Only\ add\ one}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Debug.Log("{}Entity:\ "{}\ +\ \_\_instance.EntityName);}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//foreach\ (var\ component\ in\ \_\_instance.RootTransform.GetComponentsInChildren<Component>())}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ Debug.Log("{}\(\backslash\)tComponent:\ "{}\ +\ component.ToString());}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ foreach\ (var\ temp\ in\ component.GetComponents<Component>())}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ Debug.Log("{}\(\backslash\)t\(\backslash\)tSub\ Component:\ "{}\ +\ temp.ToString()\ +\ "{}\ Tag:\ "{}\ +\ temp.tag);}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_itemsOnEnterGame.Count\ <=\ 0)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetupStartingItems(\_\_instance,\ \_\_\_itemsOnEnterGame);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.inventory.SetHoldingItemIdx(0);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_starting_equipment_8cs_source_l00076}00076\ \}}
+
+\end{DoxyCode}

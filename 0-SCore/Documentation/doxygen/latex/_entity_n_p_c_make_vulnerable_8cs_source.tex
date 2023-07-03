@@ -1,0 +1,96 @@
+\hypertarget{_entity_n_p_c_make_vulnerable_8cs_source}{}\doxysection{Entity\+NPCMake\+Vulnerable.\+cs}
+\label{_entity_n_p_c_make_vulnerable_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCMakeVulnerable.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityNPCMakeVulnerable.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00003}00003\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }EntityNPCMakeVulnerable}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedNPCFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}MakeTraderVulnerable"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityTrader))]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}PostInit"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00017}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_post_init}{00017}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_post_init}{SCoreRemoveTraderProtectionPostInit}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(EntityTrader\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.IsGodMode.Value\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityTrader))]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}ProcessDamageResponseLocal"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00032}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_process_damage_response}{00032}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_process_damage_response}{SCoreRemoveTraderProtectionProcessDamageResponse}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(EntityTrader\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_\_state)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.NPCInfo\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_state\ =\ \_\_instance.NPCInfo.TraderID;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.NPCInfo.TraderID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(EntityTrader\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_\_state)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.NPCInfo\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.NPCInfo.TraderID\ =\ \_\_state;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ EntityTraders\ turn\ off\ their\ physics\ transforms,\ but\ we\ want\ it\ on,}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise\ NPCs\ won't\ collider\ with\ each\ other.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.PhysicsTransform.gameObject.SetActive(\textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityTrader))]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}DamageEntity"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00066}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_damage_entity}{00066}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_entity_n_p_c_make_vulnerable_1_1_s_core_remove_trader_protection_damage_entity}{SCoreRemoveTraderProtectionDamageEntity}}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(EntityTrader\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_\_state)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.NPCInfo\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_state\ =\ \_\_instance.NPCInfo.TraderID;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.NPCInfo.TraderID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(EntityTrader\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_\_state)}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance.NPCInfo\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.NPCInfo.TraderID\ =\ \_\_state;}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00094}00094\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_n_p_c_make_vulnerable_8cs_source_l00095}00095\ \}}
+
+\end{DoxyCode}

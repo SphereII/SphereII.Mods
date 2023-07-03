@@ -1,0 +1,21 @@
+\hypertarget{_reward_item_s_d_x_8cs_source}{}\doxysection{Reward\+Item\+SDX.\+cs}
+\label{_reward_item_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardItemSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardItemSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }RewardItemSDX\ :\ RewardItem}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00003}00003\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ <reward\ type="{}ItemSDX,\ SCore"{}\ id="{}casinoCoin"{}\ value="{}1"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00004}00004\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ GiveReward(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (GameManager.Instance.World.Entities.dict.ContainsKey(OwnerQuest.SharedOwnerID))}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ \ \ \ \ var\ questEntity\ =\ GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID]\ as\ EntityAlive;}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (questEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ questEntity.inventory.AddItem(Item);}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_item_s_d_x_8cs_source_l00015}00015\ \}}
+
+\end{DoxyCode}

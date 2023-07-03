@@ -1,0 +1,39 @@
+\hypertarget{_min_event_action_set_order_8cs_source}{}\doxysection{Min\+Event\+Action\+Set\+Order.\+cs}
+\label{_min_event_action_set_order_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionSetOrder.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionSetOrder.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00001}00001\ \textcolor{comment}{//\ \ \ \ \ \ \ \ <triggered\_effect\ trigger\ =\ "{}onSelfBuffUpdate"{}\ action="{}SetOrder,\ SCore"{}\ value="{}Stay"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00006}\mbox{\hyperlink{class_min_event_action_set_order}{00006}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_set_order}{MinEventActionSetOrder}}\ :\ MinEventActionTargetedBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00007}00007\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00008}00008\ \ \ \ \ \textcolor{keyword}{private}\ EntityUtilities.Orders\ order\ =\ EntityUtilities.Orders.Wander;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00010}00010\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00011}00011\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ EntityUtilities.SetCurrentOrder(\_params.Self.entityId,\ order);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00013}00013\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00016}00016\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}order"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ order\ =\ EnumUtils.Parse<EntityUtilities.Orders>(\_attribute.Value,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_set_order_8cs_source_l00033}00033\ \}}
+
+\end{DoxyCode}

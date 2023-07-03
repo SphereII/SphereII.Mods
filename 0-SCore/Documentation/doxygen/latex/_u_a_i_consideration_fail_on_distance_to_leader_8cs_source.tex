@@ -1,0 +1,61 @@
+\hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source}{}\doxysection{UAIConsideration\+Fail\+On\+Distance\+To\+Leader.\+cs}
+\label{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationFailOnDistanceToLeader.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAIConsiderationFailOnDistanceToLeader.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Globalization;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00007}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_fail_on_distance_to_leader}{00007}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_consideration_fail_on_distance_to_leader}{UAIConsiderationFailOnDistanceToLeader}}\ :\ UAIConsiderationBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ \_maxDistance\ =\ 20f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init(Dictionary<string,\ string>\ parameters)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ base.Init(parameters);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parameters.ContainsKey(\textcolor{stringliteral}{"{}max\_distance"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_maxDistance\ =\ StringParsers.ParseFloat(parameters[\textcolor{stringliteral}{"{}max\_distance"{}}],\ 0,\ -\/1,\ NumberStyles.Any);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{float}\ GetScore(Context\ \_context,\ \textcolor{keywordtype}{object}\ target)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ don't\ have\ a\ leader,\ pass\ the\ consideration}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ var\ leader\ =\ EntityUtilities.GetLeaderOrOwner(\_context.Self.entityId);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (leader\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ player\ has\ a\ fail\ on\ distance,\ use\ that.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ EntityUtilities.GetCVarValue(leader.entityId,\ \textcolor{stringliteral}{"{}FailOnDistance"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_maxDistance\ =\ distance;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ entity\ has\ a\ fail\ on\ distance,\ use\ that.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ distance\ =\ EntityUtilities.GetCVarValue(\_context.Self.entityId,\ \textcolor{stringliteral}{"{}FailOnDistance"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_maxDistance\ =\ distance;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ the\ leader\ is\ too\ far\ away,\ then\ fail\ this\ consideration,\ aborting\ the\ task.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ var\ distanceToLeader\ =\ Vector3.Distance(\_context.Self.position,\ leader.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distanceToLeader\ >\ \_maxDistance)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ target\ is\ a\ position,\ then\ just\ pass\ it.\ Otherwise,\ we\ want\ to\ see\ if\ it'll\ take\ it\ out\ of\ the\ range.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ var\ targetEntity\ =\ UAIUtils.ConvertToEntityAlive(target);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ its\ dead,\ don't\ bother.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targetEntity.IsDead())\ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ our\ target\ will\ take\ us\ out\ of\ range\ of\ the\ player,\ don't\ bother\ going\ for\ it.}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ var\ entityPosition\ =\ Vector3.Distance(\_context.Self.position,\ targetEntity.position);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityPosition\ >\ \_maxDistance)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1f;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_consideration_fail_on_distance_to_leader_8cs_source_l00055}00055\ \}}
+
+\end{DoxyCode}

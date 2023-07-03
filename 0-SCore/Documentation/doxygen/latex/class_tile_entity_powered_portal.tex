@@ -1,0 +1,279 @@
+\hypertarget{class_tile_entity_powered_portal}{}\doxysection{Tile\+Entity\+Powered\+Portal Class Reference}
+\label{class_tile_entity_powered_portal}\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+
+
+Inherits Tile\+Entity\+Powered\+Block, ILockable, ITile\+Entity\+Signable, and ITile\+Entity.
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_tile_entity_powered_portal_a1f0ad0d6f8e61d56c1c8ffa4e7e9ff29}{Tile\+Entity\+Powered\+Portal}} (Chunk \+\_\+chunk)
+\item 
+string \mbox{\hyperlink{class_tile_entity_powered_portal_a8fdb9f334e2d5f6bd93b259e0ebd2bea}{Get\+Text}} ()
+\item 
+void \mbox{\hyperlink{class_tile_entity_powered_portal_a0d366462d541ab74a5633791fcaea8ee}{Set\+Text}} (string \+\_\+text, bool \+\_\+sync\+Data=true)
+\item 
+override void \mbox{\hyperlink{class_tile_entity_powered_portal_a7720a14261a2da9e8d2baf9f8fb5b887}{read}} (Pooled\+Binary\+Reader \+\_\+br, Stream\+Mode\+Read \+\_\+e\+Stream\+Mode)
+\item 
+override void \mbox{\hyperlink{class_tile_entity_powered_portal_a99b97804f97aef8cbc6261d93f507c29}{write}} (Pooled\+Binary\+Writer \+\_\+bw, Stream\+Mode\+Write \+\_\+e\+Stream\+Mode)
+\item 
+override Tile\+Entity \mbox{\hyperlink{class_tile_entity_powered_portal_ac24719b3a2f3332d68cdbee2eb19274c}{Clone}} ()
+\item 
+int \mbox{\hyperlink{class_tile_entity_powered_portal_ad8981f6a017b157a212467785aa19e8b}{Get\+Entity\+ID}} ()
+\item 
+override Tile\+Entity\+Type \mbox{\hyperlink{class_tile_entity_powered_portal_a0dc39d74e8728e2f1e4d8d357c2b37ad}{Get\+Tile\+Entity\+Type}} ()
+\item 
+void \mbox{\hyperlink{class_tile_entity_powered_portal_a7695d883b9129b5585f91462adcbf202}{Set\+Entity\+ID}} (int \+\_\+entity\+ID)
+\item 
+override void \mbox{\hyperlink{class_tile_entity_powered_portal_ae2964fd5f8dd696de512ce8a4e4f27af}{Copy\+From}} (Tile\+Entity \+\_\+other)
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_aaffa751d941565b29ee3ce2bcd121302}{Is\+Locked}} ()
+\item 
+void \mbox{\hyperlink{class_tile_entity_powered_portal_a63a25e8fc5652afdd08d325238846132}{Set\+Locked}} (bool \+\_\+is\+Locked)
+\item 
+void \mbox{\hyperlink{class_tile_entity_powered_portal_a9a83aad89e4bf3184bcebadc59cabf33}{Set\+Owner}} (Platform\+User\+Identifier\+Abs \+\_\+user\+Identifier)
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_a071f0d64fb833409bc40b592e0232d16}{Is\+User\+Allowed}} (Platform\+User\+Identifier\+Abs \+\_\+user\+Identifier)
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_adf4ec53070db1facd2ffc735ae98e691}{Local\+Player\+Is\+Owner}} ()
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_a9c3ebba0e7467ed113459f6d3ebc13f6}{Is\+Owner}} (Platform\+User\+Identifier\+Abs \+\_\+user\+Identifier)
+\item 
+Platform\+User\+Identifier\+Abs \mbox{\hyperlink{class_tile_entity_powered_portal_ae8df6621fe4f5e5aa3f46092ce2d3458}{Get\+Owner}} ()
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_a40f2d39f35a16df3b482a4e3ff9b7696}{Has\+Password}} ()
+\item 
+string \mbox{\hyperlink{class_tile_entity_powered_portal_a1c2663e0dfce3261a86226057f0ea549}{Get\+Password}} ()
+\item 
+List$<$ Platform\+User\+Identifier\+Abs $>$ \mbox{\hyperlink{class_tile_entity_powered_portal_ab8b417e1dc296b0f460bb785c4d1181d}{Get\+Users}} ()
+\item 
+bool \mbox{\hyperlink{class_tile_entity_powered_portal_a0f1426a16fe1bf4cc5a6f24b6b4223aa}{Check\+Password}} (string \+\_\+password, Platform\+User\+Identifier\+Abs \+\_\+user\+Identifier, out bool changed)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00009}{9}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a1f0ad0d6f8e61d56c1c8ffa4e7e9ff29}\label{class_tile_entity_powered_portal_a1f0ad0d6f8e61d56c1c8ffa4e7e9ff29}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{TileEntityPoweredPortal()}{TileEntityPoweredPortal()}}
+{\footnotesize\ttfamily Tile\+Entity\+Powered\+Portal.\+Tile\+Entity\+Powered\+Portal (\begin{DoxyParamCaption}\item[{Chunk}]{\+\_\+chunk }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00018}{18}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a0f1426a16fe1bf4cc5a6f24b6b4223aa}\label{class_tile_entity_powered_portal_a0f1426a16fe1bf4cc5a6f24b6b4223aa}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!CheckPassword@{CheckPassword}}
+\index{CheckPassword@{CheckPassword}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{CheckPassword()}{CheckPassword()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Check\+Password (\begin{DoxyParamCaption}\item[{string}]{\+\_\+password,  }\item[{Platform\+User\+Identifier\+Abs}]{\+\_\+user\+Identifier,  }\item[{out bool}]{changed }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00199}{199}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_ac24719b3a2f3332d68cdbee2eb19274c}\label{class_tile_entity_powered_portal_ac24719b3a2f3332d68cdbee2eb19274c}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!Clone@{Clone}}
+\index{Clone@{Clone}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{Clone()}{Clone()}}
+{\footnotesize\ttfamily override Tile\+Entity Tile\+Entity\+Powered\+Portal.\+Clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00077}{77}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_ae2964fd5f8dd696de512ce8a4e4f27af}\label{class_tile_entity_powered_portal_ae2964fd5f8dd696de512ce8a4e4f27af}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!CopyFrom@{CopyFrom}}
+\index{CopyFrom@{CopyFrom}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{CopyFrom()}{CopyFrom()}}
+{\footnotesize\ttfamily override void Tile\+Entity\+Powered\+Portal.\+Copy\+From (\begin{DoxyParamCaption}\item[{Tile\+Entity}]{\+\_\+other }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00136}{136}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_ad8981f6a017b157a212467785aa19e8b}\label{class_tile_entity_powered_portal_ad8981f6a017b157a212467785aa19e8b}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetEntityID@{GetEntityID}}
+\index{GetEntityID@{GetEntityID}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetEntityID()}{GetEntityID()}}
+{\footnotesize\ttfamily int Tile\+Entity\+Powered\+Portal.\+Get\+Entity\+ID (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00089}{89}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_ae8df6621fe4f5e5aa3f46092ce2d3458}\label{class_tile_entity_powered_portal_ae8df6621fe4f5e5aa3f46092ce2d3458}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetOwner@{GetOwner}}
+\index{GetOwner@{GetOwner}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetOwner()}{GetOwner()}}
+{\footnotesize\ttfamily Platform\+User\+Identifier\+Abs Tile\+Entity\+Powered\+Portal.\+Get\+Owner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00179}{179}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a1c2663e0dfce3261a86226057f0ea549}\label{class_tile_entity_powered_portal_a1c2663e0dfce3261a86226057f0ea549}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetPassword@{GetPassword}}
+\index{GetPassword@{GetPassword}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetPassword()}{GetPassword()}}
+{\footnotesize\ttfamily string Tile\+Entity\+Powered\+Portal.\+Get\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00189}{189}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a8fdb9f334e2d5f6bd93b259e0ebd2bea}\label{class_tile_entity_powered_portal_a8fdb9f334e2d5f6bd93b259e0ebd2bea}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetText@{GetText}}
+\index{GetText@{GetText}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetText()}{GetText()}}
+{\footnotesize\ttfamily string Tile\+Entity\+Powered\+Portal.\+Get\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00026}{26}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a0dc39d74e8728e2f1e4d8d357c2b37ad}\label{class_tile_entity_powered_portal_a0dc39d74e8728e2f1e4d8d357c2b37ad}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetTileEntityType@{GetTileEntityType}}
+\index{GetTileEntityType@{GetTileEntityType}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetTileEntityType()}{GetTileEntityType()}}
+{\footnotesize\ttfamily override Tile\+Entity\+Type Tile\+Entity\+Powered\+Portal.\+Get\+Tile\+Entity\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00128}{128}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_ab8b417e1dc296b0f460bb785c4d1181d}\label{class_tile_entity_powered_portal_ab8b417e1dc296b0f460bb785c4d1181d}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!GetUsers@{GetUsers}}
+\index{GetUsers@{GetUsers}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{GetUsers()}{GetUsers()}}
+{\footnotesize\ttfamily List$<$ Platform\+User\+Identifier\+Abs $>$ Tile\+Entity\+Powered\+Portal.\+Get\+Users (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00194}{194}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a40f2d39f35a16df3b482a4e3ff9b7696}\label{class_tile_entity_powered_portal_a40f2d39f35a16df3b482a4e3ff9b7696}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!HasPassword@{HasPassword}}
+\index{HasPassword@{HasPassword}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{HasPassword()}{HasPassword()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Has\+Password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00184}{184}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_aaffa751d941565b29ee3ce2bcd121302}\label{class_tile_entity_powered_portal_aaffa751d941565b29ee3ce2bcd121302}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!IsLocked@{IsLocked}}
+\index{IsLocked@{IsLocked}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{IsLocked()}{IsLocked()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Is\+Locked (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00146}{146}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a9c3ebba0e7467ed113459f6d3ebc13f6}\label{class_tile_entity_powered_portal_a9c3ebba0e7467ed113459f6d3ebc13f6}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!IsOwner@{IsOwner}}
+\index{IsOwner@{IsOwner}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{IsOwner()}{IsOwner()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Is\+Owner (\begin{DoxyParamCaption}\item[{Platform\+User\+Identifier\+Abs}]{\+\_\+user\+Identifier }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00174}{174}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a071f0d64fb833409bc40b592e0232d16}\label{class_tile_entity_powered_portal_a071f0d64fb833409bc40b592e0232d16}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!IsUserAllowed@{IsUserAllowed}}
+\index{IsUserAllowed@{IsUserAllowed}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{IsUserAllowed()}{IsUserAllowed()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Is\+User\+Allowed (\begin{DoxyParamCaption}\item[{Platform\+User\+Identifier\+Abs}]{\+\_\+user\+Identifier }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00164}{164}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_adf4ec53070db1facd2ffc735ae98e691}\label{class_tile_entity_powered_portal_adf4ec53070db1facd2ffc735ae98e691}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!LocalPlayerIsOwner@{LocalPlayerIsOwner}}
+\index{LocalPlayerIsOwner@{LocalPlayerIsOwner}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{LocalPlayerIsOwner()}{LocalPlayerIsOwner()}}
+{\footnotesize\ttfamily bool Tile\+Entity\+Powered\+Portal.\+Local\+Player\+Is\+Owner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00169}{169}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a7720a14261a2da9e8d2baf9f8fb5b887}\label{class_tile_entity_powered_portal_a7720a14261a2da9e8d2baf9f8fb5b887}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!read@{read}}
+\index{read@{read}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily override void Tile\+Entity\+Powered\+Portal.\+read (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Reader}]{\+\_\+br,  }\item[{Stream\+Mode\+Read}]{\+\_\+e\+Stream\+Mode }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00044}{44}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a7695d883b9129b5585f91462adcbf202}\label{class_tile_entity_powered_portal_a7695d883b9129b5585f91462adcbf202}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!SetEntityID@{SetEntityID}}
+\index{SetEntityID@{SetEntityID}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{SetEntityID()}{SetEntityID()}}
+{\footnotesize\ttfamily void Tile\+Entity\+Powered\+Portal.\+Set\+Entity\+ID (\begin{DoxyParamCaption}\item[{int}]{\+\_\+entity\+ID }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00132}{132}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a63a25e8fc5652afdd08d325238846132}\label{class_tile_entity_powered_portal_a63a25e8fc5652afdd08d325238846132}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!SetLocked@{SetLocked}}
+\index{SetLocked@{SetLocked}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{SetLocked()}{SetLocked()}}
+{\footnotesize\ttfamily void Tile\+Entity\+Powered\+Portal.\+Set\+Locked (\begin{DoxyParamCaption}\item[{bool}]{\+\_\+is\+Locked }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00151}{151}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a9a83aad89e4bf3184bcebadc59cabf33}\label{class_tile_entity_powered_portal_a9a83aad89e4bf3184bcebadc59cabf33}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!SetOwner@{SetOwner}}
+\index{SetOwner@{SetOwner}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{SetOwner()}{SetOwner()}}
+{\footnotesize\ttfamily void Tile\+Entity\+Powered\+Portal.\+Set\+Owner (\begin{DoxyParamCaption}\item[{Platform\+User\+Identifier\+Abs}]{\+\_\+user\+Identifier }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00157}{157}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a0d366462d541ab74a5633791fcaea8ee}\label{class_tile_entity_powered_portal_a0d366462d541ab74a5633791fcaea8ee}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!SetText@{SetText}}
+\index{SetText@{SetText}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{SetText()}{SetText()}}
+{\footnotesize\ttfamily void Tile\+Entity\+Powered\+Portal.\+Set\+Text (\begin{DoxyParamCaption}\item[{string}]{\+\_\+text,  }\item[{bool}]{\+\_\+sync\+Data = {\ttfamily true} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00031}{31}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+\mbox{\Hypertarget{class_tile_entity_powered_portal_a99b97804f97aef8cbc6261d93f507c29}\label{class_tile_entity_powered_portal_a99b97804f97aef8cbc6261d93f507c29}} 
+\index{TileEntityPoweredPortal@{TileEntityPoweredPortal}!write@{write}}
+\index{write@{write}!TileEntityPoweredPortal@{TileEntityPoweredPortal}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily override void Tile\+Entity\+Powered\+Portal.\+write (\begin{DoxyParamCaption}\item[{Pooled\+Binary\+Writer}]{\+\_\+bw,  }\item[{Stream\+Mode\+Write}]{\+\_\+e\+Stream\+Mode }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source_l00061}{61}} of file \mbox{\hyperlink{_tile_entity_powered_portal_8cs_source}{Tile\+Entity\+Powered\+Portal.\+cs}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Program Files (x86)/\+Steam/steamapps/common/7 Days To Die/\+Mods.\+working/0-\/\+SCore/\+Scripts/\+Tile\+Entities/Tile\+Entity\+Powered\+Portal.\+cs\end{DoxyCompactItemize}

@@ -1,0 +1,610 @@
+\hypertarget{_ingredients_from_containers_8cs_source}{}\doxysection{Ingredients\+From\+Containers.\+cs}
+\label{_ingredients_from_containers_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Recipes/IngredientsFromContainers.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/Recipes/IngredientsFromContainers.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }Platform;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }Platform.EOS;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00005}00005\ \textcolor{keyword}{using\ }System.Linq;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00006}00006\ \textcolor{keyword}{using\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00007}00007\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00009}\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_recipes}{00009}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_s_core_1_1_harmony_1_1_recipes}{SCore.Harmony.Recipes}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00011}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{00011}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedRecipes"{}};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}ReadFromContainers"{}};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ List<TileEntity>\ GetTileEntities(EntityAlive\ player)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ var\ distance\ =\ 30f;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ var\ strDistance\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Distance"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(strDistance))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ distance\ =\ StringParsers.ParseFloat(strDistance);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \textcolor{keyword}{new}\ List<TileEntity>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ tileEntities\ =\ GetTileEntities(player,\ distance);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tileEntities;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<TileEntity>\ GetTileEntities(EntityAlive\ player,\ \textcolor{keywordtype}{float}\ distance)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ var\ disabledsender\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}disablesender"{}}).Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ var\ nottoWorkstation\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}nottoWorkstation"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ var\ bindtoWorkstation\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}bindtoWorkstation"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \textcolor{keyword}{new}\ List<TileEntity>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_targetTypes\ =\ \textcolor{stringliteral}{"{}Loot,\ SecureLoot,\ SecureLootSigned"{}};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ var\ paths\ =\ SCoreUtils.ScanForTileEntities(player,\ \_targetTypes,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ path\ \textcolor{keywordflow}{in}\ paths)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ distanceToLeader\ =\ Vector3.Distance(player.position,\ path);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distanceToLeader\ <\ distance)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntity\ =\ player.world.GetTileEntity(0,\ \textcolor{keyword}{new}\ Vector3i(path));}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ Broadcastmanager\ is\ running\ if\ running\ check\ if\ lootcontainer\ is\ in\ Broadcastmanager\ dictionary}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ note:\ Broadcastmanager.Instance.Check())\ throws\ nullref\ if\ Broadcastmanager\ is\ not\ running.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ works\ because\ Hasinstance\ is\ being\ checked\ first\ in\ the\ or.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.HasInstance\ ||\ \mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.Check(tileEntity.ToWorldPos()))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (tileEntity.GetTileEntityType())}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityType.Loot:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ sending\ disabled\ skip\ container}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (disabledsender[0]\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (disableSender(disabledsender,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(nottoWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (notToWorkstation(nottoWorkstation,\ player,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(bindtoWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bindToWorkstation(bindtoWorkstation,\ player,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileEntities.Add(tileEntity);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{goto}\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ tileEntities.Add(tileEntity);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityType.SecureLootSigned:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ TileEntityType.SecureLoot:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ secureTileEntity\ =\ tileEntity\ as\ TileEntitySecureLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (secureTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (secureTileEntity.IsLocked())}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PlatformUserIdentifierAbs\ internalLocalUserIdentifier\ =}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PlatformManager.InternalLocalUserIdentifier;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!secureTileEntity.IsUserAllowed(internalLocalUserIdentifier))\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ sending\ disabled\ skip\ container}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (disabledsender[0]\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (disableSender(disabledsender,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(nottoWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (notToWorkstation(nottoWorkstation,\ player,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(bindtoWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bindToWorkstation(bindtoWorkstation,\ player,\ tileEntity))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tileEntities.Add(tileEntity);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{goto}\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ tileEntities.Add(tileEntity);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tileEntities;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ disableSender(\textcolor{keywordtype}{string}[]\ value,\ TileEntity\ tileEntity)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ invertdisable\ =\ \textcolor{keywordtype}{bool}.Parse(Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Invertdisable"{}}));}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!invertdisable)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value.Any(x\ =>\ x.Trim()\ ==\ lootTileEntity.lootListName))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (!value.Any(x\ =>\ x.Trim()\ ==\ lootTileEntity.lootListName))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ bindToWorkstation(\textcolor{keywordtype}{string}\ value,\ EntityAlive\ player,\ TileEntity\ tileEntity)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ var\ playerLocal\ =\ player\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bind\ storage\ to\ workstation}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value.Split(\textcolor{charliteral}{';'}).Where(x\ =>}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x.Split(\textcolor{charliteral}{':'})[0].Split(\textcolor{charliteral}{','}).Any(ws\ =>\ ws.Trim()\ ==\ playerLocal.PlayerUI.xui.currentWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .Any(x\ =>\ x.Split(\textcolor{charliteral}{':'})[1].Split(\textcolor{charliteral}{','}).Any(y\ =>\ y\ ==\ lootTileEntity.lootListName)))\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ bind\ storage\ to\ other\ workstations\ if\ allowed}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!value.Split(\textcolor{charliteral}{';'}).Any(x\ =>}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ x.Split(\textcolor{charliteral}{':'})[0].Split(\textcolor{charliteral}{','}).Any(ws\ =>\ ws.Trim()\ ==\ playerLocal.PlayerUI.xui.currentWorkstation))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&\&\ !\textcolor{keywordtype}{bool}.Parse(Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}enforcebindtoWorkstation"{}})))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value.Split(\textcolor{charliteral}{';'}).Any(x\ =>\ x.Split(\textcolor{charliteral}{':'})[1].Split(\textcolor{charliteral}{','}).Any(y\ =>\ y\ ==\ lootTileEntity.lootListName)))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ notToWorkstation(\textcolor{keywordtype}{string}\ value,\ EntityAlive\ player,\ TileEntity\ tileEntity)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ result\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ var\ playerLocal\ =\ player\ as\ EntityPlayerLocal;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ bind\ \textcolor{keywordflow}{in}\ value.Split(\textcolor{charliteral}{';'}))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ workstation\ =\ bind.Split(\textcolor{charliteral}{':'})[0].Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ disablebinding\ =\ bind.Split(\textcolor{charliteral}{':'})[1].Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((workstation.Any(ws\ =>\ ws.Trim()\ ==\ playerLocal.PlayerUI.xui.currentWorkstation))\ \&\&}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (disablebinding.Any(x\ =>\ x.Trim()\ ==\ lootTileEntity.lootListName)))\ result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<ItemStack>\ SearchNearbyContainers(EntityAlive\ player)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_items\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}.GetTileEntities(player);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ tileEntity\ \textcolor{keywordflow}{in}\ tileEntities)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity.IsUserAccessing())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_items.AddRange(lootTileEntity.GetItems());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_items;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<ItemStack>\ SearchNearbyContainers(EntityAlive\ player,\ ItemValue\ itemValue)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_item\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_items\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}.GetTileEntities(player);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ tileEntity\ \textcolor{keywordflow}{in}\ tileEntities)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ container\ is\ open,\ don't\ use\ it.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity.IsUserAccessing())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_item.AddRange(lootTileEntity.GetItems());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_item.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((!\_item[i].itemValue.HasModSlots\ ||\ !\_item[i].itemValue.HasMods())\ \&\&}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_item[i].itemValue.type\ ==\ itemValue.type)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_items.Add(\_item[i]);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_items;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ List<ItemStack>\ SearchNearbyContainers(EntityAlive\ player,\ ItemValue\ itemValue,\ \textcolor{keywordtype}{float}\ distance)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_item\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ var\ \_items\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}.GetTileEntities(player,\ distance);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ tileEntity\ \textcolor{keywordflow}{in}\ tileEntities)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ container\ is\ open,\ don't\ include\ it.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity.IsUserAccessing())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_item.AddRange(lootTileEntity.GetItems());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ \_item.Count;\ i++)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((!\_item[i].itemValue.HasModSlots\ ||\ !\_item[i].itemValue.HasMods())\ \&\&}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_item[i].itemValue.type\ ==\ itemValue.type)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_items.Add(\_item[i]);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_items;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ConsumeItem(IList<ItemStack>\ \_itemStacks,\ EntityPlayerLocal\ localPlayer,\ \textcolor{keywordtype}{int}\ \_multiplier)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ var\ tileEntities\ =\ \mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}.GetTileEntities(localPlayer);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ itemStack\ \textcolor{keywordflow}{in}\ \_itemStacks)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ counter\ quantity\ needed\ from\ item}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ q\ =\ itemStack.count\ *\ \_multiplier;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//check\ player\ inventory\ for\ materials\ and\ reduce\ counter}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ slots\ =\ localPlayer.bag.GetSlots();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ q\ =\ q\ -\/\ slots}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .Where(x\ =>\ x.itemValue.ItemClass\ ==\ itemStack.itemValue.ItemClass)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .Sum(y\ =>\ y.count);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ storage\ boxes}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ tileEntity\ \textcolor{keywordflow}{in}\ tileEntities)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (q\ <=\ 0)\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ lootTileEntity\ =\ tileEntity\ as\ TileEntityLootContainer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ someone\ is\ using\ the\ tool\ account,\ skip\ it.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity.IsUserAccessing())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ items\ in\ this\ container,\ skip.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!lootTileEntity.HasItem(itemStack.itemValue))\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ num\ =\ itemStack.count\ *\ \_multiplier;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lootTileEntity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ lootTileEntity.items.Length;\ y++)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ lootTileEntity.items[y];}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.IsEmpty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.itemValue.ItemClass\ ==\ itemStack.itemValue.ItemClass)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ we\ can\ completely\ satisfy\ the\ result,\ let's\ do\ that.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.count\ >=\ q)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.count\ -\/=\ q;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ q\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Otherwise,\ let's\ just\ count\ down\ until\ we\ meet\ the\ requirement.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (q\ >=\ 0)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item.count-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ q-\/-\/;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.count\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Update\ the\ slot\ on\ the\ container,\ and\ do\ the\ Setmodified(),\ so\ that\ the\ dedis\ can\ get\ updated.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (item.count\ <\ 1)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lootTileEntity.UpdateSlot(y,\ ItemStack.Empty.Clone());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lootTileEntity.UpdateSlot(y,\ item);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lootTileEntity.SetModified();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00290}00290\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00292}00292\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiC\_RecipeList))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00293}00293\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}BuildRecipeInfosList"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00294}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_build_recipe_infos_list}{00294}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_build_recipe_infos_list}{BuildRecipeInfosList}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00295}00295\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(XUiC\_RecipeList\ \_\_instance,\ ref\ List<ItemStack>\ \_items)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ player\ =\ \_\_instance.xui.playerUI.entityPlayer;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_items.AddRange(SearchNearbyContainers(player));}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00308}00308\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiM\_PlayerInventory))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00309}00309\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}GetAllItemStacks"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00310}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_get_all_item_stacks}{00310}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_get_all_item_stacks}{GetAllItemStacks}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00311}00311\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(ref\ List<ItemStack>\ \_\_result,\ EntityPlayerLocal\ \_\_\_localPlayer)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result.AddRange(SearchNearbyContainers(\_\_\_localPlayer));}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00319}00319\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ replaces\ getitemcount}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ mostly\ a\ copy\ of\ the\ original\ code.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00323}00323\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiC\_IngredientEntry))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00324}00324\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}GetBindingValue"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00325}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_get_binding_value}{00325}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_get_binding_value}{GetBindingValue}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00326}00326\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(XUiC\_IngredientEntry\ \_\_instance,\ ref\ \textcolor{keywordtype}{bool}\ \_\_result,\ ref\ \textcolor{keywordtype}{string}\ value,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ bindingName,\ CachedStringFormatter<int>\ \_\_\_needcountFormatter,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CachedStringFormatter<int>\ \_\_\_havecountFormatter,\ \textcolor{keywordtype}{bool}\ \_\_\_materialBased,\ ItemStack\ \_\_\_ingredient,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ \_\_\_material,\ XUiC\_RecipeCraftCount\ \_\_\_craftCountControl,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ CachedStringFormatterXuiRgbaColor\ \_\_\_itemicontintcolorFormatter)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ flag\ =\ \_\_\_ingredient\ !=\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (bindingName)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}haveneedcount"{}}:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ text\ =\ (flag}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \_\_\_needcountFormatter.Format(\_\_\_ingredient.count\ *\ \_\_\_craftCountControl.Count)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ value1\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XUiC\_WorkstationMaterialInputGrid\ childByType\ =\ \_\_instance.WindowGroup.Controller}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .GetChildByType<XUiC\_WorkstationMaterialInputGrid>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childByType\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_materialBased)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (flag}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ (\_\_\_havecountFormatter.Format(childByType.GetWeight(\_\_\_material))\ +\ \textcolor{stringliteral}{"{}/"{}}\ +\ text)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (flag}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ (\_\_\_havecountFormatter.Format(}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.xui.PlayerInventory.GetItemCount(\_\_\_ingredient.itemValue))\ +\ \textcolor{stringliteral}{"{}/"{}}\ +}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ text)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ XUiC\_WorkstationInputGrid\ childByType2\ =\ \_\_instance.WindowGroup.Controller}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .GetChildByType<XUiC\_WorkstationInputGrid>();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childByType2\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (flag}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ (\_\_\_havecountFormatter.Format(}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ childByType2.GetItemCount(\_\_\_ingredient.itemValue))\ +\ \textcolor{stringliteral}{"{}/"{}}\ +\ text)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (flag}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ (\_\_\_havecountFormatter.Format(}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.xui.PlayerInventory.GetItemCount(\_\_\_ingredient.itemValue))\ +\ \textcolor{stringliteral}{"{}/"{}}\ +}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ text)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flag)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ add\ items\ from\ lootcontainers}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value1\ =\ \_\_instance.xui.PlayerInventory.GetItemCount(\_\_\_ingredient.itemValue);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemStack[]\ array\ =\ SearchNearbyContainers(\_\_instance.xui.playerUI.entityPlayer,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ingredient.itemValue).ToArray();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ array.Length;\ k++)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (array[k]\ !=\ \textcolor{keyword}{null}\ \&\&\ array[k].itemValue.type\ !=\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_\_ingredient.itemValue.type\ ==\ array[k].itemValue.type)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value1\ +=\ array[k].count;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ (flag\ ?\ (\_\_\_havecountFormatter.Format(value1)\ +\ \textcolor{stringliteral}{"{}/"{}}\ +\ text)\ :\ \textcolor{stringliteral}{"{}"{}});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_result\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00408}00408\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00410}00410\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiM\_PlayerInventory))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00411}00411\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}HasItems"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00412}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_has_items}{00412}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_has_items}{HasItems}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00413}00413\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Postfix(\textcolor{keywordtype}{bool}\ \_\_result,\ IList<ItemStack>\ \_itemStacks,\ EntityPlayerLocal\ \_\_\_localPlayer,}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_multiplier)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00416}00416\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00417}00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00418}00418\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \_\_result;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_result)\ \textcolor{keywordflow}{return}\ \_\_result;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ need\ to\ make\ sure\ we\ satisfy\ all\ of\ the\ items.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemsWeHave\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ itemStack\ \textcolor{keywordflow}{in}\ \_itemStacks)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ totalCount\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ is\ how\ many\ we\ need.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ itemStack.count\ *\ \_multiplier;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ player\ inventory}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ slots\ =\ \_\_\_localPlayer.bag.GetSlots();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ entry\ \textcolor{keywordflow}{in}\ slots)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.IsEmpty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemStack.itemValue.GetItemOrBlockId()\ !=\ entry.itemValue.GetItemOrBlockId())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalCount\ +=\ entry.count;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (totalCount\ <\ num)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ have\ enough\ to\ satisfy\ this\ item,\ so\ move\ to\ the\ next\ oen.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ itemsWeHave++;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ the\ toolbelt\ now.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ slots\ =\ \_\_\_localPlayer.inventory.GetSlots();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ entry\ \textcolor{keywordflow}{in}\ slots)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.IsEmpty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemStack.itemValue.GetItemOrBlockId()\ !=\ entry.itemValue.GetItemOrBlockId())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalCount\ +=\ entry.count;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (totalCount\ <\ num)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ have\ enough\ to\ satisfy\ this\ item,\ so\ move\ to\ the\ next\ oen.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ itemsWeHave++;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00455}00455\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ container}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ containers\ =\ SearchNearbyContainers(\_\_\_localPlayer,\ itemStack.itemValue);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ stack\ \textcolor{keywordflow}{in}\ containers)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stack.IsEmpty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemStack.itemValue.GetItemOrBlockId()\ !=\ stack.itemValue.GetItemOrBlockId())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ totalCount\ +=\ stack.count;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (totalCount\ <\ num)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ have\ enough\ to\ satisfy\ this\ item,\ so\ move\ to\ the\ next\ oen.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ itemsWeHave++;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00469}00469\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ itemsWeHave\ >=\ \_itemStacks.Count;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00472}00472\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00473}00473\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00474}00474\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiM\_PlayerInventory))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00475}00475\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}RemoveItems"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00476}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_remove_items}{00476}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_remove_items}{RemoveItems}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00477}00477\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(IList<ItemStack>\ \_itemStacks,\ EntityPlayerLocal\ \_\_\_localPlayer,\ \textcolor{keywordtype}{int}\ \_multiplier)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00483}00483\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ConsumeItem(\_itemStacks,\ \_\_\_localPlayer,\ \_multiplier);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00487}00487\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00489}00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Code\ from\ OCB7D2D/OcbPinRecipes}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Patch\ world\ unload\ to\ cleanup\ and\ save\ on\ exit}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00491}00491\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(World))]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00492}00492\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}UnloadWorld"{}})]}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00493}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_world___unload_world}{00493}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists_1_1_world___unload_world}{World\_UnloadWorld}}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00494}00494\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix()}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.HasInstance)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Cleanup();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00500}00500\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00501}00501\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00502}00502\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00503}00503\ \ \ \ \ \textcolor{comment}{//\ Code\ from\ Laydor\ slightly\ modified}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00504}\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_x_ui_c___broadcast_button}{00504}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_x_ui_c___broadcast_button}{XUiC\_BroadcastButton}}\ :\ XUiController}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00505}00505\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00506}00506\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedRecipes"{}};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00507}00507\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00508}00508\ \ \ \ \ \ \ \ \ XUiV\_Button\ button;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00510}00510\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Init()}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00511}00511\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ base.Init();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ button\ =\ viewComponent\ as\ XUiV\_Button;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ OnPress\ +=\ Grab\_OnPress;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00517}00517\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00518}00518\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00519}00519\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(\textcolor{keywordtype}{float}\ \_dt)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00520}00520\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ base.Update(\_dt);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (IsDirty)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IsDirty\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetupButton();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00527}00527\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00528}00528\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00529}00529\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ OnOpen()}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00530}00530\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ base.OnOpen();}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//if\ debug\ enabled\ show\ lootList\ name\ of\ container}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Configuration.CheckFeatureStatus(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Debug"{}}))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.lootContainer\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log.Out(\textcolor{stringliteral}{"{}Current\ Container\ name:\ "{}}\ +\ xui.lootContainer.lootListName);}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ IsDirty\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00537}00537\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00539}00539\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Grab\_OnPress(XUiController\ \_sender,\ \textcolor{keywordtype}{int}\ \_mouseButton)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00540}00540\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Check\ if\ Broadcastmanager\ is\ running}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.HasInstance)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00543}00543\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.Check(xui.lootContainer.ToWorldPos()))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Unselect\ button}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ button.Selected\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Remove\ from\ Broadcastmanager\ dictionary}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.remove(xui.lootContainer.ToWorldPos());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Select\ button}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ button.Selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Add\ to\ Broadcastmanager\ dictionary}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00556}00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.add(xui.lootContainer.ToWorldPos());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00558}00558\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00559}00559\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00560}00560\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetupButton()}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00561}00561\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Unselect\ button\ and\ disable\ it}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ button.Enabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ button.Selected\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ button.IsVisible\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ var\ disabledsender\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}disablesender"{}}).Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ var\ bindToWorkstation\ =\ Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}bindtoWorkstation"{}}).Split(\textcolor{charliteral}{';'});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xui.lootContainer\ ==\ \textcolor{keyword}{null}\ ||\ !\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.HasInstance\ ||}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base.xui.vehicle\ !=\ \textcolor{keyword}{null}\ ||}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId)\ is\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}\ ||}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.GetEntity(base.xui.lootContainer.entityId)\ is\ EntityDrone)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00573}00573\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (disabledsender[0]\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{class_s_core_1_1_harmony_1_1_recipes_1_1_enhanced_recipe_lists}{EnhancedRecipeLists}}.disableSender(disabledsender,\ xui.lootContainer))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00580}00580\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00581}00581\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\textcolor{keywordtype}{string}.IsNullOrEmpty(bindToWorkstation[0]))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ counter\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ bind\ \textcolor{keywordflow}{in}\ bindToWorkstation)}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ bindings\ =\ bind.Split(\textcolor{charliteral}{':'})[1].Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((bindings.Any(x\ =>\ x.Trim()\ ==\ xui.lootContainer.lootListName)))\ counter++;}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00590}00590\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (counter\ ==\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}.Parse(Configuration.GetPropertyValue(AdvFeatureClass,\ \textcolor{stringliteral}{"{}enforcebindtoWorkstation"{}})))}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00597}00597\ }
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//Enable\ button\ and\ set\ if\ button\ is\ selected}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ button.IsVisible\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ button.Enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ button.Selected\ =\ !\mbox{\hyperlink{class_broadcastmanager}{Broadcastmanager}}.Instance.Check(xui.lootContainer.ToWorldPos());}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00602}00602\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00603}00603\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_ingredients_from_containers_8cs_source_l00604}00604\ \}}
+
+\end{DoxyCode}

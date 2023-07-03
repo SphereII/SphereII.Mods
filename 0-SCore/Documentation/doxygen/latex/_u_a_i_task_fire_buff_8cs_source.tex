@@ -1,0 +1,64 @@
+\hypertarget{_u_a_i_task_fire_buff_8cs_source}{}\doxysection{UAITask\+Fire\+Buff.\+cs}
+\label{_u_a_i_task_fire_buff_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFireBuff.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/UtilityAI/UAITaskFireBuff.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_u_a_i}{UAI}}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00008}\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_fire_buff}{00008}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_u_a_i_1_1_u_a_i_task_fire_buff}{UAITaskFireBuff}}\ :\ UAITaskBase}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00009}00009\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedTroubleshootingFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}UtilityAILoggingMin"{}};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ String\ \_buffs;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ String\ \_currentBuff;}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ initializeParameters()}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ base.initializeParameters();}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Parameters.ContainsKey(\textcolor{stringliteral}{"{}buffs"{}}))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_buffs\ =\ Parameters[\textcolor{stringliteral}{"{}buffs"{}}];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Start(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ Start:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ var\ buffArray\ =\ \_buffs.Split(\textcolor{charliteral}{','});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \_currentBuff\ =\ buffArray[UnityEngine.Random.Range(0,\ buffArray.Length)];}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.AddBuff(\_currentBuff);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ base.Start(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Stop(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.GetAttackOrRevengeTarget(\_context.Self.entityId)\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_context.Self.Buffs.HasBuff(\_currentBuff))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\ \{GetType()\}\ Stop:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \_context.Self.Buffs.RemoveBuff(\_currentBuff);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ base.Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Reset(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ Feature,\ \$\textcolor{stringliteral}{"{}\{GetType()\}\ Reset:\ \{\_context.Self.EntityName\}\ (\ \{\_context.Self.entityId\}"{}});}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ base.Reset(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update(Context\ \_context)}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!\_context.Self.Buffs.HasBuff(\_currentBuff))}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Stop(\_context);}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_u_a_i_task_fire_buff_8cs_source_l00058}00058\ \}}
+
+\end{DoxyCode}

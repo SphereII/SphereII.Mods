@@ -1,0 +1,293 @@
+\hypertarget{_advanced_items_8cs_source}{}\doxysection{Advanced\+Items.\+cs}
+\label{_advanced_items_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/AdvancedItems.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/AdvancedItems.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Collections.Generic;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }System.Text;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00005}\mbox{\hyperlink{namespace_harmony_1_1_item_actions}{00005}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_item_actions}{Harmony.ItemActions}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00006}00006\ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00020}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items}{00020}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items}{AdvancedItems}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00021}00021\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedItemFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}AdvancedItemRepair"{}};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00025}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_item_display}{00025}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_item_display}{ItemDisplay}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ GetBindingValueHelper(ref\ \textcolor{keywordtype}{string}\ value,\ \textcolor{keywordtype}{string}\ binding,\ ItemClass\ \_\_\_itemClass)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_itemClass\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ text\ =\ binding;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (text\ !=\ \textcolor{stringliteral}{"{}itemRepairDescription"{}})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Reading\ Custom\ Repair\ description"{}});}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ descriptionKey2\ =\ \_\_\_itemClass.DescriptionKey;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Localization.Exists(descriptionKey2))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ Localization.Get(descriptionKey2);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ stringBuilder\ =\ \textcolor{keyword}{new}\ StringBuilder();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stringBuilder.Append(Localization.Get(\textcolor{stringliteral}{"{}lblRepairItems"{}}));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ stack\ =\ \textcolor{keyword}{new}\ List<ItemStack>();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ ScrapItems\ is\ specified}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_\_itemClass.Properties.Classes.ContainsKey(\textcolor{stringliteral}{"{}RepairItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ \_\_\_itemClass.Properties.Classes[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ ItemsUtilities.ParseProperties(dynamicProperties3);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_\_\_itemClass.Properties.Contains(\textcolor{stringliteral}{"{}RepairItems"{}}))\ \textcolor{comment}{//\ to\ support\ <property\ name="{}RepairItems"{}\ value="{}resourceWood,10,resourceForgedIron,10"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strData\ =\ \_\_\_itemClass.Properties.Values[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ ItemsUtilities.ParseProperties(strData);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (\_\_\_itemClass.RepairTools\ ==\ \textcolor{keyword}{null}\ ||\ \_\_\_itemClass.RepairTools.Length\ <=\ 0)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ ItemsUtilities.GetReducedRecipes(\_\_\_itemClass.GetItemName(),\ 2);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ recipe.ingredients;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stack.Count\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stringBuilder.Append(ItemsUtilities.GetStackSummary(stack));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ stringBuilder.ToString();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stringBuilder.Append(\textcolor{stringliteral}{"{}\ You\ cannot\ repair\ this."{}});}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ stringBuilder.ToString();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Used\ to\ display\ the\ repair\ requirements}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiC\_ItemInfoWindow))]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}GetBindingValue"{}})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{keyword}{new}[]\ \{\ typeof(\textcolor{keywordtype}{string}),\ typeof(\textcolor{keywordtype}{string})\ \})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ref\ \textcolor{keywordtype}{string}\ value,\ \textcolor{keywordtype}{string}\ binding,\ ItemClass\ \_\_\_itemClass)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ GetBindingValueHelper(ref\ value,\ binding,\ \_\_\_itemClass);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Used\ to\ display\ the\ repair\ requirements}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(XUiC\_ItemActionList))]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetCraftingActionList"{}})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00094}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_item_action_list_set_crafting_action_list}{00094}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_item_action_list_set_crafting_action_list}{ItemActionListSetCraftingActionList}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Postfix(XUiC\_ItemActionList\ \_\_instance,\ XUiC\_ItemActionList.ItemActionListTypes\ \_actionListType,\ XUiController\ itemController)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_actionListType\ !=\ XUiC\_ItemActionList.ItemActionListTypes.Item)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xuiCItemStack\ =\ (XUiC\_ItemStack)itemController;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemStack\ =\ xuiCItemStack.ItemStack;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemValue\ =\ itemStack.itemValue;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.MaxUseTimes\ <=\ 0\ ||\ !(itemValue.UseTimes\ >\ 0f))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ItemsUtilities.CheckProperty(itemValue.ItemClass,\ \textcolor{stringliteral}{"{}RepairItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.AddActionListEntry(\textcolor{keyword}{new}\ ItemActionEntryRepair(itemController));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ItemsUtilities.CheckProperty(itemValue.ItemClass,\ \textcolor{stringliteral}{"{}Resharpen"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.AddActionListEntry(\textcolor{keyword}{new}\ \mbox{\hyperlink{class_item_action_entry_resharpen_s_d_x}{ItemActionEntryResharpenSDX}}(itemController));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionEntryRepair))]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnDisabledActivate"{}})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00118}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_repair_on_disabled_activate}{00118}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_repair_on_disabled_activate}{RepairOnDisabledActivate}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{enum}\ StateTypes}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Normal,}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ RecipeLocked,}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ NotEnoughMaterials}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ItemActionEntryRepair\ \_\_instance,\ StateTypes\ \_\_\_state,\ \textcolor{keywordtype}{string}\ \_\_\_lblReadBook,\ \textcolor{keywordtype}{string}\ \_\_\_lblNeedMaterials)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ stateTypes\ =\ \_\_\_state;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stateTypes\ ==\ StateTypes.RecipeLocked)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_\_instance.ItemController.xui.playerUI.entityPlayer,\ \_\_\_lblReadBook);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (stateTypes\ !=\ StateTypes.NotEnoughMaterials)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.ShowTooltip(\_\_instance.ItemController.xui.playerUI.entityPlayer,\ \_\_\_lblNeedMaterials);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ List<ItemStack>\ stack;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(((XUiC\_ItemStack)\_\_instance.ItemController).ItemStack.itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Classes.ContainsKey(\textcolor{stringliteral}{"{}RepairItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ forId.Properties.Classes[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ ItemsUtilities.ParseProperties(dynamicProperties3);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.CheckIngredients(stack,\ \_\_instance.ItemController.xui.playerUI.entityPlayer);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Contains(\textcolor{stringliteral}{"{}RepairItems"{}}))\ \textcolor{comment}{//\ to\ support\ <property\ name="{}RepairItems"{}\ value="{}resourceWood,10,resourceForgedIron,10"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strData\ =\ forId.Properties.Values[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stack\ =\ ItemsUtilities.ParseProperties(strData);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.CheckIngredients(stack,\ \_\_instance.ItemController.xui.playerUI.entityPlayer);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.RepairTools\ !=\ \textcolor{keyword}{null}\ \&\&\ forId.RepairTools.Length\ >\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ ItemsUtilities.GetReducedRecipes(forId.GetItemName(),\ 2);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.CheckIngredients(recipe.ingredients,\ \_\_instance.ItemController.xui.playerUI.entityPlayer);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Make\ sure\ all\ items\ are\ available.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionEntryRepair))]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnActivated"{}})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00173}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_repair_on_activated}{00173}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_repair_on_activated}{RepairOnActivated}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ItemActionEntryRepair\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xui\ =\ \_\_instance.ItemController.xui;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemValue\ =\ ((XUiC\_ItemStack)\_\_instance.ItemController).ItemStack.itemValue;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ player\ =\ xui.playerUI.entityPlayer;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ item\ has\ a\ repairItems,\ use\ that,\ instead\ of\ the\ vanilla\ version.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Classes.ContainsKey(\textcolor{stringliteral}{"{}RepairItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ \textcolor{keyword}{new}\ Recipe();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ forId.Properties.Classes[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.ingredients\ =\ ItemsUtilities.ParseProperties(dynamicProperties3);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ an\ adjusted\ Crafting\ time\ from\ the\ player.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.craftingTime\ =\ (int)EffectManager.GetValue(PassiveEffects.CraftingTime,\ \textcolor{keyword}{null},\ recipe.craftingTime,\ xui.playerUI.entityPlayer,\ recipe,\ FastTags.Parse(recipe.GetName()));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.ConvertAndCraft(recipe,\ player,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00198}00198\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Contains(\textcolor{stringliteral}{"{}RepairItems"{}}))\ \textcolor{comment}{//\ to\ support\ <property\ name="{}RepairItems"{}\ value="{}resourceWood,10,resourceForgedIron,10"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ \textcolor{keyword}{new}\ Recipe();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strData\ =\ forId.Properties.Values[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.ingredients\ =\ ItemsUtilities.ParseProperties(strData);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ an\ adjusted\ Crafting\ time\ from\ the\ player.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipe.craftingTime\ =\ (int)EffectManager.GetValue(PassiveEffects.CraftingTime,\ \textcolor{keyword}{null},\ recipe.craftingTime,\ xui.playerUI.entityPlayer,\ recipe,\ FastTags.Parse(recipe.GetName()));}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.ConvertAndCraft(recipe,\ player,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ no\ RepairTools\ defined,\ then\ fall\ back\ to\ recipe\ reduction}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.RepairTools\ !=\ \textcolor{keyword}{null}\ \&\&\ forId.RepairTools.Length\ >\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Determine,\ based\ on\ percentage\ left,\ }}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipeCountReduction\ =\ 2;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (itemValue.PercentUsesLeft\ <\ 0.2)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ recipeCountReduction\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Use\ the\ helper\ method\ to\ reduce\ the\ recipe\ count,\ and\ control\ displaying\ on\ the\ UI\ for\ consistency.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.ConvertAndCraft(forId.GetItemName(),\ recipeCountReduction,\ player,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionEntryScrap))]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00226}00226\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}OnActivated"{}})]}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00227}\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_s_core_item_action_scrapping}{00227}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_item_actions_1_1_advanced_items_1_1_s_core_item_action_scrapping}{SCoreItemActionScrapping}}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(ItemActionEntryScrap\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00235}00235\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#region\ vanilla\_code}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00236}00236\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xui\ =\ \_\_instance.ItemController.xui;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xuiCItemStack\ =\ (XUiC\_ItemStack)\_\_instance.ItemController;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ itemStack\ =\ xuiCItemStack.ItemStack.Clone();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ scrapableRecipe\ =\ CraftingManager.GetScrapableRecipe(itemStack.itemValue,\ itemStack.count);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (scrapableRecipe\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ xuiController\ =\ \_\_instance.ItemController.xui.FindWindowGroupByName(\textcolor{stringliteral}{"{}workstation\_workbench"{}});}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (xuiController\ ==\ \textcolor{keyword}{null}\ ||\ !xuiController.WindowGroup.isShowing)}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ xuiController\ =\ xui.FindWindowGroupByName(\textcolor{stringliteral}{"{}crafting"{}});}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ childByType\ =\ xuiController.GetChildByType<XUiC\_CraftingWindowGroup>();}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (childByType\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00253}00253\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \#endregion\ vanilla\_code}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ List<ItemStack>\ scrapItems;}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ forId\ =\ ItemClass.GetForId(itemStack.itemValue.type);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ ScrapItems\ is\ specified}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Classes.ContainsKey(\textcolor{stringliteral}{"{}ScrapItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ forId.Properties.Classes[\textcolor{stringliteral}{"{}ScrapItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scrapItems\ =\ ItemsUtilities.ParseProperties(dynamicProperties3);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.Scrap(scrapItems,\ itemStack,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Contains(\textcolor{stringliteral}{"{}ScrapItems"{}}))\ \textcolor{comment}{//\ Support\ for\ <property\ name="{}ScrapItems"{}\ value="{}resourceWood,0,resourceLeather,2"{}\ />}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ strData\ =\ forId.Properties.Values[\textcolor{stringliteral}{"{}ScrapItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scrapItems\ =\ ItemsUtilities.ParseProperties(strData);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.Scrap(scrapItems,\ itemStack,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ Repair\ Items\ is\ specified,\ if\ the\ ScrapItems\ wasn't.}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.Properties.Classes.ContainsKey(\textcolor{stringliteral}{"{}RepairItems"{}}))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ dynamicProperties3\ =\ forId.Properties.Classes[\textcolor{stringliteral}{"{}RepairItems"{}}];}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ scrapItems\ =\ ItemsUtilities.ParseProperties(dynamicProperties3);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.Scrap(scrapItems,\ itemStack,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (forId.RepairTools\ !=\ \textcolor{keyword}{null}\ \&\&\ forId.RepairTools.Length\ >\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CraftingManager.GetRecipe(forId.GetItemName())\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test\_AnySet(FastTags.Parse(\textcolor{stringliteral}{"{}usevanillascrap"{}})))}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ there's\ a\ recipe,\ reduce\ it}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ recipe\ =\ ItemsUtilities.GetReducedRecipes(forId.GetItemName(),\ 2);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemsUtilities.Scrap(recipe.ingredients,\ itemStack,\ \_\_instance.ItemController);}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00298}00298\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00299}00299\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_advanced_items_8cs_source_l00300}00300\ \}}
+
+\end{DoxyCode}

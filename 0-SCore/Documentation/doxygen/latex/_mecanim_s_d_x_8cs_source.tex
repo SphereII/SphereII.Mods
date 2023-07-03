@@ -1,0 +1,683 @@
+\hypertarget{_mecanim_s_d_x_8cs_source}{}\doxysection{Mecanim\+SDX.\+cs}
+\label{_mecanim_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Animation/MecanimSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Animation/MecanimSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Reflection;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00004}00004\ \textcolor{keyword}{using\ }Random\ =\ UnityEngine.Random;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00009}00009\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }MecanimSDX\ :\ AvatarController}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00010}00010\ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{float}\ CheckDelay\ =\ 5f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{float}\ animSyncWaitTime\ =\ 0.5f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \textcolor{comment}{//\ Our\ transforms\ for\ key\ elements}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \textcolor{keyword}{public}\ Transform\ bipedTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{public}\ Transform\ modelTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ AttackIdleIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \textcolor{comment}{//\ Indexes\ used\ to\ add\ more\ variety\ to\ state\ machines}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ AttackIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ If\ set\ to\ true,\ logging\ will\ be\ very\ verbose\ for\ troubleshooting}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ blDisplayLog\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ CrouchIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ DeathIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ EatingIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ ElectrocutionIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ HarvestIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ IdleIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ JumpIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ Jumping\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ RagingIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ RandomIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{string}\ RightHand\ =\ \textcolor{stringliteral}{"{}RightHand"{}};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ RunIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ SleeperIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ SpecialAttackIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ SpecialSecondIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ StunIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ WalkIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{int}\ PainIndexes;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \textcolor{comment}{//\ Animator\ support\ method\ to\ keep\ our\ current\ state}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \textcolor{keyword}{protected}\ AnimatorStateInfo\ currentBaseState;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \textcolor{keyword}{protected}\ Transform\ head;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{float}\ idleTime;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ isEating;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \textcolor{comment}{//\ bools\ to\ check\ if\ we\ are\ performing\ an\ action\ already}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ IsHarvesting;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \textcolor{comment}{//\ Jumping\ tags\ and\ bools}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{int}\ jumpTag;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \textcolor{comment}{//\ Maintenance\ varaibles}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{bool}\ m\_bVisible;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{int}\ movementStateOverride\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ interval\ between\ changing\ the\ indexes\ in\ the\ LateUpdate}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{float}\ nextCheck;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ rightHand;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \textcolor{comment}{//\ This\ controls\ the\ animations\ if\ we\ are\ holding\ a\ weapon.}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \textcolor{keyword}{protected}\ Animator\ rightHandAnimator;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ rightHandItemTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \textcolor{comment}{//\ support\ variable\ for\ timing\ attacks.}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{int}\ specialAttackTicks;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{float}\ timeAttackAnimationPlaying;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{float}\ timeSpecialAttackPlaying;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{new}\ \textcolor{keywordtype}{void}\ Awake()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Method:\ "{}}\ +\ MethodBase.GetCurrentMethod().Name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ entity\ =\ transform.gameObject.GetComponent<EntityAlive>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ var\ entityClass\ =\ EntityClass.list[entity.entityClass];}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ this.AttackHash\ =\ this.GenerateLists(entityClass,\ "{}AttackAnimations"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}AttackIndexes"{}}],\ out\ AttackIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}SpecialAttackIndexes"{}}],\ out\ SpecialAttackIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}SpecialSecondIndexes"{}}],\ out\ SpecialSecondIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}RagingIndexes"{}}],\ out\ RagingIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}ElectrocutionIndexes"{}}],\ out\ ElectrocutionIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}CrouchIndexes"{}}],\ out\ CrouchIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}StunIndexes"{}}],\ out\ StunIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}SleeperIndexes"{}}],\ out\ SleeperIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}HarvestIndexes"{}}],\ out\ HarvestIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}PainIndexes"{}}],\ out\ PainIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}DeathIndexes"{}}],\ out\ DeathIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}RunIndexes"{}}],\ out\ RunIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}WalkIndexes"{}}],\ out\ WalkIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}IdleIndexes"{}}],\ out\ IdleIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}JumpIndexes"{}}],\ out\ JumpIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}EatingIndexes"{}}],\ out\ EatingIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}RandomIndexes"{}}],\ out\ RandomIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}.TryParse(entityClass.Properties.Values[\textcolor{stringliteral}{"{}AttackIdleIndexes"{}}],\ out\ AttackIdleIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RightHandJointName"{}}))\ RightHand\ =\ entityClass.Properties.Values[\textcolor{stringliteral}{"{}RightHandJointName"{}}];}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ jumpTag\ =\ Animator.StringToHash(\textcolor{stringliteral}{"{}Jump"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entityClass.Properties.Values.ContainsKey(\textcolor{stringliteral}{"{}RightHandJointName"{}}))\ RightHand\ =\ entityClass.Properties.Values[\textcolor{stringliteral}{"{}RightHandJointName"{}}];}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Initializing\ "{}}\ +\ entity.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Checking\ For\ Graphics\ Transform..."{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ bipedTransform\ =\ transform.Find(\textcolor{stringliteral}{"{}Graphics"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bipedTransform\ ==\ \textcolor{keyword}{null}\ ||\ bipedTransform.Find(\textcolor{stringliteral}{"{}Model"{}})\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}\ !!\ Graphics\ Transform\ null!"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ modelTransform\ =\ bipedTransform.Find(\textcolor{stringliteral}{"{}Model"{}}).GetChild(0);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (modelTransform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}\ !!\ Model\ Transform\ is\ null!"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Adding\ Colliders"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ AddTransformRefs(modelTransform);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Tagging\ the\ Body"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ AddTagRecursively(modelTransform,\ \textcolor{stringliteral}{"{}E\_BP\_Body"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Searching\ for\ Animator"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ anim\ =\ modelTransform.GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (anim\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}***\ Animator\ Not\ Found!\ Invalid\ Class"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ Exception(\textcolor{stringliteral}{"{}Animator\ Not\ Found!\ Wrong\ class\ is\ being\ used!\ Try\ AnimationSDX\ instead..."{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Animator\ Found"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ anim.enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!anim.runtimeAnimatorController)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}\{0\}\ :\ My\ Animator\ Controller\ is\ null!"{}},\ modelTransform.name));}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ \textcolor{keyword}{new}\ Exception(\textcolor{stringliteral}{"{}Animator\ Controller\ is\ null!"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}My\ Animator\ Controller\ has:\ "{}}\ +\ anim.runtimeAnimatorController.animationClips.Length\ +\ \textcolor{stringliteral}{"{}\ Animations"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ animationClip\ \textcolor{keywordflow}{in}\ anim.runtimeAnimatorController.animationClips)\ Log(\textcolor{stringliteral}{"{}Animation\ Clip:\ "{}}\ +\ animationClip.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform\ =\ FindTransform(bipedTransform,\ bipedTransform,\ RightHand);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Right\ Hand\ Item\ Transform:\ "{}}\ +\ rightHandItemTransform.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Right\ Hand\ Item\ Transform:\ Could\ not\ find\ Transform:\ "{}}\ +\ RightHand);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00153}00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (Exception\ arg)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Exception\ thrown\ in\ Awake()\ "{}}\ +\ arg);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00157}00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00158}00158\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00160}00160\ \ \ \ \ \textcolor{comment}{//\ Main\ Update\ method}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00161}00161\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Update()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (timeAttackAnimationPlaying\ >\ 0f)\ timeAttackAnimationPlaying\ -\/=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!m\_bVisible\ \&\&\ (entity\ ==\ \textcolor{keyword}{null}\ ||\ entity.isEntityRemote))\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ need\ to\ proceed\ if\ the\ model\ isn't\ initialized.}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bipedTransform\ ==\ \textcolor{keyword}{null}\ ||\ !bipedTransform.gameObject.activeInHierarchy)\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(anim\ ==\ \textcolor{keyword}{null})\ \&\&\ anim.avatar.isValid\ \&\&\ anim.enabled)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Logic\ to\ handle\ our\ movements}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num2\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity.IsFlyMode.Value)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num\ =\ entity.speedForward;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ num2\ =\ entity.speedStrafe;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ var\ num3\ =\ num2;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (num3\ >=\ 1234f)\ num3\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateFloat(\textcolor{stringliteral}{"{}Forward"{}},\ num);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateFloat(\textcolor{stringliteral}{"{}Strafe"{}},\ num3);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!entity.IsDead())}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (movementStateOverride\ !=\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateInt(\textcolor{stringliteral}{"{}MovementState"{}},\ movementStateOverride);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ movementStateOverride\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (num2\ >=\ 1234f)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateInt(\textcolor{stringliteral}{"{}MovementState"{}},\ 4);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ num4\ =\ num\ *\ num\ +\ num3\ *\ num3;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateInt(\textcolor{stringliteral}{"{}MovementState"{}},\ num4\ <=\ entity.moveSpeedAggro\ *\ entity.moveSpeedAggro\ ?\ num4\ <=\ entity.moveSpeed\ *\ entity.moveSpeed\ ?\ num4\ <=\ 0.001f\ ?\ 0\ :\ 1\ :\ 2\ :\ 3);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (Mathf.Abs(num)\ <=\ 0.01f\ \&\&\ Mathf.Abs(num2)\ <=\ 0.01f)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsMoving"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ idleTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsMoving"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (nextCheck\ ==\ 0.0f\ ||\ nextCheck\ <\ Time.time)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ nextCheck\ =\ Time.time\ +\ CheckDelay;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}RandomIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}WalkIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}RunIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}IdleIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateFloat(\textcolor{stringliteral}{"{}IdleTime"{}},\ idleTime);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ idleTime\ +=\ Time.deltaTime;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateFloat(\textcolor{stringliteral}{"{}RotationPitch"{}},\ entity.rotation.x);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ SendAnimParameters(0.05f);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00228}00228\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00229}00229\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00232}00232\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SwitchModelAndView(\textcolor{keywordtype}{string}\ \_modelName,\ \textcolor{keywordtype}{bool}\ \_bFPV,\ \textcolor{keywordtype}{bool}\ \_bMale)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00233}00233\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00234}00234\ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Running\ Switch\ and\ Model\ View"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00235}00235\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsDead"{}},\ entity.IsDead());}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00236}00236\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsAlive"{}},\ entity.IsAlive());}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ dummy\ assign\ body\ parts}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00239}00239\ \ \ \ \ \ \ \ \ assignBodyParts();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ entity\ has\ a\ weapon\ or\ not}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00243}00243\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Setting\ Right\ hand\ position"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.parent\ =\ rightHandItemTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ var\ position\ =\ AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].position;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rotation\ =\ AnimationGunjointOffsetData.AnimationGunjointOffset[entity.inventory.holdingItem.HoldType.Value].rotation;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.localPosition\ =\ position;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform.localEulerAngles\ =\ rotation;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ SetInRightHand(rightHandItemTransform);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00251}00251\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00252}00252\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00254}00254\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationAttackPlaying()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00255}00255\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ timeAttackAnimationPlaying\ >\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00257}00257\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00259}00259\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationAttack()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00260}00260\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00261}00261\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}AttackIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00262}00262\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Attack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00263}00263\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}AttackIdleIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00264}00264\ \ \ \ \ \ \ \ \ timeAttackAnimationPlaying\ =\ 0.3f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00265}00265\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00267}00267\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationSpecialAttackPlaying()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00268}00268\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ IsAnimationAttackPlaying();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00270}00270\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00272}00272\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationSpecialAttack(\textcolor{keywordtype}{bool}\ \_b,\ \textcolor{keywordtype}{int}\ \_animType)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00273}00273\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_b)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00275}00275\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Firing\ Special\ attack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}SpecialAttackIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}SpecialAttack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ idleTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ specialAttackTicks\ =\ 3;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ timeSpecialAttackPlaying\ =\ 0.8f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00282}00282\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00283}00283\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00284}00284\ \ \ \ \ \textcolor{comment}{//public\ override\ void\ StartAnimationSpecialAttack(bool\ \_b)}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00285}00285\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00286}00286\ \ \ \ \ \textcolor{comment}{//\ \ \ \ if\ (\_b)}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00287}00287\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00288}00288\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ Log("{}Firing\ Special\ attack"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00289}00289\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ SetRandomIndex("{}SpecialAttackIndex"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00290}00290\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ SetTrigger("{}SpecialAttack"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00291}00291\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ idleTime\ =\ 0f;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00292}00292\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ specialAttackTicks\ =\ 3;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00293}00293\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ timeSpecialAttackPlaying\ =\ 0.8f;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00294}00294\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00295}00295\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00297}00297\ \ \ \ \ \textcolor{comment}{//\ Logic\ to\ handle\ Special\ Attack}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00298}00298\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationSpecialAttack2Playing()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00299}00299\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ IsAnimationAttackPlaying();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00301}00301\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00302}00302\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00303}00303\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationSpecialAttack2()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00304}00304\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00305}00305\ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Firing\ Second\ Special\ attack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00306}00306\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}SpecialSecondAttack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00307}00307\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}SpecialSecondAttack"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00308}00308\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00311}00311\ \ \ \ \ \textcolor{comment}{//\ Logic\ to\ handle\ Raging}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00312}00312\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationRaging()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00313}00313\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00314}00314\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}RagingIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00315}00315\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Raging"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00316}00316\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00318}00318\ \ \ \ \ \textcolor{comment}{//\ Logic\ to\ handle\ electrocution\ A19\ b180}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00319}00319\ \ \ \ \ \textcolor{comment}{//public\ override\ bool\ IsAnimationElectrocutedPlaying()}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00320}00320\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00321}00321\ \ \ \ \ \textcolor{comment}{//\ \ \ \ return\ IsElectrocuting;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00322}00322\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00323}00323\ \ \ \ \ \textcolor{comment}{//public\ override\ void\ StartAnimationElectrocuted()}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00324}00324\ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00325}00325\ \ \ \ \ \textcolor{comment}{//\ \ \ \ if(!IsAnimationElectrocutedPlaying())}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00326}00326\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00327}00327\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ IsElectrocuting\ =\ true;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00328}00328\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ SetRandomIndex("{}ElectrocutionIndex"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00329}00329\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ SetTrigger("{}Electrocution"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00330}00330\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00331}00331\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00333}00333\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationHarvestingPlaying()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00334}00334\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00335}00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ IsHarvesting;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00336}00336\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00337}00337\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00338}00338\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationHarvesting()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00339}00339\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00340}00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!IsAnimationHarvestingPlaying())}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00341}00341\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ IsHarvesting\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}HarvestIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Harvest"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00345}00345\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00346}00346\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00348}00348\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetAlive()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00349}00349\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00350}00350\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsAlive"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00351}00351\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsDead"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00352}00352\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Alive"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00353}00353\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00355}00355\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetDrunk(\textcolor{keywordtype}{float}\ \_numBeers)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00356}00356\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_numBeers\ >\ 3f)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00358}00358\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}DrunkIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Drunk"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00361}00361\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00362}00362\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00364}00364\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00365}00365\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetCrouching(\textcolor{keywordtype}{bool}\ \_bEnable)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00366}00366\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00367}00367\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_bEnable)\ SetRandomIndex(\textcolor{stringliteral}{"{}CrouchIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00368}00368\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsCrouching"{}},\ \_bEnable);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00369}00369\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00370}00370\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00371}00371\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetVisible(\textcolor{keywordtype}{bool}\ \_b)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00372}00372\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (m\_bVisible\ !=\ \_b)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00374}00374\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ m\_bVisible\ =\ \_b;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ var\ transform\ =\ bipedTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (transform\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ componentsInChildren\ =\ transform.GetComponentsInChildren<Renderer>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ componentsInChildren.Length;\ i++)\ componentsInChildren[i].enabled\ =\ \_b;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00382}00382\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00383}00383\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00384}00384\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00385}00385\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetRagdollEnabled(\textcolor{keywordtype}{bool}\ \_b)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00386}00386\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00387}00387\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00389}00389\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationReloading()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00390}00390\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00391}00391\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00393}00393\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationJumping()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00394}00394\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00395}00395\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}JumpIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00396}00396\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Jump"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00397}00397\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00398}00398\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00399}00399\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationFiring()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00400}00400\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00401}00401\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00403}00403\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartAnimationHit(EnumBodyPartHit\ \_bodyPart,\ \textcolor{keywordtype}{int}\ \_dir,\ \textcolor{keywordtype}{int}\ \_hitDamage,\ \textcolor{keywordtype}{bool}\ \_criticalHit,\ \textcolor{keywordtype}{int}\ \_movementState,\ \textcolor{keywordtype}{float}\ \_random,\ \textcolor{keywordtype}{float}\ \_duration)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00404}00404\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00405}00405\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}PainIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00406}00406\ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}Pain"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00407}00407\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00408}00408\ \ \ \ \ \ \ \ \ base.StartAnimationHit(\_bodyPart,\ \_dir,\ \_hitDamage,\ \_criticalHit,\ \_movementState,\ \_random,\ \_duration);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00409}00409\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00410}00410\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00411}00411\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationHitRunning()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00412}00412\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00413}00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00414}00414\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00415}00415\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00416}00416\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartDeathAnimation(EnumBodyPartHit\ \_bodyPart,\ \textcolor{keywordtype}{int}\ \_movementState,\ \textcolor{keywordtype}{float}\ \_random)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00417}00417\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00418}00418\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}DeathIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00419}00419\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsDead"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00420}00420\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00421}00421\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00422}00422\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetInRightHand(Transform\ \_transform)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00423}00423\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(rightHandItemTransform\ ==\ \textcolor{keyword}{null})\ \&\&\ !(\_transform\ ==\ \textcolor{keyword}{null}))}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00425}00425\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Setting\ Right\ Hand:\ "{}}\ +\ rightHandItemTransform.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ idleTime\ =\ 0f;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Setting\ Right\ Hand\ Transform"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ rightHandItemTransform\ =\ \_transform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Right\ Hand\ Animator\ is\ Null"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Right\ Hand\ Animator\ is\ NOT\ NULL\ "{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rightHandAnimator\ =\ rightHandItemTransform.GetComponent<Animator>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (rightHandItemTransform\ !=\ \textcolor{keyword}{null})\ Utils.SetLayerRecursively(rightHandItemTransform.gameObject,\ 0);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Done\ with\ SetInRightHand"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00441}00441\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00442}00442\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00444}00444\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ Transform\ GetRightHandTransform()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00445}00445\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00446}00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rightHandItemTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00447}00447\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00449}00449\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ Transform\ GetActiveModelRoot()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00450}00450\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !modelTransform\ ?\ bipedTransform\ :\ modelTransform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00452}00452\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00455}00455\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ BeginStun(EnumEntityStunType\ stun,\ EnumBodyPartHit\ \_bodyPart,\ Utils.EnumHitDirection\ \_hitDirection,\ \textcolor{keywordtype}{bool}\ \_criticalHit,\ \textcolor{keywordtype}{float}\ random)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00456}00456\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00457}00457\ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}StunIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00458}00458\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsStunned"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00459}00459\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00460}00460\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00461}00461\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ EndStun()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00462}00462\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00463}00463\ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsStunned"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00464}00464\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00465}00465\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00466}00466\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00467}00467\ \ \ \ \ \textcolor{comment}{//\ public\ override\ void\ TriggerSleeperPose(int\ pose)}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00468}00468\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00469}00469\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ if\ (anim\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00470}00470\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00471}00471\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ anim.SetInteger("{}SleeperPose"{},\ pose);}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00472}00472\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ TriggerEvent("{}SleeperTrigger"{});}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00473}00473\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00474}00474\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00476}00476\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ Log(\textcolor{keywordtype}{string}\ strLog)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00477}00477\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00478}00478\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (blDisplayLog)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00479}00479\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (modelTransform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}Unknown\ Entity:\ \{0\}"{}},\ strLog));}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}\{0\}:\ \{1\}"{}},\ modelTransform.name,\ strLog));}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00484}00484\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00485}00485\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00486}00486\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00487}00487\ \ \ \ \ \textcolor{keyword}{private}\ Transform\ FindTransform(Transform\ root,\ Transform\ t,\ \textcolor{keywordtype}{string}\ objectName)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00488}00488\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00489}00489\ \ \ \ \ \ \ \ \ Transform\ result;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t.name.Contains(objectName))}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00491}00491\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ t;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00493}00493\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00494}00494\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00495}00495\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ obj\ \textcolor{keywordflow}{in}\ t)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ t2\ =\ (Transform)obj;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}\(\backslash\)t\ Transform:\ "{}}\ +\ t2.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ transform\ =\ FindTransform(root,\ t2,\ objectName);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (transform\ !=\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ transform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00505}00505\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00507}00507\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00508}00508\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00510}00510\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00511}00511\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ UpdateCurrentState()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00512}00512\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00513}00513\ \ \ \ \ \ \ \ \ currentBaseState\ =\ anim.GetCurrentAnimatorStateInfo(0);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00514}00514\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00515}00515\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00516}00516\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00517}00517\ \ \ \ \ \textcolor{comment}{//\ Since\ we\ support\ many\ different\ indexes,\ we\ use\ this\ to\ generate\ a\ random\ index,\ and\ send\ it\ to\ the\ state\ machine.}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00518}00518\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SetRandomIndex(\textcolor{keywordtype}{string}\ strParam)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00519}00519\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00520}00520\ \ \ \ \ \ \ \ \ var\ index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00521}00521\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (strParam)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00522}00522\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}AttackIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(AttackIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}SpecialAttackIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(SpecialAttackIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}SpecialSecondIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(SpecialSecondIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}RagingIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(RagingIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}ElectrocutionIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(ElectrocutionIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}CrouchIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(CrouchIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}StunIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(StunIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}SleeperIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(SleeperIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}HarvestIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(HarvestIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}PainIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(PainIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}DeathIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(DeathIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00556}00556\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}RunIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(RunIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}WalkIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(WalkIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00561}00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00562}00562\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}IdleIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(IdleIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}JumpIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(JumpIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}RandomIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(RandomIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}EatingIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(EatingIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{stringliteral}{"{}AttackIdleIndex"{}}:}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\ =\ GetRandomIndex(AttackIdleIndexes);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00577}00577\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00578}00578\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00579}00579\ \ \ \ \ \ \ \ \ Log(\textcolor{keywordtype}{string}.Format(\textcolor{stringliteral}{"{}Random\ Generator:\ \{0\}\ Value:\ \{1\}"{}},\ strParam,\ index));}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00580}00580\ \ \ \ \ \ \ \ \ UpdateInt(strParam,\ index);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00581}00581\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00582}00582\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00583}00583\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{int}\ GetRandomIndex(\textcolor{keywordtype}{int}\ intMax)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00584}00584\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00585}00585\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Random.Range(0,\ intMax);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00586}00586\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00587}00587\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00588}00588\ \ \ \ \ \textcolor{keyword}{private}\ EntityClass\ GetAvailableTriggers()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00589}00589\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00590}00590\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityClass.list[entity.entityClass];}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00591}00591\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00592}00592\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00593}00593\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ AddTransformRefs(Transform\ t)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00594}00594\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00595}00595\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (t.GetComponent<Collider>()\ !=\ \textcolor{keyword}{null}\ \&\&\ t.GetComponent<RootTransformRefEntity>()\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00596}00596\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ var\ rootTransformRefEntity\ =\ t.gameObject.AddComponent<RootTransformRefEntity>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ rootTransformRefEntity.RootTransform\ =\ transform;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00599}00599\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00600}00600\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00601}00601\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ obj\ \textcolor{keywordflow}{in}\ t)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00602}00602\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ var\ t2\ =\ (Transform)obj;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ AddTransformRefs(t2);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00605}00605\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00606}00606\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00608}00608\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ AddTagRecursively(Transform\ trans,\ \textcolor{keywordtype}{string}\ tag)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00609}00609\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00610}00610\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (trans.gameObject.tag.Contains(\textcolor{stringliteral}{"{}Untagged"{}}))}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00611}00611\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}AddTagRecursively:\ "{}}\ +\ trans.name);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (trans.name.ToLower().Contains(\textcolor{stringliteral}{"{}head"{}}))}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ trans.gameObject.tag\ =\ \textcolor{stringliteral}{"{}E\_BP\_Head"{}};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00615}00615\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00616}00616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ trans.gameObject.tag\ =\ tag;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00617}00617\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00618}00618\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ obj\ \textcolor{keywordflow}{in}\ trans)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00620}00620\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ var\ trans2\ =\ (Transform)obj;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ AddTagRecursively(trans2,\ tag);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00623}00623\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00624}00624\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00626}00626\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ SpawnLimbGore(Transform\ parent,\ \textcolor{keywordtype}{string}\ path,\ \textcolor{keywordtype}{bool}\ restoreState)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00627}00627\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00628}00628\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parent\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00629}00629\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ GameObject\ original\ =\ ResourceWrapper.Load1P(path)\ as\ GameObject;}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ var\ gameObject\ =\ Instantiate(Resources.Load(path)\ as\ GameObject,\ Vector3.zero,\ Quaternion.identity);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ gameObject.transform.parent\ =\ parent;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ gameObject.transform.localPosition\ =\ Vector3.zero;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ gameObject.transform.localRotation\ =\ Quaternion.identity;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ gameObject.transform.localScale\ =\ parent.localScale;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00636}00636\ \ \ \ \ \ \ \ \ \ \ \ \ var\ component\ =\ gameObject.GetComponent<GorePrefab>();}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (component\ !=\ \textcolor{keyword}{null})\ component.restoreState\ =\ restoreState;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00638}00638\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00639}00639\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00640}00640\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00641}00641\ \ \ \ \ \textcolor{keyword}{protected}\ \textcolor{keywordtype}{void}\ assignBodyParts()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00642}00642\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00643}00643\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bipedTransform\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00644}00644\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00645}00645\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}assignBodyParts:\ GraphicsTransform\ is\ null!"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00646}00646\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00647}00647\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00648}00648\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ Log(\textcolor{stringliteral}{"{}Mapping\ Body\ Parts"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ head\ =\ FindTransform(bipedTransform,\ bipedTransform,\ \textcolor{stringliteral}{"{}Head"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ rightHand\ =\ FindTransform(bipedTransform,\ bipedTransform,\ RightHand);}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00652}00652\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00653}00653\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00654}00654\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00655}00655\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ IsAnimationJumpRunning()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00656}00656\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00657}00657\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Jumping\ ||\ jumpTag\ ==\ currentBaseState.tagHash;}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00658}00658\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00660}00660\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00661}00661\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StartEating()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00662}00662\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00663}00663\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!isEating)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00664}00664\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ SetRandomIndex(\textcolor{stringliteral}{"{}EatingIndex"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsEating"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ TriggerEvent(\textcolor{stringliteral}{"{}IsEatingTrigger"{}});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ isEating\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00669}00669\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00670}00670\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00671}00671\ }
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00672}00672\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ StopEating()}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00673}00673\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00674}00674\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isEating)}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00675}00675\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00676}00676\ \ \ \ \ \ \ \ \ \ \ \ \ UpdateBool(\textcolor{stringliteral}{"{}IsEating"{}},\ \textcolor{keyword}{false});}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ isEating\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00678}00678\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00679}00679\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_mecanim_s_d_x_8cs_source_l00680}00680\ \}}
+
+\end{DoxyCode}

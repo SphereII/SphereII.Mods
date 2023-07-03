@@ -1,0 +1,33 @@
+\hypertarget{_item_action_handle_break_item_8cs_source}{}\doxysection{Item\+Action\+Handle\+Break\+Item.\+cs}
+\label{_item_action_handle_break_item_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/ItemActionHandleBreakItem.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/ItemActions/ItemActionHandleBreakItem.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00001}00001\ \textcolor{comment}{//\ using\ UnityEngine;}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00002}00002\ \textcolor{comment}{//\ using\ HarmonyLib;}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00003}00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00004}00004\ \textcolor{comment}{//\ namespace\ SCore.Harmony.ItemActions}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00005}00005\ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00006}00006\ \textcolor{comment}{//\ \ \ \ \ public\ class\ ItemActionHandleBreakItem}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00007}00007\ \textcolor{comment}{//\ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00008}00008\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemAction))]}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00009}00009\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ [HarmonyPatch("{}HandleItemBreak"{})]}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00010}00010\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ public\ class\ ItemActionHit}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00011}00011\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00012}00012\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ public\ static\ void\ Postfix(ItemActionData\ \_actionData)}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00013}00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00014}00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ item\ =\ \_actionData.invData.item;}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00015}00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!item.Properties.Contains("{}DowngradeItem"{}))\ return;}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00016}00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ newItemClass\ =\ item.Properties.Values["{}DowngradeItem"{}];}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00017}00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ newItem\ =\ ItemClass.GetItem(newItemClass);}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00018}00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\$"{}New\ Item:\ \{newItemClass\}"{});}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00019}00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_actionData.invData.holdingEntity.inventory.DecHoldingItem(1);}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00020}00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ holdingIndex\ =\ \_actionData.invData.holdingEntity.inventory.holdingItemIdx;}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00021}00021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_actionData.invData.holdingEntity.inventory.SetItem(holdingIndex,\ newItem,\ 1,\ true);}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00022}00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00023}00023\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00024}00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00025}00025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00026}00026\ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_item_action_handle_break_item_8cs_source_l00027}00027\ \textcolor{comment}{//\ \}}}
+
+\end{DoxyCode}

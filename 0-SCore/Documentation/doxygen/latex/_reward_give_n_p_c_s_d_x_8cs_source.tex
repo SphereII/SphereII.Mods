@@ -1,0 +1,83 @@
+\hypertarget{_reward_give_n_p_c_s_d_x_8cs_source}{}\doxysection{Reward\+Give\+NPCSDX.\+cs}
+\label{_reward_give_n_p_c_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardGiveNPCSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Quests/RewardGiveNPCSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{internal}\ \textcolor{keyword}{class\ }RewardGiveNPCSDX\ :\ BaseReward}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00005}00005\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ <reward\ type="{}GiveNPCSDX,\ SCore"{}\ id="{}entityGroup"{}\ \ />\ \ //\ Spawns\ in\ an\ entity\ from\ the\ group\ to\ be\ your\ NPC}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00006}00006\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ <reward\ type="{}GiveNPCSDX,\ SCore"{}\ \ />\ \ //\ Hires\ the\ current\ NPC}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ GiveReward(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(ID))}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ var\ questNPC\ =\ GameManager.Instance.World.Entities.dict[OwnerQuest.QuestGiverID]\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (questNPC)}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ EntityUtilities.SetOwner(questNPC.entityId,\ player.entityId);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ NPC\ not\ Found."{}});}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{comment}{//\ Try\ to\ spawn\ in\ a\ new\ NPC\ from\ the\ NPC\ Group}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ SpawnFromGroup(ID,\ player);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ BaseReward\ Clone()}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ var\ rewardNPC\ =\ \textcolor{keyword}{new}\ RewardGiveNPCSDX();}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ CopyValues(rewardNPC);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ rewardNPC;}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ SetupReward()}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ Description\ =\ Localization.Get(\textcolor{stringliteral}{"{}RewardGiveNPCSDX\_keyword"{}});}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ SetupValueText();}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ Icon\ =\ \textcolor{stringliteral}{"{}ui\_game\_symbol\_trophy"{}};}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{string}\ GetRewardText()}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}I'll\ join\ you."{}};}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{void}\ SetupValueText()}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ ValueText\ =\ \textcolor{stringliteral}{"{}Value\ Test"{}};}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00047}00047\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keywordtype}{void}\ SpawnFromGroup(\textcolor{keywordtype}{string}\ strEntityGroup,\ EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ var\ EntityID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ group\ is\ set,\ then\ use\ it.}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(strEntityGroup))}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ var\ ClassID\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ EntityID\ =\ EntityGroups.GetRandomFromGroup(strEntityGroup,\ ref\ ClassID);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityID\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ failed}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ var\ NewEntity\ =\ EntityFactory.CreateEntity(EntityID,\ player.position,\ player.rotation);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NewEntity)}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ NewEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ GameManager.Instance.World.SpawnEntityInWorld(NewEntity);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (NewEntity\ is\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}})}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ uiforPlayer\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uiforPlayer.windowManager.Open(\textcolor{stringliteral}{"{}JoinInformation"{}},\ \textcolor{keyword}{true});}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//(NewEntity\ as\ EntityAliveSDX).SetOwner(player\ as\ EntityPlayerLocal);}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ Could\ not\ Spawn\ NPC\ for:\ "{}}\ +\ player.EntityName\ +\ \textcolor{stringliteral}{"{}\ :\ "{}}\ +\ player.entityId);}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00076}00076\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_reward_give_n_p_c_s_d_x_8cs_source_l00077}00077\ \}}
+
+\end{DoxyCode}

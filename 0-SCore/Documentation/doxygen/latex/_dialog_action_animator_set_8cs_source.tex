@@ -1,0 +1,37 @@
+\hypertarget{_dialog_action_animator_set_8cs_source}{}\doxysection{Dialog\+Action\+Animator\+Set.\+cs}
+\label{_dialog_action_animator_set_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAnimatorSet.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Dialogs/DialogActionAnimatorSet.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00003}\mbox{\hyperlink{class_dialog_action_animator_set}{00003}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_action_animator_set}{DialogActionAnimatorSet}}\ :\ BaseDialogAction}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00004}00004\ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00005}00005\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ PerformAction(EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00006}00006\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00007}00007\ \ \ \ \ \ \ \ \ var\ playerUI\ =\ LocalPlayerUI.GetUIForPlayer(player\ as\ EntityPlayerLocal);}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00008}00008\ \ \ \ \ \ \ \ \ var\ myEntity\ =\ playerUI.xui.Dialog.Respondent\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00010}00010\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00011}00011\ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}Respondent\ is\ not\ EntityAliveSDX"{}});}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00012}00012\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (myEntity.emodel.avatarController.TryGetInt(ID,\ out\ var\ value))}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ Debug.Log(\$"{}Current\ ID\ and\ Value\ \{ID\}\ :\ \{value\}"{});}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (StringParsers.TryParseFloat(Value,\ out\ var\ result))}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ myEntity.emodel.avatarController.UpdateInt(ID,\ (\textcolor{keywordtype}{int})result);\ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ (myEntity.emodel.avatarController.TryGetInt(ID,\ out\ var\ value2))}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ Debug.Log(\$"{}New\ ID\ and\ Value\ \{ID\}\ :\ \{value2\}"{});}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00029}00029\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00030}00030\ \ }
+\DoxyCodeLine{\Hypertarget{_dialog_action_animator_set_8cs_source_l00031}00031\ \}}
+
+\end{DoxyCode}

@@ -1,0 +1,113 @@
+\hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source}{}\doxysection{Dialog\+Requirement\+Has\+CVar.\+cs}
+\label{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasCVar.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/Temp\_Dialogs/DialogRequirementHasCVar.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00001}00001\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}\ :\ BaseDialogRequirement}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00002}00002\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00003}00003\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedDialogDebugging"{}};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00005}00005\ \ \ \ \textcolor{comment}{//\ public\ string\ strOperator\ =\ "{}eq"{};}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00007}00007\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00008}00008\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00009}00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerValue\ ==\ value;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00010}00010\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckRequirement(EntityPlayer\ player,\ EntityNPC\ talkingTo)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Player:\ "{}}\ +\ player.EntityName);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{foreach}\ (var\ temp\ \textcolor{keywordflow}{in}\ player.Buffs.CVars)\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}\(\backslash\)tCVar:\ "{}}\ +\ temp.Key\ +\ \textcolor{stringliteral}{"{}\ Value:\ "{}}\ +\ temp.Value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ character\ doesn't\ have\ a\ cvar,\ add\ it.}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!player.Buffs.HasCustomVar(ID))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ player.Buffs.SetCustomVar(ID,\ 0);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (player.Buffs.HasCustomVar(ID))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ value\ is\ not\ specified,\ accepted\ it.}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(Value))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}.TryParse(Value,\ out\ var\ flValue);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ var\ flPlayerValue\ =\ player.Buffs.GetCustomVar(ID);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ GetType()\ +\ "{}\ HasCvar:\ "{}\ +\ ID\ +\ "{}\ Value:\ "{}\ +\ flValue\ +\ "{}\ Player\ Value:\ "{}\ +\ flPlayerValue\ +\ "{}\ Operator:\ "{}\ +\ strOperator);}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CheckValue(flPlayerValue,\ flValue);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00033}00033\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ Cvar\ does\ not\ exist,\ but\ does\ have\ a\ value\ to\ be\ checked,\ pass\ the\ condition.It\ just\ may\ not\ be\ set\ yet.}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keywordtype}{string}.IsNullOrEmpty(Value))}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}HasCVar:\ "{}}\ +\ ID\ +\ \textcolor{stringliteral}{"{}\ Player\ does\ not\ have\ this\ cvar.\ Returning\ true."{}});}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ AdvLogging.DisplayLog(AdvFeatureClass,\ \textcolor{stringliteral}{"{}Has\ CVar::\ false"{}});}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00046}\mbox{\hyperlink{class_dialog_requirement_c_var_g_t}{00046}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_c_var_g_t}{DialogRequirementCVarGT}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00049}00049\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerValue\ >\ value;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00051}00051\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00052}00052\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00054}\mbox{\hyperlink{class_dialog_requirement_c_var_g_t_e}{00054}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_c_var_g_t_e}{DialogRequirementCVarGTE}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00055}00055\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00056}00056\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00057}00057\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerValue\ >=\ value;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00059}00059\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00060}00060\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00062}\mbox{\hyperlink{class_dialog_requirement_c_var_l_t}{00062}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_c_var_l_t}{DialogRequirementCVarLT}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00064}00064\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00065}00065\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerValue\ <\ value;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00067}00067\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00068}00068\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00070}\mbox{\hyperlink{class_dialog_requirement_c_var_l_t_e}{00070}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_c_var_l_t_e}{DialogRequirementCVarLTE}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00071}00071\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00072}00072\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00073}00073\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ playerValue\ <=\ value;}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00076}00076\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00078}\mbox{\hyperlink{class_dialog_requirement_not_c_var_g_t_e}{00078}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_not_c_var_g_t_e}{DialogRequirementNotCVarGTE}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00079}00079\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00080}00080\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00081}00081\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !base.CheckValue(playerValue,\ value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00084}00084\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00086}\mbox{\hyperlink{class_dialog_requirement_not_c_var_l_t}{00086}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_not_c_var_l_t}{DialogRequirementNotCVarLT}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00087}00087\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00088}00088\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00089}00089\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !base.CheckValue(playerValue,\ value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00091}00091\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00092}00092\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00094}\mbox{\hyperlink{class_dialog_requirement_not_c_var_l_t_e}{00094}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_not_c_var_l_t_e}{DialogRequirementNotCVarLTE}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00095}00095\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00096}00096\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00097}00097\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !base.CheckValue(playerValue,\ value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00099}00099\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00100}00100\ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00101}\mbox{\hyperlink{class_dialog_requirement_not_c_var_g_t}{00101}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_dialog_requirement_not_c_var_g_t}{DialogRequirementNotCVarGT}}\ :\ \mbox{\hyperlink{class_dialog_requirement_has_c_var_s_d_x}{DialogRequirementHasCVarSDX}}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00103}00103\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ CheckValue(\textcolor{keywordtype}{float}\ playerValue,\ \textcolor{keywordtype}{float}\ value)}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !base.CheckValue(playerValue,\ value);}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00106}00106\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_temp___dialogs_2_dialog_requirement_has_c_var_8cs_source_l00107}00107\ \}}
+
+\end{DoxyCode}

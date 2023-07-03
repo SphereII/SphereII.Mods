@@ -1,0 +1,60 @@
+\hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source}{}\doxysection{Min\+Event\+Action\+Add\+Buff\+By\+Faction\+SDX.\+cs}
+\label{_min_event_action_add_buff_by_faction_s_d_x_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionAddBuffByFactionSDX.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Scripts/MinEvents/MinEventActionAddBuffByFactionSDX.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }System.Xml;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }System.Xml.Linq;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00003}00003\ \textcolor{keyword}{using\ }UnityEngine;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00005}00005\ \textcolor{comment}{//\ \ \ \ \ \ \ \ <triggered\_effect\ trigger\ =\ "{}onSelfBuffUpdate"{}\ action="{}AddBuffByFactionSDX,\ SCore"{}\ target="{}selfAOE"{}\ range="{}4"{}\ buff="{}buffAnimalFertility"{}\ \ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00006}00006\ \textcolor{comment}{//\ \ \ \ \ \ \ \ <triggered\_effect\ trigger\ =\ "{}onSelfBuffUpdate"{}\ action="{}AddBuffByFactionSDX,\ SCore"{}\ target="{}selfAOE"{}\ range="{}4"{}\ mustmatch="{}true"{}\ buff="{}buffAnimalFertility"{}\ \ />}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00007}\mbox{\hyperlink{class_min_event_action_add_buff_by_faction_s_d_x}{00007}}\ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_min_event_action_add_buff_by_faction_s_d_x}{MinEventActionAddBuffByFactionSDX}}\ :\ MinEventActionBuffModifierBase}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keywordtype}{bool}\ MustMatch;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00011}00011\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{void}\ Execute(MinEventParams\ \_params)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00012}00012\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ i\ =\ 0;\ i\ <\ buffNames.Length;\ i++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (BuffManager.GetBuff(buffNames[i])\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (var\ j\ =\ 0;\ j\ <\ targets.Count;\ j++)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00017}00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ Target:\ "{}}\ +\ targets[j].EntityName\ +\ \textcolor{stringliteral}{"{}\ Faction:\ "{}}\ +\ targets[j].factionId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Debug.Log(\textcolor{stringliteral}{"{}\ Self:\ "{}}\ +\ \_params.Self.EntityName\ +\ \textcolor{stringliteral}{"{}\ Faction:\ "{}}\ +\ \_params.Self.factionId);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ to\ make\ sure\ that\ the\ faction\ is\ the\ same}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (MustMatch)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targets[j].factionId\ ==\ \_params.Self.factionId)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targets[j].Buffs.AddBuff(buffNames[i],\ \_params.Self.entityId,\ !\_params.Self.isEntityRemote);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (targets[j].factionId\ !=\ \_params.Self.factionId)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targets[j].Buffs.AddBuff(buffNames[i],\ \_params.Self.entityId,\ !\_params.Self.isEntityRemote);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00032}00032\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00034}00034\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{override}\ \textcolor{keywordtype}{bool}\ ParseXmlAttribute(XAttribute\ \_attribute)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00035}00035\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ var\ flag\ =\ base.ParseXmlAttribute(\_attribute);}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!flag)}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ var\ name\ =\ \_attribute.Name.LocalName;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ !=\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (name\ ==\ \textcolor{stringliteral}{"{}mustmatch"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_attribute.Value\ ==\ \textcolor{stringliteral}{"{}true"{}})}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MustMatch\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MustMatch\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flag;}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_min_event_action_add_buff_by_faction_s_d_x_8cs_source_l00054}00054\ \}}
+
+\end{DoxyCode}

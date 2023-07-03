@@ -1,0 +1,173 @@
+\hypertarget{_entity_alive_patcher_8cs_source}{}\doxysection{Entity\+Alive\+Patcher.\+cs}
+\label{_entity_alive_patcher_8cs_source}\index{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityAlivePatcher.cs@{C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/Mods.working/0-\/SCore/Harmony/NPCFeatures/EntityAlivePatcher.cs}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00001}00001\ \textcolor{keyword}{using\ }HarmonyLib;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00002}00002\ \textcolor{keyword}{using\ }JetBrains.Annotations;}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00004}00004\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_harmony_1_1_n_p_c_features}{Harmony.NPCFeatures}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00005}00005\ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00012}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line}{00012}}\ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line}{UtilsDrawLine}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00013}00013\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ AdvFeatureClass\ =\ \textcolor{stringliteral}{"{}AdvancedNPCFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ readonly\ \textcolor{keywordtype}{string}\ Feature\ =\ \textcolor{stringliteral}{"{}EnhancedFeatures"{}};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch(typeof(global::EntityAlive))]}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[HarmonyPatch("{}Attack"{})]}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//public\ class\ EntityAliveAttack}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ private\ static\ bool\ Prefix(global::EntityAlive\ \_\_instance)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00024}00024\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00025}00025\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Check\ if\ there's\ a\ door\ in\ our\ way,\ then\ open\ it.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (\_\_instance.GetAttackTarget()\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \{}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ //\ If\ it's\ an\ animal,\ don't\ let\ them\ attack\ blocks}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ var\ animal\ =\ \_\_instance\ as\ EntityAliveFarmingAnimalSDX;}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (animal)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (\_\_instance.GetAttackTarget()\ ==\ null)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ false;}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ if\ (\_\_instance.GetAttackTarget()\ !=\ null)}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.RotateTo(\_\_instance.GetAttackTarget(),\ 30f,\ 30f);}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ true;}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Disables\ the\ friendly\ fire\ of\ allies}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00047}00047\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00048}00048\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}DamageEntity"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00049}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_alive_damage_entity}{00049}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_alive_damage_entity}{EntityAliveDamageEntity}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00050}00050\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityAlive\ \_\_instance,\ ref\ \textcolor{keywordtype}{int}\ \_\_result,\ DamageSource\ \_damageSource)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ allow\ an\ override\ for\ the\ action\ stuff.\ If\ its\ set\ here,\ then\ use\ faction\ targeting.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.CheckProperty(\_\_instance.entityId,\ \textcolor{stringliteral}{"{}AllEntitiesUseFactionTargeting"{}}))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ New\ feature\ flag,\ specific\ to\ this\ feature.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ \textcolor{stringliteral}{"{}AllEntitiesUseFactionTargeting"{}}))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Even\ if\ *all*\ entities\ don't\ use\ faction\ damage\ rules,\ this\ entity\ should}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ it\ has\ one\ of\ the\ UseFactions\ tags.\ Only\ stop\ now\ if\ it\ doesn't.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!EntityUtilities.UseFactions(\_\_instance))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_damageSource.damageType\ ==\ EnumDamageTypes.Suicide)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ We\ have\ to\ use\ a\ different\ damge\ test\ for\ players,\ due\ to\ multiplayer.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ There\ is\ no\ NetPackage\ for\ setting\ a\ revenge\ target.\ So,\ if\ the\ player\ is\ a}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ revenge\ target\ of\ the\ damage\ source,\ it\ won't\ be\ set\ locally,\ and\ it\ won't\ be}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ considered\ in\ the\ targeting\ tests.\ Instead,\ only\ avoid\ damage\ from\ our\ allies.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityPlayer)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !EntityTargetingUtilities.IsAlly(}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.world.GetEntity(\_damageSource.getEntityId()),}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityTargetingUtilities.CanTakeDamage(}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.world.GetEntity(\_damageSource.getEntityId()));}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00086}00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00088}00088\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(Entity))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00089}00089\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}CanDamageEntity"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00090}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_player_can_damage_entity}{00090}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_player_can_damage_entity}{EntityPlayerCanDamageEntity}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00091}00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(Entity\ \_\_instance,\ \textcolor{keywordtype}{int}\ \_sourceEntityId)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ should\ work\ on\ multiplayer,\ because\ it\ is\ called\ by\ ItemActionAttack.Hit,}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ that\ is\ run\ on\ the\ server.\ If\ this\ returns\ false,\ then\ the\ hit\ is\ ignored,}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ and\ a\ NetPackage\ is\ never\ even\ sent\ to\ the\ client.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ is\ EntityPlayer\ player)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EntityTargetingUtilities.CanTakeDamage(}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_\_instance.world.GetEntity(\_sourceEntityId));}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00105}00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00107}00107\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(ItemActionAttack))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00108}00108\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}Hit"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00109}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_item_action_attack_hit}{00109}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_item_action_attack_hit}{ItemActionAttackHit}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00110}00110\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemActionAttack\ \_\_instance,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ WorldRayHitInfo\ hitInfo,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \_attackerEntityId,}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ItemActionAttack.AttackHitInfo\ \_attackDetails)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hitInfo?.tag\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ entity\ =\ ItemActionAttack.FindHitEntityNoTagCheck(hitInfo,\ out\ var\ text3);}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entity\ ==\ \textcolor{keyword}{null})\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (EntityUtilities.IsAnAlly(entity.entityId,\ \_attackerEntityId))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ This\ prevents\ the\ "{}infinite\ harvest\ bug"{}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_attackDetails.bBlockHit\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_attackDetails.bHarvestTool\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \_attackDetails.itemsToDrop\ =\ \textcolor{keyword}{null};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00133}00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00135}00135\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(global::EntityAlive))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00136}00136\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}SetAttackTarget"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00137}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_alive_set_attack_target}{00137}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_alive_set_attack_target}{EntityAliveSetAttackTarget}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00138}00138\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix(global::EntityAlive\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ If\ a\ door\ is\ found,\ try\ to\ open\ it.\ If\ it\ returns\ false,\ start\ attacking\ it.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ var\ myEntity\ =\ \_\_instance\ as\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (myEntity)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ myEntity.RestoreSpeed();}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00151}00151\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ NPCs\ cause\ an\ exception\ if\ they\ have\ the\ bleeding\ buff.\ Since\ the\ entity\ is\ dying\ and\ not\ respawning,\ let's\ just\ avoid\ removing\ the\ buffs}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00155}00155\ \ \ \ \ \ \ \ \ [HarmonyPatch(typeof(EntityBuffs))]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00156}00156\ \ \ \ \ \ \ \ \ [HarmonyPatch(\textcolor{stringliteral}{"{}RemoveBuff"{}})]}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00157}\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_buffs_remove_buffs}{00157}}\ \ \ \ \ \ \ \ \ \textcolor{keyword}{public}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_harmony_1_1_n_p_c_features_1_1_utils_draw_line_1_1_entity_buffs_remove_buffs}{EntityBuffsRemoveBuffs}}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00158}00158\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{private}\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Prefix([CanBeNull]\ EntityBuffs\ \_\_instance)}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ this\ feature\ is\ enabled.}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!Configuration.CheckFeatureStatus(AdvFeatureClass,\ Feature))}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\_\_instance\ ==\ \textcolor{keyword}{null}\ ||\ \_\_instance.parent\ ==\ \textcolor{keyword}{null})}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(\_\_instance.parent\ is\ \mbox{\hyperlink{class_entity_alive_s_d_x}{EntityAliveSDX}}))\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ !\_\_instance.parent.IsDead();}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00171}00171\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00172}00172\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_entity_alive_patcher_8cs_source_l00173}00173\ \}}
+
+\end{DoxyCode}
