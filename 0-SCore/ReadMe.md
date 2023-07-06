@@ -20,6 +20,22 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.37.1546
+	[ Caves ]
+		- Fixed an issue where caveAir was used instead of regular air, so decorations weren't being placed.
+		- Added arramus' fixes for the prefabs (thanks!)
+		- Added new property to to the Config Block:
+
+			- This will generate caves in all biomes ( after all the other checks for caves are passed )
+				<property name="AllowedBiomes" value="All" />
+
+			- This will only generate caves in wasteland and pine_rest biomes 
+				<property name="AllowedBiomes" value="wasteland,pine_forest" />
+
+	[ NPCs ]
+		- Expanded the attack angle from -15 and 15 to -30 and 30, to give a wider angle to attack from.
+		
+
 Version: 21.0.30.1335
 	[ Entity Alive Patch ]
 		- Added patch from Zilox to fix the animation issue on animals that do not use root motion, on servers.

@@ -92,6 +92,7 @@ namespace UAI
 
                 if (!_context.Self.IsInViewCone(position))
                 {
+                    Debug.Log("Not Attacking: not IsInViewCone");
                     return;
                 }
 
@@ -100,8 +101,9 @@ namespace UAI
                 var dir = position - headPosition;
                 var forwardVector = _context.Self.GetForwardVector();
                 var angleBetween = Utils.GetAngleBetween(forwardVector, dir);
-                if (angleBetween is > 15 or < -15)
+                if (angleBetween is > 30 or < -30)
                 {
+                    Debug.Log($"Not Attacking: Angle: {angleBetween}");
                     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
                     attackTimeout = 10;
                     return;
@@ -115,6 +117,7 @@ namespace UAI
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
                 if (targetType.Equals(BlockValue.Air))
                 {
+
                     this.Stop(_context);
                     return;
                 }
@@ -122,7 +125,10 @@ namespace UAI
 
             // Reloading
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
+            {
+                Debug.Log($"Not Attacking:  Buff Throttle: {_buffThrottle}");
                 return;
+            }
 
             var num = UAIUtils.DistanceSqr(_context.Self.position, position);
             var entityAliveSdx = _context.Self as EntityAliveSDX;

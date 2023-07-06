@@ -334,7 +334,6 @@ namespace Harmony.WorldGen
                     return;
 
                 SphereCache.GenerateCaveChunks();
-
                 var configurationType = Configuration.GetPropertyValue(AdvFeatureClass, "GenerationType");
                 switch (configurationType)
                 {

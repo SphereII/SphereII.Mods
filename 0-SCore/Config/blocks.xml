@@ -302,6 +302,8 @@
 				<!-- removed chiko 10 for investigation -->
 				<property name="MaxPrefabPerChunk" value="1" />
 				<property name="PrefabSister" value="garage_02,remnant_oldwest_06,cemetery_01,abandoned_house_01,house_burnt_06,vacant_lot_01,mp_waste_bldg_05_grey,oldwest_coal_factory,diner_03" />
+				
+				<property name="AllowedBiomes" value="All" />
 			</property>
 
 			<!-- Turns on support for the PlantGrowingSDX, SCore features for more advanced crop -->
