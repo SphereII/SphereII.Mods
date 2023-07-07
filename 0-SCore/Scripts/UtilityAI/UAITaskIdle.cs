@@ -9,7 +9,6 @@ namespace UAI
     public class UAITaskIdleSDX : UAITaskBase
     {
         private float _timeOut = 100f;
-        private float _currentTimeout;
         protected override void initializeParameters()
         {
             if (Parameters.ContainsKey("timeout")) _timeOut = StringParsers.ParseFloat(Parameters["timeout"]);
@@ -18,78 +17,18 @@ namespace UAI
         public override void Start(Context context)
         {
             base.Start(context);
-            _currentTimeout = _timeOut;
         }
-        public override void Update(Context _context)
+        public override void Update(Context context)
         {
-            base.Update(_context);
-
             // Don't do anything until the entity touches the ground; avoid the free in mid-air scenario.
-            if (!_context.Self.onGround) return;
+            if (!context.Self.onGround) return;
 
-            EntityUtilities.Stop(_context.Self.entityId);
+            EntityUtilities.Stop(context.Self.entityId);
 
-            var enemy = EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId);
-            if (enemy != null && enemy.IsAlive())
-            {
-                Stop(_context);
-                return;
-
-            }
-
-            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
-
-            // Don't look at yourself, that's shameful.
-            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
-            
-            // Align the crouching to the leader, if it exists.
-            if (entityAlive != null && entityAlive.entityId != _context.Self.entityId)
-            {
-                if ( leader != null && entityAlive.entityId == leader.entityId)
-                    SCoreUtils.SetCrouching(_context, entityAlive.Crouching);
-            }
-
-            // Check if a player is in your bounds, and face them if they are.
-            SCoreUtils.TurnToFaceEntity(_context, leader);
-
-            // ...But only if you're not asleep.
-            //if (!_context.Self.IsSleeping)
-            //{
-
-                //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(_context.Self, new Bounds(_context.Self.position, Vector3.one * 5f));
-                //if (entitiesInBounds.Count > 0)
-                //{
-                //    Entity lookEntity = null;
-
-                //    foreach (var entity in entitiesInBounds)
-                //    {
-                //        // Prioritize your leader over non-leader players
-                //        if (leader != null && entity.entityId == leader.entityId)
-                //        {
-                //            lookEntity = entity;
-                //            break;
-                //        }
-
-                //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-                //        {
-                //            if (EntityTargetingUtilities.IsEnemy(_context.Self, entity))
-                //                continue;
-
-                //            lookEntity = entity;
-                //        }
-                //    }
-
-                //    if (lookEntity != null)
-                //    {
-                //        if ( _context.Self.GetActivationCommands(new Vector3i(_context.Self.position), lookEntity as EntityAlive).Length > 0 ) 
-                //            SCoreUtils.SetLookPosition(_context, lookEntity);
-                //    }
-                        
-                //}
-          //  }
-
-               _currentTimeout--;
-         //   if (_currentTimeout < 0) Stop(_context);
+            var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
+            if (leader == null) return;
+            SCoreUtils.SetCrouching(context, leader.IsCrouching);
+            SCoreUtils.TurnToFaceEntity(context, leader);
         }
     }
 }

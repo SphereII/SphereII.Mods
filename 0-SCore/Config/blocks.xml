@@ -286,6 +286,16 @@
 				<!-- Determines what level of a noise threshold to drop down a level on the Y axis, making deeper caves. -->
 				<!-- higher numbers will result in more vertical drops. A lower number, less so. -->
 				<property name="CaveThresholdY" value="0.01"/>
+				
+				<!-- Determines when a 'deep' part of the cave threshold is -->
+				<property name="DeepCaveThreshold" value="30" />
+
+				<!-- Determines how far below the surface to begin spawning caves. -->
+				<property name="StartCaveThreshold" value="15" />
+
+				<!-- Determines minimum height of terrain before generating caves -->
+				<!-- Ie, if the terrain at 8,8 ( center of chunk ) is greater than this value,	don't generate a cave -->
+				<property name="MinStartCaveThreshold" value="-1" />
 
 				<!-- CavePOIs are placed where there is an isolated block (only one side of the block has air ), and a random roll between 0 to 100. Adjust this random roll here.-->
 				<property name="POIRandomRoll" value="8" />

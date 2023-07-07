@@ -584,9 +584,9 @@ public static class EntityUtilities
         return true;
     }
 
-    public static void Stop(int EntityID)
+    public static void Stop(int entityID)
     {
-        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
+        var myEntity = GameManager.Instance.World.GetEntity(entityID) as EntityAlive;
         if (myEntity == null)
             return;
 
@@ -594,6 +594,7 @@ public static class EntityUtilities
         myEntity.moveHelper?.Stop();
         myEntity.speedForward = 0;
         myEntity.speedStrafe = 0;
+        
     }
 
     public static void BackupHelper(int EntityID, Vector3 awayFrom, int distance)

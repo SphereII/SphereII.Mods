@@ -12,14 +12,12 @@ public static class LegacyCaveSystem
     private static BlockValue caveAir = new BlockValue((uint) Block.GetBlockByName("air").blockID);
     private static BlockValue pillarBlock = new BlockValue((uint) Block.GetBlockByName("terrDesertGround").blockID);
 
-    private static readonly BlockValue bottomCaveDecoration =
-        new BlockValue((uint) Block.GetBlockByName("cntCaveFloorRandomLootHelper").blockID);
+    private static readonly BlockValue bottomCaveDecoration = new BlockValue((uint) Block.GetBlockByName("cntCaveFloorRandomLootHelper").blockID);
 
-    private static readonly BlockValue bottomDeepCaveDecoration =
-        new BlockValue((uint) Block.GetBlockByName("cntDeepCaveFloorRandomLootHelper").blockID);
+    private static readonly BlockValue bottomDeepCaveDecoration = new BlockValue((uint) Block.GetBlockByName("cntDeepCaveFloorRandomLootHelper").blockID);
 
-    private static readonly BlockValue topCaveDecoration =
-        new BlockValue((uint) Block.GetBlockByName("cntCaveCeilingRandomLootHelper").blockID);
+    private static readonly BlockValue topCaveDecoration = new BlockValue((uint) Block.GetBlockByName("cntCaveCeilingRandomLootHelper").blockID);
+    private static int _deepCaveThreshold = 30;
 
     private static List<int> _skipRanges = new List<int>() {7, 8};
 
@@ -32,8 +30,17 @@ public static class LegacyCaveSystem
         // Find middle of chunk for its height
         int tHeight = chunk.GetTerrainHeight(8, 8);
 
-
         var maxLevels = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MaxCaveLevels"));
+        _deepCaveThreshold = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "DeepCaveThreshold"));
+        var startCaveThreshold = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "StartCaveThreshold"));
+        
+        // Don't generate a cave system if the threshold is higher than the terrain height.
+        var minStartCaveThreshold = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "MinStartCaveThreshold"));
+        if (minStartCaveThreshold != -1)
+        {
+            if ( minStartCaveThreshold > tHeight)
+                return;
+        }
 
         var caveType = Configuration.GetPropertyValue(AdvFeatureClass, "CaveType");
         switch (caveType)
@@ -73,14 +80,16 @@ public static class LegacyCaveSystem
 
         fastNoise = SphereCache.GetFastNoise(chunk);
 
-        var depthFromTerrain = 15;
+        var depthFromTerrain = startCaveThreshold;
         var currentLevel = 0;
 
-        while (depthFromTerrain < tHeight || maxLevels >= currentLevel)
+        while (depthFromTerrain < tHeight )
         {
             AddLevel(chunk, fastNoise, depthFromTerrain);
             depthFromTerrain += 10;
             currentLevel++;
+            if (maxLevels == currentLevel)
+                break;
         }
 
         // Decorate is done via another patch in Caves.cs
@@ -251,24 +260,23 @@ public static class LegacyCaveSystem
                               chunkX + "." + targetDepth + "." + chunkZ + " World Pos: " + worldX + "." + worldZ +
                               " Terrain Heigth: " + tHeight + " Depth From Terrain: " + DepthFromTerrain;
                 AdvLogging.DisplayLog(AdvFeatureClass, display);
-                if (Math.Abs(noise) < caveThresholdXZ)
-                {
-                    //// Drop a level
-                    if (Math.Abs(noise2) < caveThresholdY)
-                        DepthFromTerrain++;
+                if (!(Math.Abs(noise) < caveThresholdXZ)) continue;
+                
+                // Drop a level
+                if (Math.Abs(noise2) < caveThresholdY)
+                    DepthFromTerrain++;
 
-                    targetDepth = tHeight - DepthFromTerrain;
+                targetDepth = tHeight - DepthFromTerrain;
 
-                    //Work your way back upwards
-                    if (targetDepth < 5)
-                        targetDepth--;
+                //Work your way back upwards
+                if (targetDepth < 5)
+                    targetDepth--;
 
-                    // if its already air, don't bother creating a prefab
-                    if (chunk.GetBlock(chunkX, targetDepth, chunkZ).isair) continue;
+                // if its already air, don't bother creating a prefab
+                if (chunk.GetBlock(chunkX, targetDepth, chunkZ).isair) continue;
 
-                    var position = new Vector3i(worldX, targetDepth, worldZ);
-                    CreateEmptyPrefab(chunk, position);
-                }
+                var position = new Vector3i(worldX, targetDepth, worldZ);
+                CreateEmptyPrefab(chunk, position);
             }
         }
     }
@@ -369,9 +377,8 @@ public static class LegacyCaveSystem
                             BlockPlaceholderMap.Instance.Replace(bottomCaveDecoration, random, worldX, worldZ);
 
                         // Place alternative blocks down deeper
-                        if (y < 30)
-                            blockValue2 =
-                                BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, random, worldX, worldZ);
+                        if (y < _deepCaveThreshold)
+                            blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, random, worldX, worldZ);
 
                         chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
                         continue;
@@ -428,12 +435,12 @@ public static class LegacyCaveSystem
                 //           Max = height;
 
 
-                if (Max <= 30)
+                if (Max <= _deepCaveThreshold)
                     continue;
 
-                var checkY = GameManager.Instance.World.GetGameRandom().RandomRange(30, Max);
-                if (y < 30)
-                    checkY = GameManager.Instance.World.GetGameRandom().RandomRange(2, 30);
+                var checkY = GameManager.Instance.World.GetGameRandom().RandomRange(_deepCaveThreshold, Max);
+                if (y < _deepCaveThreshold)
+                    checkY = GameManager.Instance.World.GetGameRandom().RandomRange(2, _deepCaveThreshold);
 
                 var b = chunk.GetBlock(checkX, checkY, checkZ);
 
@@ -446,7 +453,7 @@ public static class LegacyCaveSystem
 
             // Decide what kind of prefab to spawn in.
             string strPOI;
-            if (y < 30)
+            if (y < _deepCaveThreshold)
                 strPOI = SphereCache.DeepCavePrefabs[random.RandomRange(0, SphereCache.DeepCavePrefabs.Count)];
             else
                 strPOI = SphereCache.POIs[random.RandomRange(0, SphereCache.POIs.Count)];

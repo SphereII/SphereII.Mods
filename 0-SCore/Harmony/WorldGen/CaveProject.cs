@@ -139,6 +139,8 @@ namespace Harmony.WorldGen
             // will use, when below the terrain. 
             public static void SpawnUpdate(string _spawnerName, bool _bSpawnEnemyEntities, ChunkAreaBiomeSpawnData _chunkBiomeSpawnData, ref List<Entity> spawnNearList, ref int lastClassId)
             {
+                var deepCaveThreshold = int.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "DeepCaveThreshold"));
+
                 if (_chunkBiomeSpawnData == null) return;
                 if (_bSpawnEnemyEntities)
                 {
@@ -201,7 +203,7 @@ namespace Harmony.WorldGen
                 var biomeSpawnEntityGroupList = BiomeSpawningClass.list[biome.m_sBiomeName + "_Cave"];
                 if (biomeSpawnEntityGroupList == null) biomeSpawnEntityGroupList = BiomeSpawningClass.list["Cave"];
                 // if we are below 30, look for the biome specific deep cave, then deep cave if its not set.
-                if (vector.y < 30)
+                if (vector.y < deepCaveThreshold)
                 {
                     caveType = "DeepCave";
                     biomeSpawnEntityGroupList = BiomeSpawningClass.list[biome.m_sBiomeName + "_DeepCave"];
