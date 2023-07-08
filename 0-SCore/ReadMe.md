@@ -20,6 +20,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.39.859
+
+	[ UAI ]
+		- Fixed an issue where the NPCs would shuffle in place
+		- Fixed an issue where non-hired NPCs wouldn't face you.
+	
 Version: 21.0.38.1508
 
 	[ Caves ]

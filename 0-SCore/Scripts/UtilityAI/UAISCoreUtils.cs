@@ -596,22 +596,22 @@ namespace UAI
             return vector2.sqrMagnitude;
         }
 
-        public static void FindPath(Context _context, Vector3 _position, bool panic = false)
+        public static void FindPath(Context context, Vector3 position, bool panic = false)
         {
             
             // If we have a leader, and following, match the player speed.
-            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityAlive;
-            if (leader != null && _context.ActionData.CurrentTask is UAITaskFollowSDX)
+            var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
+            if (leader != null && context.ActionData.CurrentTask is UAITaskFollowSDX)
             {
                 var tag = FastTags.Parse("running");
                 panic = leader.CurrentMovementTag.Test_AllSet(tag);
             }
 
-            var speed = SetSpeed(_context, panic);
-            _position = SCoreUtils.GetMoveToLocation(_context, _position);
+            var speed = SetSpeed(context, panic);
+            position = GetMoveToLocation(context, position);
 
 
-            _context.Self.FindPath(_position, speed, true, null);
+            context.Self.FindPath(position, speed, true, null);
 
 
             //var pathCounter = -1;

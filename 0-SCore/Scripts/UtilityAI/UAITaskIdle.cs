@@ -24,11 +24,11 @@ namespace UAI
             if (!context.Self.onGround) return;
 
             EntityUtilities.Stop(context.Self.entityId);
+            SCoreUtils.TurnToFaceEntity(context);
 
             var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
             if (leader == null) return;
             SCoreUtils.SetCrouching(context, leader.IsCrouching);
-            SCoreUtils.TurnToFaceEntity(context, leader);
         }
     }
 }
