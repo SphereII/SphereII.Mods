@@ -261,7 +261,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
             foreach (var tileEntity in tileEntities)
             {
                 if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
-                
+
                 // If the container is open, don't include it.
                 if (lootTileEntity.IsUserAccessing()) continue;
 
@@ -280,6 +280,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
             return items;
         }
 
+
         public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier)
         {
             var tileEntities = GetTileEntities(localPlayer);
@@ -289,11 +290,71 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 var q = itemStack.count * multiplier;
                 //check player inventory for materials and reduce counter
                 var slots = localPlayer.bag.GetSlots();
-                q -= slots
-                    .Where(x => x.itemValue.ItemClass == itemStack.itemValue.ItemClass)
-                    .Sum(y => y.count);
+                for (var y = 0; y < slots.Length; y++)
+                {
+                    if (q <= 0) break;
+                    var bagSlot = slots[y];
+                    if (bagSlot.IsEmpty()) continue;
+                    if (bagSlot.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
 
+                    // If we can completely satisfy the result, let's do that.
+                    if (bagSlot.count >= q)
+                    {
+                        bagSlot.count -= q;
+                        q = 0;
+                    }
+                    else
+                    {
+                        // Otherwise, let's just count down until we meet the requirement.
+                        while (q >= 0)
+                        {
+                            bagSlot.count--;
+                            q--;
+                            if (bagSlot.count <= 0)
+                                break;
+                        }
+                    }
 
+                    if (bagSlot.count < 1)
+                    {
+                        localPlayer.bag.SetSlot(y, ItemStack.Empty.Clone());
+                    }
+                }
+
+                if (q <= 0) return;
+                slots = localPlayer.inventory.GetSlots();
+                for (var y = 0; y < slots.Length; y++)
+                {
+                    if (q <= 0) break;
+                    var bagSlot = slots[y];
+                    if (bagSlot.IsEmpty()) continue;
+                    if (bagSlot.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
+
+                    // If we can completely satisfy the result, let's do that.
+                    if (bagSlot.count >= q)
+                    {
+                        bagSlot.count -= q;
+                        q = 0;
+                    }
+                    else
+                    {
+                        // Otherwise, let's just count down until we meet the requirement.
+                        while (q >= 0)
+                        {
+                            bagSlot.count--;
+                            q--;
+                            if (bagSlot.count <= 0)
+                                break;
+                        }
+                    }
+
+                    if (bagSlot.count < 1)
+                    {
+                        localPlayer.bag.SetSlot(y, ItemStack.Empty.Clone());
+                    }
+                }
+                if (q <= 0) return;
+         
                 // check storage boxes
                 foreach (var tileEntity in tileEntities)
                 {
@@ -311,7 +372,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                         var item = lootTileEntity.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
-                        
+
                         // If we can completely satisfy the result, let's do that.
                         if (item.count >= q)
                         {
@@ -340,7 +401,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 }
             }
         }
-        
+
         public static bool IsEnemyNearby(EntityAlive self, float distance = 20f)
         {
             var nearbyEntities = new List<Entity>();
@@ -361,6 +422,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 // Otherwise they are an enemy.
                 return true;
             }
+
             Debug.LogWarning("no enemy");
             return false;
         }

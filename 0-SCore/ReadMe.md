@@ -20,6 +20,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.41.1943
+
+	[ Remote Crafting ] 
+		- Fixed an issue where items weren't being properly consumed from the backpack / toolbelt.
+
 Version: 21.0.39.859
 
 	[ UAI ]
