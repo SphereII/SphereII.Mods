@@ -20,6 +20,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.42.1007
+	[ Dialog ]
+		- Added new Dialog Requirement For Tag. This will check the listed tags in the value against the NPC you are talking to.
+			<requirement type="HasTag, SCore" requirementtype="Hide" value="zombie" />
+			<requirement type="HasTag, SCore" requirementtype="Hide" value="zombie,human" />
+
 Version: 21.0.41.1943
 
 	[ Remote Crafting ] 
