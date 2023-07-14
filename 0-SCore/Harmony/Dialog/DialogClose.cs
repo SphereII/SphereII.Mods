@@ -33,14 +33,12 @@ namespace Harmony.Dialog
             if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
             var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAlive;
-            if (myEntity != null)
-            {
-
-                myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
-                myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 8f, 8f);
-                myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
-                EntityUtilities.Stop(entityID);
-            }
+            if (myEntity == null) return true;
+            
+            myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
+            myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 8f, 8f);
+            myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
+            EntityUtilities.Stop(entityID, true);
 
             return true;
         }

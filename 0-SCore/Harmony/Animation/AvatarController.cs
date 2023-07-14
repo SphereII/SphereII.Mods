@@ -65,5 +65,34 @@ namespace Harmony.Animation
         }
 
      
+        [HarmonyPatch(typeof(AvatarZombieController))]
+        [HarmonyPatch("Update")]
+        public class AvatarControllerUpdate
+        {
+            public static void Postfix(global::AvatarZombieController __instance,  global::EntityAlive ___entity)
+            {
+                if (___entity is not EntityAliveSDX entityAliveSdx) return;
+                if (___entity.IsFlyMode.Value) return;
+                
+                
+                __instance.TryGetFloat(AvatarController.forwardHash, out var num);
+                __instance.TryGetFloat(AvatarController.strafeHash, out var num2);
+
+                if (num < 0.01)
+                {
+                    __instance.UpdateFloat(AvatarController.forwardHash, 0f, false);
+                }
+
+                if (num2 < 0.01)
+                {
+                    __instance.UpdateFloat(AvatarController.strafeHash, 0f, false);
+                }
+                
+                if (num < 0.01f || num2 < 0.01f)
+                {
+                    __instance.UpdateBool(AvatarController.isMovingHash, false, false);
+                }
+            }
+        }
     }
 }

@@ -20,6 +20,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.45.1205
+	
+	[ UAI ]
+		- Adjusted the EntityUtilities.Stop() to have an optional parameter: full, default is false.
+			- When a full stop is requred, it will zero out the animator's speed / strafe
+			- Full is triggered when Dialog is open, and when the Idle Task is triggered
+
+	[ Animator ]
+		- Added a postfix to adjust the animator's speed / strafe when dealing with very small numbers.
+
+	[ Better Life ]
+		- Changed MecanimSDX to AvatarAnimalController to fix the animator bug.
+		- Could still be issues
+
 Version: 21.0.42.1007
 	[ Dialog ]
 		- Added new Dialog Requirement For Tag. This will check the listed tags in the value against the NPC you are talking to.

@@ -5,7 +5,7 @@
 			<property name="Prefab" value="NPC"/>
 			<!-- The swiming class is an extended flying class-->
 			<property name="Class" value="EntitySwimingSDX, SCore" />
-			<property name="AvatarController" value="MecanimSDX, SCore" />
+			<property name="AvatarController" value="AvatarAnimalController" />
 			<property name="MaxHealth" value="25" />
 			<property name="Weight" value="70" />
 			<property name="RotateToGround" value="true" />

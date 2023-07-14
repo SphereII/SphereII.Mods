@@ -23,7 +23,7 @@ namespace UAI
             // Don't do anything until the entity touches the ground; avoid the free in mid-air scenario.
             if (!context.Self.onGround) return;
 
-            EntityUtilities.Stop(context.Self.entityId);
+            EntityUtilities.Stop(context.Self.entityId, true);
             SCoreUtils.TurnToFaceEntity(context);
 
             var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
