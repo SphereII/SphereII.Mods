@@ -77,7 +77,6 @@ namespace Harmony.EAI
                 case FactionManager.Relationship.Love:
                 case FactionManager.Relationship.Leader:
                 default:
-                    Debug.Log("Check() failed.");
                     __result = false;
                     break;
             }
