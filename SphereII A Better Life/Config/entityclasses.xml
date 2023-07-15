@@ -5,7 +5,8 @@
 			<property name="Prefab" value="NPC"/>
 			<!-- The swiming class is an extended flying class-->
 			<property name="Class" value="EntitySwimingSDX, SCore" />
-			<property name="AvatarController" value="AvatarAnimalController" />
+			<property name="UseVanillaAI" value="false" />
+			<property name="AvatarController" value="MecanimSDX,SCore" />
 			<property name="MaxHealth" value="25" />
 			<property name="Weight" value="70" />
 			<property name="RotateToGround" value="true" />
@@ -20,11 +21,6 @@
 			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
 			<property name="EntityType" value="Animal"/>
 			<property name="AIPathCostScale" value="100, 100"/>
-			<property name="AITask-1" value="SwimSDX, SCore"/>
-			<property name="AITask-2" value="RunawayWhenHurt"/>
-			<property name="AITask-3" value="RunawayFromEntity" data="class=EntityPlayer,EntityZombie,EntityEnemyAnimal;safeDistance=20"/>
-			<property name="AITask-4" value="Look"/>
-			<property name="AITask-5" value="Wander"/>
 			<property name="IsEnemyEntity" value="false"/>
 			<!--				<property name="IsAgressive" value="false" />
 			<property name="FlockSize" value="0" />

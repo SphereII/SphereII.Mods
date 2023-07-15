@@ -20,6 +20,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+
+	[ Remote Crafting ]
+		- Added null checks to items before trying to use their upgrade sound.
+		- Fixed an issue where item dupes were possible.
+			- Items are now removed properly from the backpack, toolbelt, then from Tile entities correctly.
+
+	[ Bugs ]
+		- Fixed an null ref on the animator when playing a game, exiting to main menu, then re-loading.
+		- Fixed a null ref when exiting the game when a drone and hired NPC are available.
+			- This was due to the fact that NPCs were being added as an OwnedByPlayer, and the DroneManager
+				did not consider it would have been a non-vehicle entity.
+	[ Fire Manager ]
+		- Disabled fire manager in prefab editor / play testing worlds.
+
+	[ Better Life ]
+		- Some fixes for the fish swimming are in the SCore, with some modification to the entityclasses.xml
+			- EAI isn't used by fish, so they do not need to be defined.
+
 Version: 21.0.45.1205
 	
 	[ UAI ]

@@ -284,108 +284,51 @@ namespace SCore.Features.RemoteCrafting.Scripts
         public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier)
         {
             var tileEntities = GetTileEntities(localPlayer);
-            foreach (var itemStack in itemStacks)
+            var enumerable = itemStacks as ItemStack[] ?? itemStacks.ToArray();
+            for (var i = 0; i < enumerable.Count(); i++)
             {
-                // counter quantity needed from item
-                var q = itemStack.count * multiplier;
-                //check player inventory for materials and reduce counter
-                var slots = localPlayer.bag.GetSlots();
-                for (var y = 0; y < slots.Length; y++)
+                // Grab from the backpack first.
+                 var num = enumerable[i].count * multiplier;
+                num -= localPlayer.bag.DecItem(enumerable[i].itemValue, num, true);
+                if (num > 0)
                 {
-                    if (q <= 0) break;
-                    var bagSlot = slots[y];
-                    if (bagSlot.IsEmpty()) continue;
-                    if (bagSlot.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
-
-                    // If we can completely satisfy the result, let's do that.
-                    if (bagSlot.count >= q)
-                    {
-                        bagSlot.count -= q;
-                        q = 0;
-                    }
-                    else
-                    {
-                        // Otherwise, let's just count down until we meet the requirement.
-                        while (q >= 0)
-                        {
-                            bagSlot.count--;
-                            q--;
-                            if (bagSlot.count <= 0)
-                                break;
-                        }
-                    }
-
-                    if (bagSlot.count < 1)
-                    {
-                        localPlayer.bag.SetSlot(y, ItemStack.Empty.Clone());
-                    }
+                    // Check tool belt
+                    num -= localPlayer.inventory.DecItem(enumerable[i].itemValue, num, true);
                 }
+                
+                if (num <= 0) return;
 
-                if (q <= 0) return;
-                slots = localPlayer.inventory.GetSlots();
-                for (var y = 0; y < slots.Length; y++)
-                {
-                    if (q <= 0) break;
-                    var bagSlot = slots[y];
-                    if (bagSlot.IsEmpty()) continue;
-                    if (bagSlot.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
-
-                    // If we can completely satisfy the result, let's do that.
-                    if (bagSlot.count >= q)
-                    {
-                        bagSlot.count -= q;
-                        q = 0;
-                    }
-                    else
-                    {
-                        // Otherwise, let's just count down until we meet the requirement.
-                        while (q >= 0)
-                        {
-                            bagSlot.count--;
-                            q--;
-                            if (bagSlot.count <= 0)
-                                break;
-                        }
-                    }
-
-                    if (bagSlot.count < 1)
-                    {
-                        localPlayer.bag.SetSlot(y, ItemStack.Empty.Clone());
-                    }
-                }
-                if (q <= 0) return;
-         
                 // check storage boxes
                 foreach (var tileEntity in tileEntities)
                 {
-                    if (q <= 0) break;
+                    if (num <= 0) break;
                     if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
 
                     // If someone is using the tool account, skip it.
                     if (lootTileEntity.IsUserAccessing()) continue;
 
                     // If there's no items in this container, skip.
-                    if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
+                    if (!lootTileEntity.HasItem(enumerable[i].itemValue)) continue;
 
                     for (var y = 0; y < lootTileEntity.items.Length; y++)
                     {
                         var item = lootTileEntity.items[y];
                         if (item.IsEmpty()) continue;
-                        if (item.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
+                        if (item.itemValue.ItemClass != enumerable[i].itemValue.ItemClass) continue;
 
                         // If we can completely satisfy the result, let's do that.
-                        if (item.count >= q)
+                        if (item.count >= num)
                         {
-                            item.count -= q;
-                            q = 0;
+                            item.count -= num;
+                            num = 0;
                         }
                         else
                         {
                             // Otherwise, let's just count down until we meet the requirement.
-                            while (q >= 0)
+                            while (num >= 0)
                             {
                                 item.count--;
-                                q--;
+                                num--;
                                 if (item.count <= 0)
                                     break;
                             }
@@ -395,12 +338,17 @@ namespace SCore.Features.RemoteCrafting.Scripts
                         if (item.count < 1)
                             lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
                         else
+                        {
                             lootTileEntity.UpdateSlot(y, item);
-                        lootTileEntity.SetModified();
+                        }
                     }
+                    lootTileEntity.SetModified();
+    
                 }
+                
             }
         }
+
 
         public static bool IsEnemyNearby(EntityAlive self, float distance = 20f)
         {

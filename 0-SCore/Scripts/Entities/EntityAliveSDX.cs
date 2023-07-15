@@ -909,7 +909,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (Owner == null)
         {
             Owner = leader;
-            Owner.AddOwnedEntity(this);
+          //  Owner.AddOwnedEntity(this);
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
             {
                 this.HandleNavObject();

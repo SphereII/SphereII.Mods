@@ -15,6 +15,13 @@ namespace Features.Fire.Harmony
     {
         public static void Postfix()
         {
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
+                || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
+                || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
+            {
+                Debug.Log("Displaying Fire Manage in Play Testing / Prefab editor");
+                return;
+            }
             FireManager.Init();
         }
     }

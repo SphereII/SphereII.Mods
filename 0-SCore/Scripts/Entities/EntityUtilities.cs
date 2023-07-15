@@ -1036,7 +1036,7 @@ public static class EntityUtilities
         if ( defaultFollow)
             SetCurrentOrder(EntityID, Orders.Follow);
 
-        leaderEntity.AddOwnedEntity(myEntity);
+      //  leaderEntity.AddOwnedEntity(myEntity);
     }
 
     public static void SetOwner(int EntityID, int LeaderID)

@@ -157,6 +157,7 @@ namespace Features.RemoteCrafting
                 var upgradeInfo = default(UpgradeInfo);
                 upgradeInfo.FromBlock = block.GetBlockName();
                 upgradeInfo.ToBlock = block.Properties.Values[Block.PropUpgradeBlockClassToBlock];
+                upgradeInfo.Sound = "";
                 if (flag)
                 {
                     upgradeInfo.Item = block.Properties.Values["UpgradeBlock.Item"];
@@ -177,14 +178,17 @@ namespace Features.RemoteCrafting
                 }
                 else if (flag)
                 {
-                    upgradeInfo.Sound =
-                        $"ImpactSurface/{data.holdingEntity.inventory.holdingItem.MadeOfMaterial.SurfaceCategory}hit{ItemClass.GetForId(ItemClass.GetItem(upgradeInfo.Item).type).MadeOfMaterial.SurfaceCategory}";
+                    var item = ItemClass.GetItem(upgradeInfo.Item);
+                    if (item != null)
+                    {
+                        var itemClass = ItemClass.GetForId(item.type);
+                        if (itemClass != null)
+                        {
+                            upgradeInfo.Sound =
+                                $"ImpactSurface/{data.holdingEntity.inventory.holdingItem.MadeOfMaterial.SurfaceCategory}hit{itemClass.MadeOfMaterial.SurfaceCategory}";
+                        }
+                    }
                 }
-                else
-                {
-                    upgradeInfo.Sound = "";
-                }
-
                 if (!int.TryParse(block.Properties.Values["UpgradeBlock.UpgradeHitCount"], out var num))
                 {
                     __result = false;

@@ -51,9 +51,14 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
         getNavigator().setCanDrown(false);
        
         //base.getNavigator().setInWater(true);
+        //useVanillaAI = true;
     }
     //}
 
+    public override bool IsAirBorne()
+    {
+        return false;
+    }
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
@@ -75,17 +80,22 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
     public override void AdjustWayPoint()
     {
         var num = 255;
-        var localWaypoint = new Vector3i(Waypoint);
+        
+        var num2 = (int)aiManager.interestDistance;
+
+        num2 *= 2;
+        var waypoint = RandomPositionGenerator.CalcAway(this, 0, num2, 10, this.LastTargetPos);
+        var localWaypoint = new Vector3i(waypoint);
 
         // if waypoint is in the air, keep dropping it until it's out of the air, and into the water.
         while (world.GetBlock(localWaypoint).type == BlockValue.Air.type && num > 0)
         {
-            maxHeight = Utils.Fastfloor(localWaypoint.y) - 2;
-            localWaypoint.y = localWaypoint.y - 1;
+            localWaypoint.y -= 1;
             num--;
         }
-
         // Attempt to get rid of the vector zero errors.
+        if (world.GetBlock(localWaypoint + Vector3i.down).Block.shape.IsTerrain())
+            localWaypoint.y++;
         Waypoint = localWaypoint.ToVector3();
     }
 

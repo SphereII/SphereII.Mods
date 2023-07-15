@@ -1,6 +1,8 @@
 ﻿using System;
 using HarmonyLib;
 using UAI;
+using UnityEngine;
+
 namespace Harmony.EAI
 {
     [HarmonyPatch(typeof(EAITarget))]
@@ -75,6 +77,7 @@ namespace Harmony.EAI
                 case FactionManager.Relationship.Love:
                 case FactionManager.Relationship.Leader:
                 default:
+                    Debug.Log("Check() failed.");
                     __result = false;
                     break;
             }

@@ -19,7 +19,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
     // debugging
     private readonly bool debug = false;
     private readonly string returnEntity = "";
-    private readonly bool useVanillaAI = false;
+    public bool useVanillaAI = false;
     private int AttackTimeout;
     private bool calledBack;
 
@@ -157,6 +157,9 @@ internal class EntityZombieFlyingSDX : EntityFlying
             gameObject.transform.localScale = new Vector3(meshScale, meshScale, meshScale);
         }
 
+        if (entityClass.Properties.Values.ContainsKey("UseVanillaAI"))
+            bool.TryParse(entityClass.Properties.Values["UseVanillaAI"], out useVanillaAI);
+                
         auxList = null;
     }
 
@@ -707,10 +710,18 @@ internal class EntityZombieFlyingSDX : EntityFlying
         if (world.IsRemote()) return;
         if (IsDead()) return;
         if (masterEntity == null && !hasFlock && maxToSpawn > 0)
+        {
             SpawnFlock();
-        else if (masterEntity == null && hasFlock && oldmasterID > 0) FindOldMaster();
+        }
+        else
+        {
+            if (masterEntity == null && hasFlock && oldmasterID > 0)
+                FindOldMaster();
+        }
+
         GetEntitySenses().ClearIfExpired();
-        if (AttackTimeout > 0) AttackTimeout--;
+        if (AttackTimeout > 0) 
+            AttackTimeout--;
         if (AttackTimeout <= 0)
         {
             var a = Waypoint - position;
@@ -734,8 +745,8 @@ internal class EntityZombieFlyingSDX : EntityFlying
                 {
                     HasWaypoint = false;
 
-
                     if (!HasWaypoint)
+                    {
                         if (base.GetRevengeTarget() != null &&
                             (base.GetRevengeTarget().GetDistanceSq(this) < 6400f && Random.value <= 0.5f || isHunting))
                         {
@@ -752,35 +763,37 @@ internal class EntityZombieFlyingSDX : EntityFlying
                                 {
                                     // going for landing spot
                                     Waypoint = landPosition +
-                                               new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 3.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0));
+                                               new Vector3((float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0));
                                 }
                                 else
                                 {
                                     // chooses a random waypoint - vanilla code
                                     Waypoint = GetPosition() +
-                                               new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 16.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0));
+                                               new Vector3((float) ((rand.RandomDouble * 2.0 - 1.0) * 16.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 16.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 16.0));
                                     // maximum Y. Just to avoid them going too high (out of sight, out of heart)
-                                    var maxY = world.GetHeight((int)Waypoint.x, (int)Waypoint.z) + maxHeight;
-                                    if (Waypoint.y > maxY) Waypoint.y = maxY;
+                                    var maxY = world.GetHeight((int) Waypoint.x, (int) Waypoint.z) + maxHeight;
+                                    if (Waypoint.y > maxY) 
+                                        Waypoint.y = maxY;
                                 }
                             }
                             else
                             {
                                 // if the master has a landing spot, it goes to random position near the landing spot, otherwise just follows master
-                                if ((GetMasterEntity() as EntityZombieFlyingSDX).GetLandingSpot() == Vector3.zero)
+                                if ((GetMasterEntity() as EntityZombieFlyingSDX)?.GetLandingSpot() == Vector3.zero)
                                     Waypoint = GetMasterEntity().GetPosition() + Vector3.up;
                                 else
                                     Waypoint = (GetMasterEntity() as EntityZombieFlyingSDX).GetLandingSpot() +
-                                               new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 3.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0),
-                                                   (float)((rand.RandomDouble * 2.0 - 1.0) * 3.0));
+                                               new Vector3((float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0),
+                                                   (float) ((rand.RandomDouble * 2.0 - 1.0) * 3.0));
                                 // }
                             }
                         }
+                    }
 
                     AdjustWayPoint();
                     // if waypoint is not in the air, change it up
@@ -797,7 +810,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
             if (CourseCheck-- <= 0)
             {
                 CourseCheck += rand.RandomRange(5) + 2;
-                if (isCourseTraversable(Waypoint, out sqrMagnitude))
+                if (IsCourseTraversable(Waypoint, out sqrMagnitude))
                     motion += a / sqrMagnitude * 0.1f;
                 else
                     Waypoint = GetPosition();
@@ -833,77 +846,78 @@ internal class EntityZombieFlyingSDX : EntityFlying
     private const float SV = 48f;
     private readonly List<Bounds> YV = new List<Bounds>();
 
-    protected void LegacyTask()
+    private void LegacyTask()
     {
-        if (!GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving))
-            if (GameStats.GetInt(EnumGameStats.GameState) != 2)
+        if (GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving)) return;
+        if (GameStats.GetInt(EnumGameStats.GameState) == 2) return;
+
+        GetEntitySenses().ClearIfExpired();
+        if (MV > 0) MV--;
+        if (MV <= 0)
+        {
+            var vector = HV - position;
+            var sqrMagnitude = vector.sqrMagnitude;
+            if (sqrMagnitude is < 1f or > 2304f)
             {
-                GetEntitySenses().ClearIfExpired();
-                if (MV > 0) MV--;
-                if (MV <= 0)
+                if (!isWithinHomeDistanceCurrentPosition())
                 {
-                    var vector = HV - position;
-                    var sqrMagnitude = vector.sqrMagnitude;
-                    if (sqrMagnitude < 1f || sqrMagnitude > 2304f)
+                    var hv = RandomPositionGenerator.CalcTowards(this, 2 * getMaximumHomeDistance(), 2 * getMaximumHomeDistance(), 2 * getMaximumHomeDistance(),
+                        getHomePosition().position.ToVector3());
+                    if (!hv.Equals(Vector3.zero))
                     {
-                        if (!isWithinHomeDistanceCurrentPosition())
-                        {
-                            var hv = RandomPositionGenerator.CalcTowards(this, 2 * getMaximumHomeDistance(), 2 * getMaximumHomeDistance(), 2 * getMaximumHomeDistance(),
-                                getHomePosition().position.ToVector3());
-                            if (!hv.Equals(Vector3.zero))
-                            {
-                                HV = hv;
-                                AV = true;
-                            }
-                        }
-                        else
-                        {
-                            AV = false;
-                            if (base.GetRevengeTarget() != null && base.GetRevengeTarget().GetDistanceSq(this) < 2304f && Random.value <= 0.5f)
-                                HV = base.GetRevengeTarget().GetPosition() + Vector3.up;
-                            else
-                                HV = GetPosition() + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0),
-                                    (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0));
-                        }
-
-                        HV.y = Mathf.Min(HV.y, 250f);
-                    }
-
-                    if (LV-- <= 0)
-                    {
-                        LV += rand.RandomRange(5) + 2;
-                        if (isCourseTraversable(HV, out sqrMagnitude))
-                            motion += vector / sqrMagnitude * 0.1f;
-                        else
-                            HV = GetPosition();
-                    }
-                }
-
-                if (base.GetRevengeTarget() != null && base.GetRevengeTarget().IsDead()) SetRevengeTarget(null);
-                if (base.GetRevengeTarget() == null || EV-- <= 0)
-                {
-                    var closestPlayer = world.GetClosestPlayer(this, 48f, false);
-                    if (CanSee(closestPlayer)) SetRevengeTarget(closestPlayer);
-                    if (base.GetRevengeTarget() != null) EV = 20;
-                }
-
-                float distanceSq;
-                if (!AV && base.GetRevengeTarget() != null && (distanceSq = base.GetRevengeTarget().GetDistanceSq(this)) < 2304f)
-                {
-                    var num = base.GetRevengeTarget().position.x - position.x;
-                    var num2 = base.GetRevengeTarget().position.z - position.z;
-                    rotation.y = Mathf.Atan2(num, num2) * 180f / 3.14159274f;
-                    if (MV <= 0 && distanceSq < 2.8f && position.y >= base.GetRevengeTarget().position.y && position.y <= base.GetRevengeTarget().getHeadPosition().y && Attack(false))
-                    {
-                        MV = GetAttackTimeoutTicks();
-                        Attack(true);
+                        HV = hv;
+                        AV = true;
                     }
                 }
                 else
                 {
-                    rotation.y = (float)Math.Atan2(motion.x, motion.z) * 180f / 3.14159274f;
+                    AV = false;
+                    if (base.GetRevengeTarget() != null && base.GetRevengeTarget().GetDistanceSq(this) < 2304f && Random.value <= 0.5f)
+                        HV = base.GetRevengeTarget().GetPosition() + Vector3.up;
+                    else
+                        HV = GetPosition() + new Vector3((float)((rand.RandomDouble * 2.0 - 1.0) * 16.0), (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0),
+                            (float)((rand.RandomDouble * 2.0 - 1.0) * 16.0));
                 }
+
+                HV.y = Mathf.Min(HV.y, 250f);
             }
+
+            if (LV-- <= 0)
+            {
+                LV += rand.RandomRange(5) + 2;
+                if (IsCourseTraversable(HV, out sqrMagnitude))
+                    motion += vector / sqrMagnitude * 0.1f;
+                else
+                    HV = GetPosition();
+            }
+        }
+
+        if (base.GetRevengeTarget() != null && base.GetRevengeTarget().IsDead()) 
+            SetRevengeTarget(null);
+        if (base.GetRevengeTarget() == null || EV-- <= 0)
+        {
+            var closestPlayer = world.GetClosestPlayer(this, 48f, false);
+            if (CanSee(closestPlayer)) SetRevengeTarget(closestPlayer);
+            if (base.GetRevengeTarget() != null) 
+                EV = 20;
+        }
+
+        float distanceSq;
+        if (!AV && base.GetRevengeTarget() != null && (distanceSq = base.GetRevengeTarget().GetDistanceSq(this)) < 2304f)
+        {
+            var num = base.GetRevengeTarget().position.x - position.x;
+            var num2 = base.GetRevengeTarget().position.z - position.z;
+            rotation.y = Mathf.Atan2(num, num2) * 180f / 3.14159274f;
+            if (MV <= 0 && distanceSq < 2.8f && position.y >= base.GetRevengeTarget().position.y && position.y <= base.GetRevengeTarget().getHeadPosition().y && Attack(false))
+            {
+                MV = GetAttackTimeoutTicks();
+                Attack(true);
+            }
+        }
+        else
+        {
+            rotation.y = (float)Math.Atan2(motion.x, motion.z) * 180f / 3.14159274f;
+        }
     }
 
 
@@ -922,23 +936,23 @@ internal class EntityZombieFlyingSDX : EntityFlying
         return 0.5f;
     }
 
-    protected bool isCourseTraversable(Vector3 _pos, out float _distance)
+    private bool IsCourseTraversable(Vector3 pos, out float distance)
     {
-        var num = _pos.x - position.x;
-        var num2 = _pos.y - position.y;
-        var num3 = _pos.z - position.z;
-        _distance = Mathf.Sqrt(num * num + num2 * num2 + num3 * num3);
-        if (_distance < 1.5f) return true;
-        num /= _distance;
-        num2 /= _distance;
-        num3 /= _distance;
-        var boundingBox = this.boundingBox;
+        var num = pos.x - position.x;
+        var num2 = pos.y - position.y;
+        var num3 = pos.z - position.z;
+        distance = Mathf.Sqrt(num * num + num2 * num2 + num3 * num3);
+        if (distance < 1.5f) return true;
+        num /= distance;
+        num2 /= distance;
+        num3 /= distance;
+        var box = boundingBox;
         YV.Clear();
         var num4 = 1;
-        while (num4 < _distance - 1f)
+        while (num4 < distance - 1f)
         {
-            boundingBox.center += new Vector3(num, num2, num3);
-            world.GetCollidingBounds(this, boundingBox, YV);
+            box.center += new Vector3(num, num2, num3);
+            world.GetCollidingBounds(this, box, YV);
             if (YV.Count > 0) return false;
             num4++;
         }
@@ -948,13 +962,13 @@ internal class EntityZombieFlyingSDX : EntityFlying
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float impulseScale)
     {
-        if (base.GetRevengeTarget() == null && _damageSource.getEntityId() != -1)
-        {
-            var entityAlive = world.GetEntity(_damageSource.getEntityId()) as EntityAlive;
-            if (entityAlive != null && entityAlive.IsCrouching && (_damageSource.GetDamageType() == EnumDamageTypes.Piercing || _damageSource.GetDamageType() == EnumDamageTypes.Bashing ||
-                                                                   _damageSource.GetDamageType() == EnumDamageTypes.Slashing ||
-                                                                   _damageSource.GetDamageType() == EnumDamageTypes.Crushing)) _damageSource.DamageMultiplier = Constants.cSneakDamageMultiplier;
-        }
+        if (base.GetRevengeTarget() != null || _damageSource.getEntityId() == -1)
+            return base.DamageEntity(_damageSource, _strength, _criticalHit, impulseScale);
+        
+        var entityAlive = world.GetEntity(_damageSource.getEntityId()) as EntityAlive;
+        if (entityAlive != null && entityAlive.IsCrouching && (_damageSource.GetDamageType() == EnumDamageTypes.Piercing || _damageSource.GetDamageType() == EnumDamageTypes.Bashing ||
+                                                               _damageSource.GetDamageType() == EnumDamageTypes.Slashing ||
+                                                               _damageSource.GetDamageType() == EnumDamageTypes.Crushing)) _damageSource.DamageMultiplier = Constants.cSneakDamageMultiplier;
 
         return base.DamageEntity(_damageSource, _strength, _criticalHit, impulseScale);
     }

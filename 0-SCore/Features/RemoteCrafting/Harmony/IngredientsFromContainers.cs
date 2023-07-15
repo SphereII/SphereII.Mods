@@ -207,14 +207,14 @@ namespace Features.RemoteCrafting
         [HarmonyPatch("RemoveItems")]
         public class RemoveItems
         {
-            public static bool Prefix(IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
+            public static bool Prefix(XUiM_PlayerInventory __instance, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-
+                
                 RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier);
-                return true;
+                return false;
             }
         }
 

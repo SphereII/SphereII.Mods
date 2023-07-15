@@ -87,7 +87,7 @@ namespace UAI
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
                 position = entityAlive.getBellyPosition();
 
-                _context.Self.RotateTo(position.x, position.y, position.z, 8f,8f);
+                _context.Self.RotateTo(position.x, position.y, position.z, 30f,30f);
                 //_context.Self.RotateTo(entityAlive, 30f, 30f);
 
                 if (!_context.Self.IsInViewCone(position))
@@ -96,18 +96,25 @@ namespace UAI
                     return;
                 }
 
-                // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
-                var headPosition = _context.Self.getHeadPosition();
-                var dir = position - headPosition;
-                var forwardVector = _context.Self.GetForwardVector();
-                var angleBetween = Utils.GetAngleBetween(forwardVector, dir);
-                if (angleBetween is > 30 or < -30)
+                if ( ! _context.Self.IsInFrontOfMe(entityAlive.getHeadPosition()))
                 {
-                    Debug.Log($"Not Attacking: Angle: {angleBetween}");
-                    // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
-                    attackTimeout = 10;
+                    Debug.Log($"Not Attacking: Target is not in front of me.");
                     return;
+                    //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
+                    //     attackTimeout = 10;
                 }
+                // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
+                // var headPosition = _context.Self.getHeadPosition();
+                // var dir = position - headPosition;
+                // var forwardVector = _context.Self.GetForwardVector();
+                // var angleBetween = Utils.GetAngleBetween(forwardVector, dir);
+                // if (angleBetween is > 30 or < -30)
+                // {
+                //     Debug.Log($"Not Attacking: Angle: {angleBetween}");
+                //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
+                //     attackTimeout = 10;
+                //     return;
+                // }
             }
 
             if (_context.ActionData.Target is Vector3 vector)
