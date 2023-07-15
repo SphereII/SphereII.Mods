@@ -39,6 +39,9 @@ Version: 21.0.46.1832
 		- Some fixes for the fish swimming are in the SCore, with some modification to the entityclasses.xml
 			- EAI isn't used by fish, so they do not need to be defined.
 
+	[ UAI ]
+		- Updated the IsInFront check to make sure the NPC is facing a target correctl, replacing the old, buggy one.
+
 Version: 21.0.45.1205
 	
 	[ UAI ]
