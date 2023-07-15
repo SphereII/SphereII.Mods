@@ -20,7 +20,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 21.0.46.1832
 
 	[ Remote Crafting ]
 		- Added null checks to items before trying to use their upgrade sound.
