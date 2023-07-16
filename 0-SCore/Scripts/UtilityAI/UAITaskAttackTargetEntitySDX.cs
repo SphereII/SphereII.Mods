@@ -32,6 +32,7 @@ namespace UAI
                 _context.Self.SetLookPosition( entityAlive.getHeadPosition());
                 var targetPosition = entityAlive.getHeadPosition();
                 _context.Self.RotateTo(targetPosition.x, targetPosition.y, targetPosition.y, 30f, 30f);
+                _context.Self.SleeperSupressLivingSounds = false;
                 _context.Self.SetAttackTarget(entityAlive, 1200);
             }
 
