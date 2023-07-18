@@ -15,6 +15,9 @@ namespace UAI
             // Reset crouch status to default
             SCoreUtils.SetCrouching(_context);
 
+            // If we're a sleeper, we can make sounds now
+            _context.Self.SleeperSupressLivingSounds = false;
+
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
@@ -22,6 +25,19 @@ namespace UAI
                 if (entityAlive.IsWalkTypeACrawl())
                     _position = entityAlive.getHeadPosition();
                 _context.Self.SetInvestigatePosition(_position, 1200);
+
+                var isEnemy = EntityTargetingUtilities.IsEnemy(_context.Self, entityAlive);
+
+                // If the target is a new enemy, play the "alert" sound.
+                if (isEnemy && EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId) != entityAlive)
+                {
+                    _context.Self.PlayOneShot(_context.Self.GetSoundAlert());
+                }
+
+                // We don't set the attack target yet, but the game should know if we're
+                // approaching an enemy or player.
+                _context.Self.ApproachingEnemy = isEnemy;
+                _context.Self.ApproachingPlayer = entityAlive is EntityPlayer;
             }
 
             if (_context.ActionData.Target is Vector3 vector)

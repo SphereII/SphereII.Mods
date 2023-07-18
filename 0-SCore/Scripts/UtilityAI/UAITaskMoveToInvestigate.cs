@@ -11,7 +11,11 @@ namespace UAI
         public override void Update(Context _context)
         {
             if (SCoreUtils.IsBlocked(_context))
+            {
+                // We're giving up
+                _context.Self.PlayGiveUpSound();
                 this.Stop(_context);
+            }
 
             base.Update(_context);
         }
@@ -67,7 +71,14 @@ namespace UAI
 
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
-            
+
+            // If we are investigating a new enemy, play the "sense" sound.
+            var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
+            if (EntityUtilities.GetAttackOrRevengeTarget(_context.Self.entityId) != entityAlive
+                && EntityTargetingUtilities.IsEnemy(_context.Self, entityAlive))
+            {
+                _context.Self.PlayOneShot(_context.Self.soundSense);
+            }
         }
     }
 }
