@@ -27,7 +27,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 Version: 21.0.49.1542
 	[ Portals ]
 		- Fixed an issue where portals would error out on game reload, without exiting the game completely.
-	
+
+	[ Documentation ]
+		- Removed documentation to save on space.
+
 Version: 21.0.49.958
 	[ HoldingItemDurability ]
 		- Commented out debug statement
