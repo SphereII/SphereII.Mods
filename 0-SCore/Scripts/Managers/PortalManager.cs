@@ -326,6 +326,7 @@ public class PortalManager
     public void Load()
     {
         Log.Out("Reading Portal Data...");
+        PortalMap.Clear();
         string path = string.Format("{0}/{1}", GameIO.GetSaveGameDir(), saveFile);
         if (Directory.Exists(GameIO.GetSaveGameDir()) && File.Exists(path))
         {
