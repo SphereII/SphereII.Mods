@@ -18,7 +18,7 @@ public class HoldingItemDurability : TargetedCompareRequirementBase
 
         var itemValue = this.target.inventory.holdingItemItemValue;
         var percent = itemValue.UseTimes / itemValue.MaxUseTimes;
-        Debug.Log($"Item UseTime: {itemValue.UseTimes}  MaxUser Time: {itemValue.MaxUseTimes}  Percent: {percent}, Operation: {operation.ToString()} Value: {value}");
+//        Debug.Log($"Item UseTime: {itemValue.UseTimes}  MaxUser Time: {itemValue.MaxUseTimes}  Percent: {percent}, Operation: {operation.ToString()} Value: {value}");
         return compareValues(percent, this.operation, value);
     }
 }

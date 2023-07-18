@@ -2036,6 +2036,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         if (leader.Buffs.HasCustomVar("quietNPC")) return;
+
+        // Mute the foot steps when crouching.
+        if (IsCrouching) return;
+        
         base.updateStepSound(distX, distZ);
 
 

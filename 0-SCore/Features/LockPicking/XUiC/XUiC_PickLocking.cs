@@ -60,13 +60,22 @@ public class XUiC_PickLocking : XUiController
     {
         if (Lock.IsLockOpened())
         {
-            if (!currentBlock.Block.DowngradeBlock.isair)
+            var blockValue = BlockValue.Air;
+            if (!currentBlock.Block.LockpickDowngradeBlock.isair)
             {
-                var blockValue2 = currentBlock.Block.DowngradeBlock;
-                blockValue2 = BlockPlaceholderMap.Instance.Replace(blockValue2, GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
-                blockValue2.rotation = currentBlock.rotation;
-                blockValue2.meta = currentBlock.meta;
-                GameManager.Instance.World.SetBlockRPC(0, blockPos, blockValue2, blockValue2.Block.Density);
+                blockValue = currentBlock.Block.LockpickDowngradeBlock;
+            }
+            else if (!currentBlock.Block.DowngradeBlock.isair)
+            {
+                blockValue = currentBlock.Block.DowngradeBlock;
+            }
+
+            if (!blockValue.isair)
+            {
+                blockValue = BlockPlaceholderMap.Instance.Replace(blockValue, GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
+                blockValue.rotation = currentBlock.rotation;
+                blockValue.meta = currentBlock.meta;
+                GameManager.Instance.World.SetBlockRPC(0, blockPos, blockValue, blockValue.Block.Density);
             }
         }
         Lock.Disable();

@@ -17,9 +17,30 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 [ 0 - SCore (Alpha 20 ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
 [ 0 - SCore ( Alpha 21) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/alpha21-experimental/SphereII-Mods-alpha21-experimental.zip?path=0-SCore
 
+### TODO
+	- Fix random sounds from NPC, like stamina exhaustion
+	- Fix an issue with remote crafting where all ingredients are not in the same storage box
+
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.49.958
+	[ HoldingItemDurability ]
+		- Commented out debug statement
+
+	[ Locks ]
+		- Fixed an issue where cop cars would triggers errors when lock picking, resulting in no loot.
+			- Added a check for LockpickDowngradeBlock property. If it's a non-air block, it will use that downgrade option instead.
+
+	[ Remote Crafting ]
+		- Fixed an issue when a recipe required multiple ingredients, not all ingredients would be consumed.
+
+	[ Caves ]
+		- Flipped the conditional check for the MinThreshold; it does opposite of what it did before.
+
+	[ UAI ]
+		- Merged in changes for the UAI tasks to trigger alert, sense, and give up sounds.
+
 Version: 21.0.46.2014
 	[ EAI ]
  		- Remove debug statement

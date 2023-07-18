@@ -296,7 +296,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                     num -= localPlayer.inventory.DecItem(enumerable[i].itemValue, num, true);
                 }
                 
-                if (num <= 0) return;
+                if (num <= 0) continue;
 
                 // check storage boxes
                 foreach (var tileEntity in tileEntities)

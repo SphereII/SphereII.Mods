@@ -36,8 +36,7 @@ namespace Features.LockPicking
                     return true;
 
                 if (_blockValue.ischild) return true;
-                if (_world.GetTileEntity(_cIdx, _blockPos) is not TileEntitySecureLootContainer
-                    tileEntitySecureLootContainer) return false;
+                if (_world.GetTileEntity(_cIdx, _blockPos) is not TileEntitySecureLootContainer tileEntitySecureLootContainer) return false;
 
                 if (!tileEntitySecureLootContainer.IsLocked() &&
                     tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
