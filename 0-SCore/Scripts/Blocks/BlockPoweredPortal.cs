@@ -16,7 +16,7 @@ public class BlockPoweredPortal : BlockPowered
     private string location;
     private bool display = false;
     private string displayBuff = "";
-//    public ChunkManager.ChunkObserver ChunkObserver;
+    public ChunkManager.ChunkObserver ChunkObserver;
 
 
     public BlockPoweredPortal()
@@ -51,11 +51,8 @@ public class BlockPoweredPortal : BlockPowered
     {
         base.PlaceBlock(_world, _result, _ea);
         var tileEntity = _world.GetTileEntity(_result.clrIdx, _result.blockPos) as TileEntityPoweredPortal;
-        if (tileEntity != null)
-        {
-                tileEntity.SetOwner(PlatformManager.InternalLocalUserIdentifier);
-        }
-     //   ChunkObserver = GameManager.Instance.AddChunkObserver(_result.blockPos, true, 1, -1);
+        tileEntity?.SetOwner(PlatformManager.InternalLocalUserIdentifier);
+        ChunkObserver = GameManager.Instance.AddChunkObserver(_result.blockPos, true, 1, -1);
     }
 
     public override bool CanPlaceBlockAt(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bOmitCollideCheck = false)
@@ -68,7 +65,7 @@ public class BlockPoweredPortal : BlockPowered
         {
             return false;
         }
-        Block block = _blockValue.Block;
+        var block = _blockValue.Block;
         return (!block.isMultiBlock || _blockPos.y + block.multiBlockPos.dim.y < 254) && (GameManager.Instance.IsEditMode() || _bOmitCollideCheck || !this.overlapsWithOtherBlock(_world, _clrIdx, _blockPos, _blockValue));
     }
     private bool overlapsWithOtherBlock(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
@@ -115,8 +112,7 @@ public class BlockPoweredPortal : BlockPowered
     {
         base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
         PortalManager.Instance.AddPosition(_blockPos);
-     //   if ( ChunkObserver == null )
-     //       ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
+        ChunkObserver ??= GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
     }
 
     public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
@@ -136,8 +132,7 @@ public class BlockPoweredPortal : BlockPowered
             bNeedsTemperature = true
         });
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
-    //    if (ChunkObserver == null)
-   //         ChunkObserver = GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
+        ChunkObserver ??= GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
 
     }
 

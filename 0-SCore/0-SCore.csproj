@@ -488,10 +488,6 @@
     <Content Include="Config\utilityai.xml" />
     <Content Include="Config\XUi\windows.xml" />
     <Content Include="Config\XUi\xui.xml" />
-    <Content Include="Documentation\CropManagement\Class Overview.txt" />
-    <Content Include="Documentation\CropManagement\FarmWithPipesAndWater.PNG" />
-    <Content Include="Documentation\Notes\AutomaticVersioning.txt" />
-    <Content Include="Documentation\Notes\NPCs.txt" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="ModInfo.xml" />
     <Content Include="Prefabs\caveOpening02.tts" />
@@ -576,7 +572,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Documentation\CropManagement\ReadMe.md" />
     <None Include="Features\Farming\Readme.md" />
     <None Include="Features\Fire\Readme.md" />
     <None Include="Licenses\CaveGeneration.md" />

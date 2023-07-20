@@ -24,6 +24,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.0.51.708
+	[ Portals ]
+		- Added all portals to be chunk observers.
+		- Updated the teleport position to be one block above the portal itself.
+
 Version: 21.0.49.1542
 	[ Portals ]
 		- Fixed an issue where portals would error out on game reload, without exiting the game completely.

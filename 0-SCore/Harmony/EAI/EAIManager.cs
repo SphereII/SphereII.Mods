@@ -1,7 +1,5 @@
-﻿using System;
-using System.Text;
-using HarmonyLib;
-using UAI;
+﻿using HarmonyLib;
+
 namespace Harmony.EAI
 {
     [HarmonyPatch(typeof(EAIManager))]
@@ -11,7 +9,7 @@ namespace Harmony.EAI
         public static bool Prefix(ref string __result, EAIManager __instance, EntityPlayer player, ref global::EntityAlive ___entity)
         {
             // If we use EAI system, allow us to pass through
-            bool useAIPackages = EntityClass.list[___entity.entityClass].UseAIPackages;
+            var useAIPackages = EntityClass.list[___entity.entityClass].UseAIPackages;
             if (!useAIPackages) return true;
 
             __result = ___entity.DebugNameInfo;
@@ -21,11 +19,11 @@ namespace Harmony.EAI
 
     [HarmonyPatch(typeof(AIDirector))]
     [HarmonyPatch("DebugReceiveNameInfo")]
-    public class EAIManager_DebugReceiveNameInfo
+    public class EaiManagerDebugReceiveNameInfo
     {
         public static bool Prefix(int entityId, byte[] _data)
         {
-            World world = GameManager.Instance.World;
+            var world = GameManager.Instance.World;
             if (world == null) return false;
 
             // Nothing to display, then don't pass it along.
@@ -36,18 +34,14 @@ namespace Harmony.EAI
             if ( entity == null ) return false;
 
             // If we use EAI system, allow us to pass through
-            bool useAIPackages = EntityClass.list[entity.entityClass].UseAIPackages;
+            var useAIPackages = EntityClass.list[entity.entityClass].UseAIPackages;
             if (!useAIPackages) return true;
 
                 // If there's a primary player, check to see if they are our leader to decide to toggle on and off.
             if (GameManager.Instance.World.GetPrimaryPlayerId() < 0) return false;
             var leader = EntityUtilities.GetLeaderOrOwner(entityId);
             if (leader == null) return false;
-            if (leader.entityId == GameManager.Instance.World.GetPrimaryPlayerId())
-            {
-                return true;
-            }
-            return false;
+            return leader.entityId == GameManager.Instance.World.GetPrimaryPlayerId();
         }
     }
 }
