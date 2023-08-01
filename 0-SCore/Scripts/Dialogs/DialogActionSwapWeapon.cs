@@ -11,14 +11,10 @@ public class DialogActionSwapWeapon : BaseDialogAction
             Debug.Log("Respondent is not EntityAliveSDX");
             return;
         }
-
         var item = ItemClass.GetItem(ID);
-        if (item == null)
-        {
-            Debug.Log($"No Such Item: {ID}");
-            return;
-        }
         myEntity.UpdateWeapon(item);
+        EntityUtilities.UpdateHandItem(myEntity.entityId, item);
+        
         
     }
     

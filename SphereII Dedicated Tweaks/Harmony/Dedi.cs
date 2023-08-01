@@ -49,20 +49,20 @@ public class DediPatches
 
 
 
-            if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap0))
-                __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap0);
-
-            if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap1))
-                __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap1);
-
-            if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap2))
-                __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap2);
-
-            if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap3))
-                __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap3);
-
-            if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap4))
-                __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap4);
+            // if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap0))
+            //     __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap0);
+            //
+            // if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap1))
+            //     __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap1);
+            //
+            // if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap2))
+            //     __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap2);
+            //
+            // if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap3))
+            //     __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap3);
+            //
+            // if (__instance.Properties.Values.ContainsKey(EntityClass.PropMaterialSwap4))
+            //     __instance.Properties.Values.Remove(EntityClass.PropMaterialSwap4);
 
             return true;
 

@@ -20,8 +20,8 @@ public class MinEventActionAnimatorSetIntSDX : MinEventActionTargetedBase
             {
                 _value = targets[i].Buffs.GetCustomVar(_refCvarName, 0f);
             }
-            targets[i].emodel.avatarController.UpdateInt(_property, (int)_value, true);
-            
+
+            targets[i].emodel.avatarController.UpdateInt(_property, (int) _value, true);
         }
     }
 
@@ -46,10 +46,11 @@ public class MinEventActionAnimatorSetIntSDX : MinEventActionTargetedBase
                 {
                     _value = StringParsers.ParseFloat(attribute.Value, 0, -1, NumberStyles.Any);
                 }
+
                 return true;
             }
         }
+
         return false;
     }
-  
 }

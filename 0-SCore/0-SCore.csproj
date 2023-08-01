@@ -99,6 +99,7 @@
     <Compile Include="Harmony\Animation\ModelBaseInitCommon.cs" />
     <Compile Include="Harmony\Atmosphere\Spook.cs" />
     <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
+    <Compile Include="Harmony\Blocks\ElectricityMultiDimFix.cs" />
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
     <Compile Include="Harmony\Blocks\Particles.cs" />
     <Compile Include="Harmony\Dialog\DialogClose.cs" />
@@ -307,6 +308,7 @@
     <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAnimatorFireTriggerSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
@@ -352,6 +354,8 @@
     <Compile Include="Scripts\NetPackage\NetPackageAddBroadcastePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageDeployNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXCollect.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackagePickUpNPCSDX.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackagePlaceNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestBlockDestroyedSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRemoveBroadcastPosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageGotoPOISDX.cs" />

@@ -15,70 +15,58 @@ namespace Harmony.PrefabFeatures
         private static readonly string AdvFeatureClass = "AdvancedPrefabFeatures";
         private static readonly string Feature = "DisableTraderProtection";
 
-        // Patch by Khaine.
-        [HarmonyPatch(typeof(TraderArea), MethodType.Constructor)]
-        [HarmonyPatch(new Type[]
-     {
-            typeof(Vector3i),
-            typeof(Vector3i),
-            typeof(Vector3i),
-            typeof(List<Prefab.PrefabTeleportVolume>)
-     })]
-        public class TraderArea_Patch
+        // keeps the doors open / unlocked.
+        [HarmonyPatch(typeof(TraderArea))]
+        [HarmonyPatch("SetClosed")]
+        public class TraderAreaSetClosed
         {
-            public static void Postfix(TraderArea __instance)
+            public static bool Prefix(bool _bClosed)
             {
-                //Check if this feature is enabled.
+                // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
-                Vector3i vector3I = new Vector3i(1, 1, 1);
-                __instance.ProtectSize = vector3I;
+                    return true;
+                return _bClosed != true;
             }
         }
-        //public class RemoveTraderProtectionStart : IModApi
-        //{
-        //    public void InitMod(Mod _modInstance)
-        //    {
-        //        Debug.Log(" Loading Patch: " + GetType());
-        //        var harmony = new HarmonyLib.Harmony(GetType().ToString());
 
-        //        // Navezgane only - Since it's pre generated, it uses a different prefabs loading, with preset locations. This will adjust the prefabs for only navezgane.
-        //        var original = typeof(PrefabInstance).GetConstructor(new[] { typeof(int), typeof(PathAbstractions.AbstractedLocation), typeof(Vector3i), typeof(byte), typeof(Prefab), typeof(int) });
-        //        var prefix = typeof(RemoveTraderProtectionPrefabInstance).GetMethod("PrefabInstance_Prefix");
-        //        harmony.Patch(original, new HarmonyMethod(prefix));
-        //    }
-        //}
+        // Mutes the speakers
+        [HarmonyPatch(typeof(TraderArea))]
+        [HarmonyPatch("HandleWarning")]
+        public class TraderAreaHandleWarning
+        {
+            public static bool Prefix()
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+
+                return false;
+            }
+        }
 
 
-        //// Navezgane only - Since it's pre generated, it uses a different prefabs loading, with preset locations. This will adjust the prefabs for only navezgane.
-        //public class RemoveTraderProtectionPrefabInstance
-        //{
-        //    public static bool PrefabInstance_Prefix(ref Vector3i _position, ref Prefab _bad)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-        //            return true;
+        // This disables the check most calls will be making to the trader system that determines if you are inside it or not.
+        // This includes checking for block damages, picking up items, etc.
+        [HarmonyPatch(typeof(World))]
+        [HarmonyPatch("IsWithinTraderArea")]
+        [HarmonyPatch(new Type[]
+        {
+            typeof(Vector3i)
+        })]
+        public class WorldIsWithinTraderArea
+        {
+            public static bool Prefix(ref bool __result)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
 
-        //        // Only apply these changes to navezgane world
-        //        if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Navezgane")
-        //            if (_bad != null)
-        //                _bad.bTraderArea = false;
-        //        return true;
-        //    }
-        //}
+                __result = false;
+                return false;
+            }
+        }
 
-        //[HarmonyPatch(typeof(Prefab))]
-        //[HarmonyPatch("LoadXMLData")]
-        //public class RemoveTraderProtectionLoadXMLData
-        //{
-        //    public static void Postfix(Prefab __instance)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-        //            return;
 
-        //        __instance.bTraderArea = false;
-        //    }
-        //}
+      
     }
 }

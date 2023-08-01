@@ -20,7 +20,7 @@ public class DialogActionPickUpNPC : BaseDialogAction
         var itemStack = new ItemStack(itemValue, 1);
         if (player.inventory.CanTakeItem(itemStack) || player.bag.CanTakeItem(itemStack))
         {
-           CollectEntityServer(myEntity.entityId, player.entityId);
+            EntityUtilities.CollectEntityServer(myEntity.entityId, player.entityId);
         }
         else
         {
@@ -28,24 +28,5 @@ public class DialogActionPickUpNPC : BaseDialogAction
         }
     }
     
-    private static void CollectEntityServer(int entityId, int playerId)
-    {
-        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-        {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageEntityCollect>().Setup(entityId, playerId), false);
-            return;
-        }
-        var entity = GameManager.Instance.World.GetEntity(entityId);
-        if (GameManager.Instance.World.IsLocalPlayer(playerId))
-        {
-            var myEntity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;
-            if (myEntity == null) return;
-            myEntity.Collect(playerId);
-        }
-        else
-        {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageEntityCollect>().Setup(entityId, playerId), false, playerId, -1, -1, -1);
-        }
-        GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Killed);
-    }
+  
 }

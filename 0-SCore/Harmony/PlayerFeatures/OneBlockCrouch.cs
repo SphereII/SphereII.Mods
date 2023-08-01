@@ -52,15 +52,17 @@ namespace Harmony.PlayerFeatures
         [HarmonyPatch("FixedUpdate")]
         public class vpFPCameraFixedUpdate
         {
-            private static void Postfix(vp_FPCamera __instance)
+            private static void Postfix(vp_FPCamera __instance,  vp_FPPlayerEventHandler ___m_Player)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
 
+                if (___m_Player.Driving.Active) return;
+
                 // this lowers the camera to prevent clipping of the terrain.
                 if (__instance.PositionOffset.y == 1.30f)
-                    __instance.PositionOffset.y -= 0.40f;
+                    __instance.PositionOffset.y -= 0.31f;
             }
         }
     }

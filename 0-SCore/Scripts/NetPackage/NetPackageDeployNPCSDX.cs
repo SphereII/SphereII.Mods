@@ -18,9 +18,10 @@ namespace SCore.Scripts.NetPackage
                 Debug.Log("Not an EntityAlive!");
                 return;
             }
-            GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
             entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             entityAlive.SetItemValue(itemValue);
+            GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
+
         }
     }
 }
