@@ -663,23 +663,48 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             //  fail safe to protect game saves
         }
+    }
 
+    public ushort GetSyncFlagsReplicated(ushort syncFlags)
+    {
+        return syncFlags;
+    }
+    
+    public void SendSyncData(ushort syncFlags = 1)
+    {
+        var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
+        this.SendSyncData(syncFlags, primaryPlayerId);
+    }
+    private void SendSyncData(ushort syncFlags, int playerId)
+    {
+        var package = NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>().Setup(this, playerId, syncFlags);
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(package, false);
+            return;
+        }
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
+    }
+    public void ReadSyncData(BinaryReader _br, ushort syncFlas, int senderId)
+    {
         _currentWeapon = _br.ReadString();
-        var item = ItemClass.GetItem(_currentWeapon);
-        UpdateWeapon(item);
-        
-        
-        // Inventory
+        if (!string.IsNullOrEmpty(_currentWeapon))
+        {
+            var item = ItemClass.GetItem(_currentWeapon);
+            UpdateWeapon(item);
+        }
+
+        // // Inventory
         var num5 = (int) _br.ReadByte();
         var array2 = new ItemStack[num5];
         for (var l = 0; l < num5; l++)
         {
             var itemStack2 = new ItemStack();
             array2[l] = itemStack2.Read(_br);
+            lootContainer.UpdateSlot(l, array2[l]);
         }
 
-        inventory.SetSlots(array2);
-
+        lootContainer.SetModified();
     }
 
     /// <inheritdoc/>
@@ -770,11 +795,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             // fail safe to protect game saves
         }
+    }
 
+    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
+    {
         _bw.Write(_currentWeapon);
-
-        // Inventory
-        var slots = inventory.GetSlots();
+        //
+        // // Inventory
+        var slots = lootContainer.items;
         _bw.Write((byte) slots.Length);
         for (var l = 0; l < slots.Length; l++)
         {
@@ -1064,6 +1092,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                     false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
                 if (player)
                     player.Companions.Remove(this);
+
                 break;
         }
     }
@@ -1074,6 +1103,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (isHirable)
             LeaderUpdate();
 
+      
         CheckStuck();
         // SetupAutoPathingBlocks();
 
@@ -1994,6 +2024,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     // Allows the NPC to change their hand items, and update their animator.
     public void UpdateWeapon(ItemValue item)
     {
+        if (item == null) return;
         if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
             return;
         _currentWeapon = item.ItemClass.GetItemName();

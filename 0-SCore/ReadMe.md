@@ -24,7 +24,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version: 21.1.x.x
+Version: 21.1.3.950
+	[ NPCs ]
+		- Fixed an issue where the NPCs were not preserving their inventory (for realisies?)
+
+Version: 21.1.1.830
 	[ NPCs ]
 		- Dialog Fixed for the PickMe Up functionality.
 			- Now works on dedicated and single player.

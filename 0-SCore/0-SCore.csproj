@@ -354,6 +354,7 @@
     <Compile Include="Scripts\NetPackage\NetPackageAddBroadcastePosition.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageDeployNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXCollect.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageEntityAliveSDXDataSync.cs" />
     <Compile Include="Scripts\NetPackage\NetPackagePickUpNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackagePlaceNPCSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestBlockDestroyedSDX.cs" />

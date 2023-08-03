@@ -1674,7 +1674,7 @@ public static class EntityUtilities
         return TempList;
     }
 
-    public static void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI,
+    private static void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI,
         int _entityIdThatOpenedIt)
     {
         if (_playerUI != null)
@@ -1712,6 +1712,7 @@ public static class EntityUtilities
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags());
         _te.bTouched = true;
+
         _te.SetModified();
     }
 
