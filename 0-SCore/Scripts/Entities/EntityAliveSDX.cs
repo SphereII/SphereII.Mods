@@ -16,10 +16,12 @@ using Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UAI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Debug = UnityEngine.Debug;
 
 // ReSharper disable once CheckNamespace
 public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
@@ -75,15 +77,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private BlockValue corpseBlockValue;
     private float corpseBlockChance;
 
-    private string _currentWeapon = string.Empty;
+    private string _currentWeapon = "";
 
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
     public override string GetLootList()
     {
-        if (IsAvailable() == false)
-            return "";
-
-        return base.GetLootList();
+        return IsAvailable() == false ? "" : base.GetLootList();
     }
 
     // Check to see if the NPC is available
@@ -113,7 +112,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private TileEntityTrader _tileEntityTrader;
     private TraderArea _traderArea;
 
-    public ItemValue meleeWeapon = ItemClass.GetItem("meleeClubIron");
     public QuestJournal questJournal = new QuestJournal();
 
     // This sets the entity's default scale, so when we re-scale it to make it disappear, everything
@@ -595,20 +593,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
-
         SetupStartingItems();
-        inventory.SetHoldingItemIdx(0);
 
         // Does a quick local scan to see what pathing blocks, if any, are nearby. If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
 
         scale = transform.localScale;
 
-        if (!string.IsNullOrEmpty(_currentWeapon))
-        {
-            var item = ItemClass.GetItem(_currentWeapon);
-            UpdateWeapon(item);
-        }
 
         // EntityTraders turn off their physics transforms, but we want it on,
         // Otherwise NPCs won't collider with each other.
@@ -663,18 +654,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             //  fail safe to protect game saves
         }
+
+     //   ReadSyncData(_br, 0, -1);
     }
 
     public ushort GetSyncFlagsReplicated(ushort syncFlags)
     {
         return syncFlags;
     }
-    
+
     public void SendSyncData(ushort syncFlags = 1)
     {
         var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
         this.SendSyncData(syncFlags, primaryPlayerId);
     }
+    
     private void SendSyncData(ushort syncFlags, int playerId)
     {
         var package = NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>().Setup(this, playerId, syncFlags);
@@ -683,28 +677,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(package, false);
             return;
         }
+    
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
     }
+
     public void ReadSyncData(BinaryReader _br, ushort syncFlas, int senderId)
     {
+        // Preserve Inventory
+        int num2 = (int)_br.ReadByte();
+        ItemStack[] array = new ItemStack[num2];
+        for (int j = 0; j < num2; j++)
+        {
+            ItemStack itemStack = new ItemStack();
+            array[j] = itemStack.Read(_br);
+            this.lootContainer.UpdateSlot(j, array[j]);
+        }
+        this.bag.SetSlots(array);
+        this.bag.OnUpdate();
         _currentWeapon = _br.ReadString();
-        if (!string.IsNullOrEmpty(_currentWeapon))
-        {
-            var item = ItemClass.GetItem(_currentWeapon);
-            UpdateWeapon(item);
-        }
-
-        // // Inventory
-        var num5 = (int) _br.ReadByte();
-        var array2 = new ItemStack[num5];
-        for (var l = 0; l < num5; l++)
-        {
-            var itemStack2 = new ItemStack();
-            array2[l] = itemStack2.Read(_br);
-            lootContainer.UpdateSlot(l, array2[l]);
-        }
-
-        lootContainer.SetModified();
     }
 
     /// <inheritdoc/>
@@ -795,19 +785,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             // fail safe to protect game saves
         }
+
+      //  WriteSyncData(_bw, 0);
     }
 
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
     {
-        _bw.Write(_currentWeapon);
         //
         // // Inventory
-        var slots = lootContainer.items;
-        _bw.Write((byte) slots.Length);
-        for (var l = 0; l < slots.Length; l++)
+        var slots = this.bag.GetSlots();
+        _bw.Write((byte)slots.Length);
+        for (int k = 0; k < slots.Length; k++)
         {
-            slots[l].Write(_bw);
+            slots[k].Write(_bw);
         }
+        _bw.Write(_currentWeapon);
     }
 
     public void GiveQuest(string strQuest)
@@ -981,7 +973,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public void LeaderUpdate()
     {
         if (IsDead()) return;
-
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {
@@ -991,16 +982,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             return;
         }
 
-        // if (!string.IsNullOrEmpty(_currentWeapon))
-        // {
-        //     var itemValue = ItemClass.GetItem(_currentWeapon);
-        //     var handItem = GetHandItem();
-        //     if (!lootContainer.HasItem(itemValue) && handItem.type != itemValue.type)
-        //     {
-        //         Debug.Log("I no longer have my weapon");
-        //         UpdateWeapon(handItem);
-        //     }
-        // }
 
         if (Owner == null)
         {
@@ -1103,7 +1084,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (isHirable)
             LeaderUpdate();
 
-      
         CheckStuck();
         // SetupAutoPathingBlocks();
 
@@ -1197,37 +1177,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         avatarController.SetFallAndGround(canFall, flag);
-
-        //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
-        //if (entitiesInBounds.Count > 0)
-        //{
-        //    foreach (var entity in entitiesInBounds)
-        //    {
-        //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-        //        {
-        //            // Check your faction relation. If you hate each other, don't stop and talk.
-        //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
-        //            if (myRelationship == FactionManager.Relationship.Hate)
-        //                break;
-
-        //            var player = entity as EntityPlayer;
-        //            if (player && player.IsSpectator)
-        //                    continue;
-
-        //            if (GetDistance(player) < 1.5 && moveHelper != null)
-        //            { 
-        //                moveHelper.SetMoveTo(player.GetLookVector(), false);
-        //                break;
-        //            }
-
-        //            // Turn to face the player, and stop the movement.
-        //            SetLookPosition(entity.getHeadPosition());
-        //            RotateTo(entity, 90f, 90f);
-        //            EntityUtilities.Stop(entityId);
-        //            break;
-        //        }
-        //    }
-        //}
     }
 
     private float fallTime;
@@ -2020,20 +1969,46 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         return itemValue;
     }
 
+    private void FindWeapon(string weapon)
+    {
+        Debug.Log($"Validating Weapon: {weapon}");
+        var index = -1;
+        foreach (var item in inventory.GetSlots())
+        {
+            index++;
+            if (item.IsEmpty()) continue;
+            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
+
+            Debug.Log($"Found {weapon} in Toolbelt at index {index}");
+            Buffs.SetCustomVar("CurrentWeaponIndex", index);
+            return;
+        }
+
+        index = -1;
+        foreach (var item in lootContainer.GetItems())
+        {
+            index++;
+            if (item.IsEmpty()) continue;
+            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
+            Debug.Log($"Found {weapon} in Loot container at index {index}");
+            Buffs.SetCustomVar("CurrentWeaponIndex", index);
+            return;
+        }
+    }
+
+    private bool checkedWeapon = false;
+
+  
 
     // Allows the NPC to change their hand items, and update their animator.
     public void UpdateWeapon(ItemValue item)
     {
         if (item == null) return;
+        if (item.GetItemId() < 0) return;
+        _currentWeapon = item.ItemClass.GetItemName();
         if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
             return;
-        _currentWeapon = item.ItemClass.GetItemName();
-        //
-        // if (!world.IsRemote())
-        // {
-        //     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entityId, item.ItemClass.GetItemName()), false, -1, -1, -1, -1);
-        //     return;
-        // }
+        Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         inventory.SetItem(0, item, 1);
 
         foreach (var action in item.ItemClass.Actions)

@@ -282,11 +282,11 @@
     <Compile Include="Scripts\EAI\EAISetAsTargetIfLeaderAttackedSDX.cs" />
     <Compile Include="Scripts\EAI\EAISwimSDX.cs" />
     <Compile Include="Scripts\EAI\EAIWanderSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
     <Compile Include="Scripts\Entities\EntityBackpackNPC.cs" />
     <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />
-    <Compile Include="Scripts\Entities\EntityAliveSDX.cs" />
     <Compile Include="Scripts\Entities\EntitySDXShared.cs" />
     <Compile Include="Scripts\Entities\EntitySwimingSDX.cs" />
     <Compile Include="Scripts\Entities\EntityTargetingUtilities.cs" />
@@ -311,6 +311,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorFireTriggerSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionCheckWeapon.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />

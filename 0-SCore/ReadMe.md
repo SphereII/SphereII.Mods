@@ -24,6 +24,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.10.1805  ( For A21.1 stable )
+	[ NPCS ]
+		- Quite a few failed attempts at making inventory persists reliably / weeapon select on respawn
+
+	[ Locks ]
+		- Fixed an issue where players could not lock their own doors.
+
 Version: 21.1.3.950
 	[ NPCs ]
 		- Fixed an issue where the NPCs were not preserving their inventory (for realisies?)

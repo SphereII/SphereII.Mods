@@ -43,6 +43,7 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
             GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
             entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             entityAlive.SetItemValue(holdingItemItemValue);
+            entityAlive.Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
             
 
         }

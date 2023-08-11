@@ -11,10 +11,7 @@ public class MinEventActionSwapWeapon : MinEventActionTargetedBase
     {
         var item = ItemClass.GetItem(_itemName);
         if (item == null)
-        {
-            Debug.Log($"No Such Item: {_itemName}");
             return;
-        }
 
         if (_params.Self is EntityAliveSDX entityAliveSdx)
         {

@@ -31,10 +31,11 @@ namespace Features.LockPicking
                 if (tileEntitySecureDoor == null)
                     return true;
 
-                if (!tileEntitySecureDoor.IsLocked() && tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
+                if (!tileEntitySecureDoor.IsLocked() || tileEntitySecureDoor.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
-                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
-                    return false;
+                    return true;
+                    // __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                    // return false;
                 }
 
                 var pickable = true;
