@@ -339,6 +339,11 @@ public class BlockPoweredPortal : BlockPowered
     {
         if (display == false) return "";
 
+        if (_blockValue.ischild)
+        {
+            var parentPos = _blockValue.Block.multiBlockPos.GetParentPos(_blockPos, _blockValue);
+            return GetActivationText(_world, _world.GetBlock(parentPos), _clrIdx, parentPos, _entityFocusing);
+        }
         if ( requiredPower > 0 )
         {
             var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;

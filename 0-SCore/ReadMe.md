@@ -24,6 +24,47 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.10.1805  ( For A21.1 stable )
+	[ NPCS ]
+		- Quite a few failed attempts at making inventory persists reliably / weeapon select on respawn
+
+	[ Locks ]
+		- Fixed an issue where players could not lock their own doors.
+
+Version: 21.1.3.950
+	[ NPCs ]
+		- Fixed an issue where the NPCs were not preserving their inventory (for realisies?)
+
+Version: 21.1.1.830
+	[ NPCs ]
+		- Dialog Fixed for the PickMe Up functionality.
+			- Now works on dedicated and single player.
+		- Dialog fixed for weapon swap.
+		- Fixed an issue where NPCs were not preserving their inventory
+		- Fixed an issue where the NPCs were not respawning with the right weapon.
+
+	[ Trader Protection ]
+		- Re-implemented a Remove Trader Protection Patch
+			- Allows compound to be destructive
+			- Traders never close
+			- Zombies can wander into compound, but do not spawn in the compound.
+			- Quests work.
+
+	[ MinEvent ]
+		- Added AnimatorFireTriggerSDX
+		- It will recursively look for all animators on each target, firing the trigger one each animator.
+
+		Example:
+			<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTriggerSDX, SCore" trigger="triggerName"/>
+
+	[ One Block Crouch ]
+		- Adjusted the crouch adjustment from -0.40 to -.31f. Camera will be slightly higher, but still avoid clipping
+		- Added a safety check to not run if player is in a vehicle.
+
+	[ Power Block ]
+			It allows to use the wire tool anywhere on a MultiDim Block - from ocbMaurice
+			<property name="MultiDimPowerBlock" value="true"/>
+
 Version: 21.0.51.708
 	[ Portals ]
 		- Added all portals to be chunk observers.

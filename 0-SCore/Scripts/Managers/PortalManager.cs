@@ -145,7 +145,7 @@ public class PortalManager
     public string GetDestinationName(Vector3i source)
     {
         var destination = GetDestination(source);
-        if (destination == Vector3i.zero) return Localization.Get("portal_not_configured");
+        if (destination == Vector3i.invalid) return Localization.Get("portal_not_configured");
         if (PortalMap.TryGetValue(destination, out string destinationName))
         {
             var item = new PortalItem(destination, destinationName);
@@ -181,7 +181,7 @@ public class PortalManager
         }
 
 
-        return Vector3i.zero;
+        return Vector3i.invalid;
     }
 
     public Vector3i CheckForPrefabLocation(PortalItem item)

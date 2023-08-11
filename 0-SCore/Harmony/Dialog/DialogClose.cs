@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace Harmony.Dialog
 {
@@ -12,13 +13,13 @@ namespace Harmony.Dialog
         {
             if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
-            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAlive;
-            if (myEntity != null)
-            {
-                myEntity.Buffs.RemoveCustomVar("CurrentPlayer");
-                myEntity.emodel.avatarController.UpdateBool("IsBusy", false);
+            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAliveSDX;
+            if (myEntity == null) return true;
+            myEntity.Buffs.RemoveCustomVar("CurrentPlayer");
+            myEntity.emodel.avatarController.UpdateBool("IsBusy", false);
+            // distribute the loot contents from the client to the server.
+       //     myEntity.SendSyncData();
 
-            }
             return true;
         }
     }
@@ -32,7 +33,7 @@ namespace Harmony.Dialog
         {
             if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
-            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAlive;
+            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAliveSDX;
             if (myEntity == null) return true;
             
             myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
@@ -40,6 +41,37 @@ namespace Harmony.Dialog
             myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
             EntityUtilities.Stop(entityID, true);
 
+            return true;
+        }
+    }
+    
+    [HarmonyPatch(typeof(XUiC_LootWindowGroup))]
+    [HarmonyPatch("OnClose")]
+    public class XUiC_LootWindowGroupOnClose
+    {
+        public static bool Prefix(XUiC_DialogWindowGroup __instance)
+        {
+            if (!__instance.xui.playerUI.entityPlayer.Buffs.HasCustomVar("CurrentNPC")) return true;
+            var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
+            var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAliveSDX;
+            if (myEntity == null) return true;
+            // distribute the loot contents from the client to the server.
+       //   myEntity.SendSyncData();
+
+            // var currentWeapon = myEntity.inventory.holdingItem.GetItemName();
+            // if (!string.IsNullOrEmpty(currentWeapon))
+            // {
+            //     var itemValue = ItemClass.GetItem(currentWeapon);
+            //     // var handItem = myEntity.GetDefaultHandItem();
+            //     // if (!myEntity.bag.HasItem(handItem))
+            //     // {
+            //     //     if (!myEntity.lootContainer.HasItem(itemValue) && handItem.type != itemValue.type)
+            //     //     {
+            //     //         Debug.Log("I no longer have my weapon");
+            //             myEntity.UpdateWeapon(itemValue);
+            //     //     }
+            //     // }
+            // }
             return true;
         }
     }

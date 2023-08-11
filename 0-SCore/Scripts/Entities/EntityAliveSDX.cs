@@ -16,10 +16,12 @@ using Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UAI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Debug = UnityEngine.Debug;
 
 // ReSharper disable once CheckNamespace
 public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
@@ -37,15 +39,23 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public Vector3 guardLookPosition = Vector3.zero;
 
     private string rightHandTransformName;
-    
+
     /// <inheritdoc/>
     public List<Vector3> PatrolCoordinates => patrolCoordinates;
 
     /// <inheritdoc/>
-    public Vector3 GuardPosition { get => guardPosition; set => guardPosition = value; }
+    public Vector3 GuardPosition
+    {
+        get => guardPosition;
+        set => guardPosition = value;
+    }
 
     /// <inheritdoc/>
-    public Vector3 GuardLookPosition { get => guardLookPosition; set => guardLookPosition = value; }
+    public Vector3 GuardLookPosition
+    {
+        get => guardLookPosition;
+        set => guardLookPosition = value;
+    }
 
     /// <inheritdoc/>
     public Vector3 Position => position;
@@ -67,15 +77,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private BlockValue corpseBlockValue;
     private float corpseBlockChance;
 
-    private string _currentWeapon = string.Empty;
+    private string _currentWeapon = "";
+
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
     public override string GetLootList()
     {
-        if (IsAvailable() == false)
-            return "";
-
-        return base.GetLootList();
+        return IsAvailable() == false ? "" : base.GetLootList();
     }
+
     // Check to see if the NPC is available
     public bool IsAvailable()
     {
@@ -103,7 +112,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private TileEntityTrader _tileEntityTrader;
     private TraderArea _traderArea;
 
-    public ItemValue meleeWeapon = ItemClass.GetItem("meleeClubIron");
     public QuestJournal questJournal = new QuestJournal();
 
     // This sets the entity's default scale, so when we re-scale it to make it disappear, everything
@@ -148,7 +156,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
     }
 
- 
+
     public void DisplayLog(string strMessage)
     {
         if (_blDisplayLog && !IsDead())
@@ -177,7 +185,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         if (send)
         {
-
             var enemy = GetRevengeTarget();
             if (enemy != null)
             {
@@ -187,6 +194,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 enemy.DoRagdoll(new DamageResponse());
                 SetRevengeTarget(null);
             }
+
             // Don't let anything target you
             isIgnoredByAI = true;
 
@@ -225,14 +233,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             return 0.15f;
         }
+
         if (this.walkType == 8)
         {
             return 0.6f;
         }
+
         if (!this.IsCrouching)
         {
             return base.height * 0.8f;
         }
+
         return base.height * 0.5f;
         // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
     }
@@ -317,7 +328,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var box = StringParsers.ParseVector3(strBoundaryBox);
             var center = StringParsers.ParseVector3(strCenter);
             ConfigureBoundaryBox(box, center);
-
         }
 
         if (_entityClass.Properties.Values.ContainsKey("BagItems"))
@@ -332,14 +342,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                     itemName = item.Split("=")[0];
                     itemCount = StringParsers.ParseSInt32(item.Split("=")[1]);
                 }
+
                 var itemId = ItemClass.GetItem(itemName);
-                if ( itemId.Equals(ItemValue.None)) continue;
+                if (itemId.Equals(ItemValue.None)) continue;
                 var itemStack = new ItemStack(itemId, itemCount);
                 bag.AddItem(itemStack);
             }
         }
-
-
     }
 
     protected override float getNextStepSoundDistance()
@@ -380,8 +389,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             rigid.useGravity = _bDisplayed;
         }
-
     }
+
     public void ConfigureBoundaryBox(Vector3 newSize, Vector3 center)
     {
         var component = gameObject.GetComponent<BoxCollider>();
@@ -392,9 +401,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Re-adjusting the box collider     
         component.size = newSize;
 
-        scaledExtent = new Vector3(component.size.x / 2f * transform.localScale.x, component.size.y / 2f * transform.localScale.y, component.size.z / 2f * transform.localScale.z);
-        var vector = new Vector3(component.center.x * transform.localScale.x, component.center.y * transform.localScale.y, component.center.z * transform.localScale.z);
-        boundingBox = BoundsUtils.BoundsForMinMax(-scaledExtent.x, -scaledExtent.y, -scaledExtent.z, scaledExtent.x, scaledExtent.y, scaledExtent.z);
+        scaledExtent = new Vector3(component.size.x / 2f * transform.localScale.x,
+            component.size.y / 2f * transform.localScale.y, component.size.z / 2f * transform.localScale.z);
+        var vector = new Vector3(component.center.x * transform.localScale.x,
+            component.center.y * transform.localScale.y, component.center.z * transform.localScale.z);
+        boundingBox = BoundsUtils.BoundsForMinMax(-scaledExtent.x, -scaledExtent.y, -scaledExtent.z, scaledExtent.x,
+            scaledExtent.y, scaledExtent.z);
 
         boundingBox.center = boundingBox.center + vector;
 
@@ -421,13 +433,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public override EntityActivationCommand[] GetActivationCommands(Vector3i _tePos, EntityAlive _entityFocusing)
     {
         // Don't allow you to interact with it when its dead.
-        if (IsDead() || NPCInfo == null )
+        if (IsDead() || NPCInfo == null)
         {
             return new[]
             {
-                new EntityActivationCommand("Search" , "search", true)
+                new EntityActivationCommand("Search", "search", true)
             };
         }
+
         // Do they even like us enough to talk?
         if (EntityTargetingUtilities.IsEnemy(this, _entityFocusing)) return new EntityActivationCommand[0];
 
@@ -445,14 +458,15 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         };
     }
 
-    public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos, EntityAlive entityFocusing)
+    public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos,
+        EntityAlive entityFocusing)
     {
         if (IsDead())
         {
             GameManager.Instance.TELockServer(0, tePos, this.entityId, entityFocusing.entityId, null);
             return true;
         }
-       
+
         // Don't allow interaction with a Hated entity
         if (EntityTargetingUtilities.IsEnemy(this, entityFocusing)) return false;
 
@@ -479,13 +493,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (Buffs.HasCustomVar("NPCInteractedFlag") && Buffs.GetCustomVar("NPCInteractedFlag") == 1)
         {
             return base.OnEntityActivated(indexInBlockActivationCommands, tePos, entityFocusing);
-
         }
+
         //if (!isQuestGiver)
         //{
         //    return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
         //}
-        Quest nextCompletedQuest = (entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
+        Quest nextCompletedQuest =
+            (entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
 
         if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)
@@ -493,13 +508,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId, entityFocusing.entityId);
+            this.activeQuests =
+                QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
+                    entityFocusing.entityId);
             if (this.activeQuests == null)
             {
                 this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
                 QuestEventManager.Current.SetupQuestList(this.entityId, entityFocusing.entityId, this.activeQuests);
             }
         }
+
         if (indexInBlockActivationCommands != 0)
         {
             if (indexInBlockActivationCommands == 1)
@@ -507,7 +525,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 uiforPlayer.xui.Trader.TraderEntity = this;
                 if (nextCompletedQuest == null)
                 {
-                    GameManager.Instance.TELockServer(0, tePos, this.TileEntityTrader.entityId, entityFocusing.entityId, null);
+                    GameManager.Instance.TELockServer(0, tePos, this.TileEntityTrader.entityId, entityFocusing.entityId,
+                        null);
                 }
                 else
                 {
@@ -531,6 +550,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 uiforPlayer.windowManager.Open("dialog", true, false, true);
                 return false;
             }
+
             if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != -1)
             {
                 QuestEventManager.Current.NPCInteracted(this);
@@ -566,31 +586,25 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (lootContainer == null)
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
-            lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
-
-            lootContainer.SetContainerSize(string.IsNullOrEmpty(GetLootList()) ? new Vector2i(8, 6) : LootContainer.GetLootContainer(GetLootList()).size);
+            lootContainer = new TileEntityLootContainer(null) {entityId = entityId};
+            lootContainer.SetContainerSize(string.IsNullOrEmpty(GetLootList())
+                ? new Vector2i(8, 6)
+                : LootContainer.GetLootContainer(GetLootList()).size);
         }
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
-
         SetupStartingItems();
-        inventory.SetHoldingItemIdx(0);
 
         // Does a quick local scan to see what pathing blocks, if any, are nearby. If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
 
         scale = transform.localScale;
 
-        if (!string.IsNullOrEmpty(_currentWeapon))
-        {
-            var item = ItemClass.GetItem(_currentWeapon);
-            UpdateWeapon(item);
-        }
-        
+
         // EntityTraders turn off their physics transforms, but we want it on,
         // Otherwise NPCs won't collider with each other.
         this.PhysicsTransform.gameObject.SetActive(true);
-
+        SetSpawnerSource(EnumSpawnerSource.Biome);
     }
 
     /// <inheritdoc/>
@@ -602,12 +616,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         temp.z = 0.5f + Utils.Fastfloor(position.z);
         temp.y = Utils.Fastfloor(position.y);
 
-        if (!_tempList.Contains(temp))
-        {
-            _tempList.Add(temp);
-            if (!patrolCoordinates.Contains(position))
-                patrolCoordinates.Add(position);
-        }
+        if (_tempList.Contains(temp)) return;
+        _tempList.Add(temp);
+        if (!patrolCoordinates.Contains(position))
+            patrolCoordinates.Add(position);
     }
 
     // Reads the buff and quest information
@@ -635,7 +647,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             Buffs.Read(_br);
 
             // Disabled due to Potential Performance issues
-            if ( Progression != null )
+            if (Progression != null)
                 Progression.Read(_br, this);
         }
         catch (Exception)
@@ -643,22 +655,60 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             //  fail safe to protect game saves
         }
 
+     //   ReadSyncData(_br, 0, -1);
+    }
+
+    public ushort GetSyncFlagsReplicated(ushort syncFlags)
+    {
+        return syncFlags;
+    }
+
+    public void SendSyncData(ushort syncFlags = 1)
+    {
+        var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
+        this.SendSyncData(syncFlags, primaryPlayerId);
+    }
+    
+    private void SendSyncData(ushort syncFlags, int playerId)
+    {
+        var package = NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>().Setup(this, playerId, syncFlags);
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(package, false);
+            return;
+        }
+    
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
+    }
+
+    public void ReadSyncData(BinaryReader _br, ushort syncFlas, int senderId)
+    {
+        // Preserve Inventory
+        int num2 = (int)_br.ReadByte();
+        ItemStack[] array = new ItemStack[num2];
+        for (int j = 0; j < num2; j++)
+        {
+            ItemStack itemStack = new ItemStack();
+            array[j] = itemStack.Read(_br);
+            this.lootContainer.UpdateSlot(j, array[j]);
+        }
+        this.bag.SetSlots(array);
+        this.bag.OnUpdate();
         _currentWeapon = _br.ReadString();
-
-
     }
 
     /// <inheritdoc/>
     public void SetupAutoPathingBlocks()
     {
         // If we already have a pathing code, don't re-scan.
-        if (Buffs.HasCustomVar("PathingCode") && (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
+        if (Buffs.HasCustomVar("PathingCode") &&
+            (Buffs.GetCustomVar("PathingCode") < 0 || Buffs.GetCustomVar("PathingCode") > 0))
             return;
 
         // Check if pathing blocks are defined.
         var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
         if (blocks.Count == 0)
-            blocks = new List<string> { "PathingCube", "PathingCube2" };
+            blocks = new List<string> {"PathingCube", "PathingCube2"};
 
         //Scan for the blocks in the area
         var pathingVectors = ModGeneralUtilities.ScanAutoConfigurationBlocks(position, blocks, 2);
@@ -736,8 +786,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // fail safe to protect game saves
         }
 
-        _bw.Write(_currentWeapon);
+      //  WriteSyncData(_bw, 0);
+    }
 
+    public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
+    {
+        //
+        // // Inventory
+        var slots = this.bag.GetSlots();
+        _bw.Write((byte)slots.Length);
+        for (int k = 0; k < slots.Length; k++)
+        {
+            slots[k].Write(_bw);
+        }
+        _bw.Write(_currentWeapon);
     }
 
     public void GiveQuest(string strQuest)
@@ -768,17 +830,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             {
                 this.Jumping = false;
             }
+
             if (this.jumpTicks == 0 && this.accumulatedRootMotion.y > 0.005f)
             {
                 this.jumpTicks = 30;
             }
+
             return;
         }
+
         base.UpdateJump();
         if (this.isSwimming)
         {
             return;
         }
+
         this.accumulatedRootMotion.y = 0f;
     }
 
@@ -815,26 +881,32 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 {
                     this.motion.y = vector.y * 0.2f;
                 }
+
                 if (Utils.FastAbs(vector.x) < 0.3f)
                 {
                     this.motion.x = vector.x * 0.2f;
                 }
+
                 if (Utils.FastAbs(vector.z) < 0.3f)
                 {
                     this.motion.z = vector.z * 0.2f;
                 }
+
                 if (vector.sqrMagnitude < 0.010000001f)
                 {
                     if (this.emodel && this.emodel.avatarController)
                     {
                         this.emodel.avatarController.StartAnimationJump(AnimJumpMode.Land);
                     }
+
                     this.Jumping = false;
                 }
             }
+
             this.entityCollision(this.motion);
             return;
         }
+
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
@@ -845,7 +917,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (this.LocalPlayerIsOwner() && this.Owner != null)
             {
                 if (EntityClass.list[this.entityClass].NavObject != "")
-                    this.NavObject = NavObjectManager.Instance.RegisterNavObject(EntityClass.list[this.entityClass].NavObject, this, "");
+                    this.NavObject =
+                        NavObjectManager.Instance.RegisterNavObject(EntityClass.list[this.entityClass].NavObject, this,
+                            "");
                 else
                     this.NavObject = NavObjectManager.Instance.RegisterNavObject("ally", this, "");
 
@@ -855,6 +929,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
                 return;
             }
+
             if (this.NavObject != null)
             {
                 NavObjectManager.Instance.UnRegisterNavObject(this.NavObject);
@@ -871,6 +946,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
                 return true;
         }
+
         return false;
     }
 
@@ -893,10 +969,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
 
     int expireLeaderCache = 30;
+
     public void LeaderUpdate()
     {
         if (IsDead()) return;
-
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {
@@ -906,10 +982,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             return;
         }
 
+
         if (Owner == null)
         {
             Owner = leader;
-          //  Owner.AddOwnedEntity(this);
+            //  Owner.AddOwnedEntity(this);
             if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
             {
                 this.HandleNavObject();
@@ -927,7 +1004,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         // Force the leader to have the hired entity id
-        leader.Buffs.SetCustomVar($"hired_{entityId}", (float)entityId);
+        leader.Buffs.SetCustomVar($"hired_{entityId}", (float) entityId);
 
         var player = leader as EntityPlayer;
         // If the player doesn't have a party, create one, so we can share exp with our leader.
@@ -935,6 +1012,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             player.CreateParty();
         }
+
         switch (EntityUtilities.GetCurrentOrder(entityId))
         {
             case EntityUtilities.Orders.Loot:
@@ -951,8 +1029,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                         _position.y += 2;
                         SetPosition(_position);
                     }
-
-
                 }
                 else
                 {
@@ -963,7 +1039,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
                 // This needs to be set for the entities to be still alive, so the player can teleport them
                 IsEntityUpdatedInUnloadedChunk = true;
-                bWillRespawn = true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+                bWillRespawn =
+                    true; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
 
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
@@ -981,10 +1058,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                             this.NavObject.UseOverrideColor = true;
                             this.NavObject.OverrideColor = v;
                             //this.NavObject.DisplayName = EntityName;
-
                         }
                     }
                 }
+
                 break;
             case EntityUtilities.Orders.Patrol:
             case EntityUtilities.Orders.Stay:
@@ -992,9 +1069,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             default:
                 // This needs to be set for the entities to be still alive, so the player can teleport them
                 IsEntityUpdatedInUnloadedChunk = false;
-                bWillRespawn = false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
+                bWillRespawn =
+                    false; // this needs to be off for entities to despawn after being killed. Handled via SetDead()
                 if (player)
                     player.Companions.Remove(this);
+
                 break;
         }
     }
@@ -1021,7 +1100,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Set CanFall and IsOnGround
         if (emodel != null && emodel.avatarController != null)
         {
-            emodel.avatarController.UpdateBool("CanFall", !emodel.IsRagdollActive && bodyDamage.CurrentStun == EnumEntityStunType.None && !isSwimming);
+            emodel.avatarController.UpdateBool("CanFall",
+                !emodel.IsRagdollActive && bodyDamage.CurrentStun == EnumEntityStunType.None && !isSwimming);
             emodel.avatarController.UpdateBool("IsOnGround", onGround || isSwimming);
         }
 
@@ -1035,7 +1115,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // ignored
         }
 
-        if (IsAlert )
+        if (IsAlert)
         {
             var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
             if (target != null && target.IsDead())
@@ -1043,6 +1123,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 bReplicatedAlertFlag = false;
             }
         }
+
         // Allow EntityAliveSDX to get buffs from blocks
         if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
             UpdateBlockRadiusEffects();
@@ -1061,74 +1142,43 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
             }
         }
-        if (!this.isEntityRemote)
+        if (this.isEntityRemote) return;
+        if (!this.emodel) return;
+
+        var avatarController = this.emodel.avatarController;
+        if (!avatarController) return;
+
+        var flag = this.onGround || this.isSwimming || this.bInElevator;
+        if (flag)
         {
-            if (this.emodel)
+            this.fallTime = 0f;
+            this.fallThresholdTime = 0f;
+            if (this.bInElevator)
             {
-                AvatarController avatarController = this.emodel.avatarController;
-                if (avatarController)
-                {
-                    var flag = this.onGround || this.isSwimming || this.bInElevator;
-                    if (flag)
-                    {
-                        this.fallTime = 0f;
-                        this.fallThresholdTime = 0f;
-                        if (this.bInElevator)
-                        {
-                            this.fallThresholdTime = 0.6f;
-                        }
-                    }
-                    else
-                    {
-                        if (this.fallThresholdTime == 0f)
-                        {
-                            this.fallThresholdTime = 0.1f + this.rand.RandomFloat * 0.3f;
-                        }
-                        this.fallTime += 0.05f;
-                    }
-                    var canFall = !this.emodel.IsRagdollActive && this.bodyDamage.CurrentStun == EnumEntityStunType.None && !this.isSwimming && !this.bInElevator && this.jumpState == EntityAlive.JumpState.Off && !this.IsDead();
-                    if (this.fallTime <= this.fallThresholdTime)
-                    {
-                        canFall = false;
-                    }
-                    avatarController?.SetFallAndGround(canFall, flag);
-                }
+                this.fallThresholdTime = 0.6f;
+            }
+        }
+        else
+        {
+            if (this.fallThresholdTime == 0f)
+            {
+                this.fallThresholdTime = 0.1f + this.rand.RandomFloat * 0.3f;
             }
 
-
+            this.fallTime += 0.05f;
         }
 
-        //var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(position, Vector3.one * 5f));
-        //if (entitiesInBounds.Count > 0)
-        //{
-        //    foreach (var entity in entitiesInBounds)
-        //    {
-        //        if (entity is EntityPlayerLocal || entity is EntityPlayer)
-        //        {
-        //            // Check your faction relation. If you hate each other, don't stop and talk.
-        //            var myRelationship = FactionManager.Instance.GetRelationshipTier(this, entity as EntityPlayer);
-        //            if (myRelationship == FactionManager.Relationship.Hate)
-        //                break;
+        var canFall = !this.emodel.IsRagdollActive && this.bodyDamage.CurrentStun == EnumEntityStunType.None &&
+                      !this.isSwimming && !this.bInElevator && this.jumpState == EntityAlive.JumpState.Off &&
+                      !this.IsDead();
+        if (this.fallTime <= this.fallThresholdTime)
+        {
+            canFall = false;
+        }
 
-        //            var player = entity as EntityPlayer;
-        //            if (player && player.IsSpectator)
-        //                    continue;
-
-        //            if (GetDistance(player) < 1.5 && moveHelper != null)
-        //            { 
-        //                moveHelper.SetMoveTo(player.GetLookVector(), false);
-        //                break;
-        //            }
-
-        //            // Turn to face the player, and stop the movement.
-        //            SetLookPosition(entity.getHeadPosition());
-        //            RotateTo(entity, 90f, 90f);
-        //            EntityUtilities.Stop(entityId);
-        //            break;
-        //        }
-        //    }
-        //}
+        avatarController.SetFallAndGround(canFall, flag);
     }
+
     private float fallTime;
 
 
@@ -1168,7 +1218,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public override int DamageEntity(DamageSource _damageSource, int _strength, bool _criticalHit, float _impulseScale)
     {
-
         if (IsOnMission()) return 0;
 
         if (EntityUtilities.GetBoolValue(entityId, "Invulnerable"))
@@ -1221,8 +1270,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             leader.Companions.Remove(this);
         }
+
         base.OnEntityUnload();
     }
+
     public override void SetDead()
     {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayerLocal;
@@ -1255,7 +1306,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
 
                     entityBackpack.OnEntityUnload();
-                  //  this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+                    //  this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
                 }
             }
         }
@@ -1273,6 +1324,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             NavObjectManager.Instance.UnRegisterNavObject(this.NavObject);
             this.NavObject = null;
         }
+
         SetupDebugNameHUD(false);
 
         this.lootContainer = null;
@@ -1295,7 +1347,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.SetDead();
     }
 
-    
 
     public new void SetAttackTarget(EntityAlive _attackTarget, int _attackTargetTime)
     {
@@ -1338,9 +1389,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 TeleportToPlayer(leader);
                 return;
             }
-
-
         }
+
         base.OnUpdatePosition(_partialTicks);
     }
 
@@ -1357,6 +1407,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         return base.IsAttackValid();
     }
+
     public void TeleportToPlayer(EntityAlive target, bool randomPosition = false)
     {
         if (target == null) return;
@@ -1377,7 +1428,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var player = target as EntityPlayer;
         if (player != null)
         {
-
             myPosition = player.GetBreadcrumbPos(3 * rand.RandomFloat);
 
             // If my target distance is still way off from the player, teleport randomly. That means the bread crumb isn't accurate
@@ -1390,8 +1440,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 Vector3 dirV = target.position - this.position;
                 myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
             }
+
             //// Find the ground.
-            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
+            myPosition.y = (int) GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
         }
 
         motion = Vector3.zero;
@@ -1400,8 +1451,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         this.SetPosition(myPosition, true);
         StartCoroutine(validateTeleport(target, randomPosition));
-
     }
+
     private float getAltitude(Vector3 pos)
     {
         RaycastHit raycastHit;
@@ -1409,12 +1460,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             return raycastHit.distance;
         }
+
         return -1f;
     }
+
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z);
+        var y = (int) GameManager.Instance.World.GetHeightAt(position.x, position.z);
         if (position.y < y)
         {
             var myPosition = position;
@@ -1428,8 +1481,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 Vector3 dirV = target.position - this.position;
                 myPosition = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 5, 80f);
             }
+
             //// Find the ground.
-            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+            myPosition.y = (int) GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
 
             // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
@@ -1439,6 +1493,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             navigator?.clearPath();
             this.SetPosition(myPosition, true);
         }
+
         this.isTeleporting = false;
         yield return null;
         yield break;
@@ -1457,11 +1512,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // If we are being attacked, let the state machine know it can fight back
             emodel.avatarController.UpdateBool("IsBusy", false);
         }
+
         // Turn off the trader ID while it deals damage to the entity
         ToggleTraderID(false);
         base.ProcessDamageResponseLocal(_dmResponse);
         ToggleTraderID(true);
-
     }
 
 
@@ -1469,7 +1524,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     //Original logic was meant to protect the trader's from unloading NPCs when they entered a trader area.
     public override void MarkToUnload()
     {
-
         GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates -= this.chunkClusterVisibleDelegate;
 
         //if ( !isHirable)
@@ -1506,6 +1560,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         base.MarkToUnload();
     }
+
     private void UpdateBlockRadiusEffects()
     {
         var blockPosition = GetBlockPosition();
@@ -1513,51 +1568,57 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var num2 = World.toChunkXZ(blockPosition.z);
         _startedThisFrame = new List<string>();
         for (var i = -1; i < 2; i++)
-            for (var j = -1; j < 2; j++)
+        for (var j = -1; j < 2; j++)
+        {
+            var chunk = (Chunk) world.GetChunkSync(num + j, num2 + i);
+            if (chunk == null) continue;
+
+            var tileEntities = chunk.GetTileEntities();
+            for (var k = 0; k < tileEntities.list.Count; k++)
             {
-                var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
-                if (chunk == null) continue;
+                var tileEntity = tileEntities.list[k];
 
-                var tileEntities = chunk.GetTileEntities();
-                for (var k = 0; k < tileEntities.list.Count; k++)
+                if (!tileEntity.IsActive(world)) continue;
+
+                var block = world.GetBlock(tileEntity.ToWorldPos());
+                var block2 = Block.list[block.type];
+                if (block2.RadiusEffects == null) continue;
+
+
+                var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
+                for (var l = 0; l < block2.RadiusEffects.Length; l++)
                 {
-                    var tileEntity = tileEntities.list[k];
-
-                    if (!tileEntity.IsActive(world)) continue;
-
-                    var block = world.GetBlock(tileEntity.ToWorldPos());
-                    var block2 = Block.list[block.type];
-                    if (block2.RadiusEffects == null) continue;
-
-
-                    var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
-                    for (var l = 0; l < block2.RadiusEffects.Length; l++)
-                    {
-                        var blockRadiusEffect = block2.RadiusEffects[l];
-                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius && !Buffs.HasBuff(blockRadiusEffect.variable))
-                            Buffs.AddBuff(blockRadiusEffect.variable);
-                    }
+                    var blockRadiusEffect = block2.RadiusEffects[l];
+                    if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
+                        !Buffs.HasBuff(blockRadiusEffect.variable))
+                        Buffs.AddBuff(blockRadiusEffect.variable);
                 }
             }
+        }
     }
 
     public override float GetMoveSpeed()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed, this, null, default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed, this, null,
+            default(FastTags), true, true, true, true, 1, true);
         if (IsCrouching)
-            speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed, this, null, default(FastTags), true, true, true, true, 1, true);
+            speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed, this, null,
+                default(FastTags), true, true, true, true, 1, true);
 
         return speed;
     }
 
     public override float GetMoveSpeedAggro()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null, default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null,
+            default(FastTags), true, true, true, true, 1, true);
         return speed;
     }
+
     public new float GetMoveSpeedPanic()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null, default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null,
+            default(FastTags), true, true, true, true, 1, true);
         return speed;
     }
 
@@ -1567,7 +1628,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var num = EntityClass.list[killedEntity.entityClass].ExperienceValue;
         if (xpModifier is > 1f or < 1f)
         {
-            num = (int)(num * xpModifier);
+            num = (int) (num * xpModifier);
         }
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
@@ -1576,6 +1637,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // We don't check to see if its in the party, as the NPC isn't' really part of the party.
             num = leader.Party.GetPartyXP(leader, num);
         }
+
         if (!isEntityRemote)
         {
             if (Progression != null)
@@ -1586,12 +1648,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
         else
         {
-            var package = NetPackageManager.GetPackage<NetPackageEntityAddExpClient>().Setup(this.entityId, num, Progression.XPTypes.Kill);
+            var package = NetPackageManager.GetPackage<NetPackageEntityAddExpClient>()
+                .Setup(this.entityId, num, Progression.XPTypes.Kill);
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, this.entityId, -1, -1, -1);
         }
 
         if (leader == null) return;
-        
+
         // if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
         // {
         //     GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
@@ -1610,14 +1673,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             }
             else
             {
-                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageSharedPartyKill>().Setup(killedEntity.entityClass, num, entityId), false, entityPlayer2.entityId, -1, -1, -1);
+                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                    NetPackageManager.GetPackage<NetPackageSharedPartyKill>()
+                        .Setup(killedEntity.entityClass, num, entityId), false, entityPlayer2.entityId, -1, -1, -1);
             }
         }
-       // GameManager.Instance.SharedKillServer(killedEntity.entityId, leader.entityId, xpModifier);
+        // GameManager.Instance.SharedKillServer(killedEntity.entityId, leader.entityId, xpModifier);
     }
 
     // General ExecuteAction that takes an action ID.
     private bool bLastAttackReleased;
+
     public bool ExecuteAction(bool _bAttackReleased, int actionIndex)
     {
         if (!_bAttackReleased)
@@ -1626,15 +1692,18 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             {
                 return false;
             }
+
             if (!this.IsAttackValid())
             {
                 return false;
             }
         }
+
         if (this.bLastAttackReleased && this.GetSoundAttack() != null)
         {
             this.PlayOneShot(this.GetSoundAttack(), false);
         }
+
         this.bLastAttackReleased = _bAttackReleased;
         this.attackingTime = 60;
 
@@ -1643,8 +1712,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             itemAction.ExecuteAction(this.inventory.holdingItemData.actionData[actionIndex], _bAttackReleased);
         }
+
         return true;
     }
+
     public override void OnEntityDeath()
     {
         Log.Out($"{entityName} ({entityId}) has died.");
@@ -1653,8 +1724,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             Log.Out($" > {buff.BuffName}");
         }
+
         base.OnEntityDeath();
     }
+
     protected override void dropItemOnDeath()
     {
         // Don't drop your toolbelt
@@ -1662,14 +1735,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             this.lootDropProb *= 1f;
         }
+
         if (this.entityThatKilledMe)
         {
-            this.lootDropProb = EffectManager.GetValue(PassiveEffects.LootDropProb, this.entityThatKilledMe.inventory.holdingItemItemValue, this.lootDropProb, this.entityThatKilledMe, null, default(FastTags), true, true, true, true, 1, true);
+            this.lootDropProb = EffectManager.GetValue(PassiveEffects.LootDropProb,
+                this.entityThatKilledMe.inventory.holdingItemItemValue, this.lootDropProb, this.entityThatKilledMe,
+                null, default(FastTags), true, true, true, true, 1, true);
         }
+
         if (this.lootDropProb > this.rand.RandomFloat)
         {
-            GameManager.Instance.DropContentOfLootContainerServer(BlockValue.Air, new Vector3i(this.position), this.entityId);
+            GameManager.Instance.DropContentOfLootContainerServer(BlockValue.Air, new Vector3i(this.position),
+                this.entityId);
         }
+
         return;
     }
     //protected override Vector3i dropCorpseBlock()
@@ -1704,7 +1783,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (HasAnyTags(FastTags.Parse("floating"))) return;
 
         base.playStepSound(stepSound);
-
     }
 
     public void CheckNoise()
@@ -1718,7 +1796,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         world.GetEntitiesInBounds(typeof(EntityPlayer), bb, entityTempList);
         for (int j = 0; j < entityTempList.Count; j++)
         {
-            EntityPlayer entityAlive = (EntityPlayer)entityTempList[j];
+            EntityPlayer entityAlive = (EntityPlayer) entityTempList[j];
             var noiseLevel = entityAlive.Buffs.GetCustomVar("_noiseLevel");
             float distance = GetDistance(entityAlive);
             float num11 = noiseLevel * (1f + num9 * aiManager.feralSense);
@@ -1730,7 +1808,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 return;
             }
         }
-
     }
 
     public override void AwardKill(EntityAlive killer)
@@ -1740,10 +1817,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var entityPlayer = killer as EntityPlayer;
             if (entityPlayer)
             {
-                if ( !entityPlayer.isEntityRemote)
+                if (!entityPlayer.isEntityRemote)
                     SCoreQuestEventManager.Instance.EntityAliveKilled(EntityClass.list[entityClass].entityClassName);
             }
         }
+
         base.AwardKill(killer);
     }
 
@@ -1755,16 +1833,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var itemStack = new ItemStack(GetItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack))
         {
-            GameManager.Instance.ItemDropServer(itemStack, entityPlayerLocal.GetPosition(), Vector3.zero, _playerId, 60f, false);
+            GameManager.Instance.ItemDropServer(itemStack, entityPlayerLocal.GetPosition(), Vector3.zero, _playerId,
+                60f, false);
         }
     }
 
     public void SetItemValue(ItemValue itemValue)
     {
         EntityName = itemValue.GetMetadata("NPCName") as string;
-        belongsPlayerId = (int)itemValue.GetMetadata("BelongsToPlayer");
-        Health = (int)itemValue.GetMetadata("health");
-        var leaderID = (int)itemValue.GetMetadata("Leader");
+        belongsPlayerId = (int) itemValue.GetMetadata("BelongsToPlayer");
+        Health = (int) itemValue.GetMetadata("health");
+        var leaderID = (int) itemValue.GetMetadata("Leader");
         EntityUtilities.SetLeaderAndOwner(entityId, leaderID);
 
         var weaponType = itemValue.GetMetadata("CurrentWeapon").ToString();
@@ -1773,22 +1852,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             UpdateWeapon(item);
         }
-        
+
         lootContainer.entityId = entityId;
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
         {
             var key = $"LootContainer-{i}";
             var storage = itemValue.GetMetadata(key)?.ToString();
-            if ( string.IsNullOrEmpty(storage)) continue;
-            
+            if (string.IsNullOrEmpty(storage)) continue;
+
             var itemId = storage.Split(',')[0];
             var quality = StringParsers.ParseSInt32(storage.Split(',')[1]);
             var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
             var createItem = ItemClass.GetItem(itemId);
             createItem.Quality = quality;
             var stack = new ItemStack(createItem, itemCount);
-            Debug.Log("Adding Item to Container.");
             lootContainer.AddItem(stack);
         }
 
@@ -1798,8 +1876,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             var key = $"InventorySlot-{i}";
             var storage = itemValue.GetMetadata(key)?.ToString();
-            if ( string.IsNullOrEmpty(storage)) continue;
-            
+            if (string.IsNullOrEmpty(storage)) continue;
+
             var itemId = storage.Split(',')[0];
             var quality = StringParsers.ParseSInt32(storage.Split(',')[1]);
             var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
@@ -1808,44 +1886,42 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var stack = new ItemStack(createItem, itemCount);
             inventory.SetItem(i, stack);
         }
-     
-        
-        var x = (int)itemValue.GetMetadata("TotalBuff");
+
+
+        var x = (int) itemValue.GetMetadata("TotalBuff");
         for (var i = 0; i < x; i++)
         {
             var buffName = itemValue.GetMetadata($"Buff-{i}")?.ToString();
             Buffs.AddBuff(buffName);
         }
 
-        x = (int)itemValue.GetMetadata("TotalCVar");
+        x = (int) itemValue.GetMetadata("TotalCVar");
         for (var i = 0; i < x; i++)
         {
             var cvarData = itemValue.GetMetadata($"CVar-{i}")?.ToString();
-            if ( cvarData == null ) continue;
-            
+            if (cvarData == null) continue;
+
             var cvarName = cvarData.Split(':')[0];
             var cvarValue = cvarData.Split(':')[1];
             Buffs.AddCustomVar(cvarName, StringParsers.ParseFloat(cvarValue));
         }
-        
-   
-
-
     }
+
     public ItemValue GetItemValue()
     {
         var type = 0;
         var itemClass = ItemClass.GetItemClass("spherePickUpNPC", true);
-       
+
         if (itemClass != null)
             type = itemClass.Id;
-        
-        var itemValue =  new ItemValue(type, false);
+
+        var itemValue = new ItemValue(type, false);
         itemValue.SetMetadata("NPCName", EntityName, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("EntityClassId", entityClass, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("BelongsToPlayer", belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("health", Health, TypedMetadataValue.TypeTag.Integer);
-        itemValue.SetMetadata("Leader", EntityUtilities.GetLeaderOrOwner(entityId)?.entityId, TypedMetadataValue.TypeTag.Integer);
+        itemValue.SetMetadata("Leader", EntityUtilities.GetLeaderOrOwner(entityId)?.entityId,
+            TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("CurrentWeapon", inventory.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
 
         if (lootContainer == null) return itemValue;
@@ -1860,7 +1936,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var storage = $"{itemId},{quality},{itemCount}";
             itemValue.SetMetadata($"LootContainer-{i}", storage, TypedMetadataValue.TypeTag.String);
         }
-        
+
         // Tool belt
         slots = inventory.GetSlots();
         for (var i = 0; i < slots.Length; i++)
@@ -1875,7 +1951,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         var x = 0;
         itemValue.SetMetadata($"TotalBuff", Buffs.ActiveBuffs.Count, TypedMetadataValue.TypeTag.Integer);
-        foreach( var buff in Buffs.ActiveBuffs)
+        foreach (var buff in Buffs.ActiveBuffs)
         {
             itemValue.SetMetadata($"Buff-{x}", buff.BuffName, TypedMetadataValue.TypeTag.String);
             x++;
@@ -1889,41 +1965,70 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             itemValue.SetMetadata($"CVar-{x}", value, TypedMetadataValue.TypeTag.String);
             x++;
         }
+
         return itemValue;
     }
 
-    
+    private void FindWeapon(string weapon)
+    {
+        Debug.Log($"Validating Weapon: {weapon}");
+        var index = -1;
+        foreach (var item in inventory.GetSlots())
+        {
+            index++;
+            if (item.IsEmpty()) continue;
+            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
+
+            Debug.Log($"Found {weapon} in Toolbelt at index {index}");
+            Buffs.SetCustomVar("CurrentWeaponIndex", index);
+            return;
+        }
+
+        index = -1;
+        foreach (var item in lootContainer.GetItems())
+        {
+            index++;
+            if (item.IsEmpty()) continue;
+            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
+            Debug.Log($"Found {weapon} in Loot container at index {index}");
+            Buffs.SetCustomVar("CurrentWeaponIndex", index);
+            return;
+        }
+    }
+
+    private bool checkedWeapon = false;
+
+  
+
     // Allows the NPC to change their hand items, and update their animator.
     public void UpdateWeapon(ItemValue item)
     {
-        if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId()) return;
+        if (item == null) return;
+        if (item.GetItemId() < 0) return;
         _currentWeapon = item.ItemClass.GetItemName();
-        //
-        // if (!world.IsRemote())
-        // {
-        //     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entityId, item.ItemClass.GetItemName()), false, -1, -1, -1, -1);
-        //     return;
-        // }
+        if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
+            return;
+        Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         inventory.SetItem(0, item, 1);
 
         foreach (var action in item.ItemClass.Actions)
         {
-            if ( action is ItemActionRanged ranged)
+            if (action is ItemActionRanged ranged)
             {
                 ranged.AutoFire = new DataItem<bool>(true);
             }
         }
 
-        
+
         // Since we are potentially changing the Hand Transform, we need to set the animator it changed.
         var entityClassType = EntityClass.list[entityClass];
         emodel.avatarController.SwitchModelAndView(entityClassType.mesh.name, emodel.IsFPV, IsMale);
 
-         // Item update has to happen after the SwitchModelAndView, otherwise the weapon will attach to the previous hand position
+        // Item update has to happen after the SwitchModelAndView, otherwise the weapon will attach to the previous hand position
         inventory.OnUpdate();
         inventory.ForceHoldingItemUpdate();
     }
-    
+
     // The GetRightHandTransformName() is not virtual in the base class. There's a Harmony patch that redirects the AvatarAnimator's call here.
     // This helps adjust the hand position for various weapons we can add to the NPC.
     public new string GetRightHandTransformName()
@@ -1934,40 +2039,48 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             currentItemHand.Properties.ParseString(EntityClass.PropRightHandJointName, ref rightHandTransformName);
         }
         else
-        {           
+        {
             rightHandTransformName = "Gunjoint";
-            EntityClass.list[entityClass].Properties.ParseString(EntityClass.PropRightHandJointName, ref rightHandTransformName);
+            EntityClass.list[entityClass].Properties
+                .ParseString(EntityClass.PropRightHandJointName, ref rightHandTransformName);
         }
 
         return rightHandTransformName;
     }
+
     public override void PlayOneShot(string clipName, bool sound_in_head = false)
     {
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
     }
+
     public override void OnDeathUpdate()
     {
         if (this.deathUpdateTime < this.timeStayAfterDeath)
         {
             this.deathUpdateTime++;
         }
+
         int deadBodyHitPoints = EntityClass.list[this.entityClass].DeadBodyHitPoints;
         if (deadBodyHitPoints > 0 && this.DeathHealth <= -deadBodyHitPoints)
         {
             this.deathUpdateTime = this.timeStayAfterDeath;
         }
+
         if (this.deathUpdateTime != this.timeStayAfterDeath)
         {
             return;
         }
+
         if (!this.isEntityRemote && !this.markedForUnload)
         {
             this.dropCorpseBlock();
             if (this.particleOnDestroy != null && this.particleOnDestroy.Length > 0)
             {
                 float lightBrightness = this.world.GetLightBrightness(base.GetBlockPosition());
-                this.world.GetGameManager().SpawnParticleEffectServer(new ParticleEffect(this.particleOnDestroy, this.getHeadPosition(), lightBrightness, Color.white, null, null, false), this.entityId);
+                this.world.GetGameManager().SpawnParticleEffectServer(
+                    new ParticleEffect(this.particleOnDestroy, this.getHeadPosition(), lightBrightness, Color.white,
+                        null, null, false), this.entityId);
             }
         }
     }
@@ -1985,34 +2098,43 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             return Vector3i.zero;
         }
+
         if (this.rand.RandomFloat > this.corpseBlockChance)
         {
             return Vector3i.zero;
         }
+
         vector3i = World.worldToBlockPos(this.position);
-        while (vector3i.y < 254 && (float)vector3i.y - this.position.y < 3f && !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3i, this.corpseBlockValue, false))
+        while (vector3i.y < 254 && (float) vector3i.y - this.position.y < 3f &&
+               !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3i, this.corpseBlockValue, false))
         {
             vector3i += Vector3i.up;
         }
+
         if (vector3i.y >= 254)
         {
             return Vector3i.zero;
         }
-        if ((float)vector3i.y - this.position.y >= 2.1f)
+
+        if ((float) vector3i.y - this.position.y >= 2.1f)
         {
             return Vector3i.zero;
         }
+
         this.world.SetBlockRPC(vector3i, this.corpseBlockValue);
 
         if (vector3i == Vector3i.zero)
         {
             return Vector3i.zero;
         }
-        TileEntityLootContainer tileEntityLootContainer = this.world.GetTileEntity(0, vector3i) as TileEntityLootContainer;
+
+        TileEntityLootContainer tileEntityLootContainer =
+            this.world.GetTileEntity(0, vector3i) as TileEntityLootContainer;
         if (tileEntityLootContainer == null)
         {
             return Vector3i.zero;
         }
+
         if (this.lootContainer != null)
         {
             tileEntityLootContainer.CopyLootContainerDataFromOther(this.lootContainer);
@@ -2020,8 +2142,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         else
         {
             tileEntityLootContainer.lootListName = this.lootListOnDeath;
-            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(this.lootListOnDeath, true).size, true);
+            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(this.lootListOnDeath, true).size,
+                true);
         }
+
         tileEntityLootContainer.SetModified();
         return vector3i;
     }
@@ -2039,10 +2163,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         // Mute the foot steps when crouching.
         if (IsCrouching) return;
-        
+
         base.updateStepSound(distX, distZ);
-
-
     }
     //public override void OnReloadStart()
     //{
@@ -2101,6 +2223,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             return true;
         }
+
         if (pushOutOfTerrain && shape.IsSolidSpace && shape.IsTerrain())
         {
             BlockShape shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
@@ -2109,22 +2232,29 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 return true;
             }
         }
+
         return false;
     }
+
     private bool pushOutOfBlocks(float _x, float _y, float _z)
     {
         int num = Utils.Fastfloor(_x);
         int num2 = Utils.Fastfloor(_y);
         int num3 = Utils.Fastfloor(_z);
-        float num4 = _x - (float)num;
-        float num5 = _z - (float)num3;
+        float num4 = _x - (float) num;
+        float num5 = _z - (float) num3;
         bool result = false;
-        if (this.shouldPushOutOfBlock(num, num2, num3, false) || (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
+        if (this.shouldPushOutOfBlock(num, num2, num3, false) ||
+            (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
         {
-            bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) && !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
-            bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) && !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
-            bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
-            bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) && !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
+            bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) &&
+                         !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
+            bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) &&
+                         !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
+            bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) &&
+                         !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
+            bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) &&
+                         !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
             byte b = byte.MaxValue;
             float num6 = 9999f;
             if (flag2 && num4 < num6)
@@ -2132,42 +2262,51 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 num6 = num4;
                 b = 0;
             }
-            if (flag3 && 1.0 - (double)num4 < (double)num6)
+
+            if (flag3 && 1.0 - (double) num4 < (double) num6)
             {
                 num6 = 1f - num4;
                 b = 1;
             }
+
             if (flag4 && num5 < num6)
             {
                 num6 = num5;
                 b = 4;
             }
+
             if (flag5 && 1f - num5 < num6)
             {
                 b = 5;
             }
+
             float num7 = 0.1f;
             if (b == 0)
             {
                 this.motion.x = -num7;
             }
+
             if (b == 1)
             {
                 this.motion.x = num7;
             }
+
             if (b == 4)
             {
                 this.motion.z = -num7;
             }
+
             if (b == 5)
             {
                 this.motion.z = num7;
             }
+
             if (b != 255)
             {
                 result = true;
             }
         }
+
         return result;
     }
 
@@ -2186,12 +2325,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                         break;
                     }
                 }
+
                 if (flag)
                 {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -2202,16 +2343,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (!this.IsFlyMode.Value)
         {
             float num = this.boundingBox.min.y + 0.5f;
-            this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z + base.depth * 0.3f);
-            this.IsStuck = (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
-            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) || this.IsStuck);
-            this.IsStuck = (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) || this.IsStuck);
+            this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num,
+                this.position.z + base.depth * 0.3f);
+            this.IsStuck =
+                (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) ||
+                 this.IsStuck);
+            this.IsStuck =
+                (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) ||
+                 this.IsStuck);
+            this.IsStuck =
+                (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) ||
+                 this.IsStuck);
             if (!this.IsStuck)
             {
                 int x = Utils.Fastfloor(this.position.x);
                 int num2 = Utils.Fastfloor(num);
                 int z = Utils.Fastfloor(this.position.z);
-                if (this.shouldPushOutOfBlock(x, num2, z, true) && this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
+                if (this.shouldPushOutOfBlock(x, num2, z, true) &&
+                    this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
                 {
                     this.IsStuck = true;
                     this.motion = new Vector3(0f, 1.6f, 0f);

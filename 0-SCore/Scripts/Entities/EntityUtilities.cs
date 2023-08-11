@@ -36,7 +36,7 @@ public static class EntityUtilities
         Hire = 6,
         Loot = 7,
         Task = 8,
-        Guard  = 9
+        Guard = 9
     }
 
     public static void Traverse(GameObject obj)
@@ -55,13 +55,13 @@ public static class EntityUtilities
         {
             foreach (Component component in child.GetComponents<Component>())
             {
-             //   Debug.Log( $"\t\tComponent: {component} Tag: {component.tag}");
+                //   Debug.Log( $"\t\tComponent: {component} Tag: {component.tag}");
                 AdvLogging.DisplayLog(advFeatureClass, feature, $"\t\tComponent: {component} Tag: {component.tag}");
             }
 
             foreach (var component in child.GetComponents<MonoBehaviour>())
             {
-               // Debug.Log($"\t\tMonoBehaviour: {component} Tag: {component.tag}");
+                // Debug.Log($"\t\tMonoBehaviour: {component} Tag: {component.tag}");
                 AdvLogging.DisplayLog(advFeatureClass, feature, $"\t\tMonoBehaviour: {component} Tag: {component.tag}");
             }
 
@@ -127,7 +127,8 @@ public static class EntityUtilities
             Radius = 30;
 
         var world = GameManager.Instance.World;
-        var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
+        var entitiesInBounds =
+            GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
         if (entitiesInBounds.Count > 0)
             for (var i = 0; i < entitiesInBounds.Count; i++)
             {
@@ -145,7 +146,8 @@ public static class EntityUtilities
             Radius = 30;
 
         var world = GameManager.Instance.World;
-        var entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
+        var entitiesInBounds =
+            GameManager.Instance.World.GetEntitiesInBounds(null, new Bounds(position, Vector3.one * Radius));
         if (entitiesInBounds.Count > 0)
             for (var i = 0; i < entitiesInBounds.Count; i++)
             {
@@ -262,6 +264,7 @@ public static class EntityUtilities
 
         return itemStack;
     }
+
     public static ItemStack GetItemStackByAction(int EntityID, Type findAction)
     {
         var itemStack = ItemStack.Empty;
@@ -310,7 +313,7 @@ public static class EntityUtilities
             {
                 foreach (var stack in myEntity.inventory.GetSlots())
                 {
-                    if (CheckItemStackByName(stack,ID))
+                    if (CheckItemStackByName(stack, ID))
                         return stack;
                 }
 
@@ -326,11 +329,12 @@ public static class EntityUtilities
                     if (CheckItemStackByName(stack, ID))
                         return stack;
                 }
-
             }
         }
+
         return itemStack;
     }
+
     public static ItemStack GetItemStackByTag(int EntityID, string Tag)
     {
         var itemStack = ItemStack.Empty;
@@ -430,7 +434,6 @@ public static class EntityUtilities
             if (findAction == checkType || findAction.IsAssignableFrom(checkType))
             {
                 return true;
-
             }
         }
 
@@ -538,7 +541,8 @@ public static class EntityUtilities
         // Example Range:  50
         //   Hold Ground Distance between 20 to 50 
         //   Retreat distance is 20%, so 20
-        var MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, myEntity.inventory.holdingItemItemValue, 60f, myEntity, null, myEntity.inventory.holdingItem.ItemTags);
+        var MaxRangeForWeapon = EffectManager.GetValue(PassiveEffects.MaxRange, myEntity.inventory.holdingItemItemValue,
+            60f, myEntity, null, myEntity.inventory.holdingItem.ItemTags);
 
         MaxRangeForWeapon = MaxRangeForWeapon * 2;
         var HoldGroundDistance = MaxRangeForWeapon * 0.80f; // minimum range to hold ground 
@@ -549,7 +553,8 @@ public static class EntityUtilities
         if (MinMeleeRange == -1)
             MinMeleeRange = 2;
 
-        DisplayLog(myEntity.EntityName + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance + " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
+        DisplayLog(myEntity.EntityName + " Max Range: " + MaxRangeForWeapon + " Hold Ground: " + HoldGroundDistance +
+                   " Retreatdistance: " + RetreatDistance + " Entity Distance: " + distanceSq);
 
 
         // if they are too close, switch to melee
@@ -558,9 +563,11 @@ public static class EntityUtilities
 
 
         // Hold your ground
-        if (distanceSq > RetreatDistance && distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
+        if (distanceSq > RetreatDistance &&
+            distanceSq <= HoldGroundDistance) // distance greater than 20%  of the range of the weapon
         {
-            DisplayLog(myEntity.EntityName + " Stopping: Retreat: " + (distanceSq > RetreatDistance) + " Hold: " + (distanceSq <= HoldGroundDistance));
+            DisplayLog(myEntity.EntityName + " Stopping: Retreat: " + (distanceSq > RetreatDistance) + " Hold: " +
+                       (distanceSq <= HoldGroundDistance));
             Stop(EntityID);
         }
 
@@ -594,9 +601,9 @@ public static class EntityUtilities
         myEntity.moveHelper?.Stop();
         myEntity.speedForward = 0;
         myEntity.speedStrafe = 0;
-        
-        if ( !full ) return;
-        
+
+        if (!full) return;
+
         // This seems to prevent the shuffling of feet.
         myEntity.emodel.avatarController.UpdateFloat(AvatarController.forwardHash, 0, false);
         myEntity.emodel.avatarController.UpdateFloat(AvatarController.strafeHash, 0, false);
@@ -656,7 +663,7 @@ public static class EntityUtilities
         var entityClass = EntityClass.list[myEntity.entityClass];
         if (entityClass.Properties.Values.ContainsKey(Property))
             return entityClass.Properties.Values[Property];
-        
+
         return String.Empty;
     }
 
@@ -708,7 +715,7 @@ public static class EntityUtilities
                 // Create the stack of currency
                 var stack = new ItemStack(GetHireCurrency(EntityID), GetHireCost(EntityID));
                 DisplayLog(" Removing Item: " + stack);
-                uiforPlayer.xui.PlayerInventory.RemoveItems(new[] { stack });
+                uiforPlayer.xui.PlayerInventory.RemoveItems(new[] {stack});
 
                 // Add the stack of currency to the NPC, and set its orders.
                 //myEntity.bag.AddItem(stack);
@@ -717,11 +724,12 @@ public static class EntityUtilities
                 // If we're going to hire them, they need to wake up.
                 if (myEntity.IsSleeping)
                     myEntity.ConditionalTriggerSleeperWakeUp();
-                
+
                 return true;
             }
 
-            GameManager.ShowTooltip(_player, "You cannot afford me. I want " + GetHireCost(EntityID) + " " + GetHireCurrency(EntityID), "ui_denied");
+            GameManager.ShowTooltip(_player,
+                "You cannot afford me. I want " + GetHireCost(EntityID) + " " + GetHireCurrency(EntityID), "ui_denied");
         }
 
         return false;
@@ -737,7 +745,7 @@ public static class EntityUtilities
         {
             if (currentEntity.Buffs.HasCustomVar("Leader"))
             {
-                int leaderId = (int)currentEntity.Buffs.GetCustomVar("Leader");
+                int leaderId = (int) currentEntity.Buffs.GetCustomVar("Leader");
                 // This is a guard against some code, somewhere, getting the cvar value without
                 // checking to see if it exists first. If so, the cvar exists with a value of 0.
                 if (leaderId > 0)
@@ -763,7 +771,7 @@ public static class EntityUtilities
         {
             var lstBuffs = ConfigureEntityClass(EntityID, "HungryBuffs");
             if (lstBuffs.Count == 0)
-                lstBuffs.AddRange(new[] { "buffStatusHungry2", "buffStatusHungry1" });
+                lstBuffs.AddRange(new[] {"buffStatusHungry2", "buffStatusHungry1"});
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -807,7 +815,7 @@ public static class EntityUtilities
             if (myEntity.Buffs.HasCustomVar("Mother"))
             {
                 var MotherID = myEntity.Buffs.GetCustomVar("Mother");
-                var MotherEntity = myEntity.world.GetEntity((int)MotherID) as EntityAliveSDX;
+                var MotherEntity = myEntity.world.GetEntity((int) MotherID) as EntityAliveSDX;
                 if (MotherEntity)
                 {
                     DisplayLog(" My Mother is: " + MotherEntity.EntityName);
@@ -815,7 +823,7 @@ public static class EntityUtilities
                     {
                         DisplayLog("Heading to mommy");
                         var MilkLevel = MotherEntity.Buffs.GetCustomVar("MilkLevel");
-                        myEntity.SetInvestigatePosition(myEntity.world.GetEntity((int)MotherID).position, 60);
+                        myEntity.SetInvestigatePosition(myEntity.world.GetEntity((int) MotherID).position, 60);
                         return MilkLevel;
                     }
                 }
@@ -832,7 +840,7 @@ public static class EntityUtilities
         {
             var lstBuffs = ConfigureEntityClass(EntityID, "ThirstyBuffs");
             if (lstBuffs.Count == 0)
-                lstBuffs.AddRange(new[] { "buffStatusThirsty2", "buffStatusThirsty1" });
+                lstBuffs.AddRange(new[] {"buffStatusThirsty2", "buffStatusThirsty1"});
 
             result = CheckIncentive(EntityID, lstBuffs, null);
         }
@@ -851,7 +859,7 @@ public static class EntityUtilities
 
         if (myEntity.Buffs.HasCustomVar("Owner"))
         {
-            int leaderId = (int)myEntity.Buffs.GetCustomVar("Owner");
+            int leaderId = (int) myEntity.Buffs.GetCustomVar("Owner");
             // This is a guard against some code, somewhere, getting the cvar value without
             // checking to see if it exists first. If so, the cvar exists with a value of 0.
             if (leaderId > 0)
@@ -879,23 +887,24 @@ public static class EntityUtilities
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                totalHired++; 
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+                totalHired++;
+                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
                 if (entity == null)
                 {
                     totalCleared++;
                     removeList.Add(cvar.Key);
                     continue;
                 }
+
                 var leader2 = EntityUtilities.GetLeaderOrOwner(entity.entityId);
-                if ( leader2 && leader2.entityId == leaderID)
+                if (leader2 && leader2.entityId == leaderID)
                 {
                     // Still hired.
                     continue;
                 }
+
                 totalCleared++;
                 removeList.Add(cvar.Key);
-
             }
         }
 
@@ -905,6 +914,7 @@ public static class EntityUtilities
         if (totalHired == totalCleared)
             leader.Buffs.RemoveCustomVar("EntityID");
     }
+
     public static void Despawn(int leaderID)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityAlive;
@@ -915,7 +925,7 @@ public static class EntityUtilities
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAlive;
+                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
                 if (entity)
                 {
                     if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
@@ -936,6 +946,7 @@ public static class EntityUtilities
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
     }
+
     public static void Respawn(int leaderID, RespawnType _respawnReason)
     {
         var leader = GameManager.Instance.World.GetEntity(leaderID) as EntityPlayer;
@@ -962,7 +973,7 @@ public static class EntityUtilities
         {
             if (cvar.Key.StartsWith("hired_"))
             {
-                var entity = GameManager.Instance.World.GetEntity((int)cvar.Value) as EntityAliveSDX;
+                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAliveSDX;
                 if (entity)
                 {
                     if (entity.IsDead()) // Are they dead? Don't teleport their dead bodies
@@ -976,9 +987,8 @@ public static class EntityUtilities
                     {
                         continue;
                     }
+
                     entity.TeleportToPlayer(leader, true);
-
-
                 }
                 else // Clean up the invalid entries
                 {
@@ -990,14 +1000,16 @@ public static class EntityUtilities
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
     }
+
     public static Entity GetLeaderOrOwner(int EntityID)
     {
-        if ( SphereCache.LeaderCache.ContainsKey(EntityID))
+        if (SphereCache.LeaderCache.ContainsKey(EntityID))
         {
             var cacheLeader = SphereCache.LeaderCache[EntityID];
             if (cacheLeader != null)
                 return cacheLeader;
         }
+
         var leader = GetLeader(EntityID);
         if (leader == null)
             leader = GetOwner(EntityID);
@@ -1005,11 +1017,12 @@ public static class EntityUtilities
         // If we acquired a leader again, cache it.
         if (leader != null)
         {
-            if ( SphereCache.LeaderCache.ContainsKey((int)EntityID))
+            if (SphereCache.LeaderCache.ContainsKey((int) EntityID))
                 SphereCache.LeaderCache[EntityID] = leader;
             else
-                SphereCache.LeaderCache.Add((int)EntityID, leader); 
+                SphereCache.LeaderCache.Add((int) EntityID, leader);
         }
+
         return leader;
     }
 
@@ -1020,7 +1033,7 @@ public static class EntityUtilities
         if (myEntity == null || leaderEntity == null) return;
 
         // Set up a link from the hired NPC to the player.
-        leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float)EntityID);
+        leaderEntity.Buffs.SetCustomVar($"hired_{EntityID}", (float) EntityID);
         myEntity.Buffs.SetCustomVar("Leader", LeaderID);
         leaderEntity.Buffs.SetCustomVar("EntityID", LeaderID);
 
@@ -1033,10 +1046,10 @@ public static class EntityUtilities
         myEntity.moveSpeed = leaderEntity.moveSpeed;
         myEntity.moveSpeedAggro = leaderEntity.moveSpeedAggro;
         myEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-        if ( defaultFollow)
+        if (defaultFollow)
             SetCurrentOrder(EntityID, Orders.Follow);
 
-      //  leaderEntity.AddOwnedEntity(myEntity);
+        //  leaderEntity.AddOwnedEntity(myEntity);
     }
 
     public static void SetOwner(int EntityID, int LeaderID)
@@ -1090,6 +1103,7 @@ public static class EntityUtilities
         myEntity.SetAttackTarget(null, 50);
         myEntity.SetRevengeTarget(null);
     }
+
     public static bool GetAttackAndRevengeTarget(int entityId, ref EntityAlive attackTarget,
         ref EntityAlive revengeTarget)
     {
@@ -1099,16 +1113,17 @@ public static class EntityUtilities
         revengeTarget = myEntity.GetRevengeTarget();
         return true;
     }
+
     public static Entity GetAttackOrRevengeTarget(int entityID)
     {
         var myEntity = GameManager.Instance.World?.GetEntity(entityID) as EntityAlive;
         if (myEntity == null) return null;
-        
+
         var target = myEntity.GetAttackTarget();
-        if (target != null ) return target;
-        
+        if (target != null) return target;
+
         target = myEntity.GetRevengeTarget();
-        if (target != null ) return target;
+        if (target != null) return target;
 
         return null;
     }
@@ -1127,7 +1142,7 @@ public static class EntityUtilities
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;
         if (myEntity)
         {
-            switch(order)
+            switch (order)
             {
                 case Orders.Follow:
                     myEntity.Buffs.AddBuff("buffOrderFollow");
@@ -1143,8 +1158,6 @@ public static class EntityUtilities
                 case Orders.Patrol:
                     myEntity.Buffs.AddBuff("buffOrderPatrol");
                     break;
-
-
             }
         }
     }
@@ -1158,7 +1171,7 @@ public static class EntityUtilities
             if (myEntity.Buffs.HasCustomVar("PreviousOrder"))
                 previous = myEntity.Buffs.GetCustomVar("PreviousOrder");
             else
-                previous = (float)Orders.Wander;
+                previous = (float) Orders.Wander;
 
             var current = myEntity.Buffs.GetCustomVar("CurrentOrder");
             myEntity.Buffs.SetCustomVar("PreviousOrder", current);
@@ -1175,8 +1188,9 @@ public static class EntityUtilities
             DisplayLog(" GetCurrentOrder(): This is an Entity AliveSDX");
             if (myEntity.Buffs.HasCustomVar("CurrentOrder"))
             {
-                DisplayLog("GetCurrentOrder(): Entity has an Order: " + (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder"));
-                currentOrder = (Orders)myEntity.Buffs.GetCustomVar("CurrentOrder");
+                DisplayLog("GetCurrentOrder(): Entity has an Order: " +
+                           (Orders) myEntity.Buffs.GetCustomVar("CurrentOrder"));
+                currentOrder = (Orders) myEntity.Buffs.GetCustomVar("CurrentOrder");
             }
             else
             {
@@ -1229,14 +1243,17 @@ public static class EntityUtilities
                 AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Right Leg? " + myEntity.bodyDamage.HasRightLeg);
                 AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Left Leg? " + myEntity.bodyDamage.HasLeftLeg);
                 AdvLogging.DisplayLog(AdvFeatureClass, "\t Has Limbs? " + myEntity.bodyDamage.HasLimbs);
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Arm or Leg missing? " + myEntity.bodyDamage.IsAnyArmOrLegMissing);
-                AdvLogging.DisplayLog(AdvFeatureClass, "\t Has any leg missing? " + myEntity.bodyDamage.IsAnyLegMissing);
+                AdvLogging.DisplayLog(AdvFeatureClass,
+                    "\t Arm or Leg missing? " + myEntity.bodyDamage.IsAnyArmOrLegMissing);
+                AdvLogging.DisplayLog(AdvFeatureClass,
+                    "\t Has any leg missing? " + myEntity.bodyDamage.IsAnyLegMissing);
                 var LegDamageTrigger = false;
                 myEntity.emodel.avatarController.TryGetTrigger("LegDamageTrigger", out LegDamageTrigger);
                 AdvLogging.DisplayLog(AdvFeatureClass, "\t Leg Damage Trigger? " + LegDamageTrigger);
                 break;
             case "ShowAffection":
-                GameManager.ShowTooltip(player as EntityPlayerLocal, "You gentle scratch and stroke the side of the animal.", "");
+                GameManager.ShowTooltip(player as EntityPlayerLocal,
+                    "You gentle scratch and stroke the side of the animal.", "");
                 break;
             case "FollowMe":
                 AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Setting Leader");
@@ -1349,7 +1366,8 @@ public static class EntityUtilities
         {
             if (GetCurrentOrder(EntityID) != order)
             {
-                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " + GetCurrentOrder(EntityID));
+                DisplayLog("CanExecuteTask(): Current Order does not match passed in Order: " +
+                           GetCurrentOrder(EntityID));
                 return false;
             }
 
@@ -1415,7 +1433,8 @@ public static class EntityUtilities
         if (myEntity)
         {
             int x, y, z;
-            GameManager.Instance.World.FindRandomSpawnPointNearPositionUnderground(centralPosition, 15, out x, out y, out z, new Vector3(3, 3, 3));
+            GameManager.Instance.World.FindRandomSpawnPointNearPositionUnderground(centralPosition, 15, out x, out y,
+                out z, new Vector3(3, 3, 3));
             return new Vector3(x, y, z);
         }
 
@@ -1495,7 +1514,8 @@ public static class EntityUtilities
                 Blocks.Add("PathingCube");
 
             //Scan for the blocks in the area
-            var PathingVectors = ModGeneralUtilities.ScanForTileEntityInChunksListHelper(myEntity.position, Blocks, EntityID);
+            var PathingVectors =
+                ModGeneralUtilities.ScanForTileEntityInChunksListHelper(myEntity.position, Blocks, EntityID);
             if (PathingVectors == null || PathingVectors.Count == 0)
                 return result;
 
@@ -1536,12 +1556,14 @@ public static class EntityUtilities
             if (Block.list[block.type].HasTag(BlockTags.Door) && !BlockDoor.IsDoorOpen(block.meta))
             {
                 var chunk = myEntity.world.GetChunkFromWorldPos(blockPos) as Chunk;
-                if ( forceLock )
+                if (forceLock)
                 {
-                    var tileEntitySecureDoor = (TileEntitySecureDoor)GameManager.Instance.World.GetTileEntity(0, blockPos);
-                    if( tileEntitySecureDoor != null)
+                    var tileEntitySecureDoor =
+                        (TileEntitySecureDoor) GameManager.Instance.World.GetTileEntity(0, blockPos);
+                    if (tileEntitySecureDoor != null)
                         tileEntitySecureDoor.SetLocked(false);
                 }
+
                 block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity);
             }
         }
@@ -1652,7 +1674,8 @@ public static class EntityUtilities
         return TempList;
     }
 
-    public static void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI, int _entityIdThatOpenedIt)
+    private static void lootContainerOpened(TileEntityLootContainer _te, LocalPlayerUI _playerUI,
+        int _entityIdThatOpenedIt)
     {
         if (_playerUI != null)
         {
@@ -1676,20 +1699,21 @@ public static class EntityUtilities
 
             if (flag)
             {
-                ((XUiC_LootWindowGroup)((XUiWindowGroup)_playerUI.windowManager.GetWindow("looting")).Controller).SetTileEntityChest(lootContainerName, _te);
+                ((XUiC_LootWindowGroup) ((XUiWindowGroup) _playerUI.windowManager.GetWindow("looting")).Controller)
+                    .SetTileEntityChest(lootContainerName, _te);
                 _playerUI.windowManager.Open("looting", true);
             }
 
             var lootContainer = LootContainer.GetLootContainer(_te.lootListName);
-            if (lootContainer != null && _playerUI.entityPlayer != null) lootContainer.ExecuteBuffActions(_te.entityId, _playerUI.entityPlayer);
+            if (lootContainer != null && _playerUI.entityPlayer != null)
+                lootContainer.ExecuteBuffActions(_te.entityId, _playerUI.entityPlayer);
         }
 
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-        {
-            GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags());
-            _te.bTouched = true;
-            _te.SetModified();
-        }
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+        GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags());
+        _te.bTouched = true;
+
+        _te.SetModified();
     }
 
     public static bool CheckFaction(int EntityID, EntityAlive entity)
@@ -1711,7 +1735,7 @@ public static class EntityUtilities
 
         var myRelationship = GetFactionRelationship(myEntity, entity);
         DisplayLog(" CheckFactionForEnemy: " + myRelationship);
-        if (myRelationship < (float)FactionManager.Relationship.Dislike)
+        if (myRelationship < (float) FactionManager.Relationship.Dislike)
         {
             DisplayLog(" I hate this entity: " + entity);
             return false;
@@ -1744,6 +1768,7 @@ public static class EntityUtilities
             if (selfFaction != null)
                 relationship = selfFaction.GetRelationship(self.factionId);
         }
+
         return relationship;
 
         //var selfCheckTarget = FactionManager.Instance.GetRelationshipValue(self, target);
@@ -1790,7 +1815,7 @@ public static class EntityUtilities
                 if (myEntity.Buffs.HasCustomVar(strIncentive))
                 {
                     DisplayLog(" Incentive: " + strIncentive + " Value: " + myEntity.Buffs.GetCustomVar(strIncentive));
-                    if ((int)myEntity.Buffs.GetCustomVar(strIncentive) == entity.entityId)
+                    if ((int) myEntity.Buffs.GetCustomVar(strIncentive) == entity.entityId)
                         return true;
                 }
 
@@ -1809,12 +1834,16 @@ public static class EntityUtilities
         if (myEntity == null)
             return "";
 
-        var FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue(EntityID, "foodAmount")).ToString();
-        var WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue(EntityID, "waterAmount")).ToString();
+        var FoodAmount = Mathf.RoundToInt(myEntity.Stats.Stamina.ModifiedMax + GetCVarValue(EntityID, "foodAmount"))
+            .ToString();
+        var WaterAmount = Mathf.RoundToInt(myEntity.Stats.Water.Value + GetCVarValue(EntityID, "waterAmount"))
+            .ToString();
 
         // string strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Stats.Health.Value;
-        var strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Health + "/" + myEntity.GetMaxHealth();
-        strOutput += " Stamina: " + myEntity.Stats.Stamina.Value + " Thirst: " + myEntity.Stats.Water.Value + " Food: " + FoodAmount + " Water: " + WaterAmount;
+        var strOutput = myEntity.EntityName + " - ID: " + myEntity.entityId + " Health: " + myEntity.Health + "/" +
+                        myEntity.GetMaxHealth();
+        strOutput += " Stamina: " + myEntity.Stats.Stamina.Value + " Thirst: " + myEntity.Stats.Water.Value +
+                     " Food: " + FoodAmount + " Water: " + WaterAmount;
         strOutput += " Sanitation: " + GetCVarValue(EntityID, "solidWasteAmount");
         // Read the Food items configured.
         var strFoodItems = GetStringValue(EntityID, "FoodItems");
@@ -1839,13 +1868,15 @@ public static class EntityUtilities
 
         strOutput += "\n Active Buffs: ";
         foreach (var buff in myEntity.Buffs.ActiveBuffs)
-            strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " + buff.DurationInTicks + " )";
+            strOutput += "\n\t" + buff.BuffName + " ( Seconds: " + buff.DurationInSeconds + " Ticks: " +
+                         buff.DurationInTicks + " )";
         strOutput += "\n Active CVars: ";
         foreach (var myCvar in myEntity.Buffs.CVars)
             strOutput += "\n\t" + myCvar.Key + " : " + myCvar.Value;
         strOutput += "\n Active Quests: ";
         foreach (var quest in myEntity.questJournal.quests)
-            strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " + quest.CurrentPhase;
+            strOutput += "\n\t" + quest.ID + " Current State: " + quest.CurrentState + " Current Phase: " +
+                         quest.CurrentPhase;
         strOutput += "\n Patrol Points: ";
         foreach (var vec in myEntity.patrolCoordinates)
             strOutput += "\n\t" + vec;
@@ -1878,5 +1909,66 @@ public static class EntityUtilities
         {
             _UseFactionsTags.Add(FastTags.Parse(tags[i]));
         }
+    }
+
+    public static void CollectEntityClient(int entityId, int playerId)
+    {
+        var myEntity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;
+        if (myEntity == null) return;
+        myEntity.Collect(playerId);
+    }
+
+    public static void CollectEntityServer(int entityId, int playerId)
+    {
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                NetPackageManager.GetPackage<NetPackagePickUpNPCSDX>().Setup(entityId, playerId), false);
+            return;
+        }
+
+        var entity = GameManager.Instance.World.GetEntity(entityId);
+        if (entity == null) return;
+        if (GameManager.Instance.World.IsLocalPlayer(playerId))
+        {
+            CollectEntityClient(entityId, playerId);
+        }
+        else
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackagePickUpNPCSDX>().Setup(entityId, playerId), false, playerId, -1,
+                -1, -1);
+        }
+
+        GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Despawned);
+    }
+
+    public static void UpdateHandItem(int entityId, ItemValue itemId)
+    {
+        var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;
+        if (entity == null) return;
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageHoldingItem>().Setup(entity), false, -1, -1, -1, -1);
+        }
+        else
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageHoldingItem>().Setup(entity), false);
+        }
+        
+        // if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        // {
+        //     Debug.Log($"Client Side: {entityId} Item: {itemId}");
+        //     SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+        //         NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entityId, itemId), false);
+        //     return;
+        // }
+
+        // var entity = GameManager.Instance.World.GetEntity(entityId);
+        // if (entity == null) return;
+        //
+        // Debug.Log($"Server Side: {entityId} Item: {itemId}");
+        // SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+        //     NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entityId, itemId), false, -1, -1, -1, -1);
     }
 }

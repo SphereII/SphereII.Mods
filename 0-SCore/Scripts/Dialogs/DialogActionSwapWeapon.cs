@@ -13,13 +13,9 @@ public class DialogActionSwapWeapon : BaseDialogAction
         }
 
         var item = ItemClass.GetItem(ID);
-        if (item == null)
-        {
-            Debug.Log($"No Such Item: {ID}");
-            return;
-        }
+        myEntity.Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         myEntity.UpdateWeapon(item);
-        
+        EntityUtilities.UpdateHandItem(myEntity.entityId, item);
     }
     
  
