@@ -594,7 +594,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
         SetupStartingItems();
-
+        if ( !string.IsNullOrEmpty(_currentWeapon))
+            UpdateWeapon(_currentWeapon);
         // Does a quick local scan to see what pathing blocks, if any, are nearby. If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
 
@@ -654,8 +655,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             //  fail safe to protect game saves
         }
+        
+        _currentWeapon = _br.ReadString();
+        UpdateWeapon(_currentWeapon);
 
-     //   ReadSyncData(_br, 0, -1);
+        ReadSyncData(_br, 1, -1);
     }
 
     public ushort GetSyncFlagsReplicated(ushort syncFlags)
@@ -681,20 +685,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
     }
 
-    public void ReadSyncData(BinaryReader _br, ushort syncFlas, int senderId)
+    public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId)
     {
         // Preserve Inventory
-        int num2 = (int)_br.ReadByte();
-        ItemStack[] array = new ItemStack[num2];
-        for (int j = 0; j < num2; j++)
+        if (lootContainer == null) return;
+        var num2 = (int)_br.ReadByte();
+        var array = new ItemStack[num2];
+        for (var j = 0; j < num2; j++)
         {
-            ItemStack itemStack = new ItemStack();
+            var itemStack = new ItemStack();
             array[j] = itemStack.Read(_br);
-            this.lootContainer.UpdateSlot(j, array[j]);
+            lootContainer.UpdateSlot(j, array[j]);
         }
-        this.bag.SetSlots(array);
-        this.bag.OnUpdate();
-        _currentWeapon = _br.ReadString();
+
+        lootContainer.bPlayerStorage = true;
+        lootContainer.SetModified();
     }
 
     /// <inheritdoc/>
@@ -785,21 +790,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             // fail safe to protect game saves
         }
+        _bw.Write(inventory.holdingItem.GetItemName());
 
-      //  WriteSyncData(_bw, 0);
+       WriteSyncData(_bw, 1);
     }
 
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
     {
         //
         // // Inventory
-        var slots = this.bag.GetSlots();
+        //var slots = this.bag.GetSlots();
+        if (lootContainer == null) return;
+        var slots = this.lootContainer.items;
         _bw.Write((byte)slots.Length);
         for (int k = 0; k < slots.Length; k++)
         {
             slots[k].Write(_bw);
         }
-        _bw.Write(_currentWeapon);
+      //  _bw.Write(_currentWeapon);
     }
 
     public void GiveQuest(string strQuest)
@@ -1905,6 +1913,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var cvarValue = cvarData.Split(':')[1];
             Buffs.AddCustomVar(cvarName, StringParsers.ParseFloat(cvarValue));
         }
+        
+        Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
+
     }
 
     public ItemValue GetItemValue()
@@ -1998,8 +2009,21 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     private bool checkedWeapon = false;
 
-  
 
+
+
+    public void UpdateWeapon(string itemName)
+    {
+        if (string.IsNullOrEmpty(itemName))
+        {
+            Debug.Log("Item name is empty");
+            return;
+        }
+
+        var item = ItemClass.GetItem(itemName);
+        UpdateWeapon(item);
+        EntityUtilities.UpdateHandItem(entityId);
+    }
     // Allows the NPC to change their hand items, and update their animator.
     public void UpdateWeapon(ItemValue item)
     {

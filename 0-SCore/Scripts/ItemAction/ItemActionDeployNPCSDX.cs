@@ -39,11 +39,9 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
             }
             
             // Setting the spawner source and item value needs to happen after the SpawnEntityInWorld, otherwise it won't "take"
-            
             GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
             entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
             entityAlive.SetItemValue(holdingItemItemValue);
-            entityAlive.Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
             
 
         }

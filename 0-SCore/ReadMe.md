@@ -24,6 +24,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.12.1115
+
+	[ NPCs ]
+		- Fixed an issue with a null ref on the read/write for loot containers
+		- Fixed an issue where NPC backpacks weren't preserving on dedi.
+
 Version: 21.1.10.1805  ( For A21.1 stable )
 	[ NPCS ]
 		- Quite a few failed attempts at making inventory persists reliably / weeapon select on respawn

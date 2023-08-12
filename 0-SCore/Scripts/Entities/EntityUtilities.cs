@@ -1943,7 +1943,7 @@ public static class EntityUtilities
         GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Despawned);
     }
 
-    public static void UpdateHandItem(int entityId, ItemValue itemId)
+    public static void UpdateHandItem(int entityId)
     {
         var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;
         if (entity == null) return;

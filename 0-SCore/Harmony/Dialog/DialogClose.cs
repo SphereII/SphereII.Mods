@@ -18,7 +18,7 @@ namespace Harmony.Dialog
             myEntity.Buffs.RemoveCustomVar("CurrentPlayer");
             myEntity.emodel.avatarController.UpdateBool("IsBusy", false);
             // distribute the loot contents from the client to the server.
-       //     myEntity.SendSyncData();
+         //   myEntity.SendSyncData(2);
 
             return true;
         }
@@ -39,7 +39,13 @@ namespace Harmony.Dialog
             myEntity.emodel.avatarController.UpdateBool("IsBusy", true);
             myEntity.RotateTo(__instance.xui.playerUI.entityPlayer, 8f, 8f);
             myEntity.SetLookPosition(__instance.xui.playerUI.entityPlayer.getHeadPosition());
-            EntityUtilities.Stop(entityID, true);
+            // foreach (var item in myEntity.TraderData.PrimaryInventory)
+            // {
+            //     myEntity.lootContainer.AddItem(item);
+            //     myEntity.TraderData.PrimaryInventory.Remove(item);
+            //
+            // }
+            //myEntity.SendSyncData(2);
 
             return true;
         }
@@ -55,8 +61,9 @@ namespace Harmony.Dialog
             var entityID = (int)__instance.xui.playerUI.entityPlayer.Buffs.GetCustomVar("CurrentNPC");
             var myEntity = __instance.xui.playerUI.entityPlayer.world.GetEntity(entityID) as global::EntityAliveSDX;
             if (myEntity == null) return true;
+
             // distribute the loot contents from the client to the server.
-       //   myEntity.SendSyncData();
+        //  myEntity.SendSyncData(2);
 
             // var currentWeapon = myEntity.inventory.holdingItem.GetItemName();
             // if (!string.IsNullOrEmpty(currentWeapon))
