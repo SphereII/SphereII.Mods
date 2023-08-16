@@ -24,6 +24,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.16.1542
+
+	[ NPCS ]
+		- Fixed an issue where the NPC wasn't facing at its target
+		- Fixed an issue where a bag drop may throw null ref.
+		- Fixed an issue where the NPC wouldn't turn around to face the target, when backing up.
+
 Version: 21.1.12.1115
 
 	[ NPCs ]

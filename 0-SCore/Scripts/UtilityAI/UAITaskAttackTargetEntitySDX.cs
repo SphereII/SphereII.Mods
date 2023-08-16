@@ -60,11 +60,10 @@ namespace UAI
         public override void Update(Context _context)
         {
 
-            if (!_context.Self.onGround || _context.Self.Climbing)
+            if (!_context.Self.onGround || _context.Self.Climbing || _context.Self.Jumping)
                 return;
 
             var position = Vector3.zero;
-
             var entityAlive = UAIUtils.ConvertToEntityAlive(_context.ActionData.Target);
             if (entityAlive != null)
             {
@@ -88,22 +87,35 @@ namespace UAI
                 _context.Self.SetLookPosition(entityAlive.getHeadPosition());
                 position = entityAlive.getBellyPosition();
 
-                _context.Self.RotateTo(position.x, position.y, position.z, 30f,30f);
-                //_context.Self.RotateTo(entityAlive, 30f, 30f);
-
+                _context.Self.RotateTo(position.x, position.y, position.z, 45f,30f);
                 if (!_context.Self.IsInViewCone(position))
                 {
-                    Debug.Log("Not Attacking: not IsInViewCone");
+                    attackTimeout = 5;
                     return;
                 }
 
-                if ( ! _context.Self.IsInFrontOfMe(entityAlive.getHeadPosition()))
+                // The default IsInFrontOfMe() uses the max view angle, which may be too wide for the desired effect here.
+                // We want to limit the angle in which the entity is facing, before firing. 
+                var headPosition = _context.Self.getHeadPosition();
+                var dir = position - headPosition;
+                var forwardVector = _context.Self.GetForwardVector();
+                var angleBetween = Utils.GetAngleBetween(dir, forwardVector);
+                var num2 = 70 * 0.5f;
+                var isInFront = (angleBetween >= -num2 && angleBetween <= num2);
+                if (!isInFront)
                 {
-                    Debug.Log($"Not Attacking: Target is not in front of me.");
+                    attackTimeout = 15; // Introduce a small delay before it attacks, even if everything is lined up.
                     return;
-                    //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
-                    //     attackTimeout = 10;
                 }
+
+                // if ( ! _context.Self.IsInFrontOfMe(entityAlive.getHeadPosition()))
+                // {
+                //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
+                //     attackTimeout = 5;
+                //     return;
+                // }
+                //
+           
                 // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
                 // var headPosition = _context.Self.getHeadPosition();
                 // var dir = position - headPosition;
@@ -125,7 +137,6 @@ namespace UAI
                 var targetType = GameManager.Instance.World.GetBlock(new Vector3i(position));
                 if (targetType.Equals(BlockValue.Air))
                 {
-
                     this.Stop(_context);
                     return;
                 }
@@ -174,6 +185,7 @@ namespace UAI
             if (attackTimeout > 0)
                 return;
 
+    
             this.attackTimeout = _context.Self.GetAttackTimeoutTicks();
 
             // Action Index = 1 is Use, 0 is Attack.

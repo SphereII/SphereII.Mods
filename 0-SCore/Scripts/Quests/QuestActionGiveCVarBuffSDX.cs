@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 
+//<action type="GiveCVarBuffSDX, SCore" id="cvar" value="2" phase="3"/>
 public class QuestActionGiveCVarBuffSDX : BaseQuestAction
 {
     public override void SetupAction()

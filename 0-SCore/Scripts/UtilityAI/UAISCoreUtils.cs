@@ -1052,6 +1052,7 @@ namespace UAI
         }
 
 
+      
         /// <summary>
         /// These hit mask values are taken verbatim from Voxel.raycastNew.
         /// The names represent whether a raycast should <em>collide with</em> the block.
