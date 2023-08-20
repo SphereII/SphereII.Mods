@@ -69,6 +69,26 @@ public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
         return flEyeHeight;
     }
 
+    public override float GetMoveSpeed()
+    {
+        return IsCrouching
+            ? EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, moveSpeed, this)
+            : EffectManager.GetValue(PassiveEffects.WalkSpeed, null, moveSpeed, this);
+    }
+
+    public override float GetMoveSpeedAggro()
+    {
+        return IsBloodMoon
+            ? EffectManager.GetValue(PassiveEffects.RunSpeed, null, moveSpeedAggroMax, this)
+            : EffectManager.GetValue(
+                // Horde entities use WalkSpeed, but that messes up melee attacking. Luckily when
+                // an entity finds an attack target they're no longer considered part of a horde.
+                IsHordeZombie ? PassiveEffects.WalkSpeed : PassiveEffects.RunSpeed,
+                null,
+                moveSpeedAggro,
+                this);
+    }
+
     public override void PostInit()
     {
         base.PostInit();
