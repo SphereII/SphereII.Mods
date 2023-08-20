@@ -24,6 +24,34 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+
+	Note: When reference an asset bundle from another modlet, you must use the Name value from the ModInfo.xml
+	For example:
+		<xml>
+		  <Name value="0-SCore_sphereii" />
+		  <Author value="sphereii" />
+		  <Description value="SCore Mod" />
+		  <DisplayName value="0-SCore" />
+		  <Website value="" />
+		  <Version value="21.1.20.945" />
+		</xml>
+
+		<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']/property[@name='FireParticle']/@value">#@modfolder(0-SCore_sphereii):Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight</set>
+	
+	[ Water System ]
+		- Fixed a possible null ref when reading from a quest-reset
+		- Added a OnBlockLoaded for the sprinkler.
+
+	[ NPCs ]
+		- Disabled a call that created a player party if they hired an NPC, potentially causing other party invites to fail.
+
+	[ UAI ]
+		- Added a + 1 to the y value when doing the IsInside consideration to give it a chance to get out a block or entity to do the check.
+
+	[ Deco Block ]
+		- Added a ischild check for multi-dim blocks
+		- Added a IsTileEntitySavedInPrefab() call to persist in resets
+
 Version: 21.1.16.1542
 
 	[ NPCS ]

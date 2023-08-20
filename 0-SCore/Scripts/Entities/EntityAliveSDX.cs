@@ -1018,7 +1018,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // If the player doesn't have a party, create one, so we can share exp with our leader.
         if (player && !player.IsInParty())
         {
-            player.CreateParty();
+          //  player.CreateParty();
         }
 
         switch (EntityUtilities.GetCurrentOrder(entityId))
@@ -1640,7 +1640,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
-        if (leader)
+        if (leader && leader.Party != null)
         {
             // We don't check to see if its in the party, as the NPC isn't' really part of the party.
             num = leader.Party.GetPartyXP(leader, num);
@@ -1662,15 +1662,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         if (leader == null) return;
-
-        // if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
-        // {
-        //     GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
-        // }
-        // else
-        // {
-        //     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageSharedPartyKill>().Setup(killedEntity.entityClass, num, entityId), false, leader.entityId, -1, -1, -1);
-        // }
+        if (leader.Party == null) return;
+        
         foreach (var entityPlayer2 in leader.Party.MemberList)
         {
             if (!(Vector3.Distance(leader.position, entityPlayer2.position) <
@@ -1686,7 +1679,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                         .Setup(killedEntity.entityClass, num, entityId), false, entityPlayer2.entityId, -1, -1, -1);
             }
         }
-        // GameManager.Instance.SharedKillServer(killedEntity.entityId, leader.entityId, xpModifier);
     }
 
     // General ExecuteAction that takes an action ID.
