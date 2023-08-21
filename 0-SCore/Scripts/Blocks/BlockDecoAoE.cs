@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-
 public class BlockDecoAoE : BlockParticle
 { 
     public BlockDecoAoE()
     {
-        this.HasTileEntity = true;
+        HasTileEntity = true;
     }
 
+  
     public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);

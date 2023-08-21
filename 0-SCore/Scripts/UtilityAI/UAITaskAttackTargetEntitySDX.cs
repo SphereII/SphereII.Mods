@@ -145,7 +145,7 @@ namespace UAI
             // Reloading
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
             {
-                Debug.Log($"Not Attacking:  Buff Throttle: {_buffThrottle}");
+              //  Debug.Log($"Not Attacking:  Buff Throttle: {_buffThrottle}");
                 return;
             }
 

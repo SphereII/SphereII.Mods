@@ -24,6 +24,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.21.1021
+
+	[ UAI ]
+		- Removed Debug statement for UAIAttackTargetEntity
+
+	[ DecoAoE ]
+		- Added additional code in an attempt to make them quest resets work.
+			- Further updates may be needed
+
 Version: 21.1.20.1053
 	Note: When reference an asset bundle from another modlet, you must use the Name value from the ModInfo.xml
 	For example:
