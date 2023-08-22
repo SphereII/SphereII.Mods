@@ -24,6 +24,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.22.727
+	[ Transmogrifier ]
+		- Moved the crawler gate up a bit, as it was getting random walk types when it really shouldn't have.
+
 Version: 21.1.21.1021
 
 	[ UAI ]

@@ -31,6 +31,8 @@ namespace Harmony.ZombieFeatures
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
+                if (___walkType is 21 or 22 || __instance is not EntityZombie) return;
+
                 var random = new Random();
 
                 var entityClass = __instance.EntityClass;
@@ -47,7 +49,6 @@ namespace Harmony.ZombieFeatures
                     return;
                 }
 
-                if (___walkType is 21 or 22 || __instance is not EntityZombie) return;
 
                 // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution.
                 var numbers = new int[] {1, 2, 2, 3, 21,22,5, 6, 7, 7};
