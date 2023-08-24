@@ -149,28 +149,28 @@ namespace UAI
                 return;
             }
 
-            var num = UAIUtils.DistanceSqr(_context.Self.position, position);
+            //var num = UAIUtils.DistanceSqr(_context.Self.position, position);
             var entityAliveSdx = _context.Self as EntityAliveSDX;
     
             // Check the range on the item action
             ItemActionRanged.ItemActionDataRanged itemActionData = null;
             var itemAction = _context.Self.inventory.holdingItem.Actions[_actionIndex];
-            var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range) : 1.095f);
+            //var distance = ((itemAction != null) ? Utils.FastMax(0.8f, itemAction.Range) : 1.095f);
             if (itemAction is ItemActionRanged itemActionRanged)
             {
                 itemActionData = _context.Self.inventory.holdingItemData.actionData[_actionIndex] as ItemActionRanged.ItemActionDataRanged;
                 if (itemActionData != null)
                 {
-                    var range = itemActionRanged.GetRange(itemActionData);
-                    distance = Utils.FastMax(0.8f, range);
+                    //var range = itemActionRanged.GetRange(itemActionData);
+                    //distance = Utils.FastMax(0.8f, range);
                     
                     // Check if we are already running.
                     if (itemAction.IsActionRunning(itemActionData))
                         return;
                 }
             }
-            var minDistance = distance * distance;
-            var a = position - _context.Self.position;
+            //var minDistance = distance * distance;
+            //var a = position - _context.Self.position;
 
             //not within range ?
             // if (a.sqrMagnitude > minDistance)
@@ -196,7 +196,14 @@ namespace UAI
                     _context.Self.Attack(true);
                     break;
                 case 1:
-                    if (!_context.Self.Use(false)) return;
+                    // Use() doesn't trigger the weapon fire animation, do that here.
+                    // Trigger it now so the first call to Use() has the correct animation.
+                    _context.Self.emodel.avatarController.TriggerEvent("WeaponFire");
+                    if (!_context.Self.Use(false))
+                    {
+                        _context.Self.emodel.avatarController.CancelEvent("WeaponFire");
+                        return;
+                    }
                     _context.Self.Use(true);
                     break;
                 default:

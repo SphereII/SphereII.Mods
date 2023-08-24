@@ -28,12 +28,11 @@ using Random = System.Random;
 /// </code>
 /// </example>
 /// </summary>
-public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
+public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
 {
     public float flEyeHeight = -1f;
     public bool isAlwaysAwake;
     public Random random = new Random();
-    public ulong timeToDie;
 
 
     #region Interface Backing Fields
@@ -98,6 +97,9 @@ public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
         SetupAutoPathingBlocks();
     }
 
+    /// <summary>
+    /// Sets up the starting items. Copied from <see cref="EntityTrader.SetupStartingItems"/>.
+    /// </summary>
     protected virtual void SetupStartingItems()
     {
         for (var i = 0; i < itemsOnEnterGame.Count; i++)
@@ -135,22 +137,6 @@ public class EntityEnemySDX : EntityEnemy, IEntityOrderReceiverSDX
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
-        this.timeToDie = this.world.worldTime + 1800UL + (ulong)(22000f * this.rand.RandomFloat);
-        if (this.IsFeral && base.GetSpawnerSource() == EnumSpawnerSource.Biome)
-        {
-            int num = (int)SkyManager.GetDawnTime();
-            int num2 = (int)SkyManager.GetDuskTime();
-            int num3 = GameUtils.WorldTimeToHours(this.WorldTimeBorn);
-            if (num3 < num || num3 >= num2)
-            {
-                int num4 = GameUtils.WorldTimeToDays(this.world.worldTime);
-                if (GameUtils.WorldTimeToHours(this.world.worldTime) >= num2)
-                {
-                    num4++;
-                }
-                this.timeToDie = GameUtils.DayTimeToWorldTime(num4, num, 0);
-            }
-        }
 
         if (isAlwaysAwake)
         {

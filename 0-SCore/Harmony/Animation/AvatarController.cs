@@ -72,7 +72,7 @@ namespace Harmony.Animation
             public static void Postfix(global::AvatarZombieController __instance,  global::EntityAlive ___entity)
             {
                 if ( ___entity == null) return;
-                if (___entity is not EntityAliveSDX entityAliveSdx) return;
+                if (___entity is not EntityAliveSDX && ___entity is not EntityEnemySDX) return;
                 if (___entity.IsFlyMode.Value) return;
                 
                 
