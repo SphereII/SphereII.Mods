@@ -196,14 +196,22 @@ namespace UAI
                     _context.Self.Attack(true);
                     break;
                 case 1:
-                    // Use() doesn't trigger the weapon fire animation, do that here.
-                    // Trigger it now so the first call to Use() has the correct animation.
-                    _context.Self.emodel.avatarController.TriggerEvent("WeaponFire");
+
+                    // use, much like attack, goes through a few additional checks that can return false, including making sure that the 
+                    // entity can attack / use. Conditions like if they are stunned, electrocuted, or its already running, will return false.
+                    // Normally the Use fails briefly, but we likely don't want to trigger the event needlessly, just to cancel it.
                     if (!_context.Self.Use(false))
                     {
-                        _context.Self.emodel.avatarController.CancelEvent("WeaponFire");
+                        //_context.Self.emodel.avatarController.CancelEvent("WeaponFire");
                         return;
                     }
+
+                    // Let's check to make sure it's a ranged action. 
+                    if (itemActionData != null)
+                    {
+                        _context.Self.emodel.avatarController.TriggerEvent("WeaponFire");
+                    }
+
                     _context.Self.Use(true);
                     break;
                 default:

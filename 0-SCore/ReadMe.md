@@ -24,6 +24,19 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.24.928
+
+	[ EntityEnemySDX ]
+		- Integrated khzmusik's changes
+			- Added a EntityEnemySDX check for an AvatarController Patch
+			- Rebased EntityEnemySDX against EntityHuman
+	
+	[ UAI ]
+		- Integrated khzmusik's changes
+			- Added new Consideration: HasinvestigatePosition
+			- Added UAI Task: ApproachSpotSDX
+			- Cleaned up UAI Task AttackTargetEntity
+	
 Version: 21.1.22.727
 	[ Transmogrifier ]
 		- Moved the crawler gate up a bit, as it was getting random walk types when it really shouldn't have.
