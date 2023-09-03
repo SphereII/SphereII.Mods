@@ -365,7 +365,6 @@
     <Compile Include="Scripts\NetPackage\NetPackageQuestGotoPointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
-    <Compile Include="Scripts\NetPackage\NetPackageWeaponSwap.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBlockDestroySDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
@@ -402,6 +401,7 @@
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsLeader.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsPlayer.cs" />
     <Compile Include="Scripts\UtilityAI\Filters\UAIFilterIsSelf.cs" />
+    <Compile Include="Scripts\UtilityAI\UAIConsiderationHasInvestigatePosition.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationHasPathingCode.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearPlant.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationIsNearFarm.cs" />
@@ -441,6 +441,7 @@
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetSameClass.cs" />
     <Compile Include="Scripts\UtilityAI\UAIConsiderationTargetTileEntity.cs" />
     <Compile Include="Scripts\UtilityAI\UAISCoreUtils.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskApproachSpotSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskAttackTargetEntitySDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskBreakBlocks.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFarming.cs" />

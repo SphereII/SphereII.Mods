@@ -25,6 +25,7 @@ namespace Features.LockPicking
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
+                
                 // If they have a controller, skip the mini game
                 if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
                     return true;

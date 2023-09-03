@@ -78,6 +78,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private float corpseBlockChance;
 
     private string _currentWeapon = "";
+    private string _defaultWeapon = "";
 
     // if the NPC isn't available, don't return a loot. This disables the "Press <E> to search..."
     public override string GetLootList()
@@ -607,7 +608,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         this.PhysicsTransform.gameObject.SetActive(true);
         SetSpawnerSource(EnumSpawnerSource.Biome);
     }
-
     /// <inheritdoc/>
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
@@ -666,7 +666,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         return syncFlags;
     }
-
+    
     public void SendSyncData(ushort syncFlags = 1)
     {
         var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
@@ -697,9 +697,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             array[j] = itemStack.Read(_br);
             lootContainer.UpdateSlot(j, array[j]);
         }
-
         lootContainer.bPlayerStorage = true;
-        lootContainer.SetModified();
     }
 
     /// <inheritdoc/>
@@ -797,17 +795,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
     {
-        //
-        // // Inventory
+        
+         // Inventory
         //var slots = this.bag.GetSlots();
-        if (lootContainer == null) return;
-        var slots = this.lootContainer.items;
-        _bw.Write((byte)slots.Length);
-        for (int k = 0; k < slots.Length; k++)
-        {
-            slots[k].Write(_bw);
-        }
-      //  _bw.Write(_currentWeapon);
+         if (lootContainer == null) return;
+         var slots = this.lootContainer.items;
+         _bw.Write((byte)slots.Length);
+         for (int k = 0; k < slots.Length; k++)
+         {
+             slots[k].Write(_bw);
+         }
+        _bw.Write(_currentWeapon);
     }
 
     public void GiveQuest(string strQuest)
@@ -1093,6 +1091,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             LeaderUpdate();
 
         CheckStuck();
+        
         // SetupAutoPathingBlocks();
 
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
@@ -1293,27 +1292,28 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
             if (lootContainer != null)
             {
-                bool isBackpackEmpty = lootContainer.IsEmpty();
+                var isBackpackEmpty = lootContainer.IsEmpty();
                 if (!isBackpackEmpty)
                 {
                     var bagPosition = new Vector3i(this.position + base.transform.up);
 
                     var className = "BackpackNPC";
-                    EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+                    var entityClass = EntityClass.GetEntityClass(className.GetHashCode());
                     if (entityClass == null)
                         className = "Backpack";
 
                     var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
 
-                    EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
-
-                    entityCreationData.entityName = Localization.Get(this.EntityName);
-                    entityCreationData.id = -1;
-                    entityCreationData.lootContainer = lootContainer;
+                    var entityCreationData = new EntityCreationData(entityBackpack)
+                    {
+                        entityName = Localization.Get(this.EntityName),
+                        id = -1,
+                        lootContainer = lootContainer
+                    };
 
                     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-
-                    entityBackpack.OnEntityUnload();
+                    if ( entityBackpack)
+                        entityBackpack.OnEntityUnload();
                     //  this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
                 }
             }
@@ -1342,13 +1342,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         this.nativeCollider = null;
         this.physicsCapsuleCollider = null;
 
-        Collider[] component = this.gameObject.GetComponentsInChildren<Collider>();
+        var component = this.gameObject.GetComponentsInChildren<Collider>();
 
-        for (int i = 0; i < component.Length; i++)
+        foreach (var t in component)
         {
-            if (component[i].name.ToLower() == "gameobject")
+            if (t.name.ToLower() == "gameobject")
             {
-                component[i].enabled = false;
+                t.enabled = false;
             }
         }
 
@@ -1971,46 +1971,54 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         return itemValue;
     }
-
-    private void FindWeapon(string weapon)
+  
+    public bool FindWeapon(string weapon)
     {
-        Debug.Log($"Validating Weapon: {weapon}");
-        var index = -1;
-        foreach (var item in inventory.GetSlots())
+        var currentWeapon = ItemClass.GetItem(weapon);
+        if (!currentWeapon.ItemClass.Properties.Contains("CompatibleWeapon")) return false;
+        var playerWeapon = currentWeapon.ItemClass.Properties.GetStringValue("CompatibleWeapon");
+        if (string.IsNullOrEmpty(playerWeapon)) return false;
+        var playerWeaponItem = ItemClass.GetItem(playerWeapon);
+        if (lootContainer.HasItem(playerWeaponItem)) return true;
+        
+        // If we don't have it in our loot container, check to see if we had it when we first spawned in.
+        for (var i = 0; i < itemsOnEnterGame.Count; i++)
         {
-            index++;
-            if (item.IsEmpty()) continue;
-            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
-
-            Debug.Log($"Found {weapon} in Toolbelt at index {index}");
-            Buffs.SetCustomVar("CurrentWeaponIndex", index);
-            return;
+            var itemStack = itemsOnEnterGame[i];
+            if (itemStack.itemValue.ItemClass.GetItemName()
+                .Equals(weapon, StringComparison.InvariantCultureIgnoreCase)) return true;
         }
 
-        index = -1;
-        foreach (var item in lootContainer.GetItems())
+        return false;
+    }
+
+
+    protected override void SetupStartingItems()
+    {
+        for (var i = 0; i < this.itemsOnEnterGame.Count; i++)
         {
-            index++;
-            if (item.IsEmpty()) continue;
-            if (!item.itemValue.ItemClass.GetItemName().Equals(weapon, StringComparison.OrdinalIgnoreCase)) continue;
-            Debug.Log($"Found {weapon} in Loot container at index {index}");
-            Buffs.SetCustomVar("CurrentWeaponIndex", index);
-            return;
+            var itemStack = this.itemsOnEnterGame[i];
+            var forId = ItemClass.GetForId(itemStack.itemValue.type);
+            if (forId.HasQuality)
+            {
+                itemStack.itemValue = new ItemValue(itemStack.itemValue.type, 1, 6, false, null, 1f);
+            }
+            else
+            {
+                itemStack.count = forId.Stacknumber.Value;
+            }
+
+            if (i == 0)
+                _defaultWeapon = forId.GetItemName();
+            inventory.SetItem(i, itemStack);
         }
     }
 
-    private bool checkedWeapon = false;
 
-
-
-
-    public void UpdateWeapon(string itemName)
+    public void UpdateWeapon(string itemName = "")
     {
         if (string.IsNullOrEmpty(itemName))
-        {
-            Debug.Log("Item name is empty");
-            return;
-        }
+            itemName = _currentWeapon;
 
         var item = ItemClass.GetItem(itemName);
         UpdateWeapon(item);
@@ -2022,8 +2030,20 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (item == null) return;
         if (item.GetItemId() < 0) return;
         _currentWeapon = item.ItemClass.GetItemName();
+
+        // Do we have this item?
+        if (!FindWeapon(_currentWeapon))
+        {
+            if (string.IsNullOrEmpty(_defaultWeapon))
+                return;
+
+            // Switch to default
+            item = ItemClass.GetItem(_defaultWeapon);
+        }
+        Debug.Log($"{_currentWeapon} Default Weapon: {_defaultWeapon}");
         if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
             return;
+        _currentWeapon = item.ItemClass.GetItemName();
         Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         inventory.SetItem(0, item, 1);
 
@@ -2103,67 +2123,63 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     protected override Vector3i dropCorpseBlock()
     {
-        if (this.lootContainer != null && this.lootContainer.IsUserAccessing())
+        if (lootContainer != null && lootContainer.IsUserAccessing())
         {
             return Vector3i.zero;
         }
 
-        Vector3i vector3i = Vector3i.zero;
-
-        if (this.corpseBlockValue.isair)
+        if (corpseBlockValue.isair)
         {
             return Vector3i.zero;
         }
 
-        if (this.rand.RandomFloat > this.corpseBlockChance)
+        if (rand.RandomFloat > corpseBlockChance)
         {
             return Vector3i.zero;
         }
 
-        vector3i = World.worldToBlockPos(this.position);
-        while (vector3i.y < 254 && (float) vector3i.y - this.position.y < 3f &&
-               !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3i, this.corpseBlockValue, false))
+        var vector3I = World.worldToBlockPos(this.position);
+        while (vector3I.y < 254 && (float) vector3I.y - this.position.y < 3f &&
+               !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3I, this.corpseBlockValue, false))
         {
-            vector3i += Vector3i.up;
+            vector3I += Vector3i.up;
         }
 
-        if (vector3i.y >= 254)
+        if (vector3I.y >= 254)
         {
             return Vector3i.zero;
         }
 
-        if ((float) vector3i.y - this.position.y >= 2.1f)
+        if ((float) vector3I.y - this.position.y >= 2.1f)
         {
             return Vector3i.zero;
         }
 
-        this.world.SetBlockRPC(vector3i, this.corpseBlockValue);
+        this.world.SetBlockRPC(vector3I, this.corpseBlockValue);
 
-        if (vector3i == Vector3i.zero)
+        if (vector3I == Vector3i.zero)
         {
             return Vector3i.zero;
         }
 
-        TileEntityLootContainer tileEntityLootContainer =
-            this.world.GetTileEntity(0, vector3i) as TileEntityLootContainer;
-        if (tileEntityLootContainer == null)
+        if (world.GetTileEntity(0, vector3I) is not TileEntityLootContainer tileEntityLootContainer)
         {
             return Vector3i.zero;
         }
 
-        if (this.lootContainer != null)
+        if (lootContainer != null)
         {
-            tileEntityLootContainer.CopyLootContainerDataFromOther(this.lootContainer);
+            tileEntityLootContainer.CopyLootContainerDataFromOther(lootContainer);
         }
         else
         {
             tileEntityLootContainer.lootListName = this.lootListOnDeath;
-            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(this.lootListOnDeath, true).size,
+            tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size,
                 true);
         }
 
         tileEntityLootContainer.SetModified();
-        return vector3i;
+        return vector3I;
     }
 
     protected override void updateStepSound(float distX, float distZ)
@@ -2182,145 +2198,83 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         base.updateStepSound(distX, distZ);
     }
-    //public override void OnReloadStart()
-    //{
-    //    base.OnReloadStart();
-    //    emodel.avatarController.SetBool("Reload", true);
 
-    //}
-    //public override void OnReloadEnd()
-    //{
-    //    var itemAction = inventory.holdingItem.Actions[0];
-    //    if (itemAction is ItemActionRanged itemActionRanged)
-    //    {
-    //        ItemActionRanged.ItemActionDataRanged itemActionData = inventory.holdingItemData.actionData[0] as ItemActionRanged.ItemActionDataRanged;
-    //        if (itemActionData != null)
-    //        {
-    //            int num = (int)EffectManager.GetValue(PassiveEffects.MagazineSize, itemActionData.invData.itemValue, (float)itemActionRanged.BulletsPerMagazine, this, null, default(FastTags), true, true, true, true, 1, true);
-
-    //            // If the magazine size isn't set, just assume 1
-    //            if (num == 0) num = 1;
-
-    //            // Reload to the full magazine.
-    //            if (itemActionData.invData.itemValue.Meta == 0)
-    //                itemActionData.invData.itemValue.Meta = num;
-
-    //            itemActionData.isReloading = false;
-    //            emodel.avatarController.SetBool("Reload", false);
-    //        }
-    //    }
-    //        base.OnReloadEnd();
-    //}
-
-
-    //protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
-    //{
-    //    if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
-    //    speedForward *= 0.5f;
-    //    speedStrafe *= 0.5f;
-    //    speedVertical *= 0.5f;
-    //    if (Mathf.Abs(_dist.x) > 0.001f || Mathf.Abs(_dist.z) > 0.001f)
-    //    {
-    //        var num = Mathf.Sin(-rotation.y * 3.14159274f / 180f);
-    //        var num2 = Mathf.Cos(-rotation.y * 3.14159274f / 180f);
-    //        speedForward += num2 * _dist.z - num * _dist.x;
-    //        speedStrafe += num2 * _dist.x + num * _dist.z;
-    //    }
-
-    //    if (Mathf.Abs(_dist.y) > 0.001f) speedVertical += _dist.y;
-
-    //    SetMovementState();
-    //}
-
-    private bool shouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain)
+    private bool ShouldPushOutOfBlock(int _x, int _y, int _z, bool pushOutOfTerrain)
     {
-        BlockShape shape = this.world.GetBlock(_x, _y, _z).Block.shape;
+        var shape = world.GetBlock(_x, _y, _z).Block.shape;
         if (shape.IsSolidSpace && !shape.IsTerrain())
         {
             return true;
         }
 
-        if (pushOutOfTerrain && shape.IsSolidSpace && shape.IsTerrain())
-        {
-            BlockShape shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
-            if (shape2.IsSolidSpace && shape2.IsTerrain())
-            {
-                return true;
-            }
-        }
-
-        return false;
+        if (!pushOutOfTerrain || !shape.IsSolidSpace || !shape.IsTerrain()) return false;
+        var shape2 = this.world.GetBlock(_x, _y + 1, _z).Block.shape;
+        return shape2.IsSolidSpace && shape2.IsTerrain();
     }
 
-    private bool pushOutOfBlocks(float _x, float _y, float _z)
+    private bool PushOutOfBlocks(float _x, float _y, float _z)
     {
-        int num = Utils.Fastfloor(_x);
-        int num2 = Utils.Fastfloor(_y);
-        int num3 = Utils.Fastfloor(_z);
-        float num4 = _x - (float) num;
-        float num5 = _z - (float) num3;
-        bool result = false;
-        if (this.shouldPushOutOfBlock(num, num2, num3, false) ||
-            (this.shouldPushOutOfBlock(num, num2 + 1, num3, false)))
+        var num = Utils.Fastfloor(_x);
+        var num2 = Utils.Fastfloor(_y);
+        var num3 = Utils.Fastfloor(_z);
+        var num4 = _x - (float) num;
+        var num5 = _z - (float) num3;
+        var result = false;
+        if (!this.ShouldPushOutOfBlock(num, num2, num3, false) &&
+            (!this.ShouldPushOutOfBlock(num, num2 + 1, num3, false))) return false;
+        var flag2 = !this.ShouldPushOutOfBlock(num - 1, num2, num3, true) &&
+                     !this.ShouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
+        var flag3 = !this.ShouldPushOutOfBlock(num + 1, num2, num3, true) &&
+                     !this.ShouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
+        var flag4 = !this.ShouldPushOutOfBlock(num, num2, num3 - 1, true) &&
+                     !this.ShouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
+        var flag5 = !this.ShouldPushOutOfBlock(num, num2, num3 + 1, true) &&
+                     !this.ShouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
+        var b = byte.MaxValue;
+        var num6 = 9999f;
+        if (flag2 && num4 < num6)
         {
-            bool flag2 = !this.shouldPushOutOfBlock(num - 1, num2, num3, true) &&
-                         !this.shouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
-            bool flag3 = !this.shouldPushOutOfBlock(num + 1, num2, num3, true) &&
-                         !this.shouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
-            bool flag4 = !this.shouldPushOutOfBlock(num, num2, num3 - 1, true) &&
-                         !this.shouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
-            bool flag5 = !this.shouldPushOutOfBlock(num, num2, num3 + 1, true) &&
-                         !this.shouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
-            byte b = byte.MaxValue;
-            float num6 = 9999f;
-            if (flag2 && num4 < num6)
-            {
-                num6 = num4;
-                b = 0;
-            }
+            num6 = num4;
+            b = 0;
+        }
 
-            if (flag3 && 1.0 - (double) num4 < (double) num6)
-            {
-                num6 = 1f - num4;
-                b = 1;
-            }
+        if (flag3 && 1.0 - (double) num4 < (double) num6)
+        {
+            num6 = 1f - num4;
+            b = 1;
+        }
 
-            if (flag4 && num5 < num6)
-            {
-                num6 = num5;
-                b = 4;
-            }
+        if (flag4 && num5 < num6)
+        {
+            num6 = num5;
+            b = 4;
+        }
 
-            if (flag5 && 1f - num5 < num6)
-            {
-                b = 5;
-            }
+        if (flag5 && 1f - num5 < num6)
+        {
+            b = 5;
+        }
 
-            float num7 = 0.1f;
-            if (b == 0)
-            {
+        var num7 = 0.1f;
+        switch (b)
+        {
+            case 0:
                 this.motion.x = -num7;
-            }
-
-            if (b == 1)
-            {
+                break;
+            case 1:
                 this.motion.x = num7;
-            }
-
-            if (b == 4)
-            {
+                break;
+            case 4:
                 this.motion.z = -num7;
-            }
-
-            if (b == 5)
-            {
+                break;
+            case 5:
                 this.motion.z = num7;
-            }
+                break;
+        }
 
-            if (b != 255)
-            {
-                result = true;
-            }
+        if (b != 255)
+        {
+            result = true;
         }
 
         return result;
@@ -2355,34 +2309,22 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public virtual void CheckStuck()
     {
-        this.IsStuck = false;
-        if (!this.IsFlyMode.Value)
-        {
-            float num = this.boundingBox.min.y + 0.5f;
-            this.IsStuck = this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num,
-                this.position.z + base.depth * 0.3f);
-            this.IsStuck =
-                (this.pushOutOfBlocks(this.position.x - base.width * 0.3f, num, this.position.z - base.depth * 0.3f) ||
-                 this.IsStuck);
-            this.IsStuck =
-                (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z - base.depth * 0.3f) ||
-                 this.IsStuck);
-            this.IsStuck =
-                (this.pushOutOfBlocks(this.position.x + base.width * 0.3f, num, this.position.z + base.depth * 0.3f) ||
-                 this.IsStuck);
-            if (!this.IsStuck)
-            {
-                int x = Utils.Fastfloor(this.position.x);
-                int num2 = Utils.Fastfloor(num);
-                int z = Utils.Fastfloor(this.position.z);
-                if (this.shouldPushOutOfBlock(x, num2, z, true) &&
-                    this.CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2))
-                {
-                    this.IsStuck = true;
-                    this.motion = new Vector3(0f, 1.6f, 0f);
-                    Log.Warning($"{EntityName} ({entityId}) is stuck. Unsticking.");
-                }
-            }
-        }
+        IsStuck = false;
+        if (IsFlyMode.Value) return;
+        var num = boundingBox.min.y + 0.5f;
+        IsStuck = PushOutOfBlocks(position.x - width * 0.3f, num, position.z + depth * 0.3f);
+        IsStuck = (PushOutOfBlocks(position.x - width * 0.3f, num, position.z - depth * 0.3f) || IsStuck);
+        IsStuck = (PushOutOfBlocks(position.x + width * 0.3f, num, position.z - depth * 0.3f) || IsStuck);
+        IsStuck = (PushOutOfBlocks(position.x + width * 0.3f, num, position.z + depth * 0.3f) || IsStuck);
+        if (IsStuck) return;
+        
+        var x = Utils.Fastfloor(position.x);
+        var num2 = Utils.Fastfloor(num);
+        var z = Utils.Fastfloor(position.z);
+        if (!ShouldPushOutOfBlock(x, num2, z, true) ||
+            !CheckNonSolidVertical(new Vector3i(x, num2 + 1, z), 4, 2)) return;
+        IsStuck = true;
+        motion = new Vector3(0f, 1.6f, 0f);
+        Log.Warning($"{EntityName} ({entityId}) is stuck. Unsticking.");
     }
 }

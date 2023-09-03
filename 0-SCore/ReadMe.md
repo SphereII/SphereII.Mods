@@ -24,6 +24,53 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.34.952
+
+	[ EntityAlive SDX ( NPCs )]
+		- Fixed an issue where inventory was not being preserved or distributed to clients.
+		- Code clean up on class
+		- Fixed an issue where the NPC could continue to use a weapon that no longer exists in thein loot container.
+
+	[ SCore Integrity Check ]
+		- Added a new feature to SCore's ModEvents.Init() to provide a quick look integrity check.
+
+		Intention:
+			- This checks all the modlets installed locally.
+			- It's intended to be a Quick Look to see if an overhaul is installed correctly.
+			- Each release of an overhaul would have a unique, and repeatable Hash Code.
+			- A Hash Code is a 10 digit numeric code.
+			- If a modlet is added, removed, or is a different version, the Hash Code will be different.
+			- This will not stop a game from loading ( You do you, boo ).
+
+		What It Checks:
+			- This will add new entry's to the game load, printing after the "Loaded Mod:" step.
+			- This will check, and print the path, if there's a Mods folder in the UserDataFolder or local folder.
+			- If there's a mods folder in both, it will display a warning in the log file:
+				WARNING: Loaded Mods From two Folders!
+			- This isn't a fatal warning, but rather helps you at a glance to see if they are potentially loading mods from two different places.
+				- Loading Mods from two locations is not an error, or bug.
+				- Some people install a mod to UserDataFolder / Local Mods folder and forget about it.
+
+			- It will loop around all Loaded Mods, do a GetHashCode() on the Modlet Name and Version number.
+			- GetHashCode() returns an 10 digit numeric code.
+			- All the HashCode for the Loaded Mods are added to a string.
+			- At the end, it will print a GetHashCode() from the combined string, giving a summary.
+		
+		Example:
+			2023-09-02T07:49:59 4.454 INF SCore:: Checking Installed Modlets...
+			2023-09-02T07:49:59 4.454 INF Loaded Mods From C:/Program Files (x86)/Steam/steamapps/common/7 Days To Die/7DaysToDie_Data/../Mods
+			2023-09-02T07:49:59 4.455 INF Modlet List Hash: 1788120558
+			2023-09-02T07:49:59 4.455 INF SCore:: Done Checking Installed Modlets
+		
+	[ UAI ]
+		- Aded the consideration / Task to the VC Proj of SCore
+
+	[ Build Tooling ]
+		- Added a new obj Clean Target to be triggered after "AfterBuild".
+		- This will remove the contents of the obj file after the building / linking.
+		- Any project that loads the Directory.Build.targets file as a reference.
+
+
 Version: 21.1.24.928
 
 	[ EntityEnemySDX ]

@@ -33,33 +33,31 @@ public class EntityAliveFarmingAnimalSDX : EntityAliveSDX
     public void ConfigureBounaryBox(Vector3 newSize)
     {
         var component = gameObject.GetComponent<BoxCollider>();
-        if (component)
-        {
-            DisplayLog(" Box Collider: " + component.size.ToCultureInvariantString());
-            DisplayLog(" Current Boundary Box: " + boundingBox.ToCultureInvariantString());
-            // Re-adjusting the box collider     
-            component.size = newSize;
+        if (!component) return;
+        DisplayLog(" Box Collider: " + component.size.ToCultureInvariantString());
+        DisplayLog(" Current Boundary Box: " + boundingBox.ToCultureInvariantString());
+        // Re-adjusting the box collider     
+        component.size = newSize;
 
-            scaledExtent = new Vector3(component.size.x / 2f * transform.localScale.x, component.size.y / 2f * transform.localScale.y, component.size.z / 2f * transform.localScale.z);
-            var vector = new Vector3(component.center.x * transform.localScale.x, component.center.y * transform.localScale.y, component.center.z * transform.localScale.z);
-            boundingBox = BoundsUtils.BoundsForMinMax(-scaledExtent.x, -scaledExtent.y, -scaledExtent.z, scaledExtent.x, scaledExtent.y, scaledExtent.z);
-            boundingBox.center = boundingBox.center + vector;
+        scaledExtent = new Vector3(component.size.x / 2f * transform.localScale.x, component.size.y / 2f * transform.localScale.y, component.size.z / 2f * transform.localScale.z);
+        var vector = new Vector3(component.center.x * transform.localScale.x, component.center.y * transform.localScale.y, component.center.z * transform.localScale.z);
+        boundingBox = BoundsUtils.BoundsForMinMax(-scaledExtent.x, -scaledExtent.y, -scaledExtent.z, scaledExtent.x, scaledExtent.y, scaledExtent.z);
+        boundingBox.center = boundingBox.center + vector;
 
-            // component.center = new Vector3(newSize.x, newSize.y / 2, newSize.z);
-            nativeCollider = component;
-            //this.scaledExtent = component.size;
-            //this.boundingBox = BoundsUtils.BoundsForMinMax(newSize.x, newSize.y, newSize.z, newSize.x, newSize.x, newSize.z );
-            if (isDetailedHeadBodyColliders())
-                component.enabled = false;
-            DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
+        // component.center = new Vector3(newSize.x, newSize.y / 2, newSize.z);
+        nativeCollider = component;
+        //this.scaledExtent = component.size;
+        //this.boundingBox = BoundsUtils.BoundsForMinMax(newSize.x, newSize.y, newSize.z, newSize.x, newSize.x, newSize.z );
+        if (isDetailedHeadBodyColliders())
+            component.enabled = false;
+        DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
 
-            var componentsInChildren = gameObject.GetComponentsInChildren<CapsuleCollider>();
-            for (var i = 0; i < componentsInChildren.Length; i++)
-                if (!componentsInChildren[i].gameObject.CompareTag("LargeEntityBlocker"))
-                    componentsInChildren[i].transform.gameObject.layer = 14;
-            var componentsInChildren2 = gameObject.GetComponentsInChildren<BoxCollider>();
-            for (var j = 0; j < componentsInChildren2.Length; j++) componentsInChildren2[j].transform.gameObject.layer = 14;
-        }
+        var componentsInChildren = gameObject.GetComponentsInChildren<CapsuleCollider>();
+        for (var i = 0; i < componentsInChildren.Length; i++)
+            if (!componentsInChildren[i].gameObject.CompareTag("LargeEntityBlocker"))
+                componentsInChildren[i].transform.gameObject.layer = 14;
+        var componentsInChildren2 = gameObject.GetComponentsInChildren<BoxCollider>();
+        for (var j = 0; j < componentsInChildren2.Length; j++) componentsInChildren2[j].transform.gameObject.layer = 14;
     }
 
     public override void CopyPropertiesFromEntityClass()
