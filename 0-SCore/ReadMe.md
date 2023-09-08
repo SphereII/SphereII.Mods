@@ -24,6 +24,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.39.1623
+
+	[ Water System ]
+		- Fixed an issue where the block's custom description wouldn't show up depending on DisplayInfo
+		- Fixed an issue where water range wasn't being properly used for crops.
+
 Version: 21.1.39.1422
 
 	[ Broadcast Storage ]

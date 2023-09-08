@@ -24,5 +24,17 @@
         }
         return base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
     }
+
+    public override string GetCustomDescription(Vector3i _blockPos, BlockValue _bv)
+    {
+        var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+        if (localPlayer == null) return base.GetCustomDescription(_blockPos, _bv);
+        
+        if (localPlayer.playerInput.PermanentActions.Activate.IsPressed || localPlayer.playerInput.Activate.IsPressed)
+        {
+            return WaterPipeManager.Instance.GetWaterSummary(_blockPos);
+        }
+        return base.GetCustomDescription(_blockPos, _bv);
+    }
 }
 

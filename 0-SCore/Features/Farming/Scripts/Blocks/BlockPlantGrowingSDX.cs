@@ -44,7 +44,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
             return false;
 
         if (requireWater == false) return true;
-        return CropManager.Instance.IsNearWater(_blockPos);
+        return CropManager.Instance.IsNearWater(_blockPos, waterRange);
     }
 
     // When chunk is loaded, force add the block. This will be valiated on the update check in the crop manager, but
@@ -92,7 +92,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (result == false) return false;
 
         // check if we are near a water source.
-        if (CropManager.Instance.IsNearWater(_blockPos)) return true;
+        if (CropManager.Instance.IsNearWater(_blockPos, waterRange)) return true;
 
         // Only wilt if the property is set.
         if (willWilt)
