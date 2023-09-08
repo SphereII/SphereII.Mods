@@ -281,7 +281,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         }
 
 
-        public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier)
+        public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier,  IList<ItemStack> _removedItems)
         {
             var tileEntities = GetTileEntities(localPlayer);
             var enumerable = itemStacks as ItemStack[] ?? itemStacks.ToArray();
@@ -289,13 +289,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
             {
                 // Grab from the backpack first.
                  var num = enumerable[i].count * multiplier;
-                num -= localPlayer.bag.DecItem(enumerable[i].itemValue, num, true);
+                num -= localPlayer.bag.DecItem(enumerable[i].itemValue, num, true, _removedItems);
                 if (num > 0)
                 {
                     // Check tool belt
-                    num -= localPlayer.inventory.DecItem(enumerable[i].itemValue, num, true);
+                    num -= localPlayer.inventory.DecItem(enumerable[i].itemValue, num, true,_removedItems);
                 }
                 
+                // We've met our goals for this.
                 if (num <= 0) continue;
 
                 // check storage boxes
@@ -336,14 +337,18 @@ namespace SCore.Features.RemoteCrafting.Scripts
 
                         //Update the slot on the container, and do the Setmodified(), so that the dedis can get updated.
                         if (item.count < 1)
+                        {
+                            // Add it to the removed list.
+                            _removedItems.Add(item.Clone());
                             lootTileEntity.UpdateSlot(y, ItemStack.Empty.Clone());
+
+                        }
                         else
                         {
                             lootTileEntity.UpdateSlot(y, item);
                         }
                     }
                     lootTileEntity.SetModified();
-    
                 }
                 
             }

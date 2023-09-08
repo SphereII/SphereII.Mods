@@ -24,6 +24,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.39.1422
+
+	[ Broadcast Storage ]
+		- Fixed an issue when a cancelling a recipe that had an ingredient with a quality value would result in no returned items.
+
 Version: 21.1.34.952
 
 	[ EntityAlive SDX ( NPCs )]

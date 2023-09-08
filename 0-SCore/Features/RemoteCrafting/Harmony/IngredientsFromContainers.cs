@@ -163,12 +163,17 @@ namespace Features.RemoteCrafting
                         if (entry.IsEmpty()) continue;
                         if (itemStack.itemValue.GetItemOrBlockId() != entry.itemValue.GetItemOrBlockId()) continue;
                         totalCount += entry.count;
-                        if (totalCount < num) continue;
-                        // We have enough to satisfy this item, so move to the next oen.
-                        itemsWeHave++;
-                        break;
+                        // We have enough.
+                        if (totalCount >= num)
+                            break;
+                        
                     }
-
+                    // We have enough.
+                    if (totalCount >= num)
+                        break;
+                    // We have enough.
+                    if (totalCount >= num)
+                        break;
                     // Check the toolbelt now.
                     slots = ___localPlayer.inventory.GetSlots();
                     foreach (var entry in slots)
@@ -176,12 +181,14 @@ namespace Features.RemoteCrafting
                         if (entry.IsEmpty()) continue;
                         if (itemStack.itemValue.GetItemOrBlockId() != entry.itemValue.GetItemOrBlockId()) continue;
                         totalCount += entry.count;
-                        if (totalCount < num) continue;
-                        // We have enough to satisfy this item, so move to the next oen.
-                        itemsWeHave++;
-                        break;
+                        // We have enough.
+                        if (totalCount >= num)
+                            break;
                     }
 
+                    // We have enough.
+                    if (totalCount >= num)
+                        break;
                     // check container
                     var containers = RemoteCraftingUtils.SearchNearbyContainers(___localPlayer, itemStack.itemValue);
                     foreach (var stack in containers)
@@ -189,14 +196,18 @@ namespace Features.RemoteCrafting
                         if (stack.IsEmpty()) continue;
                         if (itemStack.itemValue.GetItemOrBlockId() != stack.itemValue.GetItemOrBlockId()) continue;
                         totalCount += stack.count;
-                        if (totalCount < num) continue;
-                        // We have enough to satisfy this item, so move to the next oen.
-                        itemsWeHave++;
-                        break;
+                        // We have enough.
+                        if (totalCount >= num)
+                            break;
                     }
+
+                    // We don't have enough for this.
+                    if (totalCount < num)
+                        return false;
                 }
 
-                return itemsWeHave >= _itemStacks.Count;
+                return true;
+                //return itemsWeHave >= _itemStacks.Count;
             }
         }
 
@@ -207,13 +218,13 @@ namespace Features.RemoteCrafting
         [HarmonyPatch("RemoveItems")]
         public class RemoveItems
         {
-            public static bool Prefix(XUiM_PlayerInventory __instance, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier)
+            public static bool Prefix(XUiM_PlayerInventory __instance, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier,  IList<ItemStack> _removedItems)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
                 
-                RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier);
+                RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier,  _removedItems);
                 return false;
             }
         }
