@@ -321,7 +321,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
                         if (item.count >= num)
                         {
                             item.count -= num;
+                            // Add the item to the removed items list so we can return it.
+                            _removedItems.Add(new ItemStack(item.itemValue.Clone(), num));
                             num = 0;
+                            
                         }
                         else
                         {
@@ -331,7 +334,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
                                 item.count--;
                                 num--;
                                 if (item.count <= 0)
+                                {
+                                    _removedItems.Add(new ItemStack(item.itemValue.Clone(), num));
                                     break;
+                                }
                             }
                         }
 

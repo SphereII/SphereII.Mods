@@ -24,6 +24,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.47.1805
+
+	[ Broadcast Stoarge ]
+		- Fixed another issue where materials would not be returned upon cancellation when pulled from container
+		- Fixed another issue where crafting would be approved without all the ingredients.
+
 Version: 21.1.39.1623
 
 	[ Water System ]

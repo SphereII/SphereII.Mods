@@ -165,15 +165,18 @@ namespace Features.RemoteCrafting
                         totalCount += entry.count;
                         // We have enough.
                         if (totalCount >= num)
+                        {
                             break;
-                        
+                        }
+
                     }
                     // We have enough.
                     if (totalCount >= num)
-                        break;
-                    // We have enough.
-                    if (totalCount >= num)
-                        break;
+                    {
+                        itemsWeHave++;
+                        continue;
+                    }
+
                     // Check the toolbelt now.
                     slots = ___localPlayer.inventory.GetSlots();
                     foreach (var entry in slots)
@@ -188,7 +191,12 @@ namespace Features.RemoteCrafting
 
                     // We have enough.
                     if (totalCount >= num)
-                        break;
+                    {
+                        itemsWeHave++;
+                    continue;
+                    
+                    }
+
                     // check container
                     var containers = RemoteCraftingUtils.SearchNearbyContainers(___localPlayer, itemStack.itemValue);
                     foreach (var stack in containers)
@@ -203,11 +211,16 @@ namespace Features.RemoteCrafting
 
                     // We don't have enough for this.
                     if (totalCount < num)
+                    {
                         return false;
+                    }
+                    if (totalCount >= num)
+                    {
+                        itemsWeHave++;
+                    }
                 }
 
-                return true;
-                //return itemsWeHave >= _itemStacks.Count;
+                return itemsWeHave >= _itemStacks.Count;
             }
         }
 
