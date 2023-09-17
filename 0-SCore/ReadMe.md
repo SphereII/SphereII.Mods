@@ -24,6 +24,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.48.1604
+	[ Broadcast Storage ]
+		- Added a few null checks for when player backpack or tool belt may not be available.
+		- Added a pre-check if the player has the required items in their backpack / tool belt, that it'll use those first
+			- Should provide better performance, and protect against the above mentioned null ref.
+
 Version: 21.1.48.955
 	[ Broadcast Storage ]
 		- Fixed another issue where toolbelt items were not being consumed when riding in a vehicle and crafting.

@@ -289,20 +289,20 @@ namespace SCore.Features.RemoteCrafting.Scripts
             {
                 // Grab from the backpack first.
                  var num = enumerable[i].count * multiplier;
-                num -= bag.DecItem(enumerable[i].itemValue, num, true, _removedItems);
-                Debug.Log($"Number Left After Bag: {num} for {enumerable[i].itemValue.ItemClass.GetItemName()}");
-                if (num > 0)
-                {
-                    // Check tool belt
-                    num -= toolbelt.DecItem(enumerable[i].itemValue, num, true,_removedItems);
-                    Debug.Log($"Number Left After toolbelt: {num}");
-                }
+                 if (bag != null)
+                 {
+                     num -= bag.DecItem(enumerable[i].itemValue, num, true, _removedItems);
+                     if (num > 0)
+                     {
+                         // Check tool belt
+                         if (toolbelt != null)
+                         {
+                             num -= toolbelt.DecItem(enumerable[i].itemValue, num, true, _removedItems);
+                         }
+                     }
+                 }
 
-                foreach (var item in _removedItems)
-                {
-                    Debug.Log($"Removed Items: {item.itemValue.ItemClass.GetItemName()} {item.count}");
-                }
-                // We've met our goals for this.
+                 // We've met our goals for this.
                 if (num <= 0) continue;
 
                 // check storage boxes
