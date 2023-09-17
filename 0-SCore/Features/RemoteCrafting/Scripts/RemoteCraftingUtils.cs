@@ -281,7 +281,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         }
 
 
-        public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier,  IList<ItemStack> _removedItems)
+        public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier,  IList<ItemStack> _removedItems, Bag bag, Inventory toolbelt)
         {
             var tileEntities = GetTileEntities(localPlayer);
             var enumerable = itemStacks as ItemStack[] ?? itemStacks.ToArray();
@@ -289,13 +289,19 @@ namespace SCore.Features.RemoteCrafting.Scripts
             {
                 // Grab from the backpack first.
                  var num = enumerable[i].count * multiplier;
-                num -= localPlayer.bag.DecItem(enumerable[i].itemValue, num, true, _removedItems);
+                num -= bag.DecItem(enumerable[i].itemValue, num, true, _removedItems);
+                Debug.Log($"Number Left After Bag: {num} for {enumerable[i].itemValue.ItemClass.GetItemName()}");
                 if (num > 0)
                 {
                     // Check tool belt
-                    num -= localPlayer.inventory.DecItem(enumerable[i].itemValue, num, true,_removedItems);
+                    num -= toolbelt.DecItem(enumerable[i].itemValue, num, true,_removedItems);
+                    Debug.Log($"Number Left After toolbelt: {num}");
                 }
-                
+
+                foreach (var item in _removedItems)
+                {
+                    Debug.Log($"Removed Items: {item.itemValue.ItemClass.GetItemName()} {item.count}");
+                }
                 // We've met our goals for this.
                 if (num <= 0) continue;
 

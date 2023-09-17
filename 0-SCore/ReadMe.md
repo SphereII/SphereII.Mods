@@ -24,9 +24,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.48.955
+	[ Broadcast Storage ]
+		- Fixed another issue where toolbelt items were not being consumed when riding in a vehicle and crafting.
+			- The original code would read the localPlayer's bag and toolbelt slots for items. These were empty.
+			- The fix was to pass the bag and toolbelt from the XUiM_PlayerInventory
+
 Version: 21.1.47.1805
 
-	[ Broadcast Stoarge ]
+	[ Broadcast Storage ]
 		- Fixed another issue where materials would not be returned upon cancellation when pulled from container
 		- Fixed another issue where crafting would be approved without all the ingredients.
 

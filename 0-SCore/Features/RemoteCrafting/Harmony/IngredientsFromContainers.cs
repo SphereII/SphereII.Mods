@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using System;
+using HarmonyLib;
 using System.Collections.Generic;
 using SCore.Features.RemoteCrafting.Scripts;
+using UnityEngine;
 
 namespace Features.RemoteCrafting
 {
@@ -231,13 +233,15 @@ namespace Features.RemoteCrafting
         [HarmonyPatch("RemoveItems")]
         public class RemoveItems
         {
-            public static bool Prefix(XUiM_PlayerInventory __instance, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier,  IList<ItemStack> _removedItems)
+            public static bool Prefix(XUiM_PlayerInventory __instance, IList<ItemStack> _itemStacks, EntityPlayerLocal ___localPlayer, int _multiplier,  IList<ItemStack> _removedItems
+            ,	Bag ___backpack, Inventory ___toolbelt)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
                 
-                RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier,  _removedItems);
+                // Pass the backpack and toolbelt in. We cannot rely on the __localPlayer to have its' slots populated correctly.
+                RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier,  _removedItems, ___backpack, ___toolbelt);
                 return false;
             }
         }
