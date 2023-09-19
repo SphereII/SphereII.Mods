@@ -24,6 +24,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.50.839
+	[ Broadcast Storage ]
+		- Removed pre-check cuz I'm dumb, and introduced a free-crafting mechanic.
+
 Version: 21.1.48.1604
 	[ Broadcast Storage ]
 		- Added a few null checks for when player backpack or tool belt may not be available.

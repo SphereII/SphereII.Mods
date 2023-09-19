@@ -239,11 +239,7 @@ namespace Features.RemoteCrafting
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-
-                // If we have all the items in our inventory, use it, rather than going to the containers.
-                if (__instance.HasItems(_itemStacks, _multiplier))
-                    return true;
-                
+         
                 RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier,  _removedItems, ___backpack, ___toolbelt);
                 return false;
             }
