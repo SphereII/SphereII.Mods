@@ -590,7 +590,17 @@
 			<property name="Display" value="true" />
 			<property name="Delay" value="200" />
 		</block>
-		
+
+		<block name="cntSphereDropBoxTest">
+			<!-- Doesn't need to be signed container, but might make the most sense -->
+			<property name="Extends" value="cntStorageGenericSigned"/>
+			<property name="Class" value="DropBoxContainer, SCore"/>
+			<!-- Default is 100 ticks -->
+			<property name="UpdateTick" value="200" />
+			<!-- Optionally trigger the distribution when the user closes the box -->
+			<property name="DropBox" value="true" />
+		</block>
+
 		<!--
 		<block name="PrefabPlacerMaster">
 			<property name="Class" value="PrefabPlacer, SCore" />

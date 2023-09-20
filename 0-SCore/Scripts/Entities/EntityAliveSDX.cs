@@ -1640,11 +1640,15 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
-        if (leader && leader.Party != null)
+        if (leader )
         {
-            // We don't check to see if its in the party, as the NPC isn't' really part of the party.
-            num = leader.Party.GetPartyXP(leader, num);
+            if (leader.Party != null)
+            {
+                // We don't check to see if its in the party, as the NPC isn't' really part of the party.
+                num = leader.Party.GetPartyXP(leader, num);
+            }
         }
+        
 
         if (!isEntityRemote)
         {
@@ -1662,7 +1666,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         if (leader == null) return;
-        if (leader.Party == null) return;
+        if (leader.Party == null)
+        {
+            if (GameManager.Instance.World.IsLocalPlayer(leader.entityId))
+            {
+                GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
+            }
+            return;
+        }
         
         foreach (var entityPlayer2 in leader.Party.MemberList)
         {
@@ -1846,13 +1857,6 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var leaderID = (int) itemValue.GetMetadata("Leader");
         EntityUtilities.SetLeaderAndOwner(entityId, leaderID);
 
-        var weaponType = itemValue.GetMetadata("CurrentWeapon").ToString();
-        var item = ItemClass.GetItem(weaponType);
-        if (item != null)
-        {
-            UpdateWeapon(item);
-        }
-
         lootContainer.entityId = entityId;
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
@@ -1906,6 +1910,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             Buffs.AddCustomVar(cvarName, StringParsers.ParseFloat(cvarValue));
         }
         
+        var weaponType = itemValue.GetMetadata("CurrentWeapon").ToString();
+        _defaultWeapon = itemValue.GetMetadata("DefaultWeapon").ToString();
+        var item = ItemClass.GetItem(weaponType);
+        if (item != null)
+        {
+            UpdateWeapon(item);
+        }
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
 
     }
@@ -1926,7 +1937,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         itemValue.SetMetadata("Leader", EntityUtilities.GetLeaderOrOwner(entityId)?.entityId,
             TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("CurrentWeapon", inventory.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
-
+        itemValue.SetMetadata("DefaultWeapon", _defaultWeapon, TypedMetadataValue.TypeTag.String);
         if (lootContainer == null) return itemValue;
 
         var slots = lootContainer.items;
@@ -2040,9 +2051,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // Switch to default
             item = ItemClass.GetItem(_defaultWeapon);
         }
-        Debug.Log($"{_currentWeapon} Default Weapon: {_defaultWeapon}");
-        if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
-            return;
+        // if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
+        // {
+        //     return;
+        // }
+
         _currentWeapon = item.ItemClass.GetItemName();
         Buffs.SetCustomVar("CurrentWeaponID", item.GetItemId());
         inventory.SetItem(0, item, 1);

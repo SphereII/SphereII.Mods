@@ -280,6 +280,42 @@ namespace SCore.Features.RemoteCrafting.Scripts
             return items;
         }
 
+        public static bool AddToNearbyContainer(EntityAlive player, ItemStack itemStack, float distance)
+        {
+            var tileEntities = GetTileEntities(player, distance);
+            foreach (var tileEntity in tileEntities)
+            {
+                if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
+
+                // If the container is open, don't include it.
+                if (lootTileEntity.IsUserAccessing()) continue;
+
+                // Don't try to add to a drop box.
+                if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox")) continue;
+
+                // Can we quickly find a incomplete stack?
+                if (lootTileEntity.TryStackItem(0, itemStack)) return true;
+
+                var matchingItem = false;
+                // Loop through the items and see if we have any matching items.
+                foreach (var item in lootTileEntity.GetItems())
+                {
+                    // We match with something.
+                    if (item.itemValue.type != itemStack.itemValue.type) continue;
+
+                    matchingItem = true;
+                    break;
+                }
+
+                // If we don't match, don't try to add.
+                if (!matchingItem) continue;
+                
+                // We added a full stack! No need to keep processing.
+                if (lootTileEntity.AddItem(itemStack)) return true;
+            }
+
+            return false;
+        }
 
         public static void ConsumeItem(IEnumerable<ItemStack> itemStacks, EntityPlayerLocal localPlayer, int multiplier,  IList<ItemStack> _removedItems, Bag bag, Inventory toolbelt)
         {

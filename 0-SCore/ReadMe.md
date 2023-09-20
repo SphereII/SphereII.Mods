@@ -24,6 +24,47 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.51.1344
+	[ EntityAliveSDX ]
+		- Re-Added Exp Sharing.
+			- If the Hired NPC has a Player, but the Player does not have a Party, the NPC will share exp directly with that player.
+			- If the Player has a party, the exp will share with the entire party.
+		- Fixed an issue with weapon swapping. 
+
+	[ Broadcast Storage ]
+		- Drop Box(tm) Support
+			- Added the ability to set up a container to be considered a drop box to distribute items to other storage boxes.
+
+			- Any container with the Property "DropBox" with a value of true is handled specially.
+	  			<property name="DropBox" value="true" />
+
+			- Optionally, there is a new block class that can be used.
+				<block name="cntSphereDropBoxTest">
+					<!-- Doesn't need to be signed container, but might make the most sense -->
+					<property name="Extends" value="cntStorageGenericSigned"/>
+					<property name="Class" value="DropBoxContainer, SCore"/>
+					<!-- Default is 100 ticks -->
+					<property name="UpdateTick" value="200" />
+					<!-- Optionally trigger the distribution when the user closes the box -->
+					<property name="DropBox" value="true" />
+					<!-- Optional Distance this box can scan to redistribute. -->
+					<!-- If not defined, the value from AdvancedRecipes's distance is used. -->
+					<property name="Distance" value="30" />
+				</block>
+
+				- Blocks that use the DropBoxContainer class will trigger redistribution at regular intervals, 
+					in case the player makes changes to surrounding boxes.
+
+
+			- When this type of container is closed, it will scan the local TileEntities using the same rules as the Items From Containers for crafting.
+				- Rules include broadcasting is enabled, player is allowed to access, if the container is not opened, and within the distance.
+				- Other containers with the property "DropBox" are ignored as potential targets.
+
+			- It will try to fill any partial stacks.
+			- If existing stacks are full, it will add a new stack to the container.
+			- Any items that cannot be added, either partially or fully, will be left in the DropBox.
+			- If you are adjust your storage containers to add items, the DropBox must be opened, and closed for it to distribute to the new containers.
+
 Version: 21.1.50.839
 	[ Broadcast Storage ]
 		- Removed pre-check cuz I'm dumb, and introduced a free-crafting mechanic.
