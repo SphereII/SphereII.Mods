@@ -229,10 +229,10 @@ public class SphereII_FoodSpoilage
                             strSpoiledItem = itemClass.Properties.GetString("SpoiledItem");
 
                         //EntityPlayerLocal player = __instance.xui.playerUI.entityPlayer;
-                        EntityPlayerLocal player = GameManager.Instance.World.GetPrimaryPlayer();
-                        if (player)
+                        var player = GameManager.Instance.World.GetPrimaryPlayer();
+                        if (player && strSpoiledItem != "None")
                         {
-                            int Count = 1;
+                            var Count = 1;
 
                             if (Configuration.CheckFeatureStatus(AdvFeatureClass, "FullStackSpoil"))
                             {

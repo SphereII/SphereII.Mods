@@ -14,8 +14,7 @@ Note: An auto-mirror is available on gitlab that allows you to download individu
 ### Direct Downloads
 Direct Download to the 0-SCore.zip available on gitlab mirror:
 
-[ 0 - SCore (Alpha 20 ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
-[ 0 - SCore ( Alpha 21) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/alpha21-experimental/SphereII-Mods-alpha21-experimental.zip?path=0-SCore
+[ 0 - SCore ( Latest ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
 
 ### TODO
 	- Fix random sounds from NPC, like stamina exhaustion
@@ -24,6 +23,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.52.1357
+	[ Food Spoilage ]
+		- Added support for SpoiledItem's value being "None" to skip downgrading the item into something else.
+			<property name="SpoiledItem" value="None" />
+
 Version: 21.1.51.1344
 	[ EntityAliveSDX ]
 		- Re-Added Exp Sharing.
