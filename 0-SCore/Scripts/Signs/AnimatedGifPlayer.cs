@@ -423,7 +423,9 @@ namespace OldMoatGames
 
         private IEnumerator DownloadImage(string MediaUrl)
         {
-            var request = UnityWebRequestTexture.GetTexture(MediaUrl);
+            var  request = UnityWebRequest.Get(MediaUrl);
+
+           // var request = UnityWebRequestTexture.GetTexture(MediaUrl);
             yield return request.SendWebRequest();
 #pragma warning disable 618
             if (request.isNetworkError || request.isHttpError)
@@ -433,7 +435,11 @@ namespace OldMoatGames
             }
             else
             {
-                GifTexture = ((DownloadHandlerTexture)request.downloadHandler).texture;
+                if (request.downloadHandler is not DownloadHandlerTexture texture)
+                    yield break;
+                GifTexture = texture.texture;
+                if (GifTexture == null)
+                    yield break;
                 GifTexture.hideFlags = HideFlags.HideAndDontSave;
                 SetTexture();
             }
@@ -752,6 +758,7 @@ namespace OldMoatGames
         // Update the target texture
         private void UpdateTexture()
         {
+            if (CurrentFrame?.Image == null) return;
             // Upload texture data
             GifTexture.LoadRawTextureData(CurrentFrame.Image);
 

@@ -23,6 +23,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.52.1544
+	[ Enhanced Signs ]
+		- Fixed hard crash when an invalid URL was used.
+
 Version: 21.1.52.1357
 	[ Food Spoilage ]
 		- Added support for SpoiledItem's value being "None" to skip downgrading the item into something else.

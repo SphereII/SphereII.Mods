@@ -32,6 +32,7 @@ public class ImageWrapper : MonoBehaviour
 
     public bool ValidURL(ref string url)
     {
+        url = url.TrimEnd();
         if (url.EndsWith("gif") || url.EndsWith("gifv"))
             return true;
         if (url.EndsWith("png") || url.EndsWith("jpg"))
