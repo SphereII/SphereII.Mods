@@ -66,6 +66,24 @@ namespace Harmony.PrefabFeatures
             }
         }
 
+        // Allows placing of blocks in the trader area
+        [HarmonyPatch(typeof(World))]
+        [HarmonyPatch("IsWithinTraderPlacingProtection")]
+        public class WorldIsWithinTraderPlacingProtection
+        {
+            public static bool Prefix(ref bool __result)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+                
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllowBuildingInTraderArea"))
+                    return true;
+
+                __result = false;
+                return false;
+            }
+        }
 
       
     }

@@ -233,8 +233,10 @@
 
 			<property class="AdvancedPrefabFeatures" >
 				<property name="Logging" value="false"/>
-				<property name="DisableTraderProtection" value="false" />
 				<!-- Disables Trader Protection in their prefabs -->
+				<property name="DisableTraderProtection" value="false" />
+				<!-- To enable this, you must also enable Disable Trader Protection -->
+				<property name="AllowBuildingInTraderArea" value="false" />
 			</property>
 
 			<property class="AdvancedTileEntities" >
