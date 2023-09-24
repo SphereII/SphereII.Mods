@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using SCore.Features.RemoteCrafting.Scripts;
+using UnityEngine;
 
 namespace Features.RemoteCrafting
 {
@@ -28,14 +29,21 @@ namespace Features.RemoteCrafting
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
                 var primaryPlayer = __instance.xui.playerUI.entityPlayer;
-                foreach (var itemStack in ___localTileEntity.GetItems())
+                var items = ___localTileEntity.GetItems();
+                for (var i = 0; i < items.Length; i++)
                 {
-                    if ( itemStack.IsEmpty()) continue;
+                    if ( items[i].IsEmpty()) continue;
                     // If we successfully added, clear the stack.
-                    if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, itemStack, distance))
-                        itemStack.Clear();
+                    if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, items[i], distance))
+                    {
+                        Debug.Log($"Removing {items[i].itemValue.ItemClass.GetItemName()}");
+                        //itemStack.Clear();
+                        items[i] = ItemStack.Empty.Clone();
+                    }
+                    ___localTileEntity.UpdateSlot(i, items[i]);
+                        
                 }
-
+___localTileEntity.SetModified();
                 return true;
             }
         }

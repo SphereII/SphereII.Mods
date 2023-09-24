@@ -603,6 +603,12 @@
 			<property name="DropBox" value="true" />
 		</block>
 
+		<block name="cntSphereDropBoxTest2">
+			<!-- Doesn't need to be signed container, but might make the most sense -->
+			<property name="Extends" value="cntStorageGenericSigned"/>
+			<property name="DropBox" value="true" />
+		</block>
+
 		<!--
 		<block name="PrefabPlacerMaster">
 			<property name="Class" value="PrefabPlacer, SCore" />

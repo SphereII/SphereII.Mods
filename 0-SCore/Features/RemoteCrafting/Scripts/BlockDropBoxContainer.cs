@@ -48,7 +48,7 @@ public class BlockDropBoxContainer : BlockSecureLootSigned
                 if (RemoteCraftingUtils.AddToNearbyContainer(primaryPlayer, itemStack, _distance))
                     itemStack.Clear();
             }
-
+            tileLootContainer.bTouched = true;
             tileLootContainer.SetModified();
         }
 

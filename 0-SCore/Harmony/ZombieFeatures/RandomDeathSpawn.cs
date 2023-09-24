@@ -46,6 +46,12 @@ namespace Harmony.ZombieFeatures
                 blockPos.y = (int)__instance.position.y;
                 blockPos.z = (int)__instance.position.z;
 
+                var leaveBody = false;
+                if (entityClass.Properties.Values.ContainsKey("SpawnOnDeathLeaveBody"))
+                {
+                    if (StringParsers.ParseBool(entityClass.Properties.Values["SpawnOnDeathLeaveBody"]))
+                        leaveBody = true;
+                }
 
                 // <property name="SpawnOnDeath" value="EnemyAnimalsForest" />
                 var strSpawnGroup = entityClass.Properties.Values["SpawnOnDeath"]; //Gets the entity group name from the property
@@ -101,6 +107,8 @@ namespace Harmony.ZombieFeatures
                     entityCreationData.id = -1;
                     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
                     entity.OnEntityUnload();
+                    if (leaveBody) return true; 
+
                     __instance.ForceDespawn();
                     return true;
                 }
@@ -116,6 +124,7 @@ namespace Harmony.ZombieFeatures
                     entity.OnEntityUnload();
                     //GameManager.Instance.World.SpawnEntityInWorld(entity);
                 }
+                if (leaveBody) return true;
                 __instance.ForceDespawn();
                 return true;
             }

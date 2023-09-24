@@ -23,6 +23,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.55.858
+
+	[ Drop Box Storage ]
+		- Fixed a bug where items were not removed from drop box in multiplayer
+
+	[ Spawn On Death ]
+		Added new Property to allow leaving of the body when spawning a new entity.
+			<property name="SpawnOnDeathLeaveBody" value="true" />
+
 Version: 21.1.53.1324
 	[ Trader Protection ]
 		- Added a new option to allow placing blocks within a Trader Area, under the AdvancedPrefabFeatures ConfigBlock
