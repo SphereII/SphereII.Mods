@@ -23,6 +23,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.56.1705
+
+	[ Requirements ]
+		Added invert support for RequirementIsBloodMoon.
+			<requirement name="RequirementIsBloodMoonDMT, SCore" invert="true" />
+
+	[ Farming ]
+		- Added an additional check to see if a farm plot is empty.
+		- Updated the UAI Farming Task
+			- Consumes seed items in the inventory now
+			- Resets farm plots after they are all visited, so that the farmer will revisit them
+			- Fixed an issue where Farmers won't tend to a farm plot that you have harvested.
+			- Fixed an issue where the farmer wasn't looking at the plant correctly enough
+			- Fixed an issue where the farmer was too far away from a farm plot to visually have an effect on it.
+		- To help with testing, the farmer will place the smoke particle on the farm plot its currently working on.
+			- This will be removed after some tests are complete.
+
+	[ Bloom's Family Farming ]
+		- Updated the MyFarmer's test entity properties with notrample tag, more UAI, and allow spawns from menu.
 Version: 21.1.55.858
 
 	[ Drop Box Storage ]

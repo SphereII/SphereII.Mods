@@ -25,21 +25,24 @@ namespace UAI
         {
             // If we have the activity buff, just wait until it wears off
             if (_context.Self.Buffs.HasBuff(_buff)) return;
-
-
             BlockUtilitiesSDX.removeParticles(new Vector3i(_vector));
+
             base.Stop(_context);
         }
         public override void Update(Context _context)
         {
-            timeOut--;
-
+      
             _context.Self.SetLookPosition(_vector);
             _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 8f,8f);
-
-
+            if (!_context.Self.IsInViewCone(_vector))
+            {
+                return;
+            }
+            
             // If we have the activity buff, just wait until it wears off
             if (_context.Self.Buffs.HasBuff(_buff)) return;
+            timeOut--;
+
 
             // If we had it, and it's gone, then we are done with this location.
             if (hadBuff)
@@ -53,36 +56,39 @@ namespace UAI
                     {
                         foreach (var item in items)
                         {
-                            int num = Utils.FastMax(0, item.minCount);
-                            ItemStack itemStack = new ItemStack(ItemClass.GetItem(item.name, false), num);
+                            var num = Utils.FastMax(0, item.minCount);
+                            var itemStack = new ItemStack(ItemClass.GetItem(item.name, false), num);
                             if (_context.Self.lootContainer.AddItem(itemStack))
                                 _context.Self.PlayOneShot("item_plant_pickup", false);
 
                             // Sort and reduce duplicates.
-                            ItemStack[] slots = StackSortUtil.CombineAndSortStacks(lootContainer.items, 0);
+                            var slots = StackSortUtil.CombineAndSortStacks(lootContainer.items, 0);
                             lootContainer.items = slots;
                         }
+                        lootContainer.SetModified();
                     }
                 }
                 Stop(_context);
                 return;
             }
-
-            // Use a timeout in case the NPC gets stuck somewhere trying to get to a position in an awkard corner
+      
+            // Use a timeout in case the NPC gets stuck somewhere trying to get to a position in an awkward corner
             if (timeOut < 0)
             {
                 _context.Self.Buffs.RemoveBuff(_buff);
                 Stop(_context);
                 return;
-
             }
+
+    
             var distance = Vector3.Distance(_vector, _context.Self.position);
-            if (distance > 2)
+            if (distance > 1)
             {
                 _context.Self.moveHelper.SetMoveTo(_vector, false);
                 return;
             }
 
+            BlockUtilitiesSDX.addParticlesCentered(string.Empty, new Vector3i(_vector));
            // EntityUtilities.Stop(_context.Self.entityId);
             _context.Self.Buffs.AddBuff(_buff);
             hadBuff = true;
@@ -125,14 +131,16 @@ namespace UAI
             }
 
             // Check for wilted...?
-            if( _farmData == null )
-                _farmData =FarmPlotManager.Instance.GetClosesFarmPlotsWilted(position);
+            if (_farmData == null)
+            {
+                _farmData = FarmPlotManager.Instance.GetClosesFarmPlotsWilted(position);
+            }
 
             if (_farmData == null)
             {
                 FarmPlotManager.Instance.ResetPlantsInRange(position);
                 hadBuff = true;
-                base.Stop(_context);
+                Stop(_context);
                 return;
             }
 
@@ -141,9 +149,6 @@ namespace UAI
             SCoreUtils.FindPath(_context, _vector, false);
             _context.ActionData.Started = true;
             _context.ActionData.Executing = true;
-            return;
-
-
         }
 
         private bool HasSeed(Context _context)

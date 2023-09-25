@@ -92,7 +92,7 @@ public static class BlockUtilitiesSDX
     public static void addParticlesCentered(string strParticleName, Vector3i position)
     {
         if (string.IsNullOrEmpty(strParticleName))
-            strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+            strParticleName = "#@modfolder(0-SCore_sphereii):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
         if (strParticleName == "NoParticle")
             return;

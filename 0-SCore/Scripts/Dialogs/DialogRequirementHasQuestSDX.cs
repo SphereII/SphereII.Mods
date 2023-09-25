@@ -11,13 +11,10 @@ public class DialogRequirementHasQuestSDX : BaseDialogRequirement
             return false;
 
         var myEntity = player.world.GetEntity(entityID) as EntityAliveSDX;
-        if (myEntity != null)
-        {
-            if (myEntity.NPCInfo.Quests.Count <= 0) return false;
-            Debug.Log("NPC has Quests: " + myEntity.NPCInfo.Quests.Count);
-            return true;
-        }
-        return false;
+        if (myEntity == null) return false;
+        if (myEntity.NPCInfo.Quests.Count <= 0) return false;
+        Debug.Log("NPC has Quests: " + myEntity.NPCInfo.Quests.Count);
+        return true;
     }
 }
 

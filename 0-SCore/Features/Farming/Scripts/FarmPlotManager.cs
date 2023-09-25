@@ -66,14 +66,15 @@ public class FarmPlotManager
                 for (var y = position.y - 2; y <= position.y + 2; y++)
                 {
                     var blockPos = new Vector3i(position.x + x, y, position.z + z);
-                    if (!_farmPlots.ContainsKey(blockPos) || _farmPlots[blockPos].Visited) continue;
-                    switch (needWater)
+                    if (!_farmPlots.ContainsKey(blockPos)) continue;
+                    if (_farmPlots[blockPos].Visited) continue;
+                    if (needWater)
                     {
-                        case true when _farmPlots[blockPos].HasWater():
-                            return _farmPlots[blockPos];
-                        case false:
-                            return _farmPlots[blockPos];
+                        if (_farmPlots[blockPos].HasWater()) return _farmPlots[blockPos];
+                        continue;
                     }
+
+                    return _farmPlots[blockPos];
                 }
             }
         }
@@ -160,6 +161,17 @@ public class FarmPlotManager
             if (distance < range)
                 entry.Value.Reset();
         }
+    }
+
+    public bool AllPlotsVisited()
+    {
+        foreach (var entry in _farmPlots)
+        {
+            if (entry.Value.Visited == false)
+                return false;
+        }
+
+        return true;
     }
 
     public bool AllPlotsVisited(Vector3i position, float range = 50)

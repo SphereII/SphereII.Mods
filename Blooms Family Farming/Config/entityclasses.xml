@@ -1,15 +1,19 @@
 ﻿<config>
-	<!--
+	
 	<append xpath="/entity_classes" >
 		<entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
-			<property name="Tags" value="entity,male,npc,melee,cp,DRMid"/>
+			<property name="UserSpawnType" value="Menu"/>
+
+			<property name="Tags" value="entity,male,npc,melee,cp,DRMid,notrample"/>
 			<property name="Faction" value="whiteriver"/>
 			<property name="Names" value="Farmer Frankie" />
 			<property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
-			<property name="AIPackages" value="NPCFarming"/>
+			<property name="AIPackages" value="NPCModCore, NPCModNPCHired, NPCFarming"/>
 		</entity_class>
 
 		<entity_class name="MyPather" extends="npcAdvancedEmptyHandTemplate">
+			<property name="UserSpawnType" value="Menu"/>
+
 			<property name="Tags" value="entity,male,npc,melee,cp,DRMid"/>
 			<property name="Faction" value="whiteriver"/>
 			<property name="Names" value="Farmer Frankie" />
@@ -17,5 +21,5 @@
 			<property name="AIPackages" value="Patrol"/>
 		</entity_class>
 	</append>
-	-->
+	
 </config>

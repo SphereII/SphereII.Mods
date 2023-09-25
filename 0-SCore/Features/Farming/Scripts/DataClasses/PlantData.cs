@@ -145,34 +145,32 @@ public class PlantData
         if (GameManager.Instance.HasBlockParticleEffect(BlockPos))
             BlockUtilitiesSDX.removeParticles(BlockPos);
 
-        var _waterParticle = GetWaterParticle();
-        BlockUtilitiesSDX.addParticlesCentered(_waterParticle, BlockPos);
+        var waterParticle = GetWaterParticle();
+        BlockUtilitiesSDX.addParticlesCentered(waterParticle, BlockPos);
     }
 
     private string GetWaterParticle()
     {
         var block = GameManager.Instance.World.GetBlock(BlockPos);
 
-        var _waterParticle = this._waterParticle;
+        var waterParticle = this._waterParticle;
         if (block.Block.Properties.Contains("WaterParticle"))
-            _waterParticle = block.Block.Properties.GetString("WaterParticle");
+            waterParticle = block.Block.Properties.GetString("WaterParticle");
 
         if (block.Block.blockMaterial.Properties.Contains("WaterParticle"))
-            _waterParticle = block.Block.blockMaterial.Properties.GetString("WaterParticle");
+            waterParticle = block.Block.blockMaterial.Properties.GetString("WaterParticle");
 
-        return _waterParticle;
+        return waterParticle;
     }
 
     public void Remove()
     {
-        if (BlockValue.Block is BlockPlantGrowing block)
-        {
-            BlockUtilitiesSDX.removeParticles(BlockPos);
-            CropManager.Instance.Remove(BlockPos);
-            var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
-            if (chunk == null) return;
-            block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, BlockValue);
-        }
+        if (BlockValue.Block is not BlockPlantGrowing block) return;
+        BlockUtilitiesSDX.removeParticles(BlockPos);
+        CropManager.Instance.Remove(BlockPos);
+        var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
+        if (chunk == null) return;
+        block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, BlockValue);
     }
 
     public ulong LastCheck { get; set; } = 0ul;
@@ -201,20 +199,18 @@ public class PlantData
         foreach (var valve in valves)
         {
             var blockValue = GameManager.Instance.World.GetBlock(valve.Key);
-            if (blockValue.Block is BlockWaterSourceSDX waterBlock)
+            if (blockValue.Block is not BlockWaterSourceSDX waterBlock) continue;
+            if (waterBlock.IsWaterSourceUnlimited()) return true;
+
+            // If the valve itself is not connected to water, skip it.
+            if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
+                continue;
+
+            var num = Vector3.Distance(BlockPos, valve.Key);
+            if (num <= waterBlock.GetWaterRange())
             {
-                if (waterBlock.IsWaterSourceUnlimited()) return true;
-
-                // If the valve itself is not connected to water, skip it.
-                if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
-                    continue;
-
-                float num = Vector3.Distance(BlockPos, valve.Key);
-                if (num <= waterBlock.GetWaterRange())
-                {
-                    WaterPos = valve.Key;
-                    return true;
-                }
+                WaterPos = valve.Key;
+                return true;
             }
         }
 

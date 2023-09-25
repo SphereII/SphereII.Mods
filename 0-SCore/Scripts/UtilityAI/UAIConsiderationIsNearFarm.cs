@@ -18,30 +18,49 @@ namespace UAI
             // If we have the crop manager running, and there is a block that is close by, go tend it.
             var position = new Vector3i(_context.Self.position);
 
-            FarmPlotData farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
+            var farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearby(position);
             if (farmPlot != null)
+            {
                 return 1f;
+            }
 
             farmPlot = FarmPlotManager.Instance.GetClosesUnmaintained(position, distance);
             if (farmPlot != null)
+            {
                 return 1f;
+            }
+
 
             farmPlot = FarmPlotManager.Instance.GetFarmPlotsNearbyWithPlants(position);
             if (farmPlot != null)
+            {
                 return 1f;
+            }
 
-            farmPlot = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position);
+
+            farmPlot = FarmPlotManager.Instance.GetClosesUnmaintainedWithPlants(position,distance);
             if (farmPlot != null)
+            {
                 return 1f;
+            }
+
 
             // If we don't have any at our feet, find another one that is close by.
-            var plants = FarmPlotManager.Instance.GetClosePositions(position, 50);
+            var plants = FarmPlotManager.Instance.GetClosePositions(position, distance);
             if (plants.Count > 0)
+            {
                 return 1f;
+            }
 
-            var wilted = FarmPlotManager.Instance.GetCloseFarmPlotsWilted(position);
+
+            var wilted = FarmPlotManager.Instance.GetCloseFarmPlotsWilted(position, distance);
             if (wilted.Count > 0)
+            {
                 return 1f;
+            }
+           
+            FarmPlotManager.Instance.ResetPlantsInRange(position, distance);
+
             return 0f;
         }
 
