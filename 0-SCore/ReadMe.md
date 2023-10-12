@@ -23,6 +23,27 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.73.1834
+
+	[ MinEvent ]
+		Added new MinEventActionConverItem ( Completely Untested. Should be okay. Probably. )
+			The intended usage for this is to allow a limited use item that is not connected to the durability,
+			and allows it to change into another item.
+			I didn't even test this one.
+			This MinEvent will add a "MaxUsage" meta data entry using MaxUsage as a starting value.
+			Each time the event is fired on the item, it will count the usage down.
+			Not even joking.
+			When the item is down to 0, it will turn the item into the specified downgradeItem.
+
+		Example:
+			<triggered_effect trigger="onSelfPrimaryActionEnd" action="ConvertItem, SCore" downgradeItem="meleeClub" maxUsage="10" />
+
+	[ UAI ]
+		- Fixed an issue where the UAI considerations were a bit off. Thanks khzmusik
+
+	[ Tools ]
+		- Added Unity Debugging DLLs for Alpha 21.x. Thanks to Yakov.
+
 Version: 21.1.56.1705
 
 	[ Requirements ]

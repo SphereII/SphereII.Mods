@@ -248,7 +248,8 @@ public class UtilityAIPatches
                  */
                 var consideration = considerations[i];
                 var considerationScore = consideration.GetScore(_context, _target);
-                if (considerationScore == 0f)
+                considerationScore = consideration.ComputeResponseCurve(considerationScore);
+                if (considerationScore <= 0f)
                 {
                     if (LoggingEnabled)
                     {
@@ -258,7 +259,6 @@ public class UtilityAIPatches
                     __result = 0f;
                     return false;
                 }
-                considerationScore = consideration.ComputeResponseCurve(considerationScore);
                 score *= considerationScore;
                 if (LoggingEnabled)
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Overall Score: {score}");

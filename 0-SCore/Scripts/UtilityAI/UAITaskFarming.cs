@@ -31,17 +31,22 @@ namespace UAI
         }
         public override void Update(Context _context)
         {
-      
             _context.Self.SetLookPosition(_vector);
             _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 8f,8f);
-            if (!_context.Self.IsInViewCone(_vector))
+            var headPosition = _context.Self.getHeadPosition();
+            var dir = _vector - headPosition;
+            var forwardVector = _context.Self.GetForwardVector();
+            var angleBetween = Utils.GetAngleBetween(dir, forwardVector);
+            var num2 = 70 * 0.5f;
+            var isInFront = (angleBetween >= -num2 && angleBetween <= num2);
+            if (!isInFront)
             {
                 return;
             }
             
             // If we have the activity buff, just wait until it wears off
             if (_context.Self.Buffs.HasBuff(_buff)) return;
-            timeOut--;
+        //    timeOut--;
 
 
             // If we had it, and it's gone, then we are done with this location.

@@ -315,6 +315,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionCheckWeapon.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionConvertItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />

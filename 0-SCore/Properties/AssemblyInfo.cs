@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyVersion("20.0.*")]
 
-[assembly: AssemblyVersion("21.1.56.1705")]
-[assembly: AssemblyFileVersion("21.1.56.1705")]
+[assembly: AssemblyVersion("21.1.73.1834")]
+[assembly: AssemblyFileVersion("21.1.73.1834")]
