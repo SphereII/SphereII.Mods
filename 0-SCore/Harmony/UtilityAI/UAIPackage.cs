@@ -165,6 +165,15 @@ namespace Harmony.UtilityAI
                 }
                 for (int i = 0; i < ___actionList.Count; i++)
                 {
+                    // If the weight of this action is lower than the current high score, then even
+                    // the highest consideration score of 1 can't make this the winning action.
+                    if (___actionList[i].Weight < highScore)
+                    {
+                        if (LoggingEnabled)
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} with weight {___actionList[i].Weight} cannot beat high score of {highScore}: skipping");
+                        continue;
+                    }
+
                     var actionEntityFilter = SCoreUtils.GetEntityFilter(__instance, ___actionList[i], _context.Self);
                     var actionWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, ___actionList[i], _context.Self);
                     if (LoggingEnabled)
