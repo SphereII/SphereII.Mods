@@ -242,12 +242,13 @@ public class UtilityAIPatches
                 /*
                  * sphereii notes:
                  *
-                 * Since we use a simpler way of failing a consideration, I've added in a quick fail here, which causes the task to fail our early.
-                 *
-                 * Do we need to process the ComputeResponseCurve here, or can we just get the simplified score?
+                 * Since we use a simpler way of failing a consideration, I've added in a quick fail here, which causes the task to fail out early.
                  */
                 var consideration = considerations[i];
                 var considerationScore = consideration.GetScore(_context, _target);
+
+                // This will fail the consideration if it returns zero before the response curve is
+                // computed. NPC Core is depending upon this behavior, so do NOT change it!
                 if (considerationScore == 0f)
                 {
                     if (LoggingEnabled)
@@ -258,7 +259,22 @@ public class UtilityAIPatches
                     __result = 0f;
                     return false;
                 }
+
                 considerationScore = consideration.ComputeResponseCurve(considerationScore);
+
+                // Once the response curve is computed, we should also fail if it is zero,
+                // since at that point the action's score can't be anything other than zero.
+                if (considerationScore <= 0f)
+                {
+                    if (LoggingEnabled)
+                    {
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Consideration  Overall Score: {score}");
+                        AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"{__instance.Name} Task Failed due to above consideration");
+                    }
+                    __result = 0f;
+                    return false;
+                }
+
                 score *= considerationScore;
                 if (LoggingEnabled)
                     AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\t{considerationScore} Score for {consideration.GetType()} Overall Score: {score}");
