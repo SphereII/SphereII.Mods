@@ -861,7 +861,6 @@ namespace UAI
 
             // Nothing to loot.
             if (tileLootContainer.items == null) return;
-
             _context.Self.SetLookPosition(blockPos);
             _context.Self.MinEventContext.TileEntity = tileLootContainer;
             _context.Self.FireEvent(MinEventTypes.onSelfOpenLootContainer);
@@ -873,12 +872,19 @@ namespace UAI
                 return;
             }
 
+            var lootgameStage = 1f;
+            var leader = EntityUtilities.GetLeaderOrOwner(_context.Self.entityId) as EntityPlayer;
+            if (leader != null)
+            {
+                lootgameStage =leader.unModifiedGameStage;
+            }
             //            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, 0f, null, new FastTags(), false);
             var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length,
-                (float) _context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems, true);
-
+                (float) lootgameStage, 0f, leader, new FastTags(), lootContainer.UniqueItems, true);
             for (var i = 0; i < array.Count; i++)
+            {
                 _context.Self.lootContainer.AddItem(array[i].Clone());
+            }
 
             _context.Self.FireEvent(MinEventTypes.onSelfLootContainer);
             _context.Self.SetLookPosition(Vector3.zero);

@@ -23,6 +23,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ UAI ]
+		- Fixed an issue where NPCs could loot, but wouldn't keep any of the items it looted.
+		- Rolled back UAI change that caused the considerations to be calculated differently.
+
+	[ Game Events ]
+		- Added RequirementInVechileSDX game events that takes a tag.
+			I don't even know if you can make this call from here. But the script is written.
+
+			<requirement class="InVehicleSDX, SCore">
+				<property name="invert" value="true" />
+				<property name="entity_tags" value="mytags" />
+			</requirement>
+
 Version: 21.1.73.1834
 
 	[ MinEvent ]
