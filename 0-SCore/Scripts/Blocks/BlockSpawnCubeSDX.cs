@@ -155,24 +155,27 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 return;
             }
 
-            // If the class is empty, check to see if we have a group to spawn from.
-            if (string.IsNullOrEmpty(entityClass))
-            {
-                // No entity class or group? Do nothing.
-                if (string.IsNullOrEmpty(entityGroup))
-                    return;
+             var rotation = new Vector3(0f, (float)(90 * (_blockValue.rotation & 3)), 0f);
+  
+              // If the class is empty, check to see if we have a group to spawn from.
+              if (string.IsNullOrEmpty(entityClass))
+              {
+                  // No entity class or group? Do nothing.
+                  if (string.IsNullOrEmpty(entityGroup))
+                      return;
+  
+                  var ClassID = 0;
+                  var EntityID = EntityGroups.GetRandomFromGroup(entityGroup, ref ClassID);
+                  if (EntityID == 0) // Invalid group.
+                      return;
+  
+                  myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3(), rotation) as EntityAlive;
+              }
+              else
+              {
+                  myEntity = EntityFactory.CreateEntity(EntityClass.FromString(entityClass), _blockPos.ToVector3(),rotation) as EntityAlive;
+              }
 
-                var ClassID = 0;
-                var EntityID = EntityGroups.GetRandomFromGroup(entityGroup, ref ClassID);
-                if (EntityID == 0) // Invalid group.
-                    return;
-
-                myEntity = EntityFactory.CreateEntity(EntityID, _blockPos.ToVector3()) as EntityAlive;
-            }
-            else
-            {
-                myEntity = EntityFactory.CreateEntity(EntityClass.FromString(entityClass), _blockPos.ToVector3()) as EntityAlive;
-            }
 
             // Not a valid entity.
             if (myEntity == null)
@@ -203,6 +206,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
 
             var entityCreationData = new EntityCreationData(myEntity);
             entityCreationData.id = -1;
+            entityCreationData.rot = rotation;
             GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
             myEntity.OnEntityUnload();
 
@@ -234,6 +238,7 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
                 if (!string.IsNullOrEmpty(Buff))
                     x.Buffs.AddBuff(Buff);
 
+                x.SetRotation(rotation);
                 // Center the entity to its block position.
                 x.SetPosition(EntityUtilities.CenterPosition(_blockPos));
             }

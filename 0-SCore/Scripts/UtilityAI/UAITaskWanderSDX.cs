@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // using this namespace is necessary for Utilities AI Tasks
-//       <task class="WanderSDX, SCore" />
+//       <task class="WanderSDX, SCore" interest="LandClaim, Loot, VendingMachine, Forge, Campfire, Workstation, PowerSource"/>
 // The game adds UAI.UAITask to the class name for discover.
 namespace UAI
 {
