@@ -301,7 +301,7 @@
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
     <Compile Include="Scripts\Features\Configuration.cs" />
-    <Compile Include="Scripts\GameEvents\RequirementInVechileSDX.cs" />
+    <Compile Include="Scripts\GameEvents\RequirementInVehicleSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionMeleeSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionDeployNPCSDX.cs" />

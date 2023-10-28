@@ -2,7 +2,7 @@
 
 namespace SCore.Scripts.GameEvents
 {
-    public class RequirementInVechileSDX : BaseRequirement
+    public class RequirementInVehicleSDX  : BaseRequirement
     {
         private FastTags _fastTags = FastTags.none;
         private const string PropEntityTags = "entity_tags";
@@ -23,7 +23,7 @@ namespace SCore.Scripts.GameEvents
 
         protected override BaseRequirement CloneChildSettings()
         {
-            return new RequirementInVechileSDX
+            return new RequirementInVehicleSDX
             {
                 Invert = this.Invert,
                 _fastTags = _fastTags
