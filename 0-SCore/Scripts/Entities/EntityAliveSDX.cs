@@ -152,7 +152,16 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (value.Equals(entityName)) return;
 
             entityName = value;
-            _strMyName = value;
+
+            // Don't set the internal name if it's the name of the entity class, since the
+            // EntityFactory calls the setter with the class name when it creates the entity.
+            // But set the internal name otherwise, because the setter is also called when the
+            // entity is re-created after being picked up and placed again.
+            if (value?.Equals(EntityClass.list[entityClass].entityClassName) != true)
+            {
+                _strMyName = value;
+            }
+
             bPlayerStatsChanged |= !isEntityRemote;
         }
     }
