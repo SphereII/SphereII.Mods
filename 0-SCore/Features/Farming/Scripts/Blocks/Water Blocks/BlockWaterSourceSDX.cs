@@ -33,6 +33,8 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         ToggleSprinkler(_blockPos, false);
+        WaterPipeManager.Instance.RemoveValve(_blockPos);
+
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
@@ -54,6 +56,8 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         {
             _world.GetWBT().AddScheduledBlockUpdate(chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
         }
+        WaterPipeManager.Instance.AddValve(_blockPos);
+
     }
      public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
@@ -66,10 +70,12 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         {
             _world.GetWBT().AddScheduledBlockUpdate(_chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
         }
+        WaterPipeManager.Instance.AddValve(_blockPos);
     }
 
     public void ToggleSprinkler(Vector3i _blockPos, bool enabled = true)
     {
+        
         if ( GameManager.Instance.World.IsRemote() == false)
             GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, GetTickRate());
 
@@ -97,6 +103,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         }
 
         WaterPipeManager.Instance.AddValve(_blockPos);
+
         animator.SetBool(IsSprinklerOn, true);
     }
 

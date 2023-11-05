@@ -18,8 +18,7 @@ namespace Harmony.ZombieFeatures
     {
         public static bool IsInert(global::EntityAlive alive)
         {
-            if (alive == null)
-                return false;
+            if (alive == null) return false;
 
             if (alive is EntitySupplyCrate) return false;
 
@@ -29,10 +28,11 @@ namespace Harmony.ZombieFeatures
 
             var strActive = entityClass.Properties.Values["EntityActiveWhen"];
 
-            if (strActive.ToLower() == "never")
-                return true;
+            if (strActive.ToLower() == "never") return true;
 
-            return strActive.ToLower() == "night" && alive.world.IsDaytime();
+            var result = strActive.ToLower() == "night" && alive.world.IsDaytime();
+            alive.emodel.avatarController.GetAnimator().enabled = !result;
+            return result;
         }
 
         [HarmonyPatch(typeof(EAIManager))]
@@ -60,21 +60,21 @@ namespace Harmony.ZombieFeatures
                     __instance.emodel.avatarController.GetAnimator().enabled = true;
                     return true;
                 }
-
+                
                 __instance.emodel.avatarController.GetAnimator().enabled = false;
                 return false;
             }
         }
         
-        [HarmonyPatch(typeof(global::EntityAlive))]
-        [HarmonyPatch("OnUpdateEntity")]
-        public class EntityAliveOnUpdateLive
-        {
-            public static bool Prefix(global::EntityAlive __instance)
-            {
-                return !IsInert(__instance);
-            }
-        }
+        // [HarmonyPatch(typeof(global::EntityAlive))]
+        // [HarmonyPatch("OnUpdateEntity")]
+        // public class EntityAliveOnUpdateLive
+        // {
+        //     public static bool Prefix(global::EntityAlive __instance)
+        //     {
+        //         return !IsInert(__instance);
+        //     }
+        // }
 
         [HarmonyPatch(typeof(Entity))]
         [HarmonyPatch("CanDamageEntity")]

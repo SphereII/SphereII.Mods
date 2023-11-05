@@ -1,8 +1,6 @@
-﻿using GameEvent.SequenceRequirements;
-
-namespace SCore.Scripts.GameEvents
+﻿namespace GameEvent.SequenceRequirements
 {
-    public class RequirementInVehicleSDX  : BaseRequirement
+    public class RequirementInVehicleSDX : BaseRequirement
     {
         private FastTags _fastTags = FastTags.none;
         private const string PropEntityTags = "entity_tags";
@@ -14,10 +12,10 @@ namespace SCore.Scripts.GameEvents
         public override bool CanPerform(Entity target)
         {
             if (!target.AttachedToEntity) return this.Invert;
-            
-            if ( target.HasAnyTags(_fastTags))
+
+            if (target.HasAnyTags(_fastTags))
                 return !this.Invert;
-            
+
             return this.Invert;
         }
 
@@ -27,10 +25,9 @@ namespace SCore.Scripts.GameEvents
             {
                 Invert = this.Invert,
                 _fastTags = _fastTags
-                
             };
         }
-        
+
         public override void ParseProperties(DynamicProperties properties)
         {
             base.ParseProperties(properties);
@@ -39,6 +36,5 @@ namespace SCore.Scripts.GameEvents
                 _fastTags = FastTags.Parse(properties.Values[PropEntityTags]);
             }
         }
-        
     }
 }

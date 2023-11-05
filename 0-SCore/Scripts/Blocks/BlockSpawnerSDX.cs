@@ -47,14 +47,12 @@ internal class BlockSpawnerSDX : Block
 
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        Debug.Log("OnBlockAdded()");
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
         CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue);
     }
 
     public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
     {
-        Debug.Log("OnBlockLoaded()");
         base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
         CheckForSpawn(_world, _clrIdx, _blockPos, _blockValue);
     }

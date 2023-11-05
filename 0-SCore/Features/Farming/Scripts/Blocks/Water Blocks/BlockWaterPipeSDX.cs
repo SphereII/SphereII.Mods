@@ -26,6 +26,7 @@ public class BlockWaterPipeSDX : BlockBaseWaterSystem
     public override void OnBlockLoaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
     {
         WaterPipeManager.Instance.ClearPipes();
+        
         base.OnBlockLoaded(_world, _clrIdx, _blockPos, _blockValue);
     }
 

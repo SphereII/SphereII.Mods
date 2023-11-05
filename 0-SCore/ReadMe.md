@@ -23,6 +23,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.97.930
+	[ Farming ]
+		- Fixed an issue where valves did not work properly on dedi
+
+	[ Dialog ]
+		- Added support to trigger an action from a statement, rather than only a response.
+
+	[ RequirementInVehicleSDX ]
+		- Added a fix for the name space. 
+			- This is waiting for a fix in vanilla before it functions.
+
+	[ Inert ]
+		- Fixed an issue where Inert was making invisible entities when paused.
+
 Version: 21.1.89.1227
 	[ Game Events ]
 		- Fixed typo in Vehicle.

@@ -87,8 +87,11 @@ public class WaterPipeManager
     public Vector3i GetWaterForPosition(Vector3i position)
     {
         if (Pipes.ContainsKey(position))
-            return Pipes[position].GetWaterSource();
-
+        {
+            var waterPosition = Pipes[position].GetWaterSource();
+            if (waterPosition != Vector3.zero) return waterPosition;
+            return  Pipes[position].DiscoverWaterFromPipes(position);
+        }
         var pipeData = new PipeData(position);
         Pipes.Add(position, pipeData);
         return  pipeData.DiscoverWaterFromPipes(position);
