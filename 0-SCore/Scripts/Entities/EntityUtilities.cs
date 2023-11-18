@@ -725,6 +725,7 @@ public static class EntityUtilities
                 if (myEntity.IsSleeping)
                     myEntity.ConditionalTriggerSleeperWakeUp();
 
+                CheckForDanglingHires(_player.entityId);
                 return true;
             }
 
@@ -885,29 +886,29 @@ public static class EntityUtilities
         var removeList = new List<string>();
         foreach (var cvar in leader.Buffs.CVars)
         {
-            if (cvar.Key.StartsWith("hired_"))
+            if (!cvar.Key.StartsWith("hired_")) continue;
+            var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
+            if (entity == null)
             {
-                totalHired++;
-                var entity = GameManager.Instance.World.GetEntity((int) cvar.Value) as EntityAlive;
-                if (entity == null)
-                {
-                    totalCleared++;
-                    removeList.Add(cvar.Key);
-                    continue;
-                }
-
-                var leader2 = EntityUtilities.GetLeaderOrOwner(entity.entityId);
-                if (leader2 && leader2.entityId == leaderID)
-                {
-                    // Still hired.
-                    continue;
-                }
-
                 totalCleared++;
                 removeList.Add(cvar.Key);
+                continue;
             }
+
+            var leader2 = EntityUtilities.GetLeaderOrOwner(entity.entityId);
+            if (leader2 && leader2.entityId == leaderID)
+            {
+                totalHired++;
+                // Still hired.
+                continue;
+            }
+
+            totalCleared++;
+            removeList.Add(cvar.Key);
         }
 
+        leader.Buffs.AddCustomVar("CurrentHireCount", totalHired);
+        
         foreach (var cvar in removeList)
             leader.Buffs.CVars.Remove(cvar);
 

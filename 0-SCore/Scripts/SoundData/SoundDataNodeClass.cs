@@ -20,15 +20,14 @@ public static class SoundDataNodeClassSDX
             string localName = xElement.Name.LocalName;
             if (localName.EqualsCaseInsensitive("Buff"))
             {
-                var text = xElement.GetAttribute("Buff");
+                var text = xElement.GetAttribute(XNames.value);
                 AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Trigger Buff: " + text);
-
                 newSoundData.Buff = text;
             }
 
             if (localName.EqualsCaseInsensitive("Quest"))
             {
-                var text = xElement.GetAttribute("Quest");
+                var text = xElement.GetAttribute(XNames.value);
                 AdvLogging.DisplayLog(AdvFeatureClass, SoundGroupName + " Adding Trigger Quest: " + text);
                 newSoundData.Quest = text;
             }

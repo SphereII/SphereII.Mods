@@ -23,6 +23,23 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.110.1032
+	[ Buff / Quest From Sounds ]
+		- Fixed an issue where buffs / quests were not being properly read by sounds.
+
+	[ Hire CVars ]
+		- Added new cvar "CurrentHireCount" to keep track of the number of hired NPCs.
+		- This is cvar is updated when:
+			- An Entity is hired, the CheckStaleHires is ran, updating the cvar.
+			- When the MinEvent for ClearStaleHires fires:
+				<triggered_effect trigger = "onSelfBuffUpdate" action="ClearStaleHires, SCore"  />
+
+		- This cvar can be used in the dialog system as well, for requirements
+	        <requirement type="HasCVarSDX, SCore" requirementtype="Hide" id="CurrentHireCount" operator="LTE" value="3" /> 
+
+	[ Quest Objective Block Destroy ]
+		- Fixed an issue because I was calling the wrong net package, and changes were not being distributed properly to the party.
+
 Version: 21.1.97.930
 	[ Farming ]
 		- Fixed an issue where valves did not work properly on dedi

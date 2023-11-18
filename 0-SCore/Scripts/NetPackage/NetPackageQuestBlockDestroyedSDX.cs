@@ -79,7 +79,7 @@ public class NetPackageQuestBlockDestroyedSDX : NetPackage
             {
                 if (!quest.Objectives[i].Complete && quest.Objectives[i] is ObjectiveBlockDestroySDX)
                 {
-                    (quest.Objectives[i] as ObjectiveBlockDestroySDX).AddDestroyedBlock();
+                    (quest.Objectives[i] as ObjectiveBlockDestroySDX)?.AddDestroyedBlock();
                     return;
                 }
             }

@@ -140,10 +140,10 @@ public class ObjectiveBlockDestroySDX : BaseObjective
 		}
 		if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
 		{
-			SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestObjectiveUpdate>().Setup(NetPackageQuestObjectiveUpdate.QuestObjectiveEventTypes.BlockActivated, ownerPlayer.entityId, base.OwnerQuest.QuestCode), false, -1, -1, -1, -1);
+			SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(ownerPlayer.entityId, base.OwnerQuest.QuestCode), false, -1, -1, -1, -1);
 			return;
 		}
-		SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestObjectiveUpdate>().Setup(NetPackageQuestObjectiveUpdate.QuestObjectiveEventTypes.BlockActivated, ownerPlayer.entityId, base.OwnerQuest.QuestCode), false);
+		SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(ownerPlayer.entityId, base.OwnerQuest.QuestCode), false);
 	}
 	public override void Refresh()
 	{
