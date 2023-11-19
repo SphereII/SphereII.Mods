@@ -23,6 +23,16 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.1.111.950
+	[ Merging changes ]
+		The EntityName property setter is called in (at least) two cases for NPCs:
+
+			During EntityFactory.Create, when it is set to the entity class name
+			When the NPC entity is being re-created after being picked up and put down
+		
+		We should not set the private _strMyName in the first case, since that erases the random name chosen from the "Names" property in the entity class XML. 
+		But in the second case, the name that is being set was previously taken from the EntityName property, so should be the correct value chosen from "Names".
+
 Version: 21.1.110.1032
 	[ Buff / Quest From Sounds ]
 		- Fixed an issue where buffs / quests were not being properly read by sounds.
