@@ -23,6 +23,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.1.1646
+	[ Rebuild ]
+		- Re-built and re-linked against Alpha 21.2
+
+	[ Remote Crafting Utils ]
+		- Fixed a change in the TryStackItem in the loot container.
+
 Version: 21.1.111.950
 	[ Merging changes ]
 		The EntityName property setter is called in (at least) two cases for NPCs:
