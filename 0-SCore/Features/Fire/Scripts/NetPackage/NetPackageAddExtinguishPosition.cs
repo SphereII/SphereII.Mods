@@ -49,12 +49,7 @@ public class NetPackageAddExtinguishPosition : NetPackage
             return;
         }
 
-        if (!world.IsRemote())
-        {
-            return;
-        }
-
-        FireManager.Instance.Extinguish(_position);
+        FireManager.Instance.ExtinguishBlock(_position);
     }
 }
 

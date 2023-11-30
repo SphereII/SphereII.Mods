@@ -42,6 +42,7 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockPlantGrowingSDX.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="Scripts\NetPackage\NetPackageQuestGotoPointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageQuestTreasurePointSDX.cs" />
     <Compile Include="Scripts\NetPackage\NetPackageRandomTaggedPOIGotoSDX.cs" />
+    <Compile Include="Scripts\NetPackage\NetPackageWeaponSwap.cs" />
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBlockDestroySDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />

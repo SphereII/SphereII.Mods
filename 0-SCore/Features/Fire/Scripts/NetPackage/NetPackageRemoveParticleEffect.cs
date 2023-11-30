@@ -1,4 +1,6 @@
 ﻿using JetBrains.Annotations;
+using UnityEngine;
+
 /// <summary>
 /// Distributes the call to remove a particle effect to all clients. This is used by the Fire management system.
 /// </summary>
@@ -47,11 +49,7 @@ public class NetPackageRemoveParticleEffect : NetPackage
             return;
         }
 
-        if (!world.IsRemote())
-        {
-            return;
-        }
-        FireManager.Instance.ClearPos(_position);
+        FireManager.Instance.ClearPosOnly(_position);
     }
 }
 

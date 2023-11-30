@@ -676,10 +676,15 @@ public class FireManager
         }
     }
 
-    public void ClearPos(Vector3i blockPos)
+    public void ClearPosOnly(Vector3i blockPos)
     {
         ToggleSound(blockPos, false);
         ToggleParticle(blockPos, false);
+        
+    }
+    public void ClearPos(Vector3i blockPos)
+    {
+        ClearPosOnly(blockPos);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
@@ -741,15 +746,15 @@ public class FireManager
     }
 
 
-    private void RemoveFire(Vector3i blockPos)
+     public void RemoveFire(Vector3i blockPos)
     {
-        if (!FireMap.ContainsKey(blockPos)) return;
+        //if (!FireMap.ContainsKey(blockPos)) return;
         ToggleSound(blockPos, false);
         ToggleParticle(blockPos, false);
         FireMap.TryRemove(blockPos, out _);
     }
 
-    private void ExtinguishBlock(Vector3i blockPos)
+    public void ExtinguishBlock(Vector3i blockPos)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         var expiry = worldTime + _smokeTime;

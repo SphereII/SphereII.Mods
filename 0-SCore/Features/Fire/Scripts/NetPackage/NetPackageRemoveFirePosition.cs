@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using UnityEngine;
 
 /// <summary>
 /// Distributes the call to all clients to remove a block that is considered burning.
@@ -44,11 +45,6 @@ public class NetPackageRemoveFirePosition : NetPackage
             return;
         }
 
-        if (!world.IsRemote())
-        {
-            return;
-        }
-
-        FireManager.Instance.Remove(_position);
+        FireManager.Instance.RemoveFire(_position);
     }
 }

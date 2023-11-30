@@ -23,6 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.11.1647
+	[ Fire Manager ]
+		- Fixed an issue where fires could not be extinguished on servers.
+		- Fixed a potential issue with an excessive amount of net packages being sent.
+
+	[ NPC Weapon Swap ]
+		- Changed NetPackage for weapon swap
+		- Added new helper method in EntityAliveSDX to better handle it
+		- Added a preventative null check on FindWeapon()
+
+
 Version: 21.2.1.1646
 	[ Rebuild ]
 		- Re-built and re-linked against Alpha 21.2
