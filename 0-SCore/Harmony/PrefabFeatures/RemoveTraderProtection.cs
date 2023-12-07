@@ -85,6 +85,19 @@ namespace Harmony.PrefabFeatures
             }
         }
 
-      
+        // Disable the teleport when you cross the boundaries of a trader
+        [HarmonyPatch(typeof(global::EntityAlive))]
+        [HarmonyPatch("checkForTeleportOutOfTraderArea")]
+        public class EntityAlivecheckForTeleportOutOfTraderArea
+        {
+            public static bool Prefix()
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+
+                return false;
+            }
+        }  
     }
 }

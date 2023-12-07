@@ -30,6 +30,21 @@ namespace Harmony.Atmosphere
                 return true;
             }
         }
+        
+        [HarmonyPatch(typeof(SkyManager))]
+        [HarmonyPatch("BloodMoonVisiblePercent")]
+        public class SkyManagerBloodMoonVisiblePercent
+        {
+            public static float Postfix(float __result)
+            {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return __result;
+
+                // Darken the sun a bit.
+                SkyManager.SetSunIntensity(0.3f);
+                return 0.7f;
+            }
+        }
 
         
         /// <summary>

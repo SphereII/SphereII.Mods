@@ -15,6 +15,8 @@ public class BlockPoweredPortal : BlockPowered
     private int delay = 1000;
     private string location;
     private bool display = false;
+    private string buffActivate = "";
+
     private string displayBuff = "";
     public ChunkManager.ChunkObserver ChunkObserver;
 
@@ -27,7 +29,8 @@ public class BlockPoweredPortal : BlockPowered
     {
         if (Properties.Values.ContainsKey("CooldownBuff"))
             buffCooldown = Properties.Values["CooldownBuff"];
-
+        if (Properties.Values.ContainsKey("ActivateBuff"))
+            buffActivate = Properties.Values["ActivateBuff"];
         if (Properties.Values.ContainsKey("Delay"))
         {
             var delayString = Properties.Values["Delay"];
@@ -147,11 +150,23 @@ public class BlockPoweredPortal : BlockPowered
     //    TeleportPlayer(entity as EntityAlive, new Vector3i(_x, _y, _z));
     //    base.OnEntityWalking(_world, _x, _y, _z, _blockValue, entity);
     //}
+    
+    public bool CanUseTeleport(EntityAlive player, Vector3i blockPos)
+    {
+        if (string.IsNullOrEmpty(buffActivate)) return true;
+        if (player.Buffs.HasBuff(buffActivate)) return true;
+        
+        Manager.BroadcastPlayByLocalPlayer(blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
+        GameManager.ShowTooltip(player as EntityPlayerLocal, Localization.Get("xuiPortalDenied"), string.Empty, "ui_denied", null);
+        return false;
+    }
     public void TeleportPlayer(EntityAlive _player, Vector3i _blockPos)
     {
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, _blockPos) as TileEntityPoweredPortal;
         if (tileEntity == null) return;
         if (requiredPower > 0 && !tileEntity.IsPowered) return;
+
+        if (!CanUseTeleport(_player, _blockPos)) return;
 
         if (_player.Buffs.HasBuff(buffCooldown)) return;
         _player.Buffs.AddBuff(buffCooldown);

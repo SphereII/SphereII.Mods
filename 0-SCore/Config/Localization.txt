@@ -25,6 +25,7 @@ teleportto,"Teleport To"
 portal_not_configured,"Not Configured"
 portal_configure,"Not Connected"
 portalActivate, "Activate Portal"
+xuiPortalDenied,"Access Denied."
 ObjectiveEntityAliveSDXKill_keyword,Kill {0}:
 teleporttoNeedPower,"Needs Power"
 xuiPinGrab, "Broadcast"

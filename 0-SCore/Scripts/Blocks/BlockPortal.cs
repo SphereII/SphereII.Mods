@@ -2,6 +2,7 @@
 using Platform;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -29,13 +30,16 @@ public class BlockPortal2 : BlockPlayerSign
     private int delay = 1000;
     private string location;
     private bool display = false;
-
+    private string buffActivate = "";
     private string displayBuff = "";
     public override void Init()
     {
         if (Properties.Values.ContainsKey("CooldownBuff"))
             buffCooldown = Properties.Values["CooldownBuff"];
 
+        if (Properties.Values.ContainsKey("ActivateBuff"))
+            buffActivate = Properties.Values["ActivateBuff"];
+        
         if (Properties.Values.ContainsKey("Delay"))
         {
             var delayString = Properties.Values["Delay"];
@@ -100,13 +104,30 @@ public class BlockPortal2 : BlockPlayerSign
     //    TeleportPlayer(entity as EntityAlive, new Vector3i(_x, _y, _z));
     //    base.OnEntityWalking(_world, _x, _y, _z, _blockValue, entity);
     //}
-    public void TeleportPlayer(EntityAlive _player, Vector3i _blockPos)
+
+    public bool CanUseTeleport(EntityAlive player, Vector3i blockPos)
     {
-        if (_player.Buffs.HasBuff(buffCooldown)) return;
-        _player.Buffs.AddBuff(buffCooldown);
+        if (string.IsNullOrEmpty(buffActivate)) return true;
+        if (player.Buffs.HasBuff(buffActivate)) return true;
+
+        var localizationEntry = Localization.Get("xuiPortalDenied");
+        if (string.IsNullOrEmpty(localizationEntry)) return false;
+        
+        Manager.BroadcastPlayByLocalPlayer(blockPos.ToVector3() + Vector3.one * 0.5f, "Misc/locked");
+        GameManager.ShowTooltip(player as EntityPlayerLocal, localizationEntry, string.Empty, "ui_denied", null);
+        return false;
+    }
+    
+    public void TeleportPlayer(EntityAlive player, Vector3i blockPos)
+    {
+
+        if (!CanUseTeleport(player, blockPos)) return;
+        
+        if (player.Buffs.HasBuff(buffCooldown)) return;
+        player.Buffs.AddBuff(buffCooldown);
 
         Task task = Task.Delay(delay)
-             .ContinueWith(t => Teleport(_player, _blockPos));
+             .ContinueWith(t => Teleport(player, blockPos));
 
     }
     

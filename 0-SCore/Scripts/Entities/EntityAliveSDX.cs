@@ -700,10 +700,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (lootContainer == null) return;
         var num2 = (int)_br.ReadByte();
         var array = new ItemStack[num2];
+        var containerSize = lootContainer.GetContainerSize();
+        var totalItems = containerSize.x * containerSize.y;
         for (var j = 0; j < num2; j++)
         {
             var itemStack = new ItemStack();
             array[j] = itemStack.Read(_br);
+            if (j > totalItems)
+            {
+                Log.Out("Loot container is out of range.");
+                break;
+            }
             lootContainer.UpdateSlot(j, array[j]);
         }
         lootContainer.bPlayerStorage = true;

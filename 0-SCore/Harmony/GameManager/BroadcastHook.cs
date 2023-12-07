@@ -22,19 +22,6 @@ namespace SCore.Harmony.GameManagerPatches
             }
         }
         
-        [HarmonyPatch(typeof(GameManager))]
-        [HarmonyPatch("SpawnParticleEffectServer")]
-        public class GameManagerSpawnParticleEffectServer
-        {
-            public static bool Prefix(ref ParticleEffect _pe)
-            {
-                if (_pe.debugName == "confetti")
-                {
-                    _pe = new ParticleEffect("confetti", _pe.pos, _pe.lightValue, Color.white, null, null, false);
-                }
-                return true;
-            }
-        }
     }
 
 }

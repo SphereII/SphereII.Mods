@@ -23,6 +23,24 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.18.1001
+	[ Trader Protection ]
+		- Added a check to disable Trader Teleport when crossing the bounds of a trader.
+	
+	[ Portal ]
+		- Added the ability to define a buff to activate the portal.
+			<property name="ActivateBuff" value="myBuff" />
+		- If this buff is defined, the buff must be active in order to use the teleport.
+			- When denied, the Portal will chime a Denied sign, and show the localization entry for xuiPortalDenied.
+			- If the Localization entry for xuiPortalDenied is an empty string, it will not chime, or show a tool tip on denial.
+		- For Powered Portals, this check happens after checking if the portal is powered.
+
+	[ EntityAliveSDX ]
+		- Added a sanity check for loot container size.
+
+	[ Spook ]
+		- Fixed an issue where the sky was not as dark as it was supposed to be.
+
 Version: 21.2.11.1647
 	[ Fire Manager ]
 		- Fixed an issue where fires could not be extinguished on servers.
