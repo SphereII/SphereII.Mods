@@ -23,6 +23,14 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.27.1542
+
+	[ Trader Protection ]
+		- Added a check to allow you to talk to the trader during the night, when trader protection is off.
+
+	[ Portals ]
+		- Added a check for invalid portal positions
+
 Version: 21.2.18.1001
 	[ Trader Protection ]
 		- Added a check to disable Trader Teleport when crossing the bounds of a trader.

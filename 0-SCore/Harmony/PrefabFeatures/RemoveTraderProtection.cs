@@ -99,5 +99,21 @@ namespace Harmony.PrefabFeatures
                 return false;
             }
         }  
+        
+        // Allows you to talk to the trader
+        [HarmonyPatch(typeof(EntityTrader))]
+        [HarmonyPatch("ActivateTrader")]
+        public class EntityTraderActivateTrader
+        {
+            public static bool Prefix(ref bool traderIsOpen)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return true;
+                traderIsOpen = true;
+                return true;
+
+            }
+        }
     }
 }

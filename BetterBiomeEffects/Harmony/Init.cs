@@ -3,6 +3,7 @@ using HarmonyLib;
 using System.Reflection;
 using GlobalSnowEffect;
 using UnityEngine;
+using VolumetricFogAndMist;
 
 public class BetterBiomeEffects
 {
@@ -11,6 +12,7 @@ public class BetterBiomeEffects
     public class BetterBiomeEffectsInit : IModApi
     {
         private GlobalSnow _globalSnow;
+        private VolumetricFog _volumetricFog;
         private EntityPlayerLocal _player;
         
         private string resourceReference;
@@ -30,7 +32,7 @@ public class BetterBiomeEffects
             // Used to convert the bundle path correctly.
             // Example from GlobalSnow.cs:
             // private string resourceReference = $"#@modfolder({BetterBiomeEffects.modFolder}):Resources/GlobalSnow.unity3d?";
-            modFolder = _modInstance.FolderName;
+            modFolder = _modInstance.Name;
 
             RegisterEvents();
         }
@@ -38,6 +40,7 @@ public class BetterBiomeEffects
         private void RegisterEvents()
         {
             ModEvents.GameUpdate.RegisterHandler(UpdateSnow);
+          //  ModEvents.GameUpdate.RegisterHandler(UpdateVolumetricFog);
         }
 
         private void InitGlobalSnow( )
@@ -79,6 +82,29 @@ public class BetterBiomeEffects
             // Give a bonus if we are in a snowy area, so we can layer everything in a fine dust.
             if (_player.biomeStandingOn?.m_SpectrumName == "snow")
                 _globalSnow.snowAmount += 0.5f;
+        }
+
+        private void InitVolumetricFog()
+        {
+            _player = GameManager.Instance.World.GetPrimaryPlayer();
+            FogUtils.InitAssetBundles();
+          //  _player.playerCamera.gameObject.GetOrAddComponent<VolumetricFogPosT>();
+            _volumetricFog = _player.playerCamera.gameObject.GetOrAddComponent<VolumetricFog>();
+            //_volumetricFog.character = _player.gameObject;
+          //  SetupVolumes();
+            //    VolumetricFogConfiguration.SetVolumetricFogProfile("Fog");
+            //Debug.Log($"Main Camera: {_volumetricFog.hasCamera} {_volumetricFog.distance}");
+            
+        }
+
+     
+
+      
+        private void UpdateVolumetricFog()
+        {
+            if ( _volumetricFog == null) 
+                InitVolumetricFog();
+            
         }
     }
 }

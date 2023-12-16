@@ -279,11 +279,16 @@ public static class HeightMapTunneler
         {
             for (var chunkZ = 0; chunkZ < 16; chunkZ++)
             {
+                
                 var height = chunk.GetTerrainHeight(chunkX, chunkZ);
-                if ( height > highestPoint )
-                    highestPoint = height;
+                var targetBlock = chunk.GetBlock(chunkX, height, chunkZ);
+                
+                // if ( height > highestPoint )
+                //     highestPoint = height;
             }
         }
+
+        return;
                 //        var tHeight = chunk.GetTerrainHeight(0, 0);
 
                 var providerFromImage = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider() as WorldBiomeProviderFromImage;
@@ -312,7 +317,7 @@ public static class HeightMapTunneler
                 var worldX = chunkPos.x + chunkX;
                 var worldZ = chunkPos.z + chunkZ;
 
-
+                
 
                 var targetDepth = GetTargetHeight(worldX, worldZ, (int)tHeight);
 

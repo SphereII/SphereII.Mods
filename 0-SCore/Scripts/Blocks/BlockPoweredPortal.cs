@@ -179,16 +179,15 @@ public class BlockPoweredPortal : BlockPowered
     private void Teleport(EntityAlive _player, Vector3i _blockPos)
     {
         var destination = PortalManager.Instance.GetDestination(_blockPos);
-        if (destination != Vector3i.zero)
+        if (destination == Vector3i.zero) return;
+        
+        // Check if the destination is powered.
+        var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
+        if (tileEntity != null)
         {
-            // Check if the destination is powered.
-            var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
-            if (tileEntity != null)
-            {
-                if (requiredPower > 0 && !tileEntity.IsPowered) return;
-            }
-            _player.SetPosition(destination);
+            if (requiredPower > 0 && !tileEntity.IsPowered) return;
         }
+        _player.SetPosition(destination);
     }
 
     public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)

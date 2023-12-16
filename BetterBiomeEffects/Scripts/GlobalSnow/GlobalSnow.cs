@@ -1773,9 +1773,8 @@ namespace GlobalSnowEffect
         {
             if (snowTex != null) return;
 
-            var modFolder = BetterBiomeEffects.modFolder;
             // GlobalSnow's resource bundle. Helper field to shorten the references below.
-            resourceReference = $"#@modfolder:Resources/GlobalSnow.unity3d?";
+            resourceReference = $"#@modfolder({BetterBiomeEffects.modFolder}):Resources/GlobalSnow.unity3d?";
 
             // Loading resources. This is mostly a modified copy of the GlobalSnow's LoadResources() so we don't have to edit
             // the script. However, some edits will be necessary to turn some fields to public.

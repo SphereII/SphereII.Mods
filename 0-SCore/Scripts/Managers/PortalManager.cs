@@ -159,29 +159,25 @@ public class PortalManager
     // Portal blocks
     public Vector3i GetDestination(Vector3i source)
     {
+        if (!PortalMap.ContainsKey(source)) return Vector3i.zero;
+        var sourceName = PortalMap[source];
+        var item = new PortalItem(source, sourceName);
+        if (item.Destination == "NA") return Vector3i.zero;
 
-        if (PortalMap.ContainsKey(source))
+        // Loop around every teleport position, matchng up the name.
+        foreach (var portal in PortalMap)
         {
-            var sourceName = PortalMap[source];
-            var item = new PortalItem(source, sourceName);
-            if (item.Destination == "NA") return Vector3i.zero;
-
-            // Loop around every teleport position, matchng up the name.
-            foreach (var portal in PortalMap)
+            var portalItem = new PortalItem(portal.Key, portal.Value);
+            if (item.Destination == portalItem.Source)
             {
-                var portalItem = new PortalItem(portal.Key, portal.Value);
-                if (item.Destination == portalItem.Source)
-                {
-                    // don't teleport to the same location.
-                    if (source == portal.Key) continue;
-                    return portal.Key;
-                }
+                // don't teleport to the same location.
+                if (source == portal.Key) continue;
+                return portal.Key;
             }
-            return CheckForPrefabLocation(item);
         }
+        return CheckForPrefabLocation(item);
 
 
-        return Vector3i.invalid;
     }
 
     public Vector3i CheckForPrefabLocation(PortalItem item)

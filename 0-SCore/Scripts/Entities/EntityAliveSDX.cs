@@ -2008,8 +2008,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (string.IsNullOrEmpty(playerWeapon)) return false;
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
         if (playerWeaponItem == null) return false;
-        if (lootContainer.HasItem(playerWeaponItem)) return true;
-        
+        if (GameManager.Instance.World.GetTileEntity(entityId) is TileEntityLootContainer container)
+        {
+            if (container.HasItem(playerWeaponItem)) 
+                return true;
+        }
+
         // If we don't have it in our loot container, check to see if we had it when we first spawned in.
         for (var i = 0; i < itemsOnEnterGame.Count; i++)
         {

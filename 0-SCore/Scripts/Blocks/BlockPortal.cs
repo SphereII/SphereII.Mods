@@ -135,7 +135,11 @@ public class BlockPortal2 : BlockPlayerSign
     {
         var destination = PortalManager.Instance.GetDestination(_blockPos);
         if (destination != Vector3i.zero)
-            _player.SetPosition(destination + Vector3i.up);
+        {
+      //      var destinationBlock = GameManager.Instance.World.GetBlock(destination);
+      //      if ( destinationBlock.Block is BlockPortal)
+                _player.SetPosition(destination + Vector3i.up);
+        }
     }
 
     public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
