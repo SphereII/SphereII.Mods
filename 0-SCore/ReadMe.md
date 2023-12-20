@@ -23,6 +23,48 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.31.1132
+
+	[ EntityAliveSDX ]
+		- Added new property StartingItems to specify items that will appear in the NPC's loot container on spawn in.
+
+			Example:
+				<property name="StartingItems" value="drinkJarBoiledWater=2,foodCanChili,medicalFirstAidBandage,meleeToolTorch,keystoneBlock,noteDuke01"/>
+
+			- Once added, it sets a cvar called "InitialInventory" to flag it was already done.
+			- Also updated DeployNPCSDX to support this.
+
+		- Fixed an issue where weapon swap got broken over a bad check
+
+		- Added new property PickUpItem to allow a custom item to be selected.
+			<property name="PickUpItem" value="MyNPCItem" />
+	
+			If the property is not there, it will use the default spherePickUpNPC.
+
+	[ DeployNPCSDX ]
+
+		- Added 2 new properties for the PickUp Item, to allow placing down an NPC pre-configured.
+
+			- This will allow you to recieve an NPC as an item.
+			- If the AutoHire property is set to true, it will auto-hire the NPC to the player placing it down.
+			- If the AutoHire property is not set, the NPC will not be hired on placing it down.
+			- If the property EntityName is set, it will assign that name to the NPC. 
+
+			Example:
+				<item name="spherePickUpNPC2">
+      				<property name="Extends" value="spherePickUpNPC" />
+      				<property name="EntityClass" value="npcBakerClub" />
+      				<property name="AutoHire" value="true" />
+				    <property name="EntityName" value="John Wayne" />
+    			</item>
+		
+
+	[ Fire Manager ]
+		Added a check to disable fire when Particle index is set to 0.
+			if (___explosionData.ParticleIndex == 0) return;
+
+
+
 Version: 21.2.27.1542
 
 	[ Trader Protection ]

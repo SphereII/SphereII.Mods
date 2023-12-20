@@ -13,6 +13,7 @@ namespace Features.Fire.Harmony
 
             // BlockDamage set to 0 does nothing.
             if (___explosionData.BlockDamage == 0) return;
+            if (___explosionData.ParticleIndex == 0) return;
 
             var entityAlive = GameManager.Instance.World.GetEntity(_entityThatCausedExplosion) as EntityAlive;
             if (entityAlive != null)

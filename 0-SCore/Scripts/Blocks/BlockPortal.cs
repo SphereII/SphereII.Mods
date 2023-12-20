@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class BlockPortal: BlockPoweredPortal
 {

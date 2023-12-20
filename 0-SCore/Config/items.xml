@@ -114,6 +114,13 @@
       </property>
 
   </item>
+
+    <item name="spherePickUpNPC2">
+      <property name="Extends" value="spherePickUpNPC" />
+      <property name="EntityClass" value="npcBakerClub" />
+      <property name="AutoHire" value="true" />
+      <property name="EntityName" value="John Wayne" />
+    </item>
 	  <!-- Example of an item that can spoil, when the foot spoilage is turned on 
 		  <item name="foodSpoilageTest">
 			  <property name="Extends" value="foodShamSandwich"/>

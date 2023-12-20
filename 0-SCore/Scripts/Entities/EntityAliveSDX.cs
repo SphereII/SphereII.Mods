@@ -1,13 +1,13 @@
 /*
  * Class: EntityAliveSDX
- * Author:  sphereii 
+ * Author:  sphereii
  * Category: Entity
  * Description:
  *      This mod is an extension of the base entityAlive. This is meant to be a base class, where other classes can extend
  *      from, giving them the ability to accept quests and buffs.
- * 
+ *
  * Usage:
- *      Add the following class to entities that are meant to use these features. 
+ *      Add the following class to entities that are meant to use these features.
  *
  *      <property name="Class" value="EntityAliveSDX, SCore" />
  */
@@ -387,6 +387,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         GameManager.Instance.World.ChunkClusters[0].OnChunkVisibleDelegates += this.chunkClusterVisibleDelegate;
         base.OnAddedToWorld();
+        AddToInventory();
     }
 
     // This is an attempt at turning off gravity for the entity when chunks are no longer visible. The hope is that it will resolve the disappearing NPCs.
@@ -596,7 +597,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (lootContainer == null)
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
-            lootContainer = new TileEntityLootContainer(null) {entityId = entityId};
+            lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
             lootContainer.SetContainerSize(string.IsNullOrEmpty(GetLootList())
                 ? new Vector2i(8, 6)
                 : LootContainer.GetLootContainer(GetLootList()).size);
@@ -604,8 +605,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         Buffs.SetCustomVar("$waterStaminaRegenAmount", 0, false);
         SetupStartingItems();
-        if ( !string.IsNullOrEmpty(_currentWeapon))
+        if (!string.IsNullOrEmpty(_currentWeapon))
             UpdateWeapon(_currentWeapon);
+
         // Does a quick local scan to see what pathing blocks, if any, are nearby. If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
 
@@ -617,6 +619,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         this.PhysicsTransform.gameObject.SetActive(true);
         SetSpawnerSource(EnumSpawnerSource.Biome);
     }
+
     /// <inheritdoc/>
     public virtual void UpdatePatrolPoints(Vector3 position)
     {
@@ -664,7 +667,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             //  fail safe to protect game saves
         }
-        
+
         _currentWeapon = _br.ReadString();
         UpdateWeapon(_currentWeapon);
 
@@ -675,13 +678,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         return syncFlags;
     }
-    
+
     public void SendSyncData(ushort syncFlags = 1)
     {
         var primaryPlayerId = GameManager.Instance.World.GetPrimaryPlayerId();
         this.SendSyncData(syncFlags, primaryPlayerId);
     }
-    
+
     private void SendSyncData(ushort syncFlags, int playerId)
     {
         var package = NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>().Setup(this, playerId, syncFlags);
@@ -690,7 +693,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(package, false);
             return;
         }
-    
+
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
     }
 
@@ -711,8 +714,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 Log.Out("Loot container is out of range.");
                 break;
             }
+
             lootContainer.UpdateSlot(j, array[j]);
         }
+
         lootContainer.bPlayerStorage = true;
     }
 
@@ -727,7 +732,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Check if pathing blocks are defined.
         var blocks = EntityUtilities.ConfigureEntityClass(entityId, "PathingBlocks");
         if (blocks.Count == 0)
-            blocks = new List<string> {"PathingCube", "PathingCube2"};
+            blocks = new List<string> { "PathingCube", "PathingCube2" };
 
         //Scan for the blocks in the area
         var pathingVectors = ModGeneralUtilities.ScanAutoConfigurationBlocks(position, blocks, 2);
@@ -804,23 +809,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             // fail safe to protect game saves
         }
+
         _bw.Write(inventory.holdingItem.GetItemName());
 
-       WriteSyncData(_bw, 1);
+        WriteSyncData(_bw, 1);
     }
 
     public void WriteSyncData(BinaryWriter _bw, ushort syncFlags)
     {
-        
-         // Inventory
+        // Inventory
         //var slots = this.bag.GetSlots();
-         if (lootContainer == null) return;
-         var slots = this.lootContainer.items;
-         _bw.Write((byte)slots.Length);
-         for (int k = 0; k < slots.Length; k++)
-         {
-             slots[k].Write(_bw);
-         }
+        if (lootContainer == null) return;
+        var slots = this.lootContainer.items;
+        _bw.Write((byte)slots.Length);
+        for (int k = 0; k < slots.Length; k++)
+        {
+            slots[k].Write(_bw);
+        }
+
         _bw.Write(_currentWeapon);
     }
 
@@ -1026,13 +1032,13 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         // Force the leader to have the hired entity id
-        leader.Buffs.SetCustomVar($"hired_{entityId}", (float) entityId);
+        leader.Buffs.SetCustomVar($"hired_{entityId}", (float)entityId);
 
         var player = leader as EntityPlayer;
         // If the player doesn't have a party, create one, so we can share exp with our leader.
         if (player && !player.IsInParty())
         {
-          //  player.CreateParty();
+            //  player.CreateParty();
         }
 
         switch (EntityUtilities.GetCurrentOrder(entityId))
@@ -1105,9 +1111,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         //CheckNoise();
         if (isHirable)
             LeaderUpdate();
-        
+
         CheckStuck();
-        
+
         // SetupAutoPathingBlocks();
 
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
@@ -1328,7 +1334,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                     };
 
                     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-                    if ( entityBackpack)
+                    if (entityBackpack)
                         entityBackpack.OnEntityUnload();
                     //  this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
                 }
@@ -1466,7 +1472,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             }
 
             //// Find the ground.
-            myPosition.y = (int) GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
+            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 1;
         }
 
         motion = Vector3.zero;
@@ -1491,7 +1497,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     private IEnumerator validateTeleport(EntityAlive target, bool randomPosition = false)
     {
         yield return new WaitForSeconds(1f);
-        var y = (int) GameManager.Instance.World.GetHeightAt(position.x, position.z);
+        var y = (int)GameManager.Instance.World.GetHeightAt(position.x, position.z);
         if (position.y < y)
         {
             var myPosition = position;
@@ -1507,7 +1513,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             }
 
             //// Find the ground.
-            myPosition.y = (int) GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
+            myPosition.y = (int)GameManager.Instance.World.GetHeightAt(myPosition.x, myPosition.z) + 2;
 
             // var myPosition = RandomPositionGenerator.CalcTowards(Owner, 5, 20, 2, Owner.position);
 
@@ -1594,7 +1600,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         for (var i = -1; i < 2; i++)
         for (var j = -1; j < 2; j++)
         {
-            var chunk = (Chunk) world.GetChunkSync(num + j, num2 + i);
+            var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
             if (chunk == null) continue;
 
             var tileEntities = chunk.GetTileEntities();
@@ -1652,11 +1658,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var num = EntityClass.list[killedEntity.entityClass].ExperienceValue;
         if (xpModifier is > 1f or < 1f)
         {
-            num = (int) (num * xpModifier);
+            num = (int)(num * xpModifier);
         }
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityPlayer;
-        if (leader )
+        if (leader)
         {
             if (leader.Party != null)
             {
@@ -1664,7 +1670,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 num = leader.Party.GetPartyXP(leader, num);
             }
         }
-        
+
 
         if (!isEntityRemote)
         {
@@ -1688,13 +1694,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             {
                 GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
             }
+
             return;
         }
-        
+
         foreach (var entityPlayer2 in leader.Party.MemberList)
         {
             if (!(Vector3.Distance(leader.position, entityPlayer2.position) <
-                  (float) GameStats.GetInt(EnumGameStats.PartySharedKillRange))) continue;
+                  (float)GameStats.GetInt(EnumGameStats.PartySharedKillRange))) continue;
             if (GameManager.Instance.World.IsLocalPlayer(entityPlayer2.entityId))
             {
                 GameManager.Instance.SharedKillClient(killedEntity.entityClass, num, null);
@@ -1823,7 +1830,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         world.GetEntitiesInBounds(typeof(EntityPlayer), bb, entityTempList);
         for (int j = 0; j < entityTempList.Count; j++)
         {
-            EntityPlayer entityAlive = (EntityPlayer) entityTempList[j];
+            EntityPlayer entityAlive = (EntityPlayer)entityTempList[j];
             var noiseLevel = entityAlive.Buffs.GetCustomVar("_noiseLevel");
             float distance = GetDistance(entityAlive);
             float num11 = noiseLevel * (1f + num9 * aiManager.feralSense);
@@ -1868,9 +1875,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public void SetItemValue(ItemValue itemValue)
     {
         EntityName = itemValue.GetMetadata("NPCName") as string;
-        belongsPlayerId = (int) itemValue.GetMetadata("BelongsToPlayer");
-        Health = (int) itemValue.GetMetadata("health");
-        var leaderID = (int) itemValue.GetMetadata("Leader");
+        belongsPlayerId = (int)itemValue.GetMetadata("BelongsToPlayer");
+        Health = (int)itemValue.GetMetadata("health");
+        var leaderID = (int)itemValue.GetMetadata("Leader");
         EntityUtilities.SetLeaderAndOwner(entityId, leaderID);
 
         lootContainer.entityId = entityId;
@@ -1885,11 +1892,18 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var quality = StringParsers.ParseSInt32(storage.Split(',')[1]);
             var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
             var createItem = ItemClass.GetItem(itemId);
+            if ( storage.Split(',').Length > 3)
+            {
+                var useTime = StringParsers.ParseFloat(storage.Split(',')[3]);
+                createItem.UseTimes = useTime;
+            }
+
             createItem.Quality = quality;
             var stack = new ItemStack(createItem, itemCount);
             lootContainer.AddItem(stack);
         }
 
+        
         // Tool belt
         slots = inventory.GetSlots();
         for (var i = 0; i < slots.Length; i++)
@@ -1908,14 +1922,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
 
-        var x = (int) itemValue.GetMetadata("TotalBuff");
+        var x = (int)itemValue.GetMetadata("TotalBuff");
         for (var i = 0; i < x; i++)
         {
             var buffName = itemValue.GetMetadata($"Buff-{i}")?.ToString();
             Buffs.AddBuff(buffName);
         }
 
-        x = (int) itemValue.GetMetadata("TotalCVar");
+        x = (int)itemValue.GetMetadata("TotalCVar");
         for (var i = 0; i < x; i++)
         {
             var cvarData = itemValue.GetMetadata($"CVar-{i}")?.ToString();
@@ -1925,7 +1939,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var cvarValue = cvarData.Split(':')[1];
             Buffs.AddCustomVar(cvarName, StringParsers.ParseFloat(cvarValue));
         }
-        
+
         var weaponType = itemValue.GetMetadata("CurrentWeapon").ToString();
         _defaultWeapon = itemValue.GetMetadata("DefaultWeapon").ToString();
         var item = ItemClass.GetItem(weaponType);
@@ -1933,17 +1947,28 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             UpdateWeapon(item);
         }
-        Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
 
+        Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
     }
 
     public ItemValue GetItemValue()
     {
         var type = 0;
-        var itemClass = ItemClass.GetItemClass("spherePickUpNPC", true);
 
+        var targetItemClass = "spherePickUpNPC";
+        var currentEntityClass = EntityClass.list[entityClass];
+        if (currentEntityClass.Properties.Values.ContainsKey("PickUpItem"))
+        {
+            targetItemClass = currentEntityClass.Properties.Values["PickUpItem"];
+        }
+        var itemClass = ItemClass.GetItemClass(targetItemClass, true);            
         if (itemClass != null)
             type = itemClass.Id;
+        else
+        {
+            Log.Out($"Invalid PickUpItem: {targetItemClass}");
+            return ItemValue.None;
+        }
 
         var itemValue = new ItemValue(type, false);
         itemValue.SetMetadata("NPCName", EntityName, TypedMetadataValue.TypeTag.String);
@@ -1963,7 +1988,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var itemId = slots[i].itemValue.ItemClass.GetItemName();
             var quality = slots[i].itemValue.Quality;
             var itemCount = slots[i].count;
-            var storage = $"{itemId},{quality},{itemCount}";
+            var itemUse = slots[i].itemValue.UseTimes;
+            var storage = $"{itemId},{quality},{itemCount},{itemUse}";
             itemValue.SetMetadata($"LootContainer-{i}", storage, TypedMetadataValue.TypeTag.String);
         }
 
@@ -1975,7 +2001,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var itemId = slots[i].itemValue.ItemClass.GetItemName();
             var quality = slots[i].itemValue.Quality;
             var itemCount = slots[i].count;
-            var storage = $"{itemId},{quality},{itemCount}";
+            var itemUse = slots[i].itemValue.UseTimes;
+            var storage = $"{itemId},{quality},{itemCount},{itemUse}";
             itemValue.SetMetadata($"InventorySlot-{i}", storage, TypedMetadataValue.TypeTag.String);
         }
 
@@ -1998,7 +2025,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         return itemValue;
     }
-  
+
     public bool FindWeapon(string weapon)
     {
         var currentWeapon = ItemClass.GetItem(weapon);
@@ -2008,9 +2035,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (string.IsNullOrEmpty(playerWeapon)) return false;
         var playerWeaponItem = ItemClass.GetItem(playerWeapon);
         if (playerWeaponItem == null) return false;
-        if (GameManager.Instance.World.GetTileEntity(entityId) is TileEntityLootContainer container)
+        if (lootContainer != null)
         {
-            if (container.HasItem(playerWeaponItem)) 
+            if (lootContainer.HasItem(playerWeaponItem))
                 return true;
         }
 
@@ -2047,11 +2074,38 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
     }
 
+    private void AddToInventory()
+    {
+        // We only want to fire the initial inventory once per entity creation.
+        // Let's gate it using a cvar
+        if (Buffs.GetCustomVar("InitialInventory") > 0) return;
+        Buffs.SetCustomVar("InitialInventory", 1);
+        var currentEntityClass = EntityClass.list[entityClass];
+        if (currentEntityClass.Properties.Values.ContainsKey("StartingItems"))
+        {
+            var text = currentEntityClass.Properties.Values["StartingItems"];
+            var items = text.Split(',');
+            foreach (var item in items)
+            {
+                var itemStack = ItemStack.FromString(item.Trim());
+                if (itemStack.itemValue.IsEmpty()) continue;
+                var forId = ItemClass.GetForId(itemStack.itemValue.type);
+                if (forId.HasQuality)
+                {
+                    itemStack.itemValue = new ItemValue(itemStack.itemValue.type, 1, 6, false, null, 1f);
+                }
+
+                lootContainer.AddItem(itemStack);
+            }
+        }
+    }
+
     public void RefreshWeapon()
     {
         var item = ItemClass.GetItem(_currentWeapon);
         UpdateWeapon(item);
     }
+
     public void UpdateWeapon(string itemName = "")
     {
         if (string.IsNullOrEmpty(itemName))
@@ -2059,9 +2113,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         var item = ItemClass.GetItem(itemName);
         UpdateWeapon(item);
-        EntityUtilities.UpdateHandItem(entityId,itemName);
-
+        EntityUtilities.UpdateHandItem(entityId, itemName);
     }
+
     // Allows the NPC to change their hand items, and update their animator.
     public void UpdateWeapon(ItemValue item)
     {
@@ -2079,6 +2133,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // Switch to default
             item = ItemClass.GetItem(_defaultWeapon);
         }
+
         if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
         {
             return;
@@ -2180,7 +2235,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         var vector3I = World.worldToBlockPos(this.position);
-        while (vector3I.y < 254 && (float) vector3I.y - this.position.y < 3f &&
+        while (vector3I.y < 254 && (float)vector3I.y - this.position.y < 3f &&
                !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3I, this.corpseBlockValue, false))
         {
             vector3I += Vector3i.up;
@@ -2191,7 +2246,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             return Vector3i.zero;
         }
 
-        if ((float) vector3I.y - this.position.y >= 2.1f)
+        if ((float)vector3I.y - this.position.y >= 2.1f)
         {
             return Vector3i.zero;
         }
@@ -2258,19 +2313,19 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var num = Utils.Fastfloor(_x);
         var num2 = Utils.Fastfloor(_y);
         var num3 = Utils.Fastfloor(_z);
-        var num4 = _x - (float) num;
-        var num5 = _z - (float) num3;
+        var num4 = _x - (float)num;
+        var num5 = _z - (float)num3;
         var result = false;
         if (!this.ShouldPushOutOfBlock(num, num2, num3, false) &&
             (!this.ShouldPushOutOfBlock(num, num2 + 1, num3, false))) return false;
         var flag2 = !this.ShouldPushOutOfBlock(num - 1, num2, num3, true) &&
-                     !this.ShouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
+                    !this.ShouldPushOutOfBlock(num - 1, num2 + 1, num3, true);
         var flag3 = !this.ShouldPushOutOfBlock(num + 1, num2, num3, true) &&
-                     !this.ShouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
+                    !this.ShouldPushOutOfBlock(num + 1, num2 + 1, num3, true);
         var flag4 = !this.ShouldPushOutOfBlock(num, num2, num3 - 1, true) &&
-                     !this.ShouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
+                    !this.ShouldPushOutOfBlock(num, num2 + 1, num3 - 1, true);
         var flag5 = !this.ShouldPushOutOfBlock(num, num2, num3 + 1, true) &&
-                     !this.ShouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
+                    !this.ShouldPushOutOfBlock(num, num2 + 1, num3 + 1, true);
         var b = byte.MaxValue;
         var num6 = 9999f;
         if (flag2 && num4 < num6)
@@ -2279,7 +2334,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             b = 0;
         }
 
-        if (flag3 && 1.0 - (double) num4 < (double) num6)
+        if (flag3 && 1.0 - (double)num4 < (double)num6)
         {
             num6 = 1f - num4;
             b = 1;
@@ -2358,7 +2413,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         IsStuck = (PushOutOfBlocks(position.x + width * 0.3f, num, position.z - depth * 0.3f) || IsStuck);
         IsStuck = (PushOutOfBlocks(position.x + width * 0.3f, num, position.z + depth * 0.3f) || IsStuck);
         if (IsStuck) return;
-        
+
         var x = Utils.Fastfloor(position.x);
         var num2 = Utils.Fastfloor(num);
         var z = Utils.Fastfloor(position.z);

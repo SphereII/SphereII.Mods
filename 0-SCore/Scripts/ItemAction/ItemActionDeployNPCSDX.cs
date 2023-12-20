@@ -16,9 +16,34 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
         var itemActionDataSpawnVehicle = (ItemActionSpawnVehicle.ItemActionDataSpawnVehicle) _actionData;
         if (!itemActionDataSpawnVehicle.ValidPosition) return;
 
+        var autoHire = false;
+        var updateMetaData = true;
+        var entityName = string.Empty;
         var holdingItemItemValue = entityPlayerLocal.inventory.holdingItemItemValue;
-        var entityClassID = (int)holdingItemItemValue.GetMetadata("EntityClassId");
-    
+        var entityClassID = -1;
+        
+        if (holdingItemItemValue.HasMetadata("EntityClassId"))
+        {
+            entityClassID = (int)holdingItemItemValue.GetMetadata("EntityClassId");
+        }
+        else
+        {
+            if (holdingItemItemValue.ItemClass.Properties.Values.ContainsKey("EntityClass"))
+            {
+                var entityClass = holdingItemItemValue.ItemClass.Properties.Values["EntityClass"];
+                if (string.IsNullOrEmpty(entityClass)) return;
+                entityClassID = EntityClass.FromString(entityClass);
+                autoHire = holdingItemItemValue.ItemClass.Properties.GetBool("AutoHire");
+                updateMetaData = false;
+                entityName = holdingItemItemValue.ItemClass.Properties.GetStringValue("EntityName");
+            }
+        }
+
+        if (entityClassID == -1)
+        {
+            Log.Out("No Such Entity");
+            return;
+        }
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
@@ -39,9 +64,24 @@ public class ItemActionDeployNPCSDX : ItemActionSpawnVehicle
             }
             
             // Setting the spawner source and item value needs to happen after the SpawnEntityInWorld, otherwise it won't "take"
+            entityAlive.Buffs.SetCustomVar("InitialInventory", 1);
             GameManager.Instance.World.SpawnEntityInWorld(entityAlive);
             entityAlive.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-            entityAlive.SetItemValue(holdingItemItemValue);
+
+            if (!string.IsNullOrEmpty(entityName))
+            {
+                entityAlive.SetEntityName(entityName);
+            }
+            // We don't want to update the meta data if it doesn't have any.
+            if (updateMetaData)
+            {
+                entityAlive.SetItemValue(holdingItemItemValue);
+            }
+
+            if (autoHire)
+            {
+                EntityUtilities.Hire(entityAlive.entityId, entityPlayerLocal);
+            }
             
 
         }
