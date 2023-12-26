@@ -399,6 +399,7 @@ namespace OldMoatGames
         {
             var id = "";
             for (var i = 0; i < 6; i++) id += (char)Read();
+            Log.Out($"ID: {id}");
             if (!id.StartsWith("GIF"))
             {
                 _status = Status.StatusFormatError;

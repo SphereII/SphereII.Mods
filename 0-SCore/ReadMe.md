@@ -23,6 +23,19 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.37.1618
+
+	[ TileEntitySign ]
+		- Fixed an issue where png files were not being displayed.
+		
+		Note: Gifs hosted on Imgur may not work. This is being looked at.
+
+	[ EntityAliveSDX ]
+		- Fixed an issue where the UseTimes on an item was not being preserved by an NPC
+			- This caused the UseTime to be reset when you pick up and place down an NPC.
+			- This was mostly evident by giving an NPC a partially spoiled item, then picking up and placing down the NPC to reset the spoilage counter.
+			- This was actually fixed in 21.2.31.1132
+
 Version: 21.2.31.1132
 
 	[ EntityAliveSDX ]

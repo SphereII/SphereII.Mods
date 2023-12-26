@@ -43,7 +43,7 @@ public class ImageWrapper : MonoBehaviour
 
         if (url.EndsWith("mp4"))
         {
-            url.Replace(".mp4", ".gif");
+          //  url.Replace(".mp4", ".gifv");
             return true;
         }
 

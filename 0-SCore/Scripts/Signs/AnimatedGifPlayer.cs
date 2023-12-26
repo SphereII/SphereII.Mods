@@ -7,7 +7,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using GameEvent.SequenceActions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -86,7 +88,7 @@ namespace OldMoatGames
         /// <summary>
         ///     Sets whether or not the decoder runs in a separate thread
         /// </summary>
-        public bool UseThreadedDecoder = true;
+        public bool UseThreadedDecoder = false;
 
         /// <summary>
         ///     Sets whether or not to run the player in compatibility mode.
@@ -270,7 +272,6 @@ namespace OldMoatGames
             StartDecodeThread();
 
             if (FileName.Length <= 0) return; // Only load if the file name is set
-
 #if UNITY_EDITOR
             if (Application.isPlaying)
             {
@@ -295,8 +296,11 @@ namespace OldMoatGames
         public void Play()
         {
             if (State != GifPlayerState.Stopped)
-                //  Debug.LogWarning("Can't play GIF playback. State is: " + State);
+            {
+                  Debug.LogWarning("Can't play GIF playback. State is: " + State);
                 return;
+            }
+
             State = GifPlayerState.Playing;
         }
 
@@ -389,14 +393,17 @@ namespace OldMoatGames
                 yield return www;
 
                 if (string.IsNullOrEmpty(www.error) == false)
+                {
                     // Gif file could not be loaded from streaming assets
-                    //Debug.LogWarning("File load error.\n" + www.error + "\nPath:" + WWW.EscapeURL(path, Encoding.Default));
+                    Debug.LogWarning("File load error.\n" + www.error + "\nPath:" + WWW.EscapeURL(path, Encoding.Default));
                     State = GifPlayerState.Error;
+                }
                 else
                     // Gif file loaded. Pass stream to gif decoder
                     lock (_locker)
                     {
-                        if (_gifDecoder.Read(new MemoryStream(www.bytes)) == GifDecoder.Status.StatusOk)
+                        var stream = new MemoryStream(www.bytes);
+                        if (_gifDecoder.Read(stream) == GifDecoder.Status.StatusOk)
                         {
                             // Gif header was read. Prepare the gif
                             // Set status to preprocessing
@@ -423,32 +430,50 @@ namespace OldMoatGames
 
         private IEnumerator DownloadImage(string MediaUrl)
         {
-            var  request = UnityWebRequest.Get(MediaUrl);
-
-           // var request = UnityWebRequestTexture.GetTexture(MediaUrl);
-            yield return request.SendWebRequest();
-#pragma warning disable 618
-            if (request.isNetworkError || request.isHttpError)
-#pragma warning restore 618
-            {
-                Debug.Log(request.error);
-            }
-            else
-            {
-                if (request.downloadHandler is not DownloadHandlerTexture texture)
-                    yield break;
-                GifTexture = texture.texture;
-                if (GifTexture == null)
-                    yield break;
-                GifTexture.hideFlags = HideFlags.HideAndDontSave;
-                SetTexture();
-            }
+            // GetTextures() is broken on the version of unity currently used.
+            var texture = new Texture2D(1, 1);
+            var www = new WWW(MediaUrl);
+            yield return www;
+            www.LoadImageIntoTexture(texture);
+            GifTexture = texture;
+            if (GifTexture == null)
+                yield break;
+            GifTexture.hideFlags = HideFlags.HideAndDontSave;
+            SetTexture();
+//             
+//              var  request = UnityWebRequest.Get(MediaUrl);
+//
+//             //var request = UnityWebRequestTexture.GetTexture(MediaUrl);
+//             yield return request.SendWebRequest();
+// #pragma warning disable 618
+//             if (request.isNetworkError || request.isHttpError)
+// #pragma warning restore 618
+//             {
+//                 Debug.Log(request.error);
+//             }
+//             else
+//             {
+//                 Debug.Log("Download Handler");
+//                 Debug.Log(request.downloadHandler);
+//                 // if (request.downloadHandler is not DownloadHandlerTexture texture)
+//                 // {
+//                 //     yield break;
+//                 // }
+//
+//                 var texture = request.downloadHandler.data;
+//                 GifTexture = texture;
+//                 if (GifTexture == null)
+//                     yield break;
+//                 GifTexture.hideFlags = HideFlags.HideAndDontSave;
+//                 SetTexture();
+//             }
         }
 
         // Create target texture
         private void CreateTargetTexture()
         {
-            if (GifTexture != null && _gifDecoder != null && GifTexture.width == _gifDecoder.GetFrameWidth() && GifTexture.height == _gifDecoder.GetFrameHeight()) return; // Target texture already set
+            if (GifTexture != null && _gifDecoder != null && GifTexture.width == _gifDecoder.GetFrameWidth() &&
+                GifTexture.height == _gifDecoder.GetFrameHeight()) return; // Target texture already set
 
             if (_gifDecoder == null || _gifDecoder.GetFrameWidth() == 0 || _gifDecoder.GetFrameWidth() == 0)
             {
@@ -476,7 +501,8 @@ namespace OldMoatGames
 #if UNITY_5_6_OR_NEWER
                 var oldSize = target.size;
 #endif
-                var newSprite = Sprite.Create(GifTexture, new Rect(0.0f, 0.0f, GifTexture.width, GifTexture.height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
+                var newSprite = Sprite.Create(GifTexture, new Rect(0.0f, 0.0f, GifTexture.width, GifTexture.height),
+                    new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
                 newSprite.name = "Gif Player Sprite";
                 newSprite.hideFlags = HideFlags.HideAndDontSave;
                 target.sprite = newSprite;
@@ -561,7 +587,8 @@ namespace OldMoatGames
             if (TargetComponent is SpriteRenderer)
             {
                 var target = (SpriteRenderer)TargetComponent;
-                var newSprite = Sprite.Create(GifTexture, new Rect(0.0f, 0.0f, GifTexture.width, GifTexture.height), new Vector2(0.5f, 0.5f));
+                var newSprite = Sprite.Create(GifTexture, new Rect(0.0f, 0.0f, GifTexture.width, GifTexture.height),
+                    new Vector2(0.5f, 0.5f));
                 newSprite.name = "Gif Player Sprite";
                 newSprite.hideFlags = HideFlags.HideAndDontSave;
                 target.sprite = newSprite;
@@ -645,6 +672,7 @@ namespace OldMoatGames
 #if UNITY_EDITOR
             if (AutoPlay && Application.isPlaying) Play(); //don't start autoplay in the editor
 #else
+            
             if (AutoPlay) Play();
 #endif
         }
@@ -778,7 +806,8 @@ namespace OldMoatGames
             }
 
             // Not threaded
-            if (_cacheFrames && _gifDecoder.AllFramesRead) return; // Don't retrieve data if we already have cached all frames
+            if (_cacheFrames && _gifDecoder.AllFramesRead)
+                return; // Don't retrieve data if we already have cached all frames
 
             // Read the next frame
             _gifDecoder.ReadNextFrame(!_cacheFrames);
