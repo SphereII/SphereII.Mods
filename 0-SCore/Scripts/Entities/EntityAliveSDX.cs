@@ -2049,6 +2049,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 .Equals(weapon, StringComparison.InvariantCultureIgnoreCase)) return true;
         }
 
+        if (GetHandItem().ItemClass.GetItemName().Equals(weapon, StringComparison.InvariantCultureIgnoreCase))
+            return true;
         return false;
     }
 
@@ -2126,7 +2128,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Do we have this item?
         if (!FindWeapon(_currentWeapon))
         {
-            Debug.Log($"Item not found: {_currentWeapon}");
+            Debug.Log($"EntityAliveSDX: UpdateWeapon() Item not found: {_currentWeapon}");
             if (string.IsNullOrEmpty(_defaultWeapon))
                 return;
 

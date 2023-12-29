@@ -16,7 +16,7 @@ namespace Features.Fire.Harmony
             if (entity is not EntityAlive entityAlive) return;
             var buff = Configuration.GetPropertyValue("FireManagement", "BuffOnFire");
             if (!string.IsNullOrEmpty(buff))
-                entityAlive.Buffs.AddBuff(buff);
+                entityAlive.Buffs.AddBuff(buff, entityAlive.entityId);
         }
     }
 }

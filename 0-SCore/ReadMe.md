@@ -23,6 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.40.1024
+
+	[ EntityAliveSDX ]
+		- Fixed an issue with Weapon Swapping that would get triggered when an NPC only has an HandItem specified, and not
+			given an item through ItemsOnEnterGame.
+			- This generated the "Item Not Found" error.
+
+	[ Fire Manager ]
+		- Blind potential fix for fire not hurting a player, when in a Multiplayer server.
+			- When the fire buff is applied now to the player, the player itself will be the source of the damage (instigator id ).
+
 Version: 21.2.37.1618
 
 	[ TileEntitySign ]
