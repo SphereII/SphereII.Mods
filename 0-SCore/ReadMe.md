@@ -23,7 +23,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version: 21.2.42.1750
+Version: 21.2.42.1753
 
 	[ XUiC ]
 		- Added new XUiC_SCoreUtilities controller to allow personalization of player experiences
