@@ -197,6 +197,9 @@
 				-->
 
 				<property name="DisplayCompanions" value="true" />
+
+				<property name="AdvancedEnemyNPCs" value="false" />
+				<!-- Set to true if some enemy NPCs are "advanced" NPCs that use EntityAliveSDX. -->
 			</property>
 
 			<!-- Allow themed settings to be applied: See Harmony/Atmosphere/-->
