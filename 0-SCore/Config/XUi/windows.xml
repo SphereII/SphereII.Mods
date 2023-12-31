@@ -7,6 +7,24 @@
         <label style="header.name" text_key="advancedlockpicking_desc" width="800" height="300" font_size="30" overflow="resizefreely"/>
       </panel>
     </window>
+
+    <window name="SCoreUtilities" anchor="RightTop" pos="-320,-80" width="300" height="920" controller="SCoreUtilities, SCore" cursor_area="true">
+      <panel name="header" height="50" depth="1" backgroundspritename="ui_game_panel_header">
+        <sprite depth="2" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_pen"/>
+        <label style="header.name" text="SCore Utilities"  text_key="xuiSCoreUtilities" width="800" height="300" font_size="30" />
+      </panel>
+      <panel name="content" depth="1" pivot="center" disableautobackground="false" >
+        <sprite depth="2" name="border" sprite="menu_empty3px" pos="0,0" color="[black]" type="sliced" fillcenter="false" globalopacity="true" globalopacitymod="0.9" />
+        <sprite depth="1" name="backgroundMain" sprite="menu_empty3px" pos="2,-2" height="916" width="296" color="[darkGrey]" type="sliced" fillcenter="true" globalopacity="true" globalopacitymod="0.9" />
+     
+        <grid name="toggles" pos="5, -50" cols="1" width="290" cell_width="290" cell_height="34" arrangement="vertical" repeat_content="false" >
+          <togglebutton name="toggleLockPick" caption_key="xuiSCoreUtilsLockPick" tooltip_key="xuiLockPickingToolTip" width="290" height="32" depth="3" />
+          <label style="header.name" text="NPC Settings"  text_key="xuiSCoreNPCSettings" width="800" height="300" font_size="30" />
+          <togglebutton name="toggleNPCFootsteps" caption_key="xuiSCoreUtilsNPCFootSteps" tooltip_key="xuiQuietNPCToolTip" width="290" height="32" depth="3" />
+        </grid>
+      
+      </panel>
+    </window>
   </append>
   
   <append xpath="/windows/window[@name='windowLooting']//rect[@controller='ContainerStandardControls']">

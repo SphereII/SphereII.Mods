@@ -197,7 +197,7 @@ public class WaterPipeManager
         }
 
         // A21 water support
-        return GameManager.Instance.World.GetWaterPercent(position) > 0.25;
+        return GameManager.Instance.World.GetWaterPercent(position) > 0.01f;
     }
 
     // Counts how many water blocks are in the surrounding area.

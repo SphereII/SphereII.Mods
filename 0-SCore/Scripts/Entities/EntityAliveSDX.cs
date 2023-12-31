@@ -2289,7 +2289,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             return;
         }
 
-        if (leader.Buffs.HasCustomVar("quietNPC")) return;
+        if (leader.Buffs.GetCustomVar("quietNPC") > 0) return;
+        //if (leader.Buffs.HasCustomVar("quietNPC")) return;
 
         // Mute the foot steps when crouching.
         if (IsCrouching) return;

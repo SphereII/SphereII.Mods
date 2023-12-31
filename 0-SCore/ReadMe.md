@@ -23,6 +23,35 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.42.1750
+
+	[ XUiC ]
+		- Added new XUiC_SCoreUtilities controller to allow personalization of player experiences
+			- Personalization is limited to SCore features that some users may not like, and offer
+				no benefit other than comfort.
+			- Currently feature:
+				The ability to turn off the Lock MiniGame, if Locks is available.
+				The ability to turn off hired NPC foot steps, so you aren't hearing it constantly.
+
+			- By default, this screen is added to the inGameMenu window. 
+				- Pressing ESC to see the Exit / Option window will show it.
+			
+
+	[ Farming Manager ]
+		- Adjusted GetWaterPercent() to be a lower value to determine if its a plantable area.
+
+	[ Fire Manager ]
+		- Another potential fix for fire not hurting a player when in a multipler server.
+
+	[ EntityAlive SDX ]
+		-Merged in Pull Request 85 from khzmusik
+		- Remove the prompt to talk with enemy NPCs
+
+		- New blocks.xml Property to 
+			<!-- Set to true if some enemy NPCs are "advanced" NPCs that use EntityAliveSDX. -->
+			<property name="AdvancedEnemyNPCs" value="false" />
+			- When enabled, it'll remove the prompt to talk to non-friendly NPCs.
+			
 Version: 21.2.40.1024
 
 	[ EntityAliveSDX ]

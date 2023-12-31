@@ -9,6 +9,9 @@
     <window_group name="LockPicking" >
       <window name="windowLockPicking"/>
     </window_group>
+  </append>
+  <append xpath="//window_group[@name='ingameMenu']">
+    <window name="SCoreUtilities"/>
 
   </append>
 </configs>

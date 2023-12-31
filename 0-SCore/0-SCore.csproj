@@ -486,6 +486,7 @@
     <Compile Include="Scripts\XUiC\XUiC_PathFindingKeypadWindow.cs" />
     <Compile Include="Scripts\XUiC\XUiC_PlayerStatWindowSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_NPCStatWindow.cs" />
+    <Compile Include="Scripts\XUiC\XUiC_SCoreUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\blockplaceholders.xml" />

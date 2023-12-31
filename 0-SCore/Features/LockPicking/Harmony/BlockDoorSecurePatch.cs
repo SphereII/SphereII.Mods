@@ -53,6 +53,10 @@ namespace Features.LockPicking
                 // 1 == try to open locked door.
                 if (_commandName != "open") return true;
                 
+                // If they have enabled legacy lock picking, disable picking doors.
+                if (_player.Buffs.HasCustomVar("LegacyLockPick") && _player.Buffs.GetCustomVar("LegacyLockPick") > 0)
+                    return true;
+                
                 // Check if the player has lock picks.
                 var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
                 if (playerUI == null)
