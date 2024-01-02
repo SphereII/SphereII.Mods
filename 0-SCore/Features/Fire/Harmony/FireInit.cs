@@ -19,7 +19,7 @@ namespace Features.Fire.Harmony
                 || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
                 || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
             {
-                Debug.Log("Displaying Fire Manage in Play Testing / Prefab editor");
+                Debug.Log("Disabling Fire Manager in Play Testing / Prefab editor");
                 return;
             }
             FireManager.Init();

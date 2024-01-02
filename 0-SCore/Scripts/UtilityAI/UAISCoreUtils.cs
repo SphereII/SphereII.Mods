@@ -174,13 +174,19 @@ namespace UAI
             RaycastHit ray;
             // Check if we can hit anything downwards
             if (Physics.Raycast(a - Origin.position, Vector3.down, out ray, 3.4f, 1082195968) &&
-                !(ray.distance > 2.2f)) return;
+                !(ray.distance > 2.2f))
+            {
+                return;
+            }
 
             // if we WILL hit something, don't jump.
-            var vector3i = new Vector3i(Utils.Fastfloor(_context.Self.position.x),
-                Utils.Fastfloor(_context.Self.position.y + 2.35f), Utils.Fastfloor(_context.Self.position.z));
+            var vector3i = new Vector3i(Utils.Fastfloor(_context.Self.position.x), Utils.Fastfloor(_context.Self.position.y + 2.35f), Utils.Fastfloor(_context.Self.position.z));
+            
+            // Move the position forward to see if it can still fall. Previously, they would struggle falling off the buildings.
+            vector3i += Vector3i.forward;
             var block = _context.Self.world.GetBlock(vector3i);
-            if (block.Block.IsMovementBlocked(_context.Self.world, vector3i, block, BlockFace.None)) return;
+            if (block.Block.IsMovementBlocked(_context.Self.world, vector3i, block, BlockFace.None))
+                return;
 
 
             // Stop the forward movement, so we don't slide off the edge.

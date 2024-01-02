@@ -482,8 +482,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (EntityTargetingUtilities.IsEnemy(this, entityFocusing)) return false;
 
         // do we have an attack or revenge target? don't have time to talk, bro
-        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
-        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
+//        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
+//        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
         if (SCoreUtils.IsEnemyNearby(this, 10f)) return false;
 

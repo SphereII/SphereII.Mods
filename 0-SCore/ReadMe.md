@@ -23,6 +23,21 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.44.1541
+
+	[ Fire Manager ]
+		- Another fix for Fire not damaging players on a dedicated server
+		- Fixed various typoes in a single debug log caused by a stroke.
+
+	[ EntityAliveSDX ]
+		- Removed one of the checks preventing you from talking to an NPC that was in battle. 
+			- Previously, there was a check to see if the NPC had an attack target. This was removed.
+			- Another check, right after that one, is still active. It scans to find enemies within 10 blocks, and prevents talking then.
+
+	[ NPC ]
+		- Small tweak to the CheckBlocked() to determine if the NPC will jump off the building after you.
+			- Previously, this just inched the NPC forward until they gracefully fell, but it may not have been enough in all cases.
+
 Version: 21.2.42.1753
 
 	[ XUiC ]
