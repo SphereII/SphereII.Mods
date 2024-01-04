@@ -1354,6 +1354,7 @@ public static class EntityUtilities
                 SetCurrentOrder(EntityID, Orders.Wander);
                 myEntity.Buffs.RemoveCustomVar("Leader");
                 myEntity.Buffs.RemoveCustomVar("Owner");
+                player.Companions?.Remove(myEntity);
                 break;
         }
 

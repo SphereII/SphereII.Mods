@@ -57,6 +57,7 @@
     <Compile Include="Features\Farming\Scripts\DataClasses\PlantData.cs" />
     <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
     <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
+    <Compile Include="Features\Fire\Harmony\ChunkSetBlock.cs" />
     <Compile Include="Features\Fire\Harmony\Explosion.cs" />
     <Compile Include="Features\Fire\Harmony\FireInit.cs" />
     <Compile Include="Features\Fire\Harmony\PerformanceTweaks.cs" />
@@ -476,6 +477,9 @@
     <Compile Include="Scripts\WorldGen\Utilities\MapGenerator.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\PathingWormTunneler.cs" />
     <Compile Include="Scripts\WorldGen\WinterProjectPrefab.cs" />
+    <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanion.cs" />
+    <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanionList.cs" />
+    <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreInGameMenu.cs" />
     <Compile Include="Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogHireInformationSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogRespondentNameSDX.cs" />
@@ -501,6 +505,7 @@
     <Content Include="Config\sounds.xml" />
     <Content Include="Config\spawning.xml" />
     <Content Include="Config\utilityai.xml" />
+    <Content Include="Config\XUi\controls.xml" />
     <Content Include="Config\XUi\windows.xml" />
     <Content Include="Config\XUi\xui.xml" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Windows.Forms.VisualStyles;
 using UnityEngine;
 
 public class XUiC_SCoreUtilities : XUiController
@@ -6,6 +8,7 @@ public class XUiC_SCoreUtilities : XUiController
     private XUiC_ToggleButton toggleVanillaLockPicking;
     public static string ID = "";
     private EntityPlayerLocal _entityPlayerLocal;
+
 
     public override void OnOpen()
     {
@@ -23,20 +26,22 @@ public class XUiC_SCoreUtilities : XUiController
     {
         base.Init();
         ID = WindowGroup.ID;
-        
-        
+
         toggleNPCFootsteps = GetChildById("toggleNPCFootsteps").GetChildByType<XUiC_ToggleButton>();
         toggleNPCFootsteps.OnValueChanged += delegate(XUiC_ToggleButton sender, bool b)
         {
             _entityPlayerLocal.Buffs.AddCustomVar("quietNPC", b ? 1 : 0);
         };
-        
+
         toggleVanillaLockPicking = GetChildById("toggleLockPick").GetChildByType<XUiC_ToggleButton>();
         toggleVanillaLockPicking.OnValueChanged += delegate(XUiC_ToggleButton sender, bool b)
         {
             _entityPlayerLocal.Buffs.AddCustomVar("LegacyLockPick", b ? 1 : 0);
         };
+
+      
     }
 
   
+
 }

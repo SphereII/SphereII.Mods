@@ -472,6 +472,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos,
         EntityAlive entityFocusing)
     {
+        var localPlayer = entityFocusing as EntityPlayerLocal;
+        
         if (IsDead())
         {
             GameManager.Instance.TELockServer(0, tePos, this.entityId, entityFocusing.entityId, null);
@@ -479,13 +481,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         // Don't allow interaction with a Hated entity
-        if (EntityTargetingUtilities.IsEnemy(this, entityFocusing)) return false;
+        if (EntityTargetingUtilities.IsEnemy(this, entityFocusing))
+        {
+            if ( localPlayer)
+                GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemy"));
+            return false;
+        }
 
         // do we have an attack or revenge target? don't have time to talk, bro
 //        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
 //        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
 
-        if (SCoreUtils.IsEnemyNearby(this, 10f)) return false;
+        if (SCoreUtils.IsEnemyNearby(this, 10f))
+        {
+            if ( localPlayer)
+                GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemyNearby"));
+
+            return false;
+        }
 
         Buffs.SetCustomVar("Persist", 1);
 
@@ -517,15 +530,24 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)
             nextCompletedQuest = null;
 
+        
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            this.activeQuests =
-                QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
-                    entityFocusing.entityId);
-            if (this.activeQuests == null)
+            if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
+                || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
+                || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
             {
-                this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
-                QuestEventManager.Current.SetupQuestList(this.entityId, entityFocusing.entityId, this.activeQuests);
+                Debug.Log("Skipping activating Quests in Playtesting.");
+            }
+            else
+            {
+                this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
+                    entityFocusing.entityId);
+                if (this.activeQuests == null)
+                {
+                    this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
+                    QuestEventManager.Current.SetupQuestList(this.entityId, entityFocusing.entityId, this.activeQuests);
+                }
             }
         }
 
@@ -1001,6 +1023,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     public void LeaderUpdate()
     {
         if (IsDead()) return;
+
+        if (Buffs.HasBuff("buffOrderDismiss")) return;
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)
         {

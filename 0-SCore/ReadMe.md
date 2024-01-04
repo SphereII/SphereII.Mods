@@ -23,6 +23,24 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+
+	[ Fire Manager ]
+		- Added a check in Chunk.SetBlock(), that if the SetBlock is from a POI Reset, to remove the fire from any blocks that may be burning.
+
+	[ EntityAliveSDX ]
+		- Added a buff check in LeaderUpdate() to prevent a timing issue when you are dismissing an NPC
+
+	[ XUiC ]
+		- Shrunk the Utilities screen, and moved it to the center of the screen.
+		- Added new Companion Screen. These are defined in the xui.xml.
+		- Access to these screens are available in the Esc menu in-game.
+
+		- Companion screen shows all hired NPCs, their name, their distance, and allows you to give them orders.
+			- Orders are based on range, roughly 50 blocks.
+			- If the NPC is more than 50 blocks away, the commands are ignored.
+			- Dismissing an NPC through this screen is instant, and has no range check.
+
 Version: 21.2.44.1541
 
 	[ Fire Manager ]
