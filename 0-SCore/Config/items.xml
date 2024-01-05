@@ -136,5 +136,25 @@
 			  <property name="SpoilagePerTick" value="1" />
 		  </item>
     -->
+
+
+    <item name="scoreOpenNPCWindow">
+      <property name="Extends" value="schematicMaster" />
+      <property name="DescriptionKey" value="UndeadFactionSchematicDesc" />
+      <property name="CreativeMode" value="Player" />
+      <property name="CustomIcon" value="schematicMaster" />
+      <property name="Consume" value="false" />
+      <property class="Action0">
+        <property name="Class" value="Eat"/>
+        <property name="Consume" value="false"/>
+        <property name="Delay" value="1.0"/>
+        <property name="UseAnimation" value="false"/>
+        <property name="Sound_start" value="read_mod"/>
+        <property name="Sound_in_head" value="true"/>
+      </property>
+      <effect_group tiered="false">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="OpenWindow, SCore" window="SCoreCompanionsGroup" />
+      </effect_group>
+    </item>
   </append>
 </configs>

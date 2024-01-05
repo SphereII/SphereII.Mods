@@ -23,6 +23,28 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.47.1657
+
+	[ MinEventActionOpenWindow ]
+		- To Better support modders' use of the Companions screen, a new minevent has been created.
+			<triggered_effect trigger="onSelfPrimaryActionEnd" action="OpenWindow, SCore" window="SCoreCompanionsGroup"/>
+		- This will open the xui.xml's Window Group
+
+		- A test item called scoreOpenNPCWindow has been added showing an example:
+
+     		<property class="Action0">
+        		<property name="Class" value="Eat"/>
+				<!-- Consume is set to false so the item doesn't get used up -->
+        		<property name="Consume" value="false"/>
+        		<property name="Delay" value="1.0"/>
+        		<property name="UseAnimation" value="false"/>
+        		<property name="Sound_start" value="read_mod"/>
+        		<property name="Sound_in_head" value="true"/>
+      		</property>
+      		<effect_group tiered="false">
+        		<triggered_effect trigger="onSelfPrimaryActionEnd" action="OpenWindow, SCore" window="SCoreCompanionsGroup" />
+      		</effect_group>
+		
 Version: 21.2.47.1616
 
 	[ XUiC ]
