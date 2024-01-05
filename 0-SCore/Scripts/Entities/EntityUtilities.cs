@@ -1361,6 +1361,19 @@ public static class EntityUtilities
         return true;
     }
 
+    public static bool TeleportNow(int EntityID, EntityAlive target, int maxRange = 50)
+    {
+        var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAliveSDX;
+        if (myEntity == null) return false;
+        var magnitude = (myEntity.GetPosition() - target.GetPosition()).magnitude;
+        if (magnitude > maxRange ) return false;
+        
+        myEntity.Buffs.AddBuff("buffOrderFollow");
+        var destination = target.position;
+        destination += Vector3.forward;
+        myEntity.SetPosition(destination, true);
+        return true;
+    }
     public static bool CanExecuteTask(int EntityID, Orders order)
     {
         var myEntity = GameManager.Instance.World.GetEntity(EntityID) as EntityAlive;

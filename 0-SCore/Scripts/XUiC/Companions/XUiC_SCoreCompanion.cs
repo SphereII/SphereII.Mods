@@ -26,7 +26,8 @@ public class XUiC_SCoreCompanion : XUiController
     private XUiC_SimpleButton btnStayHere;
     private XUiC_SimpleButton btnStayThere;
     private XUiC_SimpleButton btnDismiss;
-
+    private XUiC_SimpleButton btnTeleport;
+    
     private float updateLimiter;
 
 
@@ -36,16 +37,37 @@ public class XUiC_SCoreCompanion : XUiController
         IsDirty = true;
 
         btnFollow = (XUiC_SimpleButton)GetChildById("btnFollow");
-        btnFollow.OnPressed += BtnFollow_Controller_OnPress;
+        if (btnFollow != null)
+            btnFollow.OnPressed += BtnFollow_Controller_OnPress;
 
         btnStayHere = (XUiC_SimpleButton)GetChildById("btnStayHere");
-        btnStayHere.OnPressed += BtnStayHere_Controller_OnPress;
+        if (btnStayHere != null)
+            btnStayHere.OnPressed += BtnStayHere_Controller_OnPress;
 
         btnStayThere = (XUiC_SimpleButton)GetChildById("btnStayThere");
-        btnStayThere.OnPressed += BtnStayThere_Controller_OnPress;
+        if (btnStayThere != null)
+            btnStayThere.OnPressed += BtnStayThere_Controller_OnPress;
 
         btnDismiss = (XUiC_SimpleButton)GetChildById("btnDismiss");
-        btnDismiss.OnPressed += BtnDismiss_Controller_OnPress;
+        if (btnDismiss != null)
+            btnDismiss.OnPressed += BtnDismiss_Controller_OnPress;
+        
+        btnTeleport = (XUiC_SimpleButton)GetChildById("btnTeleport");
+        if (btnTeleport != null)
+            btnTeleport.OnPressed += BtnTeleport_Controller_OnPress;
+
+    }
+
+    private void BtnTeleport_Controller_OnPress(XUiController _sender, int _mousebutton)
+    {
+        if (IsInRange())
+        {
+            if (EntityUtilities.TeleportNow(Companion.entityId, xui.playerUI.entityPlayer, 50))
+                return;
+        }
+
+        GameManager.ShowTooltip(xui.playerUI.entityPlayer, Localization.Get("xuiSCoreOutOfRange"));
+        
     }
 
     private void BtnDismiss_Controller_OnPress(XUiController _sender, int _mousebutton)
@@ -54,37 +76,28 @@ public class XUiC_SCoreCompanion : XUiController
         EntityUtilities.ExecuteCMD(Companion.entityId, "Dismiss", xui.playerUI.entityPlayer);
         Companion.Buffs.AddBuff("buffOrderDismiss");
         this.ViewComponent.IsVisible = false;
-        //xui.playerUI.windowManager.CloseIfOpen(XUiC_SCoreCompanionList.ID);
-        //xui.playerUI.windowManager.Open(XUiC_SCoreCompanionList.ID, true);
     }
 
     private void BtnStayThere_Controller_OnPress(XUiController _sender, int _mousebutton)
     {
-        if (IsInRange())
-        {
-            Companion.Buffs.AddBuff("buffOrderGuardHere");
-            return;
-        }
-
-        GameManager.ShowTooltip(xui.playerUI.entityPlayer, Localization.Get("xuiSCoreOutOfRange"));
+        ApplyCommand("buffOrderGuardHere");
     }
 
     private void BtnStayHere_Controller_OnPress(XUiController _sender, int _mousebutton)
     {
-        if (IsInRange())
-        {
-            Companion.Buffs.AddBuff("buffOrderStay");
-            return;
-        }
-
-        GameManager.ShowTooltip(xui.playerUI.entityPlayer, Localization.Get("xuiSCoreOutOfRange"));
+        ApplyCommand("buffOrderStay");
     }
 
     private void BtnFollow_Controller_OnPress(XUiController _sender, int _mouseButton)
     {
+        ApplyCommand("buffOrderFollow");
+    }
+
+    private void ApplyCommand(string buff)
+    {
         if (IsInRange())
         {
-            Companion.Buffs.AddBuff("buffOrderFollow");
+            Companion.Buffs.AddBuff(buff);
             return;
         }
 
@@ -110,6 +123,7 @@ public class XUiC_SCoreCompanion : XUiController
             RefreshBindings(true);
             return;
         }
+
         UpdateStatus();
         RefreshBindings(true);
         IsDirty = true;

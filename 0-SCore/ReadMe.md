@@ -23,7 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 21.2.47.1616
+
+	[ XUiC ]
+		- Added a "Come Here!" to the list of commands.
+			- This is a Range-based, as are the other commands.
+			- It is intended to be used when the NPC is in a different room than you, and are stuck.
+			- This applies the Follow Buff to the NPC, so if they were told to Stay previously, they'll still come to you.
+			- This teleports to the Player position + 1. It's a very tight teleport.
+		
+
+Version: 21.2.46.1336
 
 	[ Fire Manager ]
 		- Added a check in Chunk.SetBlock(), that if the SetBlock is from a POI Reset, to remove the fire from any blocks that may be burning.

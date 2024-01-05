@@ -20,14 +20,18 @@
                 </rect>
 
                 <rect depth="1" name="npcOrderStayHere" width="100" height="46" pos="405,-3">
-                    <simplebutton name="btnStayHere" depth="3" pos="5, 0" pivot="left" width="100" height="38" font_size="26" caption_key="xuiSCoreStayHere" />
+                    <simplebutton name="btnStayHere" depth="3" pos="5, 0" pivot="left" width="100" height="38" font_size="26" caption_key="xuiSCoreStayHere" buff="buffOrderStay2"/>
                 </rect>
 
                 <rect depth="1" name="npcOrderStayThere" width="110" height="46" pos="510,-3">
                     <simplebutton name="btnStayThere" depth="3" pos="5, 0" pivot="left" width="110" height="38" font_size="26" caption_key="xuiSCoreStayThere" />
                 </rect>
 
-                <rect depth="1" name="npcOrderDismiss" width="100" height="46" pos="630,-3">
+                <rect depth="1" name="npcOrderTeleport" width="110" height="46" pos="630,-3">
+                    <simplebutton name="btnTeleport" depth="3" pos="5, 0" pivot="left" width="110" height="38" font_size="26" caption_key="xuiSCoreTeleport" />
+                </rect>
+
+                <rect depth="1" name="npcOrderDismiss" width="100" height="46" pos="750,-3">
                     <simplebutton name="btnDismiss" depth="3" pos="5, 0" pivot="left" width="100" height="38" font_size="26" caption_key="xuiSCoreDismiss" />
                 </rect>
 
