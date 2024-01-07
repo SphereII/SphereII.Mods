@@ -1367,11 +1367,34 @@ public static class EntityUtilities
         if (myEntity == null) return false;
         var magnitude = (myEntity.GetPosition() - target.GetPosition()).magnitude;
         if (magnitude > maxRange ) return false;
+
+        if (myEntity.Buffs.HasBuff("buffTeleportCooldown"))
+        {
+            if (target is not EntityPlayerLocal player) return false;
+            
+            var display = $"{myEntity.EntityName}: {Localization.Get("xuiSCoreTeleportCoolDown")}";
+            GameManager.ShowTooltip(player, display);
+            return false;
+        }
         
         myEntity.Buffs.AddBuff("buffOrderFollow");
-        var destination = target.position;
-        destination += Vector3.forward;
+        var dirV = Vector3.forward;
+        Vector3 destination;
+        var i = 0;
+        do
+        {
+            destination = RandomPositionGenerator.CalcPositionInDirection(target, target.position, dirV, 2, 0f);
+            i++;
+            if (i > 5)
+            {
+                destination = target.position;
+            }
+
+        } while (destination == Vector3.zero);
+        
         myEntity.SetPosition(destination, true);
+        myEntity.Buffs.AddBuff("buffTeleportCooldown");
+
         return true;
     }
     public static bool CanExecuteTask(int EntityID, Orders order)

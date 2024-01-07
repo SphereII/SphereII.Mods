@@ -23,6 +23,29 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.49.751
+
+	[ Dialog ]
+		- Added new Dialog Requirement that checks cvar on the NPC.
+		- Follows the same format as the Player's HasCVar check.
+        	<requirement type="NPCHasCVarSDX, SCore" value="1" requirementtype="Hide" operator="GTE" 
+				id="quest_Samara_Diary" />
+
+	[ NPCs ]
+		- Adjusted the TeleportNow feature to be a bit more fault tolerant from teleporting NPCs into walls.
+		- Added new cvar to a few of the order buffs:
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="1"/>
+		- This is meant to set a flag so we know if the NPC is supposed to be guarding, and will ignore commands.
+
+	[ MinEvent ]
+		Added new Min Event called TeleportNow
+			<triggered_effect trigger="onSelfBuffUpdate" action="TeamTeleportNow, SCore" />
+		- Any NPC within a 50 block range will teleport to you immediately. This is a short cut to the Come Here! command
+			in the Companion screen.
+		- If the NPC has the Guarding cvar, it will ignore this order.
+		- Added buff buffTeleportCooldown after TeleportNow as a cool down. Default is 5 seconds.
+		- Added item scoreTeleportNow for an example.
+			
 Version: 21.2.47.1657
 
 	[ MinEventActionOpenWindow ]

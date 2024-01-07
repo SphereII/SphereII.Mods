@@ -58,6 +58,7 @@
 			<duration value="1" />
 			<effect_group>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="GuardHere, SCore"/> <!-- copies the player's current location for the entity to replace.-->
 			</effect_group>
 		</buff>
@@ -71,6 +72,7 @@
 			<duration value="1" />
 			<effect_group>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="9" />
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="2"/>
 				<triggered_effect trigger="onSelfBuffStart" action="GuardHere, SCore" /> <!-- copies the entity's current location for the entity to replace.-->
 			</effect_group>
 		</buff>
@@ -79,6 +81,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1" />
 			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="0"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="1"/>
 			</effect_group>
 		</buff>
@@ -87,6 +90,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1" />
 			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="0"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="3"/>
 			</effect_group>
 		</buff>
@@ -95,6 +99,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1" />
 			<effect_group>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="Guarding" operation="set" value="0"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CurrentOrder" operation="set" value="5"/>
 			</effect_group>
 		</buff>

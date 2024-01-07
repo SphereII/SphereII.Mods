@@ -271,6 +271,7 @@
     <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementLeader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementNPCHasCVar.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementNPCHasItemSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementRandomRoll.cs" />
     <Compile Include="Scripts\EAI\DMTEAIUtilities.cs" />
@@ -342,6 +343,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionClearStaleHires.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSpawnEntityAtPoint.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSwapWeapon.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionTeamTeleportNow.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionNotifyTeamTeleport.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionResetTargetsSDX.cs" />
