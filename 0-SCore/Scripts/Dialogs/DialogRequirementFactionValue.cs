@@ -1,11 +1,11 @@
-﻿public class DialogRequirementFactionValue : BaseDialogRequirement
+﻿public class DialogRequirementFactionValue : BaseDialogRequirement, IDialogOperator
 {
     private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
     // Show Dialog if player faction is less than 400
     //  <requirement type="FactionValue, SCore" requirementtype="Hide" value="400" operator="lt" /> 
 
-    // strOperator is set in 0-SphereIICore/Harmony/DialogFromXML.cs
-    public string strOperator = "eq";
+    public string Operator { get; set; } = "eq";
+
     public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         AdvLogging.DisplayLog(AdvFeatureClass, $"Player: {player.EntityName}");
@@ -24,9 +24,9 @@
 
         float.TryParse(Value, out var flValue);
         var flPlayerValue = FactionManager.Instance.GetRelationshipValue(myEntity, player);
-        AdvLogging.DisplayLog(AdvFeatureClass, $"{GetType()} FactionValue: {ID} Value: {flValue} Player Value: {flPlayerValue} Operator: {strOperator}");
+        AdvLogging.DisplayLog(AdvFeatureClass, $"{GetType()} FactionValue: {ID} Value: {flValue} Player Value: {flPlayerValue} Operator: {Operator}");
 
-        switch (strOperator.ToLower())
+        switch (Operator.ToLower())
         {
             case "lt":
                 {
@@ -66,7 +66,7 @@
                 }
         }
 
-        AdvLogging.DisplayLog(AdvFeatureClass, GetType() + "FactionValue: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator + " :: No Result");
+        AdvLogging.DisplayLog(AdvFeatureClass, GetType() + "FactionValue: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + Operator + " :: No Result");
         AdvLogging.DisplayLog(AdvFeatureClass, "FactionValue:: false");
         return false;
     }

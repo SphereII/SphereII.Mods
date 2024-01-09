@@ -396,4 +396,41 @@
     
     -->
   </insertBefore>
+
+  <!--
+    Un-comment to add dialog options to the vanilla trader to test "HasCVarSDX, SCore".
+    This should show the expected behavior when the cvar is zero, with and without the "not" operator.
+  -->
+  <!--
+  <insertBefore xpath="//dialog[@id='trader']/statement[@id='start']/response_entry[1]">
+    <response_entry id="ResponseCrouching" />
+    <response_entry id="ResponseStandingUp" />
+    <response_entry id="ResponseStandingUp2" />
+    <response_entry id="ResponseStandingUp3" />
+    <response_entry id="ResponseStandingUp4" />
+  </insertBefore>
+
+  <insertAfter xpath="//dialog[@id='trader']/statement[last()]">
+    <statement id="StatementWhatevs" text="Awww, good for you." nextstatementid="start" />
+    <statement id="StatementDeCrouching" text="You are de-crouching!" nextstatementid="start" />
+  </insertAfter>
+
+  <insertAfter xpath="//dialog[@id='trader']/response[last()]">
+    <response id="ResponseCrouching" text="I am crouching!" nextstatementid="StatementWhatevs">
+      <requirement type="HasCVarSDX, SCore" value="1" requirementtype="Hide" operator="GTE" id="_crouching" />
+    </response>
+    <response id="ResponseStandingUp" text="I am not crouching!" nextstatementid="StatementWhatevs">
+      <requirement type="HasCVarSDX, SCore" value="0" requirementtype="Hide" operator="EQ" id="_crouching" />
+    </response>
+    <response id="ResponseStandingUp2" text="I am not crouching?" nextstatementid="StatementWhatevs">
+      <requirement type="HasCVarSDX, SCore" value="1" requirementtype="Hide" operator="not" id="_crouching" />
+    </response>
+    <response id="ResponseStandingUp3" text="I am not crouching..." nextstatementid="StatementWhatevs">
+      <requirement type="HasCVarSDX, SCore" value="0" requirementtype="Hide" operator="not" id="_crouching" />
+    </response>
+    <response id="ResponseStandingUp4" text="Am I not crouching?!" nextstatementid="StatementDeCrouching">
+      <requirement type="HasCVarSDX, SCore" requirementtype="Hide" operator="not" id="_crouching" />
+    </response>
+  </insertAfter>
+  -->
 </configs>

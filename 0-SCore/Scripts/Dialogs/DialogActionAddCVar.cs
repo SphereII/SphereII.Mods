@@ -1,8 +1,8 @@
-﻿public class DialogActionAddCVar : DialogActionAddBuff
+﻿public class DialogActionAddCVar : DialogActionAddBuff, IDialogOperator
 {
     private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
 
-    public string strOperator = "add";
+    public string Operator { get; set; } = "add";
 
     public override void PerformAction(EntityPlayer player)
     {
@@ -11,7 +11,7 @@
 
         int.TryParse(Value, out var flValue);
 
-        var strDisplay = "AddCVar: " + ID + " Value: " + flValue + " Operator: " + strOperator;
+        var strDisplay = "AddCVar: " + ID + " Value: " + flValue + " Operator: " + Operator;
         if (!player.Buffs.HasCustomVar(ID))
         {
             AdvLogging.DisplayLog(AdvFeatureClass, strDisplay + " Adding Custom CVAr");
@@ -19,7 +19,7 @@
         }
 
         var currentValue = player.Buffs.GetCustomVar(ID);
-        switch (strOperator.ToLower())
+        switch (Operator.ToLower())
         {
             case "add":
                 currentValue += flValue;
