@@ -10,10 +10,11 @@
             return false;
 
         var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if (leader == null)
-            return false;
 
-        return leader.entityId == player.entityId;
+        // If value is "not" then we want to return true when the NPC doesn't have any leader,
+        // not just when they have a leader and it's not the player.
+        var playerIsLeader = leader?.entityId == player.entityId;
+        return Value.EqualsCaseInsensitive("not") ? !playerIsLeader : playerIsLeader;
     }
 }
 

@@ -1,26 +1,34 @@
-﻿public class DialogRequirementHasCVarSDX : BaseDialogRequirement
+﻿public class DialogRequirementHasCVarSDX : BaseDialogRequirement, IDialogOperator
 {
     private static readonly string AdvFeatureClass = "AdvancedDialogDebugging";
 
-    public string strOperator = "eq";
+    public string Operator { get; set; } = "eq";
+
     public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
+        var invert = Operator.ToLower() == "not";
+
         // If the character doesn't have a cvar, add it.
         if (!player.Buffs.HasCustomVar(ID))
             player.Buffs.SetCustomVar(ID, 0);
 
         if (player.Buffs.HasCustomVar(ID))
         {
-            // If value is not specified, accepted it.
+            float flPlayerValue = player.Buffs.GetCustomVar(ID);
+
+            // If value is not specified, accepted it, unless the cvar isn't supposed to exist.
             if (string.IsNullOrEmpty(Value))
-                return true;
+            {
+                var passes = invert ? flPlayerValue == 0 : true;
+                AdvLogging.DisplayLog(AdvFeatureClass, $"{GetType()} HasCvar: {ID} Operator: {Operator} Value is empty, returning {passes}");
+                return passes;
+            }
 
             float.TryParse(Value, out var flValue);
-            float flPlayerValue = player.Buffs.GetCustomVar(ID);
-            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " HasCvar: " + ID + " Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator);
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " HasCvar: " + ID + " Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + Operator);
 
 
-            switch (strOperator.ToLower())
+            switch (Operator.ToLower())
             {
                 case "lt":
                     {
@@ -52,6 +60,12 @@
                             return true;
                         break;
                     }
+                case "not":
+                    {
+                        if (flPlayerValue == 0)
+                            return true;
+                        break;
+                    }
                 default:
                     {
                         if (flValue == flPlayerValue)
@@ -60,10 +74,10 @@
                     }
             }
 
-            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " Has CVar: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + strOperator + " :: No Result");
+            AdvLogging.DisplayLog(AdvFeatureClass, GetType() + " Has CVar: " + ID + "  Value: " + flValue + " Player Value: " + flPlayerValue + " Operator: " + Operator + " :: No Result");
 
         }
-        else if (strOperator.ToLower() == "not")
+        else if (invert)
             return true;
 
         // If the Cvar does not exist, but does have a value to be checked, pass the condition.It just may not be set yet.

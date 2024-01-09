@@ -1,5 +1,4 @@
 using HarmonyLib;
-using System.Xml;
 using System.Xml.Linq;
 
 /**
@@ -21,30 +20,24 @@ public class SphereII_DialogFromXML_Extensions
     {
         static void Postfix(BaseDialogRequirement __result, XElement e)
         {
-            if (__result is DialogRequirementHasCVarSDX)
+            if (__result is IDialogOperator dialogOperatorRequirement &&
+                e.HasAttribute("operator"))
             {
-                if (e.HasAttribute("operator"))
-                    (__result as DialogRequirementHasCVarSDX).strOperator = e.GetAttribute("operator");
-            }
-
-
-            if (__result is DialogRequirementFactionValue)
-            {
-                if (e.HasAttribute("operator"))
-                    (__result as DialogRequirementFactionValue).strOperator = e.GetAttribute("operator");
+                dialogOperatorRequirement.Operator = e.GetAttribute("operator");
             }
         }
     }
+
     [HarmonyPatch(typeof(DialogFromXml))]
     [HarmonyPatch("ParseAction")]
     public class SphereII__DialogFromXML_ParseAction
     {
         static void Postfix(BaseDialogAction __result, XElement e)
         {
-            if (__result is DialogActionAddCVar)
+            if (__result is IDialogOperator dialogOperatorAction &&
+                e.HasAttribute("operator"))
             {
-                if (e.HasAttribute("operator"))
-                    (__result as DialogActionAddCVar).strOperator = e.GetAttribute("operator");
+                dialogOperatorAction.Operator = e.GetAttribute("operator");
             }
 
         }
