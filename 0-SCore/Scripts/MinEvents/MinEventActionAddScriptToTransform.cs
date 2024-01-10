@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 using UnityEngine;
 
 
@@ -38,8 +39,8 @@ public class MinEventActionAddScriptToTransform : MinEventActionBuffModifierBase
                 var component = child.gameObject.GetComponent(_script);
                 if (component != null) continue;
                 
-                Debug.Log($"Adding {_script} to {child.name} for {_params.Self.EntityName}");
-                child.gameObject.GetOrAddComponent<SphereCollider>();
+              //  Debug.Log($"Adding {_script} to {child.name} for {_params.Self.EntityName}");
+               // child.gameObject.GetOrAddComponent<SphereCollider>();
                 child.gameObject.AddComponent(type);
             }
         }
@@ -56,11 +57,11 @@ public class MinEventActionAddScriptToTransform : MinEventActionBuffModifierBase
         }
  
     }
-    public override bool ParseXmlAttribute(XmlAttribute _attribute)
+    public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);
         if (flag) return true;
-        var name = _attribute.Name;
+        var name = _attribute.Name.LocalName;
 
         switch (name)
         {

@@ -1969,7 +1969,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var item = ItemClass.GetItem(weaponType);
         if (item != null)
         {
-            UpdateWeapon(item);
+            UpdateWeapon(item, true);
+            
         }
 
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
@@ -2003,6 +2004,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("CurrentWeapon", inventory.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("DefaultWeapon", _defaultWeapon, TypedMetadataValue.TypeTag.String);
+        itemValue.SetMetadata("RightHandJointName", inventory.holdingItem.Properties.GetString("RightHandJointName"),TypedMetadataValue.TypeTag.String);
         if (lootContainer == null) return itemValue;
 
         var slots = lootContainer.items;
@@ -2143,7 +2145,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     }
 
     // Allows the NPC to change their hand items, and update their animator.
-    public void UpdateWeapon(ItemValue item)
+    public void UpdateWeapon(ItemValue item, bool force = false)
     {
         if (item == null) return;
         if (item.GetItemId() < 0) return;
@@ -2160,7 +2162,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             item = ItemClass.GetItem(_defaultWeapon);
         }
 
-        if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId())
+        if (item.GetItemId() == inventory.holdingItemItemValue.GetItemId() && force== false)
         {
             return;
         }

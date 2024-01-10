@@ -15,14 +15,19 @@ public static class HeightMapTunneler
     // Special air that has stability
     private static BlockValue caveAir = new BlockValue((uint)Block.GetBlockByName("air").blockID);
 
-    private static readonly BlockValue bottomCaveDecoration = new BlockValue((uint)Block.GetBlockByName("cntCaveFloorRandomLootHelper").blockID);
-    private static readonly BlockValue bottomDeepCaveDecoration = new BlockValue((uint)Block.GetBlockByName("cntDeepCaveFloorRandomLootHelper").blockID);
-    private static readonly BlockValue topCaveDecoration = new BlockValue((uint)Block.GetBlockByName("cntCaveCeilingRandomLootHelper").blockID);
+    private static readonly BlockValue bottomCaveDecoration =
+        new BlockValue((uint)Block.GetBlockByName("cntCaveFloorRandomLootHelper").blockID);
+
+    private static readonly BlockValue bottomDeepCaveDecoration =
+        new BlockValue((uint)Block.GetBlockByName("cntDeepCaveFloorRandomLootHelper").blockID);
+
+    private static readonly BlockValue topCaveDecoration =
+        new BlockValue((uint)Block.GetBlockByName("cntCaveCeilingRandomLootHelper").blockID);
 
     public static Color[,] caveMapColor;
     public static HeightMap heightMap;
 
-    
+
     public static float GetPixel(int x, int z)
     {
         int numX = Mathf.Abs(x);
@@ -32,6 +37,7 @@ public static class HeightMapTunneler
             // Log.Out("Outside of bounds");
             return -1f;
         }
+
         var noise = caveMapColor[numX, numZ].grayscale;
         return noise;
     }
@@ -51,93 +57,99 @@ public static class HeightMapTunneler
                     return new Vector2(x, z);
             }
         }
+
         return Vector2.zero;
     }
 
 
     public static float GetTargetHeight(int x, int z, int tHeight)
     {
-        //        int width = heightMap.GetWidth();
-        //        int height = heightMap.GetHeight();
-        //        if (x >= width || z >= height) return -1;
-        //        if (x <0 || z < 0) return -1;
+        var width = caveMapColor.GetLength(0);
+        var height = caveMapColor.GetLength(1);
+        if (x >= width || z >= height) return -1;
+        if (x < 0 || z < 0) return -1;
 
 
-        //        var result = heightMap.GetAt(x, z);
-        ////        if (result == 255 || result == 0)
-        ////            return -1;
-
-
-        //        // 254 / 255 = 0.99
-        //        result = result / 255;
-
-        //        // 0.99 * 100 = 99
-        //        result *= 100;
-
-        //        //Log.Out($" Result 3: {Mathf.Abs(result - tHeight) - 3} ");
-        //        result = Mathf.Abs(tHeight - result);
-
-        //        Log.Out($"Height Map: {heightMap.Length} {heightMap.GetHeight()} {heightMap.GetWidth()} GetAt(): {heightMap.GetAt(x, z)} Terrain height: {tHeight} Target Depth: {result}");
-        //        if (heightMap.GetAt(x, z) > 200) return -1;
-        //        if (result > tHeight) return -1;
-        //        return result;
-
-        //        int numX = Mathf.Abs(x);
-        //int numZ = Mathf.Abs(z);
-        int numX = x;
-        int numZ = z;
-
-        if (numX < 0 || numZ < 0) return -1;
-        if (numX >= caveMapColor.GetLength(0) || numZ >= caveMapColor.GetLength(1))
-            return -1f;
-
-        var color = caveMapColor[numX, numZ];
-
-
-        if (color.r == 0 || color.g == 1)
-        {
-            Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ}  Color Code r or g is 0. Skipping. ");
+        var result = caveMapColor[x, z].grayscale;
+        Debug.Log($"Result: {result}");
+        if (result == 0)
             return -1;
-        }
 
 
-        //return color.r * 100;
-
-        // Check to make sure its gray
-        if (color.r == color.g && color.r == color.b)
-        {
-            if (color.g > 0.98)
-            {
-                Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ}  Color is White ");
-                return tHeight;
-            }
-            // color.g == 0.553
-            float result = color.g * 100;
-
-            // color.g = 55 / 255 = 0.58
-            result = result / 255;
-
-            // 55 = 0.55 * 100
-            result *= 100;
-            // Round up the value
-            var targetDepth = (tHeight * (result / 100)) + 3;
-
-            Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} THeight: {tHeight} Diff Depth ( tHeight - result): {tHeight - result}  Destination: {targetDepth}");
-
-            return tHeight - result;
-            //return targetDepth;
-        }
-
-        Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} Skipping because r, g and b are not the same value. ");
-
-        return -1f;
+        return result;
+        //
+        //
+        //   //        // 254 / 255 = 0.99
+        //   //        result = result / 255;
+        //
+        //   //        // 0.99 * 100 = 99
+        //   //        result *= 100;
+        //
+        //   //        //Log.Out($" Result 3: {Mathf.Abs(result - tHeight) - 3} ");
+        //   //        result = Mathf.Abs(tHeight - result);
+        //
+        //   //        Log.Out($"Height Map: {heightMap.Length} {heightMap.GetHeight()} {heightMap.GetWidth()} GetAt(): {heightMap.GetAt(x, z)} Terrain height: {tHeight} Target Depth: {result}");
+        //   //        if (heightMap.GetAt(x, z) > 200) return -1;
+        //   //        if (result > tHeight) return -1;
+        //   //        return result;
+        //
+        //   //        int numX = Mathf.Abs(x);
+        //   //int numZ = Mathf.Abs(z);
+        //   int numX = x;
+        //   int numZ = z;
+        //
+        //   if (numX < 0 || numZ < 0) return -1;
+        //   if (numX >= caveMapColor.GetLength(0) || numZ >= caveMapColor.GetLength(1))
+        //       return -1f;
+        //
+        //   var color = caveMapColor[numX, numZ];
+        //
+        //
+        //   if (color.r == 0 || color.g == 1)
+        //   {
+        //      // Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ}  Color Code r or g is 0. Skipping. ");
+        //       return -1;
+        //   }
+        //
+        //
+        //   //return color.r * 100;
+        //
+        //   // Check to make sure its gray
+        // //  if (color.r == color.g && color.r == color.b)
+        //   {
+        //       // if (color.g > 0.98)
+        //       // {
+        //       //     Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ}  Color is White ");
+        //       //     return tHeight;
+        //       // }
+        //       // color.g == 0.553
+        //       float result = color.g * 100;
+        //
+        //       // color.g = 55 / 255 = 0.58
+        //       result = result / 255;
+        //
+        //       // 55 = 0.55 * 100
+        //       result *= 100;
+        //       // Round up the value
+        //       var targetDepth = (tHeight * (result / 100)) + 3;
+        //
+        //       Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} THeight: {tHeight} Diff Depth ( tHeight - result): {tHeight - result}  Destination: {targetDepth}");
+        //
+        //       return tHeight - result;
+        //       //return targetDepth;
+        //   }
+        //
+        //   Log.Out($"Color: {color.ToString()} Gray Scale: {color.grayscale} X: {numX} Z: {numZ} Skipping because r, g and b are not the same value. ");
+        //
+        //   return -1f;
     }
+
     public static void AddCaveToChunk(Chunk chunk)
     {
         if (chunk == null)
             return;
 
-      //  PlaceCaveEntrance(chunk);
+        //  PlaceCaveEntrance(chunk);
         //if (caveMapColor == null)
         //    return;
         //if (caveMapColor.Length == 0)
@@ -165,7 +177,7 @@ public static class HeightMapTunneler
             if (Vector3.Distance(closesEntrance, chunkPos) > distance)
                 closesEntrance = Entrance;
 
-           // Log.Out($"Close Entrance: {closesEntrance} ChunkPos: {chunkPos}  Entrance: {Entrance}  Distance: {distance}");
+            // Log.Out($"Close Entrance: {closesEntrance} ChunkPos: {chunkPos}  Entrance: {Entrance}  Distance: {distance}");
         }
 
         //Log.Out($"Closes Entrance to {chunkPos} is {closesEntrance}");
@@ -174,11 +186,11 @@ public static class HeightMapTunneler
         var entranceChunk = GameManager.Instance.World.GetChunkFromWorldPos(closesEntrance);
         if (entranceChunk == null)
         {
-          //  Log.Out("Entrance chunk is not available.");
+            //  Log.Out("Entrance chunk is not available.");
             return -1;
         }
-        return entranceChunk.GetTerrainHeight(0, 0);
 
+        return entranceChunk.GetTerrainHeight(0, 0);
     }
 
     public static void PlaceCaveEntrance(Chunk chunk)
@@ -189,13 +201,13 @@ public static class HeightMapTunneler
         for (var x = 0; x < SphereCache.caveEntrances.Count; x++)
         {
             var Entrance = SphereCache.caveEntrances[x];
-            if ( Vector3.Distance(chunkPos, Entrance) < 200 )
+            if (Vector3.Distance(chunkPos, Entrance) < 200)
             {
                 var entranceChunk = GameManager.Instance.World.GetChunkFromWorldPos(Entrance);
                 if (entranceChunk == null) continue;
-
             }
         }
+
         // No cave entrance on this chunk.
         if (caveEntrance == Vector3i.zero) return;
 
@@ -216,15 +228,16 @@ public static class HeightMapTunneler
                         destination.y--;
                         destination.x++;
                     }
+
                     for (var travel = 0; travel < 10; travel++)
                     {
                         PlaceAround(chunk, destination);
                         destination.y--;
                         destination.z++;
                     }
+
                     return;
                 }
-
             }
         }
     }
@@ -264,7 +277,6 @@ public static class HeightMapTunneler
         PlaceBlock(chunk, position + Vector3i.back);
         PlaceBlock(chunk, position + Vector3i.back + Vector3i.right);
         PlaceBlock(chunk, position + Vector3i.back + Vector3i.left);
-
     }
 
     // Builds a cave area section
@@ -275,31 +287,27 @@ public static class HeightMapTunneler
         var cavePrefab = Configuration.GetPropertyValue(AdvFeatureClass, "CavePrefab");
 
         int highestPoint = 0;
-        for (var chunkX = 0; chunkX < 16; chunkX++)
-        {
-            for (var chunkZ = 0; chunkZ < 16; chunkZ++)
-            {
-                
-                var height = chunk.GetTerrainHeight(chunkX, chunkZ);
-                var targetBlock = chunk.GetBlock(chunkX, height, chunkZ);
-                
-                // if ( height > highestPoint )
-                //     highestPoint = height;
-            }
-        }
+        // for (var chunkX = 0; chunkX < 16; chunkX++)
+        // {
+        //     for (var chunkZ = 0; chunkZ < 16; chunkZ++)
+        //     {
+        //         
+        //         var height = chunk.GetTerrainHeight(chunkX, chunkZ);
+        //         var targetBlock = chunk.GetBlock(chunkX, height, chunkZ);
+        //         
+        //         // if ( height > highestPoint )
+        //         //     highestPoint = height;
+        //     }
+        // }
+        //
+        // return;
+        //        var tHeight = chunk.GetTerrainHeight(0, 0);
 
-        return;
-                //        var tHeight = chunk.GetTerrainHeight(0, 0);
-
-                var providerFromImage = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider() as WorldBiomeProviderFromImage;
-        if (providerFromImage != null)
-        {
-            Log.Out("Biome Provider Image");
-            Log.Out("World Size: " + providerFromImage.GetSize());
-        }
-
-        var tHeight = GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator().GetTerrainHeightAt(chunkPos.x, chunkPos.z);
-        Log.Out($"Terrain Generator: {tHeight}  Chunk Pos: {chunk.GetTerrainHeight(0, 0)} : Highest Point: {highestPoint}");
+        var providerFromImage =
+            GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider() as WorldBiomeProviderFromImage;
+        var tHeight = GameManager.Instance.World.ChunkCache.ChunkProvider.GetTerrainGenerator()
+            .GetTerrainHeightAt(chunkPos.x, chunkPos.z);
+//        Log.Out($"Terrain Generator: {tHeight}  Chunk Pos: {chunk.GetTerrainHeight(0, 0)} : Highest Point: {highestPoint}");
         tHeight = highestPoint;
         //var tHeight = GetCaveEntrane(chunk);
         //Log.Out($"Terrain Height: {tHeight}");
@@ -317,20 +325,15 @@ public static class HeightMapTunneler
                 var worldX = chunkPos.x + chunkX;
                 var worldZ = chunkPos.z + chunkZ;
 
+                var pixel = GetPixel(worldX, worldZ);
+                if ( pixel == 0) continue;
                 
-
-                var targetDepth = GetTargetHeight(worldX, worldZ, (int)tHeight);
-
-                if (targetDepth == -1) continue;
-
-                //  targetDepth = 40;
-
                 // world position
+                var targetDepth = 10;
                 var _blockPos = new Vector3i(worldX, targetDepth, worldZ);
 
                 // Chunk position
                 var position = new Vector3i(chunkX, targetDepth, chunkZ);
-
 
                 Log.Out("Adding Prefab...");
                 if (cavePrefab == "Large")
@@ -348,7 +351,6 @@ public static class HeightMapTunneler
                         PlaceBlock(chunk, position + Vector3i.down);
                     PlaceBlock(chunk, position);
                 }
-
             }
         }
     }
@@ -424,7 +426,8 @@ public static class HeightMapTunneler
             // Random chance to place a prefab to try to sparse them out.
             _random.SetSeed(chunk.GetHashCode());
             if (MaxPrefab < 2)
-                if (_random.RandomRange(0, 10) > 1) continue;
+                if (_random.RandomRange(0, 10) > 1)
+                    continue;
             // Grab a random range slightly smaller than the chunk. This is to help pad them away from each other.
             var x = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
             var z = GameManager.Instance.World.GetGameRandom().RandomRange(0, 16);
@@ -467,6 +470,7 @@ public static class HeightMapTunneler
                     break;
                 }
             }
+
             // Decide what kind of prefab to spawn in.
             string strPOI;
             if (y < 30)
@@ -491,7 +495,8 @@ public static class HeightMapTunneler
                         var temp = prefab.Tags;
                         prefab.Tags = POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
                         prefab.yOffset = 0;
-                        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, prefabDestination, true);
+                        prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, prefabDestination,
+                            true);
                         var entityInstanceIds = new List<int>();
                         prefab.CopyEntitiesIntoChunkStub(chunk, prefabDestination, entityInstanceIds, true);
 
@@ -507,56 +512,57 @@ public static class HeightMapTunneler
                     }
                 }
             }
-
         }
+
         // Decorate decorate the cave spots with blocks. Shrink the chunk loop by 1 on its edges so we can safely check surrounding blocks.
         for (var chunkX = 1; chunkX < 15; chunkX++)
-            for (var chunkZ = 1; chunkZ < 15; chunkZ++)
+        for (var chunkZ = 1; chunkZ < 15; chunkZ++)
+        {
+            var worldX = chunkPos.x + chunkX;
+            var worldZ = chunkPos.z + chunkZ;
+
+            var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
+            //      tHeight -= 10;
+
+            // One test world, we blew through a threshold.
+            if (tHeight > 250)
+                tHeight = 240;
+
+            // Move from the bottom up, leaving the last few blocks untouched.
+            //for (int y = tHeight; y > 5; y--)
+            for (var y = 5; y < tHeight - 2; y++)
             {
-                var worldX = chunkPos.x + chunkX;
-                var worldZ = chunkPos.z + chunkZ;
+                var b = chunk.GetBlock(chunkX, y, chunkZ);
 
-                var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
-                //      tHeight -= 10;
+                if (b.type != caveAir.type)
+                    continue;
 
-                // One test world, we blew through a threshold.
-                if (tHeight > 250)
-                    tHeight = 240;
 
-                // Move from the bottom up, leaving the last few blocks untouched.
-                //for (int y = tHeight; y > 5; y--)
-                for (var y = 5; y < tHeight - 2; y++)
+                var under = chunk.GetBlock(chunkX, y - 1, chunkZ);
+                var above = chunk.GetBlock(chunkX, y + 1, chunkZ);
+
+                // Check the floor for possible decoration
+                if (under.Block.shape.IsTerrain())
                 {
-                    var b = chunk.GetBlock(chunkX, y, chunkZ);
+                    var blockValue2 =
+                        BlockPlaceholderMap.Instance.Replace(bottomCaveDecoration, _random, worldX, worldZ);
 
-                    if (b.type != caveAir.type)
-                        continue;
+                    // Place alternative blocks down deeper
+                    if (y < 30)
+                        blockValue2 =
+                            BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, _random, worldX, worldZ);
 
+                    chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
+                    continue;
+                }
 
-                    var under = chunk.GetBlock(chunkX, y - 1, chunkZ);
-                    var above = chunk.GetBlock(chunkX, y + 1, chunkZ);
-
-                    // Check the floor for possible decoration
-                    if (under.Block.shape.IsTerrain())
-                    {
-                        var blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomCaveDecoration, _random, worldX, worldZ);
-
-                        // Place alternative blocks down deeper
-                        if (y < 30)
-                            blockValue2 = BlockPlaceholderMap.Instance.Replace(bottomDeepCaveDecoration, _random, worldX, worldZ);
-
-                        chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
-                        continue;
-                    }
-
-                    // Check the ceiling to see if its a ceiling decoration
-                    if (above.Block.shape.IsTerrain())
-                    {
-                        var blockValue2 = BlockPlaceholderMap.Instance.Replace(topCaveDecoration, _random, worldX, worldZ);
-                        chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
-                    }
+                // Check the ceiling to see if its a ceiling decoration
+                if (above.Block.shape.IsTerrain())
+                {
+                    var blockValue2 = BlockPlaceholderMap.Instance.Replace(topCaveDecoration, _random, worldX, worldZ);
+                    chunk.SetBlock(GameManager.Instance.World, chunkX, y, chunkZ, blockValue2);
                 }
             }
+        }
     }
-
 }

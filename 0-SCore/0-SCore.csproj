@@ -88,6 +88,10 @@
     <Compile Include="Features\LockPicking\Scripts\LocksetAudio.cs" />
     <Compile Include="Features\LockPicking\Scripts\SphereII_Locks.cs" />
     <Compile Include="Features\LockPicking\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromAttackTarget.cs" />
+    <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromPlayer.cs" />
+    <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromSource.cs" />
+    <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
@@ -317,6 +321,7 @@
     <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAddScriptToTransform.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorFireTriggerSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
@@ -477,6 +482,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
     <Compile Include="Scripts\WorldGen\HeightMapTunneler.cs" />
     <Compile Include="Scripts\WorldGen\LegacyCaveTunneler.cs" />
+    <Compile Include="Scripts\WorldGen\SCoreTunneler.cs" />
     <Compile Include="Scripts\WorldGen\SebastianCaveTunneler.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\FastNoise.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\MapGenerator.cs" />
@@ -672,8 +678,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\Farming\Harmony" />
+    <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Harmony\Recipes" />
     <Folder Include="Harmony\Weather\" />
+    <Folder Include="Scripts\Particles\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">

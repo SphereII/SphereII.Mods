@@ -23,6 +23,50 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.52.1028
+	[ Dialog ]
+		- Merged in khzmusik's dialog changes:
+			- Added new DialogRequirement of IsSleeper
+				Requires that the dialog's NPC must have been spawned into a prefab sleeper volume.
+			- Added `IDialogOperator` interface for requirements and actions that accept an "operator" attribute
+			- Updated Harmony patches to `DialogFromXML` to use the interface
+				- `DialogActionAddCVar`, `DialogRequirementFactionValue`, `DialogRequirementHasCvar`, and `DialogRequirementNPCHasCVar` now all implement that interface
+ 			- Major refactoring of `DialogRequirementNPCHasCVar`
+			- `DialogRequirementHasCVar` handles "not" operator better
+			- `DialogRequirementLeader` supports "not" as a value, which checks that the NPC is not hired by the player talking to it (as opposed to "HiredSDX" which just checks whether or not the NPC is hired by _any_ player)
+			- Added XPath in `dialogs.xml` that will test the various values of "HasCVarSDX" (the XPath is commented out)
+			
+	[ Entity Alive SDX ]
+		- Updated WeaponSwap to force an avatar update on placement
+			- It was observed that NPCs were not full initializing their weapons properly when the weapon
+				was using a different hand to hold it in.
+
+	[ Particle Attractor ]
+		- Added new feature "Particle Attractor"
+			- This allows running a particle between two points, one being the source entity and then the target entity.
+			- The script runs on the zombie, and needs to know a "target" to set the destination for the particle.
+
+		- To add the particleAttractorLinear to the zombie, the following line can be used:
+				<!-- if the zombie has the "Particle attractor" transform, it'll attach the script to it. -->
+				<triggered_effect trigger="onSelfBuffStart" action="AddScriptToTransform, SCore" 
+					transform="Particle attractor" script="particleAttractorLinear, SCore"/>
+
+			
+		- Added 3 new MinEventActions to support this feature, along with examples:
+			- Note: the trigger="" is just used as an example. Add the appropriate trigger for your use case.
+
+			<!-- If the zombie has an attack target, this will set the "target" to the attack target. -->
+			<!-- An optional cansee flag can be toggle, which will do a visibility check before applying the target -->
+			<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromAttackTarget, SCore" cansee="false"/>
+
+			<!-- This MinEvent runs on the Player, and can use the position AoE to find zombies in range which may have
+				an ParticleAttractor. If a zombie is found with the ParticleAttractor, it'll set the player as the target. -->
+			<triggered_effect trigger="onSelfBuffStart" action="SetParticleAttractorFromPlayer, SCore"/>
+
+			<!-- This MinEvent runs on the zombie, and can use the position AoE to find a player in range. 
+				If the zombie has a ParticleAttractor, it'll set the first player it finds as the target. -->
+			<triggered_effect trigger="onSelfBuffStart" action="SetParticleAttractorFromSource, SCore"/>
+
 Version: 21.2.49.751
 
 	[ Dialog ]
