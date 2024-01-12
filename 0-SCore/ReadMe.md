@@ -23,6 +23,19 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.54.843
+	[ Disable Flickering Lights ]
+		- Added new Feature for Flickering Lights, and a matching Config Block Entry
+		- This will change all the Flickering lights to be static lights.
+		- This will disable lightning effects.
+	
+		<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
+
+	[ Peace Of Mind 21.2.1.0 ] 
+		- Updated Peace of Mind to only remove the Noose block with an air, leaving the other ropes available.
+		- Added Disabling of Flickering lights, if 0-SCore is available.
+			- If SCore is not available, it'll display a harmless warning.
+
 Version: 21.2.52.1028
 	[ Dialog ]
 		- Merged in khzmusik's dialog changes:
@@ -55,7 +68,8 @@ Version: 21.2.52.1028
 		- Added 3 new MinEventActions to support this feature, along with examples:
 			- Note: the trigger="" is just used as an example. Add the appropriate trigger for your use case.
 
-			<!-- If the zombie has an attack target, this will set the "target" to the attack target. -->
+			<!-- If the zombie has an in-game attack target, such as a player, this will set the "target" in the particleAttractorLinear to it. -->
+			<!-- This will cause the particle to go from the zombie to the target, ie, the player. -->
 			<!-- An optional cansee flag can be toggle, which will do a visibility check before applying the target -->
 			<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromAttackTarget, SCore" cansee="false"/>
 

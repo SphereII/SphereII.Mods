@@ -240,6 +240,8 @@
 				<property name="DisableTraderProtection" value="false" />
 				<!-- To enable this, you must also enable Disable Trader Protection -->
 				<property name="AllowBuildingInTraderArea" value="false" />
+				
+				<property name="DisableFlickeringLights"  value="false" />
 			</property>
 
 			<property class="AdvancedTileEntities" >

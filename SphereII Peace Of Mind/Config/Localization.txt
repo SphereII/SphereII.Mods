@@ -1,3 +1,4 @@
 Key,English
 loadingTipPeaceOfMind_title,"SphereII Peace of Mind"
 loadingTipPeaceOfMind,"The Peace Of Mind modlet removes a few potential trigger blocks. Stay healthy."
+loadingTipFlickeringLights,"If 0-SCore mod is available, flickering lights will be disabled."

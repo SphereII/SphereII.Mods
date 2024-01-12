@@ -1,16 +1,12 @@
 ﻿<configs>
-	<remove xpath="/blocks/block[contains( @name, 'modularRope' )]" />
+	
+	<!-- Disable flickering lights -->
+	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
+
+	<remove xpath="/blocks/block[@name='modularRopeNoose']"/>
 	<append xpath="/blocks">
-		<block name="modularRopeTiled">
-			<property name="Extends" value="air"/>
-		</block>
-
-		<block name="modularRopeTopTied">
-			<property name="Extends" value="modularRopeTiled"/>
-		</block>
-
 		<block name="modularRopeNoose">
-			<property name="Extends" value="modularRopeTiled"/>
+			<property name="Extends" value="air"/>
 		</block>
 	</append>
 </configs>

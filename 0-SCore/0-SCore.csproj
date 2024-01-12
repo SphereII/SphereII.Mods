@@ -71,6 +71,7 @@
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
+    <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\TileEntityLootContainerPatch.cs" />
