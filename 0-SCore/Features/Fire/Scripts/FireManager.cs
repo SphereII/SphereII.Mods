@@ -548,7 +548,7 @@ public class FireManager
         return fireParticle;
     }
 
-    private string GetRandomSmokeParticle(Vector3i blockPos)
+    public string GetRandomSmokeParticle(Vector3i blockPos)
     {
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
@@ -762,10 +762,11 @@ public class FireManager
         // Seems like sometimes the dedicated and clients are out of sync, so this is a shot in the dark to see if we just skip the expired position check, and just
         // keep resetting the expired time.
         ExtinguishPositions[blockPos] = expiry;
-        FireMap.TryRemove(blockPos, out _);
+        RemoveFire(blockPos);
+        //FireMap.TryRemove(blockPos, out _);
 
         var block = GameManager.Instance.World.GetBlock(blockPos);
-        ToggleSound(blockPos, false);
+//        ToggleSound(blockPos, false);
 
         if (block.isair || !(_smokeTime > 0)) return;
         var randomSmokeParticle = GetRandomSmokeParticle(blockPos);

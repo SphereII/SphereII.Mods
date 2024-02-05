@@ -23,11 +23,49 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.78.935
+
+	[ Lock Pick ]
+		- Removed Debug.Log in Lock picking, and replaced with a Logging check to display.
+
+	[ Particle Attractor ]
+		- Refactored FromAttackTarget to enhance functionality.
+
+			Example:
+
+				Minimum Example:
+					<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromAttackTarget, SCore" />
+
+				Typical Example:
+					<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromAttackTarget, SCore" cansee="true" />
+
+				Full Example:
+
+				<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromAttackTarget, SCore" 
+					cansee="false"   <!-- Does the zombie need to see the player? --> 
+					speed="10"   <!-- Optional. Default to 5.  How fast the particle should go.  -->
+					transform="Particle attractor"    <!-- 
+															Optional. If not specified, it'll look for the first particleAttractorLinear script.
+															Searches through the entire zombie for the transform with this name.
+															It actually searches for all Particle Systems, then checks the transform name
+															so the effect is the same. 
+															** If the particleAttractorLinear does not appear on the transform, it'll add it **
+													-->
+					target_transform="hips" />		<!-- 
+														Optional. If not specified, it'll attach to the Head.
+														This allows you to specify a target transform, which transform to attach the particle too.
+														If this transform does not actually exist, it won't attach to any.
+														"head" and "hips" are shortcuts to GetHeadTransform() and GetPelvisTransform().
+														All others search.  -->
+							
+
+
 Version: 21.2.54.843
 	[ Disable Flickering Lights ]
 		- Added new Feature for Flickering Lights, and a matching Config Block Entry
 		- This will change all the Flickering lights to be static lights.
 		- This will disable lightning effects.
+
 	
 		<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
 

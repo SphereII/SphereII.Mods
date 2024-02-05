@@ -92,6 +92,7 @@
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromAttackTarget.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromPlayer.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromSource.cs" />
+    <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\SCoreParticleAttractor.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />

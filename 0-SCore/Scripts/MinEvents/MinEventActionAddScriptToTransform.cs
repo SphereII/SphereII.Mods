@@ -26,7 +26,7 @@ public class MinEventActionAddScriptToTransform : MinEventActionBuffModifierBase
         if (type == null)
         {
             Debug.Log($"No Such Script: {_script}"); 
-            //return;
+            return;
         }
         if (_params.Self != null || _params.Self.RootTransform != null)
         {
@@ -39,7 +39,7 @@ public class MinEventActionAddScriptToTransform : MinEventActionBuffModifierBase
                 var component = child.gameObject.GetComponent(_script);
                 if (component != null) continue;
                 
-              //  Debug.Log($"Adding {_script} to {child.name} for {_params.Self.EntityName}");
+                //Debug.Log($"Adding {_script} to {child.name} for {_params.Self.EntityName}");
                // child.gameObject.GetOrAddComponent<SphereCollider>();
                 child.gameObject.AddComponent(type);
             }

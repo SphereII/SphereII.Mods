@@ -15,6 +15,8 @@ namespace Lockpicking
     [RequireComponent(typeof(LockEmissive))]
     public class Keyhole : MonoBehaviour
     {
+        private static readonly string AdvFeatureClass = "AdvancedLockpicking";
+        private static readonly string Feature = "Logging";
         // 7 Days To Die stuff
         public int NumLockPicks;
         public EntityPlayer player;
@@ -266,7 +268,7 @@ namespace Lockpicking
 
             // Check breakTimeCounter to stop shaking at the right time
             breakTimeCounter += Time.deltaTime;
-            Log.Out($"Break Time Counter: {breakTimeCounter} Total BreakTime: {breakTime}");
+            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Break Time Counter: {breakTimeCounter} Total BreakTime: {breakTime}");
             if (breakTimeCounter > breakTime)
             {
                 StopShaking();

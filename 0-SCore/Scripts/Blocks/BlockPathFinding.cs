@@ -13,20 +13,34 @@ internal class BlockPathFinding : BlockPlayerSign
         new BlockActivationCommand("take", "hand", false)
     };
 
+
+    // Do a pre-check on permissions to remove the ghost "Press <e> to interact" when there's no options.
+    public override bool HasBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
+        EntityAlive _entityFocusing)
+    {
+        var tileEntitySign = (TileEntitySign)_world.GetTileEntity(_clrIdx, _blockPos);
+        if (tileEntitySign == null) return false;
+    
+        if (_world.IsEditor()) return true;
+    
+        var internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
+        var isOwner = tileEntitySign.LocalPlayerIsOwner();
+        return tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || isOwner;
+    }
+
     public override BlockActivationCommand[] GetBlockActivationCommands(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
     {
         var tileEntitySign = (TileEntitySign)_world.GetTileEntity(_clrIdx, _blockPos);
         if (tileEntitySign == null) return new BlockActivationCommand[0];
 
         var internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
-        var playerData = _world.GetGameManager().GetPersistentPlayerList().GetPlayerData(tileEntitySign.GetOwner());
-        var flag = tileEntitySign.LocalPlayerIsOwner();
-        var flag2 = !tileEntitySign.LocalPlayerIsOwner() && (playerData != null && playerData.ACL != null) && playerData.ACL.Contains(internalLocalUserIdentifier);
-        this.cmds[0].enabled = (tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || flag); 
-        this.cmds[1].enabled = (!tileEntitySign.IsLocked() && (flag || flag2));
-        this.cmds[2].enabled = (tileEntitySign.IsLocked() && flag);
-        this.cmds[3].enabled = ((!tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) && tileEntitySign.HasPassword() && tileEntitySign.IsLocked()) || flag);
-        this.cmds[4].enabled = ((!tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) && tileEntitySign.HasPassword() && tileEntitySign.IsLocked()) || flag);
+        var isOwner = tileEntitySign.LocalPlayerIsOwner();
+
+        cmds[0].enabled = _world.IsEditor() || tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || isOwner; 
+        cmds[1].enabled = !tileEntitySign.IsLocked() && isOwner;
+        cmds[2].enabled = tileEntitySign.IsLocked() && isOwner;
+        cmds[3].enabled = tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || isOwner;
+        cmds[4].enabled = tileEntitySign.IsUserAllowed(internalLocalUserIdentifier) || isOwner;
 
         return cmds;
     }
