@@ -42,8 +42,8 @@ public static class EntityTargetingUtilities
         if (selfPlayer != null)
         {
             // If you or your leader are a player, don't damage your followers or fellow followers.
-            if (IsAlly(target, self))
-                return CanDamageAlly(target, self);
+            if (IsAlly(target, selfPlayer))
+                return CanDamageAlly(target, selfPlayer);
 
             // If two players are involved (directly or as leaders), determine whether they or
             // their followers can damage each other from the "Player Killing" setting.
@@ -55,7 +55,7 @@ public static class EntityTargetingUtilities
             }
 
             // Otherwise, use factions.
-            return !IsFriendlyFireByFaction(self, target);
+            return !IsFriendlyFireByFaction(target, selfPlayer);
         }
 
         // You can always damage your revenge target, even if it's a player (since they hit first).
