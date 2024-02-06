@@ -1,12 +1,3 @@
-using GamePath;
-using Platform;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Xml;
-using UAI;
-using UnityEngine;
-
 public static class EntityTargetingUtilities
 {
     /// <summary>
@@ -43,26 +34,27 @@ public static class EntityTargetingUtilities
             return false;
 
         // Don't damage your leader or fellow followers.
-        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+        var myLeader = GetCommander(self);
         if (IsAllyOfLeader(myLeader, target))
             return CanDamageAlly(self, target);
 
-        // If two players are involved (directly or as leaders), determine whether they or their
-        // followers can damage each other from the "Player Killing" setting.
         var selfPlayer = GetPlayerLeader(self, myLeader);
-        var targetPlayer = GetPlayerLeader(target);
-        if (selfPlayer != null && targetPlayer != null)
+        if (selfPlayer != null)
         {
-            // FriendlyFireCheck returns true if the players can damage each other
-            return selfPlayer.FriendlyFireCheck(targetPlayer);
-        }
-
-        // If you are a player, don't damage your followers. Otherwise, use factions.
-        if (self is EntityPlayer)
-        {
+            // If you or your leader are a player, don't damage your followers or fellow followers.
             if (IsAlly(target, self))
                 return CanDamageAlly(target, self);
 
+            // If two players are involved (directly or as leaders), determine whether they or
+            // their followers can damage each other from the "Player Killing" setting.
+            var targetPlayer = GetPlayerLeader(target);
+            if (targetPlayer != null)
+            {
+                // FriendlyFireCheck returns true if the players can damage each other
+                return selfPlayer.FriendlyFireCheck(targetPlayer);
+            }
+
+            // Otherwise, use factions.
             return !IsFriendlyFireByFaction(self, target);
         }
 
@@ -144,6 +136,40 @@ public static class EntityTargetingUtilities
     }
 
     /// <summary>
+    /// <para>
+    /// Returns the entity that is ultimately in command of this entity.
+    /// </para>
+    /// 
+    /// <para>
+    /// The "chain of command" (leader of leader, etc.) is searched until it finds an entity that
+    /// itself has no leader or owner, and this is the commander.
+    /// </para>
+    /// 
+    /// <para>
+    /// If the entity passed to this method does not have a leader or owner, null is returned.
+    /// This is for compatibility with <see cref="EntityUtilities.GetLeaderOrOwner(int)"/>.
+    /// </para>
+    /// </summary>
+    /// <param name="entity">The entity in command of this entity.</param>
+    /// <returns></returns>
+    public static Entity GetCommander(Entity entity)
+    {
+        if (entity == null)
+            return null;
+
+        Entity commander = null;
+
+        var leader = EntityUtilities.GetLeaderOrOwner(entity.entityId);
+        while (leader != null)
+        {
+            commander = leader;
+            leader = EntityUtilities.GetLeaderOrOwner(commander.entityId);
+        }
+
+        return commander;
+    }
+
+    /// <summary>
     /// Returns true if the target is a vehicle that is immune to damage from the checking entity.
     /// </summary>
     /// <param name="self"></param>
@@ -184,7 +210,7 @@ public static class EntityTargetingUtilities
     {
         if (self == null || targetEntity == null) return false;
 
-        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+        var myLeader = GetCommander(self);
 
         return IsAllyOfLeader(myLeader, targetEntity);
     }
@@ -211,8 +237,8 @@ public static class EntityTargetingUtilities
             return false;
 
         // Don't assume either entity's leader is a player for this check
-        var selfLeader = EntityUtilities.GetLeaderOrOwner(self.entityId) ?? self;
-        var targetLeader = EntityUtilities.GetLeaderOrOwner(targetEntity.entityId) ?? targetEntity;
+        var selfLeader = GetCommander(self) ?? self;
+        var targetLeader = GetCommander(targetEntity) ?? targetEntity;
 
         if (selfLeader.entityId == targetLeader.entityId)
             return true;
@@ -245,7 +271,7 @@ public static class EntityTargetingUtilities
             return false;
 
         // Don't make enemies out of your followers, your leader, or fellow followers.
-        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+        var myLeader = GetCommander(self);
         if (IsAllyOfLeader(myLeader ?? self, target))
             return false;
 
@@ -300,7 +326,7 @@ public static class EntityTargetingUtilities
                 return true;
 
             // Are they fighting the leader's followers?
-            var theirTargetLeader = EntityUtilities.GetLeaderOrOwner(theirTarget.entityId);
+            var theirTargetLeader = GetCommander(theirTarget);
             if (theirTargetLeader != null && theirTargetLeader.entityId == leader.entityId)
                 return true;
         }
@@ -335,7 +361,7 @@ public static class EntityTargetingUtilities
         // Note: We can't use CanDamage here, because depending upon future features,
         // it might be possible to damage your friends too.
 
-        var myLeader = EntityUtilities.GetLeaderOrOwner(self.entityId);
+        var myLeader = GetCommander(self);
         if (IsAllyOfLeader(myLeader, target) || IsAlly(target, self))
             return true;
 
@@ -463,14 +489,14 @@ public static class EntityTargetingUtilities
     /// <returns></returns>
     private static EntityPlayer GetPlayerLeader(Entity self)
     {
-        return GetPlayerLeader(self, EntityUtilities.GetLeaderOrOwner(self.entityId));
+        return GetPlayerLeader(self, GetCommander(self));
     }
 
     /// <summary>
     /// Private helper method to get a player who is either yourself or your leader.
     /// Will return null if neither yourself nor your leader is a player.
     /// This method should be used when you already have an object representing your leader,
-    /// as it avoids a call to GetLeaderOrOwner.
+    /// as it avoids a call to GetCommander.
     /// </summary>
     /// <param name="self"></param>
     /// <param name="leader"></param>
@@ -485,7 +511,7 @@ public static class EntityTargetingUtilities
 
     /// <summary>
     /// Private helper method to check if a target is an ally of a leader.
-    /// This is here mainly to prevent repeated calls to GetLeaderOrOwner.
+    /// This is here mainly to prevent repeated calls to GetCommander.
     /// </summary>
     /// <param name="leader"></param>
     /// <param name="target"></param>
@@ -498,7 +524,7 @@ public static class EntityTargetingUtilities
         if (target.entityId == leader.entityId)
             return true;
 
-        var targetLeader = EntityUtilities.GetLeaderOrOwner(target.entityId);
+        var targetLeader = GetCommander(target);
         if (targetLeader == null)
             return false;
 
