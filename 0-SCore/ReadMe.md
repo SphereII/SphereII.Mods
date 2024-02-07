@@ -23,6 +23,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.80.1026
+	[ NPCs ]
+		- Merged khzmusik's fix to protect a player's followers from their own explosions.
+
+
 Version: 21.2.78.935
 
 	[ Lock Pick ]
