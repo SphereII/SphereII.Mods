@@ -200,6 +200,11 @@
 
 				<property name="AdvancedEnemyNPCs" value="false" />
 				<!-- Set to true if some enemy NPCs are "advanced" NPCs that use EntityAliveSDX. -->
+
+				<!-- minimum distance between NPC and Enemy before blocking the dialog option -->
+				<!-- -1, or 0, to disable this check, allowing you to talk to all npcs regardless of enemies. -->
+				<!-- Default is 10, meaning, if an enemy is within 10 blocks of the NPC, it will not talk to you -->  
+				<property name="EnemyDistanceToTalk" value="10" />
 			</property>
 
 			<!-- Allow themed settings to be applied: See Harmony/Atmosphere/-->

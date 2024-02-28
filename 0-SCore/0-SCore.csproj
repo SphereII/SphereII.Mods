@@ -263,6 +263,7 @@
     <Compile Include="Scripts\Dialogs\DialogActionRemoveBuffSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionRewardSkillPoint.cs" />
     <Compile Include="Scripts\Dialogs\DialogActionShowToolTipSDX.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementEnemyNearby.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasTag.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasTask.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasPackage.cs" />

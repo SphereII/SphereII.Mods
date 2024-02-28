@@ -409,6 +409,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             var nearbyEntities = new List<Entity>();
 
+            var player = self as EntityPlayer;
             // Search in the bounds are to try to find the most appealing entity to follow.
             var bb = new Bounds(self.position, new Vector3(distance, distance, distance));
 
@@ -422,6 +423,17 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 if (!EntityTargetingUtilities.CanDamage(x, self)) continue;
                 // Check to see if they are our enemy first, before deciding if we should see them.
                 if (EntityTargetingUtilities.IsFriend(x, self)) continue;
+                if (player && player.Party != null)
+                {
+                    // Are they in the same party?
+                    if ( player.Party.ContainsMember(x.entityId)) continue;
+                    if (x is EntityPlayer nearbyPlayer)
+                    {
+                        // Are they friends with each other?
+                        if (player.IsFriendsWith(nearbyPlayer)) continue;
+                    }
+
+                }
                 // Otherwise they are an enemy.
                 return true;
             }

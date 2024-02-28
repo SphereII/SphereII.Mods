@@ -23,6 +23,34 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.101.931
+
+	[ NPCs ]
+		New Property in the blocks.xml called EnemyDistanceToTalk, under AdvancedNPCFeatures.
+				<property name="EnemyDistanceToTalk" value="10" />
+
+		This value is used to determine how close an enemy needs to be, to block the NPC from talking with you.
+
+			A value of 0 or less will block this check, allowing you to talk to NPCs in all conditions.
+			A value of 5 will block NPC dialog options if an enemy is within 5 blocks of it.
+			Default is a value of 10.
+
+	[ Dialog ]
+		Added new requirement to dialog called EnemyNearBy. This is meant to work in conjunction with the EnemyDistanceToTalk,
+			allowing you to disable an enemy check for the overall dialog, while also providing the ability to hide certain dialog 
+			responses that may not be appropriate when in a battle.
+
+		This will show the requirement if it the enemy is within 10 blocks.
+			<requirement type="EnemyNearby, SCore" id="10" requirementtype="Hide" />
+
+		This will hide the requirement if it the enemy is within 10 blocks.
+			<requirement type="EnemyNearby, SCore" id="10" value="not" requirementtype="Hide" />
+
+	[ Remote Crafting ]
+		Added additional check for EnemyNearBy for remote crafting to take in consideration if a player is nearby,
+			if they are in the same party, or are friends with each other.
+
+
 Version: 21.2.80.1026
 	[ NPCs ]
 		- Merged khzmusik's fix to protect a player's followers from their own explosions.

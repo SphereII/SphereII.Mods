@@ -40,6 +40,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     private string rightHandTransformName;
 
+    private float enemyDistanceToTalk = 10f;    
     /// <inheritdoc/>
     public List<Vector3> PatrolCoordinates => patrolCoordinates;
 
@@ -491,13 +492,15 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // do we have an attack or revenge target? don't have time to talk, bro
 //        var target = EntityUtilities.GetAttackOrRevengeTarget(entityId);
 //        if (target != null && EntityTargetingUtilities.CanDamage(this, target)) return false;
-
-        if (SCoreUtils.IsEnemyNearby(this, 10f))
+        if (enemyDistanceToTalk > 0)
         {
-            if ( localPlayer)
-                GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemyNearby"));
+            if (SCoreUtils.IsEnemyNearby(this, enemyDistanceToTalk))
+            {
+                if (localPlayer)
+                    GameManager.ShowTooltip(localPlayer, Localization.Get("entityaliveSDXEnemyNearby"));
 
-            return false;
+                return false;
+            }
         }
 
         Buffs.SetCustomVar("Persist", 1);
@@ -640,6 +643,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         // Otherwise NPCs won't collider with each other.
         this.PhysicsTransform.gameObject.SetActive(true);
         SetSpawnerSource(EnumSpawnerSource.Biome);
+        enemyDistanceToTalk =
+            StringParsers.ParseFloat(Configuration.GetPropertyValue("AdvancedNPCFeatures", "EnemyDistanceToTalk"));
     }
 
     /// <inheritdoc/>
