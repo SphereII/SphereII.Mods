@@ -59,7 +59,14 @@ namespace Harmony.PlayerFeatures
                     return;
 
                 if (___m_Player.Driving.Active) return;
-
+                
+                // If the player is not crouching, do not lower the camera.
+                if (!___m_Player.Crouch.Active)
+                {
+                    return;
+                }
+                
+                
                 // this lowers the camera to prevent clipping of the terrain.
                 if (__instance.PositionOffset.y == 1.30f)
                     __instance.PositionOffset.y -= 0.31f;

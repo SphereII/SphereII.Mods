@@ -1,21 +1,25 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using HarmonyLib;
+using UnityEngine;
 
-namespace Harmony.PlayerFeatures
-{
+namespace Harmony.PlayerFeatures {
+
     /**
      * SCorePlayerMoveController_Update
-     * 
+     *
      * This class includes a Harmony patches to the EntityPlayer Local to allow skipping of buffs that contain the name "buffcutscene" by pressing space or escape.
-     * 
+     *
      * This was used in the Winter Project 2019 to skip the opening cutscene, which was applied through a buff.
      */
     [HarmonyPatch(typeof(PlayerMoveController))]
     [HarmonyPatch("Update")]
-    public class PlayerMoveControllerUpdate
-    {
+    public class PlayerMoveControllerUpdate {
         // Returns true for the default PlaceBlock code to execute. If it returns false, it won't execute it at all.
-        private static bool Prefix(PlayerMoveController __instance, EntityPlayerLocal ___entityPlayerLocal)
-        {
+        private static bool Prefix(PlayerMoveController __instance, EntityPlayerLocal ___entityPlayerLocal) {
             if (__instance.playerInput.Jump.IsPressed || __instance.playerInput.Menu.IsPressed)
                 foreach (var buff in ___entityPlayerLocal.Buffs.ActiveBuffs)
                     if (buff.BuffName.ToLower().Contains("buffcutscene"))
@@ -37,8 +41,7 @@ namespace Harmony.PlayerFeatures
         /// <param name="___strTextLabelPointingTo"></param>
         public static void Postfix(
             EntityPlayerLocal ___entityPlayerLocal,
-            ref string ___strTextLabelPointingTo)
-        {
+            ref string ___strTextLabelPointingTo) {
             if (!_initialized)
                 Initialize();
 
@@ -64,9 +67,11 @@ namespace Harmony.PlayerFeatures
             if (entity is not EntityNPC npc || !npc.IsAlive())
                 return;
 
+            
             // This is how the code determines if it's a trader/EntityAliveSDX (vs. a drone)
             if (GameManager.Instance.World.GetTileEntity(npc.entityId) is not TileEntityTrader)
                 return;
+
 
             // At this point we know it's a trader or EntityAliveSDX and that the "Press E..."
             // prompt is to be shown; now determine if it's an enemy, and if so, hide the prompt
@@ -77,8 +82,7 @@ namespace Harmony.PlayerFeatures
             XUiC_InteractionPrompt.SetText(___entityPlayerLocal.PlayerUI, null);
         }
 
-        private static void Initialize()
-        {
+        private static void Initialize() {
             _initialized = true;
 
             _enabled = Configuration.CheckFeatureStatus(
@@ -98,8 +102,7 @@ namespace Harmony.PlayerFeatures
         /// <param name="player"></param>
         /// <param name="npc"></param>
         /// <returns></returns>
-        private static bool ShouldTalk(EntityPlayerLocal player, EntityNPC npc)
-        {
+        private static bool ShouldTalk(EntityPlayerLocal player, EntityNPC npc) {
             if (EntityTargetingUtilities.IsAlly(npc, player))
                 return true;
 
@@ -108,6 +111,5 @@ namespace Harmony.PlayerFeatures
 
             return !EntityTargetingUtilities.IsEnemyByFaction(npc, player);
         }
-
     }
 }

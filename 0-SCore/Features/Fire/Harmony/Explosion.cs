@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Pathfinding;
 using UnityEngine;
 
 namespace Features.Fire.Harmony

@@ -14,9 +14,9 @@ namespace Harmony
             Application.SetStackTraceLogType(UnityEngine.LogType.Log, StackTraceLogType.None);
             Application.SetStackTraceLogType(UnityEngine.LogType.Warning, StackTraceLogType.None);
 
+            
             var harmony = new HarmonyLib.Harmony(GetType().ToString());
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            
             // Check Harmony/ModEvents.cs for registration of other events which can be called here.
             SCoreModEvents.Init();
         }

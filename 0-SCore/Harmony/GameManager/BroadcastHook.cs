@@ -21,6 +21,7 @@ namespace SCore.Harmony.GameManagerPatches
                 Broadcastmanager.Init();
             }
         }
+    
         
     }
 

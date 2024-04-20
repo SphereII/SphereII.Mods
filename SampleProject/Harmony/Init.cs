@@ -6,9 +6,7 @@ namespace Harmony
     {
         public void InitMod(Mod _modInstance)
         {
-            Log.Out(" Loading Patch: " + GetType());
-
-            var harmony = new HarmonyLib.Harmony(GetType().ToString());
+            var harmony = new HarmonyLib.Harmony(_modInstance.Name);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }

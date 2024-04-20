@@ -7,7 +7,6 @@ using HarmonyLib;
 using GamePath;
 using System.Reflection;
 using UnityEngine;
-using Pathfinding;
 
 namespace Harmony
 {

@@ -43,6 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
+    <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
+    <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockPlantGrowingSDX.cs" />
@@ -313,6 +315,7 @@
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
     <Compile Include="Scripts\Features\Configuration.cs" />
+    <Compile Include="Scripts\Features\ILUtilities.cs" />
     <Compile Include="Scripts\GameEvents\RequirementInVehicleSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionMeleeSDX.cs" />
     <Compile Include="Scripts\ItemAction\ItemActionLauncherSDX.cs" />
@@ -700,8 +703,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="AstarPathfindingProject">
-      <HintPath>..\..\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\0-SCore\AstarPathfindingProject.dll</HintPath>
     </Reference>
     <Reference Include="InControl">
       <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
@@ -736,6 +738,9 @@
     <Reference Include="netstandard" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
+      <HintPath>..\..\..\..\..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\0-SCore\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>

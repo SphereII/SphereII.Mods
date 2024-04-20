@@ -3,6 +3,7 @@ using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
+//using SCore.Features.EntityPooling.Scripts;
 using UniLinq;
 using UnityEngine;
 
@@ -14,12 +15,16 @@ public class SCoreModEvents
     {
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
+        ModEvents.GameStartDone.RegisterHandler(EntityPool);
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
 
     }
 
+    private static void EntityPool() {
+   //     GameManager.Instance.gameObject.GetOrAddComponent<EntityFactoryPool>();
+    }
     private static void ModletChecks()
     {
         Log.Out("SCore:: Checking Installed Modlets...");

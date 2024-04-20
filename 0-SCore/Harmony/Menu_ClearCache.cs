@@ -1,4 +1,5 @@
 using HarmonyLib;
+using HarmonyLib.Tools;
 using UnityEngine;
 
 namespace Harmony
@@ -7,13 +8,13 @@ namespace Harmony
     [HarmonyPatch("OnOpen")]
     public class Menu_ClearCache
     {
-        private static void Postfix(XUiC_MainMenu __instance)
-        {
+        private static void Postfix(XUiC_MainMenu __instance) {
             Debug.Log("Clearing SphereCache...");
             SphereCache.DoorCache.Clear();
             SphereCache.PathingCache.Clear();
             SphereCache.caveChunks.Clear();
             SphereCache.caveEntrances.Clear();
+       
         }
     }
 }

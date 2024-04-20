@@ -21,7 +21,7 @@ Creating A New Solution
 		Location: C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die\Mods
 		Add Checkmark in Place Solution and project in the same directory
 			( Otherwise it'll create Mods\SampleProject\SampleProject\)
-		Framework:  .NET Framework 4.5
+		Framework:  .NET Framework 4.8
 
 
 

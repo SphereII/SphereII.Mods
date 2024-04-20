@@ -49,6 +49,7 @@ namespace Features.LockPicking
                 if (_targetEntity == null)
                     return false;
 
+                
                 // For hired entities, take a move penalty, but no damage.
                 var entityAlive = _targetEntity as global::EntityAlive;
                 if (entityAlive == null) return true;

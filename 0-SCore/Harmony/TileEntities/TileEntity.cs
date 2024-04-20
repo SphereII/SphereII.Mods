@@ -10,7 +10,8 @@ using UnityEngine;
 public enum SCoreTileEntity
 {
     TileEntityPoweredPortal = 200,
-    TileEntityAoE = 201
+    TileEntityAoE = 201,
+    TileEntityAliveV2=202
 }
 
 

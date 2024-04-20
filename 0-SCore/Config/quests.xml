@@ -104,6 +104,7 @@
 		</quest>
 		
 		-->
+		<!--
       Sample quest using RandomTaggedPOIGotoSDX to specify POI tags.
       This quest will send players only to POIs that have the "residential" or "countryresidential"
       tags, and will not send players to POIs that have either the "industrial" or "rural" tags.

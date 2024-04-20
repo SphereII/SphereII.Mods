@@ -23,6 +23,21 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.151.1612
+
+	[ Quests.xml ]
+		- Fixed an issue where a starting comment was missing.
+
+	[ Encumbrance ]
+		- Added a check for mods on items, and calculate those item weights appropriately.
+		- Refactored a bit of the code to clean it up, and reduce duplicate checks.
+
+	[ One Block Crouch ]
+		- Added a Is Crouched check before lowering the camera.
+
+	[ Code Added, but not compiled ]
+		- NPCv2 code has been added, but excluded from building
+
 Version: 21.2.101.931
 
 	[ NPCs ]
