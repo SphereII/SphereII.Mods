@@ -11,7 +11,7 @@ using Random = System.Random;
 internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
 {
     public string strPOIname = "";
-
+    private List<string> PrefabNames = new List<string>();
     protected override bool useUpdateLoop => true;
 
     public override BaseObjective Clone()
@@ -55,7 +55,9 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
 
         if (ownerNPC == null)
             entityAlive = OwnerQuest.OwnerJournal.OwnerPlayer;
-
+        
+        // Randomly pick the POI before trying to find it, so each prefab in the list has a chance to be picked.
+        SetRandomPrefab();
         var randomPOINearWorldPos = QuestUtils.FindPrefab(strPOIname, entityAlive.position, ref usedPOILocations, biomeFilterType, biomeFilter);
         if (randomPOINearWorldPos != null)
         {
@@ -99,30 +101,44 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
     }
 
 
+
+    private void SetRandomPrefab() {
+        var random = new Random();
+        var index = random.Next(PrefabNames.Count);
+
+        if (PrefabNames.Count == 0)
+        {
+            Debug.Log(" ObjectiveGoToPOISDX PrefabNames Contains no prefabs.");
+            return;
+        }
+        strPOIname = PrefabNames[index];
+    }
     public override void ParseProperties(DynamicProperties properties)
     {
         if (properties.Values.ContainsKey("PrefabName"))
             strPOIname = properties.Values["PrefabName"];
         if (properties.Values.ContainsKey("PrefabNames"))
         {
-            var TempList = new List<string>();
+            PrefabNames = new List<string>();
             var strTemp = properties.Values["PrefabNames"];
 
             var array = strTemp.Split(',');
             for (var i = 0; i < array.Length; i++)
             {
-                if (TempList.Contains(array[i]))
+                if (PrefabNames.Contains(array[i]))
                     continue;
-                TempList.Add(array[i]);
+                PrefabNames.Add(array[i]);
+
             }
-
-            var random = new Random();
-            var index = random.Next(TempList.Count);
-
-            if (TempList.Count == 0)
-                Debug.Log(" ObjectiveGoToPOISDX PrefabNames Contains no prefabs.");
-            else
-                strPOIname = TempList[index];
+            // Random the location for the the prefabs each time it scans, rather than at parsing.
+            //
+            // var random = new Random();
+            // var index = random.Next(TempList.Count);
+            //
+            // if (TempList.Count == 0)
+            //     Debug.Log(" ObjectiveGoToPOISDX PrefabNames Contains no prefabs.");
+            // else
+            //     strPOIname = TempList[index];
         }
 
         base.ParseProperties(properties);

@@ -433,17 +433,21 @@ public class FireManager
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
         var fireParticle = _fireParticle;
+
+        var randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
+        if (!string.IsNullOrEmpty(randomFire))
+        {
+            var fireParticles = randomFire.Split(',');
+            var randomIndex = _random.RandomRange(0, fireParticles.Length);
+            fireParticle = fireParticles[randomIndex];
+        }
+
         if (block.Block.Properties.Contains("FireParticle"))
             fireParticle = block.Block.Properties.GetString("FireParticle");
 
         if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
             fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
 
-        var randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
-        if (string.IsNullOrEmpty(randomFire)) return fireParticle;
-        var fireParticles = randomFire.Split(',');
-        var randomIndex = _random.RandomRange(0, fireParticles.Length);
-        fireParticle = fireParticles[randomIndex];
 
         return fireParticle;
     }
@@ -453,17 +457,18 @@ public class FireManager
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
         var smokeParticle = _smokeParticle;
+        var randomSmoke = Configuration.GetPropertyValue(AdvFeatureClass, "RandomSmokeParticle");
+        if (!string.IsNullOrEmpty(randomSmoke))
+        {
+            var smokeParticles = randomSmoke.Split(',');
+            var randomIndex = GameManager.Instance.World.GetGameRandom().RandomRange(0, smokeParticles.Length);
+            smokeParticle = smokeParticles[randomIndex];
+        }
         if (block.Block.Properties.Contains("SmokeParticle"))
             smokeParticle = block.Block.Properties.GetString("SmokeParticle");
 
         if (block.Block.blockMaterial.Properties.Contains("SmokeParticle"))
             smokeParticle = block.Block.blockMaterial.Properties.GetString("SmokeParticle");
-
-        var randomSmoke = Configuration.GetPropertyValue(AdvFeatureClass, "RandomSmokeParticle");
-        if (string.IsNullOrEmpty(randomSmoke)) return smokeParticle;
-        var smokeParticles = randomSmoke.Split(',');
-        var randomIndex = GameManager.Instance.World.GetGameRandom().RandomRange(0, smokeParticles.Length);
-        smokeParticle = smokeParticles[randomIndex];
 
         return smokeParticle;
     }
@@ -657,7 +662,7 @@ public class FireManager
     public void ExtinguishBlock(Vector3i blockPos)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
-        var expiry = worldTime + _smokeTime;
+        var expiry = ( _smokeTime * _random.RandomFloat ) + worldTime;
 
         // Seems like sometimes the dedicated and clients are out of sync, so this is a shot in the dark to see if we just skip the expired position check, and just
         // keep resetting the expired time.

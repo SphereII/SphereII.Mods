@@ -23,6 +23,29 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.170.702
+
+	[ Fire Manager ]
+		- Fixed miswording on comment on smoke particle
+		- Made a change to particle rotation in an attempt to fix sideway smokes.
+		- Changed the ordering of fire/smoke particles to read RandomParticles first, then checks if blocks / materials had overrides
+			- Previously, if Random Particles was used, they would over-ride individual blocks
+		- Documenting that RandomFireParticle and RandomSmokeParticle exist.
+			- This is the documentation evidence.
+			- This will randomly select one of the particles in each one to display.
+			- You may use "NoParticle" to add a blank, ie skip, a particle.
+
+			<append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']">
+				<property name="RandomFireParticle" value="#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke1,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke2,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke5" />
+				<property name="RandomSmokeParticle" value="#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke3,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke4" />
+			</append>
+
+	[ Quests ]
+		- Fixed an issue in the ObjectiveGotoPOISDX where the random prefab name was being selected at initialiation,
+			rather than each time the quest is triggered.
+		- Before searching for the prefab, if the property name PrefabNames is set, it'll randomly pick one.
+		- Removed extra debug logs from ObjectiveBuffSDX
+
 Version: 21.2.151.1612
 
 	[ Quests.xml ]

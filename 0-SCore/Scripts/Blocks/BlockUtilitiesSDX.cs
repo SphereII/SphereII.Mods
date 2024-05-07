@@ -107,7 +107,9 @@ public static class BlockUtilitiesSDX
         
         var centerPosition = EntityUtilities.CenterPosition(position);
         var blockValue = GameManager.Instance.World.GetBlock(position);
-        var particle = new ParticleEffect(strParticleName, centerPosition, blockValue.Block.shape.GetRotation(blockValue), 1f, Color.white);
+        var rotation = Quaternion.identity;
+        //rotation = blockValue.Block.shape.GetRotation(blockValue);
+        var particle = new ParticleEffect(strParticleName, centerPosition, rotation, 1f, Color.white);
         GameManager.Instance.SpawnBlockParticleEffect(position, particle);
     }
 
