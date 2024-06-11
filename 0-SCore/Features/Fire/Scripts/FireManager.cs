@@ -71,15 +71,15 @@ public class FireManager
             return;
         }
 
-        if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
-            || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting"
-            || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
-        {
-            Log.Out("Fire Manager is disabled in test worlds.");
-
-            Enabled = false;
-            return;
-        }
+        // if (GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Empty"
+        //     || GamePrefs.GetString(EnumGamePrefs.GameWorld) == "Playtesting2"
+        //     || GamePrefs.GetString(EnumGamePrefs.GameMode) == "GameModeEditWorld")
+        // {
+        //     Log.Out("Fire Manager is disabled in test worlds.");
+        //
+        //     Enabled = false;
+        //     return;
+        // }
 
         var fireSpreadString = Configuration.GetPropertyValue(AdvFeatureClass, "FireSpread");
         if (!StringParsers.ParseBool(fireSpreadString))
@@ -653,7 +653,7 @@ public class FireManager
 
      public void RemoveFire(Vector3i blockPos)
     {
-        //if (!FireMap.ContainsKey(blockPos)) return;
+//        if (!FireMap.ContainsKey(blockPos)) return;
         ToggleSound(blockPos, false);
         ToggleParticle(blockPos, false);
         FireMap.TryRemove(blockPos, out _);
@@ -662,7 +662,8 @@ public class FireManager
     public void ExtinguishBlock(Vector3i blockPos)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
-        var expiry = ( _smokeTime * _random.RandomFloat ) + worldTime;
+        var randomTime = _random.RandomRange(1.0f, 2.0f);
+        var expiry = ( _smokeTime * randomTime ) + worldTime;
 
         // Seems like sometimes the dedicated and clients are out of sync, so this is a shot in the dark to see if we just skip the expired position check, and just
         // keep resetting the expired time.

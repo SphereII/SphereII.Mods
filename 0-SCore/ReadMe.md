@@ -23,6 +23,47 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 21.2.205.1412
+
+	[ Fire Manager ]
+		- Adjusted the random expiry time for extinguished smoke.
+		- Removed an additional RemoveFire() from the Extinguish MinEffect.
+			- It was removing the fire, then extinguishing the fire, which also removed the fire.
+		- Fixed an issue where resetting a POI with a fire trap on would extinguish the fire trap, although keep its damaging effect.
+			- Changed the SetBlock to check if the burning block is in the Fire Map before resetting it's particle.
+			- This may have a side effect where there is a potential that not all fire will be extinguished from a quest-resetted POI.
+
+	[ Powered Workstation ]
+		- Removed a check on if the current fuel is below 0.5. 
+		- Powered workstation will now check on each Update Tick, and add 15 fuel
+		- Removed a call to get the block from the chunk position, rather than using the locally available block information.
+
+	[ Spawn On Death ]
+		- The Spawn on Death hooks have been expanded to support passing cvar and buffs over to the new entity.
+		- This change also introduces a new method to spawn entities that need this functionality.
+		- The following new properties are supported on the source entity (ie, the entity that is dying)
+
+			<!-- Spawn in using a method from FuriousRamsay to simplying spawning -->
+			<!-- This can be set without actually copying over cvars and buffs -->
+			<property name="SpawnOnDeathAltSpawn" value="true" />
+			
+			<!-- If any of the following properties are not found, then nothing is done for them -->
+
+			<!-- Copy all cvars over from the source to the new entity. -->
+			<property name="SpawnOnDeathCVarFilter" value="all" />
+
+			<!-- Copy all cvars that contain the word guppy. Position of the * does not matter. It's a contains check. -->
+			<property name="SpawnOnDeathCVarFilter" value="guppy*" />
+
+			<!-- Copy all buffs over from the source to the new entity. -->
+			<property name="SpawnOnDeathBuffFilter" value="all" />
+
+			<!-- Copy all buffs that contain the word guppy. Position of the * does not matter. It's a contains check. -->
+			<property name="SpawnOnDeathBuffFilter" value="guppy*" />
+
+			<!-- Both style of filters are comma delimited. -->
+			<property name="SpawnOnDeathBuffFilter" value="buffStatus, buffIsOnFire, buffIs*" />
+
 Version: 21.2.170.702
 
 	[ Fire Manager ]
