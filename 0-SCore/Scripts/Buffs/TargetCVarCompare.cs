@@ -18,7 +18,7 @@ using System.Xml.Linq;
 /// Example: Require that the "self" entity's vanilla "bleedCounter" cvar is greater than or equal
 /// to a cvar named "bleedChance" on the target entity.
 /// <code>
-/// &lt;requirement name="TargetCVarCompare, RevengeTargetUtils" cvar="bleedCounter" operation="GTE" targetcvar="bleedChance" />
+/// &lt;requirement name="TargetCVarCompare, SCore" cvar="bleedCounter" operation="GTE" targetcvar="bleedChance" />
 /// </code>
 /// </example>
 /// 
@@ -27,7 +27,7 @@ using System.Xml.Linq;
 /// to the vanilla "bleedCounter" cvar on the target entity. Since the cvars have the same name,
 /// the "targetcvar" attribute is optional.
 /// <code>
-/// &lt;requirement name="TargetCVarCompare, RevengeTargetUtils" cvar="bleedCounter" operation="GTE" />
+/// &lt;requirement name="TargetCVarCompare, SCore" cvar="bleedCounter" operation="GTE" />
 /// </code>
 /// </example>
 /// </summary>
