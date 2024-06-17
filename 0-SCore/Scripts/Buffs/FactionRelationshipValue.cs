@@ -85,19 +85,8 @@ public class FactionRelationshipValue : RequirementBase
 
     private static float GetFactionRelationship(MinEventParams _params)
     {
-        // If this is moved to SCore, we can use EntityUtilities.GetFactionRelationship.
-        // In the meantime, if we're a player, then we need to switch the checking/target entities
-        // because player factions don't have relationship values defined.
-        var checkingEntity = _params.Self;
-        var targetEntity = _params.Other;
-        if (_params.Self is EntityPlayer)
-        {
-            checkingEntity = _params.Other;
-            targetEntity = _params.Self;
-        }
-
-        return FactionManager.Instance.GetRelationshipValue(
-            checkingEntity,
-            targetEntity);
+        return EntityUtilities.GetFactionRelationship(
+            _params.Self,
+            _params.Other);
     }
 }
