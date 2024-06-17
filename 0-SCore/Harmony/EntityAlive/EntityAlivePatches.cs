@@ -72,5 +72,47 @@ namespace Harmony.EntityAlive
 
         //    }
         //}
+
+        /// <summary>
+        /// Postfix for <see cref="global::EntityAlive.PostInit"/> that adds a read-only cvar
+        /// containing the entity ID.
+        /// </summary>
+        [HarmonyPatch(typeof(global::EntityAlive), nameof(global::EntityAlive.PostInit))]
+        public static class EntityAlivePostInit
+        {
+            [HarmonyPostfix]
+            public static void Postfix(global::EntityAlive __instance)
+            {
+                __instance.SetCVar("_entityId", __instance.entityId);
+            }
+        }
+
+        /// <summary>
+        /// Postfix for <see cref="global::EntityAlive.SetAttackTarget"/> that adds a read-only
+        /// cvar containing the attack target's entity ID.
+        /// </summary>
+        [HarmonyPatch(typeof(global::EntityAlive), nameof(global::EntityAlive.SetAttackTarget))]
+        public static class EntityAliveSetAttackTarget
+        {
+            [HarmonyPostfix]
+            public static void Postfix(global::EntityAlive __instance)
+            {
+                __instance.SetCVar("_attackTargetId", __instance.GetAttackTarget()?.entityId ?? 0);
+            }
+        }
+
+        /// <summary>
+        /// Postfix for <see cref="global::EntityAlive.SetRevengeTarget"/> that adds a read-only
+        /// cvar containing the revenge target's entity ID.
+        /// </summary>
+        [HarmonyPatch(typeof(global::EntityAlive), nameof(global::EntityAlive.SetRevengeTarget))]
+        public static class EntityAliveSetRevengeTarget
+        {
+            [HarmonyPostfix]
+            public static void Postfix(global::EntityAlive __instance)
+            {
+                __instance.SetCVar("_revengeTargetId", __instance.GetRevengeTarget()?.entityId ?? 0);
+            }
+        }
     }
 }

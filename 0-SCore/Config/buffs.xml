@@ -146,6 +146,68 @@
 			</effect_group>
 
 		</buff>
+
+		<!--
+			This buff is an example of how you can use SCore cvars, requirements, and triggered
+			actions to implement a "forgiveness" mechanic for NPCs. It does this by resetting the
+			revenge target if certain rules are met.
+
+			The "forgiveness" rules:
+			* If the faction relationship between the NPC and the revenge target is "like" or higher,
+			  forgive immediately.
+			* If the faction relationship between the NPC and the revenge target is "neutral",
+			  forgive after the NPC hits back once, OR after five seconds.
+			* Otherwise, let the revenge play out.
+
+			Note: The revenge target does not get set until AFTER the onOtherAttackedSelf and
+			onOtherDamagedSelf events are triggered. Setting the revenge target on these events
+			will have no effect. Instead, use the onCombatEntered event.
+		-->
+		<buff name="buffNPCForgiveness" hidden="true" remove_on_death="false">
+			<stack_type value="ignore" />
+			<effect_group name="Like or Love">
+				<triggered_effect trigger="onCombatEntered" action="SetRevengeTarget, SCore" value="0">
+					<requirement name="FactionRelationshipValue, SCore" operation="GTE" value="like" />
+				</triggered_effect>
+			</effect_group>
+			<effect_group name="Neutral">
+				<!-- Remember the previous revenge target ID -->
+				<triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$prevRevengeTarget" operation="set" value="@_revengeTargetId" />
+				<!-- Remove the existing "reset" buff if this isn't the same revenge target -->
+				<triggered_effect trigger="onCombatEntered" action="RemoveBuff" buff="buffResetRevengeTargetWhenFinished">
+					<requirement name="CVarCompare" cvar="$prevRevengeTarget" operation="NotEquals" value="@_revengeTargetId" />
+				</triggered_effect>
+				<!-- Now, add/stack the "reset" buff for this revenge target -->
+				<triggered_effect trigger="onCombatEntered" action="AddBuff" buff="buffResetRevengeTargetWhenFinished">
+					<requirement name="FactionRelationshipValue, SCore" operation="GTE" value="neutral" />
+					<requirement name="FactionRelationshipValue, SCore" operation="LT" value="like" />
+				</triggered_effect>
+				<!-- Once you have taken revenge on the target once, forgive them -->
+				<triggered_effect trigger="onSelfAttackedOther" action="SetRevengeTarget, SCore" value="0">
+					<requirement name="FactionRelationshipValue, SCore" operation="GTE" value="neutral" />
+					<requirement name="FactionRelationshipValue, SCore" operation="LT" value="like" />
+					<requirement name="TargetCVarCompare, SCore" cvar="_revengeTargetId" operation="EQ" targetcvar="_entityId" />
+				</triggered_effect>
+				<!-- Remove the "reset" buff after you take your revenge -->
+				<triggered_effect trigger="onSelfAttackedOther" action="RemoveBuff" buff="buffResetRevengeTargetWhenFinished">
+					<requirement name="FactionRelationshipValue, SCore" operation="GTE" value="neutral" />
+					<requirement name="FactionRelationshipValue, SCore" operation="LT" value="like" />
+					<requirement name="TargetCVarCompare, SCore" cvar="_revengeTargetId" operation="EQ" targetcvar="_entityId" />
+				</triggered_effect>
+			</effect_group>
+		</buff>
+
+		<!--
+			Buff that resets the revenge target when its time runs out, in this case after 5 seconds.
+			Stacking the buff will add an extra 5 seconds.
+		-->
+		<buff name="buffResetRevengeTargetWhenFinished" hidden="true" remove_on_death="false">
+			<duration value="5" />
+			<stack_type value="duration" />
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffFinish" action="SetRevengeTarget, SCore" value="0" />
+			</effect_group>
+		</buff>
 	</append>
 
 </configs>
