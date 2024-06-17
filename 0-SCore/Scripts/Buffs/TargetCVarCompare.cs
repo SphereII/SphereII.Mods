@@ -5,7 +5,6 @@ using System.Xml.Linq;
 /// <para>
 /// Compares the value of a cvar on the entity holding the buff ("self"), with the value of a cvar
 /// on the target entity. The "self" value is always on the left-hand side of the operation.
-/// the operation.
 /// </para>
 /// 
 /// <para>
