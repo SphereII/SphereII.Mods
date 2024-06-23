@@ -304,6 +304,7 @@
     <Compile Include="Scripts\Entities\EntityEnemySDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveEventSpawnerSDX.cs" />
     <Compile Include="Scripts\Entities\EntityAliveFarmingAnimalSDX.cs" />
+    <Compile Include="Scripts\Entities\EntityNPCBandit.cs" />
     <Compile Include="Scripts\Entities\EntitySDXShared.cs" />
     <Compile Include="Scripts\Entities\EntitySwimingSDX.cs" />
     <Compile Include="Scripts\Entities\EntityTargetingUtilities.cs" />
