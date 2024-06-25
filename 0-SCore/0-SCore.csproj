@@ -226,6 +226,7 @@
     <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockUtilitiesSDX.cs" />
+    <Compile Include="Scripts\Buffs\FactionRelationshipValue.cs" />
     <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsNearFire.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
+    <Compile Include="Scripts\Buffs\TargetCVarCompare.cs" />
     <Compile Include="Scripts\Cache\SCoreQueue.cs" />
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
@@ -355,6 +357,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionModifyRelatedFactionsSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionModifySkillSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearStaleHires.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetRevengeTarget.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSpawnEntityAtPoint.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSwapWeapon.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionTeamTeleportNow.cs" />
