@@ -88,7 +88,7 @@ namespace Harmony.ZombieFeatures {
                 //Usage: <property name="SpawnOnDeath" value="SpawnNothing" />
                 //End Guppy
 
-                var classID = 0;
+                var classID = -1;
                 // try to spawn from a group
                 var entity = EntityFactory.CreateEntity(EntityGroups.GetRandomFromGroup(strSpawnGroup, ref classID),
                     __instance.position);

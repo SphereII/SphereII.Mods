@@ -74,17 +74,38 @@ namespace Harmony.TileEntities {
         [HarmonyPatch(typeof(TileEntityWorkstation))]
         [HarmonyPatch("UpdateTick")]
         public class TileEntityWorkstationHandleFuel {
-            public static bool Prefix(TileEntityWorkstation __instance, ref float ___currentBurnTimeLeft) {
+            
+            private static bool IsEmpty(ItemStack[] items) {
+                foreach (var t in items)
+                {
+                    if (!t.IsEmpty())
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            public static bool Prefix(TileEntityWorkstation __instance, ref float ___currentBurnTimeLeft, ItemStack[] ___fuel) {
                 AdvLogging.DisplayLog(AdvFeatureClass, "UpdateTick()");
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-
-                if (PowerWorkstationHelper.CheckWorkstationForPower(__instance))
+                // If there's no fuel, then check for wireless power.
+                if (IsEmpty(___fuel))
                 {
-                    if (___currentBurnTimeLeft < 4f)
-                        ___currentBurnTimeLeft = 15f;
+                    if (PowerWorkstationHelper.CheckWorkstationForPower(__instance))
+                    {
+                        if (___currentBurnTimeLeft < 4f)
+                            ___currentBurnTimeLeft = 15f;
+                    }
+                    else 
+                    {
+                        // if there's no power available, set the burn time to 0.
+                        ___currentBurnTimeLeft = 0f;
+                    }
                 }
+
 
                 AdvLogging.DisplayLog(AdvFeatureClass, "Current Burn Time: " + ___currentBurnTimeLeft);
                 return true;

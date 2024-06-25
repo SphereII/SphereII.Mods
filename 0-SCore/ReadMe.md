@@ -23,6 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ Powered Workstation ]
+		- Adjusted fuel checks on wireless power feature.
+		- If there's alternative fuel, such as wood, this will be used as a priority.
+		- If there's no alternative fuel, then it will check for wireless power.
+			- If wireless power is found, then burn time will be set to 15f.
+			- If a wireless power is not found, then burn time will be set to 0.
+
+	[ Spawn Entity On Death ]
+		- Fixed an issue where, when using an entitygroup, was always picking the first entry
+
 Version: 21.2.205.1412
 
 	[ Fire Manager ]
