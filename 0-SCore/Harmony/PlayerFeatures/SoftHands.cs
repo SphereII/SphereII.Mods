@@ -29,7 +29,7 @@ namespace Harmony.PlayerFeatures
                 var isWearingGloves = false;
 
                 // Throw weapon, skipping
-                if (damagingItemValue != null && damagingItemValue.ItemClass.HasAnyTags(FastTags.Parse("thrownWeapon")))
+                if (damagingItemValue != null && damagingItemValue.ItemClass.HasAnyTags(FastTags<TagGroup.Global>.Parse("thrownWeapon")))
                     return;
 
                 // Check if its the player hand

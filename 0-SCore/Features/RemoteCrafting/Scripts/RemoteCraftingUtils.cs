@@ -28,7 +28,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
             var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
             var tileEntities = new List<TileEntity>();
-            const string targetTypes = "Loot, SecureLoot, SecureLootSigned";
+            const string targetTypes = "Loot, SecureLoot, SecureLootSigned, Composite";
             var paths = SCoreUtils.ScanForTileEntities(player, targetTypes, true);
             foreach (var path in paths)
             {
@@ -40,113 +40,172 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 // Check if Broadcastmanager is running if running check if lootcontainer is in Broadcastmanager dictionary
                 // note: Broadcastmanager.Instance.Check()) throws nullref if Broadcastmanager is not running.
                 // works because Hasinstance is being checked first in the or.
-                if (!Broadcastmanager.HasInstance || Broadcastmanager.Instance.Check(tileEntity.ToWorldPos()))
+                if (Broadcastmanager.HasInstance && !Broadcastmanager.Instance.Check(tileEntity.ToWorldPos())) continue;
+                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if (disabledsender[0] != null)
                 {
-                    switch (tileEntity.GetTileEntityType())
+                    if (DisableSender(disabledsender, tileEntity))
                     {
-                        case TileEntityType.Loot:
-                            if (tileEntity is not TileEntityLootContainer lootTileEntity) break;
-                            // if sending disabled skip container
-                            if (disabledsender[0] != null)
-                            {
-                                if (DisableSender(disabledsender, tileEntity))
-                                {
-                                    break;
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(nottoWorkstation))
-                            {
-                                if (NotToWorkstation(nottoWorkstation, player, tileEntity))
-                                {
-                                    goto default;
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(bindtoWorkstation))
-                            {
-                                if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
-                                {
-                                    tileEntities.Add(tileEntity);
-                                }
-                            }
-                            else
-                            {
-                                tileEntities.Add(tileEntity);
-                            }
-
-                            break;
-                        case TileEntityType.SecureLootSigned:
-                        case TileEntityType.SecureLoot:
-                            var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
-                            if (secureTileEntity == null) break;
-                            if (secureTileEntity.IsLocked())
-                            {
-                                var internalLocalUserIdentifier =
-                                    PlatformManager.InternalLocalUserIdentifier;
-                                if (!secureTileEntity.IsUserAllowed(internalLocalUserIdentifier)) break;
-                            }
-
-                            // if sending disabled skip container
-                            if (disabledsender[0] != null)
-                            {
-                                if (DisableSender(disabledsender, tileEntity))
-                                {
-                                    break;
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(nottoWorkstation))
-                            {
-                                if (NotToWorkstation(nottoWorkstation, player, tileEntity))
-                                {
-                                    goto default;
-                                }
-                            }
-
-                            if (!string.IsNullOrEmpty(bindtoWorkstation))
-                            {
-                                if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
-                                {
-                                    tileEntities.Add(tileEntity);
-                                }
-                            }
-                            else
-                            {
-                                tileEntities.Add(tileEntity);
-                            }
-
-                            break;
-                        case TileEntityType.None:
-                        case TileEntityType.DewCollector:
-                        case TileEntityType.LandClaim:
-                        case TileEntityType.Trader:
-                        case TileEntityType.VendingMachine:
-                        case TileEntityType.Forge:
-                        case TileEntityType.Campfire:
-                        case TileEntityType.SecureDoor:
-                        case TileEntityType.Workstation:
-                        case TileEntityType.Sign:
-                        case TileEntityType.GoreBlock:
-                        case TileEntityType.Powered:
-                        case TileEntityType.PowerSource:
-                        case TileEntityType.PowerRangeTrap:
-                        case TileEntityType.Light:
-                        case TileEntityType.Trigger:
-                        case TileEntityType.Sleeper:
-                        case TileEntityType.PowerMeleeTrap:
-                        default:
-                            break;
+                        break;
                     }
                 }
+
+                if (!string.IsNullOrEmpty(nottoWorkstation))
+                {
+                    if (NotToWorkstation(nottoWorkstation, player, tileEntity))
+                    {
+                        continue;
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(bindtoWorkstation))
+                {
+                    if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
+                    {
+                        tileEntities.Add(tileEntity);
+                    }
+                }
+                else
+                {
+                    tileEntities.Add(tileEntity);
+                }
+
+                // switch (tileEntity.GetTileEntityType())
+                // {
+                //     case TileEntityType.Loot:
+                //         if (tileEntity is not TileEntityLootContainer lootTileEntity) break;
+                //         // if sending disabled skip container
+                //         if (disabledsender[0] != null)
+                //         {
+                //             if (DisableSender(disabledsender, tileEntity))
+                //             {
+                //                 break;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(nottoWorkstation))
+                //         {
+                //             if (NotToWorkstation(nottoWorkstation, player, tileEntity))
+                //             {
+                //                 goto default;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(bindtoWorkstation))
+                //         {
+                //             if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
+                //             {
+                //                 tileEntities.Add(tileEntity);
+                //             }
+                //         }
+                //         else
+                //         {
+                //             tileEntities.Add(tileEntity);
+                //         }
+                //
+                //         break;
+                //     case TileEntityType.SecureLootSigned:
+                //     case TileEntityType.SecureLoot:
+                //         var secureTileEntity = tileEntity as TileEntitySecureLootContainer;
+                //         if (secureTileEntity == null) break;
+                //         if (secureTileEntity.IsLocked())
+                //         {
+                //             var internalLocalUserIdentifier =
+                //                 PlatformManager.InternalLocalUserIdentifier;
+                //             if (!secureTileEntity.IsUserAllowed(internalLocalUserIdentifier)) break;
+                //         }
+                //
+                //         // if sending disabled skip container
+                //         if (disabledsender[0] != null)
+                //         {
+                //             if (DisableSender(disabledsender, tileEntity))
+                //             {
+                //                 break;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(nottoWorkstation))
+                //         {
+                //             if (NotToWorkstation(nottoWorkstation, player, tileEntity))
+                //             {
+                //                 goto default;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(bindtoWorkstation))
+                //         {
+                //             if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
+                //             {
+                //                 tileEntities.Add(tileEntity);
+                //             }
+                //         }
+                //         else
+                //         {
+                //             tileEntities.Add(tileEntity);
+                //         }
+                //
+                //         break;
+                //     case TileEntityType.Composite:
+                //         if (tileEntity is not TileEntityComposite tileEntityComposite) break;
+                //         // if sending disabled skip container
+                //         if (disabledsender[0] != null)
+                //         {
+                //             if (DisableSender(disabledsender, tileEntity))
+                //             {
+                //                 break;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(nottoWorkstation))
+                //         {
+                //             if (NotToWorkstation(nottoWorkstation, player, tileEntity))
+                //             {
+                //                 goto default;
+                //             }
+                //         }
+                //
+                //         if (!string.IsNullOrEmpty(bindtoWorkstation))
+                //         {
+                //             if (BindToWorkstation(bindtoWorkstation, player, tileEntity))
+                //             {
+                //                 tileEntities.Add(tileEntity);
+                //             }
+                //         }
+                //         else
+                //         {
+                //             tileEntities.Add(tileEntity);
+                //         }
+                //
+                //         break;
+                //     case TileEntityType.None:
+                //     case TileEntityType.DewCollector:
+                //     case TileEntityType.LandClaim:
+                //     case TileEntityType.Trader:
+                //     case TileEntityType.VendingMachine:
+                //     case TileEntityType.Forge:
+                //     case TileEntityType.Campfire:
+                //     case TileEntityType.SecureDoor:
+                //     case TileEntityType.Workstation:
+                //     case TileEntityType.Sign:
+                //     case TileEntityType.GoreBlock:
+                //     case TileEntityType.Powered:
+                //     case TileEntityType.PowerSource:
+                //     case TileEntityType.PowerRangeTrap:
+                //     case TileEntityType.Light:
+                //     case TileEntityType.Trigger:
+                //     case TileEntityType.Sleeper:
+                //     case TileEntityType.PowerMeleeTrap:
+                //     default:
+                //         break;
+                // }
             }
 
             return tileEntities;
         }
 
-        public static bool DisableSender(IEnumerable<string> value, TileEntity tileEntity)
+        public static bool DisableSender(IEnumerable<string> value, ITileEntity tileEntity)
         {
-            if (tileEntity is not TileEntityLootContainer lootTileEntity) return false;
+            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
             var invertdisable = bool.Parse(Configuration.GetPropertyValue(AdvFeatureClass, "Invertdisable"));
             if (!invertdisable)
             {
@@ -170,7 +229,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             var result = false;
             if (player is not EntityPlayerLocal playerLocal) return false;
-            if (tileEntity is not TileEntityLootContainer lootTileEntity) return false;
+            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
 
             // TODO: we want to refactor this to remove the complex LinQ.
             // bind storage to workstation
@@ -200,7 +259,8 @@ namespace SCore.Features.RemoteCrafting.Scripts
         {
             var result = false;
             if (player is not EntityPlayerLocal playerLocal) return false;
-            if (tileEntity is not TileEntityLootContainer lootTileEntity) return false;
+            if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) return false;
+            
             foreach (var bind in value.Split(';'))
             {
                 var workstation = bind.Split(':')[0].Split(',');
@@ -218,9 +278,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
-                if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
+                if ( !tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity) )
+                    continue;
                 if (lootTileEntity.IsUserAccessing()) continue;
-                items.AddRange(lootTileEntity.GetItems());
+                items.AddRange(lootTileEntity.items);
             }
 
             return items;
@@ -233,12 +294,13 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player);
             foreach (var tileEntity in tileEntities)
             {
-                if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
+                if ( !tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity) )
+                    continue;
 
                 // If the container is open, don't use it.
                 if (lootTileEntity.IsUserAccessing()) continue;
 
-                item.AddRange(lootTileEntity.GetItems());
+                item.AddRange(lootTileEntity.items);
             }
 
             foreach (var t in item)
@@ -260,12 +322,14 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
             {
-                if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
+                if ( !tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity) )
+                    continue;
+
 
                 // If the container is open, don't include it.
                 if (lootTileEntity.IsUserAccessing()) continue;
 
-                item.AddRange(lootTileEntity.GetItems());
+                item.AddRange(lootTileEntity.items);
             }
 
             foreach (var t in item)
@@ -285,37 +349,40 @@ namespace SCore.Features.RemoteCrafting.Scripts
             var tileEntities = GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
             {
-                if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
-
-                // If the container is open, don't include it.
-                if (lootTileEntity.IsUserAccessing()) continue;
-
-                // Don't try to add to a drop box.
-                if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox")) continue;
-
-                // Can we quickly find a incomplete stack?
-                //if (lootTileEntity.TryStackItem(0, itemStack)) return true;
-                var result = lootTileEntity.TryStackItem(0, itemStack);
-                if (result.allMoved) return true;
-
-                var matchingItem = false;
-                // Loop through the items and see if we have any matching items.
-                foreach (var item in lootTileEntity.GetItems())
-                {
-                    // We match with something.
-                    if (item.itemValue.type != itemStack.itemValue.type) continue;
-
-                    matchingItem = true;
-                    break;
-                }
-
-                // If we don't match, don't try to add.
-                if (!matchingItem) continue;
-                
-                // We added a full stack! No need to keep processing.
-                if (lootTileEntity.AddItem(itemStack)) return true;
+                if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if (CheckTileEntity(itemStack, lootTileEntity)) return true;
             }
 
+            return false;
+        }
+
+        private static bool CheckTileEntity(ItemStack itemStack, ITileEntityLootable lootTileEntity) {
+            if (lootTileEntity.IsUserAccessing()) return false;
+
+            // Don't try to add to a drop box.
+            if (lootTileEntity.blockValue.Block.Properties.Values.ContainsKey("DropBox")) return false;
+
+            // Can we quickly find a incomplete stack?
+            //if (lootTileEntity.TryStackItem(0, itemStack)) return true;
+            var result = lootTileEntity.TryStackItem(0, itemStack);
+            if (result.allMoved) return true;
+
+            var matchingItem = false;
+            // Loop through the items and see if we have any matching items.
+            foreach (var item in lootTileEntity.items)
+            {
+                // We match with something.
+                if (item.itemValue.type != itemStack.itemValue.type) continue;
+
+                matchingItem = true;
+                break;
+            }
+
+            // If we don't match, don't try to add.
+            if (!matchingItem) return false;
+                
+            // We added a full stack! No need to keep processing.
+            if (lootTileEntity.AddItem(itemStack)) return true;
             return false;
         }
 
@@ -347,8 +414,8 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 foreach (var tileEntity in tileEntities)
                 {
                     if (num <= 0) break;
-                    if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
-
+                    if ( !tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity) )
+                        continue;
                     // If someone is using the tool account, skip it.
                     if (lootTileEntity.IsUserAccessing()) continue;
 
@@ -438,7 +505,7 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 return true;
             }
 
-            Debug.LogWarning("no enemy");
+            //Debug.LogWarning("no enemy");
             return false;
         }
     }

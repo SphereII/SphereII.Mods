@@ -81,7 +81,7 @@ public class NetPackageEntityAliveSDXDataSync : NetPackage
             {
                 SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
                     NetPackageManager.GetPackage<NetPackageEntityAliveSDXDataSync>()
-                        .Setup(entityAliveSdx, this.senderId, syncFlagsReplicated), false, -1, this.senderId, -1, -1);
+                        .Setup(entityAliveSdx, this.senderId, syncFlagsReplicated), false, -1, this.senderId);
             }
         }
     }

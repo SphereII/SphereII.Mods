@@ -9,7 +9,7 @@ namespace UAI
         private string _property = "Unlocks";
         private int _actionIndex;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             if (Parameters.ContainsKey("property")) _property = Parameters["property"];
             if (Parameters.ContainsKey("action_index")) _actionIndex = int.Parse(Parameters["action_index"]);

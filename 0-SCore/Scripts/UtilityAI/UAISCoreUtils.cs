@@ -524,7 +524,7 @@ namespace UAI
             var chunkZ = World.toChunkXZ(blockPosition.z);
 
             if (string.IsNullOrEmpty(_targetTypes) || _targetTypes.ToLower().Contains("basic"))
-                _targetTypes = "LandClaim, Loot, VendingMachine, Forge, Campfire, Workstation, PowerSource";
+                _targetTypes = "LandClaim, Loot, VendingMachine, Forge, Campfire, Workstation, PowerSource, Composite";
             for (var i = -1; i < 2; i++)
             {
                 for (var j = -1; j < 2; j++)
@@ -617,7 +617,7 @@ namespace UAI
             var leader = EntityUtilities.GetLeaderOrOwner(context.Self.entityId) as EntityAlive;
             if (leader != null && context.ActionData.CurrentTask is UAITaskFollowSDX)
             {
-                var tag = FastTags.Parse("running");
+                var tag = FastTags<TagGroup.Global>.Parse("running");
                 panic = leader.CurrentMovementTag.Test_AllSet(tag);
             }
 
@@ -886,7 +886,7 @@ namespace UAI
             }
             //            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, 0f, null, new FastTags(), false);
             var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length,
-                (float) lootgameStage, 0f, leader, new FastTags(), lootContainer.UniqueItems, true);
+                (float) lootgameStage, 0f, leader, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, true);
             for (var i = 0; i < array.Count; i++)
             {
                 _context.Self.lootContainer.AddItem(array[i].Clone());
@@ -1062,7 +1062,7 @@ namespace UAI
             }
 
             // Otherwise, if it has the "ranged" tag, assume bullets
-            if (entity.HasAnyTags(FastTags.Parse("ranged")))
+            if (entity.HasAnyTags(FastTags<TagGroup.Global>.Parse("ranged")))
             {
                 return baseMask | (int) HitMasks.CollideBullets;
             }

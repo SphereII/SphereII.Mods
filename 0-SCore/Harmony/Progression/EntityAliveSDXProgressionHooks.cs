@@ -41,7 +41,7 @@ namespace Harmony.Progression
                     return;
 
                 if (entityAliveSdx.Buffs.GetCustomVar("noprogression") > 0f) return;
-                if (entityAliveSdx.HasAnyTags(FastTags.Parse("noprogression"))) return;
+                if (entityAliveSdx.HasAnyTags(FastTags<TagGroup.Global>.Parse("noprogression"))) return;
 
                 ___parent = _parent;
                 if (__instance.ExpToNextLevel == 0)

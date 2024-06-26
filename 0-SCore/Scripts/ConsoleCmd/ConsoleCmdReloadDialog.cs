@@ -10,7 +10,7 @@ public class ConsoleCmdReloadDialog : ConsoleCmdAbstract
         get { return true; }
     }
 
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -25,7 +25,7 @@ public class ConsoleCmdReloadDialog : ConsoleCmdAbstract
         SingletonMonoBehaviour<SdtdConsole>.Instance.Output($"Reloading dialogs.");
     }
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "SCore: Reloads the dialog xml";
     }

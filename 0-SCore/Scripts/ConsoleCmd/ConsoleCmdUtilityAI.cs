@@ -10,7 +10,7 @@ public class ConsoleCmdUtilityAI : ConsoleCmdAbstract
         get { return true; }
     }
 
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -21,7 +21,7 @@ public class ConsoleCmdUtilityAI : ConsoleCmdAbstract
     }
 
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "SCore: Reloads the Utility AI";
     }

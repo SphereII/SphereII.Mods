@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class NetPackageGotoPOISDX : NetPackage
 {
-    public NetPackageGotoPOISDX Setup(int _playerId, FastTags _questTags, int _questCode, NetPackageQuestGotoPoint.QuestGotoTypes _gotoType, byte _difficulty, int posX = 0, int posZ = -1, float sizeX = 0f, float sizeY = 0f, float sizeZ = 0f, float offset = -1f, BiomeFilterTypes _biomeFilterType = BiomeFilterTypes.AnyBiome, string _biomeFilter = "", string _POIFilter = "")
+    public NetPackageGotoPOISDX Setup(int _playerId, FastTags<TagGroup.Global> _questTags, int _questCode, NetPackageQuestGotoPoint.QuestGotoTypes _gotoType, byte _difficulty, int posX = 0, int posZ = -1, float sizeX = 0f, float sizeY = 0f, float sizeZ = 0f, float offset = -1f, BiomeFilterTypes _biomeFilterType = BiomeFilterTypes.AnyBiome, string _biomeFilter = "", string _POIFilter = "")
     {
         this.playerId = _playerId;
         this.questCode = _questCode;
@@ -27,7 +27,7 @@ public class NetPackageGotoPOISDX : NetPackage
         this.playerId = _br.ReadInt32();
         this.questCode = _br.ReadInt32();
         this.GotoType = (NetPackageQuestGotoPoint.QuestGotoTypes)_br.ReadByte();
-        this.questTags = FastTags.Parse(_br.ReadString());
+        this.questTags = FastTags<TagGroup.Global>.Parse(_br.ReadString());
         this.position = new Vector2((float)_br.ReadInt32(), (float)_br.ReadInt32());
         this.size = StreamUtils.ReadVector3(_br);
         this.difficulty = _br.ReadByte();
@@ -72,7 +72,7 @@ public class NetPackageGotoPOISDX : NetPackage
                 //new Vector2((float)prefabInstance.boundingBoxPosition.x + (float)prefabInstance.boundingBoxSize.x / 2f, (float)prefabInstance.boundingBoxPosition.z + (float)prefabInstance.boundingBoxSize.z / 2f);
                 if (prefabInstance != null)
                 {
-                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, prefabInstance.boundingBoxPosition.x, prefabInstance.boundingBoxPosition.z, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);
+                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(-1,this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, prefabInstance.boundingBoxPosition.x, prefabInstance.boundingBoxPosition.z, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId);
                     //SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(this.playerId, this.questTags, this.questCode, this.GotoType, this.difficulty, (int)position.x, (int)position.y, (float)prefabInstance.boundingBoxSize.x, (float)prefabInstance.boundingBoxSize.y, (float)prefabInstance.boundingBoxSize.z, -1f, biomeFilterType, biomeFilter), false, this.playerId, -1, -1, -1);var num2 = (int)GameManager.Instance.World.GetHeightAt(position.x, position.y);
 
                     return;
@@ -105,7 +105,7 @@ public class NetPackageGotoPOISDX : NetPackage
 
     private int questCode;
 
-    private FastTags questTags;
+    private FastTags<TagGroup.Global> questTags;
 
     private Vector2 position;
 

@@ -11,7 +11,7 @@ namespace UAI
     {
         public static bool isRunning = false;
         private int _maxDistance = 0;
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             if (Parameters.ContainsKey("max_distance")) _maxDistance = (int)StringParsers.ParseFloat(Parameters["max_distance"]);
         }

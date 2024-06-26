@@ -13,7 +13,7 @@ public class EntityBackpackNPC : EntityItem
         this.ticksStayAfterDeath = (int)(num * 20f);
     }
 
-    protected override void Start()
+    public override void Start()
     {
         base.Start();
         foreach (Collider collider in base.transform.GetComponentsInChildren<Collider>())
@@ -21,7 +21,7 @@ public class EntityBackpackNPC : EntityItem
             collider.gameObject.tag = "E_BP_Body";
             collider.gameObject.layer = 13;
             collider.enabled = true;
-            collider.gameObject.AddMissingComponent<RootTransformRefEntity>().RootTransform = base.transform;
+            collider.gameObject.GetOrAddComponent<RootTransformRefEntity>().RootTransform = base.transform;
         }
         this.SetDead();
         if (this.lootContainer != null)
@@ -59,7 +59,7 @@ public class EntityBackpackNPC : EntityItem
         }
     }
 
-    protected override void createMesh()
+    public override void createMesh()
     { 
     }
     private void RemoveBackpack(string reason)

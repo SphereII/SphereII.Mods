@@ -4,18 +4,15 @@ using System.Linq;
 using SCore.Features.RemoteCrafting.Scripts;
 using UnityEngine;
 
-namespace Features.RemoteCrafting
-{
+namespace Features.RemoteCrafting {
     /// <summary>
     /// Patches to support repairing from remote storage
     /// </summary>
-    public class ItemActionRepairPatches
-    {
+    public class ItemActionRepairPatches {
         private const string AdvFeatureClass = "BlockUpgradeRepair";
         private const string Feature = "ReadFromContainers";
 
-        private struct UpgradeInfo
-        {
+        private struct UpgradeInfo {
             public string FromBlock;
             public string ToBlock;
             public string Item;
@@ -26,36 +23,40 @@ namespace Features.RemoteCrafting
 
         [HarmonyPatch(typeof(ItemActionRepair))]
         [HarmonyPatch("RemoveRequiredResource")]
-        public class RemoveRequiredResource
-        {
-            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data, UpgradeInfo ___currentUpgradeInfo)
-            {
+        public class RemoveRequiredResource {
+            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data,
+                BlockValue blockValue) {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                if (string.IsNullOrEmpty(___currentUpgradeInfo.Item))
+                var block = blockValue.Block;
+                var itemValue = ItemClass.GetItem(__instance.GetUpgradeItemName(block), false);
+                int num;
+                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out num))
                 {
-                    __result = true;
                     return false;
                 }
-                var itemValue = ItemClass.GetItem(___currentUpgradeInfo.Item);
-                if (data.holdingEntity.inventory.DecItem(itemValue, ___currentUpgradeInfo.ItemCount) == ___currentUpgradeInfo.ItemCount)
+
+                if (data.holdingEntity.inventory.DecItem(itemValue, num) == num)
                 {
                     var entityPlayerLocal = data.holdingEntity as EntityPlayerLocal;
-                    if (entityPlayerLocal != null && ___currentUpgradeInfo.ItemCount != 0)
+                    if (entityPlayerLocal != null && num != 0)
                     {
-                        entityPlayerLocal.AddUIHarvestingItem(new ItemStack(itemValue, -___currentUpgradeInfo.ItemCount));
+                        entityPlayerLocal.AddUIHarvestingItem(new ItemStack(itemValue, -num));
                     }
+
                     __result = true;
                     return false;
                 }
-                if (data.holdingEntity.bag.DecItem(itemValue, ___currentUpgradeInfo.ItemCount) == ___currentUpgradeInfo.ItemCount)
+
+                if (data.holdingEntity.bag.DecItem(itemValue, num) == num)
                 {
                     var entityPlayerLocal2 = data.holdingEntity as EntityPlayerLocal;
                     if (entityPlayerLocal2 != null)
                     {
-                        entityPlayerLocal2.AddUIHarvestingItem(new ItemStack(itemValue, -___currentUpgradeInfo.ItemCount));
+                        entityPlayerLocal2.AddUIHarvestingItem(new ItemStack(itemValue, -num));
                     }
+
                     __result = true;
                     return false;
                 }
@@ -68,9 +69,9 @@ namespace Features.RemoteCrafting
                 var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance);
 
                 // counter quantity needed from item
-                var q = ___currentUpgradeInfo.ItemCount;
+                var q = num;
 
-                var itemStack = new ItemStack(ItemClass.GetItem(___currentUpgradeInfo.Item, false), ___currentUpgradeInfo.ItemCount);
+                var itemStack = new ItemStack(ItemClass.GetItem(__instance.GetUpgradeItemName(block)), num);
 
                 //check player inventory for materials and reduce counter
                 var slots = primaryPlayer.bag.GetSlots();
@@ -82,7 +83,9 @@ namespace Features.RemoteCrafting
                 foreach (var tileEntity in tileEntities)
                 {
                     if (q <= 0) break;
-                    if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
+
+                    if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity))
+                        continue;
 
                     // If there's no items in this container, skip.
                     if (!lootTileEntity.HasItem(itemStack.itemValue)) continue;
@@ -92,7 +95,7 @@ namespace Features.RemoteCrafting
                         var item = lootTileEntity.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != itemStack.itemValue.ItemClass) continue;
-                        
+
                         // If we can completely satisfy the result, let's do that.
                         if (item.count >= q)
                         {
@@ -120,7 +123,7 @@ namespace Features.RemoteCrafting
                     }
                 }
 
-                primaryPlayer.AddUIHarvestingItem(new ItemStack(itemValue, -___currentUpgradeInfo.ItemCount), false);
+                primaryPlayer.AddUIHarvestingItem(new ItemStack(itemValue, -num));
 
                 __result = true;
 
@@ -130,10 +133,10 @@ namespace Features.RemoteCrafting
 
         [HarmonyPatch(typeof(ItemActionRepair))]
         [HarmonyPatch("CanRemoveRequiredResource")]
-        public class CanRemoveRequiredResource
-        {
-            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data, BlockValue blockValue, ref UpgradeInfo ___currentUpgradeInfo, string ___allowedUpgradeItems, string ___restrictedUpgradeItems, string ___upgradeActionSound, float ___hitCountOffset)
-            {
+        public class CanRemoveRequiredResource {
+            private static void Postfix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data,
+                BlockValue blockValue) {
+                if (__result) return;
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, "BlockOnNearbyEnemies"))
                 {
                     var distanceE = 30f;
@@ -142,113 +145,51 @@ namespace Features.RemoteCrafting
                         distanceE = StringParsers.ParseFloat(strDistanceE);
                     if (RemoteCraftingUtils.IsEnemyNearby(data.holdingEntity, distanceE))
                     {
-                        __result = false;
-                        return false; // make sure you only skip if really necessary
+                        return; // make sure you only skip if really necessary
                     }
                 }
 
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                 {
-                    return true;
+                    return;
                 }
-
-                var block = blockValue.Block;
-                var flag = block.Properties.Values.ContainsKey("UpgradeBlock.Item");
-                var upgradeInfo = default(UpgradeInfo);
-                upgradeInfo.FromBlock = block.GetBlockName();
-                upgradeInfo.ToBlock = block.Properties.Values[Block.PropUpgradeBlockClassToBlock];
-                upgradeInfo.Sound = "";
-                if (flag)
-                {
-                    upgradeInfo.Item = block.Properties.Values["UpgradeBlock.Item"];
-                    if (___allowedUpgradeItems.Length > 0 && !___allowedUpgradeItems.ContainsCaseInsensitive(upgradeInfo.Item))
-                    {
-                        __result = false;
-                        return false;
-                    }
-                    if (___restrictedUpgradeItems.Length > 0 && ___restrictedUpgradeItems.ContainsCaseInsensitive(upgradeInfo.Item))
-                    {
-                        __result = false;
-                        return false;
-                    }
-                }
-                if (___upgradeActionSound.Length > 0)
-                {
-                    upgradeInfo.Sound = ___upgradeActionSound;
-                }
-                else if (flag)
-                {
-                    var item = ItemClass.GetItem(upgradeInfo.Item);
-                    if (item != null)
-                    {
-                        var itemClass = ItemClass.GetForId(item.type);
-                        if (itemClass != null)
-                        {
-                            upgradeInfo.Sound =
-                                $"ImpactSurface/{data.holdingEntity.inventory.holdingItem.MadeOfMaterial.SurfaceCategory}hit{itemClass.MadeOfMaterial.SurfaceCategory}";
-                        }
-                    }
-                }
-                if (!int.TryParse(block.Properties.Values["UpgradeBlock.UpgradeHitCount"], out var num))
-                {
-                    __result = false;
-                    return false;
-                }
-                upgradeInfo.Hits = (int)(num + ___hitCountOffset < 1f ? 1f : num + ___hitCountOffset);
-                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out upgradeInfo.ItemCount) && flag)
-                {
-                    __result = false;
-                    return false;
-                }
-                ___currentUpgradeInfo = upgradeInfo;
-                if (___currentUpgradeInfo.FromBlock != null && flag)
-                {
-                    var item = ItemClass.GetItem(___currentUpgradeInfo.Item, false);
-                    if (data.holdingEntity.inventory.GetItemCount(item) >= ___currentUpgradeInfo.ItemCount)
-                    {
-                        __result = true;
-                        return false;
-                    }
-                    if (data.holdingEntity.bag.GetItemCount(item) >= ___currentUpgradeInfo.ItemCount)
-                    {
-                        __result = true;
-                        return false;
-                    }
-                }
-                else if (!flag)
-                {
-                    __result = true;
-                    return false;
-                }
-
 
                 var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+                var block = blockValue.Block;
+                var upgradeItemName = __instance.GetUpgradeItemName(block);
+                int quantity;
+                if (!int.TryParse(block.Properties.Values[Block.PropUpgradeBlockClassItemCount], out quantity))
+                {
+                    return;
+                }
 
-                var itemStack = new ItemStack(ItemClass.GetItem(___currentUpgradeInfo.Item), ___currentUpgradeInfo.ItemCount);
+                var itemStack = new ItemStack(ItemClass.GetItem(upgradeItemName), quantity);
                 var distance = 30f;
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
-                var totalCount = RemoteCraftingUtils.SearchNearbyContainers(primaryPlayer, itemStack.itemValue, distance).Sum(y => y.count);
+                var totalCount = RemoteCraftingUtils
+                    .SearchNearbyContainers(primaryPlayer, itemStack.itemValue, distance).Sum(y => y.count);
 
-                if (totalCount >= ___currentUpgradeInfo.ItemCount)
+                if (totalCount >= quantity)
                 {
                     __result = true;
-                    return false;
+                    return;
                 }
 
                 __result = false;
 
-                return false;
+                
             }
+
+          
         }
 
         [HarmonyPatch(typeof(ItemActionRepair))]
         [HarmonyPatch("removeRequiredItem")]
-        public class RemoveRequiredItem
-        {
-            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data, ItemStack _itemStack)
-            {
+        public class RemoveRequiredItem {
+            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data,
+                ItemStack _itemStack) {
                 __result = false;
 
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
@@ -256,7 +197,9 @@ namespace Features.RemoteCrafting
                     return true;
                 }
 
-                __result = _data.holdingEntity.inventory.DecItem(_itemStack.itemValue, _itemStack.count) == _itemStack.count || _data.holdingEntity.bag.DecItem(_itemStack.itemValue, _itemStack.count, false) == _itemStack.count;
+                __result =
+                    _data.holdingEntity.inventory.DecItem(_itemStack.itemValue, _itemStack.count) == _itemStack.count ||
+                    _data.holdingEntity.bag.DecItem(_itemStack.itemValue, _itemStack.count, false) == _itemStack.count;
 
                 if (__result)
                 {
@@ -283,8 +226,7 @@ namespace Features.RemoteCrafting
                 foreach (var tileEntity in tileEntities)
                 {
                     if (q <= 0) break;
-                    if (tileEntity is not TileEntityLootContainer lootTileEntity) continue;
-
+                    if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
                     // If there's no items in this container, skip.
                     if (!lootTileEntity.HasItem(_itemStack.itemValue)) continue;
 
@@ -293,7 +235,7 @@ namespace Features.RemoteCrafting
                         var item = lootTileEntity.items[y];
                         if (item.IsEmpty()) continue;
                         if (item.itemValue.ItemClass != _itemStack.itemValue.ItemClass) continue;
-                        
+
                         // If we can completely satisfy the result, let's do that.
                         if (item.count >= q)
                         {
@@ -327,10 +269,9 @@ namespace Features.RemoteCrafting
 
         [HarmonyPatch(typeof(ItemActionRepair))]
         [HarmonyPatch("canRemoveRequiredItem")]
-        public class CanRemoveRequiredItem
-        {
-            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data, ItemStack _itemStack)
-            {
+        public class CanRemoveRequiredItem {
+            private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data,
+                ItemStack _itemStack) {
                 __result = false;
 
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, "BlockOnNearbyEnemies"))
@@ -351,7 +292,8 @@ namespace Features.RemoteCrafting
                     return true;
                 }
 
-                if (_data.holdingEntity.inventory.GetItemCount(_itemStack.itemValue) >= _itemStack.count || _data.holdingEntity.bag.GetItemCount(_itemStack.itemValue) >= _itemStack.count)
+                if (_data.holdingEntity.inventory.GetItemCount(_itemStack.itemValue) >= _itemStack.count ||
+                    _data.holdingEntity.bag.GetItemCount(_itemStack.itemValue) >= _itemStack.count)
                 {
                     __result = true;
                     return false;
@@ -362,15 +304,13 @@ namespace Features.RemoteCrafting
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
-                var totalCount = RemoteCraftingUtils.SearchNearbyContainers(primaryPlayer, _itemStack.itemValue, distance).Sum(y => y.count);
+                var totalCount = RemoteCraftingUtils
+                    .SearchNearbyContainers(primaryPlayer, _itemStack.itemValue, distance).Sum(y => y.count);
 
                 if (totalCount <= 0) return false;
                 __result = true;
                 return false;
-
             }
         }
-
-   
     }
 }

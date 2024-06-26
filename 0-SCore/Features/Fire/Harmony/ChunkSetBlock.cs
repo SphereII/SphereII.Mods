@@ -5,7 +5,6 @@ namespace Features.Fire.Harmony
 {
     [HarmonyPatch(typeof(Chunk))]
     [HarmonyPatch("SetBlock")]
-    [HarmonyPatch(new[] { typeof(WorldBase), typeof(int), typeof(int), typeof(int), typeof(int), typeof(BlockValue), typeof(bool), typeof(bool), typeof(bool) })]
 
     public class ChunkSetBlock
     {

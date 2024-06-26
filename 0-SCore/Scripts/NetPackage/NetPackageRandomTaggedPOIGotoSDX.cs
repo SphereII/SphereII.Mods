@@ -9,7 +9,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     private int questCode;
 
-    private FastTags questTags;
+    private FastTags<TagGroup.Global> questTags;
 
     private Vector2 position;
 
@@ -23,9 +23,9 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     // Fields needed to get the correct POI
 
-    private POITags includeTags;
+    private FastTags<TagGroup.Poi> includeTags;
 
-    private POITags excludeTags;
+    private FastTags<TagGroup.Poi> excludeTags;
 
     public float maxSearchDistance;
 
@@ -103,6 +103,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
                     SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
                         NetPackageManager.GetPackage<NetPackageQuestGotoPoint>().Setup(
                             entityId,
+                            primaryPlayer.entityId,
                             questTags,
                             questCode,
                             NetPackageQuestGotoPoint.QuestGotoTypes.RandomPOI,
@@ -141,7 +142,7 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
         // from NetPackageQuestGotoPoint
         entityId = _br.ReadInt32();
         questCode = _br.ReadInt32();
-        questTags = FastTags.Parse(_br.ReadString());
+        questTags = FastTags<TagGroup.Global>.Parse(_br.ReadString());
         position = new Vector2(_br.ReadInt32(), _br.ReadInt32());
         size = StreamUtils.ReadVector3(_br);
         difficulty = _br.ReadByte();
@@ -150,9 +151,9 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
         // needed to get the correct POI
         string includeTagsString = _br.ReadString();
-        includeTags = POITags.Parse(includeTagsString);
+        includeTags = FastTags<TagGroup.Poi>.Parse(includeTagsString);
         string excludeTagsString = _br.ReadString();
-        excludeTags = POITags.Parse(excludeTagsString);
+        excludeTags = FastTags<TagGroup.Poi>.Parse(excludeTagsString);
         maxSearchDistance = _br.ReadSingle();
         minSearchDistance = _br.ReadSingle();
     }
@@ -181,11 +182,11 @@ public class NetPackageRandomTaggedPOIGotoSDX : NetPackage
 
     public NetPackageRandomTaggedPOIGotoSDX Setup(
         int _ownerId,
-        FastTags _questTags,
+        FastTags<TagGroup.Global> _questTags,
         int _questCode,
         byte _difficulty,
-        POITags _includeTags,
-        POITags _excludeTags,
+        FastTags<TagGroup.Poi> _includeTags,
+        FastTags<TagGroup.Poi> _excludeTags,
         float _minSearchDistance,
         float _maxSearchDistance,
         int posX = 0, int posZ = -1,

@@ -11,7 +11,7 @@ namespace UAI
         private bool _hadBuff;
         private Vector3 _vector;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buff")) _buff = Parameters["buff"];
@@ -103,7 +103,7 @@ namespace UAI
                 return;
             //            var gameStage = EffectManager.GetValue(PassiveEffects.LootGamestage, null, 10, _context.Self);
             //var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, gameStage, 0f, null, new FastTags());
-            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags(), lootContainer.UniqueItems, false);
+            var array = lootContainer.Spawn(_context.Self.rand, tileLootContainer.items.Length, (float)_context.Self.Progression.GetLevel(), 0f, null, new FastTags<TagGroup.Global>(), lootContainer.UniqueItems, false);
 
 
 

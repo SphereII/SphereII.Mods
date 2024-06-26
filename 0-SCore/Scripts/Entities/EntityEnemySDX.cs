@@ -245,7 +245,7 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
         var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, new Vector3i(target)) as TileEntitySign;
         if (tileEntitySign == null) return;
 
-        var text = tileEntitySign.GetText();
+        var text = tileEntitySign.signText.Text;
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var task = PathingCubeParser.GetValue(text, "task");

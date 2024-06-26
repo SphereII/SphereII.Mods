@@ -9,7 +9,7 @@ namespace UAI
     public class UAITaskIdleSDX : UAITaskBase
     {
         private float _timeOut = 100f;
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             if (Parameters.ContainsKey("timeout")) _timeOut = StringParsers.ParseFloat(Parameters["timeout"]);
         }

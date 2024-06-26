@@ -30,7 +30,7 @@ namespace Features.LockPicking
                 if (__instance is EntityPlayerLocal) return;
                 if (__instance is EntityPlayer) return;
                 if (__instance.Buffs.GetCustomVar("notrample") > 0f) return;
-                if (__instance.HasAnyTags(FastTags.Parse("notrample"))) return;
+                if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("notrample"))) return;
 
                 Vector3i blockPosition = __instance.GetBlockPosition();
                 var block = GameManager.Instance.World.GetBlock(0, blockPosition).Block;
@@ -49,7 +49,6 @@ namespace Features.LockPicking
                 if (_targetEntity == null)
                     return false;
 
-                
                 // For hired entities, take a move penalty, but no damage.
                 var entityAlive = _targetEntity as global::EntityAlive;
                 if (entityAlive == null) return true;
@@ -58,7 +57,7 @@ namespace Features.LockPicking
                 {
                     if (__instance.MovementFactor != 1f)
                     {
-                        entityAlive.SetMotionMultiplier(EffectManager.GetValue(PassiveEffects.MovementFactorMultiplier, null, __instance.MovementFactor, entityAlive, null, default(FastTags), true, true, true, true, 1, true));
+                        entityAlive.SetMotionMultiplier(EffectManager.GetValue(PassiveEffects.MovementFactorMultiplier));
                     }
                     return false;
                 }

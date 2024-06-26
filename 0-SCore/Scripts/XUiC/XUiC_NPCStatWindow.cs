@@ -83,7 +83,7 @@ public class XUiC_NPCStatWindow : XUiController
                     value = entityAliveSDX.inventory.holdingItem.GetLocalizedItemName();
                     break;
                 case "npcarmor": // not sure if this is hooked up.
-                    value = EffectManager.GetValue(PassiveEffects.PhysicalDamageResist, null, 0f, entityAliveSDX, null, default(FastTags), true, true, true, true, 1, true).ToString();
+                    value = EffectManager.GetValue(PassiveEffects.PhysicalDamageResist).ToString();
                     break;
                 case "npccurrentorder":
                     value = EntityUtilities.GetCurrentOrder(entityAliveSDX.entityId).ToString();
@@ -135,10 +135,10 @@ public class XUiC_NPCStatWindow : XUiController
                     break;
                 case "npccarrycapacity":
                     // Grab the Carry Capacity.
-                    var unlocked = this.playerCarryCapacityFormatter.Format((int)EffectManager.GetValue(PassiveEffects.CarryCapacity, null, 0f, entityAliveSDX, null, default(FastTags), true, true, true, true, 1, true));
+                    var unlocked = this.playerCarryCapacityFormatter.Format((int)EffectManager.GetValue(PassiveEffects.CarryCapacity, null, 0f, entityAliveSDX));
 
                     // Grab the Bag size
-                    var totalslot = this.playerBagSizeFormatter.Format((int)EffectManager.GetValue(PassiveEffects.BagSize, null, 0f, entityAliveSDX, null, default(FastTags), true, true, true, true, 1, true));
+                    var totalslot = this.playerBagSizeFormatter.Format((int)EffectManager.GetValue(PassiveEffects.BagSize));
 
                     // By default, we'll set then unlocked as the right value to show
                     value = unlocked;
@@ -154,7 +154,7 @@ public class XUiC_NPCStatWindow : XUiController
                         value = unlocked;
                     break;
                 case "npcbagfreeslots":
-                    var total = StringParsers.ParseSInt32(this.playerBagSizeFormatter.Format((int)EffectManager.GetValue(PassiveEffects.BagSize, null, 0f, this.entityAliveSDX, null, default(FastTags), true, true, true, true, 1, true)));
+                    var total = StringParsers.ParseSInt32(this.playerBagSizeFormatter.Format((int)EffectManager.GetValue(PassiveEffects.BagSize)));
                     var used = StringParsers.ParseSInt32(this.entityAliveSDX.bag.GetUsedSlotCount().ToString());
                     var freeslots = total - used;
                     value = freeslots.ToString();
@@ -164,7 +164,7 @@ public class XUiC_NPCStatWindow : XUiController
                     break;
                 case "npcbagfillcolor":
                     var usedslots = this.entityAliveSDX.bag.GetUsedSlotCount().ToString();
-                    var totalslot2 = this.playerCarryCapacityFormatter.Format((int)EffectManager.GetValue(PassiveEffects.CarryCapacity, null, 0f, this.entityAliveSDX, null, default(FastTags), true, true, true, true, 1, true));
+                    var totalslot2 = this.playerCarryCapacityFormatter.Format((int)EffectManager.GetValue(PassiveEffects.CarryCapacity));
 
                     value = usedslots;
 

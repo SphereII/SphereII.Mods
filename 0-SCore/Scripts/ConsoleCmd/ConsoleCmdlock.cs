@@ -10,7 +10,7 @@ public class ConsoleCmdlock : ConsoleCmdAbstract
         get { return true; }
     }
 
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -37,7 +37,7 @@ public class ConsoleCmdlock : ConsoleCmdAbstract
         SingletonMonoBehaviour<SdtdConsole>.Instance.Output($"Lock Testing");
     }
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "SCore: Reloads the Utility AI";
     }

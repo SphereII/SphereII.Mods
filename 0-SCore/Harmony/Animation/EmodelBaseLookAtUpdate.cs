@@ -20,7 +20,7 @@ namespace Harmony.Animation
                 return true;
 
             // Disable this check for any entity that has UMA2 as a tag
-            if (entityAlive.HasAnyTags(FastTags.Parse("UMA2")))
+            if (entityAlive.HasAnyTags(FastTags<TagGroup.Global>.Parse("UMA2")))
                 return true;
 
             var currentStun = entityAlive.bodyDamage.CurrentStun;

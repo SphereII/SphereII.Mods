@@ -10,15 +10,15 @@ namespace SCore.Harmony.Quests
     [HarmonyPatch("EntityKilled")]
     public class QuestEventManagerEntityKilled
     {
-        private static void Postfix(Entity entity)
+        private static void Postfix(EntityAlive killedEntity)
         {
-            switch (entity)
+            switch (killedEntity)
             {
                 case EntityEnemySDX:
-                    SCoreQuestEventManager.Instance.EntityEnemyKilled(EntityClass.list[entity.entityClass].entityClassName);
+                    SCoreQuestEventManager.Instance.EntityEnemyKilled(EntityClass.list[killedEntity.entityClass].entityClassName);
                     return;
                 case EntityAliveSDX:
-                    SCoreQuestEventManager.Instance.EntityAliveKilled(EntityClass.list[entity.entityClass].entityClassName);
+                    SCoreQuestEventManager.Instance.EntityAliveKilled(EntityClass.list[killedEntity.entityClass].entityClassName);
                     return;
             }
         }

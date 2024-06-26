@@ -35,7 +35,7 @@ public static class ItemsUtilities
     public static List<ItemStack> ParseProperties(DynamicProperties dynamicProperties3)
     {
         var stacks = new List<ItemStack>();
-        foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
+        foreach (var keyValuePair in dynamicProperties3.Values.Dict)
             stacks.Add(CreateItemStack(keyValuePair.Key, keyValuePair.Value.ToString()));
 
         return stacks;

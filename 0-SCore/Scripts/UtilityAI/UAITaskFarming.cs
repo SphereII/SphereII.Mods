@@ -15,7 +15,7 @@ namespace UAI
         private float timeOut = 100f;
         private string seed = "planted*1";
         private bool _hasSeed = false;
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buff")) _buff = Parameters["buff"];

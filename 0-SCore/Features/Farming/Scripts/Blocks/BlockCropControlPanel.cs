@@ -108,7 +108,7 @@ public class BlockCropControlPanel : Block
 
         WaterPipeManager.Instance.GetWaterForPosition(_blockPos);
     }
-    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
 
         switch (_commandName)

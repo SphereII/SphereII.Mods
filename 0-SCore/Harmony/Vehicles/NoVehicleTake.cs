@@ -22,7 +22,7 @@ namespace Harmony.NoVehicleTake
                     return __result;
 
 
-                if (__instance.HasAnyTags(FastTags.Parse(VehiclePickUpTags))) return __result;
+                if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse(VehiclePickUpTags))) return __result;
 
                 // If the player has a cvar with the following code, allow them to take it. 
                 // This will allow modders to fine tune vehicle pick up via perk or cvar.

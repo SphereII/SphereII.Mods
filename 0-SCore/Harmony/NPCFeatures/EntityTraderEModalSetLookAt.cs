@@ -10,7 +10,7 @@ namespace Harmony.NPCFeatures
         private static bool Prefix(EModelBase __instance, Entity ___entity, Vector3 _pos)
         {
             // Check if it's a trader. This controls whether the NPC will look at you if you are within a particular radius.
-            if (___entity.HasAnyTags(FastTags.Parse("trader")))
+            if (___entity.HasAnyTags(FastTags<TagGroup.Global>.Parse("trader")))
                 return true;
 
             global::EntityAlive attackTarget = null;

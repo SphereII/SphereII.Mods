@@ -143,7 +143,7 @@ public class BlockPortal2 : BlockPlayerSign
         }
     }
 
-    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {

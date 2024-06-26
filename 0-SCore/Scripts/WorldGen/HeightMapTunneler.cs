@@ -369,8 +369,8 @@ public static class HeightMapTunneler
         var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
         prefab.LoadXMLData(location);
 
-        if (string.IsNullOrEmpty(prefab.PrefabName))
-            prefab.PrefabName = strPOIname;
+     //   if (string.IsNullOrEmpty(prefab.PrefabName))
+       //     prefab.PrefabName = strPOIname;
 
         return prefab;
     }
@@ -493,7 +493,7 @@ public static class HeightMapTunneler
                         // Winter Project counter-sinks all prefabs -8 into the ground. However, for underground spawning, we want to avoid this, as they are already deep enough
                         // Instead, temporarily replace the tag with a custom one, so that the Harmony patch for the CopyIntoLocal of the winter project won't execute.
                         var temp = prefab.Tags;
-                        prefab.Tags = POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
+                        prefab.Tags  = FastTags<TagGroup.Poi>.Parse("SKIP_HARMONY_COPY_INTO_LOCAL");
                         prefab.yOffset = 0;
                         prefab.CopyBlocksIntoChunkNoEntities(GameManager.Instance.World, chunk, prefabDestination,
                             true);

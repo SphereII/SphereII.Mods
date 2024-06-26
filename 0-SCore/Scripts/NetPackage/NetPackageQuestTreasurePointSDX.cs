@@ -121,7 +121,7 @@ public class NetPackageQuestTreasurePointSDX : NetPackage
 			{
                 if (ObjectiveTreasureChest.CalculateTreasurePoint(player.position, distance, this.offset, treasureRadius,useNearby, out position, out treasureOffset))
                 {
-					SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestTreasurePointSDX>().Setup(this.playerId, this.distance, this.offset, this.questCode, position.x, position.y, position.z, false), false, this.playerId, -1, -1, -1);
+					SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestTreasurePointSDX>().Setup(this.playerId, this.distance, this.offset, this.questCode, position.x, position.y, position.z, false), false, this.playerId);
 					return;
 				}
 			}

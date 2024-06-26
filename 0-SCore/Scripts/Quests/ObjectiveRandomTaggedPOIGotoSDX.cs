@@ -35,12 +35,12 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     /// <summary>
     /// A prefab must have at least one of these POI tags to be included in the search for POIs.
     /// </summary>
-    public POITags IncludeTags { get; internal set; } = POITags.none;
+    public FastTags<TagGroup.Poi> IncludeTags { get; internal set; } = FastTags<TagGroup.Poi>.none;
 
     /// <summary>
     /// If a prefab has any of these POI tags, it is excluded from the search for POIs.
     /// </summary>
-    public POITags ExcludeTags { get; internal set; } = POITags.none;
+    public FastTags<TagGroup.Poi> ExcludeTags { get; internal set; } = FastTags<TagGroup.Poi>.none;
 
     /// <summary>
     /// The minimum distance to search. POIs inside this distance will not be returned.
@@ -60,11 +60,11 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     {
         if (properties.Values.ContainsKey(PropIncludeTags))
         {
-            IncludeTags = POITags.Parse(properties.Values[PropIncludeTags].Replace(" ", ""));
+            IncludeTags = FastTags<TagGroup.Poi>.Parse(properties.Values[PropIncludeTags].Replace(" ", ""));
         }
         if (properties.Values.ContainsKey(PropExcludeTags))
         {
-            ExcludeTags = POITags.Parse(properties.Values[PropExcludeTags].Replace(" ", ""));
+            ExcludeTags = FastTags<TagGroup.Poi>.Parse(properties.Values[PropExcludeTags].Replace(" ", ""));
         }
         if (properties.Values.ContainsKey(PropDistance))
         {
@@ -93,7 +93,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     /// <param name="usedPoiLocations"></param>
     /// <param name="entityIdForQuests"></param>
     /// <returns></returns>
-    protected override Vector3 GetPosition(
+    public override Vector3 GetPosition(
         EntityNPC ownerNPC = null,
         EntityPlayer entityPlayer = null,
         List<Vector2> usedPoiLocations = null,
@@ -254,7 +254,7 @@ public class ObjectiveRandomTaggedPOIGotoSDX : ObjectiveRandomPOIGoto
     /// Copies the values from another Objective.
     /// </summary>
     /// <param name="objective"></param>
-    protected override void CopyValues(BaseObjective objective)
+    public override void CopyValues(BaseObjective objective)
     {
         base.CopyValues(objective);
         ObjectiveRandomTaggedPOIGotoSDX obj = (ObjectiveRandomTaggedPOIGotoSDX)objective;

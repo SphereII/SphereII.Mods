@@ -148,26 +148,26 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 return Localization.Get(_strMyName);
             return Localization.Get(_strMyName) + " the " + Localization.Get(_strTitle);
         }
-        set
-        {
-            if (value.Equals(entityName)) return;
-
-            entityName = value;
-
-            // Don't set the internal name if it's the name of the entity class, since the
-            // EntityFactory calls the setter with the class name when it creates the entity.
-            // But set the internal name otherwise, because the setter is also called when the
-            // entity is re-created after being picked up and placed again.
-            if (value?.Equals(EntityClass.list[entityClass].entityClassName) != true)
-            {
-                _strMyName = value;
-            }
-
-            bPlayerStatsChanged |= !isEntityRemote;
-        }
+        // set
+        // {
+        //     if (value.Equals(entityName)) return;
+        //
+        //     entityName = value;
+        //
+        //     // Don't set the internal name if it's the name of the entity class, since the
+        //     // EntityFactory calls the setter with the class name when it creates the entity.
+        //     // But set the internal name otherwise, because the setter is also called when the
+        //     // entity is re-created after being picked up and placed again.
+        //     if (value?.Equals(EntityClass.list[entityClass].entityClassName) != true)
+        //     {
+        //         _strMyName = value;
+        //     }
+        //
+        //     bPlayerStatsChanged |= !isEntityRemote;
+        // }
     }
 
-
+   
     public void DisplayLog(string strMessage)
     {
         if (_blDisplayLog && !IsDead())
@@ -320,7 +320,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             var strBoundaryBox = "0,0,0";
             var strCenter = "0,0,0";
             var dynamicProperties3 = _entityClass.Properties.Classes["Boundary"];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
             {
                 DisplayLog("Key: " + keyValuePair.Key);
                 switch (keyValuePair.Key)
@@ -362,7 +362,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
     }
 
-    protected override float getNextStepSoundDistance()
+    public override float getNextStepSoundDistance()
     {
         return !IsRunning ? 0.5f : 0.25f;
     }
@@ -622,7 +622,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (lootContainer == null)
         {
             DisplayLog(" Entity does not have a loot container. Creating one.");
-            lootContainer = new TileEntityLootContainer(null) { entityId = entityId };
+            Chunk chunk = null;
+            lootContainer = new TileEntityLootContainer(chunk) { entityId = entityId };
             lootContainer.SetContainerSize(string.IsNullOrEmpty(GetLootList())
                 ? new Vector2i(8, 6)
                 : LootContainer.GetLootContainer(GetLootList()).size);
@@ -668,7 +669,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.Read(_version, _br);
         _strMyName = _br.ReadString();
         questJournal = new QuestJournal();
-        questJournal.Read(_br);
+        questJournal.Read(_br as PooledBinaryReader);
         patrolCoordinates.Clear();
         var strPatrol = _br.ReadString();
         foreach (var strPatrolPoint in strPatrol.Split(';'))
@@ -721,7 +722,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             return;
         }
 
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, -1, -1, -1, -1);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package);
     }
 
     public void ReadSyncData(BinaryReader _br, ushort syncFlags, int senderId)
@@ -771,7 +772,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (tileEntitySign == null) return;
 
         // Since signs can have multiple codes, splite with a ,, parse each one.
-        var text = tileEntitySign.GetText();
+        var text = tileEntitySign.signText.Text;
 
         // We need to apply the buffs during this scan, as the creation of the entity + adding buffs is not really MP safe.
         var Task = PathingCubeParser.GetValue(text, "task");
@@ -818,7 +819,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         base.Write(_bw, bNetworkWrite);
         _bw.Write(_strMyName);
-        questJournal.Write(_bw);
+        questJournal.Write(_bw as PooledBinaryWriter);
         var strPatrolCoordinates = "";
         foreach (var temp in patrolCoordinates) strPatrolCoordinates += ";" + temp;
 
@@ -875,7 +876,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         questJournal.AddQuest(newQuest);
     }
 
-    protected override void UpdateJump()
+    public override void UpdateJump()
     {
         if (this.walkType == 4 && !this.isSwimming)
         {
@@ -965,7 +966,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.MoveEntityHeaded(_direction, _isDirAbsolute);
     }
 
-    protected override void HandleNavObject()
+    public override void HandleNavObject()
     {
         if (EntityClass.list[this.entityClass].NavObject != "")
         {
@@ -1195,7 +1196,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             // If the Tile Entity Trader isn't set, set it now. Sometimes this fails, and won't allow interaction.
             if (_tileEntityTrader == null)
             {
-                _tileEntityTrader = new TileEntityTrader(null);
+                Chunk chunk = null;
+                _tileEntityTrader = new TileEntityTrader(chunk);
                 _tileEntityTrader.entityId = entityId;
                 _tileEntityTrader.TraderData.TraderID = NPCInfo.TraderID;
             }
@@ -1627,59 +1629,53 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         var num2 = World.toChunkXZ(blockPosition.z);
         _startedThisFrame = new List<string>();
         for (var i = -1; i < 2; i++)
+        for (var j = -1; j < 2; j++)
         {
-            for (var j = -1; j < 2; j++)
+            var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
+            if (chunk == null) continue;
+
+            var tileEntities = chunk.GetTileEntities();
+            for (var k = 0; k < tileEntities.list.Count; k++)
             {
-                var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
-                if (chunk == null) continue;
+                var tileEntity = tileEntities.list[k];
 
-                var tileEntities = chunk.GetTileEntities();
-                for (var k = 0; k < tileEntities.list.Count; k++)
+                if (!tileEntity.IsActive(world)) continue;
+
+                var block = world.GetBlock(tileEntity.ToWorldPos());
+                var block2 = Block.list[block.type];
+                if (block2.RadiusEffects == null) continue;
+
+
+                var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
+                for (var l = 0; l < block2.RadiusEffects.Length; l++)
                 {
-                    var tileEntity = tileEntities.list[k];
-
-                    if (!tileEntity.IsActive(world)) continue;
-
-                    var block = world.GetBlock(tileEntity.ToWorldPos());
-                    var block2 = Block.list[block.type];
-                    if (block2.RadiusEffects == null) continue;
-
-
-                    var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
-                    for (var l = 0; l < block2.RadiusEffects.Length; l++)
-                    {
-                        var blockRadiusEffect = block2.RadiusEffects[l];
-                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
-                            !Buffs.HasBuff(blockRadiusEffect.variable))
-                            Buffs.AddBuff(blockRadiusEffect.variable);
-                    }
+                    var blockRadiusEffect = block2.RadiusEffects[l];
+                    if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
+                        !Buffs.HasBuff(blockRadiusEffect.variable))
+                        Buffs.AddBuff(blockRadiusEffect.variable);
                 }
             }
-        } 
+        }
     }
 
     public override float GetMoveSpeed()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed, this, null,
-            default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed);
         if (IsCrouching)
-            speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed, this, null,
-                default(FastTags), true, true, true, true, 1, true);
+            speed = EffectManager.GetValue(PassiveEffects.CrouchSpeed, null, this.moveSpeed);
 
         return speed;
     }
 
     public override float GetMoveSpeedAggro()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null,
-            default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic);
         return speed;
     }
 
     public new float GetMoveSpeedPanic()
     {
-        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic, this, null,
-            default(FastTags), true, true, true, true, 1, true);
+        var speed = EffectManager.GetValue(PassiveEffects.RunSpeed, null, this.moveSpeedPanic);
         return speed;
     }
 
@@ -1715,7 +1711,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             var package = NetPackageManager.GetPackage<NetPackageEntityAddExpClient>()
                 .Setup(this.entityId, num, Progression.XPTypes.Kill);
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, this.entityId, -1, -1, -1);
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(package, false, this.entityId);
         }
 
         if (leader == null) return;
@@ -1741,7 +1737,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             {
                 SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
                     NetPackageManager.GetPackage<NetPackageSharedPartyKill>()
-                        .Setup(killedEntity.entityClass, num, entityId), false, entityPlayer2.entityId, -1, -1, -1);
+                        .Setup(killedEntity.entityId, entityId), false, entityPlayer2.entityId);
             }
         }
     }
@@ -1793,7 +1789,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         base.OnEntityDeath();
     }
 
-    protected override void dropItemOnDeath()
+    public override void dropItemOnDeath()
     {
         // Don't drop your toolbelt
         if (this.world.IsDark())
@@ -1804,8 +1800,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (this.entityThatKilledMe)
         {
             this.lootDropProb = EffectManager.GetValue(PassiveEffects.LootDropProb,
-                this.entityThatKilledMe.inventory.holdingItemItemValue, this.lootDropProb, this.entityThatKilledMe,
-                null, default(FastTags), true, true, true, true, 1, true);
+                this.entityThatKilledMe.inventory.holdingItemItemValue, this.lootDropProb, this.entityThatKilledMe);
         }
 
         if (this.lootDropProb > this.rand.RandomFloat)
@@ -1842,10 +1837,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     //}
 
-    protected override void playStepSound(string stepSound)
+    public override void playStepSound(string stepSound)
     {
         if (IsOnMission()) return;
-        if (HasAnyTags(FastTags.Parse("floating"))) return;
+        if (HasAnyTags(FastTags<TagGroup.Global>.Parse("floating"))) return;
 
         base.playStepSound(stepSound);
     }
@@ -1905,7 +1900,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     public void SetItemValue(ItemValue itemValue)
     {
-        EntityName = itemValue.GetMetadata("NPCName") as string;
+        var entityName = itemValue.GetMetadata("NPCName") as string;
+        SetEntityName(entityName);
         belongsPlayerId = (int)itemValue.GetMetadata("BelongsToPlayer");
         Health = (int)itemValue.GetMetadata("health");
         var leaderID = (int)itemValue.GetMetadata("Leader");
@@ -2088,7 +2084,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     }
 
 
-    protected override void SetupStartingItems()
+    public override void SetupStartingItems()
     {
         for (var i = 0; i < this.itemsOnEnterGame.Count; i++)
         {
@@ -2215,7 +2211,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         return rightHandTransformName;
     }
 
-    public override void PlayOneShot(string clipName, bool sound_in_head = false)
+    public override void PlayOneShot(string clipName, bool sound_in_head = false, bool netsync = true)
     {
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
@@ -2252,7 +2248,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
     }
 
-    protected override Vector3i dropCorpseBlock()
+    public override Vector3i dropCorpseBlock()
     {
         if (lootContainer != null && lootContainer.IsUserAccessing())
         {
@@ -2313,7 +2309,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         return vector3I;
     }
 
-    protected override void updateStepSound(float distX, float distZ)
+    public override void updateStepSound(float distX, float distZ)
     {
         var leader = EntityUtilities.GetLeaderOrOwner(entityId) as EntityAlive;
         if (leader == null)

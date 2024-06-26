@@ -13,12 +13,12 @@ namespace UAI
 
     public class UAIConsiderationTargetHasTags : UAIConsiderationBase
     {
-        public FastTags fastTags = FastTags.none;
+        public FastTags<TagGroup.Global> fastTags = FastTags<TagGroup.Global>.none;
         public override void Init(Dictionary<string, string> _parameters)
         {
             base.Init(_parameters);
             if (_parameters.ContainsKey("tags"))
-                fastTags = FastTags.Parse(_parameters["tags"]);
+                fastTags = FastTags<TagGroup.Global>.Parse(_parameters["tags"]);
         }
 
         public override float GetScore(Context _context, object target)

@@ -25,7 +25,7 @@ internal class EntityAliveEventSpawnerSDX : EntityAlive
         {
             DisplayLog(" Found Spawn Settings.. reading...");
             var dynamicProperties3 = entityClass.Properties.Classes["SpawnSettings"];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
             {
                 DisplayLog("Key: " + keyValuePair.Key);
                 if (keyValuePair.Key == "Leader")

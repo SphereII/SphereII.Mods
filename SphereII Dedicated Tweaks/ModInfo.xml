@@ -1,11 +1,9 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xml>
-  <ModInfo>
-    <Name value="SphereII Dedicated Tweaks" />
-    <Description value="" />
-    <Author value="sphereii" />
-    <Version value="20.0.0.17930" />
-    <Website value="" />
-  </ModInfo>
- 
+  <Name value="SphereII_Dedicated_Tweaks_sphereii"/>
+  <Author value="sphereii"/>
+  <Description value="SphereII Dedicated Tweaks"/>
+  <DisplayName value="SphereII Dedicated Tweaks"/>
+  <Website value=""/>
+  <Version value="1.0.1.923"/>
 </xml>

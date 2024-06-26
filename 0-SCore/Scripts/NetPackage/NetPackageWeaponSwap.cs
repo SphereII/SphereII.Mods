@@ -38,7 +38,7 @@ public class NetPackageWeaponSwap : NetPackage
             var entity = _world.GetEntity(entityId) as EntityAlive;
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
                 NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entity, item), false, -1,
-                base.Sender.entityId, -1, -1);
+                base.Sender.entityId);
             return;
         }
 

@@ -158,7 +158,7 @@ internal class MecanimSDX : AvatarController
     }
 
     // Main Update method
-    protected override void Update()
+    public override void Update()
     {
         if (timeAttackAnimationPlaying > 0f) timeAttackAnimationPlaying -= Time.deltaTime;
 

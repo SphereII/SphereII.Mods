@@ -4,7 +4,7 @@ internal class ObjectiveBuffSDX : BaseObjective
 {
     private string strBuff = "";
 
-    protected override bool useUpdateLoop => true;
+    public override bool useUpdateLoop => true;
 
     // method to clone the Objective
     public override BaseObjective Clone()
@@ -70,13 +70,13 @@ internal class ObjectiveBuffSDX : BaseObjective
         if (myEntity != null)
         {
             // Check if it has the desired buff.
-//            Debug.Log(" Checking if Entity has Buff: " + strBuff);
-//            Debug.Log(" Buffs: " + myEntity.Buffs.ActiveBuffs.ToArray());
+            Debug.Log(" Checking if Entity has Buff: " + strBuff);
+            Debug.Log(" Buffs: " + myEntity.Buffs.ActiveBuffs.ToArray());
             Complete = myEntity.Buffs.HasBuff(strBuff);
             if (Complete)
             {
                 ObjectiveState = ObjectiveStates.Complete;
-                OwnerQuest.CheckForCompletion();
+                OwnerQuest.RefreshQuestCompletion();
             }
         }
     }

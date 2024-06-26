@@ -123,7 +123,7 @@ public class BlockPoweredPortal : BlockPowered
         var tileEntity = new TileEntityPoweredPortal(_chunk);
         tileEntity.localChunkPos = World.toBlock(_blockPos);
         if ( !string.IsNullOrEmpty(location))
-            tileEntity.SetText(location);
+            tileEntity.SetText(location, true);
 
         tileEntity.InitializePowerData();
 
@@ -190,7 +190,7 @@ public class BlockPoweredPortal : BlockPowered
         _player.SetPosition(destination);
     }
 
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
@@ -209,7 +209,7 @@ public class BlockPoweredPortal : BlockPowered
         return true;
     }
 
-    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {
@@ -339,7 +339,7 @@ public class BlockPoweredPortal : BlockPowered
         var tileEntity = _world.GetTileEntity(_cIdx, _blockPos) as TileEntityPoweredPortal;
         if (tileEntity != null)
         {
-            var text = tileEntity.GetText();
+            var text = tileEntity.signText.Text;
             //if (PortalManager.Instance.CountLocations(text) < 2)
             PortalManager.Instance.AddPosition(_blockPos, text);
             //else

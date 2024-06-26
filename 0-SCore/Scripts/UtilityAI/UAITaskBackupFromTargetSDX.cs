@@ -11,7 +11,7 @@ namespace UAI
         private EntityAlive entityAlive;
         private float maxFleeDistance;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (this.Parameters.ContainsKey("max_distance"))

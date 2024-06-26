@@ -133,10 +133,10 @@ public static class QuestUtils
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearTrader(
         EntityTrader trader,
-        FastTags questTag,
+        FastTags<TagGroup.Global> questTag,
         byte difficulty,
-        POITags includeTags,
-        POITags excludeTags,
+        FastTags<TagGroup.Poi> includeTags,
+        FastTags<TagGroup.Poi> excludeTags,
         float minSearchDistance,
         float maxSearchDistance,
         List<Vector2> usedPoiLocations = null,
@@ -206,10 +206,10 @@ public static class QuestUtils
     /// <returns></returns>
     public static PrefabInstance GetRandomPOINearEntityPos(
         Entity entity,
-        FastTags questTag,
+        FastTags<TagGroup.Global> questTag,
         byte difficulty,
-        POITags includeTags,
-        POITags excludeTags,
+        FastTags<TagGroup.Poi> includeTags,
+        FastTags<TagGroup.Poi> excludeTags,
         float minSearchDistance,
         float maxSearchDistance,
         List<Vector2> usedPOILocations = null,
@@ -288,9 +288,9 @@ public static class QuestUtils
     public static bool ValidPrefabForQuest(
         Entity questGiver,
         PrefabInstance prefab,
-        FastTags questTag,
-        POITags includeTags,
-        POITags excludeTags,
+        FastTags<TagGroup.Global> questTag,
+        FastTags<TagGroup.Poi> includeTags,
+        FastTags<TagGroup.Poi> excludeTags,
         List<Vector2> usedPoiLocations = null,
         int entityIdForQuests = -1,
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
@@ -482,7 +482,7 @@ public static class QuestUtils
     /// <param name="includeTags"></param>
     /// <param name="excludeTags"></param>
     /// <returns></returns>
-    public static bool MeetsTagRequirements(PrefabInstance prefabInstance, POITags includeTags, POITags excludeTags)
+    public static bool MeetsTagRequirements(PrefabInstance prefabInstance, FastTags<TagGroup.Poi> includeTags, FastTags<TagGroup.Poi> excludeTags)
     {
         if (!includeTags.IsEmpty &&
             !prefabInstance.prefab.Tags.Test_AnySet(includeTags))

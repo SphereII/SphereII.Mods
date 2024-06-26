@@ -12,7 +12,7 @@ namespace UAI
         private string _buffThrottle = "buffReload2";
         private int _targetTimeout = 20;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("action_index")) _actionIndex = int.Parse(Parameters["action_index"]);

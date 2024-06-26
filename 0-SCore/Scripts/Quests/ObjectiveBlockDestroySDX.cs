@@ -109,7 +109,7 @@ public class ObjectiveBlockDestroySDX : BaseObjective
         {
 			foreach (var tag in base.ID.Split(','))
 			{
-				if (block.HasAnyFastTags(FastTags.Parse(tag)))
+				if (block.HasAnyFastTags(FastTags<TagGroup.Global>.Parse(tag)))
 				{
 					flag = true;
 					break;
@@ -140,7 +140,7 @@ public class ObjectiveBlockDestroySDX : BaseObjective
 		}
 		if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
 		{
-			SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(ownerPlayer.entityId, base.OwnerQuest.QuestCode), false, -1, -1, -1, -1);
+			SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(ownerPlayer.entityId, base.OwnerQuest.QuestCode), false);
 			return;
 		}
 		SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(ownerPlayer.entityId, base.OwnerQuest.QuestCode), false);
@@ -158,7 +158,7 @@ public class ObjectiveBlockDestroySDX : BaseObjective
 		base.Complete = ((int)base.CurrentValue >= this.neededCount);
 		if (base.Complete)
 		{
-			base.OwnerQuest.CheckForCompletion(QuestClass.CompletionTypes.AutoComplete, null, true);
+			base.OwnerQuest.RefreshQuestCompletion(QuestClass.CompletionTypes.AutoComplete, null, true);
 		}
 	}
 

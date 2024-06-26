@@ -97,8 +97,8 @@ public static class Sebastian
         var location = PathAbstractions.PrefabsSearchPaths.GetLocation(strPOIname);
         prefab.LoadXMLData(location);
 
-        if (string.IsNullOrEmpty(prefab.PrefabName))
-            prefab.PrefabName = strPOIname;
+     //   if (string.IsNullOrEmpty(prefab.PrefabName))
+       //     prefab.PrefabName = strPOIname;
 
         return prefab;
     }

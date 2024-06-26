@@ -94,11 +94,11 @@ public class PortalManager
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, position) as TileEntityPoweredPortal;
         var text = "";
         if (tileEntity != null)
-            text = tileEntity.GetText();
+            text = tileEntity.signText.Text;
 
         var tileEntitySign = GameManager.Instance.World.GetTileEntity(0, position) as TileEntitySign;
         if (tileEntitySign != null)
-            text = tileEntitySign.GetText();
+            text = tileEntitySign.signText.Text;
 
         if (string.IsNullOrEmpty(text)) return false;
         PortalManager.Instance.AddPosition(position, text);

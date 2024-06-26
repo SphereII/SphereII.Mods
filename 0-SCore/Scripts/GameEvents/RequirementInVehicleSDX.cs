@@ -2,10 +2,10 @@
 {
     public class RequirementInVehicleSDX : BaseRequirement
     {
-        private FastTags _fastTags = FastTags.none;
+        private FastTags<TagGroup.Global> _fastTags = FastTags<TagGroup.Global>.none;
         private const string PropEntityTags = "entity_tags";
 
-        protected override void OnInit()
+        public override void OnInit()
         {
         }
 
@@ -19,7 +19,7 @@
             return this.Invert;
         }
 
-        protected override BaseRequirement CloneChildSettings()
+        public override BaseRequirement CloneChildSettings()
         {
             return new RequirementInVehicleSDX
             {
@@ -33,7 +33,7 @@
             base.ParseProperties(properties);
             if (properties.Values.ContainsKey(PropEntityTags))
             {
-                _fastTags = FastTags.Parse(properties.Values[PropEntityTags]);
+                _fastTags = FastTags<TagGroup.Global>.Parse(properties.Values[PropEntityTags]);
             }
         }
     }

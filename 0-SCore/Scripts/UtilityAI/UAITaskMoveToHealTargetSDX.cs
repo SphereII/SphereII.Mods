@@ -10,7 +10,7 @@ namespace UAI
     public class UAITaskMoveToHealTargetSDX : UAITaskMoveToTarget
     {
         private Vector3 _position;
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (distance == 0)
@@ -26,7 +26,7 @@ namespace UAI
             var dist = Vector3.Distance(_position, _context.Self.position);
             if (dist > distance) return;
 
-           // SCoreUtils.SetLookPosition(_context, _position);
+            // SCoreUtils.SetLookPosition(_context, _position);
             EntityUtilities.Stop(_context.Self.entityId);
             Stop(_context);
         }

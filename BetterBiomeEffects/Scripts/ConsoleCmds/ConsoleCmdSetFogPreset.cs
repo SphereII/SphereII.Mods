@@ -2,7 +2,7 @@
 
 public class ConsoleCmdSetFogPreset : ConsoleCmdAbstract
 {
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -11,12 +11,12 @@ public class ConsoleCmdSetFogPreset : ConsoleCmdAbstract
         };
     }	
     
-    protected override string getHelp()
+    public override string getHelp()
     {
         return "setfog <clear|mist|windymist|lowclouds|seaclouds|groundgfog|frostedground|foggylake|fog|heavyfog|sandstorm1|smoke|toxicswamp|sandstorm2|worldedge> <true/false>";
     }
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "Sets the fog preset";
 

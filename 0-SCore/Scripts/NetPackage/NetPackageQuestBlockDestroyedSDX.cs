@@ -61,7 +61,7 @@ public class NetPackageQuestBlockDestroyedSDX : NetPackage
                 }
                 else
                 {
-                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(this.senderEntityID, this.questCode), false, entityPlayer2.entityId, -1, -1, -1);
+                    SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageQuestBlockDestroyedSDX>().Setup(this.senderEntityID, this.questCode), false, entityPlayer2.entityId);
                 }
             }
         }

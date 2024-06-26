@@ -68,7 +68,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
     private bool targetPlayers; // the entity will target players on sight
 
 
-    protected override void Awake()
+    public override void Awake()
     {
         var component = gameObject.GetComponent<BoxCollider>();
         if (component)
@@ -337,7 +337,7 @@ internal class EntityZombieFlyingSDX : EntityFlying
 
 
     // The vulture updateTasks() doesn't call down the chain, so it never does any checks on the AI Tasks.
-    protected override void updateTasks()
+    public override void updateTasks()
     {
         if (!useVanillaAI)
         {
@@ -921,12 +921,12 @@ internal class EntityZombieFlyingSDX : EntityFlying
     }
 
 
-    protected override bool isDetailedHeadBodyColliders()
+    public override bool isDetailedHeadBodyColliders()
     {
         return true;
     }
 
-    protected override bool isRadiationSensitive()
+    public override bool isRadiationSensitive()
     {
         return false;
     }

@@ -1,4 +1,6 @@
-﻿<configs>
+﻿
+<configs>
+<!--
   <remove xpath="/quests/quest[@id='quest_BasicSurvival1']" />
   <insertBefore xpath="/quests/quest[@id='quest_BasicSurvival2']">
     <quest id="quest_BasicSurvival1">
@@ -48,5 +50,5 @@
 
     </quest>
   </insertBefore>
-
+-->
 </configs>

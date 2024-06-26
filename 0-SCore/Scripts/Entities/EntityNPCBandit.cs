@@ -230,7 +230,7 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             is not TileEntitySign tileEntitySign)
             return;
 
-        var text = tileEntitySign.GetText();
+        var text = tileEntitySign.signText.Text;
 
         // We need to apply the buffs during this scan,
         // as the creation of the entity + adding buffs is not really MP safe.

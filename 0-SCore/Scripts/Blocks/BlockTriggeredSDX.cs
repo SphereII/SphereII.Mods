@@ -43,7 +43,7 @@ internal class BlockTriggeredSDX : BlockLoot
     }
 
     // don't open the loot container.
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (!_blockValue.Block.Properties.Values.ContainsKey("IsContainer")) return true;
         var isContainer = StringParsers.ParseBool(_blockValue.Block.Properties.Values["IsContainer"]);

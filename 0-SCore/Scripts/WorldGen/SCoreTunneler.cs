@@ -43,7 +43,7 @@
             }
 
             var worldName = GamePrefs.GetString(EnumGamePrefs.GameWorld);
-            var worldPath = GamePrefs.GetString(EnumGamePrefs.UserDataFolder) + "/GeneratedWorlds/" + worldName + "/";
+            var worldPath = GameIO.GetUserGameDataDir() + "/GeneratedWorlds/" + worldName + "/";
 
         //    var worldPath = GamePrefs.GetString(E)
         }

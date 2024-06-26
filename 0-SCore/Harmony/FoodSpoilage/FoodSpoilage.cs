@@ -145,7 +145,7 @@ public class SphereII_FoodSpoilage
                             PerUse += containerValue;
                             break;
                         case XUiC_ItemStack.StackLocationTypes.LootContainer:    // Loot Container Storage check
-                            TileEntityLootContainer container = __instance.xui.lootContainer;
+                            ITileEntityLootable container = __instance.xui.lootContainer;
                             if (container != null)
                             {
                                 BlockValue Container = GameManager.Instance.World.GetBlock(container.ToWorldPos());

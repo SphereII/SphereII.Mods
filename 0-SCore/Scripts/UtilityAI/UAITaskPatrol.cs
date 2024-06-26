@@ -15,7 +15,7 @@ namespace UAI
         private string _buff = "";
         private bool hadBuff = true;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buff")) _buff = Parameters["buff"];

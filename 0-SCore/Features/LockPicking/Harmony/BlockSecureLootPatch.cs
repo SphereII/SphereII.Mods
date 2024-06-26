@@ -13,12 +13,12 @@ namespace Features.LockPicking
         [HarmonyPatch("OnBlockActivated")]
         [HarmonyPatch(new[]
         {
-            typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer)
+            typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal)
         })]
         public class BlockSecureLootOnBlockActivated
         {
             public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx,
-                Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player
+                Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player
                 , string ___lockPickItem, BlockActivationCommand[] ___cmds)
             {
                 // Check if this feature is enabled.
@@ -42,7 +42,7 @@ namespace Features.LockPicking
                 if (!tileEntitySecureLootContainer.IsLocked() &&
                     tileEntitySecureLootContainer.IsUserAllowed(PlatformManager.InternalLocalUserIdentifier))
                 {
-                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                    __instance.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player as EntityPlayerLocal);
                     return false;
                 }
 

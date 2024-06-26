@@ -23,7 +23,7 @@ public static class WinterProjectPrefab
         //SetSnow(position.x, position.z, 16, 16, GameManager.Instance.World.ChunkCache, false, true);
     }
 
-    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags _questTag)
+    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags<TagGroup.Poi> _questTag)
     {
         var AlreadyFilled = false;
         // if (_questTag != QuestTags.none)
@@ -154,7 +154,7 @@ public static class WinterProjectPrefab
             }
 
             Write("Changes: " + (Changes == null ? "null" : Changes.Count.ToString()));
-            if (Changes != null) GameManager.Instance.SetBlocksRPC(Changes);
+            if (Changes != null && Changes.Count > 0 ) GameManager.Instance.SetBlocksRPC(Changes);
         }
     }
 

@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TileEntityAoE : TileEntity
 {
@@ -8,11 +7,13 @@ public class TileEntityAoE : TileEntity
     }
     private TileEntityAoE(TileEntityAoE _other) : base(null)
     {
+        Debug.Log("Creating new TileEntity");
         localChunkPos = _other.localChunkPos;
     }
     
     public override void CopyFrom(TileEntity _other)
     {
+        Debug.Log("Copy From TileEntity");
         localChunkPos = _other.localChunkPos;
     }
     public override TileEntityType GetTileEntityType()
@@ -20,8 +21,9 @@ public class TileEntityAoE : TileEntity
         return (TileEntityType)SCoreTileEntity.TileEntityAoE;
     }
 
-    public override void Reset(FastTags questTags)
+    public override void Reset(FastTags<TagGroup.Global> questTags)
     {
+        Debug.Log("Resetting TileEntity");
         base.Reset(questTags);
         setModified();
     }
@@ -32,6 +34,7 @@ public class TileEntityAoE : TileEntity
     }
     public override TileEntity Clone()
     {
+        Debug.Log("Cloning TileEntity");
         return new TileEntityAoE(this);
     }
 }

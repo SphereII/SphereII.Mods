@@ -13,10 +13,10 @@ namespace Features.LockPicking
     
         [HarmonyPatch(typeof(BlockDoorSecure))]
         [HarmonyPatch("OnBlockActivated")]
-        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayer) })]
+        [HarmonyPatch(new[] { typeof(string), typeof(WorldBase), typeof(int), typeof(Vector3i), typeof(BlockValue), typeof(EntityPlayerLocal) })]
         public class BlockDoorSecureOnBlockActivated
         {
-            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, global::EntityAlive _player)
+            public static bool Prefix(ref Block __instance, string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))

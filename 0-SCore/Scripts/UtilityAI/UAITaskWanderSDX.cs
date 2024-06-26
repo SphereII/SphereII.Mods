@@ -10,7 +10,7 @@ namespace UAI
         private string _interest;
         private Vector3 _position;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (this.Parameters.ContainsKey("interest"))

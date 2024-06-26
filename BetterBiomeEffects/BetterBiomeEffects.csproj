@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+      <HintPath>..\0_TFP_Harmony\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -105,6 +105,10 @@
     <Reference Include="System.Xml">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Addressables">
+      <HintPath>..\..\7DaysToDie_Data\Managed\Unity.Addressables.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
@@ -120,9 +124,6 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>..\..\..\..\..\..\..\Builds\WinterProjectA20\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
@@ -184,18 +185,5 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>
-
-			:: Update the ModInfo.xml
-			IF EXIST $(ProjectDir)\ModInfo.xml (
-				IF EXIST ..\Tools\bin\sed.exe (
-					:: Sort out the version number from the Configuration, and grab the last digits of the Version number
-					echo Updating Version number to @(VersionNumber)
-					..\Tools\bin\sed.exe -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" ModInfo.xml
-				)
-			)
-		</PostBuildEvent>
   </PropertyGroup>
 </Project>

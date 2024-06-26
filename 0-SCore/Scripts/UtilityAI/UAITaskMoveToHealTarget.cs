@@ -14,7 +14,7 @@ namespace UAI
 
         public bool isRunning = true;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (distance == 0)

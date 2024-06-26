@@ -23,7 +23,44 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: e1.0.1.1224
+	- Initial release of 0-SCore for 1.0 experimental.
+	- There is probably a TON of broken stuff still
+	- Overhaulers can start to consume and test out their features.
+
+	[ 1.0 Port ]
+		- Update public field changes in the console commands
+		- Update many FastTags
+		- Removed UMA Patches
+		- Probably much to do 
+
+	[ Fire Manager ]
+		- Converted CheckBlocks into a coroutine.
+			- Will process 10 blocks per frame now.
+			- Changes are still distributed to all clients at the same time
+		- Added a rainfall check.
+			- Gives a bonus to extinguish chance when raining. 
+			- Doubles the Change To Extinguish.
+			- This might not stay.
+		- If FireSound is set to None, then no sound will play.
+		- Changed CheckFireProximity to default to -1 if not close to fire.
+
+	[ MinEffect ]
+		- Added an AutoRedeemChallenges mineffect. Add to something like buffstatus01
+		- Auto redeems all completed challenges.
+			<triggered_effect trigger = "onSelfBuffUpdate" action="AutoRedeemChallenges, SCore"  />
+
+	[ Remote Crafting / Repair ]
+		- Updated code to use the TEFeature for lootable
+		- Cleaned up repair code
+		
+
+	[ skipnewsscreen ]
+		- Added command line parameter to skip starting news screen
+			-skipnewsscreen
+		- When the score's -autostart command argument is used, it will also skip the news screen.
+
+
 	[ Powered Workstation ]
 		- Adjusted fuel checks on wireless power feature.
 		- If there's alternative fuel, such as wood, this will be used as a priority.

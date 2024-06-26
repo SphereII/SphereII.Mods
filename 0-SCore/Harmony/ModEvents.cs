@@ -16,6 +16,8 @@ public class SCoreModEvents
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
+        
+        
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
@@ -35,7 +37,7 @@ public class SCoreModEvents
 
     private static void CheckLoadedFolders()
     {
-        var userDataFolder = GamePrefs.GetString(EnumGamePrefs.UserDataFolder) + "/Mods";
+        var userDataFolder =  GameIO.GetUserGameDataDir() + "/Mods";
         var localModsFolder =  (Application.platform == RuntimePlatform.OSXPlayer) ? (Application.dataPath + "/../../Mods") : (Application.dataPath + "/../Mods");
         var modFolderCount = 0;
         if (Directory.Exists(userDataFolder))
@@ -84,7 +86,7 @@ public class SCoreModEvents
         // Register all the new particles to the general particle effects.
         Debug.Log($"Reading External Particles in {configurationFeatureBlock.Block.GetBlockName()}/{particleClass}...");
         var dynamicProperties3 = configurationFeatureBlock.Block.Properties.Classes[particleClass];
-        foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
+        foreach (var keyValuePair in dynamicProperties3.Values.Dict)
         {
             var particlePath = keyValuePair.Value.ToString();
             if (string.IsNullOrEmpty(particlePath)) continue;

@@ -235,7 +235,7 @@ public class ObjectiveRandomGotoSDX : BaseObjective
 		base.Complete = complete;
 		if (base.Complete)
 		{
-			base.OwnerQuest.CheckForCompletion(QuestClass.CompletionTypes.AutoComplete, null, this.PlayObjectiveComplete);
+			base.OwnerQuest.RefreshQuestCompletion(QuestClass.CompletionTypes.AutoComplete, null, this.PlayObjectiveComplete);
 		}
 	}
 

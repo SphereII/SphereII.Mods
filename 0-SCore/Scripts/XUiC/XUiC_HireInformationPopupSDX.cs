@@ -58,7 +58,7 @@
 
     public override void OnClose()
     {
-        if (xui.playerUI.windowManager.Contains("dialog") && xui.playerUI.windowManager.IsWindowOpen("dialog"))
+        if (xui.playerUI.windowManager.IsWindowOpen("dialog"))
             xui.playerUI.windowManager.Close("dialog");
         base.OnClose();
     }

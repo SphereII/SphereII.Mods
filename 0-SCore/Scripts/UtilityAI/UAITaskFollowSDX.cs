@@ -16,7 +16,7 @@ namespace UAI
 
         private float _timeOut = 100f;
         private float _currentTimeout;
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             if (Parameters.ContainsKey("stop_distance")) _distance = StringParsers.ParseFloat(Parameters["stop_distance"]);
             if (Parameters.ContainsKey("max_distance")) _maxDistance = (int)StringParsers.ParseFloat(Parameters["max_distance"]);

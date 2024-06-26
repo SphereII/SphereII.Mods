@@ -224,7 +224,7 @@ public class BlockMortSpawner : BlockLoot
                     : base.GetActivationText(_world, _blockValue, _clrIdx, _blockPos, _entityFocusing);
     }
 
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (!Stopped(_blockValue.meta2) || WasLooted(_blockValue.meta2)) return false;
 

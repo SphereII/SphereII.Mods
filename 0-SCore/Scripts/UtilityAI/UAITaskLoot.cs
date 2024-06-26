@@ -15,7 +15,7 @@ namespace UAI
         private bool hadBuff = false;
         private EntityAlive _leader;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("TargetType")) _targetTypes = Parameters["TargetType"];

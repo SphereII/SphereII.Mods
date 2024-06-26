@@ -8,13 +8,13 @@ public class DialogRequirementHasTag : BaseDialogRequirement
     public override bool CheckRequirement(EntityPlayer player, EntityNPC talkingTo)
     {
         var entityId = 0;
-        if (talkingTo != null) return talkingTo.HasAnyTags(FastTags.Parse(Value));
+        if (talkingTo != null) return talkingTo.HasAnyTags(FastTags<TagGroup.Global>.Parse(Value));
         
         if (player.Buffs.HasCustomVar("CurrentNPC"))
             entityId = (int) player.Buffs.GetCustomVar("CurrentNPC");
 
         var myEntity = player.world.GetEntity(entityId) as EntityAlive;
-        return myEntity != null && myEntity.HasAnyTags(FastTags.Parse(Value));
+        return myEntity != null && myEntity.HasAnyTags(FastTags<TagGroup.Global>.Parse(Value));
 
     }
 }

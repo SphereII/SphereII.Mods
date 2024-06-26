@@ -1,11 +1,11 @@
-﻿public class QuestActionPlaySoundSDX : QuestActionShowTip
+﻿public class QuestActionPlaySoundSDX : BaseQuestAction
 {
-    public override void SetupAction()
+    public void SetupAction()
     {
     }
 
 
-    public override void PerformAction(Quest action)
+    public  void PerformAction(Quest action)
     {
         EntityAlive myEntity = null;
         if (OwnerQuest.OwnerJournal.OwnerPlayer != null)
@@ -21,7 +21,7 @@
         }
     }
 
-    public override BaseQuestAction Clone()
+    public  BaseQuestAction Clone()
     {
         var questActionPlaySound = new QuestActionPlaySoundSDX();
         CopyValues(questActionPlaySound);

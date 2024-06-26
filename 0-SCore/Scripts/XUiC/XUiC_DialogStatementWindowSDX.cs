@@ -1,7 +1,5 @@
 ﻿// Token: 0x0200097B RID: 2427
 
-using UnityEngine;
-
 public class XUiC_DialogWindowGroupSDX : XUiController
 {
     // Token: 0x04003AE1 RID: 15073
@@ -34,9 +32,10 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     {
         base.OnOpen();
         if (xui.playerUI.windowManager.IsWindowOpen("windowpaging")) xui.playerUI.windowManager.Close("windowpaging");
-        if (xui.playerUI.windowManager.Contains("compass") && xui.playerUI.windowManager.IsWindowOpen("compass")) xui.playerUI.windowManager.Close("compass");
-        if (xui.playerUI.windowManager.Contains("toolbelt") && xui.playerUI.windowManager.IsWindowOpen("toolbelt")) xui.playerUI.windowManager.Close("toolbelt");
+        if ( xui.playerUI.windowManager.IsWindowOpen("compass")) xui.playerUI.windowManager.Close("compass");
+        if (xui.playerUI.windowManager.IsWindowOpen("toolbelt")) xui.playerUI.windowManager.Close("toolbelt");
         CurrentDialog = Dialog.DialogList["humanEveBandit"];
+
         CurrentDialog.CurrentOwner = xui.Dialog.Respondent;
         CurrentDialog.RestartDialog(xui.playerUI.entityPlayer);
         statementWindow.CurrentDialog = CurrentDialog;
@@ -48,9 +47,9 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     public override void OnClose()
     {
         base.OnClose();
-        if (xui.playerUI.windowManager.Contains("questOffer") && xui.playerUI.windowManager.IsWindowOpen("questOffer")) xui.playerUI.windowManager.Close("questOffer");
-        if (xui.playerUI.windowManager.Contains("compass") && !xui.playerUI.windowManager.IsWindowOpen("compass")) xui.playerUI.windowManager.Open("compass", false);
-        if (xui.playerUI.windowManager.Contains("toolbelt") && !xui.playerUI.windowManager.IsWindowOpen("toolbelt")) xui.playerUI.windowManager.Open("toolbelt", false);
+        if ( xui.playerUI.windowManager.IsWindowOpen("questOffer")) xui.playerUI.windowManager.Close("questOffer");
+        if ( !xui.playerUI.windowManager.IsWindowOpen("compass")) xui.playerUI.windowManager.Open("compass", false);
+        if ( !xui.playerUI.windowManager.IsWindowOpen("toolbelt")) xui.playerUI.windowManager.Open("toolbelt", false);
         xui.Dialog.Respondent = null;
         GameManager.Instance.SetToolTipPause(xui.playerUI.nguiWindowManager, false);
     }

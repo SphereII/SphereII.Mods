@@ -188,7 +188,6 @@
     <Compile Include="Harmony\UtilityAI\UAITaskBase.cs" />
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
     <Compile Include="Harmony\Vehicles\NoVehicleTake.cs" />
-    <Compile Include="Harmony\Vehicles\NoVechileTake.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
@@ -202,8 +201,6 @@
     <Compile Include="Harmony\ZombieFeatures\RandomDeathSpawn.cs" />
     <Compile Include="Harmony\ZombieFeatures\RandomSize.cs" />
     <Compile Include="Harmony\ZombieFeatures\Transmogrifier.cs" />
-    <Compile Include="Harmony\ZombieFeatures\UMA\LowerResolutionUMA.cs" />
-    <Compile Include="Harmony\ZombieFeatures\UMA\UMATweaks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -334,6 +331,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorFireTriggerSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAutoRedeemChallenges.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionCheckWeapon.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionConvertItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionOpenWindow.cs" />
@@ -687,7 +685,6 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\Farming\Harmony" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Harmony\Recipes" />
     <Folder Include="Harmony\Weather\" />
@@ -695,7 +692,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\7DaysToDie_Data\Managed\0Harmony.dll</HintPath>
+      <HintPath>..\0_TFP_Harmony\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
@@ -705,9 +702,6 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="AstarPathfindingProject">
-      <HintPath>..\..\..\..\..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\0-SCore\AstarPathfindingProject.dll</HintPath>
     </Reference>
     <Reference Include="InControl">
       <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
@@ -743,9 +737,6 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Pathfinding.Ionic.Zip.Reduced">
-      <HintPath>..\..\..\..\..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\0-SCore\Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
-    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -780,6 +771,11 @@
 
     <Reference Include="System.Xml.Linq">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.Linq.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="Unity.Addressables">
+      <HintPath>..\..\7DaysToDie_Data\Managed\Unity.Addressables.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">

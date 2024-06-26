@@ -2,6 +2,7 @@ using HarmonyLib;
 using System;
 using System.Collections;
 using System.Reflection;
+using Platform;
 using UnityEngine;
 
 public class SCore_QuickLoad
@@ -9,22 +10,41 @@ public class SCore_QuickLoad
 
     // If steam is not detected, we want the game to go into Offline mode.
     // This can happen even if Steam is running, but at a different permission level.
-    [HarmonyPatch(typeof(XUiC_SteamLogin))]
-    [HarmonyPatch("updateState")]
-    public class SphereII_SteamLoginAutoLogin
+    [HarmonyPatch(typeof(XUiC_MainMenu))]
+    [HarmonyPatch("Open")]
+    public class SphereII_XUiC_MainMenuOpen
     {
-        private static void Postfix(XUiC_SteamLogin __instance)
+        private static bool Prefix(XUiC_MainMenu __instance, XUi _xuiInstance)
         {
             var autoStart = false;
             for (var i = 0; i < Environment.GetCommandLineArgs().Length; i++)
+            {
+                if (Environment.GetCommandLineArgs()[i].EqualsCaseInsensitive("-skipnewsscreen"))
+                    autoStart = true;
                 if (Environment.GetCommandLineArgs()[i].EqualsCaseInsensitive("-autostart"))
                     autoStart = true;
 
-            if (!autoStart) return;
+            }
 
-            Log.Out("SphereII Quick Continue Modlet is activated. Game is going into Offline mode. Multi-player disabled as steam was not detected.");
-            var method = __instance.GetType().GetMethod("BtnOffline_OnPressed", BindingFlags.NonPublic | BindingFlags.Instance);
-            method?.Invoke(__instance, new object[] { null, null });
+            if (!autoStart) return true;
+
+            if (!XUiC_MainMenu.openedOnce)
+            {
+                var action = PlatformManager.MultiPlatform.User.IsConnectToServerFromCommandline();
+                if (action != null)
+                {
+                    if (ProfileSDF.CurrentProfileName().Length == 0)
+                    {
+                        XUiC_OptionsProfiles.Open(_xuiInstance, action);
+                        return false;
+                    }
+                    action();
+                    return false;
+                }
+            }
+            _xuiInstance.playerUI.windowManager.Open(XUiC_MainMenu.ID, true, false, true);
+            return false;
+
         }
     }
 

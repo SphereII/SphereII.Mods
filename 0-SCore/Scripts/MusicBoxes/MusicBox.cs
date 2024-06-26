@@ -81,7 +81,7 @@ public class BlockMusicBox : BlockLoot
 
         if (_blockValue.ischild) return;
         shape.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
-        if (isMultiBlock) multiBlockPos.AddChilds(world, _chunk, _chunk.ClrIdx, _blockPos, _blockValue);
+        if (isMultiBlock) multiBlockPos.AddChilds(world, _chunk, _blockPos, _blockValue);
 
         if (!(world.GetTileEntity(_chunk.ClrIdx, _blockPos) is TileEntitySecureLootContainer))
         {
@@ -204,7 +204,7 @@ public class BlockMusicBox : BlockLoot
 
 
     // Play the music when its activated. We stop the sound broadcasting, in case they want to restart it again; otherwise we can get two sounds playing.
-    public override bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos,
+    public bool OnBlockActivated(string _commandName, WorldBase _world, int _cIdx, Vector3i _blockPos,
         BlockValue _blockValue, EntityAlive _player)
     {
         #region OnBlockActivated
@@ -232,7 +232,7 @@ public class BlockMusicBox : BlockLoot
                 TakeItemWithTimer(_cIdx, _blockPos, _blockValue, _player);
                 return true;
             case "search":
-                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player);
+                base.OnBlockActivated(_world, _cIdx, _blockPos, _blockValue, _player as EntityPlayerLocal);
                 return true;
         }
 

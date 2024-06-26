@@ -8,12 +8,14 @@ using UnityEngine;
 
 public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileEntitySignable, ITileEntity
 {
-    private string signText ="";
 	private bool isLocked;
 	private PlatformUserIdentifierAbs ownerID;
 	private List<PlatformUserIdentifierAbs> allowedUserIds;
 	private string password;
     private bool isPowered;
+    public AuthoredText signText;
+    public SmartTextMesh smartTextMesh;
+    private ITileEntitySignable _tileEntitySignableImplementation;
 
     public TileEntityPoweredPortal(Chunk _chunk) : base(_chunk)
     {
@@ -23,16 +25,9 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
         this.password = "";
     }
 
-    public string GetText()
-    {
-        return this.signText;
-    }
-
 	public void SetText(string _text, bool _syncData = true)
 	{
-		this.signText = _text;
-
-
+		this.signText.Text = _text;
 		var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
 
 		if ( block != null )
@@ -54,11 +49,21 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		{
 			this.allowedUserIds.Add(PlatformUserIdentifierAbs.FromStream(_br, false, false));
 		}
-		this.signText = _br.ReadString();
-		this.SetText(this.signText, false);
+		this.signText = AuthoredText.FromStream(_br);
+		GeneratedTextManager.GetDisplayText(this.signText, new Action<string>(this.RefreshTextMesh), true, true);
 	}
 
-    public override void write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
+	public void RefreshTextMesh(string _text)
+	{
+		if (this.smartTextMesh != null && !GameManager.IsDedicatedServer)
+		{
+			this.smartTextMesh.UnwrappedText = _text;
+			this.smartTextMesh.NeedsLayout = true;
+		}
+	}
+
+
+	public override void write(PooledBinaryWriter _bw, StreamModeWrite _eStreamMode)
     {
         base.write(_bw, _eStreamMode);
 		_bw.Write(1);
@@ -70,8 +75,7 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		{
 			this.allowedUserIds[i].ToStream(_bw, false);
 		}
-		_bw.Write(this.signText);
-		this.SetText(this.signText, false);
+		AuthoredText.ToStream(this.signText, _bw);
 	}
 
 	public override TileEntity Clone()
@@ -90,40 +94,6 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	{
 		return this.entityId;
 	}
-
-	//public new bool IsPowered
-	//{
-	//	get
-	//	{
-	//		var isOn = isPowered;
-	//		if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-	//		{
-	//			if (PowerItem != null)
-	//				isOn = PowerItem.IsPowered;
-	//		}
-
-	//		var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
-	//		if ( block != null )
-	//				block.ToggleAnimator(localChunkPos, isOn);
-	//		return isOn;
-
-
-	//	}
-	//}
-	////public override bool Activate(bool activated)
-	//{
-	//	World world = GameManager.Instance.World;
-	//	BlockValue block = this.chunk.GetBlock(base.localChunkPos);
-	//	return block.Block.ActivateBlock(world, base.GetClrIdx(), base.ToWorldPos(), block, activated, activated);
-	//}
-
-	//public void SetModified()
-	//   {
-	//	var block = chunk.GetBlock(localChunkPos).Block as BlockPoweredPortal;
-	//	if ( block != null )
-	//		block.ToggleAnimator(localChunkPos, IsPowered);
-	//	setModified();
-	//   }
 
 	public override TileEntityType GetTileEntityType()
 	{
@@ -191,6 +161,8 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		return this.password;
 	}
 
+	public int EntityId { get; set; }
+
 	public List<PlatformUserIdentifierAbs> GetUsers()
 	{
 		return this.allowedUserIds;
@@ -219,4 +191,37 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		return false;
 	}
 
+	public void SetText(string _text, bool _syncData = true, PlatformUserIdentifierAbs _signingPlayer = null) {
+		if (GameManager.Instance.persistentPlayers.GetPlayerData(_signingPlayer) == null)
+		{
+			_signingPlayer = null;
+			_text = "";
+		}
+		if (_signingPlayer == null)
+		{
+			_signingPlayer = PlatformManager.MultiPlatform.User.PlatformUserId;
+		}
+		if (_text == this.signText.Text)
+		{
+			return;
+		}
+		this.signText.Update(_text, _signingPlayer);
+		GeneratedTextManager.GetDisplayText(this.signText, new Action<string>(this.RefreshTextMesh), true, true);
+		if (_syncData)
+		{
+			this.setModified();
+		}
+	}
+
+	public AuthoredText GetAuthoredText() {
+		return _tileEntitySignableImplementation.GetAuthoredText();
+	}
+
+	public AuthoredText GetFilteredText() {
+		return this.signText;
+	}
+
+	public bool CanRenderString(string _text) {
+		return this.smartTextMesh.CanRenderString(_text);
+	}
 }

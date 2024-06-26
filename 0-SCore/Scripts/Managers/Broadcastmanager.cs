@@ -91,7 +91,7 @@ public class Broadcastmanager
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageAddBroadcastPosition>().Setup(_blockPos, entityID), false);
             return;
         }
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageAddBroadcastPosition>().Setup(_blockPos, entityID), false, -1, -1, -1, -1);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageAddBroadcastPosition>().Setup(_blockPos, entityID), false);
     }
     public void Remove(Vector3i _blockPos, int entityID = -1)
     {
@@ -102,7 +102,7 @@ public class Broadcastmanager
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(NetPackageManager.GetPackage<NetPackageRemoveBroadcastPosition>().Setup(_blockPos, entityID), false);
             return;
         }
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveBroadcastPosition>().Setup(_blockPos, entityID), false, -1, -1, -1, -1);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageRemoveBroadcastPosition>().Setup(_blockPos, entityID), false);
     }
 
     // Remove lootcontainer from dictionary

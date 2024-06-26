@@ -10,7 +10,7 @@ public class ConsoleCmdActionDelaySDX : ConsoleCmdAbstract
         get { return true; }
     }
 
-    protected override string[] getCommands()
+    public override string[] getCommands()
     {
         return new string[]
         {
@@ -25,7 +25,7 @@ public class ConsoleCmdActionDelaySDX : ConsoleCmdAbstract
         SingletonMonoBehaviour<SdtdConsole>.Instance.Output($"Action Delay is now {UAIBase.ActionChoiceDelay}");
     }
 
-    protected override string getDescription()
+    public override string getDescription()
     {
         return "SCore: Changes the time before a new action in utilityUAI. Default is 0.2";
     }

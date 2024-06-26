@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 
 namespace UAI
 {
@@ -12,7 +10,7 @@ namespace UAI
         private String _buffs;
         private String _currentBuff;
 
-        protected override void initializeParameters()
+        public override void initializeParameters()
         {
             base.initializeParameters();
             if (Parameters.ContainsKey("buffs"))

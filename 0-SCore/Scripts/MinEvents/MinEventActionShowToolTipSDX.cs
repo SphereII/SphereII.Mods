@@ -7,7 +7,7 @@ public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
     private string message;
     private string messageKey;
     private string sound;
-
+    private string title;
     public override void Execute(MinEventParams _params)
     {
         for (var i = 0; i < targets.Count; i++)
@@ -17,7 +17,7 @@ public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
             {
                 if (sound != null)
                     Manager.PlayInsidePlayerHead(sound);
-                XUiC_TipWindow.ShowTip(messageKey, player, null);
+                XUiC_TipWindow.ShowTip(messageKey,title, player, null);
             }
         }
     }
@@ -47,6 +47,22 @@ public class MinEventActionShowToolTipSDX : MinEventActionShowToolbeltMessage
         if (name == "sound")
         {
             if (_attribute.Value != "") sound = _attribute.Value;
+            return true;
+        }
+
+        if (name == "title")
+        {
+            if (title == null || title == "") title = _attribute.Value;
+            return true;
+        }
+
+        if (name == "title_key")
+        {
+            if (_attribute.Value != "" && Localization.Exists(_attribute.Value))
+            {
+                title = Localization.Get(_attribute.Value);
+            }
+
             return true;
         }
 

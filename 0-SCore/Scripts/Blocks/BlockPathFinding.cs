@@ -47,7 +47,7 @@ internal class BlockPathFinding : BlockPlayerSign
 
 
     public override bool OnBlockActivated(string commandName, WorldBase _world, int _cIdx,
-        Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+        Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         if (_blockValue.ischild)
         {

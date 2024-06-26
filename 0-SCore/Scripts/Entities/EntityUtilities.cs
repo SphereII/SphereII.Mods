@@ -9,8 +9,8 @@ public static class EntityUtilities
     private static readonly bool blDisplayLog = false;
     private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
 
-    private static List<FastTags> _HumanTags = null;
-    private static List<FastTags> _UseFactionsTags = null;
+    private static List<FastTags<TagGroup.Global>> _HumanTags = null;
+    private static List<FastTags<TagGroup.Global>> _UseFactionsTags = null;
 
     // Control the need of the entity to help equip weapons or items to use.
     public enum Need
@@ -342,7 +342,7 @@ public static class EntityUtilities
         if (myEntity == null)
             return itemStack;
 
-        var tag = FastTags.Parse(Tag);
+        var tag = FastTags<TagGroup.Global>.Parse(Tag);
         // Check for the items in the tool belt.
         foreach (var stack in myEntity.inventory.GetSlots())
         {
@@ -375,7 +375,7 @@ public static class EntityUtilities
         if (myEntity == null)
             return -1;
 
-        var tag = FastTags.Parse(Tag);
+        var tag = FastTags<TagGroup.Global>.Parse(Tag);
         var counter = -1;
 
         // Check for the items in the tool belt.
@@ -462,7 +462,7 @@ public static class EntityUtilities
         return stack.itemValue.ItemClass != null && stack.itemValue.ItemClass.GetItemName() == itemName;
     }
 
-    private static bool CheckItemStack(ItemStack stack, FastTags tag)
+    private static bool CheckItemStack(ItemStack stack, FastTags<TagGroup.Global> tag)
     {
         if (Equals(stack, ItemStack.Empty))
             return false;
@@ -494,9 +494,9 @@ public static class EntityUtilities
         if (myEntity == null)
             return index;
 
-        var fastTags = FastTags.none;
+        var fastTags = FastTags<TagGroup.Global>.none;
         if (!string.IsNullOrEmpty(tags))
-            fastTags = FastTags.Parse(tags);
+            fastTags = FastTags<TagGroup.Global>.Parse(tags);
 
         var counter = -1;
         foreach (var stack in myEntity.lootContainer.items)
@@ -1602,7 +1602,7 @@ public static class EntityUtilities
                         tileEntitySecureDoor.SetLocked(false);
                 }
 
-                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity);
+                block.Block.OnBlockActivated(myEntity.world, chunk.ClrIdx, blockPos, block, myEntity as EntityPlayerLocal);
             }
         }
     }
@@ -1748,7 +1748,7 @@ public static class EntityUtilities
         }
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags());
+        GameManager.Instance.lootManager.LootContainerOpened(_te, _entityIdThatOpenedIt, new FastTags<TagGroup.Global>());
         _te.bTouched = true;
 
         _te.SetModified();
@@ -1927,25 +1927,25 @@ public static class EntityUtilities
 
     private static void IntitializeHumanTags()
     {
-        _HumanTags = new List<FastTags>();
+        _HumanTags = new List<FastTags<TagGroup.Global>>();
 
         var tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "HumanTags").Split(',');
 
         for (var i = 0; i < tags.Length; i++)
         {
-            _HumanTags.Add(FastTags.Parse(tags[i]));
+            _HumanTags.Add(FastTags<TagGroup.Global>.Parse(tags[i]));
         }
     }
 
     private static void IntitializeUseFactionsTags()
     {
-        _UseFactionsTags = new List<FastTags>();
+        _UseFactionsTags = new List<FastTags<TagGroup.Global>>();
 
         var tags = Configuration.GetPropertyValue("AdvancedNPCFeatures", "UseFactionsTags").Split(',');
 
         for (var i = 0; i < tags.Length; i++)
         {
-            _UseFactionsTags.Add(FastTags.Parse(tags[i]));
+            _UseFactionsTags.Add(FastTags<TagGroup.Global>.Parse(tags[i]));
         }
     }
 
@@ -1974,8 +1974,7 @@ public static class EntityUtilities
         else
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                NetPackageManager.GetPackage<NetPackagePickUpNPCSDX>().Setup(entityId, playerId), false, playerId, -1,
-                -1, -1);
+                NetPackageManager.GetPackage<NetPackagePickUpNPCSDX>().Setup(entityId, playerId), false, playerId);
         }
 
         GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Despawned);
@@ -1991,7 +1990,7 @@ public static class EntityUtilities
 
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entity, item), false, -1, -1, -1, -1);
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageWeaponSwap>().Setup(entity, item), false);
         }
         else
         {

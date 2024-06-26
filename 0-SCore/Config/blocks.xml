@@ -349,6 +349,7 @@
 			<property class="FireManagement" >
 				<property name="Logging" value="false"/>
 				<property name="FireEnable" value="false"/> 				<!-- Enables the feature -->
+				
 				<property name="CheckInterval" value="20" /> 				<!-- How many seconds before checking blocks,spreading fire, etc -->
 				<property name="FireDamage" value="50" /> 				<!-- How much damage each time it checks will do the block. -->
 				<property name="SmokeTime" value="60" />					<!-- How long the smoke will stay on a block. -->
@@ -357,16 +358,8 @@
 				<property name="MaterialID" value="Mplants, Mcorn, Mhay" /> 	<!-- Checks the material's id to see if it should ignite  -->
 				<property name="MaterialDamage" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" /> <!-- Checks the material's damage category to see if it should ignite  -->
 				<property name="MaterialSurface" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" /> <!-- Checks the material's surface category to see if it should ignite -->
-				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Smoke / Extinguished particle to use -->
+				<property name="SmokeParticle" value="#@modfolder:Resources/PathSmoke.unity3d?P_PathSmoke_X" />		<!-- Fire particle to use -->
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" /> <!-- Fire particle to use -->
-				<!-- For random smoke and fire particles, use the following format -->
-				<!--
-					<append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']">
-						<property name="RandomFireParticle" value="#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke1,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke2,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke5" />
-						<property name="RandomSmokeParticle" value="#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke3,#@modfolder(0-SCore_sphereii):Resources/guppySmokeParticles.unity3d?gupSmoke4" />
-					</append>
-				-->
-
 				<property name="FireSpread" value="true" /> <!-- When enabled, fire can spread to neighborblocks.-->
 				<property name="ChanceToExtinguish" value="0.05" /> <!-- chance that each block has to self-extinguish. This is re-tested for each CheckInterval -->
 				<!-- Alternative included particles -->
@@ -615,17 +608,22 @@
 
 		<block name="cntSphereDropBoxTest">
 			<!-- Doesn't need to be signed container, but might make the most sense -->
-			<property name="Extends" value="cntStorageGenericSigned"/>
+			<property name="Extends" value="cntWoodWritableCrate"/>
 			<property name="Class" value="DropBoxContainer, SCore"/>
+			<property name="LootList" value="playerWoodWritableStorage"/>
+
 			<!-- Default is 100 ticks -->
 			<property name="UpdateTick" value="200" />
 			<!-- Optionally trigger the distribution when the user closes the box -->
 			<property name="DropBox" value="true" />
+			
 		</block>
 
 		<block name="cntSphereDropBoxTest2">
 			<!-- Doesn't need to be signed container, but might make the most sense -->
-			<property name="Extends" value="cntStorageGenericSigned"/>
+			<property name="Extends" value="cntWoodWritableCrate"/>
+			<property name="LootList" value="playerWoodWritableStorage"/>
+
 			<property name="DropBox" value="true" />
 		</block>
 

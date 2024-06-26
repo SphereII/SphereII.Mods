@@ -30,7 +30,7 @@
             }
             else
             {
-                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageEntityAliveSDXCollect>().Setup(_entityId, _playerId), false, _playerId, -1, -1, -1);
+                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(NetPackageManager.GetPackage<NetPackageEntityAliveSDXCollect>().Setup(_entityId, _playerId), false, _playerId);
             }
             GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Killed);
         }

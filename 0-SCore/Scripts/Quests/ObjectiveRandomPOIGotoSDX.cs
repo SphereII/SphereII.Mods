@@ -13,7 +13,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 	}
 
 	// Token: 0x0600386E RID: 14446 RVA: 0x00184429 File Offset: 0x00182629
-	protected override void SetupIcon()
+	public override void SetupIcon()
 	{
 		//Log.Out("ObjectiveRandomPOIGotoSDX-SetupIcon");
 		this.icon = "ui_game_symbol_quest";
@@ -69,7 +69,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 	}
 
 	// Token: 0x06003874 RID: 14452 RVA: 0x001844CC File Offset: 0x001826CC
-	protected override Vector3 GetPosition(EntityNPC ownerNPC = null, EntityPlayer entityPlayer = null, List<Vector2> usedPOILocations = null, int entityIDforQuests = -1)
+	public override Vector3 GetPosition(EntityNPC ownerNPC = null, EntityPlayer entityPlayer = null, List<Vector2> usedPOILocations = null, int entityIDforQuests = -1)
 	{
 		//Log.Out("ObjectiveRandomPOIGotoSDX-GetPosition");
 		if (base.OwnerQuest.GetPositionData(out this.position, Quest.PositionDataTypes.POIPosition))

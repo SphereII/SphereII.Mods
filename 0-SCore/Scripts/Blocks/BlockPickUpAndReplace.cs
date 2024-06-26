@@ -13,7 +13,7 @@
 
     // Override the on Block activated, so we can pop up our timer
     public override bool OnBlockActivated(WorldBase world, int clrIdx, Vector3i blockPos,
-        BlockValue blockValue, EntityAlive player)
+        BlockValue blockValue, EntityPlayerLocal player)
     {
         TakeItemWithTimer(clrIdx, blockPos, blockValue, player);
         return true;

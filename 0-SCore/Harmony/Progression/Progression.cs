@@ -62,7 +62,7 @@ namespace Harmony.Progression
             // Grab a reference to the private method.
             static readonly MethodInfo AddLevelExpRecursive = AccessTools.Method(typeof(global::Progression), "AddLevelExpRecursive");
 
-            private static void Postfix(global::Progression __instance, global::EntityAlive ___parent, ref FastTags[] ___xpFastTags, int _exp, string _cvarXPName = "_xpOther", XPTypes _xpType = XPTypes.Other, bool useBonus = true)
+            private static void Postfix(global::Progression __instance, global::EntityAlive ___parent, ref FastTags<TagGroup.Global>[] ___xpFastTags, int _exp, string _cvarXPName = "_xpOther", XPTypes _xpType = XPTypes.Other, bool useBonus = true)
             {
                 if (___parent as EntityAliveSDX == null) return;
 
@@ -71,14 +71,14 @@ namespace Harmony.Progression
                 {
                     if (___xpFastTags == null)
                     {
-                        ___xpFastTags = new FastTags[11];
+                        ___xpFastTags = new FastTags<TagGroup.Global>[11];
                         for (int i = 0; i < 11; i++)
                         {
-                            ___xpFastTags[i] = FastTags.Parse(((XPTypes)i).ToStringCached<XPTypes>());
+                            ___xpFastTags[i] = FastTags<TagGroup.Global>.Parse(((XPTypes)i).ToStringCached<XPTypes>());
                         }
                     }
                     num = num * (float)GameStats.GetInt(EnumGameStats.XPMultiplier) / 100f;
-                    num = EffectManager.GetValue(PassiveEffects.PlayerExpGain, null, num, ___parent, null, ___xpFastTags[(int)_xpType], true, true, true, true, 1, true);
+                    num = EffectManager.GetValue(PassiveEffects.PlayerExpGain, null, num, ___parent, null, ___xpFastTags[(int)_xpType]);
                 }
                 if (num > 214748370f)
                 {

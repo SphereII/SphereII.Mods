@@ -30,7 +30,7 @@
         if (tileEntityWorkstation != null) tileEntityWorkstation.IsPlayerPlaced = true;
     }
 
-    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player)
+    public override bool OnBlockActivated(WorldBase _world, int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityPlayerLocal _player)
     {
         var tileEntityWorkstation = (TileEntityPoweredWorkstationSdx)_world.GetTileEntity(_cIdx, _blockPos);
         if (tileEntityWorkstation == null) return false;

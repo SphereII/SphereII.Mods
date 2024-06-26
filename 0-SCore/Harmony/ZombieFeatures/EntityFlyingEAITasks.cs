@@ -25,7 +25,7 @@ namespace Harmony.ZombieFeatures
         {
             public static bool Prefix(EntityVulture __instance, Context ___utilityAIContext, EntitySeeCache ___seeCache, EntityLookHelper ___lookHelper)
             {
-                if (!__instance.HasAnyTags(FastTags.Parse("allowEAI")))
+                if (!__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("allowEAI")))
                     return true;
 
                 if (GamePrefs.GetBool(EnumGamePrefs.DebugStopEnemiesMoving))
@@ -83,7 +83,7 @@ namespace Harmony.ZombieFeatures
         {
             public static void Postfix(ref global::EntityAlive __instance)
             {
-                if (!__instance.HasAnyTags(FastTags.Parse("allowEAI")))
+                if (!__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("allowEAI")))
                     return;
                 var entityClass = EntityClass.list[__instance.entityClass];
                 if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) __instance.aiManager.CopyPropertiesFromEntityClass(entityClass);

@@ -21,7 +21,7 @@
 
     private bool inRange(float _distanceSq)
     {
-        float value = EffectManager.GetValue(PassiveEffects.DamageFalloffRange, this.theEntity.inventory.holdingItemItemValue, 0f, this.theEntity, null, default(FastTags), true, true, true, true, 1, true);
+        float value = EffectManager.GetValue(PassiveEffects.DamageFalloffRange, this.theEntity.inventory.holdingItemItemValue, 0f, this.theEntity, null, default(FastTags<TagGroup.Global>));
         return _distanceSq < value * value * 0.25f;
     }
 

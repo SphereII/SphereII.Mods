@@ -3,7 +3,7 @@
 // Legacy classes for backwards compatibility. These won't be expanded
 public class EntityBanditSDX : EntityBandit
 {
-    protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
+    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
     {
         if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
         speedForward *= 0.5f;
@@ -46,7 +46,7 @@ public class EntityGenericSDX : EntityAlive
 
 public class EntitySurvivorSDX : EntitySurvivor
 {
-    protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
+    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
     {
         if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
         speedForward *= 0.5f;
@@ -175,7 +175,7 @@ internal class EntityWanderingTrader : EntityNPC
         ToggleTraderID(true);
     }
 
-    protected override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
+    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
     {
         if (isEntityRemote && _partialTicks > 1f) _dist /= _partialTicks;
         speedForward *= 0.5f;

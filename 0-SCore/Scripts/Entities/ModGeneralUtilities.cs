@@ -359,7 +359,7 @@ public static class ModGeneralUtilities
                         if (tileEntitySign != null)
                         {
                             // If the sign is empty and the code is 0, then accept it as a path
-                            var text = tileEntitySign.GetText();
+                            var text = tileEntitySign.signText.Text;
                             if (string.IsNullOrEmpty(text) && code == 0)
                             {
                                 localLists.Add(TargetBlockPosition.ToVector3());
@@ -467,7 +467,8 @@ public static class ModGeneralUtilities
                     if (tileEntitySign != null)
                     {
                         // If the sign is empty and the code is 0, then accept it as a path
-                        var text = tileEntitySign.GetText();
+                        var text = tileEntitySign.signText.Text;
+                        
                         if (string.IsNullOrEmpty(text) && code == 0)
                         {
                             localLists.Add(TargetBlockPosition.ToVector3() + Vector3.up);

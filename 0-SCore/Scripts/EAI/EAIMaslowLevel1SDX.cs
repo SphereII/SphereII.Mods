@@ -75,7 +75,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
         if (entityClass.Properties.Classes.ContainsKey("ProductionItems"))
         {
             var dynamicProperties3 = entityClass.Properties.Classes["ProductionItems"];
-            foreach (var keyValuePair in dynamicProperties3.Values.Dict.Dict)
+            foreach (var keyValuePair in dynamicProperties3.Values.Dict)
             {
                 var item = new ProductionItem();
                 item.item = ItemClass.GetItem(keyValuePair.Key);

@@ -191,7 +191,7 @@ namespace Harmony.ItemActions
                     recipe.ingredients = ItemsUtilities.ParseProperties(dynamicProperties3);
 
                     // Get an adjusted Crafting time from the player.
-                    recipe.craftingTime = (int)EffectManager.GetValue(PassiveEffects.CraftingTime, null, recipe.craftingTime, xui.playerUI.entityPlayer, recipe, FastTags.Parse(recipe.GetName()));
+                    recipe.craftingTime = (int)EffectManager.GetValue(PassiveEffects.CraftingTime, null, recipe.craftingTime, xui.playerUI.entityPlayer, recipe, FastTags<TagGroup.Global>.Parse(recipe.GetName()));
                     ItemsUtilities.ConvertAndCraft(recipe, player, __instance.ItemController);
                     return false;
                 }
@@ -203,7 +203,7 @@ namespace Harmony.ItemActions
                     recipe.ingredients = ItemsUtilities.ParseProperties(strData);
 
                     // Get an adjusted Crafting time from the player.
-                    recipe.craftingTime = (int)EffectManager.GetValue(PassiveEffects.CraftingTime, null, recipe.craftingTime, xui.playerUI.entityPlayer, recipe, FastTags.Parse(recipe.GetName()));
+                    recipe.craftingTime = (int)EffectManager.GetValue(PassiveEffects.CraftingTime, null, recipe.craftingTime, xui.playerUI.entityPlayer, recipe, FastTags<TagGroup.Global>.Parse(recipe.GetName()));
                     ItemsUtilities.ConvertAndCraft(recipe, player, __instance.ItemController);
                     return false;
                 }
@@ -286,7 +286,7 @@ namespace Harmony.ItemActions
                 if (CraftingManager.GetRecipe(forId.GetItemName()) == null)
                     return true;
 
-                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags.Parse("usevanillascrap")))
+                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
                     return true;
 
                 // If there's a recipe, reduce it
