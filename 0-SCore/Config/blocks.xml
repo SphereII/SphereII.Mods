@@ -333,6 +333,10 @@
 			<!-- Turns on support for the PlantGrowingSDX, SCore features for more advanced crop -->
 			<property class="CropManagement" >
 				<property name="Logging" value="false"/>
+				
+				<!-- forces sprinklers and water sources to be connected to pipes to work -->
+				<property name="RequirePipesForSprinklers" value="false" />
+				
 				<property name="CropEnable" value="false"/>
 				<property name="CheckInterval" value="600" />
 				<property name="MaxPipeLength" value="500" />

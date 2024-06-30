@@ -1,6 +1,14 @@
 ﻿<configs>
   <append xpath="/doc/tips" >
+    <tip key="loadingTipPG13" />
     <tip key="loadingTipPeaceOfMind" />
-    <tip key="loadingTipFlickeringLights" />
+    <tip key="loadingTipPG13_Rekt" />
+    
+    <!-- Disable flickering lights, if score is available. -->
+    <conditional>
+      <if cond="mod_loaded('0-SCore_sphereii')">
+        <tip key="loadingTipFlickeringLights" />
+      </if>
+    </conditional>
   </append>
 </configs>

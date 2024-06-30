@@ -9,6 +9,7 @@ using UnityEngine;
 public class CropManager 
 {
     private static readonly string AdvFeatureClass = "CropManagement";
+    public bool RequirePipesForSprinklers { get; private set; }
 
     private static CropManager _instance = null;
     private static Dictionary<Vector3i, PlantData> _cropMap = new Dictionary<Vector3i, PlantData>();
@@ -50,6 +51,9 @@ public class CropManager
             Enabled = false;
             return;
         }
+        option = Configuration.GetPropertyValue(AdvFeatureClass, "RequirePipesForSprinklers");
+        RequirePipesForSprinklers = string.IsNullOrEmpty(option) ? true : StringParsers.ParseBool(option);
+        
         _random = GameManager.Instance.World.GetGameRandom();
 
         Enabled = true;

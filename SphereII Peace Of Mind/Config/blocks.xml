@@ -1,12 +1,21 @@
-﻿<configs>
-	
-	<!-- Disable flickering lights -->
-	<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
+<configs>
+    <!-- Removes the dead man hanging from the poles, and replaces with an empty pole-->
+    <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
 
-	<remove xpath="/blocks/block[@name='modularRopeNoose']"/>
-	<append xpath="/blocks">
-		<block name="modularRopeNoose">
-			<property name="Extends" value="air"/>
-		</block>
-	</append>
+    <!-- Removes the noose, and replaces it with an air block -->
+    <remove xpath="/blocks/block[@name='modularRopeNoose']"/>
+    <append xpath="/blocks">
+        <block name="modularRopeNoose">
+            <property name="Extends" value="air"/>
+        </block>
+    </append>
+    
+    <!-- Disable flickering lights, if score is available. -->
+    <conditional>
+        <if cond="mod_loaded('0-SCore_sphereii')">
+            <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
+        </if>
+    </conditional>
+    
+
 </configs>
