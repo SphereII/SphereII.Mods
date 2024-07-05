@@ -25,15 +25,11 @@ namespace Features.LockPicking
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                
-                // If they have a controller, skip the mini game
-                if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
+                if (!LockPickingUtils.CheckForMiniGame(_player))
+                {
                     return true;
-
+                }
                 if (_commandName != "pick")
-                    return true;
-
-                if (_player.Buffs.HasCustomVar("LegacyLockPick") && _player.Buffs.GetCustomVar("LegacyLockPick") > 0)
                     return true;
 
                 if (_blockValue.ischild) return true;

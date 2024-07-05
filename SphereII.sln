@@ -11,10 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Dedicated Tweaks",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII A Better Life", "SphereII A Better Life\SphereII A Better Life.csproj", "{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Peace Of Mind", "SphereII Peace Of Mind\SphereII Peace Of Mind.csproj", "{2BEFA859-CE1D-4F90-8AC6-5A1F213025A9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII PG13", "SphereII PG13\SphereII PG13.csproj", "{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Skip Tutorial Quests", "SphereII Skip Tutorial Quests\SphereII Skip Tutorial Quests.csproj", "{7895CBC9-4EB6-405F-B284-8751F0F69950}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Take And Replace", "SphereII Take And Replace\SphereII Take And Replace.csproj", "{D7753B76-3B71-452A-BEE1-0378EA492ADC}"
@@ -28,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blooms Family Farming", "Blooms Family Farming\Blooms Family Farming.csproj", "{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterBiomeEffects", "BetterBiomeEffects\BetterBiomeEffects.csproj", "{C6AFD252-2407-4925-9398-6FE0B33F0D58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Peace of Mind", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\SphereII Peace of Mind\SphereII Peace of Mind.csproj", "{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +47,6 @@ Global
 		{72AD7F34-D420-4770-BC20-6F74D1B619FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BEFA859-CE1D-4F90-8AC6-5A1F213025A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BEFA859-CE1D-4F90-8AC6-5A1F213025A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7895CBC9-4EB6-405F-B284-8751F0F69950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7895CBC9-4EB6-405F-B284-8751F0F69950}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7753B76-3B71-452A-BEE1-0378EA492ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -77,6 +71,10 @@ Global
 		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

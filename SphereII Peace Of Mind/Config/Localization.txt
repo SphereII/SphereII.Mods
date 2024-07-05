@@ -1,7 +1,9 @@
 Key,English
 loadingTipPG13_title,"SphereII PG13"
 loadingTipPG13,"Party Girl model has been been converted over to Marlene model for a more PG13 experience. Quests are unaffected. Grumpy Traders have been encouraged to be nicer as well."
+loadingTipPG13_Rekt_title,"Trader Rekt Muted"
 loadingTipPG13_Rekt,"Trader Rekt has been gagged. His compound is now silent."
 loadingTipPeaceOfMind_title,"SphereII Peace of Mind"
 loadingTipPeaceOfMind,"The Peace Of Mind modlet removes a few potential trigger blocks. Stay healthy."
+loadingTipFlickeringLights_title,"Flickering Lights"
 loadingTipFlickeringLights,"If 0-SCore mod is available, flickering lights will be disabled."

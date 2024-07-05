@@ -1,6 +1,7 @@
 ﻿<config>
-	
+	<!--
 	<append xpath="/entity_classes" >
+		
 		<entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
 			<property name="UserSpawnType" value="Menu"/>
 
@@ -20,6 +21,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
 			<property name="AIPackages" value="Patrol"/>
 		</entity_class>
+		
 	</append>
-	
+	-->
 </config>

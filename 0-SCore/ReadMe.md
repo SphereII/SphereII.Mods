@@ -23,7 +23,108 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.10.1107
+	[ SCore Utility Settings ]
+		- Added a Sirillion modified window
+		- Added a toggle to force vanilla lock picking, if Locks is installed
+		- Added a toggle to force Locks to be used, if installed, regardless of keyboard / controller
+		- Added a toggle to mute Trader Rekt
+		- Added a toggle to mute all Trader's voices.
+		- Added a toggle to mute NPC foot steps
+		- This screen can be manipulated through xpath to remove features in overhauls that may not be desirable.
+
+	[ Advanced Lock Picking ]
+		- New-ish UI window for Advanced Lock picks with some cleaner description.
+		- Added new lines in the blocks.xml to allow customized key bindings
+		- These are comma delimited list, so you may add more to the list.
+				<property name="Left" value="Keypad4" />
+				<property name="Right" value="Keypad6" />
+				<property name="Turn" value="Keypad8,Keypad5,Keypad2" />
+		- Defaults are still hard coded:
+			- A / D / Space
+			- Joy stick support
+			- Mouse support - Scroll up / down to move, click to try.
+			- Follows mouse position as well.
+
+	[ Challenges ]
+		- Added support for custom challenges
+		- Features/Challenges
+			- Uses a Harmony patch to allow proper checks
+
+ 		- Added new Enter POI Challenge.
+			POIs can be referenced by prefab name using the prefab attribute.
+				<objective type="EnterPOI, SCore" prefab="abandoned_house_04" count="10"/>
+			POIs can also be referenced by POI Tags.
+				<objective type="EnterPOI, SCore" tags="wilderness" count="1"/>
+			Objectives that list both name, and tags, must match both to pass the objective.
+				<objective type="EnterPOI, SCore" prefab="abandoned_house_04" tags="wilderness" count="1"/>
+				
+
+	[ Auto Redeem Challenges ]
+		- Removed a check on the MinEventActionAutoReedChallenges that was checking if there was any any challenges to redeem
+			- In reality, this was just duplicating the same loop as it was going to do anyway.
+
+		- Added Harmony Patch and cvar for AutoRedeeming, available through the SCore Utility Screen
+
+	[ Disable Flickering ]
+		- Added a Harmony patch to disable flickering lights and lightening flashes.
+		- See Config/blocks.xml to toggle on or off.
+
+	[ Block Configuration ]
+		- Added a new optional parameter to CheckFeatureStatus().
+		- Defaults to false, which is typical behaviour of checking the Configuration Block for the setting.
+		- If true is passed as the third parameter, then it'll check the local player's cvar.
+		    public static bool CheckFeatureStatus(string strClass, string strFeature, bool checkCVarFirst = false)
+		- This is useful if there's a feature you want to expose to the SCore Utility Settings screen
+
+	[ Transmogrifier ]
+		- Added a FastTag check for Crawler to exclude them
+
+	[ TriggeredSDX ]
+		- Fixed a typo that could cause a null ref if a property was not specified
+		- Added support for passing cvar from player to animators
+			<property name="CopyCVarToAnimator" value="cvar1;cvar2;cvar3" />
+
+		- This will loop around the animator, doing a SetFloat() on the animator, using the cvarname, and cvar value.
+
+	[ ToggleButtonCVar ]
+		- Added a new controls.xml entry for ToggleButtonCVar
+		- This allows you to define a cvar and have it tied to a cvar on the local player
+		- This is used in the SCoreUtilities to allow adding toggle buttons quicker, without modifying c# code.
+		- Add in a new toggleButtonCVar to SCoreUtilities window.
+
+		<togglebuttonCVar name="xuiSCoreUtilsLockPick" caption_key="xuiSCoreUtilsLockPick" cvar="LegacyLockPick"
+        	tooltip_key="xuiLockPickingToolTip" width="290" height="32" depth="3" />
+
+Version: 1.0.5.826
+
+	[ Farming ]
+		- Added code to disable sound from a sprinkler when being destroyed.
+		- Merged Yakov's changes for optional setting for Sprinklers to require to be connected to pipes to work.
+				<property name="RequirePipesForSprinklers" value="false" />
+			- Default is false; no change from original.
+
+	[ TriggeredSDX ]
+		- Cleaned up class a bit
+		- Fixed an issue where the prompt would not show up when needed.
+
+	[ SphereII Peace of Mind ]
+		- Merged SphereII PG13 into Peace of Mind modlet
+		- Mutes Rekt's audio to clean up his abbrasive attitude
+			- This was easier than trying to go through each of his audio dialogs, and finding out which ones
+				where least offensive.
+		- Removed Noose blocks, replacing them with Air.
+		- Changes the Party Girl's model to be that of Marlene's.
+			- Quests, Challenges, etc are still working.
+		- Removed the block with bodies hanging from pillar.
+		- If 0-SCore is available, flickering / pulsating lights will stay constantly on.
+		- Removes the lightning flashes.
+
+
 Version: e1.0.1.1224
+
+	Available: https://github.com/SphereII/SphereII.Mods/tree/1.0e
+
 	- Initial release of 0-SCore for 1.0 experimental.
 	- There is probably a TON of broken stuff still
 	- Overhaulers can start to consume and test out their features.

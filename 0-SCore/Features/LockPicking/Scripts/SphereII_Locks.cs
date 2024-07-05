@@ -5,7 +5,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-// This class sites between the thirdparty Keyhole script + prefabs and support scripts.
+// This class sits between the thirdparty Keyhole script + prefabs and support scripts.
 public class SphereLocks
 {
     private GameObject _lockPick;

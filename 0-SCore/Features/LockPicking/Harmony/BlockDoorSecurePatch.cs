@@ -22,10 +22,11 @@ namespace Features.LockPicking
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                // If they have a controller, skip the mini game
-                if (PlatformManager.NativePlatform.Input.CurrentInputStyle != PlayerInputManager.InputStyle.Keyboard)
+                if (!LockPickingUtils.CheckForMiniGame(_player))
+                {
                     return true;
-
+                }
+        
                 if (_blockValue.ischild) return true;
                 var tileEntitySecureDoor = (TileEntitySecureDoor)_world.GetTileEntity(_cIdx, _blockPos);
                 if (tileEntitySecureDoor == null)
@@ -53,10 +54,7 @@ namespace Features.LockPicking
                 // 1 == try to open locked door.
                 if (_commandName != "open") return true;
                 
-                // If they have enabled legacy lock picking, disable picking doors.
-                if (_player.Buffs.HasCustomVar("LegacyLockPick") && _player.Buffs.GetCustomVar("LegacyLockPick") > 0)
-                    return true;
-                
+       
                 // Check if the player has lock picks.
                 var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
                 if (playerUI == null)

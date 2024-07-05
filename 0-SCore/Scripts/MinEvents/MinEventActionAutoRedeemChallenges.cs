@@ -7,7 +7,6 @@ using UnityEngine;
 public class MinEventActionAutoRedeemChallenges : MinEventActionTargetedBase
 {
     public override void Execute(MinEventParams _params) {
-        if (!_params.Self.challengeJournal.HasCompletedChallenges()) return;
         
         foreach (var challenge in _params.Self.challengeJournal.Challenges)
         {

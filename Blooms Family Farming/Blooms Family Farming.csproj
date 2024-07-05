@@ -57,7 +57,7 @@
     <Content Include="Config\entityclasses.xml" />
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\utilityai.xml" />
-    <Content Include="Disable-ModInfo.xml" />
+    <Content Include="ModInfo.xml" />
     <Content Include="Properties\versionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>versionTemplate.cs</LastGenOutput>

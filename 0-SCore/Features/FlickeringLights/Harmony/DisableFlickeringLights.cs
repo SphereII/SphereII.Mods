@@ -10,6 +10,23 @@ namespace SCore.Features.FlickeringLights.Harmony
         private static readonly string AdvFeatureClass = "AdvancedPrefabFeatures";
         private static readonly string Feature = "DisableFlickeringLights";
 
+      
+        [HarmonyPatch(typeof(Chunk))]
+        [HarmonyPatch("GetTileEntity")]
+        public class DisableFlickeringLightsChunkGetTileEntity
+        {
+            public static void Postfix(ref TileEntity __result) {
+                if (__result is TileEntityLight _light)
+                {
+                    // Check if this feature is enabled.
+                    if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature, true))
+                        return;
+                    _light.LightState = LightStateType.Static;
+
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(TileEntityLight))]
         [HarmonyPatch("CopyFrom")]
         public class DisableFlickeringLightsCopyFrom
@@ -17,7 +34,7 @@ namespace SCore.Features.FlickeringLights.Harmony
             public static void Postfix(ref TileEntityLight __instance)
             {
                 // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature, true))
                     return;
                 __instance.LightState = LightStateType.Static;
             }
@@ -30,10 +47,11 @@ namespace SCore.Features.FlickeringLights.Harmony
             public static void Postfix(ref TileEntity __result)
             {
                 // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature, true))
                     return ;
                 if (__result is not TileEntityLight light) return;
                 light.LightState = LightStateType.Static;
+                
             }
         }
         

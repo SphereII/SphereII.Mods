@@ -42,6 +42,8 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveEnterPOI.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
+    <Compile Include="Features\LockPicking\Harmony\LockPickingUtils.cs" />
     <Compile Include="Features\LockPicking\Harmony\TileEntityLootContainerPatch.cs" />
     <Compile Include="Features\LockPicking\Scripts\Cipher.cs" />
     <Compile Include="Features\LockPicking\Scripts\CipherControls.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Harmony\EAI\EAITarget.cs" />
     <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
+    <Compile Include="Harmony\EntityAlive\EntityTraderRektMute.cs" />
     <Compile Include="Harmony\EntityAlive\ReplicateSpeed.cs" />
     <Compile Include="Harmony\EntityDrone\EntityDronePatches.cs" />
     <Compile Include="Harmony\EntityMoveHelper\DigStart.cs" />
@@ -152,6 +156,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
+    <Compile Include="Harmony\PlayerFeatures\AutoRedeemChallenges.cs" />
     <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
     <Compile Include="Harmony\PlayerFeatures\EntityStats.cs" />
     <Compile Include="Harmony\PlayerFeatures\NerdPoll.cs" />
@@ -499,6 +504,7 @@
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanion.cs" />
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanionList.cs" />
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreInGameMenu.cs" />
+    <Compile Include="Scripts\XUiC\Controls\XUiC_ToggleButtonCVar.cs" />
     <Compile Include="Scripts\XUiC\XUiC_CharacterFrameWindowSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogHireInformationSDX.cs" />
     <Compile Include="Scripts\XUiC\XUiC_DialogRespondentNameSDX.cs" />
@@ -527,6 +533,9 @@
     <Content Include="Config\XUi\controls.xml" />
     <Content Include="Config\XUi\windows.xml" />
     <Content Include="Config\XUi\xui.xml" />
+    <Content Include="Config\XUi_Common\styles.xml" />
+    <Content Include="Config\XUi_Menu\windows-Template.xml" />
+    <Content Include="Features\Challenges\ReadMe.md" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="ModInfo.xml" />
     <Content Include="Prefabs\caveOpening02.tts" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public static class Configuration
 {
@@ -45,8 +46,20 @@ public static class Configuration
 
         return true;
     }
-    public static bool CheckFeatureStatus(string strClass, string strFeature)
+    
+    public static bool CheckFeatureStatus(string strClass, string strFeature, bool checkCVarFirst = false)
     {
+        var localPlayer = GameManager.Instance.myEntityPlayerLocal;
+        if (localPlayer != null && checkCVarFirst)
+        {
+            var cvarName = $"{strClass}_{strFeature}";
+            if (localPlayer.Buffs.HasCustomVar(cvarName))
+            {
+                if (localPlayer.Buffs.GetCustomVar(cvarName) > 0)
+                    return true;
+            }
+        }
+
         var ConfigurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
         if (ConfigurationFeatureBlock.type == 0)
             return false;

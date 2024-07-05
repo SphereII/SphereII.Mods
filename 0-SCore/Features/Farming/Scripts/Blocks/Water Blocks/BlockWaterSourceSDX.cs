@@ -38,6 +38,12 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
+    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue) {
+        base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
+        StopSprinklerSound(_blockPos);
+
+    }
+
     private void StopSprinklerSound(Vector3i _blockPos)
     {
         var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(_blockPos)?.GetBlockEntity(_blockPos);

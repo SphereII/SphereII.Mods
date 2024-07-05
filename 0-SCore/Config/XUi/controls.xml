@@ -58,6 +58,18 @@
              
             </panel>
         </score_companion_header>
+        <togglebuttonCVar depth="3" pos="0,0" width="200" height="32"
+                      enabled_font_color="[labelColor]" disabled_font_color="[disabledLabelColor]" visible="true" tooltip_key="" caption="" caption_key="" font_size="28" parse_actions="false">
+            <rect name="${name}" depth="${depth}" pos="${pos}" width="${width}" height="${height}" enabled_font_color="${enabled_font_color}" cvar="${cvar}" disabled_font_color="${disabled_font_color}" controller="XUiC_ToggleButtonCVar, SCore" visible="${visible}">
+                <button name="clickable" sprite="menu_empty" defaultcolor="[mediumGrey]" disabledcolor="[darkGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" hoverscale="1.0" tooltip_key="${tooltip_key}" />
+                <sprite depth="1" name="border" sprite="menu_empty2px" color="[black]" type="sliced" fillcenter="false" />
+                <sprite depth="2" name="tickbox" width="${height-6}" height="${height-6}" pos="7,-4" color="[darkGrey]" sprite="Highlight - Shadowed" type="sliced" />
+                <sprite depth="3" name="tickmark" width="${height-12}" height="${height-12}" pos="10,-7" color="[iconColor]" sprite="ui_game_symbol_check" visible="{value}" />
+                <label depth="2" name="btnLabel" width="${width-height-8}" height="${height-2}" pos="${6+height},${Round(-height/2,0)}" justify="left" text="${caption}" text_key="${caption_key}" effect="outline" pivot="left" font_size="${font_size}" parse_actions="${parse_actions}" />
+            </rect>
+        </togglebuttonCVar>
 
     </append>
+    
+    
 </configs>

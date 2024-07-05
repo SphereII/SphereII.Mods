@@ -32,6 +32,8 @@ namespace Harmony.ZombieFeatures
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
                 if (___walkType is 21 or 22 || __instance is not EntityZombie) return;
+                if (__instance.HasAnyTags(FastTags<TagGroup.Global>.Parse("crawler"))) return;
+
 
                 var random = new Random();
 

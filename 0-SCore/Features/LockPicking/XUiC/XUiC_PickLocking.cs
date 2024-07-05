@@ -1,7 +1,6 @@
 ﻿// Simple XUI screen to enable the lock picking to have a window-style pop up.
 
-public class XUiC_PickLocking : XUiController
-{
+public class XUiC_PickLocking : XUiController {
     public static string ID = "";
     private Vector3i blockPos;
     private BlockValue currentBlock;
@@ -10,15 +9,13 @@ public class XUiC_PickLocking : XUiController
     // Reference to our current locked container
     private ILockable LockedItem;
 
-    public override void Init()
-    {
+    public override void Init() {
         Lock = new SphereLocks();
         ID = windowGroup.ID;
         base.Init();
     }
 
-    public override void Update(float _dt)
-    {
+    public override void Update(float _dt) {
         base.Update(_dt);
         if (LockedItem == null)
             return;
@@ -32,8 +29,7 @@ public class XUiC_PickLocking : XUiController
     }
 
     // Set the container reference so we can unlock it.
-    public static void Open(LocalPlayerUI playerUi, ILockable lockedItem, BlockValue blockValue, Vector3i blockPos)
-    {
+    public static void Open(LocalPlayerUI playerUi, ILockable lockedItem, BlockValue blockValue, Vector3i blockPos) {
         // Configure the lock pick
         playerUi.xui.FindWindowGroupByName(ID).GetChildByType<XUiC_PickLocking>().LockedItem = lockedItem;
         playerUi.xui.FindWindowGroupByName(ID).GetChildByType<XUiC_PickLocking>().currentBlock = blockValue;
@@ -42,8 +38,7 @@ public class XUiC_PickLocking : XUiController
     }
 
     // Set the player reference and display the lock.
-    public override void OnOpen()
-    {
+    public override void OnOpen() {
         EntityPlayer player = xui.playerUI.entityPlayer;
         base.OnOpen();
         Lock = new SphereLocks();
@@ -52,12 +47,11 @@ public class XUiC_PickLocking : XUiController
         Lock.Init(currentBlock, blockPos);
         Lock.SetPlayer(player);
         Lock.Enable();
-        if (!ThreadManager.IsMainThread()) return; 
+        if (!ThreadManager.IsMainThread()) return;
         xui.playerUI.entityPlayer.PlayOneShot("open_sign");
     }
 
-    public override void OnClose()
-    {
+    public override void OnClose() {
         if (Lock.IsLockOpened())
         {
             var blockValue = BlockValue.Air;
@@ -72,17 +66,20 @@ public class XUiC_PickLocking : XUiController
 
             if (!blockValue.isair)
             {
-                blockValue = BlockPlaceholderMap.Instance.Replace(blockValue, GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
+                blockValue = BlockPlaceholderMap.Instance.Replace(blockValue,
+                    GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z, false);
                 blockValue.rotation = currentBlock.rotation;
                 blockValue.meta = currentBlock.meta;
                 GameManager.Instance.World.SetBlockRPC(0, blockPos, blockValue, blockValue.Block.Density);
             }
         }
+
         Lock.Disable();
         LockedItem = null;
         base.OnClose();
         xui.playerUI.windowManager.Close(ID);
-        if (!ThreadManager.IsMainThread()) return; 
+        if (!ThreadManager.IsMainThread()) return;
         xui.playerUI.entityPlayer.PlayOneShot("close_sign");
     }
+
 }

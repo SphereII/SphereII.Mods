@@ -1,50 +1,50 @@
-﻿
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Challenges;
 //using SCore.Features.EntityPooling.Scripts;
 using UniLinq;
 using UnityEngine;
 
-public class SCoreModEvents
-{
+public class SCoreModEvents {
     public static List<Transform> ExternalParticles = new List<Transform>();
 
-    public static void Init()
-    {
+    public static void Init() {
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
-        
-        
+
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
-
     }
+
+ 
 
     private static void EntityPool() {
-   //     GameManager.Instance.gameObject.GetOrAddComponent<EntityFactoryPool>();
+        //     GameManager.Instance.gameObject.GetOrAddComponent<EntityFactoryPool>();
     }
-    private static void ModletChecks()
-    {
+
+    private static void ModletChecks() {
         Log.Out("SCore:: Checking Installed Modlets...");
         CheckLoadedFolders();
         GenerateModletHash();
         Log.Out("SCore:: Done Checking Installed Modlets");
     }
 
-    private static void CheckLoadedFolders()
-    {
-        var userDataFolder =  GameIO.GetUserGameDataDir() + "/Mods";
-        var localModsFolder =  (Application.platform == RuntimePlatform.OSXPlayer) ? (Application.dataPath + "/../../Mods") : (Application.dataPath + "/../Mods");
+    private static void CheckLoadedFolders() {
+        var userDataFolder = GameIO.GetUserGameDataDir() + "/Mods";
+        var localModsFolder = (Application.platform == RuntimePlatform.OSXPlayer)
+            ? (Application.dataPath + "/../../Mods")
+            : (Application.dataPath + "/../Mods");
         var modFolderCount = 0;
         if (Directory.Exists(userDataFolder))
         {
             modFolderCount++;
             Log.Out($"Loaded Mods From {userDataFolder}");
         }
+
         if (Directory.Exists(localModsFolder))
         {
             modFolderCount++;
@@ -56,8 +56,8 @@ public class SCoreModEvents
             Log.Out("WARNING: Loaded Mods From two Folders!");
         }
     }
-    private static void GenerateModletHash()
-    {
+
+    private static void GenerateModletHash() {
         var hash = string.Empty;
         foreach (var mod in ModManager.GetLoadedMods())
         {
@@ -70,12 +70,12 @@ public class SCoreModEvents
             Log.Out("No Mods to check. Skipping.");
             return;
         }
+
         Log.Out($"Modlet List Hash: {hash.GetHashCode()}");
     }
-    
+
     // Read's the SCore's ExternalParticles from the ConfigFeatureBlock for external particles
-    private static void CheckExternalParticles()
-    {
+    private static void CheckExternalParticles() {
         const string particleClass = "ExternalParticles";
         var configurationFeatureBlock = Block.GetBlockValue("ConfigFeatureBlock");
         if (configurationFeatureBlock.type == 0)
@@ -97,7 +97,7 @@ public class SCoreModEvents
             if (!ParticleEffect.IsAvailable(particlePath))
                 ParticleEffect.LoadAsset(particlePath);
         }
+
         Debug.Log("Done Reading External Particles.");
     }
-
 }
