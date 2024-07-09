@@ -23,6 +23,24 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.14.1543
+	[ Anti Nerd Pole ]
+		- Fixed an issue where a block was consumed on a failed placement.
+			- Still needs testing on MP.
+	
+	[ Lock Code ]
+		- Removed a Debug statement about Mouse 0.
+
+	[ EntityAliveSDX ]
+		- Added a CanCollideWith() check, from EntityAliveV2.
+			- To enable this, set <property name="CanCollideWithLeader" value="false" />
+			- Default is true, it can collide with leader.
+
+	[ Food Spoilage ]
+		- Refactored Food Spoilage to use ItemValue's MetaData, instead of UseItem
+		- Created several helper methods, and cleaned up references
+		- Updated variables to follow project standards.
+
 Version: 1.0.10.1107
 	[ SCore Utility Settings ]
 		- Added a Sirillion modified window
@@ -61,7 +79,7 @@ Version: 1.0.10.1107
 				
 
 	[ Auto Redeem Challenges ]
-		- Removed a check on the MinEventActionAutoReedChallenges that was checking if there was any any challenges to redeem
+		- Removed a check on the MinEventActionAutoRedeemChallenges that was checking if there was any any challenges to redeem
 			- In reality, this was just duplicating the same loop as it was going to do anyway.
 
 		- Added Harmony Patch and cvar for AutoRedeeming, available through the SCore Utility Screen

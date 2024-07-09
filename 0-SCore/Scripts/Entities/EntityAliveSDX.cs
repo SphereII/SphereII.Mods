@@ -40,6 +40,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
     private string rightHandTransformName;
 
+    private bool canCollideWithLeader = true;
     private float enemyDistanceToTalk = 10f;    
     /// <inheritdoc/>
     public List<Vector3> PatrolCoordinates => patrolCoordinates;
@@ -288,6 +289,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             _strMyName = names[index];
         }
 
+        if (_entityClass.Properties.Values.ContainsKey("CanCollideWithLeader"))
+            canCollideWithLeader = StringParsers.ParseBool(_entityClass.Properties.Values["CanCollideWithLeader"], 0, -1, true);
 
         // By default, make the sleepers to always be awake, this solves the issue where entities in a Passive volume does not wake up fully
         // ie, buffs are not firing, but the uai is.
@@ -904,17 +907,18 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         this.accumulatedRootMotion.y = 0f;
     }
 
-    // public override bool CanCollideWith(Entity _other)
-    // {
-    //     var result = base.CanCollideWith(_other);
-    //     var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-    //     if (leader && leader.entityId == _other.entityId)
-    //     {
-    //         return false;
-    //     }
-    //
-    //     return result;
-    // }
+    public override bool CanCollideWith(Entity _other) {
+        if (canCollideWithLeader ) return true;
+        
+        var result = base.CanCollideWith(_other);
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if (leader && leader.entityId == _other.entityId)
+        {
+            return false;
+        }
+    
+        return result;
+    }
 
     public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute)
     {
@@ -2083,7 +2087,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         return false;
     }
 
-
+  
     public override void SetupStartingItems()
     {
         for (var i = 0; i < this.itemsOnEnterGame.Count; i++)

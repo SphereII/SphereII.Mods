@@ -35,10 +35,10 @@
 	</append>
 
 	<!-- Updates the valve to be a water source, which can be fed from pipes to provide water like a liquid block -->
-	<!-- A WaterSourceSDX is not a direct water source. Instead, it triggers searching for pipes which, hopefully, connect up to a BlockLiquidV2 -->
+	<!-- A WaterSourceSDX is not a direct water source. Instead, it triggers searching for pipes which, hopefully, connect up to a BlockLiquidV2 
 	<set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Class']/@value">WaterSourceSDX, SCore</set>
 	<set xpath="/blocks/block[@name='metalPipeValve']/property[@name='Model']/@value">#@modfolder:Resources/gupSprinklerBlock.unity3d?gupLargeSprinkler.prefab</set>
-
+-->
 	<append xpath="/blocks">
 		<block name="cropControlPanelBase01">
 			<property name="Extends" value="controlPanelBase01"/>

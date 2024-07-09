@@ -117,7 +117,6 @@ public class LockControls : MonoBehaviour {
 
         if (Right())
             lockpick.lockpickPressure = 1f;
-        Debug.Log($"Mouse: {Input.GetAxis("Mouse X")} :: Raw:  {Input.GetAxisRaw("Mouse X")}");
     }
 
     private void ResetValues() {

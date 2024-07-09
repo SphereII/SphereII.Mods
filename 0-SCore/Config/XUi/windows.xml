@@ -22,7 +22,7 @@
 
                 <panel name="noclick" depth="10" createuipanel="true" on_press="true" pos="-2000,2000" width="8000"
                        height="8000" disableautobackground="true" gamepad_selectable="false">
-                    <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,240"
+                    <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,140"
                              anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
                              anchor_top="#cam,1,5"/>
                 </panel>

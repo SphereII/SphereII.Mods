@@ -1,4 +1,5 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace Harmony.NPCFeatures
 {
@@ -18,11 +19,14 @@ namespace Harmony.NPCFeatures
         {
             public static void Postfix(EntityTrader __instance)
             {
+                Debug.Log("TraderProtectionPostInit 1");
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-
+        
                 __instance.IsGodMode.Value = false;
+                Debug.Log("TraderProtectionPostInit 2");
+        
             }
         }
 

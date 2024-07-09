@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System;
 using System.IO;
+using UnityEngine;
 
 namespace Harmony.EntityAlive
 {
@@ -81,9 +82,9 @@ namespace Harmony.EntityAlive
         public static class EntityAlivePostInit
         {
             [HarmonyPostfix]
-            public static void Postfix(global::EntityAlive __instance)
-            {
+            public static void Postfix(global::EntityAlive __instance) {
                 __instance.SetCVar("_entityId", __instance.entityId);
+
             }
         }
 
