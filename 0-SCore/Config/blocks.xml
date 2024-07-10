@@ -9,6 +9,8 @@
 			<property class="FoodSpoilage">
 				<property name="Logging" value="false"/>
 				<property name="FoodSpoilage" value="false" />
+				<property name="UseAlternateItemValue" value="false" />
+				
 				<!-- Turns on Food spoilage-->
 				<property name="Toolbelt" value="6" />
 				<!-- Penalty of 3 points per spoilage tick -->

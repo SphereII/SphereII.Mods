@@ -23,6 +23,28 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.15.1402
+
+	[ Food Spoilage ]
+		- Fixed an issue where PreserveBonus was not being calculated correctly.
+		- NOTE
+			- Identified a potential issue with the ItemValue's Meta data is not being properly disconnected when a stack is split.
+			- The result of that is when we store the Item's next spoilage tick is shared between the stack.
+			- If a stack is split, the next spoilage tick is still synced up with all stacks from the original
+			- When spoilage is applied to the first stack, all child stacks will also spoil at the same rate, regardless of location.
+
+			- As a workaround, I have added a new blocks.xml property that patches ItemValue's Clone() call.
+			- This patch is only fired when Food spoilage is enabled, and only if the item supports food spoilage itself.
+			- Default is false, do not apply this patch regardless.
+			
+			<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='UseAlternateItemValue']/@value">true</set>
+
+
+	[ Advanced Items - Scrap ]
+		- Fixed an issue when scrapping an item, it would allow unlimited crafting of that item.
+			- oops.
+		- Cleaned up code a bit.
+
 Version: 1.0.14.1543
 	[ Anti Nerd Pole ]
 		- Fixed an issue where a block was consumed on a failed placement.

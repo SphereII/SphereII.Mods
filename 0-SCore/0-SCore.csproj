@@ -135,8 +135,6 @@
     <Compile Include="Harmony\Faction\FactionRelationshipCVars.cs" />
     <Compile Include="Harmony\Faction\FactionTweaks.cs" />
     <Compile Include="Harmony\FoodSpoilage\FoodSpoilage.cs" />
-    <Compile Include="Harmony\FoodSpoilage\FoodSpoilage_new.cs" />
-    <Compile Include="Harmony\FoodSpoilage\FoodSpoilage_old.cs" />
     <Compile Include="Harmony\GameManager\BroadcastHook.cs" />
     <Compile Include="Harmony\GamePath\TraversalProvider.cs" />
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />

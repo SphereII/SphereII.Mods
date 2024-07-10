@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterBiomeEffects", "Bette
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Peace of Mind", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\SphereII Peace of Mind\SphereII Peace of Mind.csproj", "{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompoPackTweaks", "CompoPackTweaks\CompoPackTweaks.csproj", "{4674833F-887F-4849-A239-7FDDBC6B1C67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCBF6B95-AD2C-4402-8E74-253B0A2FDF9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

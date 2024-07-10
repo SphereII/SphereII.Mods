@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Text;
@@ -98,16 +99,16 @@ namespace Harmony.ItemActions
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return;
-
+                
                 if (_actionListType != XUiC_ItemActionList.ItemActionListTypes.Item) return;
                 var xuiCItemStack = (XUiC_ItemStack)itemController;
                 var itemStack = xuiCItemStack.ItemStack;
                 var itemValue = itemStack.itemValue;
                 if (itemValue.MaxUseTimes <= 0 || !(itemValue.UseTimes > 0f)) return;
-
-                if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "RepairItems"))
-                    __instance.AddActionListEntry(new ItemActionEntryRepair(itemController));
-
+                
+                 if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "RepairItems"))
+                     __instance.AddActionListEntry(new ItemActionEntryRepair(itemController));
+                
                 if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "Resharpen"))
                     __instance.AddActionListEntry(new ItemActionEntryResharpenSDX(itemController));
             }
@@ -117,30 +118,26 @@ namespace Harmony.ItemActions
         [HarmonyPatch("OnDisabledActivate")]
         public class RepairOnDisabledActivate
         {
-            public enum StateTypes
-            {
-                Normal,
-                RecipeLocked,
-                NotEnoughMaterials
-            }
-
-            public static bool Prefix(ItemActionEntryRepair __instance, StateTypes ___state, string ___lblReadBook, string ___lblNeedMaterials)
+            public static bool Prefix(ItemActionEntryRepair __instance)
             {
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
-                var stateTypes = ___state;
-                if (stateTypes == StateTypes.RecipeLocked)
+                switch (__instance.state)
                 {
-                    GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, ___lblReadBook);
-                    return false;
+                    case ItemActionEntryRepair.StateTypes.RecipeLocked:
+                        GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, __instance.lblReadBook);
+                        return false;
+                    case ItemActionEntryRepair.StateTypes.NotEnoughMaterials:
+                        GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, __instance.lblNeedMaterials);
+                        return false;
+                    case ItemActionEntryRepair.StateTypes.Normal:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
 
-                if (stateTypes != StateTypes.NotEnoughMaterials)
-                    return false;
-
-                GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, ___lblNeedMaterials);
                 List<ItemStack> stack;
                 var forId = ItemClass.GetForId(((XUiC_ItemStack)__instance.ItemController).ItemStack.itemValue.type);
                 if (forId.Properties.Classes.ContainsKey("RepairItems"))
@@ -209,7 +206,7 @@ namespace Harmony.ItemActions
                 }
                 // If there's no RepairTools defined, then fall back to recipe reduction
 
-                if (forId.RepairTools != null && forId.RepairTools.Length > 0) return true;
+                if (forId.RepairTools is { Length: > 0 }) return true;
 
                 // Determine, based on percentage left, 
                 var recipeCountReduction = 2;
@@ -236,7 +233,7 @@ namespace Harmony.ItemActions
 
                 var xui = __instance.ItemController.xui;
                 var xuiCItemStack = (XUiC_ItemStack)__instance.ItemController;
-
+               
                 var itemStack = xuiCItemStack.ItemStack.Clone();
                 var scrapableRecipe = CraftingManager.GetScrapableRecipe(itemStack.itemValue, itemStack.count);
                 if (scrapableRecipe == null)
@@ -255,6 +252,14 @@ namespace Harmony.ItemActions
                 List<ItemStack> scrapItems;
 
                 var forId = ItemClass.GetForId(itemStack.itemValue.type);
+                 if (forId.RepairTools is { Length: > 0 }) return true;
+
+                if (CraftingManager.GetRecipe(forId.GetItemName()) == null)
+                    return true;
+                
+                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
+                    return true;
+
                 // Check if ScrapItems is specified
                 if (forId.Properties.Classes.ContainsKey("ScrapItems"))
                 {
@@ -272,7 +277,6 @@ namespace Harmony.ItemActions
                     return false;
                 }
                 // Check if Repair Items is specified, if the ScrapItems wasn't.
-
                 if (forId.Properties.Classes.ContainsKey("RepairItems"))
                 {
                     var dynamicProperties3 = forId.Properties.Classes["RepairItems"];
@@ -280,18 +284,10 @@ namespace Harmony.ItemActions
                     ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
                     return false;
                 }
-
-                if (forId.RepairTools != null && forId.RepairTools.Length > 0) return true;
-
-                if (CraftingManager.GetRecipe(forId.GetItemName()) == null)
-                    return true;
-
-                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
-                    return true;
-
+                
                 // If there's a recipe, reduce it
                 var recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);
-
+                if (recipe == null) return false;
                 ItemsUtilities.Scrap(recipe.ingredients, itemStack, __instance.ItemController);
                 return false;
             }

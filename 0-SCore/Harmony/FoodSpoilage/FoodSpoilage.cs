@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -53,7 +54,56 @@ public class SphereII_FoodSpoilage {
     private const string AdvFeatureClass = "FoodSpoilage";
     private const string Feature = "FoodSpoilage";
     private static readonly bool FoodSpoilage = Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
+    private static readonly bool UseAlternateItemValue = Configuration.CheckFeatureStatus(AdvFeatureClass, "UseAlternateItemValue");
 
+    [HarmonyPatch(typeof(ItemValue))]
+    [HarmonyPatch("Clone")]
+    public class ItemValueClone {
+        private static bool Prefix(ref ItemValue __result, ItemValue __instance) {
+            if (!FoodSpoilage)
+                return true;
+            if (!UseAlternateItemValue)
+                return true;
+            
+            if (__instance.ItemClass == null || !__instance.ItemClass.Properties.Contains(PropSpoilable) ||
+                !__instance.ItemClass.Properties.GetBool(PropSpoilable))
+                return true;
+
+            __result = new ItemValue(__instance.type, false) {
+                Meta = __instance.Meta,
+                UseTimes = __instance.UseTimes,
+                Quality = __instance.Quality,
+                SelectedAmmoTypeIndex = __instance.SelectedAmmoTypeIndex,
+                Modifications = new ItemValue[__instance.Modifications.Length]
+            };
+            for (var i = 0; i < __instance.Modifications.Length; i++)
+            {
+                __result.Modifications[i] = ((__instance.Modifications[i] != null) ? __instance.Modifications[i].Clone() : null);
+            }
+            if (__instance.Metadata != null)
+            {
+                __result.Metadata = new Dictionary<string, TypedMetadataValue>();
+                foreach (var text in __instance.Metadata.Keys)
+                {
+                    __result.SetMetadata(text, __instance.Metadata[text].Clone());
+                    //__result.Metadata.Add(text, __instance.Metadata[text] ?? __instance.Metadata[text].Clone());
+                }
+            }
+            __result.CosmeticMods = new ItemValue[__instance.CosmeticMods.Length];
+            for (var j = 0; j < __instance.CosmeticMods.Length; j++)
+            {
+                __result.CosmeticMods[j] = ((__instance.CosmeticMods[j] != null) ? __instance.CosmeticMods[j].Clone() : null);
+            }
+            __result.Activated = __instance.Activated;
+            if (__result.type == 0)
+            {
+                __instance.Seed = 0;
+            }
+            __result.Seed = __instance.Seed;
+            return false;
+        }
+        
+    }
     // hook into the ItemStack, which should cover all types of containers. This will run in the update task.
     // It is used to calculate the amount of spoilage necessary, and display the amount of freshness is left in the item.
     [HarmonyPatch(typeof(XUiC_ItemStack))]
@@ -134,11 +184,11 @@ public class SphereII_FoodSpoilage {
             strDisplay += " Ticks Per Loss: " + tickPerLoss;
 
             var worldTime = GameManager.Instance.World.GetWorldTime();
-            var nextTick = GetNextSpoilageTick(__instance);
+            var nextTick = GetNextSpoilageTick(itemValue);
             if (nextTick <= 0)
             {
                 nextTick = CalculateNextSpoilageTick(worldTime, tickPerLoss);
-                SetNextSpoilageTick(__instance, nextTick);
+                SetNextSpoilageTick(itemValue, nextTick);
             }
 
             // Throttles the amount of times it'll trigger the spoilage, based on the TickPerLoss
@@ -184,7 +234,7 @@ public class SphereII_FoodSpoilage {
                             strDisplay += " Preservation Bonus ( " +
                                           blockValue.Block.Properties.GetFloat("PreserveBonus") + " )";
                             var preserveBonus = blockValue.Block.Properties.GetFloat("PreserveBonus");
-                            if (preserveBonus >= -99f)
+                            if (preserveBonus == -99f)
                                 return true;
 
                             perUse -= preserveBonus;
@@ -242,7 +292,7 @@ public class SphereII_FoodSpoilage {
 
             // Update the NextSpoilageTick value
             var nextSpoilageTick = CalculateNextSpoilageTick(worldTime, tickPerLoss);
-            SetNextSpoilageTick(__instance, nextSpoilageTick);
+            SetNextSpoilageTick(itemValue, nextSpoilageTick);
             strDisplay += " Next Spoilage Tick: " + nextSpoilageTick;
             strDisplay += " Recorded Spoilage: " + currentSpoilage;
             AdvLogging.DisplayLog(AdvFeatureClass, strDisplay);
@@ -359,8 +409,8 @@ public class SphereII_FoodSpoilage {
         /// </summary>
         /// <param name="__instance"></param>
         /// <returns></returns>
-        private static int GetNextSpoilageTick(XUiC_ItemStack __instance) {
-            var nextSpoilageTickObject = __instance.ItemStack.itemValue.GetMetadata(KeyNextSpoilageTick);
+        private static int GetNextSpoilageTick(ItemValue itemValue) {
+            var nextSpoilageTickObject = itemValue.GetMetadata(KeyNextSpoilageTick);
             if (nextSpoilageTickObject is int nextSpoilageTick)
             {
                 return nextSpoilageTick;
@@ -373,11 +423,8 @@ public class SphereII_FoodSpoilage {
         /// </summary>
         /// <param name="__instance"></param>
         /// <param name="nextTick"></param>
-        private static void SetNextSpoilageTick(XUiC_ItemStack __instance, int nextTick) {
-            __instance.ItemStack.itemValue.SetMetadata(
-                KeyNextSpoilageTick,
-                nextTick,
-                TypedMetadataValue.TypeTag.Integer);
+        private static void SetNextSpoilageTick(ItemValue itemValue, int nextTick) {
+           itemValue.SetMetadata(KeyNextSpoilageTick, nextTick, TypedMetadataValue.TypeTag.Integer);
         }
 
         /// <summary>

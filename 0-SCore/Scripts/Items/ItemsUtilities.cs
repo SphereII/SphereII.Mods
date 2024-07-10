@@ -64,22 +64,19 @@ public static class ItemsUtilities
         return new ItemStack(ItemClass.GetItem(strItemName), Count);
     }
 
-    public static bool Scrap(List<ItemStack> scrapIngredients, ItemStack OriginalStack, XUiController ItemController)
+    public static void Scrap(List<ItemStack> scrapIngredients, ItemStack OriginalStack, XUiController ItemController)
     {
-        var result = false;
         foreach (var scrapStack in scrapIngredients)
         {
-            var TotalCount = scrapStack.count * OriginalStack.count;
-            scrapStack.count = TotalCount;
+            var totalCount = scrapStack.count * OriginalStack.count;
+            if (  totalCount == 0 ) continue;
+            scrapStack.count = totalCount;
             if (!ItemController.xui.PlayerInventory.AddItem(scrapStack, true))
                 ItemController.xui.PlayerInventory.DropItem(scrapStack);
         }
-
-
+        
         ((XUiC_ItemStack)ItemController).ItemStack = ItemStack.Empty.Clone();
         ((XUiC_ItemStack)ItemController).WindowGroup.Controller.SetAllChildrenDirty();
-
-        return result;
     }
 
     public static bool ConvertAndCraft(Recipe recipe, EntityPlayerLocal player, XUiController ItemController)
@@ -122,21 +119,20 @@ public static class ItemsUtilities
         var ingredients = new List<ItemStack>();
 
         // If there's a recipe, grab it, and change it into a repair recipe.
-        var recipe = CraftingManager.GetRecipe(recipeName);
-        if (recipe != null)
+        var recipeOriginal = CraftingManager.GetRecipe(recipeName);
+        if (recipeOriginal == null) return null;
+        var recipe = new Recipe();
+        foreach (var ingredient in recipeOriginal.ingredients)
         {
-            foreach (var ingredient in recipe.ingredients)
-                if (ingredient.count >= Reduction)
-                {
-                    var repairCount = ingredient.count / Reduction;
-                    ingredient.count = repairCount;
-                    ingredients.Add(ingredient);
-                }
-
-            recipe.craftingTime = Math.Max(1f, recipe.craftingTime / Reduction);
-            recipe.craftExpGain = Math.Max(1, recipe.craftExpGain / Reduction);
-            recipe.ingredients = ingredients;
+            if (ingredient.count < Reduction) continue;
+            var repairCount = ingredient.count / Reduction;
+            ingredient.count = repairCount;
+            ingredients.Add(ingredient);
         }
+
+        recipe.craftingTime = Math.Max(1f, recipe.craftingTime / Reduction);
+        recipe.craftExpGain = Math.Max(1, recipe.craftExpGain / Reduction);
+        recipe.ingredients = ingredients;
 
         return recipe;
     }
