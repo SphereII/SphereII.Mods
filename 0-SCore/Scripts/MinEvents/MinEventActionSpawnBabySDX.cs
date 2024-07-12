@@ -21,7 +21,7 @@ public class MinEventActionAddBuffToPrimaryPlayer : MinEventActionAddBuff
 
         foreach (var name in this.buffNames)
         {
-            primaryPlayer.Buffs.AddBuff(name, -1, true, false, false);
+            primaryPlayer.Buffs.AddBuff(name);
         }
     }
 }

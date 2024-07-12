@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 public static class ItemsUtilities
 {
@@ -116,24 +117,23 @@ public static class ItemsUtilities
 
     public static Recipe GetReducedRecipes(string recipeName, int Reduction)
     {
-        var ingredients = new List<ItemStack>();
 
         // If there's a recipe, grab it, and change it into a repair recipe.
         var recipeOriginal = CraftingManager.GetRecipe(recipeName);
         if (recipeOriginal == null) return null;
-        var recipe = new Recipe();
+        var recipe = new Recipe {
+            ingredients = new List<ItemStack>()
+        };
+
         foreach (var ingredient in recipeOriginal.ingredients)
         {
             if (ingredient.count < Reduction) continue;
             var repairCount = ingredient.count / Reduction;
-            ingredient.count = repairCount;
-            ingredients.Add(ingredient);
+            recipe.ingredients.Add(new ItemStack(ingredient.itemValue, repairCount));
         }
 
         recipe.craftingTime = Math.Max(1f, recipe.craftingTime / Reduction);
         recipe.craftExpGain = Math.Max(1, recipe.craftExpGain / Reduction);
-        recipe.ingredients = ingredients;
-
         return recipe;
     }
 
@@ -142,7 +142,7 @@ public static class ItemsUtilities
         var result = true;
         foreach (var ingredient in ingredients)
         {
-            // Check if the palyer hs the items in their inventory or bag.
+            // Check if the player hs the items in their inventory or bag.
             var playerHas = player.inventory.GetItemCount(ingredient.itemValue);
             if (ingredient.count > playerHas)
             {
@@ -150,21 +150,7 @@ public static class ItemsUtilities
                 if (ingredient.count > playerHas) result = false;
             }
         }
-
-        //// The player has all the ingredients.
-        //if ( result )
-        //{ 
-        //    if (ingredient.count < playerHas)
-        //    {
-        //        ItemClass itemClass = ItemClass.GetItemClass(ingredient.itemValue.ItemClass.GetItemName(), false);
-        //        ItemStack missingStack = new ItemStack(ingredient.itemValue, ingredient.count);
-        //        player.AddUIHarvestingItem(missingStack, true);
-        //        result = false;
-        //    }
-
-        //}
-
-        return result;
+          return result;
     }
 
     public static List<BlockRadiusEffect> GetRadiusEffect(string strItemClass)

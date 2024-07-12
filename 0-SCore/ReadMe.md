@@ -23,6 +23,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+	- Recompiled against latest experimental build
+	- Fixed a few over-rides that changed in EntityAliveSDX, and AddBuff()
+
+	[ Known Issues ]
+		- Pathing Cubing Errors out on save.
+
+	[ Advanced Items - Scrap ]
+		- Fixed another issue where the temporary recipe was adjusting the master recipe, causing scrap information to be lost.
+
+	[ Food Spoilage ]
+		- Documenting a global Block Property for FullStackSpoil. This will cause the entire stack to spoil at once, rather than individual.
+		- <property name="FullStackSpoil" value="true" />
+		- This property may be defined on individual items to over-ride the global result.
+
+	[ ItemValue Clone() ]
+		- Modified the Patch to ItemValue to be a Postfix, and only re-does the Metadata dictionary, if conditions are correct to execute. 
+		- See previous release notes about the Meta Data for details.
+
 Version: 1.0.15.1402
 
 	[ Food Spoilage ]

@@ -28,3 +28,9 @@ C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - A21 - Mods\Mods\Sp
 C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - A21 - Mods\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
 C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - A21 - Mods\Mods\SphereII Clear UI\SphereII Clear UI.dll
 C:\Program Files (x86)\Steam\steamapps\common\7 Days To Die - A21 - Mods\Mods\SphereII Clear UI\SphereII Clear UI.pdb
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.AssemblyReference.cache
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.csproj.CoreCompileInputs.cache
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.dll
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\obj\Debug\SphereII Clear UI.pdb
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\SphereII Clear UI.dll
+C:\Builds\7DaysToDie\Mods\SphereII Clear UI\SphereII Clear UI.pdb

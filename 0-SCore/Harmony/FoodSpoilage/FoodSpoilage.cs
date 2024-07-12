@@ -59,48 +59,25 @@ public class SphereII_FoodSpoilage {
     [HarmonyPatch(typeof(ItemValue))]
     [HarmonyPatch("Clone")]
     public class ItemValueClone {
-        private static bool Prefix(ref ItemValue __result, ItemValue __instance) {
+        private static void Postfix(ref ItemValue __result, ItemValue __instance) {
             if (!FoodSpoilage)
-                return true;
+                return ;
             if (!UseAlternateItemValue)
-                return true;
+                return ;
             
             if (__instance.ItemClass == null || !__instance.ItemClass.Properties.Contains(PropSpoilable) ||
                 !__instance.ItemClass.Properties.GetBool(PropSpoilable))
-                return true;
+                return ;
 
-            __result = new ItemValue(__instance.type, false) {
-                Meta = __instance.Meta,
-                UseTimes = __instance.UseTimes,
-                Quality = __instance.Quality,
-                SelectedAmmoTypeIndex = __instance.SelectedAmmoTypeIndex,
-                Modifications = new ItemValue[__instance.Modifications.Length]
-            };
-            for (var i = 0; i < __instance.Modifications.Length; i++)
+            if (__instance.Metadata == null) return ;
+            __result.Metadata = new Dictionary<string, TypedMetadataValue>();
+            foreach (var text in __instance.Metadata.Keys)
             {
-                __result.Modifications[i] = ((__instance.Modifications[i] != null) ? __instance.Modifications[i].Clone() : null);
+                __result.SetMetadata(text, __instance.Metadata[text].Clone());
+                //__result.Metadata.Add(text, __instance.Metadata[text] ?? __instance.Metadata[text].Clone());
             }
-            if (__instance.Metadata != null)
-            {
-                __result.Metadata = new Dictionary<string, TypedMetadataValue>();
-                foreach (var text in __instance.Metadata.Keys)
-                {
-                    __result.SetMetadata(text, __instance.Metadata[text].Clone());
-                    //__result.Metadata.Add(text, __instance.Metadata[text] ?? __instance.Metadata[text].Clone());
-                }
-            }
-            __result.CosmeticMods = new ItemValue[__instance.CosmeticMods.Length];
-            for (var j = 0; j < __instance.CosmeticMods.Length; j++)
-            {
-                __result.CosmeticMods[j] = ((__instance.CosmeticMods[j] != null) ? __instance.CosmeticMods[j].Clone() : null);
-            }
-            __result.Activated = __instance.Activated;
-            if (__result.type == 0)
-            {
-                __instance.Seed = 0;
-            }
-            __result.Seed = __instance.Seed;
-            return false;
+
+            
         }
         
     }
@@ -314,7 +291,11 @@ public class SphereII_FoodSpoilage {
                 {
                     var count = 1;
 
-                    if (Configuration.CheckFeatureStatus(AdvFeatureClass, "FullStackSpoil"))
+                    var fullStackSpoil = false;
+                    if (itemClass.Properties.Contains("FullStackSpoil"))
+                        fullStackSpoil = itemClass.Properties.GetBool("FullStackSpoil");
+                    
+                    if (Configuration.CheckFeatureStatus(AdvFeatureClass, "FullStackSpoil") || fullStackSpoil)
                     {
                         AdvLogging.DisplayLog(AdvFeatureClass, itemClass.GetItemName() + ":Full Stack Spoil");
                         count = itemStack.count;

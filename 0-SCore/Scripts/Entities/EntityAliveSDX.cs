@@ -142,30 +142,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (_strMyName == "Bob")
                 return entityName;
 
-            // Don't return the name when on a mission.
-            //  if (IsOnMission()) return "";
-
             if (string.IsNullOrEmpty(_strTitle))
                 return Localization.Get(_strMyName);
             return Localization.Get(_strMyName) + " the " + Localization.Get(_strTitle);
         }
-        // set
-        // {
-        //     if (value.Equals(entityName)) return;
-        //
-        //     entityName = value;
-        //
-        //     // Don't set the internal name if it's the name of the entity class, since the
-        //     // EntityFactory calls the setter with the class name when it creates the entity.
-        //     // But set the internal name otherwise, because the setter is also called when the
-        //     // entity is re-created after being picked up and placed again.
-        //     if (value?.Equals(EntityClass.list[entityClass].entityClassName) != true)
-        //     {
-        //         _strMyName = value;
-        //     }
-        //
-        //     bPlayerStatsChanged |= !isEntityRemote;
-        // }
     }
 
    
@@ -574,7 +554,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                         QuestEventManager.Current.NPCInteracted(this);
                         uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
                         uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
-                        uiforPlayer.xui.Trader.TraderEntity.PlayVoiceSetEntry("questcomplete", true, true);
+                        uiforPlayer.xui.Trader.TraderEntity.PlayVoiceSetEntry("questcomplete",localPlayer);
                         uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
                     }
                 }
@@ -595,7 +575,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
                 QuestEventManager.Current.NPCInteracted(this);
                 uiforPlayer.xui.Dialog.QuestTurnIn = nextCompletedQuest;
                 uiforPlayer.windowManager.CloseAllOpenWindows(null, false);
-                uiforPlayer.xui.Dialog.Respondent.PlayVoiceSetEntry("questcomplete", true, true);
+                uiforPlayer.xui.Dialog.Respondent.PlayVoiceSetEntry("questcomplete", localPlayer);
                 uiforPlayer.windowManager.Open("questTurnIn", true, false, true);
             }
         }
@@ -1766,7 +1746,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         if (this.bLastAttackReleased && this.GetSoundAttack() != null)
         {
-            this.PlayOneShot(this.GetSoundAttack(), false);
+            this.PlayOneShot(this.GetSoundAttack(),false,true);
         }
 
         this.bLastAttackReleased = _bAttackReleased;
@@ -1906,6 +1886,15 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
     {
         var entityName = itemValue.GetMetadata("NPCName") as string;
         SetEntityName(entityName);
+
+        var myName = itemValue.GetMetadata("MyName") as string;
+        if (!string.IsNullOrEmpty(myName))
+            _strMyName = myName;
+
+        var myTitle = itemValue.GetMetadata("MyTitle") as string;
+        if (!string.IsNullOrEmpty(myTitle))
+            _strTitle = myTitle;
+
         belongsPlayerId = (int)itemValue.GetMetadata("BelongsToPlayer");
         Health = (int)itemValue.GetMetadata("health");
         var leaderID = (int)itemValue.GetMetadata("Leader");
@@ -1920,7 +1909,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (string.IsNullOrEmpty(storage)) continue;
 
             var itemId = storage.Split(',')[0];
-            var quality = StringParsers.ParseSInt32(storage.Split(',')[1]);
+            var quality = StringParsers.ParseUInt16(storage.Split(',')[1]);
             var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
             var createItem = ItemClass.GetItem(itemId);
             if ( storage.Split(',').Length > 3)
@@ -1944,7 +1933,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             if (string.IsNullOrEmpty(storage)) continue;
 
             var itemId = storage.Split(',')[0];
-            var quality = StringParsers.ParseSInt32(storage.Split(',')[1]);
+            var quality = StringParsers.ParseUInt16(storage.Split(',')[1]);
             var itemCount = StringParsers.ParseSInt32(storage.Split(',')[2]);
             var createItem = ItemClass.GetItem(itemId);
             createItem.Quality = quality;
@@ -2004,6 +1993,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         var itemValue = new ItemValue(type, false);
         itemValue.SetMetadata("NPCName", EntityName, TypedMetadataValue.TypeTag.String);
+        itemValue.SetMetadata("MyName", _strMyName, TypedMetadataValue.TypeTag.String);
+        itemValue.SetMetadata("MyTitle", _strTitle, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("EntityClassId", entityClass, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("BelongsToPlayer", belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("health", Health, TypedMetadataValue.TypeTag.Integer);
@@ -2215,7 +2206,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         return rightHandTransformName;
     }
 
-    public override void PlayOneShot(string clipName, bool sound_in_head = false, bool netsync = true)
+    public override void PlayOneShot(string clipName, bool sound_in_head = false, bool netsync = true, bool isUnique = false)
     {
         if (IsOnMission()) return;
         base.PlayOneShot(clipName, sound_in_head);
