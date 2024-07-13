@@ -36,8 +36,8 @@ namespace UAI
 
                 // We don't set the attack target yet, but the game should know if we're
                 // approaching an enemy or player.
-                _context.Self.ApproachingEnemy = isEnemy;
-                _context.Self.ApproachingPlayer = entityAlive is EntityPlayer;
+             //   _context.Self. = isEnemy;
+                _context.Self.aiClosestPlayer = entityAlive as EntityPlayer;
             }
 
             if (_context.ActionData.Target is Vector3 vector)

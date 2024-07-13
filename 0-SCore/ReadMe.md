@@ -23,7 +23,16 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.0.18.2207
+
+	- Rebuild against b317
+
+	[ UAI ]
+		- Fixed broken reference in UAITaskMoveToTarget.
+			- This used to set a reference to the closes enemy and player. However, those fields are no longer available.
+			- Player reference is now set up for aiClosestPlayer.
+
+Version: 1.0.17.1452
 	- Recompiled against latest experimental build
 	- Fixed a few over-rides that changed in EntityAliveSDX, and AddBuff()
 
