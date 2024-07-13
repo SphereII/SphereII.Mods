@@ -23,6 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+
+	[ Pathing Cube ]
+		- Fixed an issue where a Pathing cube would throw a null reference.
+			- Got an updated block from xyth
+			- Updated the code to work with TextMesh.
+
+	[ Challenges ]
+		- Added a challenges.xml file, all commented out.
+		- Shows how to add a new category, group, and challenges.
+
 Version: 1.0.18.2207
 
 	- Rebuild against b317

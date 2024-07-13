@@ -521,6 +521,7 @@
     <Content Include="Config\blockplaceholders.xml" />
     <Content Include="Config\blocks.xml" />
     <Content Include="Config\buffs.xml" />
+    <Content Include="Config\challenges.xml" />
     <Content Include="Config\dialogs.xml" />
     <Content Include="Config\items.xml" />
     <Content Include="Config\loadingscreen.xml" />
@@ -817,6 +818,9 @@
     <Reference Include="UnityEngine.PhysicsModule">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UI.dll</HintPath>

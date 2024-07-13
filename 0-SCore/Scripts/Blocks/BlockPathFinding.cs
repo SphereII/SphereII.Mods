@@ -56,8 +56,7 @@ internal class BlockPathFinding : BlockPlayerSign
             return OnBlockActivated(commandName, _world, _cIdx, parentPos, block, _player);
         }
 
-        var tileEntitySign = _world.GetTileEntity(_cIdx, _blockPos) as TileEntitySign;
-        if (tileEntitySign == null) return false;
+        if (_world.GetTileEntity(_cIdx, _blockPos) is not TileEntitySign tileEntitySign) return false;
 
         var internalLocalUserIdentifier = PlatformManager.InternalLocalUserIdentifier;
         switch (commandName)
@@ -97,8 +96,34 @@ internal class BlockPathFinding : BlockPlayerSign
     {
         if (_ebcd == null)
             return;
-
-        // Hide the sign, so its not visible. Without this, it errors out.
+        var chunk = (Chunk)((World)_world).GetChunkFromWorldPos(_blockPos);
+        var tileEntitySign = (TileEntitySign)_world.GetTileEntity(_cIdx, _blockPos);
+        if (tileEntitySign == null)
+        {
+            tileEntitySign = new TileEntitySign(chunk) {
+                localChunkPos = World.toBlock(_blockPos)
+            };
+            chunk.AddTileEntity(tileEntitySign);
+        }
+        
+        tileEntitySign.textMesh = _ebcd.transform.GetComponentInChildren<TextMesh>();
+        if (tileEntitySign.textMesh == null)
+        {
+            Debug.Log("TextMesh is null. Adding one.");
+            tileEntitySign.textMesh= _ebcd.transform.gameObject.AddComponent<TextMesh>();
+            if ( tileEntitySign.textMesh == null )
+                Debug.Log("Text Mesh is still null.");
+        }
+        
+        tileEntitySign.smartTextMesh =  tileEntitySign.textMesh.transform.gameObject.AddComponent<SmartTextMesh>();
+        var num = (float)_ebcd.blockValue.Block.multiBlockPos.dim.x;
+        tileEntitySign.smartTextMesh.MaxWidth = 0.48f * num;
+        tileEntitySign.smartTextMesh.MaxLines = this.lineCount;
+        tileEntitySign.smartTextMesh.ConvertNewLines = true;
+        var authoredText = tileEntitySign.signText;
+        tileEntitySign.RefreshTextMesh(authoredText?.Text);
+      
+        // // Hide the sign, so its not visible. Without this, it errors out.
         _ebcd.bHasTransform = false;
         base.OnBlockEntityTransformAfterActivated(_world, _blockPos, _cIdx, _blockValue, _ebcd);
 

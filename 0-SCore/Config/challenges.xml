@@ -1,0 +1,18 @@
+<configs>
+    <!--
+    <append xpath="/challenges">
+        <challenge_category name="SCore" title="SphereII SCore" icon="ui_game_symbol_challenge_category2" />
+        <challenge_group category="SCore" name="ScoreTest" title_key="SCore Testing" reward_text_key="No Rewards" reward_event="NoEvent"  />
+
+        <challenge name="enterPOI" title_key="EnterPOI" icon="ui_game_symbol_wood" group="ScoreTest" short_description_key="challengeGathererWoodShort" description_key="challengeGathererWoodDesc" reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="EnterPOI, SCore" prefab="abandoned_house_02" count="10"/>
+        </challenge>
+        <challenge name="enterPOI3" title_key="EnterPOI2" icon="ui_game_symbol_wood" group="ScoreTest" short_description_key="challengeGathererWoodShort" description_key="challengeGathererWoodDesc" reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="EnterPOI, SCore" prefab="abandoned_house_03" count="10"/>
+        </challenge>
+        <challenge name="enterPOI4" title_key="EnterPOI3" icon="ui_game_symbol_wood" group="ScoreTest" short_description_key="challengeGathererWoodShort" description_key="challengeGathererWoodDesc" reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="EnterPOI, SCore" prefab="abandoned_house_04" count="10"/>
+        </challenge>
+    </append>
+-->
+</configs>

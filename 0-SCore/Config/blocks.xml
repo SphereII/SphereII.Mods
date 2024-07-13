@@ -418,6 +418,8 @@
 			<property name="CreativeMode" value="Player" />
 			<property name="CanPickup" value="true"/>
 			<property name="Collide" value="sight"/>
+			<property name="MultiBlockDim" value="1,2,1"/>
+
 
 		</block>
 
@@ -432,6 +434,8 @@
 			<property name="CanPickup" value="true"/>
 			<property name="TakeDelay" value="3" />
 			<property name="Collide" value="sight"/>
+			<property name="MultiBlockDim" value="1,2,1"/>
+
 		</block>
 
 		<!-- Cave air block -->
