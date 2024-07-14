@@ -1,13 +1,14 @@
 # block everything by default.
 *
 !*/
-!0-SCore/**
-!SampleProject/**
-!SphereII*/**
-!*.sln
-!Blooms Family Farming/**
-!Tools/**
+!Mods/0-SCore/**
+!Mods/SampleProject/**
+!Mods/SphereII*/**
+!Mods/*.sln
+!Mods/Blooms Family Farming/**
+!Mods/Tools/**
 #!BetterBiomeEffects/**
-!ReadMe.md
+!Mods/ReadMe.md
+*.zip
 obj
 
