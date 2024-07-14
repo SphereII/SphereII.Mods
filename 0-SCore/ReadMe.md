@@ -23,7 +23,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.0.19.944
+	[ Powered Workstations ]
+		- Fixed a bug where workstations would get free power if they did not have RequirePower set to true.
+
+Version:1.0.18.1549
 
 	[ Pathing Cube ]
 		- Fixed an issue where a Pathing cube would throw a null reference.

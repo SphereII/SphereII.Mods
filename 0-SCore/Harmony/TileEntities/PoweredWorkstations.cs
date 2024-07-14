@@ -15,19 +15,6 @@ namespace Harmony.TileEntities {
 
         public class PowerWorkstationHelper {
             public static bool CheckWorkstationForPower(TileEntity myTileEntity) {
-                AdvLogging.DisplayLog(AdvFeatureClass, "Does Workstation have access to Fuel?");
-                var blNeedsPower = false;
-
-                // Read the block properties whenever we check, since we don't really persists whether or not we need power.
-                var block2 = myTileEntity.blockValue.Block;
-                if (block2.Properties.Values.ContainsKey("RequirePower"))
-                    blNeedsPower = StringParsers.ParseBool(block2.Properties.Values["RequirePower"]);
-
-                AdvLogging.DisplayLog(AdvFeatureClass, "Require Power? : " + blNeedsPower);
-
-                // Doesn't need any power, so don't check.
-                if (blNeedsPower == false) return true;
-
                 AdvLogging.DisplayLog(AdvFeatureClass, "Workstation requires power. Checking near by tile entities.");
 
                 // Check the nearby chunks for Power source tile entities, and check if they are on. 
@@ -86,11 +73,21 @@ namespace Harmony.TileEntities {
 
                 return true;
             }
+
+            private static bool RequirePower(ITileEntity _tileEntity) {
+                var blNeedsPower = false;
+                var block2 = _tileEntity.blockValue.Block;
+                if (block2.Properties.Values.ContainsKey("RequirePower"))
+                    blNeedsPower = StringParsers.ParseBool(block2.Properties.Values["RequirePower"]);
+                return blNeedsPower;
+            }
             public static bool Prefix(TileEntityWorkstation __instance, ref float ___currentBurnTimeLeft, ItemStack[] ___fuel) {
                 AdvLogging.DisplayLog(AdvFeatureClass, "UpdateTick()");
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
+                if (!RequirePower(__instance)) return true;
+                
                 // If there's no fuel, then check for wireless power.
                 if (IsEmpty(___fuel))
                 {
