@@ -1,7 +1,7 @@
 ﻿<configs>
     <!-- This is our weak block that we can pull of doors and windows. It uses wood_weak instead of wood_regular, so things don't get too op to quickly.-->
     <!--
-      <insertAfter xpath="//blocks/block[@name='woodWeakNoUpgradeMaster']" >
+      <insertAfter xpath="//blocks/block[@name='cntShippingCrateLabEquipment']" >
         <block name="boardedWindowsSheet_weak">
           <property name="Extends" value="woodWeakNoUpgradeMaster"/>
           <property name="Material" value="Mwood_regular"/>
@@ -25,7 +25,7 @@
      
       </insertAfter>
 
-    -->
+-->
 
   <!-- For boarded doors and windows, we want to use the special class. The Can Pick up attribute will put that block in our inventory, -->
     <!-- and use the DowngradeBlock value as a replacement, copying the block's position -->
@@ -53,8 +53,8 @@
       <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
       <property name="TakeDelay" value="15" />
     </append>
-
-  
+-->
+  <!--
     <append xpath="/blocks/block[@name ='cntShippingCrateLabEquipment']" >
       <property name="Class" value="TakeAndReplace, SCore"/>
       <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />

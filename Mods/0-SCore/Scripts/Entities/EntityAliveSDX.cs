@@ -1795,31 +1795,31 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         return;
     }
-    //protected override Vector3i dropCorpseBlock()
-    //{
-    //    var bagPosition = new Vector3i(this.position + base.transform.up);
-    //    if (lootContainer == null) return base.dropCorpseBlock();
-
-    //    if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
-
-    //    // Check to see if we have our backpack container.
-    //    var className = "BackpackNPC";
-    //    EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
-    //    if (entityClass == null)
-    //        className = "Backpack";
-
-    //    var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
-    //    EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
-    //    entityCreationData.entityName = Localization.Get(this.EntityName);
-
-    //    entityCreationData.id = -1;
-    //    entityCreationData.lootContainer = lootContainer;
-    //    GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
-    //    entityBackpack.OnEntityUnload();
-    //    this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
-    //    return bagPosition;
-
-    //}
+    // public override Vector3i dropCorpseBlock()
+    // {
+    //     var bagPosition = new Vector3i(this.position + base.transform.up);
+    //     if (lootContainer == null) return base.dropCorpseBlock();
+    //
+    //     if (lootContainer.IsEmpty()) return base.dropCorpseBlock();
+    //
+    //     // Check to see if we have our backpack container.
+    //     var className = "BackpackNPC";
+    //     EntityClass entityClass = EntityClass.GetEntityClass(className.GetHashCode());
+    //     if (entityClass == null)
+    //         className = "Backpack";
+    //
+    //     var entityBackpack = EntityFactory.CreateEntity(className.GetHashCode(), bagPosition) as EntityItem;
+    //     EntityCreationData entityCreationData = new EntityCreationData(entityBackpack);
+    //     entityCreationData.entityName = Localization.Get(this.EntityName);
+    //
+    //     entityCreationData.id = -1;
+    //     entityCreationData.lootContainer = lootContainer;
+    //     GameManager.Instance.RequestToSpawnEntityServer(entityCreationData);
+    //     entityBackpack.OnEntityUnload();
+    //    // this.SetDroppedBackpackPosition(new Vector3i(bagPosition));
+    //     return bagPosition;
+    //
+    // }
 
     public override void playStepSound(string stepSound)
     {
@@ -1899,8 +1899,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         Health = (int)itemValue.GetMetadata("health");
         var leaderID = (int)itemValue.GetMetadata("Leader");
         EntityUtilities.SetLeaderAndOwner(entityId, leaderID);
-
         lootContainer.entityId = entityId;
+        lootContainer.lootListName = itemValue.GetMetadata("LootListName") as string;
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
         {
@@ -1970,6 +1970,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
+       
     }
 
     public ItemValue GetItemValue()
@@ -2005,6 +2006,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         itemValue.SetMetadata("RightHandJointName", inventory.holdingItem.Properties.GetString("RightHandJointName"),TypedMetadataValue.TypeTag.String);
         if (lootContainer == null) return itemValue;
 
+        itemValue.SetMetadata("LootListName", lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
         {
@@ -2249,46 +2251,47 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         {
             return Vector3i.zero;
         }
-
+    
         if (corpseBlockValue.isair)
         {
             return Vector3i.zero;
         }
-
+    
         if (rand.RandomFloat > corpseBlockChance)
         {
             return Vector3i.zero;
         }
-
+    
         var vector3I = World.worldToBlockPos(this.position);
         while (vector3I.y < 254 && (float)vector3I.y - this.position.y < 3f &&
                !this.corpseBlockValue.Block.CanPlaceBlockAt(this.world, 0, vector3I, this.corpseBlockValue, false))
         {
             vector3I += Vector3i.up;
         }
-
+    
         if (vector3I.y >= 254)
         {
             return Vector3i.zero;
         }
-
+    
         if ((float)vector3I.y - this.position.y >= 2.1f)
+            
         {
             return Vector3i.zero;
         }
-
+    
         this.world.SetBlockRPC(vector3I, this.corpseBlockValue);
-
+    
         if (vector3I == Vector3i.zero)
         {
             return Vector3i.zero;
         }
-
+    
         if (world.GetTileEntity(0, vector3I) is not TileEntityLootContainer tileEntityLootContainer)
         {
             return Vector3i.zero;
         }
-
+    
         if (lootContainer != null)
         {
             tileEntityLootContainer.CopyLootContainerDataFromOther(lootContainer);
@@ -2299,7 +2302,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
             tileEntityLootContainer.SetContainerSize(LootContainer.GetLootContainer(lootListOnDeath).size,
                 true);
         }
-
+    
         tileEntityLootContainer.SetModified();
         return vector3I;
     }

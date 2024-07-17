@@ -23,6 +23,19 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.22.1055
+
+		- Cleaned up old debug statements.
+
+	[ NPC ]
+		- Fixed a null reference when opening a backpack from a dead NPC
+
+	[ Broadcast ]
+		- Fixed an issue where the button was not working properly
+
+	[ Localization ]
+		- Fixed some localization settings.
+
 Version: 1.0.19.1056
 	- Restructured Repo to include a top level Mods folder.
 

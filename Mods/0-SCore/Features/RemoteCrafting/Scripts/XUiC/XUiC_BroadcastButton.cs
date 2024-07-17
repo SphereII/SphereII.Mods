@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using JetBrains.Annotations;
 using SCore.Features.RemoteCrafting.Scripts;
+using UnityEngine;
 
 // Code from Laydor slightly modified
 public class XUiC_BroadcastButton : XUiController {
@@ -11,7 +12,7 @@ public class XUiC_BroadcastButton : XUiController {
     public override void Init() {
         base.Init();
         _button = viewComponent as XUiV_Button;
-       // OnPress += Grab_OnPress;
+        OnPress += Grab_OnPress;
     }
 
     public override void Update(float dt) {
@@ -60,7 +61,6 @@ public class XUiC_BroadcastButton : XUiController {
         _button.Enabled = false;
         _button.Selected = false;
         _button.IsVisible = false;
-
         var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
         var bindToWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation").Split(';');
         if (xui.lootContainer == null || !Broadcastmanager.HasInstance ||
@@ -75,7 +75,6 @@ public class XUiC_BroadcastButton : XUiController {
                 return;
             }
         }
-
         if (!string.IsNullOrEmpty(bindToWorkstation[0]))
         {
             var counter = 0;
@@ -91,7 +90,6 @@ public class XUiC_BroadcastButton : XUiController {
                 return;
             }
         }
-
         //Enable button and set if button is selected
         _button.IsVisible = true;
         _button.Enabled = true;
