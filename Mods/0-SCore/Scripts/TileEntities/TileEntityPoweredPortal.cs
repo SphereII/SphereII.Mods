@@ -13,7 +13,7 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 	private List<PlatformUserIdentifierAbs> allowedUserIds;
 	private string password;
     private bool isPowered;
-    public AuthoredText signText;
+	public AuthoredText signText = new AuthoredText();
     public SmartTextMesh smartTextMesh;
     private ITileEntitySignable _tileEntitySignableImplementation;
 

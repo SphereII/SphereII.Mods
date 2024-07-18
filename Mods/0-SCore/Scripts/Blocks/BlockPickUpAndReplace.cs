@@ -1,14 +1,17 @@
-﻿public class BlockTakeAndReplace : Block
+﻿using UnityEngine;
+
+public class BlockTakeAndReplace : Block
 {
     // By default, all blocks using this class will have a take delay of 15 seconds, unless over-ridden by the XML.
     private float fTakeDelay = 6f;
     private string itemNames = "meleeToolRepairT1ClawHammer";
+    private string pickupBlock;
     public override void Init()
     {
         base.Init();
-
         if (Properties.Values.ContainsKey("TakeDelay")) fTakeDelay = StringParsers.ParseFloat(Properties.Values["TakeDelay"]);
         if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
+        if (Properties.Values.ContainsKey("PickUpBlock")) pickupBlock = Properties.GetString("PickUpBlock");
     }
 
     // Override the on Block activated, so we can pop up our timer
@@ -19,6 +22,15 @@
         return true;
     }
 
+    private ItemStack CreateItemStack(string item) {
+        var itemClass = ItemClass.GetItemClass(item);
+        if (itemClass != null)
+        {
+            return new ItemStack(new ItemValue(itemClass.Id), 1);
+        }
+
+        return null;
+    }
     // Take logic to replace it with the Downgrade block, matching rotations.
     private void TakeTarget(TimerEventData timerData)
     {
@@ -29,12 +41,20 @@
         var vector3i = (Vector3i)array[2];
         var block = world.GetBlock(vector3i);
         var entityPlayerLocal = array[3] as EntityPlayerLocal;
+
+        var itemStack = CreateItemStack(_blockValue.Block.GetBlockName());
+            
         // Find the block value for the pick up value, and add it to the inventory
-        if (PickedUpItemValue.Contains(":"))
-            PickedUpItemValue = "boardedWindowsSheet_weak";
-        var pickUpBlock = GetBlockValue(PickedUpItemValue, true);
+        if (!PickedUpItemValue.Contains(":"))
+        {
+            itemStack = CreateItemStack(PickedUpItemValue);
+        }
+        if (!string.IsNullOrEmpty(pickupBlock))
+        {
+            itemStack = CreateItemStack(pickupBlock);
+        }
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
-        var itemStack = new ItemStack(pickUpBlock.ToItemValue(), 1);
+       // var itemStack = new ItemStack(targetBlock.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
         entityPlayerLocal.PlayOneShot("Sounds/DestroyBlock/wooddestroy1");

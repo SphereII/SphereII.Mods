@@ -23,6 +23,26 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.23.1434
+
+	[ Soft Hands ]
+		- Fixed an issue where Soft hands was not negated by the new equipment system
+
+	[ Take And Replace ]
+		- Modifed the class to better support shapes.
+		- Is a property called PickUpBlock is available, it'll give you whatever resource is listed there.
+		- If the property is not there, it'll give you the same block you pulled off.
+		- Example:
+            <append xpath="/shapes/shape[@name='windowBoarded']">
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="8"/>
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+	[ Portals ]
+		- Fixed a Portal Null reference when trying to access the block.
+
 Version: 1.0.22.1055
 
 		- Cleaned up old debug statements.

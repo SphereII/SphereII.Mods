@@ -32,6 +32,15 @@ namespace Harmony.PlayerFeatures
                 if (damagingItemValue != null && damagingItemValue.ItemClass.HasAnyTags(FastTags<TagGroup.Global>.Parse("thrownWeapon")))
                     return;
 
+                // Check if they are wearing gloves.
+                var handTags = FastTags<TagGroup.Global>.Parse("armorHands");
+                foreach (var item in entityAlive.equipment.GetArmor())
+                {
+                    if ( item.IsEmpty()) continue;
+                    if (!item.ItemClass.HasAnyTags(handTags)) continue;
+                    isWearingGloves = true;
+                    break;
+                }
                 // Check if its the player hand
                 if (entityAlive.inventory.holdingItem.GetItemName() != "meleeHandPlayer" || _attackDetails.damageGiven <= 0 || isWearingGloves) return;
 
