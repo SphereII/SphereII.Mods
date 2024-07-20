@@ -23,6 +23,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.25.1115
+	- Rebuilt, and fixed against b326.
+
+	[ Take And Replace ]
+		- Fixed a null reference if the PickedUpItemValue was null on a block.
+
 Version: 1.0.23.1434
 
 	[ Soft Hands ]
@@ -30,7 +36,7 @@ Version: 1.0.23.1434
 
 	[ Take And Replace ]
 		- Modifed the class to better support shapes.
-		- Is a property called PickUpBlock is available, it'll give you whatever resource is listed there.
+		- If a property called PickUpBlock is available, it'll give you whatever resource is listed there.
 		- If the property is not there, it'll give you the same block you pulled off.
 		- Example:
             <append xpath="/shapes/shape[@name='windowBoarded']">
@@ -39,6 +45,7 @@ Version: 1.0.23.1434
                 <property name="TakeDelay" value="8"/>
                 <property name="PickUpBlock" value="resourceWood"/>
             </append>
+		-> Order of reading PickUpBlock:  current block, PickUpBlock from Shape, and PickUpBlock from block.
 
 	[ Portals ]
 		- Fixed a Portal Null reference when trying to access the block.

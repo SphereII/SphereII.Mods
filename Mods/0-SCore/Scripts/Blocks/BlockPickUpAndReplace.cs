@@ -45,7 +45,7 @@ public class BlockTakeAndReplace : Block
         var itemStack = CreateItemStack(_blockValue.Block.GetBlockName());
             
         // Find the block value for the pick up value, and add it to the inventory
-        if (!PickedUpItemValue.Contains(":"))
+        if (!string.IsNullOrEmpty(PickedUpItemValue) && PickedUpItemValue.Contains(":"))
         {
             itemStack = CreateItemStack(PickedUpItemValue);
         }
@@ -53,6 +53,8 @@ public class BlockTakeAndReplace : Block
         {
             itemStack = CreateItemStack(pickupBlock);
         }
+        
+        Debug.Log($"Current block: {_blockValue.Block.GetBlockName()} PIcked Up Item: {PickedUpItemValue}   PickUp Block: {pickupBlock}");
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
        // var itemStack = new ItemStack(targetBlock.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))

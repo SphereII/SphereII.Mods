@@ -27,76 +27,141 @@
 
 -->
 
-  <!-- For boarded doors and windows, we want to use the special class. The Can Pick up attribute will put that block in our inventory, -->
-    <!-- and use the DowngradeBlock value as a replacement, copying the block's position -->
-    <!--
-    <append xpath="/blocks/block[@name='doorFrameWhiteBoarded1']">
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+    <conditional>
+        <if cond="mod_loaded('0-SCore_sphereii')">
+            <!-- For boarded doors and windows, we want to use the special class. The Can Pick up attribute will put that block in our inventory, -->
+            <!-- and use the DowngradeBlock value as a replacement, copying the block's position -->
 
-    <append xpath="/blocks/block[@name='doorFrameWhiteBoarded2']">
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-
-    </append>
-    <append xpath="/blocks/block[@name='doorFrameMetalBoarded1']">
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-
-    </append>
-    <append xpath="/blocks/block[@name='doorFrameMetalBoarded2']">
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
--->
-  <!--
-    <append xpath="/blocks/block[@name ='cntShippingCrateLabEquipment']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateLabEquipment']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateShamway']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateShamway']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateBookstore']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateBookstore']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateCarParts']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateCarParts']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateConstructionSupplies']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateConstructionSupplies']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateShotgunMessiah']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
+            <append xpath="/blocks/block[@name ='cntShippingCrateShotgunMessiah']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
 
-    <append xpath="/blocks/block[@name ='cntShippingCrateWorkingStiffs']" >
-      <property name="Class" value="TakeAndReplace, SCore"/>
-      <property name="CanPickup" value="true" param1="boardedWindowsSheet_weak" />
-      <property name="TakeDelay" value="15" />
-    </append>
--->
+            <append xpath="/blocks/block[@name ='cntShippingCrateWorkingStiffs']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='cntShippingCrateSavageCountry']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='cntShippingCrateMoPowerElectronics']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <!-- window barricades -->
+
+            <append xpath="/blocks/block[@name ='shutters1Plate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='plywoodOsbCTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='sidingWhiteBurntCTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='plainWoodBarricade02CTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='woodBarricadeCTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='plainWoodWindowPlugCTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='windowPlug01CTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='windowPlug02CTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+            <append xpath="/blocks/block[@name ='windowPlug03CTRPlate']" >
+                <property name="Class" value="TakeAndReplace, SCore"/>
+                <property name="CanPickup" value="true" />
+                <property name="TakeDelay" value="15" />
+                <property name="PickUpBlock" value="resourceWood"/>
+            </append>
+
+        </if>
+    </conditional>
 </configs> 

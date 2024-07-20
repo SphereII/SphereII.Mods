@@ -27,21 +27,7 @@ public class SCore_QuickLoad
             }
 
             if (!autoStart) return true;
-
-            if (!XUiC_MainMenu.openedOnce)
-            {
-                var action = PlatformManager.MultiPlatform.User.IsConnectToServerFromCommandline();
-                if (action != null)
-                {
-                    if (ProfileSDF.CurrentProfileName().Length == 0)
-                    {
-                        XUiC_OptionsProfiles.Open(_xuiInstance, action);
-                        return false;
-                    }
-                    action();
-                    return false;
-                }
-            }
+     
             _xuiInstance.playerUI.windowManager.Open(XUiC_MainMenu.ID, true, false, true);
             return false;
 

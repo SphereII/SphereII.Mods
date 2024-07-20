@@ -1,10 +1,228 @@
 <configs>
 
-	<!-- Let's pull off the boarded windows too, but use weak item instead.-->
-	<append xpath="/shapes/shape[@name='windowBoarded']">
-		<property name="Class" value="TakeAndReplace, SCore"/>
-		<property name="CanPickup" value="true" param1="boardedWindowsSheet_weak"/>
-		<property name="TakeDelay" value="8"/>
-	</append>
-	
+	<!-- The shapes below were chosen by finding POIs in vanilla and using f3 to determine what block/shape i was looking at.  -->
+
+	<conditional>
+		<if cond="mod_loaded('0-SCore_sphereii')">
+			<append xpath="/shapes/shape[@name='windowBoarded']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='window01Empty']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='window02Empty']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='billboard']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='windowplug01']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='windowplug02']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='windowplug03']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='windowplug04']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fence']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceDiagonal']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceCorner']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceBroken2']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceBroken1']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceCentered']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceCenteredBroken1']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fenceCenteredBroken2']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketFull']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketBroken01']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketBroken02']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketBroken03']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketBroken04']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketBroken05']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketFallen']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='fencePicketCorner']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='trellisSquare']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='trellisDiamond']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='woodDebris01']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='woodDebris02']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='woodDebris03']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='catwalkV1']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+			<append xpath="/shapes/shape[@name='plate']">
+				<property name="Class" value="TakeAndReplace, SCore"/>
+				<property name="CanPickup" value="true"/>
+				<property name="TakeDelay" value="8"/>
+				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+			</append>
+
+
+		</if>
+	</conditional>
+
 </configs>

@@ -191,6 +191,10 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		return false;
 	}
 
+	public void SetText(AuthoredText _authoredText, bool _syncData = true) {
+		this.SetText((_authoredText != null) ? _authoredText.Text : null, _syncData, (_authoredText != null) ? _authoredText.Author : null);
+	}
+
 	public void SetText(string _text, bool _syncData = true, PlatformUserIdentifierAbs _signingPlayer = null) {
 		if (GameManager.Instance.persistentPlayers.GetPlayerData(_signingPlayer) == null)
 		{
