@@ -1875,6 +1875,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         if (entityPlayerLocal == null) return;
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         var itemStack = new ItemStack(GetItemValue(), 1);
+        foreach (var meta in itemStack.itemValue.Metadata)
+        {
+            Debug.Log($"Key: {meta.Key}");
+            Debug.Log($"Value: {meta.Value.GetValue()}");
+        }
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack))
         {
             GameManager.Instance.ItemDropServer(itemStack, entityPlayerLocal.GetPosition(), Vector3.zero, _playerId,
@@ -1970,7 +1975,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
         }
 
         Buffs.SetCustomVar("WeaponTypeNeedsUpdate", 1);
-       
+
+     
     }
 
     public ItemValue GetItemValue()
@@ -1994,19 +2000,23 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX
 
         var itemValue = new ItemValue(type, false);
         itemValue.SetMetadata("NPCName", EntityName, TypedMetadataValue.TypeTag.String);
-        itemValue.SetMetadata("MyName", _strMyName, TypedMetadataValue.TypeTag.String);
-        itemValue.SetMetadata("MyTitle", _strTitle, TypedMetadataValue.TypeTag.String);
+        if ( !string.IsNullOrEmpty(_strMyName))
+            itemValue.SetMetadata("MyName", _strMyName, TypedMetadataValue.TypeTag.String);
+        if ( !string.IsNullOrEmpty(_strTitle))
+            itemValue.SetMetadata("MyTitle", _strTitle, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("EntityClassId", entityClass, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("BelongsToPlayer", belongsPlayerId, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("health", Health, TypedMetadataValue.TypeTag.Integer);
-        itemValue.SetMetadata("Leader", EntityUtilities.GetLeaderOrOwner(entityId)?.entityId,
-            TypedMetadataValue.TypeTag.Integer);
+        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
+        if ( leader)
+            itemValue.SetMetadata("Leader", leader.entityId, TypedMetadataValue.TypeTag.Integer);
         itemValue.SetMetadata("CurrentWeapon", inventory.holdingItem.GetItemName(), TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("DefaultWeapon", _defaultWeapon, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("RightHandJointName", inventory.holdingItem.Properties.GetString("RightHandJointName"),TypedMetadataValue.TypeTag.String);
         if (lootContainer == null) return itemValue;
 
-        itemValue.SetMetadata("LootListName", lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
+        if ( !string.IsNullOrEmpty(lootContainer.lootListName))
+            itemValue.SetMetadata("LootListName", lootContainer.lootListName, TypedMetadataValue.TypeTag.String);
         var slots = lootContainer.items;
         for (var i = 0; i < slots.Length; i++)
         {

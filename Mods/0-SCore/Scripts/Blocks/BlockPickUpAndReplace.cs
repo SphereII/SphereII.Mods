@@ -54,7 +54,6 @@ public class BlockTakeAndReplace : Block
             itemStack = CreateItemStack(pickupBlock);
         }
         
-        Debug.Log($"Current block: {_blockValue.Block.GetBlockName()} PIcked Up Item: {PickedUpItemValue}   PickUp Block: {pickupBlock}");
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
        // var itemStack = new ItemStack(targetBlock.ToItemValue(), 1);
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))

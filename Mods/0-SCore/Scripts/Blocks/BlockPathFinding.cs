@@ -109,10 +109,7 @@ internal class BlockPathFinding : BlockPlayerSign
         tileEntitySign.textMesh = _ebcd.transform.GetComponentInChildren<TextMesh>();
         if (tileEntitySign.textMesh == null)
         {
-            Debug.Log("TextMesh is null. Adding one.");
             tileEntitySign.textMesh= _ebcd.transform.gameObject.AddComponent<TextMesh>();
-            if ( tileEntitySign.textMesh == null )
-                Debug.Log("Text Mesh is still null.");
         }
         
         tileEntitySign.smartTextMesh =  tileEntitySign.textMesh.transform.gameObject.AddComponent<SmartTextMesh>();

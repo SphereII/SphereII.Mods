@@ -23,6 +23,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.28.1841
+
+	[ EntityAliveSDX ]
+		- Fixed a null reference when picking up an NPC and selecting their item.
+			- It was storing a LootListName, which may be null, causing the null ref.
+
+	[ Signs ]
+		- Fixed an issue with http:// images not displaying correctly on signs.
+		- Problem was identified that the new shader on the signs weren't allowing it.
+			- Added a SCoreModEvents.GetStandardShader() that returns a Standard shader.
+			- When using a custom http:// link, it will switch to this shader.
+		- A Redesign is necessary.
+		- Known Issue: URL text still shows up. Sometimes image doesn't.
+
 Version: 1.0.25.1115
 	- Rebuilt, and fixed against b326.
 

@@ -9,18 +9,23 @@ using UnityEngine;
 
 public class SCoreModEvents {
     public static List<Transform> ExternalParticles = new List<Transform>();
-
+    private static Shader _defaultShader;
     public static void Init() {
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
 
+       
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
     }
 
- 
+    public static Shader GetStandardShader() {
+        if (_defaultShader == null )
+            _defaultShader = Shader.Find("Standard");
+        return _defaultShader;
+    }
 
     private static void EntityPool() {
         //     GameManager.Instance.gameObject.GetOrAddComponent<EntityFactoryPool>();

@@ -4,11 +4,20 @@ using UnityEngine.Video;
 
 namespace Harmony.TileEntities {
     public class TileEntitySignGif {
-        private static readonly bool enableExtendedSigns =
+        private static readonly bool EnableExtendedSigns =
             Configuration.CheckFeatureStatus("AdvancedPlayerFeatures", "ExtendedSigns");
+        //
+        // [HarmonyPatch(typeof(SmartTextMesh))]
+        // [HarmonyPatch("CanRenderString")]
+        // public class SmartTextMeshCanRenderString {
+        //     public static bool Prefix(SmartTextMesh __instance, string _text) {
+        //         if (!EnableExtendedSigns) return true;
+        //         return !_text.StartsWith("http");
+        //     }
+        // }
+
 
         [HarmonyPatch(typeof(TileEntitySign))]
-        //[HarmonyPatch("SetText")]
         [HarmonyPatch("RefreshTextMesh")]
         public class TileEntitySignSetText {
             public static bool Prefix(TileEntitySign __instance) {
@@ -16,42 +25,33 @@ namespace Harmony.TileEntities {
                     return true;
                 var smartTextMesh = __instance.smartTextMesh;
                 if (smartTextMesh == null) return true;
-                if (enableExtendedSigns)
+                var parentTransform = smartTextMesh.transform.parent;
+                var signMesh = parentTransform.transform.GetChild(0);
+                var prefab = parentTransform.transform.GetChild(1);
+                var textMesh = prefab.gameObject.GetComponent<TextMesh>();
+
+                if (EnableExtendedSigns)
                 {
                     var text = __instance.signText.Text;
-                    if (text.Contains("youtube"))
-                        text = "";
                     if (text.StartsWith("http"))
                     {
-                        // var videoPlayer = smartTextMesh.transform.parent.transform.GetComponent<SCoreVideo>();
-                        // if (videoPlayer == null)
-                        //     videoPlayer = smartTextMesh.transform.parent.transform.gameObject.AddComponent<SCoreVideo>();
-                        // videoPlayer.Configure(text);
-                        var wrapper = smartTextMesh.transform.parent.transform.gameObject.GetOrAddComponent<ImageWrapper>();
+                        var wrapper = signMesh.gameObject.GetOrAddComponent<ImageWrapper>();
                         // Check for supported url, and do some converting if necessary
-                        if (!wrapper.ValidURL(ref text))
-                        {
-                            Debug.Log("ImageWrapper: Only supported files: .gif, .gifs, .jpg, and .png");
-                            return true;
-                        }
-                        
+                        if (!wrapper.ValidURL(ref text)) return true;
                         if (wrapper.IsNewURL(text))
                         {
                             wrapper.Pause();
                             wrapper.Init(text);
-                        
+
                             __instance.SetModified();
                         }
-
-                     //  smartTextMesh.gameObject.SetActive(false);
-                    
                         return true;
                     }
                 }
 
-                var wrapper2 = smartTextMesh.transform.parent.transform.GetComponent<ImageWrapper>();
+                var wrapper2 = signMesh.transform.gameObject.GetComponent<ImageWrapper>();
                 if (wrapper2 != null)
-                    GameObject.Destroy(wrapper2);
+                    Object.Destroy(wrapper2);
 
                 return true;
             }

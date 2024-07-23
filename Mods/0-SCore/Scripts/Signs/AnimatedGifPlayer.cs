@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using GameEvent.SequenceActions;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -430,43 +429,44 @@ namespace OldMoatGames
 
         private IEnumerator DownloadImage(string MediaUrl)
         {
-            // GetTextures() is broken on the version of unity currently used.
-            var texture = new Texture2D(1, 1);
+            // // // GetTextures() is broken on the version of unity currently used.
+            var texture2 = new Texture2D(1, 1);
             var www = new WWW(MediaUrl);
             yield return www;
-            www.LoadImageIntoTexture(texture);
-            GifTexture = texture;
+            www.LoadImageIntoTexture(texture2);
+            GifTexture = texture2;
             if (GifTexture == null)
                 yield break;
             GifTexture.hideFlags = HideFlags.HideAndDontSave;
             SetTexture();
-//             
-//              var  request = UnityWebRequest.Get(MediaUrl);
-//
-//             //var request = UnityWebRequestTexture.GetTexture(MediaUrl);
-//             yield return request.SendWebRequest();
-// #pragma warning disable 618
-//             if (request.isNetworkError || request.isHttpError)
-// #pragma warning restore 618
-//             {
-//                 Debug.Log(request.error);
-//             }
-//             else
-//             {
-//                 Debug.Log("Download Handler");
-//                 Debug.Log(request.downloadHandler);
-//                 // if (request.downloadHandler is not DownloadHandlerTexture texture)
-//                 // {
-//                 //     yield break;
-//                 // }
-//
-//                 var texture = request.downloadHandler.data;
-//                 GifTexture = texture;
-//                 if (GifTexture == null)
-//                     yield break;
-//                 GifTexture.hideFlags = HideFlags.HideAndDontSave;
-//                 SetTexture();
-//             }
+            yield break;
+            //
+           //  var  request = UnityWebRequest.Get(MediaUrl);
+
+            var request = UnityWebRequestTexture.GetTexture(MediaUrl);
+            yield return request.SendWebRequest();
+#pragma warning disable 618
+            if (request.isNetworkError || request.isHttpError)
+#pragma warning restore 618
+            {
+                Debug.Log(request.error);
+            }
+            else
+            {
+                Debug.Log("Download Handler");
+                Debug.Log(request.downloadHandler);
+                if (request.downloadHandler is not DownloadHandlerTexture texture)
+                {
+                    yield break;
+                }
+
+             //   var texture = request.downloadHandler.data;
+                GifTexture = texture.texture;
+                if (GifTexture == null)
+                    yield break;
+                GifTexture.hideFlags = HideFlags.HideAndDontSave;
+                SetTexture();
+            }
         }
 
         // Create target texture
@@ -516,13 +516,9 @@ namespace OldMoatGames
             if (_targetComponent is Renderer)
             {
                 var target = (Renderer)_targetComponent;
-                Material newMat;
-                if (target.sharedMaterial == null)
-                    newMat = new Material(Shader.Find("Transparent/Diffuse"));
-                else
-                    newMat = new Material(target.sharedMaterial.shader);
-                newMat.mainTexture = GifTexture;
+                Material newMat = new Material(SCoreModEvents.GetStandardShader());
                 target.material = newMat;
+                newMat.mainTexture = GifTexture;
                 return;
             }
 

@@ -157,7 +157,7 @@ public class SphereII_WinterProject
                 return false;
 
             // Keep the trader above.
-            if (_pi.prefab.FileNameNoExtension.Contains("trader_hugh"))
+            if (_pi.prefab.PrefabName.Contains("trader_hugh"))
                 return true;
 
             // Check if the current thread has a name. the GenerateWorlds for RWG has a named thread; the others do not.
@@ -166,7 +166,11 @@ public class SphereII_WinterProject
 
             // Sink the prefab into the ground
             // This also sinks the SleeperVolumes, so they work as expected in clear quests.
-            _pi.boundingBoxPosition.y -= 8;
+            var depth = Configuration.GetPropertyValue("WinterProject", "SnowDepth");
+            if (string.IsNullOrEmpty(depth))
+                return true;
+            
+            _pi.boundingBoxPosition.y -= StringParsers.ParseSInt32(depth);
             return true;
         }
 
@@ -178,7 +182,7 @@ public class SphereII_WinterProject
         public static bool Postfix(bool __result, ref Prefab __instance, ref List<string> ___allowedZones)
         {
             if (!__result) return __result;
-            if (__instance.FileNameNoExtension.Contains("trader_hugh")) return __result;
+            if (__instance.PrefabName.Contains("trader_hugh")) return __result;
             __instance.bTraderArea = false;
             __instance.bExcludeDistantPOIMesh = true;
             __instance.bCopyAirBlocks = true;
@@ -187,59 +191,19 @@ public class SphereII_WinterProject
 
     }
 
-    // [HarmonyPatch(typeof(PrefabInstance))]
-    // [HarmonyPatch("CopyIntoWorld")]
-    // public class SphereII_WinterProject_PrefabInstance_CopyIntoWorld
-    // {
-    //       
-    //     public static bool Prefix(PrefabInstance __instance, World _world, bool _CopyEntities, List<int> ___entityInstanceIds, QuestTags _tags = QuestTags.none)
-    //     {
-    //         if (_tags == QuestTags.none) return true;
-    //         Debug.Log("CopyInto World RPC");
-    //         if (__instance.lastCopiedRotation != __instance.rotation)
-    //         {
-    //             if (__instance.lastCopiedRotation < __instance.rotation)
-    //             {
-    //                 var rotCount = (int)(__instance.rotation - __instance.lastCopiedRotation);
-    //                 __instance.prefab.RotateY(false, rotCount);
-    //             }
-    //             else
-    //             {
-    //                 int rotCount2 = (int)(__instance.lastCopiedRotation - __instance.rotation);
-    //                 __instance.prefab.RotateY(true, rotCount2);
-    //             }
-    //             __instance.lastCopiedRotation = __instance.rotation;
-    //             __instance.UpdateBoundingBoxPosAndScale(__instance.boundingBoxPosition, __instance.prefab.size, true);
-    //         }
-    //         __instance.prefab.CopyIntoRPC(GameManager.Instance,__instance.boundingBoxPosition, true );
-    //         WinterProjectPrefab.SetSnowPrefab(__instance.prefab, _world.ChunkClusters[0], __instance.boundingBoxPosition, _tags);
-    //
-    //        // __instance.prefab.CopyIntoLocal(_world.ChunkClusters[0], this.boundingBoxPosition, _bOverwriteExistingBlocks, true, _tags);
-    //         if (_CopyEntities)
-    //         {
-    //             bool bSpawnEnemies = _world.IsEditor() || GameStats.GetBool(EnumGameStats.IsSpawnEnemies);
-    //             ___entityInstanceIds.Clear();
-    //             __instance.prefab.CopyEntitiesIntoWorld(_world, __instance.boundingBoxPosition, ___entityInstanceIds, bSpawnEnemies);
-    //         }
-    //         __instance.lastCopiedPrefabPosition = __instance.boundingBoxPosition;
-    //         __instance.bPrefabCopiedIntoWorld = true;
-    //
-    //         return false;
-    //     }
-    // }
 
     // Sinks the prefabs
     [HarmonyPatch(typeof(Prefab))]
     [HarmonyPatch("CopyIntoLocal")]
     public class SphereII_WinterProject_Prefab_Prefix
     {
-        public static void Postfix(Prefab __instance, Vector3i _destinationPos, ChunkCluster _cluster, FastTags _questTags)
+        public static void Postfix(Prefab __instance, Vector3i _destinationPos, ChunkCluster _cluster, FastTags<TagGroup.Poi> _questTags)
         {
 
-            if (__instance.Tags.Test_AllSet(POITags.Parse("SKIP_HARMONY_COPY_INTO_LOCAL")))
+            if (__instance.Tags.Test_AllSet(FastTags<TagGroup.Poi>.Parse("SKIP_HARMONY_COPY_INTO_LOCAL")))
                 return;
 
-            if (!__instance.FileNameNoExtension.Contains("trader_hugh"))
+            if (!__instance.PrefabName.Contains("trader_hugh"))
                 WinterProjectPrefab.SetSnowPrefab(__instance, _cluster, _destinationPos, _questTags);
         }
 
@@ -256,7 +220,7 @@ public class SphereII_WinterProject
         public static void Postfix(PrefabInstance __instance, Chunk _chunk)
         {
 
-            if (!__instance.prefab.FileNameNoExtension.Contains("trader_hugh"))
+            if (!__instance.prefab.PrefabName.Contains("trader_hugh"))
                 WinterProjectPrefab.SetSnowChunk(_chunk, __instance.boundingBoxPosition, __instance.boundingBoxSize);
         }
     }
@@ -274,7 +238,14 @@ public class SphereII_WinterProject
             
             var blockValue = Block.GetBlockValue("questRallyMarker", false);
             var position = ___rallyPos;
-            position.y -= 7;
+            var snowDepth = Configuration.GetPropertyValue("WinterProject", "SnowDepth");
+            if (string.IsNullOrEmpty(snowDepth))
+                position.y -= 7;
+            else
+            {
+                var depth = StringParsers.ParseSInt32(snowDepth);
+                position.y -= depth - 1;
+            }
             GameManager.Instance.World.SetBlockRPC(position, blockValue, sbyte.MaxValue);
             __instance.OwnerQuest.SetPositionData(Quest.PositionDataTypes.Activate, position);
 

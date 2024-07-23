@@ -17,6 +17,14 @@
     <append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']">
         <property name="FullStackSpoil" value="true"/>
     </append>
+
+    <append xpath="/blocks/block[@name='ConfigFeatureBlock']">
+        <property class="WinterProject" >
+            <property name="Logging" value="false"/>
+            <property name="SnowDepth" value="8" />
+            <property name="RoofSnowDepth" value="3" />
+        </property>
+    </append>
     
 
     <append xpath="/blocks/block[@name='questRallyMarker']">

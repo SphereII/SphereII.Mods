@@ -14,29 +14,39 @@ public static class WinterProjectPrefab
     public static bool Logging = false;
     public static bool Rpc = true;
 
+    public static int SnowDepth = -1;
+    public static int RoofSnowDepth = -1;
+
     public static void SetSnowChunk(Chunk chunk, Vector3i position, Vector3i size)
     {
-        //var position = chunk.GetWorldPos();
         Write("SetSnowChunk " + position);
         ProcessChunk(chunk, position, size, false, Logging, Rpc, false);
-
-        //SetSnow(position.x, position.z, 16, 16, GameManager.Instance.World.ChunkCache, false, true);
     }
 
-    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags<TagGroup.Poi> _questTag)
-    {
+    public static void SetSnowPrefab(Prefab prefab, ChunkCluster cluster, Vector3i position, FastTags<TagGroup.Poi> _questTag) {
+        if (!ConfigureSnow())
+            return;
+        
         var AlreadyFilled = false;
-        // if (_questTag != QuestTags.none)
-        // {
-        //     AlreadyFilled = true;
-        //     prefab.yOffset -= 8;
-        //     position.y -= 8;
-        // }
+   
 
         SetSnow(position.x, position.z, prefab.size.x, prefab.size.z, cluster, Rpc, Logging, AlreadyFilled,
             prefab.size.y);
     }
 
+    private static bool ConfigureSnow() {
+        var depth = Configuration.GetPropertyValue("WinterProject", "SnowDepth");
+        if (string.IsNullOrEmpty(depth))
+            return false;
+        
+        var roofDepth = Configuration.GetPropertyValue("WinterProject", "RoofSnowDepth");
+        if (string.IsNullOrEmpty(roofDepth))
+            return false;
+        
+        SnowDepth = StringParsers.ParseSInt32(depth);
+        RoofSnowDepth = StringParsers.ParseSInt32(roofDepth);
+        return true;
+    }
     private static void ProcessChunk(Chunk chunk, Vector3i position, Vector3i size, bool regen, bool log,
         bool notifyRpc, bool isPrefab)
     {
@@ -46,7 +56,9 @@ public static class WinterProjectPrefab
             return;
         }
 
-
+        if (!ConfigureSnow())
+            return;
+        
         notifyRpc = GameManager.Instance.World.ChunkCache.DisplayedChunkGameObjects.ContainsKey(chunk.Key);
 
         List<BlockChangeInfo> Changes = null;
@@ -74,7 +86,7 @@ public static class WinterProjectPrefab
 
                 // Grab the chunk's terrain height to use a  baseline
                 var tHeight = chunk.GetTerrainHeight(chunkX, chunkZ);
-                var tHeightWithSnow = tHeight + 8;
+                var tHeightWithSnow = tHeight + SnowDepth;
 
                 // If we are resetting for a quest, the terrain has already been moved up.
                 if (regen) tHeightWithSnow = tHeight;
