@@ -22,8 +22,11 @@ public class SCoreModEvents {
     }
 
     public static Shader GetStandardShader() {
-        if (_defaultShader == null )
+        if (_defaultShader == null)
+        {
             _defaultShader = Shader.Find("Standard");
+        }
+
         return _defaultShader;
     }
 

@@ -21,7 +21,7 @@ advancedlockpicking_desc,"Use the arrow keys to change the position of the pick 
 SpawnCube,"Spawn Cube",""
 SpawnCubeDesc,"Allows Prefab builders to set up specific spawn entities via in-game programmable code:  Sign Text:  ec=npcBaker;task=wander;pc=99. Entity Class zombie Bow, with Task Wander, and PathingCode 99.",""
 loadingTipScoreSigns_title,"(SCore) Enhanced Signs",""
-loadingTipScoreSigns,"Enter a URL for an image or gif, like an imgur link, in a sign's edit box to display the image on the sign! Re-Edit to change it.",""
+loadingTipScoreSigns,"Enter a URL for an image or mp4, like an imgur link, in a sign's edit box to display the image on the sign! Re-Edit to change it.",""
 teleportto,"Teleport To"
 portal_not_configured,"Not Configured"
 portal_configure,"Not Connected"

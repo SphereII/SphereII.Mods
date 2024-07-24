@@ -23,6 +23,24 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.29.1609
+
+	[ SmartText Mesh ]
+		- Added a Harmony patch to protect against null reference due to the Signs Feature.
+		- Sign Feature hides the wooden mesh and Text from showing up. This harmony patch protects against
+			when the text is changing, and the TextMesh isn't enabled (yet).
+
+	[ Signs ]
+		- Fixed issues with signs not generating correctly.
+		- ImageWrapper, the basis of the image signs, has been modified to support a VideoPlayer
+		- Gifs are no longer supported unfortunately due to shader issues.
+		- Gif and Gifv links are converted by ImageWrapper to be a mp4 URL.
+			- This probably only effectively works if you use an imgur link.
+		- This is then fed to the VideoPlayer as a Source URL.
+		- When the http:// link is removed, the sign is reverted back to vanilla texture and mesh.
+		
+	
+			
 Version: 1.0.28.1841
 
 	[ EntityAliveSDX ]

@@ -540,15 +540,9 @@ namespace OldMoatGames
         private Component GetTargetComponent()
         {
             var components = GetComponentsInChildren<Component>();
-            //foreach( var componet in components)
-            //{
-            //    Debug.Log(" GetTagetComponent(): " + componet.name.ToString() + " Type: " + componet.ToString() );
-            //}
             foreach (var component in components.Where(a => a is Renderer))
-                //   Debug.Log("GetTargetComponent(): " + component.ToString());
                 return component;
 
-            // Debug.Log("Target Component: " + TargetComponent + "  No renders found.");
             return null;
         }
 
