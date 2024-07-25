@@ -23,6 +23,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.30.1042
+
+	[ NPCs ]
+		- Fixed an issue when NPCs could not move around, and were stuck in inital pose.
+	
+
 Version: 1.0.29.1609
 
 	[ SmartText Mesh ]
