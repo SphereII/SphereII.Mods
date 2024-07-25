@@ -1,0 +1,500 @@
+﻿<configs>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FoodSpoilage']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='OneBlockCrouch']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedNPCFeatures']/property[@name='MakeTraderVulnerable']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableTraderProtection']/@value">true</set>
+
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='TickPerLoss']/@value">30</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='Logging']/@value">false</set>
+
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='Theme']/property[@name='Spook']/@value">true</set>
+
+    <!-- Caves -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveEnabled']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveType']/@value">All</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePrefab']/@value">Large</set>
+
+    <append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']">
+        <property name="FullStackSpoil" value="true"/>
+    </append>
+
+    <append xpath="/blocks/block[@name='ConfigFeatureBlock']">
+        <property class="WinterProject" >
+            <property name="Logging" value="false"/>
+            <property name="SnowDepth" value="8" />
+            <property name="RoofSnowDepth" value="3" />
+        </property>
+    </append>
+    
+
+    <append xpath="/blocks/block[@name='questRallyMarker']">
+        <!-- Flag model by s.probka is licensed under CC Attribution  -->
+        <property name="ModelOffset" value="0,8,0"/>
+        <property name="Collide" value="sight,movement,melee,bullet,arrow,rocket"/>
+    </append>
+
+    <insertAfter xpath="/blocks/block[@name='terrSnow']">
+        <block name="terrIce">
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="Terrain"/>
+            <property name="Mesh" value="terrain"/>
+            <property name="Texture" value="6"/> <!-- 569: stone texture 1 with dirt sound -->
+            
+            <!-- 569? -->
+            <property name="ImposterExclude" value="true"/>
+            <property name="CanMobsSpawnOn" value="true"/>
+            <property name="FilterTags" value="fterrain"/>
+            <property name="SortOrder1" value="d0k0"/>
+            <property name="SortOrder2" value="0050"/>
+            <property name="DisplayType" value="blockTerrainFertile"/>
+            <property name="PassThroughDamage" value="true"/>
+            <property name="CustomIcon" value="terrSnow"/>
+            <property name="SellableToTrader" value="false"/>
+            <property name="TintColor" value="435E70" />
+        </block>
+    </insertAfter>
+    
+    
+    <!--
+    <remove xpath="/blocks/block[@name='water']" />
+    <insertAfter xpath="/blocks/block[@name='waterMoving']">
+      <block name="water">
+        <property name="Class" value="Liquidv2"/>
+        <property name="Material" value="Msnow"/>
+        <property name="Shape" value="Water"/>
+        <property name="Mesh" value="water"/>
+        <property name="Model" value="water_full"/>
+        <property name="Texture" value="178"/>
+        <property name="Count" value="8"/>
+        <property name="Map.Color" value="20,20,120"/>
+        <property name="Map.Color" value="119,136,204"/>
+        <property name="FilterTags" value="fterrain"/>
+  
+      </block>
+  
+    </insertAfter>
+  -->
+  <append xpath="/blocks/block[@name='bed02']">
+    <property name="BuffsWhenWalkedOn" value="buffsmallBed;BedTerrors"/>
+  </append>
+  <append xpath="/blocks/block[@name='bunkBedMade']">
+    <property name="BuffsWhenWalkedOn" value="buffsmallBed;BedTerrors"/>
+  </append>
+  <append xpath="/blocks/block[@name='bunkBedMessy']">
+    <property name="BuffsWhenWalkedOn" value="buffsmallBed;BedTerrors"/>
+  </append>
+  <append xpath="/blocks/block[@name='bunkBedMattress']">
+    <property name="BuffsWhenWalkedOn" value="buffsmallBed;BedTerrors"/>
+  </append>
+    <!-- remove drops to reduce index errors -->
+    <remove xpath="/blocks/block[@name='terrSnow']/drop[@event='Fall']"/>
+
+    <!-- The pollution stopped, so let's make the snow super white all around -->
+    <set xpath="/blocks/block[@name='terrSnow']/property[@name='Texture']/@value">6</set>
+    <append xpath="/blocks/block[@name='terrSnow']">
+        <property name="PassThroughDamage" value="false"/>
+    </append>
+
+    <!-- This replaces all the blocks that start with tree, then we'll further adjust them later 
+    <set xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='Model']/@value">#@modfolder:Resources/WinterTrees.unity3d?Birch2_X</set>
+    <remove xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='MultiBlockDim']" />
+    <append xpath="/blocks/block[starts-with( @name, 'tree')]" >
+      <property name="MultiBlockDim" value="1,14,1"/>
+    </append>
+    -->
+
+
+    <set xpath="/blocks/block[@name='treeMaster']/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Tree3_X
+    </set>
+    <append xpath="/blocks/block[starts-with( @name, 'treeMaster')]">
+        <property name="MultiBlockDim" value="1,12,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treePlanted')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Birch1_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treePlanted')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treePlanted')]">
+        <property name="MultiBlockDim" value="1,18,1"/>
+    </append>
+    <set xpath="/blocks/block[starts-with( @name, 'treeMountainPine')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Birch1_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeMountainPine')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeMountainPine')]">
+        <property name="MultiBlockDim" value="1,18,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeWinter')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?PineTree1_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeWinter')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeWinter')]">
+        <property name="MultiBlockDim" value="1,18,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeBurnt')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?PineTree2_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeBurnt')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeBurnt')]">
+        <property name="MultiBlockDim" value="1,12,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeOak')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Tree5_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeOak')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeOak')]">
+        <property name="MultiBlockDim" value="1,16,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeJuniper')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Birch2_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeJuniper')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeJuniper')]">
+        <property name="MultiBlockDim" value="1,14,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeDead')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?Birch2_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeDead')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeDead')]">
+        <property name="MultiBlockDim" value="1,14,1"/>
+    </append>
+
+    <set xpath="/blocks/block[starts-with( @name, 'treeFirLrg01')]/property[@name='Model']/@value">
+        #@modfolder:Resources/WinterTrees.unity3d?PineTree1_X
+    </set>
+    <remove xpath="/blocks/block[starts-with( @name, 'treeFirLrg01')]/property[@name='MultiBlockDim']"/>
+    <append xpath="/blocks/block[starts-with( @name, 'treeFirLrg01')]">
+        <property name="MultiBlockDim" value="1,18,1"/>
+    </append>
+
+
+    <remove xpath="/blocks/block[starts-with(@name, 'treeCactus')]"/>
+    <insertBefore xpath="/blocks/block[@name='treeSnowyGrassDiagonal']">
+        <block name="treeCactus01">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?Birch2_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,14,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="150" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+
+        <block name="treeCactus02">
+            <property name="Extends" value="treeCactus01"/>
+
+        </block>
+
+        <block name="treeCactus03">
+            <property name="Extends" value="treeCactus01"/>
+
+        </block>
+
+        <block name="treeCactus04">
+            <property name="Extends" value="treeCactus01"/>
+
+        </block>
+
+        <block name="treeCactus05">
+            <property name="Extends" value="treeCactus01"/>
+
+        </block>
+
+        <block name="treeCactus06">
+            <property name="Extends" value="treeCactus01"/>
+        </block>
+    </insertBefore>
+
+    <!-- Block values are just left here-->
+    <append xpath="/blocks">
+        <block name="WinterBirch1">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?Birch1_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,18,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="WinterBirch2">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?Birch2_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,14,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="WinterPine1">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?PineTree1_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,18,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="WinterPine2">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?PineTree2_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,12,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="WinterTree3">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?Tree3_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,12,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="WinterTree5">
+            <property name="Extends" value="treeMaster"/>
+            <property name="Material" value="MtreeWoodFull"/>
+            <property name="Shape" value="DistantDecoTree"/>
+            <property name="Model" value="#@modfolder:Resources/WinterTrees.unity3d?Tree5_X"/>
+            <property name="ModelOffset" value="0,-0.5,0"/>
+            <property name="MultiBlockDim" value="1,16,1"/>
+            <property name="BigDecorationRadius" value="4"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceWood" count="50" tag="oreWoodHarvest"/>
+            <drop event="Destroy" name="treePlantedMountainPine1m" count="2"/>
+            <property name="ParticleOnDeath" value="treeGib_burnt_75m"/>
+            <property name="SortOrder2" value="0300"/>
+        </block>
+        <block name="poinsettia">
+            <property name="CustomIcon" value="poinsettia"/>
+            <property name="Material" value="Mwood_weak"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasDeco.unity3d?Poinsettia_X"/>
+            <property name="CanPickup" value="true"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <property name="DescriptionKey" value="poinsettia"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Destroy" name="resourceClayLump" count="1,2" prob="1"/>
+            <drop event="Harvest" name="resourceClayLump" count="5" tool_category="harvestingTools"/>
+            <property name="CanPlayersSpawnOn" value="false"/>
+            <property name="ParticleOnDeath" value="treeGib_small_dust"/>
+        </block>
+        <block name="treePlant02">
+            <property name="Extends" value="poinsettia"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Destroy" name="resourceClayLump" count="1,2" prob="1"/>
+            <drop event="Harvest" name="resourceClayLump" count="5" tool_category="harvestingTools"/>
+        </block>
+        <!-- Snow Fog Particles-->
+        <block name="snowFog">
+            <property name="Material" value="Mair"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="IsTerrainDecoration" value="true"/>
+            <property name="Model" value="#@modfolder:Resources/SnowFog.unity3d?SnowLow"/>
+        </block>
+
+        <block name="clothbedroll">
+            <property name="Extends" value="bedroll"/>
+        </block>
+
+        <block name="iceBlock">
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasDeco.unity3d?IceBlock_X"/>
+            <!-- Ice Blocks by vanquish99 is licensed under CC Attribution -->
+            <property name="CanPickup" value="false"/>
+            <property name="CustomIcon" value="iceBlock"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <property name="ImposterExchange" value="imposterBlock" param1="62"/>
+            <property name="DropScale" value="2"/>
+            <property class="RepairItems">
+                <property name="resourceSnowBall" value="10"/>
+            </property>
+            <drop event="Harvest" name="resourceSnowBall" count="10" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="terrSnow" count="1" prob="0.25" stick_chance="1"/>
+            <drop event="Fall" name="resourceSnowBall" count="10" prob="0.187" stick_chance="0"/>
+            <property name="EconomicValue" value="5"/>
+            <property name="EconomicBundleSize" value="1"/>
+            <property name="SellableToTrader" value="false"/>
+        </block>
+        <block name="snowBlock">
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasDeco.unity3d?SnowBlock_X"/>
+            <!-- Ice Blocks by vanquish99 is licensed under CC Attribution -->
+            <property name="CanPickup" value="false"/>
+            <property name="CustomIcon" value="snowBlock"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <property name="ImposterExchange" value="imposterBlock" param1="62"/>
+            <property name="DropScale" value="2"/>
+            <property class="RepairItems">
+                <property name="resourceSnowBall" value="10"/>
+            </property>
+            <drop event="Harvest" name="resourceSnowBall" count="10" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="terrSnow" count="1" prob="0.25" stick_chance="1"/>
+            <drop event="Fall" name="resourceSnowBall" count="10" prob="0.187" stick_chance="0"/>
+            <property name="EconomicValue" value="5"/>
+            <property name="EconomicBundleSize" value="1"/>
+            <property name="SellableToTrader" value="false"/>
+        </block>
+
+        <block name="XmasPoster02">
+            <property name="Material" value="Mpaper"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasMoviePosters.unity3d?Posterhorror"/>
+            <property name="CanPickup" value="true"/>
+            <property name="CustomIcon" value="horror"/>
+            <property name="Collide" value="melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourcePaper" count="1" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="resourcePaper" count="1" prob="0.187" stick_chance="0"/>
+        </block>
+        <block name="XmasPoster03">
+            <property name="Material" value="Mpaper"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasMoviePosters.unity3d?Posterjack"/>
+            <property name="CanPickup" value="true"/>
+            <property name="CustomIcon" value="jack"/>
+            <property name="Collide" value="melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourcePaper" count="1" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="resourcePaper" count="1" prob="0.187" stick_chance="0"/>
+        </block>
+        <block name="XmasPoster04">
+            <property name="Material" value="Mpaper"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasMoviePosters.unity3d?Posterkrampus"/>
+            <property name="CanPickup" value="true"/>
+            <property name="CustomIcon" value="krampus"/>
+            <property name="Collide" value="melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourcePaper" count="1" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="resourcePaper" count="1" prob="0.187" stick_chance="0"/>
+        </block>
+
+        <block name="XmasPoster05">
+            <property name="Material" value="Mpaper"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasMoviePosters.unity3d?Posterslay"/>
+            <property name="CanPickup" value="true"/>
+            <property name="CustomIcon" value="slay"/>
+            <property name="Collide" value="melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourcePaper" count="1" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="resourcePaper" count="1" prob="0.187" stick_chance="0"/>
+        </block>
+        <block name="InfoPoster01">
+            <property name="Material" value="Mpaper"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasMoviePosters.unity3d?PosterInfo01"/>
+            <property name="CanPickup" value="false"/>
+            <!--     <property name="CustomIcon" value="" /> -->
+            <property name="Collide" value="melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourcePaper" count="1" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="resourcePaper" count="1" prob="0.187" stick_chance="0"/>
+            <property name="DescriptionKey" value="Infoposter"/>
+        </block>
+
+
+        <block name="terrSnowTrap">
+            <property name="Extends" value="woodWeakNoUpgradeMaster"/>
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="Terrain"/>
+            <property name="Mesh" value="terrain"/>
+            <!-- Old ice texture :(
+            <property name="Texture" value="178"/>
+            -->
+            <property name="Texture" value="6"/> 
+            <property name="ImposterExclude" value="true"/>
+            <property name="CanMobsSpawnOn" value="true"/>
+            <property name="FilterTags" value="fterrain"/>
+            <property name="SortOrder1" value="d0k0"/>
+            <property name="SortOrder2" value="0050"/>
+            <property name="DisplayType" value="blockTerrainFertile"/>
+
+
+            <property name="Class" value="TrapDoor"/>
+            <property name="TriggerDelay" value="0.1"/>
+            <property name="TriggerSound" value="bullethitsnow"/>
+            <property name="Path" value="solid"/>
+            <drop event="Fall" count="0"/>
+            <property name="ShowModelOnFall" value="false"/>
+            <drop event="Destroy" count="0"/>
+        </block>
+
+        <block name="icicle">
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasDeco.unity3d?Icicle_X"/>
+            <property name="CanPickup" value="false"/>
+            <property name="CustomIcon" value="icicles"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceSnowBall" count="3" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="terrSnow" count="1" prob="0.1" stick_chance="1"/>
+            <drop event="Fall" name="resourceSnowBall" count="3" prob="0.187" stick_chance="0"/>
+        </block>
+        <block name="icicles">
+            <property name="Material" value="Msnow"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/XmasDeco.unity3d?Icicles_X"/>
+            <property name="CanPickup" value="false"/>
+            <property name="CustomIcon" value="icicles"/>
+            <property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+            <drop event="Harvest" name="resourceSnowBall" count="10" tool_category="harvestingTools"/>
+            <drop event="Destroy" count="0"/>
+            <drop event="Fall" name="terrSnow" count="1" prob="0.1" stick_chance="1"/>
+            <drop event="Fall" name="resourceSnowBall" count="10" prob="0.187" stick_chance="0"/>
+        </block>
+
+    
+        
+    </append>
+    <!--  Not working ...yet  -->
+    <append xpath="//block[property[@name='Material' and @value='Mglass']]">
+        <property class="AttachScriptToTransform">
+            <property name="temp" value="AddSnowToGlass" />
+        </property>
+    </append>
+</configs>

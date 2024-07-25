@@ -1,0 +1,175 @@
+﻿<configs>
+
+    <append xpath="/windows/window[@name='ingameMenu']/grid">
+        <grid name="buttons" pos="0, -0" cols="1" width="250" cell_width="250" cell_height="56" arrangement="vertical"
+              repeat_content="false" controller="SCoreInGameMenu, SCore">
+            <simplebutton name="btnSCoreOptions" depth="3" width="250" height="46" caption_key="xuiSCoreUtilities"
+                          font_size="40"/>
+            <simplebutton name="btnNPCView" depth="3" width="250" height="46" caption_key="xuiSCoreNPCSettings"
+                          font_size="40"/>
+        </grid>
+
+    </append>
+    <append xpath="/windows">
+
+        <window name="windowLockPicking" width="1000" height="500" anchor="CenterCenter" panel="Center"
+                controller="PickLocking, SCore" cursor_area="true">
+
+            <!-- Full screen background to dim everything, and make sure nothing is accessible -->
+            <panel depth="2" createuipanel="true" disableautobackground="true">
+                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="10" createuipanel="true"
+                       on_press="true" disableautobackground="true" gamepad_selectable="false"/>
+
+                <panel name="noclick" depth="10" createuipanel="true" on_press="true" pos="-2000,2000" width="8000"
+                       height="8000" disableautobackground="true" gamepad_selectable="false">
+                    <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,140"
+                             anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
+                             anchor_top="#cam,1,5"/>
+                </panel>
+            </panel>
+
+            <!-- Depth must be higher than the depth of the panel for the background -->
+            <panel name="content" pos="50,-50" height="100" depth="15" backgroundspritename="ui_game_panel_header"
+                   createuipanel="true">
+                <label depth="20" text="Advanced Lock Picking" width="900" height="32"
+                       text_key="advancedlockpicking_title" font_size="32" justify="center"
+                       style="label_outline, header.name"/>
+                <label depth="20" text="Use standard keys" width="900" height="60"
+                       text_key="advancedlockpicking_desc" font_size="24" justify="center"
+                       style="label_outline" 
+                       pos="0,-50"/>
+            </panel>
+        </window>
+
+        <window name="windowSCoreUtilities" depth="99" pos="0,400" width="1185" height="780" anchor="CenterCenter"
+                cursor_area="true" controller="SCoreUtilities, SCore">
+            <panel depth="2" createuipanel="true" disableautobackground="true">
+                <panel name="outclick" pos="-2000,2000" width="8000" height="8000" depth="1" createuipanel="true"
+                       on_press="true" disableautobackground="true" gamepad_selectable="false"/>
+
+                <panel name="noclick" depth="2" createuipanel="true" on_press="true" pos="-2000,2000" width="8000"
+                       height="8000" disableautobackground="true" gamepad_selectable="false">
+                    <texture name="bgTexture" depth="0" texture="Textures/UI/news_background" color="255,255,255,240"
+                             anchor_left="#cam,0,-5" anchor_right="#cam,1,5" anchor_bottom="#cam,0,-5"
+                             anchor_top="#cam,1,5"/>
+                </panel>
+
+                <panel name="content" pos="0,-350" width="400" height="600" depth="3" pivot="center"
+                       createuipanel="true" disableautobackground="true">
+                    <sprite depth="9" type="sliced" color="7,7,7,255" sprite="menu_empty" pivot="center" height="700"/>
+
+                    <sprite depth="9" pos="-160,300" width="320" height="500" type="sliced" color="7,7,7,255"/>
+
+                    <label depth="16" name="header.name" pos="0,330" width="350" pivot="center" justify="center"
+                           style="label_outline" text_key="xuiSCoreUtilities" font_size="24" overflow="ShrinkContent"
+                           upper_case="true"/>
+
+                    <grid name="toggles" depth="10" pos="-145,300" cols="1" width="320" cell_width="290"
+                          cell_height="34" arrangement="vertical" repeat_content="false">
+
+                        <conditional evaluator="client">
+                            <if cond="mod_loaded('Locks')">
+                                <rect/>
+                                <label style="label_outline, header.name" text="Lock Pick Settings"
+                                       text_key="xuiLockPickingSettings" width="320" height="26" font_size="24"/>
+                                <togglebuttonCVar name="toggleLockPick" cvar="LegacyLockPick"
+                                                  caption_key="xuiLockPicking" tooltip_key="xuiLockPickingToolTip"
+                                                  width="290" height="32" depth="3" font_size="24" crispness="OnDesktop"
+                                                  effect="Outline8" effect_distance="1,1" effect_color="20,20,20,230"/>
+                                <togglebuttonCVar name="toggleForceMiniGameLockPick" cvar="MiniGameLockPick"
+                                                  caption_key="xuiSCoreUtilsMiniGameLockPick"
+                                                  tooltip_key="xuiSCoreUtilsMiniGameLockPickToolTip" width="290"
+                                                  height="32" depth="3" font_size="24" crispness="OnDesktop"
+                                                  effect="Outline8" effect_distance="1,1" effect_color="20,20,20,230"/>
+                            </if>
+                        </conditional>
+                        <rect/>
+                        <label style="label_outline, header.name" text="NPC Settings" text_key="xuiNPCSettings"
+                               width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleNPCFootsteps" cvar="quietNPC" caption_key="xuiQuietNPC"
+                                          tooltip_key="xuiQuietNPCToolTip" width="290" height="32" depth="3"
+                                          font_size="24" crispness="OnDesktop" effect="Outline8" effect_distance="1,1"
+                                          effect_color="20,20,20,230"/>
+
+                        <rect/>
+                        <label style="label_outline, header.name" text="Trader Settings" text_key="xuiTraderSettings"
+                               width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleMuteTraderRekt" cvar="MuteTraderRekt"
+                                          caption_key="xuiSCoreUtilsTraderRekt"
+                                          tooltip_key="xuiSCoreUtilsTraderRektToolTip" width="290" height="32" depth="3"
+                                          font_size="24" crispness="OnDesktop" effect="Outline8" effect_distance="1,1"
+                                          effect_color="20,20,20,230"/>
+                        <togglebuttonCVar name="toggleMuteTraderAll" cvar="MuteTraderAll"
+                                          caption_key="xuiSCoreUtilsTraderAll"
+                                          tooltip_key="xuiSCoreUtilsTraderAllToolTip" width="290" height="32" depth="3"
+                                          font_size="24" crispness="OnDesktop" effect="Outline8" effect_distance="1,1"
+                                          effect_color="20,20,20,230"/>
+
+                        <rect/>
+                        <label style="label_outline, header.name" text="Personal Settings"
+                               text_key="xuiPersonalSettings" width="320" height="26" font_size="24"/>
+                        <togglebuttonCVar name="toggleDisableFlickeringLights"
+                                          cvar="AdvancedPrefabFeatures_DisableFlickeringLights"
+                                          caption_key="xuiSCoreUtilsDisableFlickeringLights"
+                                          tooltip_key="xuiSCoreUtilsDisableFlickeringLightsToolTip" width="290"
+                                          height="32" depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
+                                          effect_distance="1,1" effect_color="20,20,20,230"/>
+                        <togglebuttonCVar name="toggleAutoRedeemChallenges"
+                                          cvar="AdvancedPlayerFeatures_AutoRedeemChallenges"
+                                          caption_key="xuiSCoreUtilsAutoRedeemChallenges"
+                                          tooltip_key="xuiSCoreUtilsAutoRedeemChallengesToolTip" width="290" height="32"
+                                          depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
+                                          effect_distance="1,1" effect_color="20,20,20,230"/>
+
+                    </grid>
+                </panel>
+
+                <panel name="buttons" pos="0,-560" height="32" depth="6" borderthickness="3" createuipanel="true"
+                       disableautobackground="true">
+                    <simplebutton name="SCorebtnSubmit" depth="3" pos="0,-80" pivot="center" width="200" height="36"
+                                  font_size="24" caption_key="xuiSave" upper_case="true"/>
+                </panel>
+            </panel>
+        </window>
+
+
+        <window name="windowSCoreCompanions" width="900" height="746" panel="Center" cursor_area="true"
+                controller="SCoreCompanionList, SCore">
+            <panel name="header" height="43" depth="1" backgroundspritename="ui_game_panel_header">
+                <sprite depth="1" name="windowIcon" style="icon32px" pos="4,-5" sprite="ui_game_symbol_players"/>
+                <label style="header.name" text="Companions" text_key="xuiSCoreCompanions"/>
+            </panel>
+            <grid name="toggles" pos="5, -50" cols="1" width="290" cell_width="290" cell_height="34"
+                  arrangement="vertical" repeat_content="false">
+                <label style="header.name" text="NPC Settings" text_key="xuiSCoreNPCSettings" width="800"
+                       height="300" font_size="24"/>
+                <togglebutton name="toggleNPCFootsteps" caption_key="xuiSCoreUtilsNPCFootSteps"
+                              tooltip_key="xuiQuietNPCToolTip" width="290" height="32" depth="3" font_size="24"/>
+            </grid>
+
+
+            <panel name="content" depth="1" pivot="center" disableautobackground="false">
+                <score_companion_header/>
+                <grid name="companionList" rows="13" cols="1" pos="-3,-200" width="900" height="724" cell_width="900"
+                      cell_height="46" repeat_content="true" arrangement="vertical">
+
+                    <score_companion_entry2 name="0"/>
+                </grid>
+            </panel>
+        </window>
+    </append>
+
+    <append xpath="/windows/window[@name='windowLooting']//rect[@controller='ContainerStandardControls']">
+        <button depth="3" name="btnBroadcast"
+                sprite="ui_game_symbol_bc"
+                tooltip_key="xuiPinGrab"
+                pos="154, -22" pivot="center"
+                style="icon32px, press, hover"
+                visible="{broadcastManager}"
+                defaultcolor="[white]"
+                selectedcolor="[disabledColor]"
+                sound="[paging_click]"
+                controller="BroadcastButton, SCore"/>
+    </append>
+
+</configs>

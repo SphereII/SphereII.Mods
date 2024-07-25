@@ -1,0 +1,54 @@
+﻿
+<configs>
+<!--
+  <remove xpath="/quests/quest[@id='quest_BasicSurvival1']" />
+  <insertBefore xpath="/quests/quest[@id='quest_BasicSurvival2']">
+    <quest id="quest_BasicSurvival1">
+      <property name="group_name_key" value="quest_WhiteRiverCitizen" />
+      <property name="name_key" value="quest_WhiteRiverCitizen1" />
+      <property name="subtitle_key" value="quest_WhiteRiverCitizen1_subtitle" />
+      <property name="description_key" value="quest_WhiteRiverCitizen1_description" />
+      <property name="icon" value="ui_game_symbol_map_trader" />
+      <property name="category_key" value="quest" />
+      <property name="difficulty" value="medium" />
+      <property name="shareable" value="false" />
+
+      <reward type="Item" id="apparelCoatJacketGeneric" value="1"/>
+      <reward type="Item" id="apparelWornBoots" value="1"/>
+      <reward type="Item" id="gunBowPrimitive" value="1"/>
+      <reward type="Item" id="armorClothGloves" value="1" />
+      <reward type="Item" id="armorClothPants" value="1" />
+      <reward type="Item" id="gunBowT0PrimitiveBow" value="1" />
+      <reward type="Item" id="resourceLockPick" value="5" />
+
+      
+      <reward type="Item" id="ammoArrowIron" value="20"/>
+      <reward type="Quest" id="quest_BasicSurvival2"/>
+
+    </quest>
+    
+  </insertBefore>
+  <remove xpath="/quests/quest[@id='quest_BasicSurvival2']" />
+  <insertBefore xpath="/quests/quest[@id='quest_BasicSurvival3']">
+    <quest id="quest_BasicSurvival2">
+      <property name="group_name_key" value="quest_WhiteRiverCitizen" />
+      <property name="name_key" value="quest_WhiteRiverCitizen1" />
+      <property name="subtitle_key" value="quest_WhiteRiverCitizen1_subtitle" />
+      <property name="description_key" value="quest_WhiteRiverCitizen1_description" />
+      <property name="icon" value="ui_game_symbol_map_trader" />
+      <property name="category_key" value="quest" />
+      <property name="difficulty" value="medium" />
+      <property name="shareable" value="false" />
+
+      <action type="ShowTip" value="quest_WhiteRiverCitizen1_description">
+        <property name="delay" value="3" />
+      </action>
+      <objective type="Goto" id="trader" value="5" phase="1" />
+    
+      <reward type="Exp" value="1000" />
+      <reward type="SkillPoints" value="4"  />
+
+    </quest>
+  </insertBefore>
+-->
+</configs>

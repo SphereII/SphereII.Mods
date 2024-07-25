@@ -1,0 +1,11 @@
+<configs>
+	<remove xpath="/entity_classes/entity_class[contains(@name, 'zombiePartyGirl')]"/>
+	<insertAfter xpath="/entity_classes/entity_class[@name='zombieMarleneRadiated']">
+		<entity_class name="zombiePartyGirl" extends="zombieMarlene">
+		</entity_class>
+		<entity_class name="zombiePartyGirlFeral" extends="zombieMarleneFeral">
+		</entity_class>
+		<entity_class name="zombiePartyGirlRadiated" extends="zombieMarleneRadiated">
+		</entity_class>
+	</insertAfter>
+</configs>

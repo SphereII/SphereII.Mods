@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "0-SCore", "0-SCore\0-SCore.csproj", "{5717E58E-D52D-46B1-AF8D-EA06BF410286}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Clear UI", "SphereII Clear UI\SphereII Clear UI.csproj", "{67868D47-719A-4DB4-95DF-44947DC0D5AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Dedicated Tweaks", "SphereII Dedicated Tweaks\SphereII Dedicated Tweaks.csproj", "{72AD7F34-D420-4770-BC20-6F74D1B619FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII A Better Life", "SphereII A Better Life\SphereII A Better Life.csproj", "{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Take And Replace", "SphereII Take And Replace\SphereII Take And Replace.csproj", "{D7753B76-3B71-452A-BEE1-0378EA492ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{8067F976-E450-4127-8C5C-8C2D58F97DE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Legacy Distant Terrain", "SphereII Legacy Distant Terrain\SphereII Legacy Distant Terrain.csproj", "{87A2B4C8-D921-46DA-BDB6-59F7E22686F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Z-SphereIIDebugging", "Z-SphereIIDebugging\Z-SphereIIDebugging.csproj", "{1F6889DC-9603-4957-B724-006CBD22A837}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blooms Family Farming", "Blooms Family Farming\Blooms Family Farming.csproj", "{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterBiomeEffects", "BetterBiomeEffects\BetterBiomeEffects.csproj", "{C6AFD252-2407-4925-9398-6FE0B33F0D58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompoPackTweaks", "CompoPackTweaks\CompoPackTweaks.csproj", "{4674833F-887F-4849-A239-7FDDBC6B1C67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Winter Project", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\Mods\SphereII Winter Project\SphereII Winter Project.csproj", "{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5717E58E-D52D-46B1-AF8D-EA06BF410286}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5717E58E-D52D-46B1-AF8D-EA06BF410286}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5717E58E-D52D-46B1-AF8D-EA06BF410286}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5717E58E-D52D-46B1-AF8D-EA06BF410286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67868D47-719A-4DB4-95DF-44947DC0D5AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67868D47-719A-4DB4-95DF-44947DC0D5AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67868D47-719A-4DB4-95DF-44947DC0D5AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67868D47-719A-4DB4-95DF-44947DC0D5AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72AD7F34-D420-4770-BC20-6F74D1B619FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72AD7F34-D420-4770-BC20-6F74D1B619FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72AD7F34-D420-4770-BC20-6F74D1B619FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72AD7F34-D420-4770-BC20-6F74D1B619FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6345E6-FD0A-46F3-82E9-2B60700F4B74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7753B76-3B71-452A-BEE1-0378EA492ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7753B76-3B71-452A-BEE1-0378EA492ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A2B4C8-D921-46DA-BDB6-59F7E22686F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A2B4C8-D921-46DA-BDB6-59F7E22686F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A2B4C8-D921-46DA-BDB6-59F7E22686F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A2B4C8-D921-46DA-BDB6-59F7E22686F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F6889DC-9603-4957-B724-006CBD22A837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F6889DC-9603-4957-B724-006CBD22A837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F6889DC-9603-4957-B724-006CBD22A837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F6889DC-9603-4957-B724-006CBD22A837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B17EF0-D513-43CD-BDF9-C9A89DADDD19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6AFD252-2407-4925-9398-6FE0B33F0D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4674833F-887F-4849-A239-7FDDBC6B1C67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9EDE87B-5F85-40CC-887C-65947AC392C1}
+	EndGlobalSection
+EndGlobal

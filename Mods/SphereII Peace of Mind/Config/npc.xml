@@ -1,0 +1,4 @@
+<configs>
+	<set xpath="/npc/npc_info[@id='traderrekt']/@stance">Neutral</set>
+	<removeattribute xpath="/npc/npc_info[@id='traderrekt']/@voice_set" />
+</configs>

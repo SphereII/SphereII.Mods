@@ -1,0 +1,14 @@
+<SCore name="XUi_Common/styles.xml">
+
+		<append xpath="/styles">
+			<style name="label_outline"								type="label">
+				<style_entry name="font_size"						value="22" />
+				<style_entry name="color"							value="255,255,255,255" />
+				<style_entry name="crispness"						value="OnDesktop" />
+				<style_entry name="effect" 							value="Outline8" />
+				<style_entry name="effect_distance"					value="1,1" />
+				<style_entry name="effect_color"					value="20,20,20,230" />
+			</style>
+		</append>
+
+</SCore>
