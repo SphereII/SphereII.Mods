@@ -23,6 +23,40 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.31.1121
+	[ Events ]
+		- Added a new folder Scripts/Events
+		- Added new event EventOnBuffAdded.OnBuffAdded, which is triggered whenever a buff is added.
+			- This event was not strictly necessary for the ObjectiveBuffSDX quest, but left just in case it's useful.
+		- Moved EventOnEnterPoi.OnEnterPoi to this new folder. This event is fired whenever a player enters the POI bounds.
+
+	[ Quests ]
+		- Fixed an issue with ObjectiveBuffSDX by adding in the necessary event hooks
+		- ObjectiveBuffSDX will be checked whenever a buff is added, or if a buff is already present, when the objective is current.
+		
+		- Cleaned up QuestActionGiveBuff
+		- Added example syntax in quests.xml of 0-SCore
+
+			<objective type="BuffSDX, SCore" >
+				<property name="phase" value="3" />
+				<property name="buff" value="buffIsOnFire" />
+			</objective>
+
+			<action type="GiveBuffSDX, SCore">
+				<property name="value" value="buffRadiation01" />
+				<property name="on_complete" value="false"/>
+				<property name="phase" value="4" />
+			</action>
+
+	[ Take and Replace ]
+		- Added a material filter to the PickUpAndReplace block.
+		- If the block or shape does not have the listed material, the prompt will not show up, nor will the block work.
+		- Removed some default shapes and blocks from the Take And Replace modlet.
+		- Default: "Mwood_weak,Mwood_weak_shapes,Mwood_shapes";
+		- If a block / shape has the following property, it will use them over the default.
+			<property name="ValidMaterials" value="" />
+		- It is a comma-delimited list. 
+		
 Version: 1.0.30.1042
 
 	[ NPCs ]

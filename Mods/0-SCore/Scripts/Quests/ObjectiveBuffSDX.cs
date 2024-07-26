@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 internal class ObjectiveBuffSDX : BaseObjective
 {
@@ -25,21 +26,21 @@ internal class ObjectiveBuffSDX : BaseObjective
         objective.strBuff = strBuff;
     }
 
-    public override void AddHooks()
-    {
-        // Don't do anything. Rely on the PumpQuest event   
+    public override void AddHooks() {
+        EventOnBuffAdded.BuffAdded += OnAddBuff;
+  
     }
 
     public override void RemoveHooks()
     {
+        EventOnBuffAdded.BuffAdded -= OnAddBuff;
     }
 
 
     public override void SetupObjective()
     {
-        this.keyword = Localization.Get("ObjectiveBuffSDX_keyword");
-        if ( string.IsNullOrEmpty( this.keyword ) )
-            this.keyword = Localization.Get("ObjectiveBuff_keyword");
+        this.keyword = Localization.Get("ObjectiveBuffSDX_keyword", false);
+        
     }
 
     public override void SetupDisplay()
@@ -47,9 +48,31 @@ internal class ObjectiveBuffSDX : BaseObjective
         var buff = BuffManager.GetBuff(strBuff);
         if (buff == null) return;
 
-        Description = string.Format("{0} {1}:", keyword, buff.LocalizedName);
+        Description = $"{keyword} {buff.LocalizedName} buff";
     }
 
+    public override void Update(float deltaTime) {
+        if (Time.time > this.updateTime)
+        {
+            this.updateTime = Time.time + 1f;
+            var buffClass = BuffManager.GetBuff(strBuff);
+            OnAddBuff(buffClass);
+        }
+    }
+
+    public void OnAddBuff(BuffClass buffClass) {
+        if (string.IsNullOrEmpty(strBuff)) return;
+        if (!string.Equals(buffClass.Name, strBuff, StringComparison.CurrentCultureIgnoreCase)) return;
+        if (base.Complete) return;
+       
+        Complete= OwnerQuest.OwnerJournal.OwnerPlayer.Buffs.HasBuff(strBuff);
+        if (Complete == false) return;   
+        ObjectiveState = ObjectiveStates.Complete;
+        OwnerQuest.RefreshQuestCompletion();
+    }
+    
+    
+    // this isn't necessary anymore, with the event hooks working properly, but left just in case.
     public override void Refresh()
     {
         if (string.IsNullOrEmpty(strBuff))
@@ -69,9 +92,6 @@ internal class ObjectiveBuffSDX : BaseObjective
         // If the entity is *something*, check to see if it has the objective buff, and pass to completion.
         if (myEntity != null)
         {
-            // Check if it has the desired buff.
-            Debug.Log(" Checking if Entity has Buff: " + strBuff);
-            Debug.Log(" Buffs: " + myEntity.Buffs.ActiveBuffs.ToArray());
             Complete = myEntity.Buffs.HasBuff(strBuff);
             if (Complete)
             {

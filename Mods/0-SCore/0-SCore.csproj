@@ -321,6 +321,8 @@
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Events\OnBuffAdded.cs" />
+    <Compile Include="Scripts\Events\OnEnterPoi.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
     <Compile Include="Scripts\Features\Configuration.cs" />
     <Compile Include="Scripts\Features\ILUtilities.cs" />

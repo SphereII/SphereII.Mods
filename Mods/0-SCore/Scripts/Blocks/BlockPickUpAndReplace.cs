@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UniLinq;
+using UnityEngine;
 
 public class BlockTakeAndReplace : Block
 {
@@ -6,18 +7,21 @@ public class BlockTakeAndReplace : Block
     private float fTakeDelay = 6f;
     private string itemNames = "meleeToolRepairT1ClawHammer";
     private string pickupBlock;
+    private string validMaterials = "Mwood_weak,Mwood_weak_shapes,Mwood_shapes";
     public override void Init()
     {
         base.Init();
         if (Properties.Values.ContainsKey("TakeDelay")) fTakeDelay = StringParsers.ParseFloat(Properties.Values["TakeDelay"]);
         if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
         if (Properties.Values.ContainsKey("PickUpBlock")) pickupBlock = Properties.GetString("PickUpBlock");
+        if (Properties.Values.ContainsKey("ValidMaterials")) validMaterials = Properties.GetString("ValidMaterials");
+
     }
 
     // Override the on Block activated, so we can pop up our timer
     public override bool OnBlockActivated(WorldBase world, int clrIdx, Vector3i blockPos,
-        BlockValue blockValue, EntityPlayerLocal player)
-    {
+        BlockValue blockValue, EntityPlayerLocal player) {
+        if (!ValidMaterialCheck(blockValue)) return false;
         TakeItemWithTimer(clrIdx, blockPos, blockValue, player);
         return true;
     }
@@ -37,12 +41,12 @@ public class BlockTakeAndReplace : Block
         var world = GameManager.Instance.World;
         var array = (object[])timerData.Data;
         var clrIdx = (int)array[0];
-        var _blockValue = (BlockValue)array[1];
-        var vector3i = (Vector3i)array[2];
-        var block = world.GetBlock(vector3i);
+        var blockValue = (BlockValue)array[1];
+        var vector3I = (Vector3i)array[2];
+        var block = world.GetBlock(vector3I);
         var entityPlayerLocal = array[3] as EntityPlayerLocal;
 
-        var itemStack = CreateItemStack(_blockValue.Block.GetBlockName());
+        var itemStack = CreateItemStack(blockValue.Block.GetBlockName());
             
         // Find the block value for the pick up value, and add it to the inventory
         if (!string.IsNullOrEmpty(PickedUpItemValue) && PickedUpItemValue.Contains(":"))
@@ -60,7 +64,7 @@ public class BlockTakeAndReplace : Block
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
         entityPlayerLocal.PlayOneShot("Sounds/DestroyBlock/wooddestroy1");
         // Damage the block for its full health 
-        DamageBlock(world, clrIdx, vector3i, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
+        DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
     }
 
 
@@ -114,8 +118,17 @@ public class BlockTakeAndReplace : Block
         xuiC_Timer.SetTimer(newTakeTime, timerEventData);
     }
 
-    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing)
-    {
+    private bool ValidMaterialCheck(BlockValue blockValue) {
+        foreach (var material in validMaterials.Split(','))
+        {
+            if (blockMaterial.id.Contains(material)) return true;
+        }
+
+        return false;
+    }
+    public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos, EntityAlive _entityFocusing) {
+        if (!ValidMaterialCheck(_blockValue))
+            return string.Empty;
         return string.Format(Localization.Get("takeandreplace"), Localization.Get(_blockValue.Block.GetBlockName()));
         //    return "Press <E> to remove the wood from this block.";
     }

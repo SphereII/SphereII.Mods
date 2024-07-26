@@ -4,22 +4,6 @@ using HarmonyLib;
 using Challenges;
 
 namespace Challenges {
-    // This is the event, and harmony patch for the AddHooks / RemoveHooks call
-    public static class ChallengeObjectiveEnterPoiEvent {
-        public delegate void OnEnterPoi(PrefabInstance prefabInstance);
-
-        public static event OnEnterPoi EnterPoi;
-
-        [HarmonyPatch(typeof(EntityPlayer))]
-        [HarmonyPatch("onNewPrefabEntered")]
-        public class EntityPlayerOnNewPrefabEntered {
-            private static void Prefix(PrefabInstance _prefabInstance) {
-                if (_prefabInstance == null) return;
-                EnterPoi?.Invoke(_prefabInstance);
-            }
-        }
-    }
-
     public class ChallengeObjectiveEnterPOI : BaseChallengeObjective {
         private string _prefabName;
         private FastTags<TagGroup.Poi> _poiTags;
@@ -34,11 +18,11 @@ namespace Challenges {
         }
 
         public override void HandleAddHooks() {
-            ChallengeObjectiveEnterPoiEvent.EnterPoi += Current_PrefabEnter;
+            EventOnEnterPoi.EnterPoi += Current_PrefabEnter;
         }
 
         public override void HandleRemoveHooks() {
-            ChallengeObjectiveEnterPoiEvent.EnterPoi -= Current_PrefabEnter;
+            EventOnEnterPoi.EnterPoi -= Current_PrefabEnter;
         }
 
         private bool isValidPOI(PrefabInstance prefabInstance) {
