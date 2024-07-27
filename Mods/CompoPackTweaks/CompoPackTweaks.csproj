@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{4674833F-887F-4849-A239-7FDDBC6B1C67}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>CompoPackTweaks</RootNamespace>
+		<AssemblyName>CompoPackTweaks</AssemblyName>
+		<TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>portable</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>.\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>.\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="0Harmony">
+			<HintPath>..\0_TFP_Harmony\0Harmony.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp">
+			<HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="InControl">
+			<HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="LogLibrary">
+			<HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System"/>
+		<Reference Include="System.Core"/>
+		<Reference Include="System.Data"/>
+		<Reference Include="System.Xml"/>
+		<Reference Include="UnityEngine">
+			<HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="Harmony\DMSPlayerTrack.cs"/>
+		<Compile Include="Init.cs"/>
+		<Compile Include="Properties\AssemblyInfo.cs"/>
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="ModInfo.xml" />
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>

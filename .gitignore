@@ -9,6 +9,7 @@
 !Mods/Tools/**
 #!BetterBiomeEffects/**
 !Mods/ReadMe.md
+!Mods/CompoPackTweaks/**
 *.zip
 obj
 

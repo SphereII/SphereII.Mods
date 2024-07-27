@@ -23,6 +23,59 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.32.940
+
+	[ CompoPackTweaks ]
+		- main host for the CompoPackTeaks, which is used by the CompoPack Team
+		- You do not need to install this yourself for compopack; they supply it.
+		- Removes the warning for the DMS when new traders are added.
+		- Can be used by other groups for the same purpose.
+
+	[ ObjectiveGiveBuffSDX ]
+		- Removed the hard-coded "buff" word after the "Get <Buff>" string.
+
+	[ Take And Replace ]
+		- Added a property option to block / shape to allow filtering based on hand item.
+			<property name="TakeWithTool" value="clawHammer,stoneAxe" />
+		- If this property is specified, the Take Prompt will only show when you are holding that item.
+			- This happens after we've checked ValidMaterial, and passed the material check for pick up.
+		- If this property is not specified, then the Take Prompt will show up for those blocks.
+		- Note: HoldingItem property is still valid. The item(s) specified in this property will half the time it takes for the block. 
+
+        - If the item that you are holding has the tag "silenttake", then no sound will be played when a block is taken.
+			- This happens regardless if the tool is specified in TakeWithTool or HoldingItem.
+			- If you can take a block, and have that tag on your hand item, no sound will be played.
+		- Updated the "Take Sound" to be more appropriate for the material you are taking.
+			- Wooden sound for wood materials. Steel sound for steel materials.
+
+		- Added a property option CheckToolForMaterial, with the default being false.
+			<property name="CheckToolForMaterial" value="true"/
+		- If this property is defined and set to true, then the block will check for a tag on the holding item
+		- The tag on the holding item must be the material ID that is allowed to be picked up.
+			<item name="meleeToolRepairT0StoneAxe">
+				<!-- Allow the stone axe to pick up any block that is Mwood_weak or Mwood_regular.
+    			<property name="Tags" value="<ommitted for clarity>,Mwood_weak, Mwood_regular"/>
+
+		<!-- full example : -->
+		<append xpath="/shapes/shape[@name='windowBoarded']">
+			<property name="Class" value="TakeAndReplace, SCore"/>
+			<property name="CanPickup" value="true"/>
+			<property name="TakeDelay" value="8"/>
+			<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+
+			<!-- Only allow picking up window board blocks that are weak or regular wood -->
+			<property name="ValidMaterials" value="Mwood_weak,Mwood_regular"/>
+
+			<!-- Only allow picking up blocks with this tool being held. -->
+			<property name="TakeWithTool" value="meleeToolRepairT0StoneAxe,meleeToolRepairTazaStoneAxe"/>
+				
+			<!-- Check the currently held tool's tag for the material of the block / shape being picked up -->
+			<!-- note: That means that the stone axes must have a Mwood_weak tags in order to pick up those blocks -->
+			<property name="CheckToolForMaterial" value="true" />
+		</append>
+
+
+
 Version: 1.0.31.1121
 	[ Events ]
 		- Added a new folder Scripts/Events

@@ -27,13 +27,13 @@ internal class ObjectiveBuffSDX : BaseObjective
     }
 
     public override void AddHooks() {
-        EventOnBuffAdded.BuffAdded += OnAddBuff;
+        EventOnBuffAdded.BuffAdded += CheckForBuff;
   
     }
 
     public override void RemoveHooks()
     {
-        EventOnBuffAdded.BuffAdded -= OnAddBuff;
+        EventOnBuffAdded.BuffAdded -= CheckForBuff;
     }
 
 
@@ -48,22 +48,20 @@ internal class ObjectiveBuffSDX : BaseObjective
         var buff = BuffManager.GetBuff(strBuff);
         if (buff == null) return;
 
-        Description = $"{keyword} {buff.LocalizedName} buff";
+        Description = $"{keyword} {buff.LocalizedName}";
     }
 
     public override void Update(float deltaTime) {
-        if (Time.time > this.updateTime)
-        {
-            this.updateTime = Time.time + 1f;
-            var buffClass = BuffManager.GetBuff(strBuff);
-            OnAddBuff(buffClass);
-        }
+        if (!(Time.time > this.updateTime)) return;
+        updateTime = Time.time + 1f;
+        var buffClass = BuffManager.GetBuff(strBuff);
+        CheckForBuff(buffClass);
     }
 
-    public void OnAddBuff(BuffClass buffClass) {
+    public void CheckForBuff(BuffClass buffClass) {
         if (string.IsNullOrEmpty(strBuff)) return;
         if (!string.Equals(buffClass.Name, strBuff, StringComparison.CurrentCultureIgnoreCase)) return;
-        if (base.Complete) return;
+        if (Complete) return;
        
         Complete= OwnerQuest.OwnerJournal.OwnerPlayer.Buffs.HasBuff(strBuff);
         if (Complete == false) return;   

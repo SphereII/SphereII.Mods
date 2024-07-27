@@ -9,6 +9,16 @@
 				<property name="CanPickup" value="true"/>
 				<property name="TakeDelay" value="8"/>
 				<property name="PickUpBlock" value="woodShapes:VariantHelper"/>
+
+				<!-- Only allow picking up window board blocks that are weak or regular wood -->
+				<!-- <property name="ValidMaterials" value="Mwood_weak,Mwood_regular"/> -->
+				<!-- Only allow picking up blocks with this tool being held. -->
+				<!-- <property name="TakeWithTool" value="meleeToolRepairT0StoneAxe,meleeToolRepairTazaStoneAxe"/> -->
+				
+				<!-- Check the currently held tool's tag for the material of the block / shape being picked up -->
+				<!-- This requires adding the material ID of this block to the tag list of the item entry. -->
+				<!-- <property name="CheckToolForMaterial" value="true" /> -->
+				
 			</append>
 
 			<append xpath="/shapes/shape[@name='window01Empty']">
