@@ -19,14 +19,14 @@ public class BlockTakeAndReplace : Block {
         if (Properties.Values.ContainsKey("PickUpBlock")) pickupBlock = Properties.GetString("PickUpBlock");
         if (Properties.Values.ContainsKey("ValidMaterials")) validMaterials = Properties.GetString("ValidMaterials");
         if (Properties.Values.ContainsKey("TakeWithTool")) takeWithTool = Properties.GetString("TakeWithTool");
-        if (Properties.Values.ContainsKey("CheckToolForMaterial")) validateToolToMaterial = Properties.GetBool("CheckToolForMaterial");
-
+        if (Properties.Values.ContainsKey("CheckToolForMaterial"))
+            validateToolToMaterial = Properties.GetBool("CheckToolForMaterial");
     }
 
     // Override the on Block activated, so we can pop up our timer
     public override bool OnBlockActivated(WorldBase world, int clrIdx, Vector3i blockPos,
         BlockValue blockValue, EntityPlayerLocal player) {
-        if (!ValidMaterialCheck(blockValue,player)) return false;
+        if (!ValidMaterialCheck(blockValue, player)) return false;
         TakeItemWithTimer(clrIdx, blockPos, blockValue, player);
         return true;
     }
@@ -120,7 +120,6 @@ public class BlockTakeAndReplace : Block {
             break;
         }
 
-
         xuiCTimer.SetTimer(newTakeTime, timerEventData);
     }
 
@@ -132,6 +131,7 @@ public class BlockTakeAndReplace : Block {
         {
             return entityAlive.inventory.holdingItem.HasAnyTags(FastTags<TagGroup.Global>.Parse(blockMaterial.id));
         }
+
         // Check to see if the material is valid to pick up
         foreach (var material in validMaterials.Split(','))
         {

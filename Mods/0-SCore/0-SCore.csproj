@@ -126,6 +126,7 @@
     <Compile Include="Harmony\EAI\EAIManager.cs" />
     <Compile Include="Harmony\EAI\EAITarget.cs" />
     <Compile Include="Harmony\EntityAlive\AddScriptToTransform.cs" />
+    <Compile Include="Harmony\EntityAlive\EntityAliveJiggleAdjustment.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
     <Compile Include="Harmony\EntityAlive\EntityTraderRektMute.cs" />
     <Compile Include="Harmony\EntityAlive\ReplicateSpeed.cs" />
@@ -726,6 +727,7 @@
       <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+	<!--
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.RemoteControl, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.VisualStudio.RemoteControl.16.3.44\lib\net45\Microsoft.VisualStudio.RemoteControl.dll</HintPath>
@@ -758,6 +760,7 @@
     <Reference Include="System.Collections.Immutable, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.6.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
     </Reference>
+
     <Reference Include="System.Configuration" />
     <Reference Include="System.Management" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -771,6 +774,7 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
+	-->
     <Reference Include="System.Xml">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
       <Private>False</Private>
@@ -825,7 +829,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.UI.dll</HintPath>

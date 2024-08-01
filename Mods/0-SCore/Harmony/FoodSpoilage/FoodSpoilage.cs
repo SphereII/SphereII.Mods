@@ -97,9 +97,13 @@ public class SphereII_FoodSpoilage {
             return 1f;
         }
 
+        private static void SetSpoilageMax(ItemValue itemValue, float degradationMax) {
+            itemValue.SetMetadata(KeySpoilageAmount, degradationMax, TypedMetadataValue.TypeTag.Float);
+        }
         private static float UpdateCurrentSpoilage(ItemValue itemValue, float spoiled) {
             var currentSpoilageAmount = GetCurrentSpoilage(itemValue);
             currentSpoilageAmount += spoiled;
+
             itemValue.SetMetadata(KeySpoilageAmount, currentSpoilageAmount, TypedMetadataValue.TypeTag.Float);
             return currentSpoilageAmount;
         }
@@ -264,7 +268,6 @@ public class SphereII_FoodSpoilage {
             strDisplay += " Spoilage Ticks Missed: " + totalSpoilageMultiplier;
             strDisplay += " Total Spoilage: " + totalSpoilage;
 
-            // If we don't want any degradation, skip this step.
             currentSpoilage = UpdateCurrentSpoilage(itemValue, totalSpoilage);
 
             // Update the NextSpoilageTick value
@@ -304,7 +307,6 @@ public class SphereII_FoodSpoilage {
                     }
 
                     var itemStackSpoiled = new ItemStack(ItemClass.GetItem(strSpoiledItem, false), count);
-
                     if (itemStackSpoiled?.itemValue?.ItemClass != null &&
                         itemStackSpoiled.itemValue.ItemClass.GetItemName() != itemClass.GetItemName())
                     {
@@ -316,12 +318,14 @@ public class SphereII_FoodSpoilage {
                         }
                     }
                 }
-
-                if (itemStack.count > 2)
+                if (itemStack.count >= 2)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, itemClass.GetItemName() + ": Reducing Stack by 1");
                     itemStack.count--;
-                    currentSpoilage = UpdateCurrentSpoilage(itemValue, -degradationMax);
+                    currentSpoilage -= degradationMax;
+
+                    // Reset the spoilage counter on the item.
+                    SetSpoilageMax(itemValue,degradationMax);
                 }
                 else
                 {
@@ -330,7 +334,9 @@ public class SphereII_FoodSpoilage {
                     break; // Nothing more to spoil
                 }
             }
-
+            
+            // Set the current spoilage value.
+            SetSpoilageMax(itemValue,currentSpoilage);
             __instance.ForceRefreshItemStack();
 
             return true;

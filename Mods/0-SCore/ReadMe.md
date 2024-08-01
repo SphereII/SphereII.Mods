@@ -23,6 +23,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.37.1432
+	[ Localization ]
+		- Updated some missing localization entries.
+
+	[ Food Spoilage ]
+		- Fixed an issue where a stack was smapping unlimited rotten meat
+		- Issue was related to the Spoilage meter on an item not being reset properly after each spoiled item.
+
+	[ Jiggle Adjustments ]
+		- If you are under 18, stop reading.
+		- This is mostly for xyth, who is more assuredly considered old enough to view.
+		- Exposed two properties for EntityAlive's:
+			<!-- Always enable the jiggle script, regardless of distance -->
+			<property name="AlwaysJiggle" value="true" />
+
+			<!-- Never downscale the AI, regardless of distance -->
+			<property name="NeverScaleAI" value="true" />
+
+
 Version: 1.0.32.940
 
 	[ CompoPackTweaks ]

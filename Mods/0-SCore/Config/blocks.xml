@@ -153,6 +153,7 @@
 				<property name="LowerResolutionUMA" value="false" /> 	<!-- Lower resolution on UMAs drastically -->
 				
 				<property name="EntityPooling" value="false" />
+				
 			</property>
 
 			<property class="AdvancedProgression">

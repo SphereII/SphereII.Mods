@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Windows.Forms.VisualStyles;
-using UnityEngine;
 
 public class XUiC_SCoreCompanionList : XUiController
 {
