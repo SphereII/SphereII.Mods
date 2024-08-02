@@ -162,6 +162,12 @@
 				<!-- Disable gaining Experience from any source. -->
 			</property>
 
+
+			<property class="AdvancedPickUpAndPlace">
+				<property name="Logging" value="false"/>
+				<property name="TakeWithTool" value="meleeToolRepairT1ClawHammer" />
+			</property>
+			
 			<property class="ErrorHandling">
 				<property name="Logging" value="false"/>
 				<property name="NoExceptionHijack" value="true" />

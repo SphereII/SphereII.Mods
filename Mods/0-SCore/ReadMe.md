@@ -23,12 +23,62 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+
+	[ Food Spoilage ]
+		- Adjusted references within the patches to use their full __instance values, rather than creating shorter forms for cleanliness
+		- Fixed an issue where a stack was spamming unlimited rotten meat
+
+	[ 0-SCore Blocks ]
+		- Added new class to blocks.xml to support PickUpAndReplace features. 
+			<property class="AdvancedPickUpAndPlace">
+				<property name="Logging" value="false"/>
+				<property name="TakeWithTool" value="meleeToolRepairT1ClawHammer" />
+			</property>
+
+	[ Take And Replace ]
+		- When a TakeWithTools property is set, the default item of clawHammer gets cleared.
+		- Fixed the ordering of material checks according to the xml defined order.
+			-> is Block a Valid Material to pick up?
+			-> Do we need to check the hand item for pick up?
+				-> Are we holding one of those tools?
+			-> Does our current hand item have the proper material tag?
+
+		- Trying a new design pattern.
+			-> Hold unto your hats.
+
+		- Created some helper shortcuts in order to reduce hard coding many references in the blocks.xml/shapes.xml
+		- If the TakeWithTool property exists on the block / shape, then a lookup against the AdvancedPickUpAndPlace class is triggered.
+			-> ValidMaterials operates the same style of lookup.
+		- This lookup uses the value of the TakeWithTool from the block/shape as a key to an entry in AdvancedPickUpAndPlace.
+			For Example:
+				<!-- blocks.xml -->
+				<property name="TakeWithTool" value="WoodenFenceTools" />
+				<property name="ValidMaterials" value="woodMaterial"/>
+			
+				<!-- Config Block -->
+				<property class="AdvancedPickUpAndPlace">
+      				<property name="Logging" value="false" />
+					<property name="TakeWithTool" value="meleeToolRepairT1ClawHammer" />
+      				<property name="WoodenFenceTools" value="meleeToolRepairT0StoneAxe,meleeToolRepairT0TazasStoneAxe,meleeToolRepairT1ClawHammer,meleeToolAxeT1IronFireaxe,meleeToolAxeT2SteelAxe,meleeToolAxeT3Chainsaw">
+					<property name="woodMaterial" value="Mwood_weak,Mwood_regular"/>
+			    </property>
+
+		- You may append to the class with your own unique keys
+			<append xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPickUpAndPlace']">
+				<property name="WoodenFenceTools" value="meleeToolRepairT0StoneAxe,meleeToolRepairT0TazasStoneAxe,meleeToolRepairT1ClawHammer,meleeToolAxeT1IronFireaxe,meleeToolAxeT2SteelAxe,meleeToolAxeT3Chainsaw" />
+			</append>
+		
+			
+		
+			
+
 Version: 1.0.37.1432
 	[ Localization ]
 		- Updated some missing localization entries.
 
 	[ Food Spoilage ]
-		- Fixed an issue where a stack was smapping unlimited rotten meat
+		- Fixed an issue where a stack was spamming unlimited rotten meat
 		- Issue was related to the Spoilage meter on an item not being reset properly after each spoiled item.
 
 	[ Jiggle Adjustments ]

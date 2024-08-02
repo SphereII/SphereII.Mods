@@ -1,26 +1,60 @@
-﻿using UniLinq;
+﻿using System;
+using System.Linq;
+using HarmonyLib;
+using UniLinq;
 using UnityEngine;
 
 public class BlockTakeAndReplace : Block {
+    
+    private const string AdvFeatureClass = "AdvancedPickUpAndPlace";
+    
     // By default, all blocks using this class will have a take delay of 15 seconds, unless over-ridden by the XML.
     private float fTakeDelay = 6f;
     private string itemNames = "meleeToolRepairT1ClawHammer";
     private string pickupBlock;
     private string validMaterials = "Mwood_weak,Mwood_weak_shapes,Mwood_shapes";
     private string takeWithTool;
-    private bool validateToolToMaterial;
-    private FastTags<TagGroup.Global> silentTags = FastTags<TagGroup.Global>.Parse("silenttake");
+    private bool checkToolForMaterial;
+    private static FastTags<TagGroup.Global> silentTags = FastTags<TagGroup.Global>.Parse("silenttake");
 
     public override void Init() {
         base.Init();
         if (Properties.Values.ContainsKey("TakeDelay"))
             fTakeDelay = StringParsers.ParseFloat(Properties.Values["TakeDelay"]);
+
         if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
         if (Properties.Values.ContainsKey("PickUpBlock")) pickupBlock = Properties.GetString("PickUpBlock");
         if (Properties.Values.ContainsKey("ValidMaterials")) validMaterials = Properties.GetString("ValidMaterials");
-        if (Properties.Values.ContainsKey("TakeWithTool")) takeWithTool = Properties.GetString("TakeWithTool");
+
         if (Properties.Values.ContainsKey("CheckToolForMaterial"))
-            validateToolToMaterial = Properties.GetBool("CheckToolForMaterial");
+            checkToolForMaterial = Properties.GetBool("CheckToolForMaterial");
+
+        // If we use the TakeWithTool on this block or shape, clear the default items.
+        if (Properties.Values.ContainsKey("TakeWithTool"))
+        {
+            takeWithTool = Properties.GetString("TakeWithTool");
+            itemNames = takeWithTool;
+        }
+
+    
+
+    }
+
+    public override void LateInit() {
+        base.LateInit();
+
+        var globalMaterial= Configuration.GetPropertyValue(AdvFeatureClass, validMaterials);
+        if (!string.IsNullOrEmpty(globalMaterial))
+            validMaterials = globalMaterial;
+
+        // This needs to be in the LateInit, as all the changes to the config block won't be available.            
+        var globalTool= Configuration.GetPropertyValue(AdvFeatureClass, takeWithTool);
+        if (!string.IsNullOrEmpty(globalTool))
+        {
+            takeWithTool = globalTool;
+            itemNames = globalTool;
+        }
+
     }
 
     // Override the on Block activated, so we can pop up our timer
@@ -68,16 +102,9 @@ public class BlockTakeAndReplace : Block {
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack, true))
             uiforPlayer.xui.PlayerInventory.DropItem(itemStack);
 
-        if (!entityPlayerLocal.inventory.holdingItem.HasAnyTags(silentTags))
-        {
-            var sound = blockMaterial.SurfaceCategory + "destroy";
-            entityPlayerLocal.PlayOneShot(sound);
-        }
-
         // Damage the block for its full health 
         DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
     }
-
 
     // Displays the UI for the timer, calling TakeTarget when its done.
     public void TakeItemWithTimer(int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player) {
@@ -124,27 +151,21 @@ public class BlockTakeAndReplace : Block {
     }
 
     private bool ValidMaterialCheck(BlockValue blockValue, EntityAlive entityAlive) {
-        var result = false;
-        var holdingItem = entityAlive.inventory.holdingItem;
-
-        if (validateToolToMaterial)
+        // If we do not have a valid material to pick up, then skip all the other checks
+        if (!validMaterials.Contains(blockMaterial.id))
         {
-            return entityAlive.inventory.holdingItem.HasAnyTags(FastTags<TagGroup.Global>.Parse(blockMaterial.id));
+            Debug.Log("Invalid Material TO Pick up.");
+            return false;
         }
 
-        // Check to see if the material is valid to pick up
-        foreach (var material in validMaterials.Split(','))
+        // Do we need to check the tools?
+        if (checkToolForMaterial)
         {
-            if (!blockMaterial.id.Contains(material)) continue;
-            result = true;
-            break;
+            // Check to see if we are filtering based on any tool
+            return takeWithTool.Contains(entityAlive.inventory.holdingItem.Name);
         }
 
-        // Check to see if we are filtering based on any tool
-        if (string.IsNullOrEmpty(takeWithTool)) return result;
-
-        // Check to see if we are holding a supported tool.
-        return takeWithTool.Contains(holdingItem.Name) || result;
+        return entityAlive.inventory.holdingItem.HasAnyTags(FastTags<TagGroup.Global>.Parse(blockMaterial.id));
     }
 
     public override string GetActivationText(WorldBase _world, BlockValue _blockValue, int _clrIdx, Vector3i _blockPos,
@@ -152,6 +173,5 @@ public class BlockTakeAndReplace : Block {
         if (!ValidMaterialCheck(_blockValue, _entityFocusing))
             return string.Empty;
         return string.Format(Localization.Get("takeandreplace"), Localization.Get(_blockValue.Block.GetBlockName()));
-        //    return "Press <E> to remove the wood from this block.";
     }
 }
