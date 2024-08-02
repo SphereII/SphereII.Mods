@@ -23,7 +23,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.0.38.1615
 
 	[ Food Spoilage ]
 		- Adjusted references within the patches to use their full __instance values, rather than creating shorter forms for cleanliness
