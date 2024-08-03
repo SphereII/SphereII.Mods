@@ -16,7 +16,7 @@ public class BlockTakeAndReplace : Block {
     private string takeWithTool;
     private bool checkToolForMaterial;
     private static FastTags<TagGroup.Global> silentTags = FastTags<TagGroup.Global>.Parse("silenttake");
-
+    private bool legacy = true;
     public override void Init() {
         base.Init();
         if (Properties.Values.ContainsKey("TakeDelay"))
@@ -42,12 +42,26 @@ public class BlockTakeAndReplace : Block {
 
     public override void LateInit() {
         base.LateInit();
-
+        // This needs to be in the LateInit, as all the changes to the config block won't be available.
+        
+        // Check to see if we want to do the legacy or a simplistic method of pulling wood boards off.
+        var result = Configuration.GetPropertyValue(AdvFeatureClass, "Legacy");
+        if (!string.IsNullOrEmpty(result))
+        {
+            legacy = StringParsers.ParseBool(result);
+            if (legacy)
+            {
+                if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
+                return;                
+            }
+        }
+        
+        // See if we are using a key for the material in teh config block
         var globalMaterial= Configuration.GetPropertyValue(AdvFeatureClass, validMaterials);
         if (!string.IsNullOrEmpty(globalMaterial))
             validMaterials = globalMaterial;
 
-        // This needs to be in the LateInit, as all the changes to the config block won't be available.            
+            
         var globalTool= Configuration.GetPropertyValue(AdvFeatureClass, takeWithTool);
         if (!string.IsNullOrEmpty(globalTool))
         {
@@ -151,10 +165,10 @@ public class BlockTakeAndReplace : Block {
     }
 
     private bool ValidMaterialCheck(BlockValue blockValue, EntityAlive entityAlive) {
+        if (legacy) return true;
         // If we do not have a valid material to pick up, then skip all the other checks
         if (!validMaterials.Contains(blockMaterial.id))
         {
-            Debug.Log("Invalid Material TO Pick up.");
             return false;
         }
 

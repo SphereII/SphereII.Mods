@@ -23,6 +23,18 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version:
+
+	[ One Block Crouch ]
+		- Disabled one block crouch by default.
+	
+	[ Take And Replace ]
+		- Fixed an issue where the original default behaviour was broken.
+		- A new Configuration Block entry called "Legacy" is set to true, going to default behaviour.
+
+		<!-- To enable advance configuration settings. -->
+		<set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPickUpAndPlace']/property[@name='Legacy']/@value">false</>
+
 Version: 1.0.38.1615
 
 	[ Food Spoilage ]
@@ -69,10 +81,6 @@ Version: 1.0.38.1615
 				<property name="WoodenFenceTools" value="meleeToolRepairT0StoneAxe,meleeToolRepairT0TazasStoneAxe,meleeToolRepairT1ClawHammer,meleeToolAxeT1IronFireaxe,meleeToolAxeT2SteelAxe,meleeToolAxeT3Chainsaw" />
 			</append>
 		
-			
-		
-			
-
 Version: 1.0.37.1432
 	[ Localization ]
 		- Updated some missing localization entries.
