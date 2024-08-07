@@ -361,15 +361,12 @@ public class FireManager
             // If the new block has changed, check to make sure the new block is flammable. Note: it checks the blockValue, not blockPos, since the change hasn't been committed yet.
             if (!IsFlammable(block) || block.isair || blchanceToExtinguish )
             {
-                // queue up the change
-                if (DynamicMeshManager.Instance != null)
-                    DynamicMeshManager.Instance.AddChunk(blockPos, true);
-            
                 Extinguish(blockPos);
+
                 continue;
             }
 
-           ToggleSound(blockPos, rand < 0.10);
+            ToggleSound(blockPos, rand < 0.10);
             //ToggleParticle(blockPos, rand > 0.90);
             ToggleParticle(blockPos, true);
             
@@ -378,8 +375,6 @@ public class FireManager
                 neighbors.AddRange(CheckNeighbors(blockPos));
             
             FireMap[blockPos] = block;
-            
-     
         }
 
         // Send all the changes in one shot
@@ -654,6 +649,24 @@ public class FireManager
 
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
             NetPackageManager.GetPackage<NetPackageAddExtinguishPosition>().Setup(blockPos, entityID));
+
+        var block = GameManager.Instance.World.GetBlock(blockPos);
+        if (!block.Block.Properties.Values.ContainsKey("ExtinguishedUpgradeBlock")) return;
+
+        var extinguishedBlock = Block.GetBlockValue(block.Block.Properties.Values["ExtinguishedUpgradeBlock"]);
+        if (extinguishedBlock.isair) return;
+
+        extinguishedBlock = BlockPlaceholderMap.Instance.Replace(extinguishedBlock, GameManager.Instance.World.GetGameRandom(), blockPos.x, blockPos.z);
+        if (block.damage >= extinguishedBlock.Block.MaxDamage)
+        {
+            // Too much damage to the new block. What to do now?
+            extinguishedBlock = BlockValue.Air;
+        }
+        else
+        {
+            extinguishedBlock.damage = block.damage;    
+        }
+        GameManager.Instance.World.SetBlockRPC(0, blockPos, extinguishedBlock);
     }
 
     public void Remove(Vector3i blockPos, int entityID = -1)
@@ -697,9 +710,12 @@ public class FireManager
         if (block.isair || !(_smokeTime > 0)) return;
         var randomSmokeParticle = GetRandomSmokeParticle(blockPos);
         BlockUtilitiesSDX.addParticlesCentered(randomSmokeParticle, blockPos);
+
+    
+
     }
 
-
+  
     // Add flammable blocks to the Fire Map
     public void AddBlock(Vector3i blockPos)
     {

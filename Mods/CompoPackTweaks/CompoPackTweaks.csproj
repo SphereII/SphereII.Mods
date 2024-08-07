@@ -67,6 +67,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="Harmony\DMSPlayerTrack.cs"/>
+		<Compile Include="Harmony\PrefabManager.cs" />
 		<Compile Include="Init.cs"/>
 		<Compile Include="Properties\AssemblyInfo.cs"/>
 	</ItemGroup>

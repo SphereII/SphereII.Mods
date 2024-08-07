@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <Name value="sphereii_larger_parties" />
+    <Author value="sphereii" />
+    <Description value="Support for larger parties. Maximum 100, with a minimum shared exp value of 200." />
+    <DisplayName value="SphereII Larger Parties" />
+    <Website value="" />
+    <Version value="1.0.0.0" />
+</xml>

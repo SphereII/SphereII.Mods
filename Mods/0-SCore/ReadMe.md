@@ -23,7 +23,24 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.0.43.1207
+	[ Fire Manager ]
+		- Removed the DynamicMeshChunk update, which was likely needless, and likely caused a performance issue.
+
+		- Added new property on a block to replace the target block with an ExtinguishedUpgradeBlock.
+			<property name='ExtinguishedUpgradeBlock' value='burntBlock' />
+		- When a block is extinguished, it will turn into this block.
+		- Damage from the original block is transfered over to the new block
+		- If the damage from the original block is greater than the new block's max health, it'll turn into an air block.
+		
+
+	[ SphereII Larger Parties ]
+		- New modlet that allows Parties up to 100 members.
+		- Added a Minimum exp value for shared exp.
+		- Default Minimum Exp is 200.
+		- Not included into 0-SCore, because there is a transpiler patch.
+
+Version: 1.0.39.746
 
 	[ One Block Crouch ]
 		- Disabled one block crouch by default.

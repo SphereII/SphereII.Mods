@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompoPackTweaks", "CompoPac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Winter Project", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\Mods\SphereII Winter Project\SphereII Winter Project.csproj", "{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Larger Parties", "SphereII Larger Parties\SphereII Larger Parties.csproj", "{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2DC2D3C-23A3-4B5F-ACEE-39C77D5D10A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

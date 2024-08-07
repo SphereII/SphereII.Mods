@@ -23,6 +23,7 @@ namespace Harmony.Blocks
                         ParticleEffect.LoadAsset(strParticleName);
                 }
 
+                
                 if (__instance.blockMaterial != null)
                 {
                     if (__instance.blockMaterial.Properties.Contains("FireParticle"))

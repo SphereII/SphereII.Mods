@@ -220,7 +220,6 @@ public class BlockMusicBox : BlockLoot
 
         var bRuntimeSwitch = myMusicBoxScript.enabled;
 
-
         // Turn off the music box before we do anything with it.
         myMusicBoxScript.enabled = false;
 

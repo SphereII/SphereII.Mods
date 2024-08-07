@@ -97,7 +97,7 @@
 				<property name="DurabilityAffectsDamage" value="false" />
 				<!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
 			</property>
-
+			
 			<property class="AdvancedPlayerFeatures" >
 				<property name="Logging" value="true"/>
 				<property name="AntiNerdPole" value="false" />
@@ -133,7 +133,6 @@
 				<property name="MinimumWeight" value="0.1" />
 				
 				<property name="AutoRedeemChallenges" value="false" />
-				
 			</property>
 
 			<property class="AdvancedZombieFeatures">
@@ -392,8 +391,25 @@
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy" />
 				<property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight" />
 				-->
-			</property>	
-			
+			</property>
+<!--
+			<property class="BlightManagement" >
+				<property name="Logging" value="false"/>
+				<property name="BlightEnable" value="false"/>
+				<property name="CheckInterval" value="20" />
+				<property name="BlightDamage" value="50" />
+				<property name="BlightSmokeTime" value="60" />
+				<property name="BlightSound" value="SCoreMediumLoop" />
+				<property name="BuffOnFire" value="buffBurningMolotov" />
+				<property name="BlightMaterialID" value="Mplants, Mcorn, Mhay" />
+				<property name="BlightMaterialDamage" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" />
+				<property name="BlightMaterialSurface" value="wood, cloth, corn, grass, plastic, leaves, cactus, mushroom, hay, paper, trash, backpack, organic" />
+				<property name="BlightSmokeParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />
+				<property name="BlightParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />
+				<property name="BlightSpread" value="true" />
+				<property name="ChanceToExtinguishBlight" value="0.05" />
+			</property>
+	-->		
 			<property class="ExternalParticles">
 				<!-- The name is not used by the system. You can use this value as a reference for your notes.
 				 	The index value will be displayed in the log during a game boot up. 
