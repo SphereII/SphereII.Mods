@@ -23,6 +23,39 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.44.1602
+	[ Check Items For Valid Containers]
+		- Introduced a new feature through a series of Harmony patches that allows you to filter items from storage containers.
+		- Allows you to filter items being added to any given Loot Container based on tags.
+		- A container with the AllowTags set to "all", will allow all items.
+		- A container with no AllowTags or DisallowTags will not be checked at all, and act normally.
+
+		- If a loot container has the following property, then it will only allow items that have those tags to be stored.
+			<!-- Only melee, axe, and repairTool items are allowed to be added -->
+			<!-- But it will not accept any lightarmor -->
+			<property name="AllowTags" value="melee,axe,repairTool" />
+			<property name="DisallowTags" value="lightarmor" />
+
+			<!-- Items.xml entry -->
+			<item name="meleeToolRepairT0StoneAxe">
+				<property name="Tags" value="axe,melee,light,tool,longShaft,repairTool,miningTool,attStrength,perkMiner69r,perkMotherLode,perkTheHuntsman,canHaveCosmetic,harvestingSkill,corpseRemoval"/>
+
+			<!-- Example -->
+			<block name="cntSphereTagTest">
+				<property name="Extends" value="cntWoodWritableCrate"/>
+				<property name="LootList" value="playerWoodWritableStorage"/>
+				<property name="AllowTags" value="melee,axe,repairTool" />
+			</block>
+
+		- If an item is blocked, a denied UI sound will be triggered.
+		- If an item is dragged and dropped in a blocked container, a tooltip will also display.
+		- Shift clicking on an item to move it will play the denied UI.
+	
+		- If a block has the following Property, this will be used to check for localization and display a custom blocked message.
+			<property name="DisallowedKey" value="NoPickUpForNPCs" />
+		- This property can also exist on the Item entry as well, and will over-ride the block's message, if it's set.
+		- If not otherwise set, the default localization entry will be displayed.
+			
 Version: 1.0.43.1207
 	[ Fire Manager ]
 		- Removed the DynamicMeshChunk update, which was likely needless, and likely caused a performance issue.

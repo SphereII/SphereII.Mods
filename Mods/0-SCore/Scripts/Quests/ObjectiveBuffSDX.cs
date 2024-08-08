@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-internal class ObjectiveBuffSDX : BaseObjective
+public class ObjectiveBuffSDX : BaseObjective
 {
     private string strBuff = "";
 
