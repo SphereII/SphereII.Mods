@@ -23,6 +23,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.45.1058
+	[ Check Items For Valid Containers ]
+		- Fixed another null reference when blocking an item from the NPC's loot container.
+		- Added filter for ItemValue's MetaData to exclude them from being added to a chest
+		- If an ItemValue has a Meta Data of "NoStorage", with a value greater than 0, it will be blocked.
+	
+	[ NPCs ]
+		- Added a few new properties to NPCs to block them from being added to storage.
+		- These are processed regardless of tags on the storage container or item.
+		- When an NPC is being picked up, NoStorage is read from the entityclass.
+		- By default, without this property, storage is allowed.
+		- npcNoStorage localization is added to the 0-SCore's Localization
+
+		Example syntax:
+			<append xpath="/entity_classes/entity_class[@name='npcMeleeTemplate']">
+				<property name="NoStorage" value="true" />
+				<property name="DisallowedKey" value="npcNoStorage" />
+			</append>
+	
 Version: 1.0.45.853
 	[ Check Items For Valid Containers ]
 		- Fixed a null reference when opening up zombie loot bags, because they do not have block properties.

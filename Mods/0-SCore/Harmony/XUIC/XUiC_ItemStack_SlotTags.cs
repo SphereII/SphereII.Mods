@@ -20,13 +20,28 @@ namespace SCore.Harmony.TileEntities {
 
             // Only run on loot containers and their slots.
             if (itemStack.xui.lootContainer == null) return true;
+            
             if (itemStack.StackLocation != XUiC_ItemStack.StackLocationTypes.LootContainer) return true;
 
-            var block = itemStack.xui.lootContainer.blockValue.Block;
+            var blockValue = GameManager.Instance.World.GetBlock(itemStack.xui.lootContainer.ToWorldPos());
+            var block = blockValue.Block;
             return CanPlaceItemInContainerViaTags(block, currentStack, true);
         }
         private static bool CanPlaceItemInContainerViaTags(Block block, ItemStack itemStack, bool showToolTip = false) {
-            
+            if (itemStack.itemValue.HasMetadata("NoStorage"))
+            {
+                var noStorageString = itemStack.itemValue.GetMetadata("NoStorage")?.ToString();
+                if (!string.IsNullOrEmpty(noStorageString))
+                {
+                    var noStorageId = StringParsers.ParseSInt32(noStorageString);
+                    if (noStorageId > 0)
+                    {
+                        DisplayToolTip(block, itemStack);
+                        return false;
+                    }    
+                }
+                
+            }
             // If the tags don't exist, skip all the checks.
             if (!block.Properties.Contains("AllowTags") && !block.Properties.Contains("DisallowTags")) return true;
             
@@ -46,6 +61,11 @@ namespace SCore.Harmony.TileEntities {
 
 
             if (!showToolTip) return false;
+            DisplayToolTip(block, itemStack);
+            return false;
+        }
+
+        private static void DisplayToolTip(Block block, ItemStack itemStack) {
             var message = Localization.Get("ItemCannotBePlaced");
             if (block.Properties.Contains("DisallowedKey"))
             {
@@ -59,7 +79,6 @@ namespace SCore.Harmony.TileEntities {
             var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
             XUiC_PopupToolTip.ClearTooltips(primaryPlayer.playerUI.xui);
             GameManager.ShowTooltip(primaryPlayer, message);
-            return false;
         }
 
         // For clicking and sending objects to the toolbelt/backpack/loot container

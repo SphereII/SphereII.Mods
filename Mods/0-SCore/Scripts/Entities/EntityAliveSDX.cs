@@ -392,12 +392,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         DisplayLog(" After BoundaryBox: " + boundingBox.ToCultureInvariantString());
     }
 
-    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks)
-    {
+    public override void updateSpeedForwardAndStrafe(Vector3 _dist, float _partialTicks) {
         if (this.isEntityRemote && _partialTicks > 1f)
         {
             _dist /= _partialTicks;
         }
+
         this.speedForward *= 0.5f;
         this.speedStrafe *= 0.5f;
         this.speedVertical *= 0.5f;
@@ -408,10 +408,12 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             this.speedForward += num2 * _dist.z - num * _dist.x;
             this.speedStrafe += num2 * _dist.x + num * _dist.z;
         }
+
         if (Mathf.Abs(_dist.y) > 0.001f)
         {
             this.speedVertical += _dist.y;
         }
+
         this.SetMovementState();
     }
 
@@ -2073,6 +2075,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         itemValue.SetMetadata("DefaultWeapon", _defaultWeapon, TypedMetadataValue.TypeTag.String);
         itemValue.SetMetadata("RightHandJointName", inventory.holdingItem.Properties.GetString("RightHandJointName"),
             TypedMetadataValue.TypeTag.String);
+
+        itemValue.SetMetadata("NoStorage", 0, TypedMetadataValue.TypeTag.Integer);
+        if (currentEntityClass.Properties.Values.ContainsKey("NoStorage"))
+        {
+            var noStorage = currentEntityClass.Properties.GetBool("NoStorage");
+            itemValue.SetMetadata("NoStorage", noStorage ? 1 : 0, TypedMetadataValue.TypeTag.Integer);
+        }
+
         if (lootContainer == null) return itemValue;
 
         if (!string.IsNullOrEmpty(lootContainer.lootListName))
