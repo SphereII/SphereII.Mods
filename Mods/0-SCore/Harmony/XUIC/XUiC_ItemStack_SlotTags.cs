@@ -112,8 +112,9 @@ namespace SCore.Harmony.TileEntities {
             public class XUiCLootWindowSetTileEntityChest {
                 public static void Postfix(XUiC_LootWindow __instance, string _lootContainerName) {
                     if (__instance.te == null) return;
-
-                    var block = __instance.te.blockValue.Block;
+                    var blockValue = GameManager.Instance.World.GetBlock(__instance.te.ToWorldPos());
+                    if (blockValue.isair) return;
+                    var block = blockValue.Block;
                     if (block.Properties.Contains("AllowTags"))
                     {
                         var display = block.Properties.GetString("AllowTags");

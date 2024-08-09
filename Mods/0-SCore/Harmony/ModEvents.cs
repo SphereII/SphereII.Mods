@@ -58,11 +58,6 @@ public class SCoreModEvents {
             modFolderCount++;
             Log.Out($"Loaded Mods From {localModsFolder}");
         }
-
-        if (modFolderCount > 1)
-        {
-            Log.Out("WARNING: Loaded Mods From two Folders!");
-        }
     }
 
     private static void GenerateModletHash() {
@@ -70,7 +65,7 @@ public class SCoreModEvents {
         foreach (var mod in ModManager.GetLoadedMods())
         {
             var modletHash = $"{mod.Name} {mod.VersionString}";
-            hash += modletHash.GetHashCode();
+            hash += GetStringSha256Hash(modletHash);
         }
 
         if (string.IsNullOrEmpty(hash))
@@ -79,7 +74,21 @@ public class SCoreModEvents {
             return;
         }
 
-        Log.Out($"Modlet List Hash: {hash.GetHashCode()}");
+        var sha256 = GetStringSha256Hash(hash);
+        if (sha256.Length > 5 )
+            sha256= sha256.Substring(0, 5);
+        Log.Out($"Modlet List Hash: {sha256}");
+    }
+    
+    public static string GetStringSha256Hash(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+            return string.Empty;
+
+        using var sha = new System.Security.Cryptography.SHA256Managed();
+        var textData = System.Text.Encoding.UTF8.GetBytes(text);
+        var hash = sha.ComputeHash(textData);
+        return BitConverter.ToString(hash).Replace("-", string.Empty);
     }
 
     // Read's the SCore's ExternalParticles from the ConfigFeatureBlock for external particles

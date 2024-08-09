@@ -23,6 +23,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.45.853
+	[ Check Items For Valid Containers ]
+		- Fixed a null reference when opening up zombie loot bags, because they do not have block properties.
+		- Questioning life choices that I did not name this feature correctly, and will be forever doomed calling it "Check Items For valid Containers"
+		- Added additional check for block at the tile location's position
+
+	[ ModEvents ]
+		- Removed a usefuless warning about duplicate mods folder ( this is the standard now )
+		- This provides a quick hash of all installed mods, allowing overhauls to quickly see at a glance if it matches the expected value.
+		- The hash is made up of modlet name + version number. 
+		- If more mods are installed than expected, or it has different version numbers, the hash will change.
+		- Changed the mod hash from a GetHashCode() to a truncated Sha256 value
+			Modlet List Hash: 7E5FF
+
 Version: 1.0.44.1602
 	[ Check Items For Valid Containers]
 		- Introduced a new feature through a series of Harmony patches that allows you to filter items from storage containers.
