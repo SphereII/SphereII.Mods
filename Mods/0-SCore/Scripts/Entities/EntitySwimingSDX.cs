@@ -31,16 +31,16 @@
  *
  */
 
+using System.Collections.Generic;
 using UnityEngine;
 
-internal class EntitySwimingSDX : EntityZombieFlyingSDX
-{
-    //public static System.Random random = new System.Random();
-    //public DynamicProperties Properties = new DynamicProperties();
+public class EntitySwimmingSDX : EntitySwimingSDX {
+}
 
-    //public override void Init(int _entityClass)
-    //{
-    //    base.Init(_entityClass);
+public class EntitySwimingSDX : EntityZombieFlyingSDX
+{
+    public List<Vector3i> WaterBlocks = new List<Vector3i>();
+
     public override void Init(int _entityClass)
     {
         base.Init(_entityClass);
@@ -50,10 +50,7 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
 
         getNavigator().setCanDrown(false);
        
-        //base.getNavigator().setInWater(true);
-        //useVanillaAI = true;
     }
-    //}
 
     public override bool IsAirBorne()
     {
@@ -62,41 +59,58 @@ internal class EntitySwimingSDX : EntityZombieFlyingSDX
     public override void OnAddedToWorld()
     {
         base.OnAddedToWorld();
-        // Debug.Log("Position: " + this.position.ToString());
-        //Debug.Log("Spawning Fish: " + this.entityName);
+        RefreshWaterBlocks();
     }
 
-    public override void OnUpdateLive()
-    {
+    public override void OnUpdateLive() {
         base.OnUpdateLive();
-
+        if (!IsGoingToWater())
+            AdjustWayPoint();
         if (!IsInWater())
-        {
             MarkToUnload();
-        }
     }
 
-    // While the fish are birds, we do want to adjust the way point settings, so they are not attracted to the air, but rather the water.
-    public override void AdjustWayPoint()
-    {
-        var num = 255;
-        
-        var num2 = (int)aiManager.interestDistance;
-
-        num2 *= 2;
-        var waypoint = RandomPositionGenerator.CalcAway(this, 0, num2, 10, this.LastTargetPos);
-        var localWaypoint = new Vector3i(waypoint);
-
-        // if waypoint is in the air, keep dropping it until it's out of the air, and into the water.
-        while (world.GetBlock(localWaypoint).type == BlockValue.Air.type && num > 0)
+    public bool IsGoingToWater() {
+        var vector = new Vector3i(Waypoint);
+        return WaterBlocks.Contains(vector);
+    }
+    public void RefreshWaterBlocks(int range = 10, int maxY = 5) {
+        var blockPos = Vector3i.zero;
+        var vector = new Vector3i(position);
+        for (var x = vector.x - range; x < vector.x + range; x++)
         {
-            localWaypoint.y -= 1;
-            num--;
+            for (var z = vector.z - range; z < vector.z + range; z++)
+            {
+                for (var y = vector.y - maxY; y < vector.y + maxY; y++)
+                {
+                    blockPos.x = x;
+                    blockPos.z = z;
+                    blockPos.y = y;
+                    var waterPercent = GameManager.Instance.World.GetWaterPercent(blockPos);
+                    if (waterPercent < 0.1) continue;
+                    if (WaterBlocks.Contains(blockPos)) continue;
+                    WaterBlocks.Add(blockPos);
+                }
+            }
         }
-        // Attempt to get rid of the vector zero errors.
-        if (world.GetBlock(localWaypoint + Vector3i.down).Block.shape.IsTerrain())
-            localWaypoint.y++;
-        Waypoint = localWaypoint.ToVector3();
+        // If there's not enough water, then just despawn.
+        if ( WaterBlocks.Count < 20)
+            MarkToUnload();
+    }
+
+    private Vector3i GetRandomPosition() {
+        if (WaterBlocks.Count == 0)
+            RefreshWaterBlocks();
+
+        if (WaterBlocks.Count == 0)
+            return Vector3i.zero;
+
+        var index = rand.RandomRange(0, WaterBlocks.Count);
+        return WaterBlocks[index];
+    }
+
+    public void AdjustWayPoint() {
+        Waypoint = GetRandomPosition();
     }
 
 

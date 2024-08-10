@@ -2,8 +2,8 @@
 <xml>
     <Name value="SphereII_A_Better_Life_sphereii"/>
     <Author value="sphereii"/>
-    <Description value="SphereII A Better Life"/>
-    <DisplayName value="0-ABetterLife"/>
+    <Description value="SphereII A Better Life, adding fish and birds to the game."/>
+    <DisplayName value="A Better Life"/>
     <Website value=""/>
-    <Version value="21.0.13.1511"/>
+    <Version value="1.0.0.732"/>
 </xml>

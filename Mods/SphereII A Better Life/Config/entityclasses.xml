@@ -3,8 +3,8 @@
 		<entity_class name="PassiveFish"   extends="animalChicken">
 			<property name="Mesh" value="Animals/Stag/STAG" />
 			<property name="Prefab" value="NPC"/>
-			<!-- The swiming class is an extended flying class-->
-			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<!-- The swimming class is an extended flying class-->
+			<property name="Class" value="EntitySwimmingSDX, SCore" />
 			<property name="UseVanillaAI" value="false" />
 			<property name="AvatarController" value="MecanimSDX,SCore" />
 			<property name="MaxHealth" value="25" />
@@ -76,7 +76,6 @@
 		</entity_class>
 
 		<entity_class name="fishStingRay" extends="PassiveFish" >
-			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
@@ -85,7 +84,6 @@
 		</entity_class>
 
 		<entity_class name="fishTurtle" extends="PassiveFish" >
-			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
@@ -94,7 +92,6 @@
 		</entity_class>
 
 		<entity_class name="fishBarracuda" extends="PassiveFish" >
-			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
@@ -103,14 +100,12 @@
 		</entity_class>
 
 		<entity_class name="fishSardine" extends="PassiveFish" >
-			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 		</entity_class>
 
 		<entity_class name="fishClownfish" extends="PassiveFish" >
-			<property name="Class" value="EntitySwimingSDX, SCore" />
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>

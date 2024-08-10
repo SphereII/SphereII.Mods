@@ -23,6 +23,23 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.46.1010
+	[ EntitySwimingSDX / EntitySwimmingSDX ]
+		- Fixed an issue where fish were leaving the water.
+		- Each fish searches for water blocks in its area, and uses that to validate it's pathing.
+		- If a fish has less than 20 water blocks, it'll despawn.
+		- If a fish leaves the water, it'll despawn.
+		- Added new class reference to fix spelling error in Swimming.
+			EntitySwimmingSDX and EntitySwimingSDX are the same, code-wise.
+		- Kept spelling error to maintain references
+		
+
+	[ A Better Life 1.0.0.732 ]
+		- Adjusted the ModInfo.xml's Name value
+		- Added the ability to auto-generate the version number.
+		- Adjusted the entityclasses.xml for class reference for extends.
+		
+
 Version: 1.0.45.1058
 	[ Check Items For Valid Containers ]
 		- Fixed another null reference when blocking an item from the NPC's loot container.

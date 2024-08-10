@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-internal class EntityZombieFlyingSDX : EntityFlying
+public class EntityZombieFlyingSDX : EntityFlying
 {
     // flocking logic constants and variables
     private const float BS = 0.25f;
