@@ -120,3 +120,6 @@ xuiSCoreUtilsAutoRedeemChallengesToolTip,"Auto Redeem Challenges as they complet
 ObjectiveBuffSDX_keyword,"Get",""
 ItemCannotBePlaced,"This item cannot go into this slot.",""
 npcNoStorage,"NPCs Cannot Be Placed In Storage.",""
+buffFreshnessSCoreName,"Fresh Food",""
+buffFreshnessSCore,"Fresh Food!",""
+buffFreshnessSCoreDesc,"Warm food and drink warms the soul!",""

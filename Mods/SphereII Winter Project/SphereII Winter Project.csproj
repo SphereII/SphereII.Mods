@@ -44,8 +44,9 @@
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="LogLibrary">
-			<HintPath>...\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
-			<Private>False</Private>
+		  <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
+		  			<Private>False</Private>
+
 		</Reference>
 		<Reference Include="System.Xml">
 			<HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
@@ -64,8 +65,9 @@
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="UnityEngine.CoreModule">
-			<HintPath>...\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-			<Private>False</Private>
+		  <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+		  			<Private>False</Private>
+
 		</Reference>
 		<Reference Include="UnityEngine.InputLegacyModule">
 			<HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>

@@ -1,0 +1,41 @@
+﻿<configs>
+    <!-- Caves -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveEnabled']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveType']/@value">All</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='GenerationType']/@value">Legacy</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePrefab']/@value">Large</set>
+    
+    <!-- Random Walk Types -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedZombieFeatures']/property[@name='RandomWalk']/@value">true</set>
+    
+    <!-- Craft From Container -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedRecipes']/property[@name='ReadFromContainers']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='BlockUpgradeRepair']/property[@name='ReadFromContainers']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='BlockUpgradeRepair']/property[@name='BlockOnNearbyEnemies']/@value">true</set>
+    
+    <!-- Zombie Health Bars -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedUI']/property[@name='ShowTargetHealthBar']/@value">true</set>
+    
+    <!-- Disable Flickering Lights -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPrefabFeatures']/property[@name='DisableFlickeringLights']/@value">true</set>
+
+    <!-- Auto redeem challenges as you go -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='AutoRedeemChallenges']/@value">true</set>
+
+    <!-- Food Spoilage, but to make hot things go cold 
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FoodSpoilage']/@value">true</set>
+    -->
+    <append xpath="/blocks">
+        
+        <!-- The drop box -->
+        <block name="cntSphereDropBox">
+            <property name="Extends" value="cntWoodWritableCrate"/>
+            <property name="Class" value="DropBoxContainer, SCore"/>
+            <property name="LootList" value="playerWoodWritableStorage"/>
+            <property name="DescriptionKey" value="cntSphereDropBoxDesc"/>
+            <property name="DropBox" value="true" />
+
+        </block>
+    </append>
+</configs>
+	

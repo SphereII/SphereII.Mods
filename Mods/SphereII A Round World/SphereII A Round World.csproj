@@ -5,20 +5,20 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{BC3B22B4-A09E-41FC-B751-9A7FF95CFDE7}</ProjectGuid>
+        <ProjectGuid>{44065753-4709-4498-BD9E-CD3C16AC4C9C}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>LargerParties</RootNamespace>
-        <AssemblyName>SphereII Larger Parties</AssemblyName>
+        <RootNamespace>SphereII_A_Round_World</RootNamespace>
+        <AssemblyName>SphereII_A_Round_World</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
         <DebugSymbols>true</DebugSymbols>
-        <DebugType>portable</DebugType>
+        <DebugType>full</DebugType>
         <Optimize>false</Optimize>
-        <OutputPath>.\</OutputPath>
+        <OutputPath>bin\Debug\</OutputPath>
         <DefineConstants>DEBUG;TRACE</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
@@ -33,39 +33,29 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="0Harmony">
-          <HintPath>..\0_TFP_Harmony\0Harmony.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="Assembly-CSharp">
-          <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
-        <Reference Include="LogLibrary">
-          <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
         <Reference Include="System"/>
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
-        <Reference Include="UnityEngine.CoreModule">
-          <HintPath>..\..\7DaysToDie_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="PlayerParty\Harmony\AddParty.cs" />
-        <Compile Include="PlayerParty\Harmony\GetPartyXP.cs" />
-        <Compile Include="PlayerParty\Harmony\IsFull.cs" />
-        <Compile Include="PlayerParty\PlayerPartyInit.cs" />
-        <Compile Include="PlayerParty\PlayerPartySettings.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="Properties\versionTemplate.cs">
+          <DependentUpon>versionTemplate.tt</DependentUpon>
+          <AutoGen>True</AutoGen>
+          <DesignTime>True</DesignTime>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Config\XUi\windows.xml" />
+      <Content Include="Config\blocks.xml" />
+      <Content Include="Config\items.xml" />
+      <Content Include="Config\Localization.txt" />
+      <Content Include="Config\recipes.xml" />
       <Content Include="ModInfo.xml" />
-      <Content Include="README.md" />
+      <Content Include="Properties\versionTemplate.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>versionTemplate.cs</LastGenOutput>
+      </Content>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -487,9 +487,6 @@ namespace SCore.Features.RemoteCrafting.Scripts
                 if (x == null) continue;
                 if (x == self) continue;
                 if (x.IsDead()) continue;
-                if (!EntityTargetingUtilities.CanDamage(x, self)) continue;
-                // Check to see if they are our enemy first, before deciding if we should see them.
-                if (EntityTargetingUtilities.IsFriend(x, self)) continue;
                 if (player && player.Party != null)
                 {
                     // Are they in the same party?
@@ -501,6 +498,10 @@ namespace SCore.Features.RemoteCrafting.Scripts
                     }
 
                 }
+                if (!EntityTargetingUtilities.CanDamage(x, self)) continue;
+                // Check to see if they are our enemy first, before deciding if we should see them.
+                if (EntityTargetingUtilities.IsFriend(x, self)) continue;
+
                 // Otherwise they are an enemy.
                 return true;
             }

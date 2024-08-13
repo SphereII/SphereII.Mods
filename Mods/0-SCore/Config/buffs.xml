@@ -32,6 +32,11 @@
 			<duration value="5"/>
 		</buff>
 
+		<buff name="buffFreshnessSCore" name_key="buffFreshnessSCoreName" description_key="buffFreshnessSCoreDesc" icon="ui_game_symbol_add">
+			<stack_type value="ignore"/>
+			<duration value="20"/>
+		</buff>
+
 		<buff name="buffAttackCoolDown" hidden="true">
 			<stack_type value="ignore"/>
 			<duration value="30"/>

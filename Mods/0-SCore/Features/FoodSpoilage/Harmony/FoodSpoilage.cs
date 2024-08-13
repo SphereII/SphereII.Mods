@@ -54,33 +54,33 @@ public class SphereII_FoodSpoilage {
     private const string AdvFeatureClass = "FoodSpoilage";
     private const string Feature = "FoodSpoilage";
     private static readonly bool FoodSpoilage = Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
-    private static readonly bool UseAlternateItemValue = Configuration.CheckFeatureStatus(AdvFeatureClass, "UseAlternateItemValue");
+
+    private static readonly bool UseAlternateItemValue =
+        Configuration.CheckFeatureStatus(AdvFeatureClass, "UseAlternateItemValue");
 
     [HarmonyPatch(typeof(ItemValue))]
     [HarmonyPatch("Clone")]
     public class ItemValueClone {
         private static void Postfix(ref ItemValue __result, ItemValue __instance) {
             if (!FoodSpoilage)
-                return ;
+                return;
             if (!UseAlternateItemValue)
-                return ;
-            
+                return;
+
             if (__instance.ItemClass == null || !__instance.ItemClass.Properties.Contains(PropSpoilable) ||
                 !__instance.ItemClass.Properties.GetBool(PropSpoilable))
-                return ;
+                return;
 
-            if (__instance.Metadata == null) return ;
+            if (__instance.Metadata == null) return;
             __result.Metadata = new Dictionary<string, TypedMetadataValue>();
             foreach (var text in __instance.Metadata.Keys)
             {
                 __result.SetMetadata(text, __instance.Metadata[text].Clone());
                 //__result.Metadata.Add(text, __instance.Metadata[text] ?? __instance.Metadata[text].Clone());
             }
-
-            
         }
-        
     }
+
     // hook into the ItemStack, which should cover all types of containers. This will run in the update task.
     // It is used to calculate the amount of spoilage necessary, and display the amount of freshness is left in the item.
     [HarmonyPatch(typeof(XUiC_ItemStack))]
@@ -100,6 +100,7 @@ public class SphereII_FoodSpoilage {
         private static void SetSpoilageMax(ItemValue itemValue, float degradationMax) {
             itemValue.SetMetadata(KeySpoilageAmount, degradationMax, TypedMetadataValue.TypeTag.Float);
         }
+
         private static float UpdateCurrentSpoilage(ItemValue itemValue, float spoiled) {
             var currentSpoilageAmount = GetCurrentSpoilage(itemValue);
             currentSpoilageAmount += spoiled;
@@ -133,20 +134,20 @@ public class SphereII_FoodSpoilage {
             {
                 return true;
             }
+
             return false;
         }
 
         public static bool Prefix(XUiC_ItemStack __instance) {
             if (IsSkippable(__instance)) return true;
-            
-//            var itemStack = __instance.ItemStack;
-//            var itemValue = itemStack.itemValue;
-            var itemClass = __instance.ItemStack.itemValue.ItemClass;
 
+            var itemClass = __instance.ItemStack.itemValue.ItemClass;
+  
             // Make sure our starting information is correct.
             var currentSpoilage = GetCurrentSpoilage(__instance.ItemStack.itemValue);
 
-            var strDisplay = $"XUiC_ItemStack: {itemClass.GetItemName()} :: {__instance.ItemStack.count} Slot: {__instance.SlotNumber} ";
+            var strDisplay =
+                $"XUiC_ItemStack: {itemClass.GetItemName()} :: {__instance.ItemStack.count} Slot: {__instance.SlotNumber} ";
             var degradationMax = 0f;
             var degradationPerUse = 0f;
 
@@ -276,6 +277,17 @@ public class SphereII_FoodSpoilage {
             strDisplay += " Next Spoilage Tick: " + nextSpoilageTick;
             strDisplay += " Recorded Spoilage: " + currentSpoilage;
             AdvLogging.DisplayLog(AdvFeatureClass, strDisplay);
+  
+            var freshness = false;
+            if (itemClass.Properties.Contains("FreshnessOnly"))
+                freshness = itemClass.Properties.GetBool("FreshnessOnly");
+            if (freshness)
+            {
+                var perCent = 1f - Mathf.Clamp01(currentSpoilage / degradationMax);
+                __instance.ItemStack.itemValue.SetMetadata("Freshness", perCent, TypedMetadataValue.TypeTag.Float);
+                __instance.ForceRefreshItemStack();
+                return true;
+            }
 
 
             // If the spoil time is is greater than the degradation, loop around the stack, removing each layer of items.
@@ -297,7 +309,7 @@ public class SphereII_FoodSpoilage {
                     var fullStackSpoil = false;
                     if (itemClass.Properties.Contains("FullStackSpoil"))
                         fullStackSpoil = itemClass.Properties.GetBool("FullStackSpoil");
-                    
+
                     if (Configuration.CheckFeatureStatus(AdvFeatureClass, "FullStackSpoil") || fullStackSpoil)
                     {
                         AdvLogging.DisplayLog(AdvFeatureClass, itemClass.GetItemName() + ":Full Stack Spoil");
@@ -318,6 +330,7 @@ public class SphereII_FoodSpoilage {
                         }
                     }
                 }
+
                 if (__instance.ItemStack.count >= 2)
                 {
                     AdvLogging.DisplayLog(AdvFeatureClass, itemClass.GetItemName() + ": Reducing Stack by 1");
@@ -331,12 +344,19 @@ public class SphereII_FoodSpoilage {
                     break; // Nothing more to spoil
                 }
             }
-            
+
             // Set the current spoilage value.
-           
+            var perCentFresh = 1f - Mathf.Clamp01(currentSpoilage / degradationMax);
+            __instance.ItemStack.itemValue.SetMetadata("Freshness", perCentFresh, TypedMetadataValue.TypeTag.Float);
             __instance.ForceRefreshItemStack();
 
             return true;
+        }
+
+        public static bool IsFresh(ItemValue itemValue) {
+            if (!itemValue.HasMetadata("Freshness")) return true;
+            var freshNess = (float)itemValue.GetMetadata("Freshness");
+            return !(freshNess < 0.1f);
         }
 
         public static void Postfix(XUiC_ItemStack __instance) {
@@ -347,6 +367,7 @@ public class SphereII_FoodSpoilage {
             var degradationMax = 1000f;
             if (itemClass.Properties.Contains("SpoilageMax"))
                 degradationMax = itemClass.Properties.GetFloat("SpoilageMax");
+
 
             var currentSpoilage = GetCurrentSpoilage(__instance.ItemStack.itemValue);
             var perCent = 1f - Mathf.Clamp01(currentSpoilage / degradationMax);
@@ -364,7 +385,7 @@ public class SphereII_FoodSpoilage {
             var controller = __instance.GetChildById("durability");
             if (controller?.ViewComponent is XUiV_Sprite durability)
             {
-                durability.IsVisible = true;
+                durability.IsVisible = IsFresh(__instance.ItemStack.itemValue);
                 durability.Color = QualityInfo.GetQualityColor(tierColor);
                 durability.Fill = perCent;
             }
@@ -372,7 +393,7 @@ public class SphereII_FoodSpoilage {
             controller = __instance.GetChildById("durabilityBackground");
             if (controller?.ViewComponent is XUiV_Sprite durabilityBackground)
             {
-                durabilityBackground.IsVisible = true;
+                durabilityBackground.IsVisible = IsFresh(__instance.ItemStack.itemValue);
             }
         }
 
@@ -399,6 +420,7 @@ public class SphereII_FoodSpoilage {
             {
                 return nextSpoilageTick;
             }
+
             return -1;
         }
 
@@ -408,7 +430,7 @@ public class SphereII_FoodSpoilage {
         /// <param name="__instance"></param>
         /// <param name="nextTick"></param>
         private static void SetNextSpoilageTick(ItemValue itemValue, int nextTick) {
-           itemValue.SetMetadata(KeyNextSpoilageTick, nextTick, TypedMetadataValue.TypeTag.Integer);
+            itemValue.SetMetadata(KeyNextSpoilageTick, nextTick, TypedMetadataValue.TypeTag.Integer);
         }
 
         /// <summary>

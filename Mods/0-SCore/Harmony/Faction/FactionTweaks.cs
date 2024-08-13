@@ -33,28 +33,6 @@ namespace Harmony.Faction
                 }
                 return false;
             }
-
-            //// Loops around the instructions and removes the return condition.
-            //private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-            //{
-            //    // Grab all the instructions
-            //    var codes = new List<CodeInstruction>(instructions);
-
-            //    var counter = 0;
-            //    foreach (var t in codes)
-            //    {
-            //        if (t.opcode != OpCodes.Brfalse) continue;
-            //        if (counter == 4)
-            //        {
-            //            t.opcode = OpCodes.Brtrue;
-            //            break;
-            //        }
-
-            //        counter++;
-            //    }
-
-            //    return codes.AsEnumerable();
-            //}
         }
 
         // Fixing casting bug
@@ -64,7 +42,8 @@ namespace Harmony.Faction
         {
             public static bool Prefix(global::Faction __instance, byte _factionId, float _value)
             {
-                __instance.Relationships[_factionId] = Mathf.Clamp(_value, 0f, 1000f);
+               //if ( __instance.Relationships.Contains(_factionId))
+                    __instance.Relationships[_factionId] = Mathf.Clamp(_value, 0f, 1000f);
                 return false;
             }
         }

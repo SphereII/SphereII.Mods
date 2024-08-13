@@ -1,0 +1,11 @@
+key,english
+cntSphereDropBox,"Drop Box"
+cntSphereDropBoxDesc,"A box that will auto-sort items placed inside of it into nearby matching containers."
+drinkJarCoffeeCold,"Cold Coffee."
+drinkJarCoffeeColdDesc,"Cold Coffee isn't as effective as hot coffee, but it'll do in a pinch."
+drinkJarBlackStrapCoffeeCold,"Cold Black Strap Coffee"
+drinkJarGoldenRodTeaCold,"Cold Black Strap isn't as effective as hot Black Strap coffee, but it'll do in a pinch."
+drinkJarRedTeaCold,"Cold Red Tea"
+drinkJarRedTeaColdDesc,"Cold Red Tea isn't as effective as hot red tea, but it'll do in a pinch."
+drinkJarGoldenRodTeaCold,"Cold Golden Rod Tea"
+drinkJarGoldenRodTeaColdDesc,"Cold Golden Rod Tea isn't as effective as hot golden rod tea, but it'll do in a pinch."

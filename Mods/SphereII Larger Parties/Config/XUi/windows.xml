@@ -1,0 +1,3 @@
+<configs>
+    <set xpath="//window[@name='windowGroupBars']/grid[@controller='PartyEntryList']/@rows">100</set>
+</configs>
