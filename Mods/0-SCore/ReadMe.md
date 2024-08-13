@@ -23,7 +23,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.0.49.1202
 
 	[ Repair From Containers ]
 		- Adjusted ordering of Nearby Enemy filter
