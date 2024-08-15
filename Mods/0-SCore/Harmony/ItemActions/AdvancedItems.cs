@@ -109,7 +109,7 @@ namespace Harmony.ItemActions
                  if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "RepairItems"))
                      __instance.AddActionListEntry(new ItemActionEntryRepair(itemController));
                 
-                if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "Resharpen"))
+                if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "SharpenItem"))
                     __instance.AddActionListEntry(new ItemActionEntryResharpenSDX(itemController));
             }
         }

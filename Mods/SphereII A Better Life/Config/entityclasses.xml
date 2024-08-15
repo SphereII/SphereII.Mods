@@ -2,26 +2,33 @@
 	<append xpath="/entity_classes">
 		<entity_class name="PassiveFish"   extends="animalChicken">
 			<property name="Mesh" value="Animals/Stag/STAG" />
+			<property name="EntityFlags" value="animal"/>
 			<property name="Prefab" value="NPC"/>
+			<property name="Parent" value="Animals"/>
+			<property name="EntityType" value="Animal"/>
+			<property name="IsEntityAnimal" value="true"/>
+			<property name="IsEnemyEntity" value="false"/> <!-- Set this if you want this entity to be spawned when user chooses 'enemy entities off' -->
+			<property name="Faction" value="animals"/>
 			<!-- The swimming class is an extended flying class-->
 			<property name="Class" value="EntitySwimmingSDX, SCore" />
-			<property name="UseVanillaAI" value="false" />
-			<property name="AvatarController" value="MecanimSDX,SCore" />
+			<!-- <property name="UseVanillaAI" value="false" /> -->
+			<!-- <property name="AvatarController" value="MecanimSDX,SCore" /> -->
+			<property name="AvatarController" value="AvatarAnimalController"/> 
 			<property name="MaxHealth" value="25" />
-			<property name="Weight" value="70" />
+			<property name="Weight" value="50" />
 			<property name="RotateToGround" value="true" />
 			<property name="MapIcon" value="ui_game_symbol_bicycle" />
-			<property name="EntityType" value="Player"/>
-
 			<!-- Swimming creatures will inherit what the chickens body does, since it can't fly -->
 			<property name="ModelType" value="Standard" />
 			<property name="HasRagdoll" value="false" />
-			<property name="PhysicsBody" value="chicken" />
+			<property name="PhysicsBody" value="" />
 			<property name="RootMotion" value="false" />
 			<property name="Immunity" value="sickness;disease;bleeding;wellness" />
-			<property name="EntityType" value="Animal"/>
 			<property name="AIPathCostScale" value="100, 100"/>
-			<property name="IsEnemyEntity" value="false"/>
+			<property name="AITask-1" value="RunawayWhenHurt"/>
+			<property name="AITask-2" value="RunawayFromEntity" data="class=EntityPlayer,EntityZombie,EntityEnemyAnimal"/>
+			<property name="AITask-3" value="Look"/>
+			<property name="AITask-4" value="Wander"/>
 			<!--				<property name="IsAgressive" value="false" />
 			<property name="FlockSize" value="0" />
 			<property name="MaxHeight" value="90" />
@@ -74,43 +81,104 @@
 				<!-- Animal HP scale -->
 			</effect_group>
 		</entity_class>
+		
+		<entity_class name="AggressiveFish"   extends="PassiveFish">
+			<property name="IsEnemyEntity" value="true"/> <!-- Set this if you want this entity to be spawned when user chooses 'enemy entities off' -->
+			<property name="Faction" value="aggressiveanimalssmall"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="AIGroupCircle" value="0"/>
+			<property name="AITask-1" value="ApproachAndAttackTarget" data="class=EntityPlayer,100"/>
+			<property name="AITask-2" value="ApproachSpot"/>
+			<property name="AITask-3" value="Look"/>
+			<property name="AITask-4" value="Wander"/>
+			<property name="AITask-5" value=""/>
+			<property name="AITarget-1" value="SetAsTargetIfHurt" data="class=EntityPlayer"/>
+			<property name="AITarget-2" value="BlockingTargetTask"/>
+			<property name="AITarget-3" value="SetNearestCorpseAsTarget" data="flags=player"/>
+			<property name="AITarget-4" value="SetNearestEntityAsTarget" data="class=EntityPlayer,22,20"/>
+			<property name="AITarget-5" value=""/>
+		</entity_class>
 
 		<entity_class name="fishStingRay" extends="PassiveFish" >
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Stingray_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
-			<property name="Tags" value="entity"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
 		</entity_class>
 
 		<entity_class name="fishTurtle" extends="PassiveFish" >
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Turtle_X" />
-			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
-		</entity_class>
-
-		<entity_class name="fishBarracuda" extends="PassiveFish" >
-			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Barracuda_X" />
-			<property name="AttackAnimations" value="Attack0" />
-			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
-			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="5"/>
-			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
 		</entity_class>
 
 		<entity_class name="fishSardine" extends="PassiveFish" >
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
 		</entity_class>
 
 		<entity_class name="fishClownfish" extends="PassiveFish" >
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
+		</entity_class>
+		
+		<entity_class name="fishSalmon" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Salmon" />
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
 		</entity_class>
+		<entity_class name="fishOctopus" extends="AggressiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Octopus" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="aggressiveanimalssmall"/>
+		</entity_class>
+		<entity_class name="fishPerch" extends="PassiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Perch" />
+			<property name="AttackAnimations" value="Attack0" />
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="animals"/>
+		</entity_class>
+		<entity_class name="fishPike" extends="AggressiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Pike" />
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="aggressiveanimalssmall"/>
+		</entity_class>		
+		<entity_class name="fishBabyShark" extends="AggressiveFish" >
+			<property name="Class" value="EntitySwimingSDX, SCore" />
+			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Shark" />
+			<property name="SizeScale" value=".5" />
+			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
+			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
+			<property name="Tags" value="entity,animal"/>
+			<property name="Faction" value="aggressiveanimalssmall"/>
+		</entity_class>	
+		
+		
 	</append>
 
 </configs>

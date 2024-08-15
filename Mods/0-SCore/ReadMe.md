@@ -23,6 +23,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.51.1516
+	[ Resharpen ]
+		- Fixed an issue where the option would not be properly enabled.
+			- Was looking for the wrong property name.
+		<property name="SharpenItem" value="sharpeningStone" />
+
+	[ SphereII A Better Life ]
+		- Many fixes to the models to improve and add hit boxes ( xyth )
+		- Enables more fishes from pipermac. (xyth)
+		- Fixed the ModInfo.xml's name entry so it's properly ordered.
+
 Version: 1.0.49.1202
 
 	[ Repair From Containers ]
