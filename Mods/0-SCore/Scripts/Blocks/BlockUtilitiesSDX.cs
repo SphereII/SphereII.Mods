@@ -79,7 +79,7 @@ public static class BlockUtilitiesSDX
         if (GameManager.IsDedicatedServer) return;
 
         if (strParticleName == null || strParticleName == "")
-            strParticleName = "#@modfolder(0-SCore):Resources/PathSmoke.unity3d?P_PathSmoke_X";
+            strParticleName = "#@modfolder(0-SCore_sphereii):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
         if (!ParticleEffect.IsAvailable(strParticleName))
             ParticleEffect.LoadAsset(strParticleName);

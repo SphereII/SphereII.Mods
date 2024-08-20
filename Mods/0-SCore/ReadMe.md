@@ -23,6 +23,50 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.56.1453
+	[ Sprinklers ]
+		- Fixed an issue where water sprinklers were not turning on and off on dedicated servers
+
+	[ Freshness ]
+		- Removed test buff of "buffFreshnessSCore" when using the Freshness system and Food Spoilage.
+
+	[ Portals ]
+		- Fixed a null reference when adding a portal key to the text
+		- Fixed another null reference where there was not a smart mesh on the block
+		- Fixed an issue where the player would exist in the same block space as the portal, causing the player unstuck message
+			- Moved player position up by 1 on teleport.
+
+	[ Advanced Items - Sharpen ]
+		- Changed the Sharpen feature to put new item right into backpack / ground, rather than through the crafting queue
+		- Previously, if you cancelled the resharpen from the crafting queue, you'd get the ingredients of the item back, and not the item you were sharpening.
+
+	[ Spawn Particle On Block ]
+		- Experimental
+		- Added a series of Harmony patches under Features/Particles/Harmony/Blocks.xml
+		- OnBlockDamaged, OnBlockAdded, OnBlockRemove
+		- This will add the specified particle to the block whenever those events are added, if defined on the block.
+		- The following syntax is supported:
+
+		<block name="blah" >
+    		<property class="Particles" >
+				<!-- Use this particle when the block is added to the world. -->
+				<!-- comma delimited, if you want to randomize which particle. -->
+				<!-- otherwise, just a single bundle reference.
+       			<property name="OnSpawnParticle" value="unitybundle,unitybundle2"/>
+
+				<!-- If you want to change the particle based on biome?-->
+				<!-- Use OnSpawn_<biome name> -->
+       			<property name="OnSpawnParticle_pine_forest" value="unitybundle,unitybundle2"/>
+				<!-- Probably of each block that gets a particle -->
+       			<property name="OnSpawnProb" value="0.2"/>
+
+       			<!-- If you want a different particle for when it gets damaged -->
+       			<property name="OnDamagedParticle" value="unitybundle,unitybundle2"/>
+       			<property name="OnDamagedParticle_snow" value="unitybundle,unitybundle2"/>
+       			<property name="OnDamagedProb" value="0.2"/>
+    		</property>
+		</block>
+
 Version: 1.0.51.1516
 	[ Resharpen ]
 		- Fixed an issue where the option would not be properly enabled.

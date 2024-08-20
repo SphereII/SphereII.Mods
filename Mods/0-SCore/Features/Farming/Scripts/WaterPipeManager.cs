@@ -65,7 +65,7 @@ public class WaterPipeManager
         }
         else
         {
-            WaterPos = WaterPipeManager.Instance.GetWaterForPosition(plantPos);
+            WaterPos = Instance.GetWaterForPosition(plantPos);
         }
 
         // If there's no set water position, create a temporary plant, to allow it to scan around.
@@ -89,7 +89,9 @@ public class WaterPipeManager
         if (Pipes.ContainsKey(position))
         {
             var waterPosition = Pipes[position].GetWaterSource();
-            if (waterPosition != Vector3.zero) return waterPosition;
+            if (IsDirectWaterSource(waterPosition)) return waterPosition;
+            
+          //  if (waterPosition != Vector3.zero) return waterPosition;
             return  Pipes[position].DiscoverWaterFromPipes(position);
         }
         var pipeData = new PipeData(position);
@@ -107,19 +109,34 @@ public class WaterPipeManager
         {
             WaterValve.Remove(valve);
         }
+        Sync(valve, turnOn);
+
     }
 
     public void RemoveValve( Vector3i valve)
     {
+        Sync(valve, false);
         if (WaterValve.ContainsKey(valve))
+        {
             WaterValve.Remove(valve);
+        }
+    }
+
+    public static void Sync(Vector3i blockPos, bool isEnabled) {
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsClient)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                NetPackageManager.GetPackage<NetPackageToggleSprinkler>().Setup(blockPos, isEnabled));
+            return;
+        }
+
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageToggleSprinkler>().Setup(blockPos, isEnabled));
     }
     public void AddValve(Vector3i valve)
     {
-        if (WaterValve.ContainsKey(valve))
-            return;
-
-        WaterValve.Add(valve, valve);
+        Sync(valve, true);
+        WaterValve.TryAdd(valve, valve);
     }
 
   

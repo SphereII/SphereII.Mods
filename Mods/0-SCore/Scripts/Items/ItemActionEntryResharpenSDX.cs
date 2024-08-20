@@ -125,10 +125,10 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
                 return;
 
 
-            var Count = playerInventory.GetItemCount(new ItemValue(itemClass.Id));
-            if (Count < 1)
+            var count = playerInventory.GetItemCount(new ItemValue(itemClass.Id));
+            if (count < 1)
             {
-                var text = "Not enough " + strSharpenItem + " to craft this: " + Count + " / 1";
+                var text = "Not enough " + strSharpenItem + " to craft this: " + count + " / 1";
                 GameManager.ShowTooltip(ItemController.xui.playerUI.entityPlayer, text);
                 return;
             }
@@ -144,12 +144,12 @@ public class ItemActionEntryResharpenSDX : BaseItemActionEntry
             // ItemClass.GetForId(recipe.itemValueType);
             var random = GameRandomManager.Instance.CreateGameRandom();
             var flRandom = random.RandomRange((int)itemValue.UseTimes, itemValue.MaxUseTimes / 1.20f);
-            if (!childByType.AddRepairItemToQueue(recipe.craftingTime, itemValue.Clone(), (int)flRandom))
+            var itemStack = new ItemStack(new ItemValue(recipe.itemValueType), (int)flRandom);
+            var entityPlayer = ItemController.xui.playerUI.entityPlayer;
+            if (!playerInventory.AddItem(itemStack))
             {
-                WarnQueueFull(ItemController);
-                return;
+                GameManager.Instance.ItemDropServer(itemStack, entityPlayer.GetPosition(), new Vector3(0.5f, 0f, 0.5f));
             }
-
             ((XUiC_ItemStack)ItemController).ItemStack = ItemStack.Empty.Clone();
             playerInventory.RemoveItems(recipe.ingredients);
         }

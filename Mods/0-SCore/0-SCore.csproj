@@ -60,6 +60,7 @@
     <Compile Include="Features\Farming\Scripts\DataClasses\PipeData.cs" />
     <Compile Include="Features\Farming\Scripts\DataClasses\PlantData.cs" />
     <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
+    <Compile Include="Features\Farming\Scripts\NetPackage\NetPackageToggleSprinkler.cs" />
     <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
     <Compile Include="Features\Fire\Harmony\ChunkSetBlock.cs" />
     <Compile Include="Features\Fire\Harmony\Explosion.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromSource.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\SCoreParticleAttractor.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
+    <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />

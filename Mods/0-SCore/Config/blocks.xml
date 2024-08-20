@@ -637,7 +637,7 @@
 			<property name="Display" value="true" />
 		</block>
 
-		<block name="samplePortal06">
+		<block name="samplePortal06samplePortal06">
 			<property name="Extends" value="portalMaster"/>
 			<property name="Class" value="PoweredPortal, SCore" />
 			<property name="DisplayType" value="blockMulti"/>

@@ -44,8 +44,8 @@ namespace SCore.Features.FoodSpoilage.Harmony {
                             break;
                     }
 
-                    var freshnessBuff = "buffFreshnessSCore";
-                    t.Buffs.AddBuff(freshnessBuff);
+                  //  var freshnessBuff = "buffFreshnessSCore";
+                 //   t.Buffs.AddBuff(freshnessBuff);
                     t.Buffs.SetCustomVar(__instance.cvarName, currentValue,
                         (t.isEntityRemote && !_params.Self.isEntityRemote) || _params.IsLocal);
                 }

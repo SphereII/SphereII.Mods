@@ -15,8 +15,6 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
     private bool isPowered;
 	public AuthoredText signText = new AuthoredText();
     public SmartTextMesh smartTextMesh;
-    private ITileEntitySignable _tileEntitySignableImplementation;
-
     public TileEntityPoweredPortal(Chunk _chunk) : base(_chunk)
     {
         this.allowedUserIds = new List<PlatformUserIdentifierAbs>();
@@ -209,23 +207,23 @@ public class TileEntityPoweredPortal : TileEntityPoweredBlock, ILockable, ITileE
 		{
 			return;
 		}
-		this.signText.Update(_text, _signingPlayer);
-		GeneratedTextManager.GetDisplayText(this.signText, new Action<string>(this.RefreshTextMesh), true, true);
+		signText.Update(_text, _signingPlayer);
+		GeneratedTextManager.GetDisplayText(signText, new Action<string>(this.RefreshTextMesh), true, true);
 		if (_syncData)
 		{
-			this.setModified();
+			setModified();
 		}
 	}
 
 	public AuthoredText GetAuthoredText() {
-		return _tileEntitySignableImplementation.GetAuthoredText();
+		return signText;
 	}
 
 	public AuthoredText GetFilteredText() {
-		return this.signText;
+		return signText;
 	}
 
-	public bool CanRenderString(string _text) {
-		return this.smartTextMesh.CanRenderString(_text);
+	public bool CanRenderString(string text) {
+		return !smartTextMesh || smartTextMesh.CanRenderString(text);
 	}
 }

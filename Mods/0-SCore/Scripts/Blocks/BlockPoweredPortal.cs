@@ -180,7 +180,7 @@ public class BlockPoweredPortal : BlockPowered
     {
         var destination = PortalManager.Instance.GetDestination(_blockPos);
         if (destination == Vector3i.zero) return;
-        
+        destination.y += 1;
         // Check if the destination is powered.
         var tileEntity = GameManager.Instance.World.GetTileEntity(0, destination) as TileEntityPoweredPortal;
         if (tileEntity != null)

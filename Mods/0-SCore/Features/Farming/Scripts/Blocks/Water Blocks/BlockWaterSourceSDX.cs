@@ -30,11 +30,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     // If there is no BlockWaterPipeSDXs connected to water, it does nothing.
     public override void OnBlockRemoved(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
-        ToggleSprinkler(_blockPos, false);
         WaterPipeManager.Instance.RemoveValve(_blockPos);
-        
-        StopSprinklerSound(_blockPos);
-
         base.OnBlockRemoved(_world, _chunk, _blockPos, _blockValue);
     }
 
@@ -46,14 +42,12 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
 
     private void StopSprinklerSound(Vector3i _blockPos)
     {
-        var _ebcd = GameManager.Instance.World.GetChunkFromWorldPos(_blockPos)?.GetBlockEntity(_blockPos);
-        if (_ebcd != null && _ebcd.transform != null)
+        var ebcd = GameManager.Instance.World.GetChunkFromWorldPos(_blockPos)?.GetBlockEntity(_blockPos);
+        if (ebcd == null || ebcd.transform == null) return;
+        var audioSource = ebcd.transform.GetComponentInChildren<AudioSource>();
+        if (audioSource != null)
         {
-            var audioSource = _ebcd.transform.GetComponentInChildren<AudioSource>();
-            if (audioSource != null)
-            {
-                audioSource.Stop();
-            }
+            audioSource.Stop();
         }
     }
 
@@ -78,6 +72,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         WaterPipeManager.Instance.AddValve(_blockPos);
 
     }
+  
     public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
     {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
@@ -89,39 +84,33 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         {
             _world.GetWBT().AddScheduledBlockUpdate(_chunk.ClrIdx, _blockPos, this.blockID, this.GetTickRate());
         }
-        ToggleSprinkler(_blockPos, IsConnectedToWaterPipe(_blockPos));
+        WaterPipeManager.Instance.AddValve(_blockPos);
     }
-    public void ToggleSprinkler(Vector3i _blockPos, bool enabled = true)
-    {
-        if (GameManager.Instance.World.IsRemote() == false)
-            GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, GetTickRate());
-
-        var ebcd = GameManager.Instance.World.GetChunkFromWorldPos(_blockPos)?.GetBlockEntity(_blockPos);
-        if (ebcd == null || ebcd.transform == null)
-            return;
+    public BlockEntityData GetBlockEntity(Vector3i position) {
+        return GameManager.Instance.World.GetChunkFromWorldPos(position)?.GetBlockEntity(position);
+    }
+    public void ToggleSprinkler(Vector3i _blockPos, bool enabled = true) {
+        var ebcd = GetBlockEntity(_blockPos);
+        if (ebcd == null || ebcd.transform == null) return ;
 
         var animator = ebcd.transform.GetComponentInChildren<Animator>();
-        if (animator == null) return;
-
-        var isConnected = IsConnectedToWaterPipe(_blockPos);
-
-        if (enabled && isConnected)
+        if (animator == null) return ;
+        if (enabled)
         {
             animator.SetBool(IsSprinklerOn, true);
-            WaterPipeManager.Instance.AddValve(_blockPos);
         }
         else
         {
             animator.SetBool(IsSprinklerOn, false);
-            WaterPipeManager.Instance.RemoveValve(_blockPos);
+            StopSprinklerSound(_blockPos);
         }
     }
-    
+
     private bool IsConnectedToWaterPipe(Vector3i _blockPos)
     {
         // If pipes are not required, always return true
         if (!CropManager.Instance.RequirePipesForSprinklers)
-        {
+        {  
             return true;
         }
 
@@ -134,35 +123,30 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
             _blockPos + Vector3i.down
         };
 
-        foreach (Vector3i pos in adjacentPositions)
+        foreach (var pos in adjacentPositions)
         {
-            BlockValue blockValue = GameManager.Instance.World.GetBlock(pos);
-        
-            if (blockValue.Block is BlockWaterPipeSDX)
+            
+            var waterSource = WaterPipeManager.Instance.GetWaterForPosition(pos);
+            if (WaterPipeManager.Instance.IsDirectWaterSource(waterSource)) return true;
+            if (waterSource != Vector3i.zero)
             {
-                Vector3i waterSource = WaterPipeManager.Instance.GetWaterForPosition(pos);
-                if (waterSource != Vector3i.zero)
-                {
-                    // The pipe is connected to a water source
-                    return true;
-                }
+                return true;
             }
         }
-
         return false;
     }
-
-  
     public override ulong GetTickRate()
     {
         return (ulong)10f;
     }
-    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
-    {
-        ToggleSprinkler(_blockPos);
-        return base.UpdateTick(_world, _clrIdx, _blockPos, _blockValue, _bRandomTick, _ticksIfLoaded, _rnd);
+    public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd) {
+        _world.GetWBT().AddScheduledBlockUpdate(_clrIdx, _blockPos, this.blockID, this.GetTickRate());
+        var isConnected = IsConnectedToWaterPipe(_blockPos);
+        ToggleSprinkler(_blockPos, isConnected);
+        WaterPipeManager.Sync(_blockPos, isConnected);
+
+        return true;
     }
 
- 
 }
 
