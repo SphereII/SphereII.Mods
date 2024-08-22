@@ -63,6 +63,7 @@ namespace Harmony.TileEntities {
         public class TileEntityWorkstationHandleFuel {
             
             private static bool IsEmpty(ItemStack[] items) {
+                if (items == null) return true;
                 foreach (var t in items)
                 {
                     if (!t.IsEmpty())

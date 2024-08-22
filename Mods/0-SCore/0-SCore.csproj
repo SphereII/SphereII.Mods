@@ -104,6 +104,7 @@
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\SCoreParticleAttractor.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
+    <Compile Include="Features\PlayerMetrics\KillTracking\Scripts\SCoreKillTracker.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
@@ -200,6 +201,7 @@
     <Compile Include="Harmony\UtilityAI\UAIPackage.cs" />
     <Compile Include="Harmony\UtilityAI\UAITaskBase.cs" />
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
+    <Compile Include="Harmony\Vehicles\EntityVehicleDropCorpse.cs" />
     <Compile Include="Harmony\Vehicles\NoVehicleTake.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
@@ -327,6 +329,8 @@
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Events\OnBloodMoonEnd.cs" />
+    <Compile Include="Scripts\Events\OnBloodMoonStart.cs" />
     <Compile Include="Scripts\Events\OnBuffAdded.cs" />
     <Compile Include="Scripts\Events\OnEnterPoi.cs" />
     <Compile Include="Scripts\Features\AdvLogging.cs" />
@@ -707,6 +711,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Features\ParticleAttractor\Harmony\" />
+    <Folder Include="Features\PlayerMetrics\BloodMoonTracking\Harmony\" />
+    <Folder Include="Features\PlayerMetrics\KillTracking\Harmony\" />
     <Folder Include="Harmony\Recipes" />
     <Folder Include="Harmony\Weather\" />
     <Folder Include="Scripts\Particles\" />

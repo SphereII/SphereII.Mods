@@ -23,6 +23,44 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.58.1256
+	[ Resharpen ]
+		- Fixed an issue where I confused UseTimes with Quantity.
+		- When you sharpen an item, it'll remove a random amount from the UseTime, capped at 20% of the total max usages
+		- Added 2 no location entries to be over-ridden in Localization.txt
+			TooDamagedToSharpen,"This item is too worn out to be resharpened.",""
+			NotDamagedEnoughToSharpen,"This item is still in pretty good shape.",""
+		- Cleaned up the code to make it seem like it wasn't developed by a drug addled raccoon.
+		- If you have used the item 70 times, with a max usage of 250
+			- A Random number between 51 and 70 is generated.
+			- 51 comes from 250 max usage * 0.2.
+			- At most, the Use times will be reduced to 51, with a possible minimum of 69.
+
+	[ Powered Workstation ]
+		- Added a check to see if fuel slots were null before checking if anything was in them.
+
+	[ EntityVehicle ]
+		- Added Harmony patch to EntityVehicle's Kill() to trigger EntityAlive's dropCorpseBlock()
+		- If the entity vehicle is configured using the following parameters, it'll drop a corpse block.
+			<property name="CorpseBlock" value="goreBlockAnimal"/>
+			<property name="CorpseBlockChance" value="1"/>
+
+	[ Events ]
+		- Added two new Mod events to subscribe too
+			- OnBloodMoonStart / OnBloodMoonEnd.	
+		- This feature is still under development.
+
+	[ Solution ]
+		- Added Peace of Mind and Sample Project to SphereII.Mods Solution
+
+	[ Peace of Mind ]	
+		- Fixed an issue where the noose block was causing a warning [ thanks blue name ]
+
+	[ Sample Project ]
+		- Fixed an a block warning [ thanks blue name ]
+
+
+
 Version: 1.0.56.1453
 	[ Sprinklers ]
 		- Fixed an issue where water sprinklers were not turning on and off on dedicated servers

@@ -2,11 +2,15 @@
     <!-- Removes the dead man hanging from the poles, and replaces with an empty pole-->
     <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
 
-    <!-- Removes the noose, and replaces it with an air block -->
     <remove xpath="/blocks/block[@name='modularRopeNoose']"/>
     <append xpath="/blocks">
         <block name="modularRopeNoose">
-            <property name="Extends" value="air"/>
+            <property name="Extends" value="modularRopeTiled"/>
+            <property name="Class" value="Ladder"/>
+            <property name="CustomIcon" value="modularRopeTiled"/>
+            <property name="Model" value="Entities/OutdoorDecor/modularRopeTiledSideCenteredPrefab"/>
+            <property name="Collide" value="movement,melee"/>
+            <property name="MaxDamage" value="100"/>
         </block>
     </append>
     
