@@ -23,6 +23,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.59.1007
+		[ Food Spoilage ]
+			- Added missing FreshnessOnly check on the ModifyCVar minevent patch.
+			- The FreshnessOnly patch to execute if the item has the "FreshnessBonus" property on the item, and it's set to true.
+
+
 Version: 1.0.58.1256
 	[ Resharpen ]
 		- Fixed an issue where I confused UseTimes with Quantity.

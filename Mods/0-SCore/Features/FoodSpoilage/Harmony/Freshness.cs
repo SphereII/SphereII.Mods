@@ -5,13 +5,16 @@ namespace SCore.Features.FoodSpoilage.Harmony {
     public class Freshness {
         private const string AdvFeatureClass = "FoodSpoilage";
         private const string Feature = "FoodSpoilage";
+
         private static readonly bool FoodSpoilage = Configuration.CheckFeatureStatus(AdvFeatureClass, Feature);
-        
+
         [HarmonyPatch(typeof(MinEventActionModifyCVar))]
         [HarmonyPatch("Execute")]
         public class MinEventActionModifyCVarExecute {
             private static void Postfix(MinEventActionModifyCVar __instance, MinEventParams _params) {
                 if (!FoodSpoilage) return;
+                
+             
                 // No item action?
                 if (_params.ItemActionData is not ItemActionEat.MyInventoryData actionData) return;
                 // Not an add?
@@ -19,6 +22,13 @@ namespace SCore.Features.FoodSpoilage.Harmony {
 
                 // Check to see if we need to re-run for freshness
                 if (_params.ItemValue.IsEmpty()) return;
+                
+                // If freshnessonly isn't on the item, skip it.
+                var freshness = false;
+                if (_params.ItemValue.ItemClass.Properties.Contains("FreshnessBonus"))
+                    freshness = _params.ItemValue.ItemClass.Properties.GetBool("FreshnessBonus");
+                if (!freshness) return;
+                
                 if (!_params.ItemValue.HasMetadata("Freshness")) return;
                 var freshNess = (float)_params.ItemValue.GetMetadata("Freshness");
                 if (freshNess < 0.1f) return;
@@ -44,8 +54,6 @@ namespace SCore.Features.FoodSpoilage.Harmony {
                             break;
                     }
 
-                  //  var freshnessBuff = "buffFreshnessSCore";
-                 //   t.Buffs.AddBuff(freshnessBuff);
                     t.Buffs.SetCustomVar(__instance.cvarName, currentValue,
                         (t.isEntityRemote && !_params.Self.isEntityRemote) || _params.IsLocal);
                 }

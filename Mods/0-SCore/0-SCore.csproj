@@ -710,6 +710,7 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Features\FoodSpoilage\Scripts\" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Features\PlayerMetrics\BloodMoonTracking\Harmony\" />
     <Folder Include="Features\PlayerMetrics\KillTracking\Harmony\" />
