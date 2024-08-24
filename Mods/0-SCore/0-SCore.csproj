@@ -258,6 +258,7 @@
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdAdjustCVar.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadDialog.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdlock.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUtilityAI.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddScriptToTransform.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAdjustTransformValues.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorFireTriggerSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetFloatSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSetIntSDX.cs" />

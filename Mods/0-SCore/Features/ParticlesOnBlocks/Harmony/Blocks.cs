@@ -50,7 +50,7 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
 
             // No particles at all? Boring.
             if (string.IsNullOrEmpty(availableParticles)) return string.Empty;
-            
+
             // Check if the particles are comma delimited.
             var particleArray = availableParticles.Split(',');
             var randomIndex = _random.RandomRange(0, particleArray.Length);
@@ -68,6 +68,8 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         }
         private static void CheckForParticle(Block block, Vector3i blockPos) {
             if (!block.Properties.Classes.ContainsKey("Particles")) return;
+            if (!GameManager.Instance.World.GetBlock(blockPos + Vector3i.up).isair) return;
+            
             var particles = block.Properties.Classes["Particles"];
             var particle = GetParticle(particles, "OnSpawnParticle", blockPos);
             if (string.IsNullOrEmpty(particle)) return;
@@ -77,6 +79,25 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
             }
         }
         
+        
+        // Reloading all the particles
+        [HarmonyPatch(typeof(Block))]
+        [HarmonyPatch("Init")]
+        public class BlockInit {
+            public static void Postfix(Block __instance) {
+                if (!__instance.Properties.Classes.ContainsKey("Particles")) return;
+                var particlesProperties = __instance.Properties.Classes["Particles"];
+                foreach (var property in particlesProperties.Values.dic)
+                {
+                    if (!property.Value.Contains("modfolder")) continue;
+                    foreach (var particle in property.Value.Split(','))
+                    {
+                        if (!ParticleEffect.IsAvailable(particle))
+                            ParticleEffect.LoadAsset(particle);
+                    }
+                }
+            }
+        }
         [HarmonyPatch(typeof(Block))]
         [HarmonyPatch("OnNeighborBlockChange")]
         public class BlockOnNeighborBlockChange {
@@ -88,6 +109,22 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         [HarmonyPatch(typeof(Block))]
         [HarmonyPatch("OnBlockUnloaded")]
         public class BlockOnBlockUnloaded {
+            public static void Postfix(Block __instance, Vector3i _blockPos) {
+                BlockUtilitiesSDX.removeParticles(_blockPos);
+            }
+        }
+        
+        [HarmonyPatch(typeof(Block))]
+        [HarmonyPatch("OnBlockLoaded")]
+        public class BlockOnBlockloaded {
+            public static void Postfix(Block __instance, Vector3i _blockPos) {
+                CheckForParticle(__instance, _blockPos);
+            }
+        }
+        
+        [HarmonyPatch(typeof(Block))]
+        [HarmonyPatch("OnBlockAdded")]
+        public class BlockOnBlockAdded {
             public static void Postfix(Block __instance, Vector3i _blockPos) {
                 CheckForParticle(__instance, _blockPos);
             }
@@ -105,7 +142,12 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         [HarmonyPatch(typeof(Block))]
         [HarmonyPatch("OnBlockRemoved")]
         public class BlockOnBlockRemoved {
-            public static void Postfix(Vector3i _blockPos) {
+            public static void Postfix(Block __instance, Vector3i _blockPos) {
+                if (!__instance.Properties.Classes.ContainsKey("Particles")) return;
+            
+                var particles = __instance.Properties.Classes["Particles"];
+                var particle = particles.GetBool("PeristAfterRemove");
+                if (particle) return;
                 BlockUtilitiesSDX.removeParticles(_blockPos);
             }
         }

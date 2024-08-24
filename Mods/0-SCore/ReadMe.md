@@ -23,6 +23,41 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.60.1241
+		[ MinEvent ]
+			- Added a new MinEvent to allow changing local transform / rotation on a particular transform on an entity.
+				<triggered_effect trigger="onSelfBuffUpdate"
+					action="AdjustTransformValues, SCore"  
+					parent_transform="AK47"
+					local_offset="-0.05607828,0.07183618,-0.02150292"
+					local_rotation="-3.98,-9.826,-5.901"
+					<!-- Optional. Defaults to false -->
+					debug="true"  
+				/>
+
+		[ Console Command ]
+			- Added a new console command to assist testing of the above MinEvent. 
+			- Use this cautiously. 
+			- Example:
+				ReloadSCore buffs
+				ReloadSCore entityclasses
+			
+		[ Particles On Block ]
+			- Fixed a few issues where particles were being loaded incorrectly, causing a hard crash
+			- Added a patch on the init to pre-load Particles
+			- Added a check for to keep a particle upon removal of its block
+				<property name="PeristAfterRemove" value="false" />
+
+			- Somewhat realistic example:
+		    <append xpath="/blocks/block[contains(@name,'emberPile')]">
+        		<property class="Particles" >
+            		<property name="OnSpawnParticle" value="#@modfolder(0-SCore_sphereii):Resources/gupFireParticles.unity3d?gupBeavis02-CampFire,#@modfolder(0-SCore_sphereii):Resources/gupFireParticles.unity3d?gupBeavis03-Cartoon,#@modfolder(0-SCore_sphereii):Resources/gupFireParticles.unity3d?gupBeavis04-SlowFire,#@modfolder(0-SCore_sphereii):Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight"/>
+            		<property name="OnSpawnProb" value="0.1"/>
+					<property name="PeristAfterRemove" value="false" />
+        		</property>
+    		</append>
+
+
 Version: 1.0.59.1007
 		[ Food Spoilage ]
 			- Added missing FreshnessOnly check on the ModifyCVar minevent patch.
