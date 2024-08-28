@@ -111,9 +111,14 @@
     <Compile Include="Features\RemoteCrafting\Scripts\BlockDropBoxContainer.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingUtils.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\XUiC\XUiC_BroadcastButton.cs" />
+    <Compile Include="Features\SCoreOptions\Scripts\ProcessOptions.cs" />
     <Compile Include="Features\Signs\Scripts\Blocks\BlockSCoreSign.cs" />
     <Compile Include="Features\Signs\Scripts\Blocks\SCoreVideo.cs" />
     <Compile Include="Features\Signs\Scripts\TileEntity\TileEntitySCoreSign.cs" />
+    <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPCamera.cs" />
+    <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPWeapon.cs" />
+    <Compile Include="Features\WeaponCameraSway\Scripts\ConsoleCmdWeaponSway.cs" />
+    <Compile Include="Features\WeaponCameraSway\Scripts\SwayUtilities.cs" />
     <Compile Include="Harmony\AIDirectorBloodMoon\AiDirectorBloodMoonParty.cs" />
     <Compile Include="Harmony\Animation\AnimalAvatarController.cs" />
     <Compile Include="Harmony\Animation\AnimatorMapper.cs" />

@@ -53,7 +53,7 @@ namespace Harmony.ZombieFeatures
 
 
                 // Distribution of Walk Types in an array. Adjust the numbers as you want for distribution.
-                var numbers = new int[] {1, 2, 2, 3, 21,22,5, 6, 7, 7};
+                var numbers = new int[] {1, 2, 2, 3, 5, 6, 7, 7};
 
                 // Randomly generates a number between 0 and the maximum number of elements in the numbers.
                 var randomNumber = random.Next(0, numbers.Length);

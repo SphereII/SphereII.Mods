@@ -85,7 +85,7 @@
 		<entity_class name="AggressiveFish"   extends="PassiveFish">
 			<property name="IsEnemyEntity" value="true"/> <!-- Set this if you want this entity to be spawned when user chooses 'enemy entities off' -->
 			<property name="Faction" value="aggressiveanimalssmall"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="AIGroupCircle" value="0"/>
 			<property name="AITask-1" value="ApproachAndAttackTarget" data="class=EntityPlayer,100"/>
 			<property name="AITask-2" value="ApproachSpot"/>
@@ -104,7 +104,7 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 
@@ -113,7 +113,7 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="10"/>
 			<drop event="Harvest" name="foodRawMeat" count="1" tag="WasteTreasuresCompleteHarvest"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 
@@ -121,7 +121,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 
@@ -129,7 +129,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Clownfish_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 		
@@ -139,7 +139,7 @@
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 		<entity_class name="fishOctopus" extends="AggressiveFish" >
@@ -148,7 +148,7 @@
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="aggressiveanimalssmall"/>
 		</entity_class>
 		<entity_class name="fishPerch" extends="PassiveFish" >
@@ -157,7 +157,7 @@
 			<property name="AttackAnimations" value="Attack0" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
 		<entity_class name="fishPike" extends="AggressiveFish" >
@@ -165,7 +165,7 @@
 			<property name="Mesh" value="#@modfolder:Resources/Fishies.unity3d?Pike" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="aggressiveanimalssmall"/>
 		</entity_class>		
 		<entity_class name="fishBabyShark" extends="AggressiveFish" >
@@ -174,7 +174,7 @@
 			<property name="SizeScale" value=".5" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
-			<property name="Tags" value="entity,animal"/>
+			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="aggressiveanimalssmall"/>
 		</entity_class>	
 		

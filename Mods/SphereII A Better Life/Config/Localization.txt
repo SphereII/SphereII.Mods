@@ -4,3 +4,4 @@ rawFishDesc,items,Item Food,KgNone,"Fish can be eaten raw but is better when cha
 Grilled Fish,items,Item Food,KgNone,Grilled Fish,,,,
 Boiled Fish,items,Item Food,KgNone,Boiled Fish,,,,
 Charred Fish,items,Item Food,KgNone,Charred Fish,,,,
+fishBabyShark,,,,Baby Shark Doo Doo Doo,,,,

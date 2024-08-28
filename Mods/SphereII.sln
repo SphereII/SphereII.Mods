@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Peace of Mind", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{8067F976-E450-4127-8C5C-8C2D58F97DE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Disable Sway", "SphereII Disable Sway\SphereII Disable Sway.csproj", "{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8067F976-E450-4127-8C5C-8C2D58F97DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <Name value="sphereii_disable_sway" />
+    <Author value="sphereii,sirillion" />
+    <Description value="Disables head and weapon swaying." />
+    <DisplayName value="Disable Weapon and Camera Swaying" />
+    <Website value="" />
+    <Version value="1.0.0.0" />
+</xml>

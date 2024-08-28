@@ -121,6 +121,28 @@
                                           depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
                                           effect_distance="1,1" effect_color="20,20,20,230"/>
 
+                        <togglebuttonCVar name="toggleToggleWeaponSway"
+                                          cvar="WeaponSway"
+                                          caption_key="xuiSCoreUtilsWeaponSway"
+                                          tooltip_key="xuiSCoreUtilsWeaponSwayToolTip" width="290" height="32"
+                                          depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
+                                          effect_distance="1,1" effect_color="20,20,20,230"/>
+
+                        <togglebuttonCVar name="toggleToggleMemoryBudget"
+                                          cvar="$SCoreUtils_MemoryBudget"
+                                          caption_key="xuiSCoreUtilsMemoryBudget"
+                                          tooltip_key="xuiSCoreUtilsMemoryBudgetToolTip" width="290" height="32"
+                                          depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
+                                          effect_distance="1,1" effect_color="20,20,20,230"/>
+
+                        <togglebuttonCVar name="toggleToggleMemoryBudget"
+                                          cvar="$SCoreUtils_PPEnable"
+                                          caption_key="xuiSCoreUtilsPPEnable"
+                                          tooltip_key="xuiSCoreUtilsPPEnableToolTip" width="290" height="32"
+                                          depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
+                                          effect_distance="1,1" effect_color="20,20,20,230"/>
+
+
                     </grid>
                 </panel>
 

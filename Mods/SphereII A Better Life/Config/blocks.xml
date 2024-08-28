@@ -1,36 +1,151 @@
 ﻿<configs>
   <append xpath="/blocks">
-    <block name="terrClay">
-      <property name="CreativeMode" value="None"/>
-      <property name="Material" value="MresourceClayLump"/>
-      <property name="LPHardnessScale" value="2"/>
-      <property name="Shape" value="Terrain"/>
-      <property name="Mesh" value="terrain"/>
-      <property name="Texture" value="301,570,570,570,570,570"/>
-      <property name="ImposterExclude" value="true"/>
-      <property class="RepairItems">
-        <property name="resourceClayLump" value="30"/>
-      </property>
-      <drop event="Harvest" name="resourceClayLump" count="30" tag="oreWoodHarvest"/>
-      <drop event="Destroy" name="resourceYuccaFibers" count="1"/>
-      <drop event="Fall" name="resourceClayLump" count="30" prob="0.5" stick_chance="0"/>
-      <property name="CanMobsSpawnOn" value="true"/>
-      <property name="Map.Color" value="107,78,57"/>
-      <property name="EconomicValue" value="5"/>
-      <property name="EconomicBundleSize" value="1"/>
-      <property name="SellableToTrader" value="false"/>
-      <property name="FilterTags" value="fterrain"/>
-      <property name="SortOrder1" value="d0l0"/>
-      <property name="SortOrder2" value="0050"/>
-      <property name="DisplayType" value="blockTerrain"/>
-    </block>
+		<block name="terrClay">
+		  <property name="CreativeMode" value="None"/>
+		  <property name="Material" value="MresourceClayLump"/>
+		  <property name="LPHardnessScale" value="2"/>
+		  <property name="Shape" value="Terrain"/>
+		  <property name="Mesh" value="terrain"/>
+		  <property name="Texture" value="301,570,570,570,570,570"/>
+		  <property name="ImposterExclude" value="true"/>
+		  <property class="RepairItems">
+			<property name="resourceClayLump" value="30"/>
+		  </property>
+		  <drop event="Harvest" name="resourceClayLump" count="30" tag="oreWoodHarvest"/>
+		  <drop event="Destroy" name="resourceYuccaFibers" count="1"/>
+		  <drop event="Fall" name="resourceClayLump" count="30" prob="0.5" stick_chance="0"/>
+		  <property name="CanMobsSpawnOn" value="true"/>
+		  <property name="Map.Color" value="107,78,57"/>
+		  <property name="EconomicValue" value="5"/>
+		  <property name="EconomicBundleSize" value="1"/>
+		  <property name="SellableToTrader" value="false"/>
+		  <property name="FilterTags" value="fterrain"/>
+		  <property name="SortOrder1" value="d0l0"/>
+		  <property name="SortOrder2" value="0050"/>
+		  <property name="DisplayType" value="blockTerrain"/>
+		</block>
 
-	  <block name="terrWaterSpawner">
-		  <property name="Extends" value="SpawnCube"/>
-		  <property name="Class" value="SpawnCube2SDX, SCore" />
-		  <property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0;keep=0" />
+		 <block name="terrWaterSpawner">
+			<property name="Extends" value="SpawnCube"/>
+			<property name="Class" value="SpawnCube2SDX, SCore" />
+			<property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0;keep=0" />
+		 </block>
+
+	  <block name="PondWeed">
+		  <property name="Extends" value="cropsHarvestableMaster"/>
+		  <property name="DisplayInfo" value="Name"/>
+		  <property name="Shape" value="ModelEntity"/>
+		  <property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_PondWeed.prefab"/>
+		  <property name="ModelOffset" value="0,-0.1,0"/>
+		  <drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+		  <property name="SortOrder1" value="B952"/>
+		  <property name="SortOrder2" value="0003"/>
 	  </block>
-  
+	  <block name="Starfish">
+		  <property name="Extends" value="cropsHarvestableMaster"/>
+		  <property name="DisplayInfo" value="Name"/>
+		  <property name="Shape" value="ModelEntity"/>
+		  <property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Starfish.prefab"/>
+		  <property name="ModelOffset" value="0,0,0"/>
+		  <drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+		  <property name="SortOrder1" value="B952"/>
+		  <property name="SortOrder2" value="0003"/>
+	  </block>
+	  <block name="TubeSponge">
+		  <property name="Extends" value="cropsHarvestableMaster"/>
+		  <property name="DisplayInfo" value="Name"/>
+		  <property name="Shape" value="ModelEntity"/>
+		  <property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_TubeSponge.prefab"/>
+		  <property name="ModelOffset" value="0,-0.1,0"/>
+		  <drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+		  <property name="SortOrder1" value="B952"/>
+		  <property name="SortOrder2" value="0003"/>
+	  </block>
+
+	  <block name="cropsHarvestableUnderwaterMaster">
+		  <property name="Extends" value="cropsHarvestableMaster"/>
+	  </block>
+		<block name="Broadleafplantain">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Broadleafplantain.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="Cosmos1">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Cosmos1.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="Cosmos2">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Cosmos2.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="LotusFlower">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_LotusFlower2.prefab"/>
+			<property name="ModelOffset" value="0,.6,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="PampasGrass">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_PampasGrass.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="10,20"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="VioletEtsorrel">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_VioletEtsorrel.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="Waterlily">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Waterlily.prefab"/>
+			<property name="ModelOffset" value="0,0.6,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
+		<block name="Woodsorrel">
+			<property name="Extends" value="cropsHarvestableUnderwaterMaster"/>
+			<property name="DisplayInfo" value="Name"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/ABetterLifeaquaticplant.unity3d?Ds_Woodsorrel.prefab"/>
+			<property name="ModelOffset" value="0,-0.1,0"/>
+			<drop event="Destroy" name="resourceYuccaFibers" count="3,8"/>
+			<property name="SortOrder1" value="B952"/>
+			<property name="SortOrder2" value="0003"/>
+		</block>
   </append>
 
 </configs>

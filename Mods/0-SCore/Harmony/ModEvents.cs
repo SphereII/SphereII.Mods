@@ -14,11 +14,15 @@ public class SCoreModEvents {
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
-
-       
+        ModEvents.PlayerSpawnedInWorld.RegisterHandler(CheckGraphicSettings);      
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
+    }
+
+    private static void CheckGraphicSettings(ClientInfo arg1, RespawnType arg2, Vector3i arg3) {
+        ProcessSCoreOptions.ProcessCVars("$SCoreUtils_MemoryBudget");
+        ProcessSCoreOptions.ProcessCVars("$SCoreUtils_PPEnable");
     }
 
     public static Shader GetStandardShader() {

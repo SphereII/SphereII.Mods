@@ -1,7 +1,23 @@
 ﻿<configs>
     <append xpath="//biomes/biome[@name='underwater']//decorations" >
-    <decoration type="block" blockname="terrWaterSpawner" prob="0.001" rotatemax="4" />
+    	<decoration type="block" blockname="terrWaterSpawner" prob="0.001" rotatemax="4" />
+		<decoration type="block" blockname="PondWeed" prob=".04" rotatemax="7"/>
+		<decoration type="block" blockname="Starfish" prob=".07" rotatemax="7"/>
+		<decoration type="block" blockname="TubeSponge" prob=".09" rotatemax="7"/>
+	</append>
+	
+	<!--
+	<append xpath="//biomes/biome[@name='water']//decorations" >
+		<decoration type="block" blockname="Broadleafplantain" prob=".05" rotatemax="7"/>
+		<decoration type="block" blockname="Cosmos1" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="Cosmos2" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="LotusFlower" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="PampasGrass" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="VioletEtsorrel" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="Waterlily" prob=".0.001" rotatemax="7"/>
+		<decoration type="block" blockname="Woodsorrel" prob=".0.001" rotatemax="7"/>
   </append>
+ -->
  </configs>
 
 

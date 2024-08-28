@@ -21,7 +21,7 @@ public class PlayerMoveControllerUpdateNPCv2 {
         // This index is not the index of the instruction list, which would include a listing of all the opcodes / operands,
         // rather, this is the 32nd local variable defined. We don't know what it is, or where it's at in the instructions,
         // but the variableInformation will contain the operand fingerprint
-        var index = 32;
+        var index = 31;
         var variableInformation = ILUtilities.FindLocalVariable(method, index);
 
         // Grab all the instructions
