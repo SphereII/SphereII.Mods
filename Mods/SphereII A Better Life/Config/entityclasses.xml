@@ -84,7 +84,14 @@
 		
 		<entity_class name="AggressiveFish"   extends="PassiveFish">
 			<property name="IsEnemyEntity" value="true"/> <!-- Set this if you want this entity to be spawned when user chooses 'enemy entities off' -->
-			<property name="Faction" value="aggressiveanimalssmall"/>
+			<conditional>
+				<if cond="mod_loaded('0-XNPCCore')">
+					<property name="Faction" value="aggressiveanimalssmall"/>
+				</if>
+				<else>
+					<property name="Faction" value="animals"/>
+				</else>
+			</conditional>
 			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="AIGroupCircle" value="0"/>
 			<property name="AITask-1" value="ApproachAndAttackTarget" data="class=EntityPlayer,100"/>
@@ -149,7 +156,14 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 			<property name="Tags" value="entity,animal,notrample"/>
-			<property name="Faction" value="aggressiveanimalssmall"/>
+			<conditional>
+				<if cond="mod_loaded('0-XNPCCore')">
+					<property name="Faction" value="aggressiveanimalssmall"/>
+				</if>
+				<else>
+					<property name="Faction" value="animals"/>
+				</else>
+			</conditional>
 		</entity_class>
 		<entity_class name="fishPerch" extends="PassiveFish" >
 			<property name="Class" value="EntitySwimingSDX, SCore" />
@@ -166,7 +180,14 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 			<property name="Tags" value="entity,animal,notrample"/>
-			<property name="Faction" value="aggressiveanimalssmall"/>
+			<conditional>
+				<if cond="mod_loaded('0-XNPCCore')">
+					<property name="Faction" value="aggressiveanimalssmall"/>
+				</if>
+				<else>
+					<property name="Faction" value="animals"/>
+				</else>
+			</conditional>
 		</entity_class>		
 		<entity_class name="fishBabyShark" extends="AggressiveFish" >
 			<property name="Class" value="EntitySwimingSDX, SCore" />
@@ -175,7 +196,14 @@
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>
 			<drop event="Harvest" name="foodRawMeat" tag="butcherHarvest" count="1"/>
 			<property name="Tags" value="entity,animal,notrample"/>
-			<property name="Faction" value="aggressiveanimalssmall"/>
+			<conditional>
+				<if cond="mod_loaded('0-XNPCCore')">
+					<property name="Faction" value="aggressiveanimalssmall"/>
+				</if>
+				<else>
+					<property name="Faction" value="animals"/>
+				</else>
+			</conditional>
 		</entity_class>	
 		
 		

@@ -23,6 +23,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.65.1554
+
+	[ No Changes to SCore, only Better Life ]
+
+	[ SphereII A Better Life ]
+		- 1.0.19.1554
+		- Fixed an issue where errors would occur without NPC Core installed, due to factions.
+
+
 Version: 1.0.64.2041
 		[ SCore Options ]
 			- Added toggle for WeaponSway
