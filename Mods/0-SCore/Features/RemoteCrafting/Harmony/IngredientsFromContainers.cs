@@ -31,6 +31,28 @@ namespace Features.RemoteCrafting
             }
         }
 
+        
+        [HarmonyPatch(typeof(XUiM_PlayerInventory))]
+        [HarmonyPatch("GetItemCount")]
+        [HarmonyPatch(new[] { typeof(ItemValue) })]
+
+        public class GetItemCount
+        {
+            public static void Postfix(ref int __result,ItemValue _itemValue, EntityPlayerLocal ___localPlayer)
+            {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+                    return ;
+
+                var count = 0;
+                var items = RemoteCraftingUtils.SearchNearbyContainers(___localPlayer, _itemValue);
+                foreach (var item in items)
+                    count += item.count;
+                
+                Debug.Log($"GetItemCount: {count}: Total: {__result}");
+                __result += count;
+                
+            }
+        }
         /// <summary>
         /// Extends what is considered to be in the player's backpack / tool belt to include local containers.
         /// </summary>
@@ -239,7 +261,10 @@ namespace Features.RemoteCrafting
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-         
+                
+                // Sometimes RemovedItems is null, so let's just declare it
+                if (_removedItems == null)
+                    _removedItems = new List<ItemStack>();
                 RemoteCraftingUtils.ConsumeItem(_itemStacks, ___localPlayer, _multiplier,  _removedItems, ___backpack, ___toolbelt);
                 return false;
             }

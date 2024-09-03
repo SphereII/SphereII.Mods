@@ -6,22 +6,6 @@
             <ingredient name="resourceMechanicalParts" count="10"/>
             <ingredient name="resourceElectricParts" count="10"/>
         </recipe>
-<!--
-        <recipe name="drinkJarCoffeeCold" count="1" craft_area="campfire" craft_tool="toolCookingPot" tags="perkMasterChef">
-            <ingredient name="drinkJarCoffee" count="1"/>
-        </recipe>
 
-        <recipe name="drinkJarBlackStrapCoffeeCold" count="1" craft_area="campfire" craft_tool="toolCookingPot" tags="perkMasterChef">
-            <ingredient name="drinkJarBlackStrapCoffee" count="1"/>
-        </recipe>
-
-        <recipe name="drinkJarGoldenRodTeaCold" count="1" craft_area="campfire" craft_tool="toolCookingPot" tags="perkMasterChef">
-            <ingredient name="drinkJarGoldenRodTea" count="1"/>
-
-        </recipe>
-        <recipe name="drinkJarRedTeaCold" count="1" craft_area="campfire" craft_tool="toolCookingPot" tags="perkMasterChef">
-            <ingredient name="drinkJarRedTea" count="1"/>
-        </recipe>
-        -->
     </append>
 </configs>

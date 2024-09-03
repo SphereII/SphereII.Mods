@@ -1939,11 +1939,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         if (entityPlayerLocal == null) return;
         var uiforPlayer = LocalPlayerUI.GetUIForPlayer(entityPlayerLocal);
         var itemStack = new ItemStack(GetItemValue(), 1);
-        foreach (var meta in itemStack.itemValue.Metadata)
-        {
-            Debug.Log($"Key: {meta.Key}");
-            Debug.Log($"Value: {meta.Value.GetValue()}");
-        }
+        // foreach (var meta in itemStack.itemValue.Metadata)
+        // {
+        //     Debug.Log($"Key: {meta.Key}");
+        //     Debug.Log($"Value: {meta.Value.GetValue()}");
+        // }
 
         if (!uiforPlayer.xui.PlayerInventory.AddItem(itemStack))
         {
