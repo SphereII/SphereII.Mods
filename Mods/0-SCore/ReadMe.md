@@ -23,6 +23,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.71.2148
+	[ Remote Crafting / Repair ]
+		- Fixed an issue where 2x the amount of resources was available. Display only bug.
+		- Removed debug lines.
+
 Version: 1.0.70.1352
 	[ Remote Crafting / Repair ]
 		- Fixed an issue where ItemActionEntryRepair wasn't detecting ingredients from an open container.

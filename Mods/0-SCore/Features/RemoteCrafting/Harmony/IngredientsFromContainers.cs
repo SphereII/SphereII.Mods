@@ -48,9 +48,8 @@ namespace Features.RemoteCrafting
                 foreach (var item in items)
                     count += item.count;
                 
-                Debug.Log($"GetItemCount: {count}: Total: {__result}");
-                __result += count;
                 
+                __result += count;
             }
         }
         /// <summary>
@@ -132,16 +131,16 @@ namespace Features.RemoteCrafting
                                 {
                                     // add items from lootcontainers
                                     value1 = __instance.xui.PlayerInventory.GetItemCount(___ingredient.itemValue);
-                                    var array = RemoteCraftingUtils.SearchNearbyContainers(__instance.xui.playerUI.entityPlayer,
-                                        ___ingredient.itemValue).ToArray();
-                                    foreach (var t in array)
-                                    {
-                                        if (t != null && t.itemValue.type != 0 &&
-                                            ___ingredient.itemValue.type == t.itemValue.type)
-                                        {
-                                            value1 += t.count;
-                                        }
-                                    }
+                                    // var array = RemoteCraftingUtils.SearchNearbyContainers(__instance.xui.playerUI.entityPlayer,
+                                    //     ___ingredient.itemValue).ToArray();
+                                    // foreach (var t in array)
+                                    // {
+                                    //     if (t != null && t.itemValue.type != 0 &&
+                                    //         ___ingredient.itemValue.type == t.itemValue.type)
+                                    //     {
+                                    //         value1 += t.count;
+                                    //     }
+                                    // }
 
                                     value = ___havecountFormatter.Format(value1) + "/" + text;
                                 }

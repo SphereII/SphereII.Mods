@@ -137,10 +137,11 @@ namespace SCore.Features.RemoteCrafting.Scripts {
         }
 
         public static bool IsLootContainerOpenByAnotherPlayer(TileEntity  tileEntity, EntityAlive player) {
-            if (player is not EntityPlayerLocal entityPlayerLocal) return false;
-            var openTileEntityID = GameManager.Instance.GetEntityIDForLockedTileEntity(tileEntity);
             if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var tileEntityLootable))
                 return true;
+            if (player is not EntityPlayerLocal entityPlayerLocal) return false;
+            var openTileEntityID = GameManager.Instance.GetEntityIDForLockedTileEntity(tileEntity);
+            
             if (!tileEntityLootable.IsUserAccessing()) return false;
             // Check to see if we have it opened.
             return player.entityId != openTileEntityID;
