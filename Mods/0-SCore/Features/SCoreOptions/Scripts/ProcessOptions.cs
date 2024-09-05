@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class ProcessSCoreOptions {
     public static void ProcessCVars(string cvar) {
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+
         if (string.IsNullOrEmpty(cvar)) return;
         var player = GameManager.Instance.World.GetPrimaryPlayer();
-
+        if (player == null) return;
         var cvarValue = player.Buffs.GetCustomVar(cvar);
         switch (cvar)
         {
