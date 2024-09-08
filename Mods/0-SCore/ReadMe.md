@@ -23,6 +23,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.75.721
+	[ Farming ]
+		- Fixed a null reference error when world is null / not ready.
+
 Version: 1.0.72.659
 	[ Process Options ]
 		- Added additional checks again a player being null or being on dedi.

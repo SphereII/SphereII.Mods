@@ -26,7 +26,8 @@ public class NetPackageToggleSprinkler : NetPackage {
     }
 
     public override void ProcessPackage(World world, GameManager callbacks) {
-        var block = GameManager.Instance.World.GetBlock(_position);
+        if (world == null) return;
+        var block = world.GetBlock(_position);
         if (block.Block is BlockWaterSourceSDX waterSourceSdx)
         {
             waterSourceSdx.ToggleSprinkler(_position, _isEnabled);
