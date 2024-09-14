@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ProcessSCoreOptions {
     public static void ProcessCVars(string cvar) {
-        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+        if (GameManager.isDedicated) return;
 
         if (string.IsNullOrEmpty(cvar)) return;
         var player = GameManager.Instance.World.GetPrimaryPlayer();

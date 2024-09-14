@@ -8,8 +8,8 @@
         <ProjectGuid>{44065753-4709-4498-BD9E-CD3C16AC4C9C}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>SphereII_A_Round_World</RootNamespace>
-        <AssemblyName>SphereII_A_Round_World</AssemblyName>
+        <RootNamespace>SphereII_Challenges</RootNamespace>
+        <AssemblyName>SphereII_Challenges</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -47,9 +47,8 @@
         </Compile>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Config\blocks.xml" />
-      <Content Include="Config\Localization.txt" />
-      <Content Include="Config\recipes.xml" />
+      <Content Include="Config\challenges-01.xml" />
+      <Content Include="Config\challenges.xml" />
       <Content Include="ModInfo.xml" />
       <Content Include="Properties\versionTemplate.tt">
         <Generator>TextTemplatingFileGenerator</Generator>

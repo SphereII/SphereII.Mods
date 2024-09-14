@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Disable Sway", "SphereII Disable Sway\SphereII Disable Sway.csproj", "{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Challenges", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\Mods\SphereII Challenges\SphereII Challenges.csproj", "{44065753-4709-4498-BD9E-CD3C16AC4C9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

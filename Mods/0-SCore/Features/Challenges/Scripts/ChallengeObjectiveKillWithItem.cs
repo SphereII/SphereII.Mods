@@ -1,0 +1,143 @@
+using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using HarmonyLib;
+using Challenges;
+using UnityEngine;
+using UnityEngine.Animations;
+
+namespace Challenges {
+    /*
+     *
+     * To pass this challenge, you must killed zombies with the specified item. This extends the KillByTag objective, and thus supports
+     * all those attributes as well. Multiple item="" can be listed as a comma-delimited list.
+     *
+     * <!-- Kill two zombies in a row with a gunHandgunT1Pistol -->
+     * <objective type="KillWithItem, SCore" count="2" item="gunHandgunT1Pistol" />
+     *
+     * Rather than item name itself, you could also use item_tag
+     * <objective type="KillWithItem, SCore" count="2" item_tags="handgunSkill"  />
+     *
+     * ItemName is checked first, then item tags. If either passes, then vanilla code is checked for the other tags and checks.
+     *
+     * You may also add the option entity tags and target_name_key for localization.
+     * By default, the entity_tags and target_name_key is zombie and xuiZombies, respectively.
+     * <objective type="KillWithItem, SCore" count="2" item="gunHandgunT1Pistol" entity_tags="zombie" target_name_key="xuiZombies" />
+     *
+     * Other attributes available are:
+     *      target_name="zombieMarlene"
+     *      biome="snow"
+     *      killer_has_bufftag="buff_tags"
+     *      killed_has_bufftag="buff_tags"
+     *      is_twitch_spawn="true/false"
+     */
+    public class ChallengeObjectiveKillWithItem : ChallengeObjectiveKillByTag {
+        public override ChallengeObjectiveType ObjectiveType =>
+            (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveKillWithItem;
+    
+        public string ItemClass;
+        public string ItemTag;
+        public bool StealthCheck;
+        public string LocalizationKey = "challengeObjectiveKillWithItem";
+
+        public override void Init() {
+            if ( string.IsNullOrEmpty(entityTag))
+                entityTag = "zombie";
+            if ( string.IsNullOrEmpty(targetName))
+                targetName = Localization.Get("xuiZombies");
+            base.Init();
+        }
+
+        public override string DescriptionText {
+            get {
+                var objectiveDesc = Localization.Get(LocalizationKey);
+                objectiveDesc = objectiveDesc.Replace("[]", MaxCount.ToString());
+                if (!string.IsNullOrEmpty(ItemClass))
+                {
+                    // Use a counter to know if there needs to be ,'s
+                    var itemDisplay = $" {Localization.Get("challengeObjectiveWith")} ";
+                    var counter = 0;
+                    foreach (var item in ItemClass.Split(','))
+                    {
+                        if (counter>0)
+                            itemDisplay += ", ";
+                        itemDisplay += $"{Localization.Get(item)}";
+                        counter++;
+                    }
+
+                    return $"{objectiveDesc} {itemDisplay}";
+                }
+
+                if (string.IsNullOrEmpty(ItemTag)) return base.DescriptionText;
+                var itemWithTags = Localization.Get("itemWithTags");
+                return $"{objectiveDesc} {itemWithTags} {ItemTag}";
+
+            }
+        }
+
+        public override void HandleAddHooks() {
+            EventOnClientKill.OnClientKillEvent += Check_EntityKill;
+        }
+
+        public override void HandleRemoveHooks() {
+            EventOnClientKill.OnClientKillEvent -= Check_EntityKill;
+        }
+
+        public virtual bool HasPrerequisiteCondition(DamageResponse dmgResponse) {
+            if (!dmgResponse.Fatal) return false;
+            if (StealthCheck)
+            {
+                if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak) return false;
+            }
+
+            if (SCoreChallengeUtils.IsKilledByTrap(dmgResponse, ItemClass)) return true;
+            if (SCoreChallengeUtils.IsHoldingItemName(ItemClass)) return true;
+            if (SCoreChallengeUtils.IsHoldingItemHasTag(ItemTag)) return true;
+            return false;
+        }
+
+
+        // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
+        protected virtual bool Check_EntityKill(DamageResponse _dmresponse, EntityAlive killedEntity) {
+            if (!HasPrerequisiteCondition(_dmresponse)) return false;
+            var player = GameManager.Instance.World.GetPrimaryPlayer();
+            base.Current_EntityKill(player, killedEntity);
+           return true;
+        }
+
+        public override void ParseElement(XElement e) {
+            base.ParseElement(e);
+            if (e.HasAttribute("item"))
+            {
+                ItemClass = e.GetAttribute("item");
+            }
+
+            if (e.HasAttribute("item_tag"))
+            {
+                ItemTag = e.GetAttribute("item_tag");
+            }
+
+            if (e.HasAttribute("stealth"))
+            {
+                var temp = e.GetAttribute("stealth");
+                StringParsers.TryParseBool(temp, out StealthCheck);
+            }
+           
+        }
+
+        public override BaseChallengeObjective Clone() {
+            return new ChallengeObjectiveKillWithItem {
+                entityTag = entityTag,
+                entityTags = entityTags,
+                biome = biome,
+                targetName = targetName,
+                isTwitchSpawn = isTwitchSpawn,
+                killerHasBuffTag = killerHasBuffTag,
+                killedHasBuffTag = killedHasBuffTag,
+                ItemClass = ItemClass,
+                ItemTag = ItemTag,
+                StealthCheck = StealthCheck
+            };
+        }
+    }
+}

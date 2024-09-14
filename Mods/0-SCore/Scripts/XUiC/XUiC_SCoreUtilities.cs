@@ -1,3 +1,4 @@
+using Harmony.Dialog;
 using UnityEngine;
 
 public class XUiC_SCoreUtilities : XUiController {
@@ -14,7 +15,18 @@ public class XUiC_SCoreUtilities : XUiController {
         // Sync up the CVars
         foreach (var toggle in GetChildrenByType<XUiC_ToggleButtonCVar>())
         {
-            toggle.Value = _entityPlayerLocal.Buffs.GetCustomVar(toggle.CVarName) > 0f;
+            var result = false;
+            if (toggle.CVarName.Contains("_"))
+            {
+                var className = toggle.CVarName.Split('_')[0];
+                var featureName = toggle.CVarName.Split('_')[1];
+                result = Configuration.CheckFeatureStatus(className, featureName);
+            }
+
+            if (_entityPlayerLocal.Buffs.HasCustomVar(toggle.CVarName))
+                toggle.Value = _entityPlayerLocal.Buffs.GetCustomVar(toggle.CVarName) > 0f;
+            else
+                toggle.Value = result;
         }
 
     }
@@ -37,7 +49,7 @@ public class XUiC_SCoreUtilities : XUiController {
 
         xui.playerUI.windowManager.Close(this.windowGroup.ID);
     }
-    
+
     public override bool GetBindingValue(ref string value, string bindingName)
     {
         switch (bindingName)

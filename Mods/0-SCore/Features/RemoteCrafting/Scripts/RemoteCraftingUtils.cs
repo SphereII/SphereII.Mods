@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Platform;
@@ -20,6 +21,7 @@ namespace SCore.Features.RemoteCrafting.Scripts {
         }
 
         public static List<TileEntity> GetTileEntities(EntityAlive player, float distance) {
+            if (IsEnemyNearby(player)) return new List<TileEntity>() ;
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
             var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
@@ -191,6 +193,7 @@ namespace SCore.Features.RemoteCrafting.Scripts {
 
         public static List<ItemStack> SearchNearbyContainers(EntityAlive player, ItemValue itemValue, float distance) {
             var item = new List<ItemStack>();
+
             var items = new List<ItemStack>();
             var tileEntities = GetTileEntities(player, distance);
             foreach (var tileEntity in tileEntities)
@@ -339,12 +342,18 @@ namespace SCore.Features.RemoteCrafting.Scripts {
                 }
             }
         }
-
-
+    
         public static bool IsEnemyNearby(EntityAlive self, float distance = 20f) {
             var nearbyEntities = new List<Entity>();
 
             var player = self as EntityPlayer;
+            if (distance == 20f)
+            {
+                var strDistanceE = Configuration.GetPropertyValue(AdvFeatureClass, "DistanceEnemy");
+                if (!string.IsNullOrEmpty(strDistanceE))
+                    distance = StringParsers.ParseFloat(strDistanceE);
+            }
+
             // Search in the bounds are to try to find the most appealing entity to follow.
             var bb = new Bounds(self.position, new Vector3(distance, distance, distance));
 
@@ -354,7 +363,10 @@ namespace SCore.Features.RemoteCrafting.Scripts {
                 var x = nearbyEntities[i] as EntityAlive;
                 if (x == null) continue;
                 if (x == self) continue;
-                if (x.IsDead()) continue;
+                if (x.IsDead())
+                {
+                    continue;
+                }
                 if (player && player.Party != null)
                 {
                     // Are they in the same party?
@@ -366,9 +378,16 @@ namespace SCore.Features.RemoteCrafting.Scripts {
                     }
                 }
 
-                if (!EntityTargetingUtilities.CanDamage(x, self)) continue;
+                if (!EntityTargetingUtilities.CanDamage(x, self))
+                {
+                    continue;
+                }
+
                 // Check to see if they are our enemy first, before deciding if we should see them.
-                if (EntityTargetingUtilities.IsFriend(x, self)) continue;
+                if (EntityTargetingUtilities.IsFriend(x, self))
+                {
+                    continue;
+                }
 
                 // Otherwise they are an enemy.
                 return true;

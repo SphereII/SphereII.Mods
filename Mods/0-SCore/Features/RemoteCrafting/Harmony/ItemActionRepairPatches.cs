@@ -137,6 +137,9 @@ namespace Features.RemoteCrafting {
             private static void Postfix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data,
                 BlockValue blockValue) {
                 if (__result) return;
+                
+                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, "BlockOnNearbyEnemies"))
                 {
                     var distanceE = 30f;
@@ -145,6 +148,7 @@ namespace Features.RemoteCrafting {
                         distanceE = StringParsers.ParseFloat(strDistanceE);
                     if (RemoteCraftingUtils.IsEnemyNearby(data.holdingEntity, distanceE))
                     {
+                        GameManager.ShowTooltip(primaryPlayer, Localization.Get("xuiCraftFromContainersSCore"));
                         return; // make sure you only skip if really necessary
                     }
                 }
@@ -154,7 +158,6 @@ namespace Features.RemoteCrafting {
                     return;
                 }
 
-                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
                 var block = blockValue.Block;
                 var upgradeItemName = __instance.GetUpgradeItemName(block);
                 int quantity;
@@ -274,16 +277,16 @@ namespace Features.RemoteCrafting {
                 ItemStack _itemStack) {
                 __result = false;
 
+                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, "BlockOnNearbyEnemies"))
                 {
-                    var distanceE = 30f;
-                    var strDistanceE = Configuration.GetPropertyValue(AdvFeatureClass, "DistanceEnemy");
-                    if (!string.IsNullOrEmpty(strDistanceE))
-                        distanceE = StringParsers.ParseFloat(strDistanceE);
-                    if (RemoteCraftingUtils.IsEnemyNearby(_data.holdingEntity, distanceE))
+
+                    if (RemoteCraftingUtils.IsEnemyNearby(_data.holdingEntity, 30f))
                     {
-                        __result = false;
-                        return false; // make sure you only skip if really necessary
+                        // Show a tool tip, but allow the base feature to run, so we can still repair using our backpack items.
+                        GameManager.ShowTooltip(primaryPlayer, Localization.Get("xuiCraftFromContainersSCore"));
+                        return true; // make sure you only skip if really necessary
                     }
                 }
 
@@ -299,7 +302,6 @@ namespace Features.RemoteCrafting {
                     return false;
                 }
 
-                var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
                 var distance = 30f;
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))

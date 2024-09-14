@@ -23,6 +23,94 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.81.1118
+
+	[ SCore Events ]
+		- Added two new events:
+		- OnRallyPointActivated
+			- When a Rally Point is activated, this event is called
+		- OnClientKill
+			- When an entity gets killed, this event is called.
+			- This event differs from the vanilla's Kill event, as it includes the DamageResponse.
+				- Vanilla event fires too early to have the Damage Response included in it.
+
+	[ Project ]
+		- Added new SphereII Challenges project.
+		- This includes a full page of Challenges that involve the new SCore events and new Challenge Objectives
+
+	[ Process Options ]
+		- Fixed an issue where the graphic settings were not running
+		- Added a check for the blocks.xml for some settings, before reading the cvar.
+	
+	[ Lock Picking ]
+		- Added a buff check to see if the Jail Breaking buff was active
+			- If active, break time is drastically increased, as well as the max angle to turn.
+		- Feel a bit limited on how to further cheese a skilled based game on candy.
+
+	[ Remote Crafting / Repair ]
+		- Added a tool tip to display if there's an enemy nearby, blocking you from pulling
+		- Fixed an issue where you could not repair even from your backpack, when enemies were near.
+
+	[ Challenges ]
+  	
+		-CompleteQuestStealth, SCore
+			A new challenge objective to monitor your stealth kills during a quest.
+			To pass this challenge, you must do consecutive stealth kills until you've reached the desired count.
+			If the stealth kill chain is broken, the Challenge is reset.
+
+			If the intention is that the full quest be done 100% stealth, set the count to be higher than the expected number of zombies
+			Once the Sleeper volumes are all cleared for the QuestObjectiveClear, then the challenge will complete, regardless if
+			the Count is equaled to the count specified.
+
+			Examples:
+				<!-- Kill two entities in a row with a stealth kill, during a quest. -->
+				<objective type="CompleteQuestStealth, SCore" count="2"/>
+
+				<!-- Kill all entities in a row with a stealth kill, during a quest. -->
+				<objective type="CompleteQuestStealth, SCore" count="1000"/>
+
+		-KillWithItem, SCore
+
+			To pass this challenge, you must killed zombies with the specified item. This extends the KillByTag objective, and thus supports
+			all those attributes as well. Multiple item="" can be listed as a comma-delimited list.
+
+			<!-- Kill two zombies in a row with a gunHandgunT1Pistol -->
+			<objective type="KillWithItem, SCore" count="2" item="gunHandgunT1Pistol" />
+
+			Rather than item name itself, you could also use item_tag
+			<objective type="KillWithItem, SCore" count="2" item_tags="handgunSkill"  />
+
+			ItemName is checked first, then item tags. If either passes, then vanilla code is checked for the other tags and checks.
+			You may also add the option entity tags and target_name_key for localization.
+
+			By default, the entity_tags and target_name_key is zombie and xuiZombies, respectively. These can be over-ridden via xml.
+
+			<objective type="KillWithItem, SCore" count="2" item="gunHandgunT1Pistol" entity_tags="zombie" target_name_key="xuiZombies" />
+
+			Other attributes available are:
+				target_name="zombieMarlene"
+				biome="snow"
+				killer_has_bufftag="buff_tags"
+				killed_has_bufftag="buff_tags"
+				is_twitch_spawn="true/false"
+
+			Note About Traps: 
+			If the item is a trap, such as a landmine, then the owner ID is not set on it. There is no way to track down, or give exp to a player
+			for the kill. I did add a check for this, so that you can use a landmine for a challenge. 
+
+			If a zombie dies from a trap, and the player is within 50 blocks, it will count towards the challenge.
+
+		- StealthStreak Challenge 
+			A new challenge objective to monitor your stealth kills
+			To pass this challenge, you must do consecutive stealth kills until you've reached the desired count.
+
+			If a kill is registered, and is not a sneak kill, then the challenge resets.
+		
+			<!-- Kill two entities in a row with a stealth kill -->
+			<objective type="StealthStreak, SCore" count="2"/>
+
+			This challenge extends from KillWithItem, and supports all those tags as well.
+
 Version: 1.0.75.721
 	[ Farming ]
 		- Fixed a null reference error when world is null / not ready.

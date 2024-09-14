@@ -518,10 +518,12 @@ namespace Lockpicking
                 breakTime = 2f;
                 if (maxGiveAmounts.Length >= difficulty)
                 {
+                    // <property name="MaxGiveAmount" value="10,8,6,4" />
+                    // <property name="BreakTime" value="1.2,1.0,.8,.6" />
                     maxGiveAmount = StringParsers.ParseFloat(maxGiveAmounts[difficulty]);
                     breakTime = StringParsers.ParseFloat(breakTimes[difficulty]);
                 }
-
+                //
                 progressionValue = player.Progression.GetProgressionValue("perkLockPicking");
                 if (progressionValue is {Level: > 0})
                 {
@@ -530,6 +532,13 @@ namespace Lockpicking
                     breakTime += (float)progressionValue.Level / 5;
                     maxGiveAmount += (float)progressionValue.Level * 2 ;
                 }
+
+                if (player.Buffs.HasBuff("buffDrugJailBreakers"))
+                {
+                    breakTime = 500f;
+                    maxGiveAmount = 20f;
+                }
+                
             }
 
 

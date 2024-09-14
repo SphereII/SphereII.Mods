@@ -2,10 +2,6 @@ using System.IO;
 using Challenges;
 using HarmonyLib;
 
-public enum ChallengeObjectiveTypeSCore : byte {
-    ChallengeObjectiveEnterPOI
-}
-
 namespace SCore.Features.Challenges.Harmony {
     [HarmonyPatch(typeof(BaseChallengeObjective))]
     [HarmonyPatch("ReadObjective")]
@@ -18,7 +14,30 @@ namespace SCore.Features.Challenges.Harmony {
                 __result.Read(_currentVersion, _br);
                 return false;
             }
-
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveCompleteQuestStealth)
+            {
+                __result = new ChallengeObjectiveCompleteQuestStealth();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveStealthKillStreak)
+            {
+                __result = new ChallengeObjectiveStealthKillStreak();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveKillWithItem)
+            {
+                __result = new ChallengeObjectiveKillWithItem();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+       
+            
             return true;
         }
     }

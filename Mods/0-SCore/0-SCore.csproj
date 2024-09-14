@@ -42,8 +42,13 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCompleteQuestStealth.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveEnterPOI.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveKillWithItem.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
+    <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
@@ -335,6 +340,8 @@
     <Compile Include="Scripts\Entities\IEntityOrderReceiverSDX.cs" />
     <Compile Include="Scripts\Entities\LegacyEntityClasses.cs" />
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
+    <Compile Include="Scripts\Events\EventOnClientKill.cs" />
+    <Compile Include="Scripts\Events\OnRallyPointActivated.cs" />
     <Compile Include="Scripts\Events\OnBloodMoonEnd.cs" />
     <Compile Include="Scripts\Events\OnBloodMoonStart.cs" />
     <Compile Include="Scripts\Events\OnBuffAdded.cs" />
@@ -515,6 +522,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
+    <Compile Include="Scripts\WorldGen\CaveTunnelerV2.cs" />
     <Compile Include="Scripts\WorldGen\HeightMapTunneler.cs" />
     <Compile Include="Scripts\WorldGen\LegacyCaveTunneler.cs" />
     <Compile Include="Scripts\WorldGen\SCoreTunneler.cs" />

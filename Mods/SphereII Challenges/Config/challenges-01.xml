@@ -1,0 +1,374 @@
+<configs>
+   
+    <append xpath="/challenges">
+        <challenge_category name="AbilityCategory" title="Ability Challenges" icon="ui_game_symbol_challenge_category2" />
+        <challenge_group category="AbilityCategory" name="PerceptionGroup" title_key="perceptionChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+        <challenge_group category="AbilityCategory" name="StrengthGroup" title_key="strengthChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+        <challenge_group category="AbilityCategory" name="FortitudeGroup" title_key="fortitudeChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+        <challenge_group category="AbilityCategory" name="AgilityGroup" title_key="agilityChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+        <challenge_group category="AbilityCategory" name="IntellectGroup" title_key="intellectChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+        <challenge_group category="AbilityCategory" name="BonusChallengesGroup" title_key="bonusChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
+
+    </append>
+    <!-- Perception  -->
+    <append xpath="/challenges">
+
+        <challenge name="rifle01" title_key="gunRifleT0PipeRifle" icon="ui_game_symbol_long_shot" group="PerceptionGroup" 
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc" 
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunRifleT0PipeRifle"  />
+        </challenge>
+
+        <challenge name="rifle02" title_key="gunRifleT1HuntingRifle" icon="ui_game_symbol_long_shot" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunRifleT1HuntingRifle"  />
+        </challenge>
+
+        <challenge name="rifle03" title_key="gunRifleT2LeverActionRifle" icon="ui_game_symbol_long_shot" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunRifleT2LeverActionRifle"  />
+        </challenge>
+
+        <challenge name="rifle04" title_key="gunRifleT3SniperRifle" icon="ui_game_symbol_long_shot" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunRifleT3SniperRifle"  />
+        </challenge>
+
+        <challenge name="spears01" title_key="meleeWpnSpearT0StoneSpear" icon="ui_game_symbol_spear" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSpearT0StoneSpear"  />
+        </challenge>
+
+        <challenge name="spears02" title_key="meleeWpnSpearT1IronSpear" icon="ui_game_symbol_spear" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSpearT1IronSpear"  />
+        </challenge>
+
+        <challenge name="spears03" title_key="meleeWpnSpearT3SteelSpear" icon="ui_game_symbol_spear" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSpearT3SteelSpear"  />
+        </challenge>
+
+        <challenge name="grenade01" title_key="thrownAmmoPipeBomb" icon="ui_game_symbol_explosion" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="thrownAmmoPipeBomb"  />
+        </challenge>
+
+        <challenge name="grenade02" title_key="thrownGrenade" icon="ui_game_symbol_explosion" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="thrownGrenade,thrownGrenadeContact"  />
+        </challenge>
+
+        <challenge name="grenade03" title_key="mineCookingPot" icon="ui_game_symbol_explosion" group="PerceptionGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="mineCookingPot"  />
+        </challenge>
+
+    </append>
+
+    <!-- Strength -->
+    <append xpath="/challenges">
+
+       
+
+        <challenge name="shortgun01" title_key="gunShotgunT0PipeShotgun" icon="ui_game_symbol_shotgun" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunShotgunT0PipeShotgun"  />
+        </challenge>
+
+        <challenge name="shortgun02" title_key="gunShotgunT1DoubleBarrel" icon="ui_game_symbol_shotgun" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunShotgunT1DoubleBarrel"  />
+        </challenge>
+
+        <challenge name="shortgun03" title_key="gunShotgunT2PumpShotgun" icon="ui_game_symbol_shotgun" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunShotgunT2PumpShotgun"  />
+        </challenge>
+
+        <challenge name="shortgun04" title_key="gunShotgunT3AutoShotgun" icon="ui_game_symbol_shotgun" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunShotgunT3AutoShotgun"  />
+        </challenge>
+
+        
+        <challenge name="clubs01" title_key="meleeWpnClubT0WoodenClub" icon="ui_game_symbol_club" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnClubT0WoodenClub"  />
+        </challenge>
+
+        <challenge name="clubs02" title_key="meleeWpnClubT1BaseballBat" icon="ui_game_symbol_club" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnClubT1BaseballBat"  />
+        </challenge>
+
+        <challenge name="clubs03" title_key="meleeWpnClubT3SteelClub" icon="ui_game_symbol_club" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnClubT3SteelClub"  />
+        </challenge>
+        
+
+        <challenge name="sledgeHammer01" title_key="meleeWpnSledgeT0StoneSledgehammer" icon="ui_game_symbol_sledge" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSledgeT0StoneSledgehammer"  />
+        </challenge>
+
+        <challenge name="sledgeHammer02" title_key="meleeWpnSledgeT1IronSledgehammer" icon="ui_game_symbol_sledge" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSledgeT1IronSledgehammer"  />
+        </challenge>
+
+        <challenge name="sledgeHammer03" title_key="meleeWpnSledgeT3SteelSledgehammer" icon="ui_game_symbol_sledge" group="StrengthGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnSledgeT3SteelSledgehammer"  />
+        </challenge>
+
+    </append>
+
+    <!-- Fortitude -->
+    <append xpath="/challenges">
+
+       
+
+        <challenge name="machinegun01" title_key="gunMGT0PipeMachineGun" icon="ui_game_symbol_rifle" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunMGT0PipeMachineGun"  />
+        </challenge>
+
+        <challenge name="machinegun02" title_key="gunMGT1AK47" icon="ui_game_symbol_rifle" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunMGT1AK47"  />
+        </challenge>
+
+        <challenge name="machinegun03" title_key="gunMGT2TacticalAR" icon="ui_game_symbol_rifle" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunMGT2TacticalAR"  />
+        </challenge>
+
+        <challenge name="machinegun04" title_key="gunMGT3M60" icon="ui_game_symbol_rifle" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunMGT3M60"  />
+        </challenge>
+
+
+        <challenge name="knuckle01" title_key="meleeWpnKnucklesT0LeatherKnuckles" icon="ui_game_symbol_boxer" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnKnucklesT0LeatherKnuckles"  />
+        </challenge>
+
+        <challenge name="knuckle02" title_key="meleeWpnKnucklesT1IronKnuckles" icon="ui_game_symbol_boxer" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnKnucklesT1IronKnuckles"  />
+        </challenge>
+
+        <challenge name="knuckle03" title_key="meleeWpnKnucklesT3SteelKnuckles" icon="ui_game_symbol_boxer" group="FortitudeGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnKnucklesT3SteelKnuckles"  />
+        </challenge>
+        <!-- Three spots left -->
+    </append>
+
+    <!-- Agility  -->
+    <append xpath="/challenges">
+
+       
+
+        <challenge name="bows01" title_key="gunBowT0PrimitiveBow" icon="ui_game_symbol_archery" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBowT0PrimitiveBow"  />
+        </challenge>
+
+        <challenge name="bows02" title_key="gunBowT1WoodenBow" icon="ui_game_symbol_archery" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBowT1WoodenBow"  />
+        </challenge>
+
+        <challenge name="bows03" title_key="gunBowT3CompoundBow" icon="ui_game_symbol_archery" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBowT3CompoundBow"  />
+        </challenge>
+
+        <challenge name="bows04" title_key="crossbow_challenges" icon="ui_game_symbol_archery" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBowT1IronCrossbow,gunBowT3CompoundCrossbow"  />
+        </challenge>
+
+
+        <challenge name="pistols01" title_key="pistols_challenges" icon="ui_game_symbol_pistol" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunHandgunT0PipePistol,gunHandgunT1Pistol,gunHandgunT3SMG5"  />
+        </challenge>
+
+        <challenge name="pistols02" title_key="gunHandgunT2Magnum44" icon="ui_game_symbol_gunslinger" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunHandgunT2Magnum44"  />
+        </challenge>
+
+        <challenge name="pistols03" title_key="gunHandgunT3DesertVulture" icon="ui_game_symbol_gunslinger" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunHandgunT3DesertVulture"  />
+        </challenge>
+
+
+        <challenge name="knives01" title_key="meleeWpnBladeT0BoneKnife" icon="ui_game_symbol_knife" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnBladeT0BoneKnife"  />
+        </challenge>
+
+        <challenge name="knives02" title_key="meleeWpnBladeT1HuntingKnife" icon="ui_game_symbol_knife" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnBladeT1HuntingKnife"  />
+        </challenge>
+
+        <challenge name="knives03" title_key="meleeWpnBladeT3Machete" icon="ui_game_symbol_knife" group="AgilityGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnBladeT3Machete"  />
+        </challenge>
+
+    </append>
+
+    <!-- Intellect  -->
+    <append xpath="/challenges">
+        <challenge name="batons01" title_key="meleeWpnBatonT0PipeBaton" icon="ui_game_symbol_junk_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnBatonT0PipeBaton"  />
+        </challenge>
+
+        <challenge name="batons02" title_key="meleeWpnBatonT2StunBaton" icon="ui_game_symbol_junk_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="meleeWpnBatonT2StunBaton"  />
+        </challenge>
+
+        <challenge name="junksledge" title_key="gunBotT1JunkSledge" icon="ui_game_symbol_junk_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBotT1JunkSledge"  />
+        </challenge>
+
+        <challenge name="junkturret" title_key="gunBotT2JunkTurret" icon="ui_game_symbol_junk_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunBotT2JunkTurret"  />
+        </challenge>
+
+
+        <challenge name="autoTurret" title_key="autoTurret" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="autoTurret"  />
+        </challenge>
+
+        <challenge name="shotgunTurret" title_key="shotgunTurret" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="shotgunTurret"  />
+        </challenge>
+
+        <challenge name="bladeTrap" title_key="bladeTrap" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="bladeTrap"  />
+        </challenge>
+
+        <challenge name="dartTrap" title_key="dartTrap" icon="ui_game_symbol_electric_turret" group="IntellectGroup"
+                   short_description_key="challengeKillZombies" description_key="challengeKillZombiesDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <!-- Dart traps don't do damage, but rather the ammo does. -->
+            <objective type="KillWithItem, SCore" count="10" item="ammoDartIron"  />
+        </challenge>
+
+        <challenge name="placeelectricfencepost" title_key="challengePlaceElectricFencePost" icon="ui_game_symbol_electric_generator" group="IntellectGroup"
+                   short_description_key="challengePlaceElectricFencePost" description_key="challengePlaceElectricFencePost"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+               <objective type="BlockPlace" block="electricfencepost" count="6"/>
+        </challenge>
+
+        <challenge name="placeelectricrelay" title_key="challengePlaceelectricwirerelay" icon="ui_game_symbol_electric_generator" group="IntellectGroup"
+                   short_description_key="challengePlaceelectricwirerelay" description_key="challengePlaceelectricwirerelay"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="BlockPlace" block="electricwirerelay" count="10"/>
+        </challenge>
+
+
+    </append>
+
+    <!-- Bonus Ones  -->
+    <append xpath="/challenges">
+        <challenge name="bonusChallenge01" title_key="meleeSneakChallenge" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="meleeSneakChallengeDesc" description_key="meleeSneakChallengeDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item_tag="melee" stealth="true"  />
+        </challenge>
+
+        <challenge name="bonusChallenge02" title_key="rangedSneakChallenge" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="rangedSneakChallengeDesc" description_key="rangedSneakChallengeDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item_tag="ranged" stealth="true" />
+        </challenge>
+
+        <challenge name="bonusChallenge03" title_key="killzombieswithstealthStreak" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="killzombieswithstealthStreakDesc" description_key="killzombieswithstealthStreakDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="StealthKillStreak, SCore" count="10" item_tag="weapon" />
+        </challenge>
+
+        <challenge name="bonusChallenge04" title_key="killzombieswithstealthStreakBow" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="killzombieswithstealthStreakBowDesc" description_key="killzombieswithstealthStreakBowDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="StealthKillStreak, SCore" count="10" item_tag="bow" />
+        </challenge>
+
+        <challenge name="bonusChallenge05" title_key="killzombieswithstealthStreakKnife" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="killzombieswithstealthStreakKnifeDesc" description_key="killzombieswithstealthStreakKnifeDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="StealthKillStreak, SCore" count="10" item_tag="knife" />
+        </challenge>
+
+        <challenge name="bonusChallenge06" title_key="killzombieswithstealthStreakSpear" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
+                   short_description_key="killzombieswithstealthStreakSpearDesc" description_key="killzombieswithstealthStreakSpearDesc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="StealthKillStreak, SCore" count="10" item_tag="spearSkill" />
+        </challenge>
+
+       
+
+    </append>
+</configs>
