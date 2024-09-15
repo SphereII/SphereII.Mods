@@ -36,7 +36,55 @@ namespace SCore.Features.Challenges.Harmony {
                 return false;
             }
             
-       
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveDecapitation)
+            {
+                __result = new ChallengeObjectiveDecapitation();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveCraftWithIngredient)
+            {
+                __result = new ChallengeObjectiveCraftWithIngredient();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyedByFire)
+            {
+                __result = new ChallengeObjectiveBlockDestroyedByFire();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyed)
+            {
+                __result = new ChallengeObjectiveBlockDestroyed();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveStartFire)
+            {
+                __result = new ChallengeObjectiveStartFire();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+            
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBigFire)
+            {
+                __result = new ChallengeObjectiveBigFire();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+
+            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveExtinguishFire)
+            {
+                __result = new ChallengeObjectiveExtinguishFire();
+                __result.Read(_currentVersion, _br);
+                return false;
+            }
+
+            
             
             return true;
         }

@@ -20,29 +20,13 @@ namespace Challenges {
         public new string LocalizationKey = "challengeObjectiveStealthKillStreak";
 
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
-        protected override bool Check_EntityKill(DamageResponse _dmresponse, EntityAlive entityDamaged) {
-             if (_dmresponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)
+        protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged) {
+             if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)
              {
                  ResetComplete();
                  return false;
              }
-             return base.Check_EntityKill(_dmresponse, entityDamaged);
-        }
-
-
-        public override BaseChallengeObjective Clone() {
-            return new ChallengeObjectiveStealthKillStreak() {
-                entityTag = entityTag,
-                entityTags = entityTags,
-                biome = biome,
-                targetName = targetName,
-                isTwitchSpawn = isTwitchSpawn,
-                killerHasBuffTag = killerHasBuffTag,
-                killedHasBuffTag = killedHasBuffTag,
-                ItemClass = ItemClass,
-                ItemTag = ItemTag,                
-                StealthCheck = StealthCheck
-            };
+             return base.Check_EntityKill(dmgResponse, entityDamaged);
         }
     }
 }

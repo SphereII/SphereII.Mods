@@ -37,25 +37,31 @@ namespace Challenges {
     
         public string ItemClass;
         public string ItemTag;
-        public bool StealthCheck;
-        public string LocalizationKey = "challengeObjectiveKillWithItem";
+        public bool StealthCheck = false;
+        public string LocalizationKey = "";
 
         public override void Init() {
             if ( string.IsNullOrEmpty(entityTag))
                 entityTag = "zombie";
             if ( string.IsNullOrEmpty(targetName))
                 targetName = Localization.Get("xuiZombies");
+
             base.Init();
         }
 
         public override string DescriptionText {
             get {
+                if (!string.IsNullOrEmpty(LocalizationKey))
+                    return Localization.Get(LocalizationKey);
+                
                 var objectiveDesc = Localization.Get(LocalizationKey);
                 objectiveDesc = objectiveDesc.Replace("[]", MaxCount.ToString());
+                var with = Localization.Get("challengeObjectiveWith");
+
                 if (!string.IsNullOrEmpty(ItemClass))
                 {
                     // Use a counter to know if there needs to be ,'s
-                    var itemDisplay = $" {Localization.Get("challengeObjectiveWith")} ";
+                    var itemDisplay = $" {with} ";
                     var counter = 0;
                     foreach (var item in ItemClass.Split(','))
                     {
@@ -68,9 +74,9 @@ namespace Challenges {
                     return $"{objectiveDesc} {itemDisplay}";
                 }
 
-                if (string.IsNullOrEmpty(ItemTag)) return base.DescriptionText;
+                if (string.IsNullOrEmpty(ItemTag)) return $"{objectiveDesc}";
                 var itemWithTags = Localization.Get("itemWithTags");
-                return $"{objectiveDesc} {itemWithTags} {ItemTag}";
+                return $"{objectiveDesc} {with} {itemWithTags} {ItemTag}";
 
             }
         }
@@ -98,10 +104,10 @@ namespace Challenges {
 
 
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
-        protected virtual bool Check_EntityKill(DamageResponse _dmresponse, EntityAlive killedEntity) {
-            if (!HasPrerequisiteCondition(_dmresponse)) return false;
+        protected virtual bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive killedEntity) {
+            if (!HasPrerequisiteCondition(dmgResponse)) return false;
             var player = GameManager.Instance.World.GetPrimaryPlayer();
-            base.Current_EntityKill(player, killedEntity);
+            Current_EntityKill(player, killedEntity);
            return true;
         }
 
@@ -122,6 +128,9 @@ namespace Challenges {
                 var temp = e.GetAttribute("stealth");
                 StringParsers.TryParseBool(temp, out StealthCheck);
             }
+                
+            if (e.HasAttribute("description_key"))
+                LocalizationKey =e.GetAttribute("description_key");
            
         }
 
@@ -136,7 +145,8 @@ namespace Challenges {
                 killedHasBuffTag = killedHasBuffTag,
                 ItemClass = ItemClass,
                 ItemTag = ItemTag,
-                StealthCheck = StealthCheck
+                StealthCheck = StealthCheck,
+                LocalizationKey = LocalizationKey
             };
         }
     }

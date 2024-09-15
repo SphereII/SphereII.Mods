@@ -23,6 +23,52 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.82.935
+
+	[ Fire Mod ]
+		- Added Events:
+			- OnExtinguish - Triggered when a fire is extinguished
+			- OnFireUpdate - Triggered when a CheckBlocks on the fire mod finishes
+			- OnStartFire - Triggered when a new block is put on fire.
+
+	[ Challenges ]
+		- Fixed a null reference with the KillWith
+		- Fixed up LocalizationKey entry for some Challenge Objectives
+
+		- Decapitation
+			- New challenge to keep track of decapitations. Supports xml attributes from KillWithItem
+	            <objective type="Decapitation, SCore" count="10" item_tag="gun"  />
+            	<objective type="Decapitation, SCore" count="10" item_tag="knife,machete"  />
+
+		- Craft With Ingredient
+			- New challenge objective to allow a player to craft with a certain ingredient, rather than a recipe itself.
+				<objective type="CraftWithIngredient, SCore" count="2" ingredient="resourceLegendaryParts"/>
+
+		- Burn Down a Building
+			- New challenge to reward a player for burning down a house using the fire mod.
+	            <objective type="BlockDestroyedByFire, SCore" count="20" />
+
+		- Start a Fire
+			- New challenge to reward a player for starting a fire.
+	            <objective type="StartFire, SCore" count="20" />
+
+		- Out of Control Fire
+			- New challenge to reward a player for having a large fire
+	            <objective type="BigFire, SCore" count="20" />
+
+		- Extinguish Fire
+			- New challenge to reward a player for extinguishing some blocks.
+	            <objective type="ExtinguishFire, SCore" count="20" />
+			- World's more boring challenge for a pyro
+
+		- Break a block or a material on a block, and further define if it's in a certain biome and/or poi / poi_tag.
+			<objective type="BlockDestroyed, SCore" count="20" block="cntRetroFridgeVer1Closed" />
+			<objective type="BlockDestroyed, SCore" count="20" block="cntRetroFridgeVer1Closed" biome="burn_forest"  />
+			<objective type="BlockDestroyed, SCore" count="20" block="cntRetroFridgeVer1Closed" biome="burn_forest" poi="traderJen" />
+     		<objective type="BlockDestroyed, SCore" count="20" material="Mmetal" biome="pine_forest" poi_tags="wilderness" />
+
+		- Updated SphereII Challenges with examples. 
+
 Version: 1.0.81.1118
 
 	[ SCore Events ]

@@ -27,6 +27,19 @@ public class FireManager
     private static readonly ConcurrentDictionary<Vector3i, float> ExtinguishPositions =
         new ConcurrentDictionary<Vector3i, float>();
 
+    public delegate void OnBlockDestroyedByFire();
+    public event OnBlockDestroyedByFire OnDestroyed;
+    
+    public delegate void OnFireStart();
+    public event OnFireStart OnStartFire;
+    
+    public delegate void OnFireRefresh(int count);
+    public event OnFireRefresh OnFireUpdate;
+    
+    public delegate void OnExtinguishFire(int count);
+
+    public event OnExtinguishFire OnExtinguish;
+
     private float _checkTime = 120f;
     private float _currentTime;
     private const float CheckTimeLights = 0.8f;
@@ -334,6 +347,7 @@ public class FireManager
                 blockValue2.meta = block.meta;
                 
                 block = blockValue2;
+                OnDestroyed?.Invoke();
             }
             
             if (!block.isair)
@@ -387,6 +401,7 @@ public class FireManager
         foreach (var pos in neighbors)
             Add(pos);
 
+        OnFireUpdate?.Invoke(FireMap.Count);
         //Debug.Log($"Sound Counter: {SoundPlaying.Count}, Fire Counter: {FireMap.Count} Particle Count: {ParticlePlaying.Count}: Heat: {heatMeter}");
     }
 
@@ -622,6 +637,7 @@ public class FireManager
         if (!IsFlammable(blockPos))
             return;
 
+        
         AddBlock(blockPos);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -702,6 +718,7 @@ public class FireManager
         // keep resetting the expired time.
         ExtinguishPositions[blockPos] = expiry;
         RemoveFire(blockPos);
+        OnExtinguish?.Invoke(ExtinguishPositions.Count);
         //FireMap.TryRemove(blockPos, out _);
 
         var block = GameManager.Instance.World.GetBlock(blockPos);
@@ -721,6 +738,8 @@ public class FireManager
     {
         var block = GameManager.Instance.World.GetBlock(blockPos);
         if (!FireMap.TryAdd(blockPos, block)) return;
+
+        OnStartFire?.Invoke();
 
         ToggleSound(blockPos, true);
         ToggleParticle(blockPos, true);

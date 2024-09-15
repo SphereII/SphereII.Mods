@@ -2,6 +2,7 @@
     <conditional>
         <if cond="mod_version('0-SCore_sphereii') &gt;= version(1,0,81,1048)">
             <include filename="challenges-01.xml"/>
+            <include filename="challenges-02.xml"/>
         </if>
     </conditional>
 </configs>

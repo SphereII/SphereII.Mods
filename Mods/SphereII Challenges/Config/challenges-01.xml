@@ -1,5 +1,4 @@
 <configs>
-   
     <append xpath="/challenges">
         <challenge_category name="AbilityCategory" title="Ability Challenges" icon="ui_game_symbol_challenge_category2" />
         <challenge_group category="AbilityCategory" name="PerceptionGroup" title_key="perceptionChallenges_key" reward_text_key="No Rewards" reward_event="NoEvent"  />
@@ -333,7 +332,7 @@
     <!-- Bonus Ones  -->
     <append xpath="/challenges">
         <challenge name="bonusChallenge01" title_key="meleeSneakChallenge" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
-                   short_description_key="meleeSneakChallengeDesc" description_key="meleeSneakChallengeDesc"
+                   short_description_key="meleeSneakChallengeDesc" description_key=""
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
             <objective type="KillWithItem, SCore" count="10" item_tag="melee" stealth="true"  />
         </challenge>
@@ -359,7 +358,7 @@
         <challenge name="bonusChallenge05" title_key="killzombieswithstealthStreakKnife" icon="ui_game_symbol_quest" group="BonusChallengesGroup"
                    short_description_key="killzombieswithstealthStreakKnifeDesc" description_key="killzombieswithstealthStreakKnifeDesc"
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="StealthKillStreak, SCore" count="10" item_tag="knife" />
+            <objective type="StealthKillStreak, SCore" count="10" item_tag="knife,machete" />
         </challenge>
 
         <challenge name="bonusChallenge06" title_key="killzombieswithstealthStreakSpear" icon="ui_game_symbol_quest" group="BonusChallengesGroup"

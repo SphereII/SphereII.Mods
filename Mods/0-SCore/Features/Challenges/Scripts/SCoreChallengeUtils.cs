@@ -19,10 +19,13 @@ namespace Challenges {
 
             return false;
         }
-        
+
+        public static string GetWithString() {
+            return Localization.Get("challengeObjectiveWith");
+        }
         public static bool IsKilledByTrap(DamageResponse _damageResponse, string itemName) {
             if (string.IsNullOrEmpty(itemName)) return false;
-            if (_damageResponse.Source.AttackingItem == null) return false;
+            if (_damageResponse.Source?.AttackingItem == null) return false;
             
             foreach (var item in itemName.Split(','))
             {

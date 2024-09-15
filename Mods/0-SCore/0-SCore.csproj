@@ -44,9 +44,16 @@
   <ItemGroup>
     <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBigFire.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyed.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyedByFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCompleteQuestStealth.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCraftWithIngredient.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveDecapitation.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveEnterPOI.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveExtinguishFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveKillWithItem.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStartFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
     <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
@@ -267,6 +274,7 @@
     <Compile Include="Scripts\Cache\SphereCache.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdActionFireClear.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdAdjustCVar.cs" />
+    <Compile Include="Scripts\ConsoleCmd\ConsoleCmdAdjustMarkup.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadDialog.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdReloadSCore.cs" />
     <Compile Include="Scripts\ConsoleCmd\ConsoleCmdUnitTestSCore.cs" />
