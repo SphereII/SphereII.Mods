@@ -1,6 +1,7 @@
 ﻿#0-SCore
 
-The 0-SCore is the key component to enable extra functionality for 7 Days To Die. Using a mixture of Harmony, SDX Patch Scripts, and Scripts, new features are enabled for modders and players to use.
+The 0-SCore is the key component to enable extra functionality for 7 Days To Die. Using a mixture of Harmony, SDX Patch Scripts, and Scripts, 
+new features are enabled for modders and players to use.
 
 | Folder | Description |
 | ----------- | ----------- |
@@ -9,12 +10,8 @@ The 0-SCore is the key component to enable extra functionality for 7 Days To Die
 | Scripts | Many Scripts which include new classes. References to these scripts would be  ```<className>, SCore```  |
 |Features | Features will contain all the code necessary for a particular feature, grouping the code so it can be easily found and extracted. |
 
-Note: An auto-mirror is available on gitlab that allows you to download individual mods: https://gitlab.com/sphereii/SphereII-Mods
-
 ### Direct Downloads
-Direct Download to the 0-SCore.zip available on gitlab mirror:
-
-[ 0 - SCore ( Latest ) ]: https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
+Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.com/SphereII/SphereII.Mods/releases/latest
 
 ### TODO
 	- Fix random sounds from NPC, like stamina exhaustion
@@ -23,6 +20,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror:
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.83.950
+	[ Events ]
+		- Fixed a null reference with the OnClientKill when the game would trigger the event after the game killed.
+
+	[ Challenges ]
+		- Added an optional cvar attribute for StealthKillStreak.
+		- This cvar will hold the longest recorded kill streak.
+			<objective type="StealthStreak, SCore" count="2" cvar="longestStreakCVar" />
+
+	[ SCore Utilities ]
+		- Created a window group for the SCore Utilities button
+		- Added it to the xui.xml, rather than the existing in game-menu
+		- Removed the background and cleaned up the SCore Utilities creen.
+
 Version: 1.0.82.935
 
 	[ Fire Mod ]

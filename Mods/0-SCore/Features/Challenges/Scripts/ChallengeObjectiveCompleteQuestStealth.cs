@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using HarmonyLib;
 using Challenges;
+using SCore.Features.PlayerMetrics;
 using UnityEngine;
 
 namespace Challenges {
