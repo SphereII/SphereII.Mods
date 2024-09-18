@@ -29,51 +29,6 @@ namespace Harmony.TileEntities
     {
         private static readonly string AdvFeatureClass = "AdvancedTileEntities";
 
-        //[HarmonyPatch(typeof(TileEntity))]
-        //[HarmonyPatch("IsActive")]
-        //public class TileEntityIsActive
-        //{
-        //    public static bool Prefix(TileEntity __instance, ref bool __result, World world)
-        //    {
-        //        if (__instance == null) return true;
-        //        Vector3i blockPos = __instance.ToWorldPos();
-        //        if (blockPos == Vector3i.zero) return true;
-        //        var block = world.GetBlock(blockPos);
-        //        //if (!block.Block.Properties.Values.ContainsKey("AlwaysActive"))
-        //        //    return true;
-
-        //        //// If the block has an AlwaysActive, then see if its set to true, or if its false, then go back to default.
-        //        //if (StringParsers.ParseBool(block.Block.Properties.Values["AlwaysActive"]))
-        //        //{
-        //        //    __result = true;
-        //        //    return false;
-        //        //}
-        //        return true;
-        //    }
-        //}
-
-        // [HarmonyTargetMethod]
-        // static IEnumerable<MethodBase> TargetMethods()
-        // {
-        //     yield return typeof(TileEntityForge).GetMethod("IsActive");
-        //     yield return typeof(TileEntityLootContainer).GetMethod("IsActive");
-        //     yield return typeof(TileEntity).GetMethod("IsActive");
-        //
-        // }
-
-        // public class TileEntityIsActive
-        // {
-        //     public static bool Postfix(TileEntity __instance, ref bool __result)
-        //     {
-        //         if (!__instance.blockValue.Block.Properties.Values.ContainsKey("AlwaysActive"))
-        //             return __result;
-        //
-        //         var result = StringParsers.ParseBool(__instance.blockValue.Block.Properties.Values["AlwaysActive"]);
-        //         Debug.Log($"IsAlways Active: {result}");
-        //         return result;
-        //     }
-        // }
-
         public static void Postfix(TileEntity __instance, ref bool __result, World world)
         {
             var block = GameManager.Instance.World.GetBlock(__instance.ToWorldPos());

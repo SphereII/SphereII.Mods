@@ -37,7 +37,7 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
         var entityPlayer = _params.Self as EntityPlayer;
         foreach (var quest in entityPlayer.QuestJournal.quests)
         {
-            Log.Out($"Quest: {quest.ID} POI: {quest.GetPOIName()} Position: {quest.Position}");
+          //  Log.Out($"Quest: {quest.ID} POI: {quest.GetPOIName()} Position: {quest.Position}");
             if (quest.ID == questName)
             {
                 quest.GetPositionData(out var pos, Quest.PositionDataTypes.POIPosition);

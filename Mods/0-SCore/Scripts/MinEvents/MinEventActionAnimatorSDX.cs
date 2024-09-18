@@ -5,7 +5,6 @@ public class MinEventActionAnimatorSpeedSDX : MinEventActionRemoveBuff
 {
     private float floatSpeed = 1f;
 
-    // This loops through all the targets, giving each target the quest. 
     //  <triggered_effect trigger="onSelfBuffStart" action="AnimatorSpeedSDX, SCore" target="self" value="1" /> // normal speed
     //  <triggered_effect trigger="onSelfBuffStart" action="AnimatorSpeedSDX, SCore" target="self" value="2" /> // twice the speed
     public override void Execute(MinEventParams _params)
