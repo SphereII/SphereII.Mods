@@ -1,0 +1,48 @@
+<div>
+
+    <!-- Top Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="left">
+                <a href="#" class="back link"><i class="icon icon-back"></i> </a>
+            </div>
+            <div class="center sliding">
+                {{title}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="pages">
+        <div data-page="topiclist" class="page">
+
+            <!-- Content -->
+            <div class="page-content">
+                <div class="list-block hnd-list-container">
+                    <ul>
+                        {{#each topics}}
+                        <li>
+                            <a href="{{this.url}}" data-view=".view-main" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{this.title}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        {{else}}
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">
+                                        No results
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

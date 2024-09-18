@@ -1,36 +1,118 @@
 ﻿
-	
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html>
 
-<head>
+    <!DOCTYPE html>
+    <html>
 
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="generator" content="HelpNDoc Personal Edition 9.3.0.281">
-    <title>0-SCore</title>
-    <script type="text/javascript">
-      function escapeHtml(unsafe) {
-        return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;").replace(/:/g, "");
-      }
-      var sTopic = "";
-      if (top.location.href.lastIndexOf("?") > 0)
-        sTopic = top.location.href.substring(top.location.href.lastIndexOf("?") + 1, top.location.href.length);
-      if (sTopic == "") sTopic = "Introduction.html";
-	  sTopic = escapeHtml(sTopic);
-      document.write('<frameset cols="300,*">');
-      document.write('<frame src="toc.html" name="FrameTOC">');
-      document.write('<frame src="' + sTopic + '" name="FrameMain">');
-      document.write('</frameset>');
-    </script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>
+            0-SCore
+        </title>
+        <!-- Path to Framework7 Library CSS-->
+        <link rel="stylesheet" href="vendors/f7/css/framework7.ios.min.css">
+        <link rel="stylesheet" href="vendors/f7/css/framework7.ios.colors.min.css">
+        <!-- Path to your custom app styles-->
+        <link rel="stylesheet" href="css/my-app.css">
+        <link rel="stylesheet" href="css/hnd.css">
+    </head>
 
-</head>
+    <body>
+        <!-- Status bar overlay for fullscreen mode-->
+        <div class="statusbar-overlay"></div>
+        <!-- Views-->
+        <div class="views">
 
-<noscript>
-	<frameset cols="300,*">
-		<frame src="toc.html" name="FrameTOC">
-		<frame src="Introduction.html" name="FrameMain">
-	</frameset>
-</noscript>
+            <div class="panel-overlay"></div>
 
-</html>
+            <div class="panel panel-left panel-cover">
 
+                <!-- Left View -->
+                <div class="view view-left">
+                    <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="center sliding">Left View</div>
+                        </div>
+                    </div>
+                    <div class="pages toolbar-through">
+                        <div data-page="index-left" class="page">
+                            <div class="page-content">
+                                <div class="row">
+                                    <div class="col-auto"></div>
+                                    <div class="col-auto center">
+                                        <p>
+                                            Loading...<br>
+                                            <span style="width:42px; height:42px" class="preloader"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Bottom Toolbar-->
+                    <div class="toolbar tabbar tabbar-labels">
+                        <div class="toolbar-inner">
+                            <a href="_toc.html" class="link">
+                                <i class="icon icon-toc"></i>
+                                <span class="tabbar-label">Table of Contents</span>
+                            </a>
+                            <a href="_index.html" class="link">
+                                <i class="icon icon-index"></i>
+                                <span class="tabbar-label">Index</span>
+                            </a>
+                            <a href="_search.html" class="link">
+                                <i class="icon icon-search"></i>
+                                <span class="tabbar-label">Search</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your main view, should have "view-main" class-->
+            <div class="view view-main navbar-through" data-hnd-default-topic="Introduction.html">
+                <!-- Top Navbar-->
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="left">
+                            <a href="#" data-panel="left" class="link open-panel icon-only"><i class="icon icon-bars"></i></a>
+                        </div>
+                        <div class="center sliding">
+                            0-SCore
+                        </div>
+                        <div class="right">
+                        </div>
+                    </div>
+                </div>
+                <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+                <div class="pages navbar-through ">
+                    <!-- Page, data-page contains page name-->
+                    <div data-page="index" class="page">
+                        <div class="page-content">
+                            <div class="row">
+                                <div class="col-auto"></div>
+                                <div class="col-auto">
+                                    <p>
+                                        Loading...<br>
+                                        <span style="width:42px; height:42px" class="preloader"></span>
+                                    </p>
+                                </div>
+                                <div class="col-auto"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts -->
+        <script type="text/javascript" src="vendors/f7/js/framework7.min.js"></script>
+        <script type="text/javascript" src="js/hndjsse.js"></script>
+        <script type="text/javascript" src="js/my-app.js"></script>
+    </body>
+
+    </html>
+
+    
