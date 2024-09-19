@@ -44,5 +44,12 @@ namespace Challenges {
             var fastTags = FastTags<TagGroup.Global>.Parse(tag);
             return holdingItem.HasAnyTags(fastTags);
         }
+        
+        public static bool IsHoldingItemMaterial(string material) {
+            if (string.IsNullOrEmpty(material)) return false;
+            var holdingItem = GetHoldingItem();
+            if (holdingItem == null) return false;
+            return holdingItem.MadeOfMaterial.id == material;
+        }
     }
 }

@@ -20,6 +20,26 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.86.1304
+	[ Challenges ]
+		- Fixed an issue where the Challenges were getting corrupted by conflicting enum values
+		- This probably needs a new Save to work.
+		- Added a new ObjectiveSCoreBase to allow us to make more challenges without duplicating a bunch of repeated tags.
+
+		- Added a new Challenge that fires whenever an NPC is being hired.
+			<objective type="HireNPC, SCore" count="20" />
+    	    <objective type="HireNPC, SCore" count="5" target_name="npcNurseKnife"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="female"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="male"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="male" biome="burnt_forest"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="female" item="resourceCropGoldenrodPlant"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="male" item_tags="brass"/>
+        	<objective type="HireNPC, SCore" count="5" entity_tags="male" item_material="Mwood"/>
+
+		- Added a new challenge to give more control over harvest
+     		<objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" biome="burnt_forest" />
+			<objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" block_tag="challenge_pallet" />
+
 Version: 1.0.83.950
 	[ Events ]
 		- Fixed a null reference with the OnClientKill when the game would trigger the event after the game killed.

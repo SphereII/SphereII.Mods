@@ -1,13 +1,16 @@
 public enum ChallengeObjectiveTypeSCore : byte {
-    ChallengeObjectiveEnterPOI,
-    ChallengeObjectiveCompleteQuestStealth,
-    ChallengeObjectiveKillWithItem,
-    ChallengeObjectiveStealthKillStreak,
-    ChallengeObjectiveDecapitation,
-    ChallengeObjectiveCraftWithIngredient,
-    ChallengeObjectiveBlockDestroyedByFire,
-    ChallengeObjectiveBlockDestroyed,
-    ChallengeObjectiveStartFire,
-    ChallengeObjectiveBigFire,
-    ChallengeObjectiveExtinguishFire
+    ChallengeObjectiveEnterPOI= 100,
+    ChallengeObjectiveCompleteQuestStealth = 101,
+    ChallengeObjectiveKillWithItem = 102,
+    ChallengeObjectiveStealthKillStreak= 103,
+    ChallengeObjectiveDecapitation= 104,
+    ChallengeObjectiveCraftWithIngredient= 105,
+    ChallengeObjectiveBlockDestroyedByFire= 106,
+    ChallengeObjectiveBlockDestroyed= 107,
+    ChallengeObjectiveStartFire= 108,
+    ChallengeObjectiveBigFire= 109,
+    ChallengeObjectiveExtinguishFire= 110,
+    ChallengeObjectiveHireNPC =111,
+    ChallengeObjectiveHarvest=112
+
 }

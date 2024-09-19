@@ -9,6 +9,9 @@ public static class EntityUtilities
     private static readonly bool blDisplayLog = false;
     private static readonly string AdvFeatureClass = "AdvancedNPCFeatures";
 
+    public delegate bool OnHireNPC(int hiredId, int ownerId);
+    public static event OnHireNPC OnHire;
+
     private static List<FastTags<TagGroup.Global>> _HumanTags = null;
     private static List<FastTags<TagGroup.Global>> _UseFactionsTags = null;
 
@@ -712,6 +715,7 @@ public static class EntityUtilities
         {
             if (uiforPlayer.xui.PlayerInventory.GetItemCount(GetHireCurrency(EntityID)) >= GetHireCost(EntityID))
             {
+                OnHire?.Invoke(EntityID, _player.entityId);
                 // Create the stack of currency
                 var stack = new ItemStack(GetHireCurrency(EntityID), GetHireCost(EntityID));
                 DisplayLog(" Removing Item: " + stack);

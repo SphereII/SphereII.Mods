@@ -49,6 +49,7 @@
     <ItemGroup>
       <Content Include="Config\challenges-01.xml" />
       <Content Include="Config\challenges-02.xml" />
+      <Content Include="Config\challenges-03.xml" />
       <Content Include="Config\challenges.xml" />
       <Content Include="ModInfo.xml" />
       <Content Include="Properties\versionTemplate.tt">

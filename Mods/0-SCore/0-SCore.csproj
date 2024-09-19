@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBigFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyed.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyedByFire.cs" />
@@ -52,7 +53,10 @@
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveDecapitation.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveEnterPOI.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveExtinguishFire.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveHarvest.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveHireNPC.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveKillWithItem.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveSCoreBase.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStartFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
     <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />

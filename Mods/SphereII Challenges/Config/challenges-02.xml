@@ -1,11 +1,15 @@
 <configs>
+
     <append xpath="/challenges">
         <challenge_category name="SCore01Category" title="SCore Challenges" icon="ui_game_symbol_challenge_category2"/>
+
         <challenge_group category="SCore01Category" name="SCore01Group" title_key="SCore01challenges_key"
                          reward_text_key="No Rewards" reward_event="NoEvent"/>
         <challenge_group category="SCore01Category" name="SCore02Group" title_key="SCore02challenges_key"
                          reward_text_key="No Rewards" reward_event="NoEvent"/>
 
+        <challenge_group category="SCore01Category" name="SCore03Group" title_key="SCore03challenges_key"
+                         reward_text_key="No Rewards" reward_event="NoEvent"/>
     </append>
     <append xpath="/challenges">
 
@@ -38,33 +42,9 @@
                    reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
             <objective type="CraftWithIngredient, SCore" count="2" ingredient="resourceWood"/>
         </challenge>
-        <challenge name="BreakBlock01" title_key="BreakBlock01" icon="ui_game_symbol_quest" group="SCore01Group"
-                   short_description_key="BreakBlock01Short" description_key="BreakBlock01Short"
-                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="BlockDestroyed, SCore" count="20" block="cntRetroFridgeVer1Closed"/>
-        </challenge>
-
-        <challenge name="BreakBlock02" title_key="BreakBlock02" icon="ui_game_symbol_quest" group="SCore01Group"
-                   short_description_key="BreakBlock02Short" description_key="BreakBlock02Short"
-                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="BlockDestroyed, SCore" count="20" material="Mmetal"/>
-        </challenge>
-
-        <challenge name="BreakBlock03" title_key="BreakBlock03" icon="ui_game_symbol_quest" group="SCore01Group"
-                   short_description_key="BreakBlock03Short" description_key="BreakBlock03Short"
-                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="BlockDestroyed, SCore" count="20" block="cntRetroFridgeVer1Closed" biome="pine_forest"
-                       poi_tags="wilderness"/>
-        </challenge>
-
-        <challenge name="BreakBlock04" title_key="BreakBlock04" icon="ui_game_symbol_quest" group="SCore01Group"
-                   short_description_key="BreakBlock04Short" description_key="BreakBlock04Short"
-                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
-            <objective type="BlockDestroyed, SCore" count="20" material="Mmetal" biome="pine_forest"/>
-        </challenge>
 
     </append>
-    
+
     <!-- FIre bug -->
     <append xpath="/challenges">
 
@@ -93,7 +73,15 @@
         </challenge>
 
 
-
+    </append>
+    
+    <append xpath="/challenges">
+        <challenge name="Harvest01" title_key="onHarvest" icon="ui_game_symbol_quest" group="SCore03Group"
+                   short_description_key="onHarvest" description_key="onHarvest"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" biome="burnt_forest" />
+            <objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" block_tag="challenge_pallet" />
+        </challenge>
     </append>
 
 </configs>

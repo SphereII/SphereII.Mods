@@ -1,0 +1,61 @@
+<configs>
+
+    <append xpath="/challenges">
+        <challenge_category name="NPCCategory" title="NPC Challenges" icon="ui_game_symbol_challenge_category2"/>
+
+        <challenge_group category="NPCCategory" name="NPCGroup" title_key="NPCchallenges_key"
+                         reward_text_key="No Rewards" reward_event="NoEvent"/>
+    </append>
+    <append xpath="/challenges">
+        <challenge name="NPC01" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCs" description_key="hireNPCs"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="10" />
+        </challenge>
+        <challenge name="NPC02" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsNurse" description_key="hireNPCsNurse"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" target_name="npcNurseKnife"/>
+        </challenge>
+
+        <challenge name="NPC04" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsFemale" description_key="hireNPCsFemale"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="female"/>
+        </challenge>
+
+        <challenge name="NPC05" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsMale" description_key="hireNPCsMale"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="male"/>
+        </challenge>
+
+        <challenge name="NPC06" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsMaleBurnt" description_key="hireNPCsMaleBurnt"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="male" biome="burnt_forest"/>
+        </challenge>
+
+        <challenge name="NPC07" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsFemaleWithItem" description_key="hireNPCsFemaleWithItem"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="female" item="resourceCropGoldenrodPlant"/>
+        </challenge>
+
+        <challenge name="NPC08" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsMaleWithItem" description_key="hireNPCsMaleWithItem"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="male" item_tags="brass"/>
+        </challenge>
+
+        <challenge name="NPC09" title_key="NPC_title" icon="ui_game_symbol_quest" group="NPCGroup"
+                   short_description_key="hireNPCsMaleWithmaterial" description_key="hireNPCsMaleWithmaterial"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            <objective type="HireNPC, SCore" count="5" entity_tags="male" item_material="Mwood"/>
+        </challenge>
+
+
+
+    </append>
+
+</configs>

@@ -10,8 +10,8 @@ namespace Challenges {
     /*
      * A new challenge objective to destroy certain blocks by name, material, within boimes, and specific POIs.
      *
-     * <objective type="BlockDestroyed, SCore" count="20" biome="burn_forest" poi="traderJen" />
-     * <objective type="BlockDestroyed, SCore" count="20" biome="pine_forest" poi_tags="wilderness" />
+     * <objective type="BlockDestroyed, SCore" count="20" block="myblock" biome="burn_forest" poi="traderJen" />
+     * <objective type="BlockDestroyed, SCore" count="20" material="myMaterial" biome="pine_forest" poi_tags="wilderness" />
      */
     public class ChallengeObjectiveBlockDestroyed : BaseChallengeObjective {
         public override ChallengeObjectiveType ObjectiveType =>
