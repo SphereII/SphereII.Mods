@@ -350,8 +350,9 @@ namespace UAI
                 }
             }
 
-            // Check to see if its in our "See" cache
-            if (sourceEntity.CanSee(targetEntity))
+            // Check to see if it's in our "See" cache.
+            // For now, we are not using the negative "See" cache.
+            if (TryGetSeeCache(sourceEntity, targetEntity, out var isSeen) && isSeen)
             {
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tTarget is in the Source's CanSee cache. True");
                 return true;
@@ -408,8 +409,10 @@ namespace UAI
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees something, but it's not an entity alive, and or it's dead, or its not the same target. False");
                 return false;
             }
-            // Check to see if its in our "See" cache
-            if (sourceEntity.CanSee(targetEntity))
+
+            // Double-check to see if it's in our "See" cache.
+            // For now, we are not using the negative "See" cache.
+            if (TryGetSeeCache(sourceEntity, targetEntity, out isSeen) && isSeen)
             {
                 AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource has target in its CanSee cache. Double check? True");
                 return true;
@@ -441,21 +444,20 @@ namespace UAI
                 var distance2 = sourceEntity.GetDistance(player);
                 if (!sourceEntity.CanSeeStealth(distance2, player.Stealth.lightLevel))
                 {
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a player, but player passes the stealth check so the source cant see the player.. False");
+                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a player, but player passes the stealth check so the source can't see the player. False");
                     return false;
                 }
             }
 
-            // If the leader is the player, use the player's stealth check against the presumed NPC.
-            if (leader != null)
+            // If our leader is sneaking through a POI, don't pull a Leroy Jenkins and ruin stealth.
+            // Only attack if the target can see our leader, taking stealth into consideration.
+            if (leader is EntityPlayer playerLeader &&
+                !targetEntity.CanSeeStealth(
+                    targetEntity.GetDistance(playerLeader),
+                    playerLeader.Stealth.lightLevel))
             {
-                var player2 = leader as EntityPlayer;
-                var distance2 = sourceEntity.GetDistance(leader);
-                if (leader is EntityPlayer && !sourceEntity.CanSeeStealth(distance2, player2.Stealth.lightLevel))
-                {
-                    AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a valid target, and has a leader. The Source can't see the stealth. False");
-                    return false;
-                }
+                AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"\tSource sees a valid target, and has a leader. The target can't see the leader. False");
+                return false;
             }
 
             // Add the entity to our CanSee Cache, which expires.
@@ -465,7 +467,39 @@ namespace UAI
 
         }
 
-      
+        /// <summary>
+        /// <para>
+        /// Tries to determine if the target can be seen by the source, by looking in the positive
+        /// and negative "See" caches of the source. If successful, isSeen is set appropriately,
+        /// and the method returns true.
+        /// </para>
+        /// <para>
+        /// The method returns false if either the source or target entities are null, or if the
+        /// target entity is in neither of the source entity's see caches. In these cases, isSeen is
+        /// set to false.
+        /// </para>
+        /// </summary>
+        /// <param name="sourceEntity"></param>
+        /// <param name="targetEntity"></param>
+        /// <param name="isSeen"></param>
+        /// <returns></returns>
+        public static bool TryGetSeeCache(EntityAlive sourceEntity, EntityAlive targetEntity, out bool isSeen)
+        {
+            isSeen = false;
+
+            if (targetEntity == null)
+            {
+                return false;
+            }
+
+            if (sourceEntity?.seeCache?.positiveCache?.Contains(targetEntity.entityId) == true)
+            {
+                isSeen = true;
+                return true;
+            }
+
+            return sourceEntity?.seeCache?.negativeCache?.Contains(targetEntity.entityId) == true;
+        }
 
         public static bool IsEnemyNearby(Context _context, float distance = 20f)
         {
