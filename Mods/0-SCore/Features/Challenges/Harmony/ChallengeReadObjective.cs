@@ -8,101 +8,70 @@ namespace SCore.Features.Challenges.Harmony {
     [HarmonyPatch(typeof(BaseChallengeObjective))]
     [HarmonyPatch("ReadObjective")]
     public class ChallengeReadObjective {
-        public static bool Prefix(ref BaseChallengeObjective __result, byte _currentVersion,
+        public static BaseChallengeObjective Postfix(BaseChallengeObjective __result, byte _currentVersion,
             ChallengeObjectiveType _type, BinaryReader _br) {
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveEnterPOI)
-            {
-                __result = new ChallengeObjectiveEnterPOI();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
+            if (__result != null) return __result;
             
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveCompleteQuestStealth)
+            switch ((ChallengeObjectiveTypeSCore)_type)
             {
-                __result = new ChallengeObjectiveCompleteQuestStealth();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveStealthKillStreak)
-            {
-                __result = new ChallengeObjectiveStealthKillStreak();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveKillWithItem)
-            {
-                __result = new ChallengeObjectiveKillWithItem();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveDecapitation)
-            {
-                __result = new ChallengeObjectiveDecapitation();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveCraftWithIngredient)
-            {
-                __result = new ChallengeObjectiveCraftWithIngredient();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyedByFire)
-            {
-                __result = new ChallengeObjectiveBlockDestroyedByFire();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyed)
-            {
-                __result = new ChallengeObjectiveBlockDestroyed();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveStartFire)
-            {
-                __result = new ChallengeObjectiveStartFire();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveBigFire)
-            {
-                __result = new ChallengeObjectiveBigFire();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveExtinguishFire)
-            {
-                __result = new ChallengeObjectiveExtinguishFire();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveHireNPC)
-            {
-                __result = new ChallengeObjectiveHireNPC();
-                __result.Read(_currentVersion, _br);
-                return false;
-            }
-            if ((ChallengeObjectiveTypeSCore)_type == ChallengeObjectiveTypeSCore.ChallengeObjectiveHarvest)
-            {
-                __result = new ChallengeObjectiveHarvest();
-                __result.Read(_currentVersion, _br);
-                return false;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveEnterPOI:
+                    __result = new ChallengeObjectiveEnterPOI();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveCompleteQuestStealth:
+                    __result = new ChallengeObjectiveCompleteQuestStealth();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveStealthKillStreak:
+                    __result = new ChallengeObjectiveStealthKillStreak();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveKillWithItem:
+                    __result = new ChallengeObjectiveKillWithItem();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveDecapitation:
+                    __result = new ChallengeObjectiveDecapitation();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveCraftWithIngredient:
+                    __result = new ChallengeObjectiveCraftWithIngredient();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyedByFire:
+                    __result = new ChallengeObjectiveBlockDestroyedByFire();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockDestroyed:
+                    __result = new ChallengeObjectiveBlockDestroyed();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveStartFire:
+                    __result = new ChallengeObjectiveStartFire();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveBigFire:
+                    __result = new ChallengeObjectiveBigFire();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveExtinguishFire:
+                    __result = new ChallengeObjectiveExtinguishFire();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveHireNPC:
+                    __result = new ChallengeObjectiveHireNPC();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveHarvest:
+                    __result = new ChallengeObjectiveHarvest();
+                    __result.Read(_currentVersion, _br);
+                    break;
             }
 
             
             
             
-            return true;
+            return __result;
         }
     }
     

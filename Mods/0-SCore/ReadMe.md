@@ -20,6 +20,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.86.1506
+	[ Challenges ]
+		- Another patch to fix challenges being corrupted
+
 Version: 1.0.86.1304
 	[ Challenges ]
 		- Fixed an issue where the Challenges were getting corrupted by conflicting enum values
