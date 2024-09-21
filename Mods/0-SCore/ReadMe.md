@@ -20,6 +20,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.88.1027
+	[ Challenges ]
+		- Added target_name_key parsing to KillWithItem.
+		- Added Localization key for KillWith Item
+			challengeKillZombiesWithItemDesc
+
+		- Added Item_tags to be validated, on the Harvest Objective.
+			- If item="" and item_tags="" are both defined, they both need to pass 
+			
+	[ NPCs ]
+		- merged 2 fixes from  khzmusik 
+			- Fixed a see cache issue
+			- Fixed a faction tracking issue
+
 Version: 1.0.86.1506
 	[ Challenges ]
 		- Another patch to fix challenges being corrupted

@@ -12,7 +12,7 @@ namespace Challenges {
      <objective type="Harvest, SCore" count="20" item="resourceWood" />
      <objective type="Harvest, SCore" count="20" item="resourceWood" biome="burnt_forest" />
      <objective type="Harvest, SCore" count="20" item="resourceWood" item="meleeItem" />
-     <objective type="Harvest, SCore" count="20" item="resourceWood" item_tags="meleetag" />
+     <objective type="Harvest, SCore" count="20" item_tags="woodtag" />
      <objective type="Harvest, SCore" count="20" block_tags="blocktag" />
      */
     public class ChallengeObjectiveHarvest : ChallengeObjectiveSCoreBase {
@@ -47,6 +47,12 @@ namespace Challenges {
                 }
 
                 if (!result) return;
+            }
+
+            if (!string.IsNullOrEmpty(itemTag))
+            {
+                var tag = FastTags<TagGroup.Global>.Parse(itemTag);
+                if (!stack.itemValue.ItemClass.HasAnyTags(tag)) return;
             }
 
             if (!CheckBiome()) return;

@@ -39,6 +39,7 @@ namespace Challenges {
         public string ItemTag;
         public bool StealthCheck = false;
         public string LocalizationKey = "";
+        public bool GenerateDescription;
 
         public override void Init() {
             if ( string.IsNullOrEmpty(entityTag))
@@ -51,11 +52,7 @@ namespace Challenges {
 
         public override string DescriptionText {
             get {
-                if (!string.IsNullOrEmpty(LocalizationKey))
-                    return Localization.Get(LocalizationKey);
-                
-                var objectiveDesc = Localization.Get(LocalizationKey);
-                objectiveDesc = objectiveDesc.Replace("[]", MaxCount.ToString());
+                var objectiveDesc = Localization.Get("challengeKillZombiesWithItemDesc");
                 var with = Localization.Get("challengeObjectiveWith");
 
                 if (!string.IsNullOrEmpty(ItemClass))
@@ -71,12 +68,12 @@ namespace Challenges {
                         counter++;
                     }
 
-                    return $"{objectiveDesc} {itemDisplay}";
+                    return $"{objectiveDesc} {itemDisplay} :";
                 }
 
-                if (string.IsNullOrEmpty(ItemTag)) return $"{objectiveDesc}";
+                if (string.IsNullOrEmpty(ItemTag)) return $"{objectiveDesc} :";
                 var itemWithTags = Localization.Get("itemWithTags");
-                return $"{objectiveDesc} {with} {itemWithTags} {ItemTag}";
+                return $"{objectiveDesc} {with} {itemWithTags} {ItemTag} :";
 
             }
         }
@@ -130,9 +127,20 @@ namespace Challenges {
             }
                 
             if (e.HasAttribute("description_key"))
-                LocalizationKey =e.GetAttribute("description_key");
-           
+                 LocalizationKey =e.GetAttribute("description_key");
+
+            if (e.HasAttribute("generate_description"))
+            {
+                var temp = e.GetAttribute("generate_description");
+                StringParsers.TryParseBool(temp, out GenerateDescription);
+
+            }
+
+            if (e.HasAttribute("target_name_key"))
+                targetName = Localization.Get(e.GetAttribute("target_name_key"));
+             
         }
+
 
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveKillWithItem {

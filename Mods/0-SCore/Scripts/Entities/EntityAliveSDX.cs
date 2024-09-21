@@ -18,6 +18,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.Remoting.Messaging;
 using UAI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -39,7 +40,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     private string rightHandTransformName;
 
-    private bool canCollideWithLeader = true;
+    public bool canCollideWithLeader = true;
     private float enemyDistanceToTalk = 10f;
 
     /// <inheritdoc/>
@@ -590,6 +591,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         return true;
     }
 
+   
     public override void InitLocation(Vector3 _pos, Vector3 _rot) {
         base.InitLocation(_pos, _rot);
         // Trader class turns that off.
@@ -880,19 +882,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
         this.accumulatedRootMotion.y = 0f;
     }
-
-    public override bool CanCollideWith(Entity _other) {
-        if (canCollideWithLeader) return true;
-
-        var result = base.CanCollideWith(_other);
-        var leader = EntityUtilities.GetLeaderOrOwner(entityId);
-        if (leader && leader.entityId == _other.entityId)
-        {
-            return false;
-        }
-
-        return result;
-    }
+  
 
     public override void MoveEntityHeaded(Vector3 _direction, bool _isDirAbsolute) {
         // Check the state to see if the controller IsBusy or not. If it's not, then let it walk.

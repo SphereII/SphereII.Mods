@@ -82,6 +82,12 @@
             <objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" biome="burnt_forest" />
             <objective type="Harvest, SCore" count="20" item="resourceWood" held_tags="axe" block_tag="challenge_pallet" />
         </challenge>
+
+        <challenge name="LocalizationTest" title_key="title_key" icon="ui_game_symbol_quest" group="SCore03Group"
+                   short_description_key="short_description_key" description_key="description_key"
+                   reward_text_key="reward_text_key" reward_event="challenge_reward_1000">
+            <objective type="KillWithItem, SCore" count="10" item="gunRifleT0PipeRifle"  />
+        </challenge>
     </append>
 
 </configs>
