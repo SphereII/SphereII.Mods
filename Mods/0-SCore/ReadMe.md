@@ -20,7 +20,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version: 1.0.88.1027
+Version: 1.0.88.1030
 	[ Challenges ]
 		- Added target_name_key parsing to KillWithItem.
 		- Added Localization key for KillWith Item
