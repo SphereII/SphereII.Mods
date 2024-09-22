@@ -11,6 +11,7 @@ public enum ChallengeObjectiveTypeSCore : byte {
     ChallengeObjectiveBigFire= 109,
     ChallengeObjectiveExtinguishFire= 110,
     ChallengeObjectiveHireNPC =111,
-    ChallengeObjectiveHarvest=112
+    ChallengeObjectiveHarvest=112,
+    ChallengeObjectiveBlockUpgradeSCore=113
 
 }

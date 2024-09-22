@@ -20,6 +20,18 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.89.1020
+	[ Challenges ]
+		- Added BlockUpgradeSCore, SCore
+			- Adds the ability to specify a block_tag/block_tags attribute.
+			- Adds the ability to filter based on biome.
+			
+		 	<objective type="BlockUpgradeSCore,SCore" block="frameShapes:VariantHelper" count="10" 
+				held="meleeToolRepairT0StoneAxe" needed_resource="resourceWood" needed_resource_count="8" />
+			<objective type="BlockUpgradeSCore,SCore" block_tags="wood" count="10" 
+				held="meleeToolRepairT0StoneAxe" needed_resource="resourceWood" needed_resource_count="8" />
+			<objective type="BlockUpgradeSCore,SCore" block_tags="wood" count="10" biome="burnt_forest" />
+
 Version: 1.0.88.1030
 	[ Challenges ]
 		- Added target_name_key parsing to KillWithItem.

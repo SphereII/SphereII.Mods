@@ -1,17 +1,21 @@
 using System;
+using System.Globalization;
 using System.Xml.Linq;
 using UnityEngine;
 
 namespace Challenges {
     public class ChallengeObjectiveSCoreBase : BaseChallengeObjective {
-        private bool isDebug = false;
+        protected bool isDebug = false;
         public string biome;
         public string entityTag;
         public string targetName;
         public string itemClass;
         public string itemTag;
-        private string item_material;
+        protected string item_material;
         public string blockTag;
+        public string blockName;
+        protected string neededResourceID;
+        protected int neededResourceCount = 0;
 
         public void DisplayLog(string message) {
             if (!isDebug) return;
@@ -27,13 +31,31 @@ namespace Challenges {
             return result;
         }
 
-        public bool CheckBlocks(BlockValue block) {
+        public bool CheckBlockName(string expectedBlock) {
+            // We aren't looking for any blocks here.
+            if (string.IsNullOrEmpty(expectedBlock)) return true;
+            if (string.IsNullOrEmpty(blockName)) return true;
+            
+            if (blockName.EqualsCaseInsensitive(expectedBlock)) return true;
+
+            if (expectedBlock.Contains(":") &&
+                blockName.EqualsCaseInsensitive(expectedBlock.Substring(0, expectedBlock.IndexOf(':'))))
+            {
+                return true;
+            }
+                
+            var blockByName = Block.GetBlockByName(blockName, true);
+            if (blockByName == null) return false;
+            return blockByName.SelectAlternates && blockByName.ContainsAlternateBlock(expectedBlock);
+        }
+
+        public bool CheckBlockTags(BlockValue block) {
             if (string.IsNullOrEmpty(blockTag)) return true;
             var blockTags = FastTags<TagGroup.Global>.Parse(blockTag);
             return block.Block.HasAnyFastTags(blockTags);
         }
 
-        public bool CheckItems() {
+        public bool CheckHoldingItems() {
             // No items defined, so skipping.
             if (string.IsNullOrEmpty(itemClass) && string.IsNullOrEmpty(itemTag))
             {
@@ -70,9 +92,27 @@ namespace Challenges {
             return false;
         }
 
+        public override void HandleOnCreated() {
+            base.HandleOnCreated();
+            CreateRequirements();
+        }
+
+        private void CreateRequirements() {
+            if (!ShowRequirements)
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(itemClass)) return;
+            if (string.IsNullOrEmpty(neededResourceID)) return;
+            if (neededResourceCount == 0) return;
+            Owner.SetRequirementGroup(new RequirementObjectiveGroupBlockUpgrade(this.itemClass, this.neededResourceID,
+                this.neededResourceCount));
+        }
+
         public bool CheckRequirements(EntityAlive entityAlive) {
             DisplayLog("Check Requirements");
-            if (!CheckItems()) return false;
+            if (!CheckHoldingItems()) return false;
             if (!CheckBiome()) return false;
             if (!CheckTags(entityAlive)) return false;
             if (!CheckNames(entityAlive)) return false;
@@ -95,7 +135,18 @@ namespace Challenges {
                 blockTag = e.GetAttribute("block_tags");
                 DisplayLog($"Block Tags: {blockTag}");
             }
+            
+            if (e.HasAttribute("block_tag"))
+            {
+                blockTag = e.GetAttribute("block_tag");
+                DisplayLog($"Block Tags: {blockTag}");
+            }
 
+            if (e.HasAttribute("block"))
+            {
+                blockName = e.GetAttribute("block");
+                DisplayLog($"Block  {blockName}");
+            }
 
             if (e.HasAttribute("target_name_key"))
             {
@@ -126,6 +177,12 @@ namespace Challenges {
                 DisplayLog($"Item Tag : {itemTag}");
             }
 
+            if (e.HasAttribute("item_tag"))
+            {
+                itemTag = e.GetAttribute("item_tag");
+                DisplayLog($"Item Tag : {itemTag}");
+            }
+
             if (e.HasAttribute("item_material"))
             {
                 item_material = e.GetAttribute("item_material");
@@ -138,6 +195,22 @@ namespace Challenges {
                 isDebug = StringParsers.ParseBool(debugBool);
                 DisplayLog($"Debug is: {isDebug}");
             }
+
+            if (e.HasAttribute("needed_resource"))
+            {
+                neededResourceID = e.GetAttribute("needed_resource");
+            }
+
+            if (e.HasAttribute("needed_resource_count"))
+            {
+                neededResourceCount = StringParsers.ParseSInt32(e.GetAttribute("needed_resource_count"));
+            }
+
+            // Helper to make it easier to deal with held vs item=
+            if (e.HasAttribute("held"))
+            {
+                itemClass = e.GetAttribute("held");
+            }
         }
 
         public override BaseChallengeObjective Clone() {
@@ -148,7 +221,12 @@ namespace Challenges {
                 itemClass = itemClass,
                 itemTag = itemTag,
                 isDebug = this.isDebug,
-                item_material = this.item_material
+                item_material = this.item_material,
+                blockName = this.blockName,
+                blockTag = this.blockTag,
+
+                neededResourceID = this.neededResourceID,
+                neededResourceCount = this.neededResourceCount
             };
         }
     }

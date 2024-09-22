@@ -88,6 +88,18 @@
                    reward_text_key="reward_text_key" reward_event="challenge_reward_1000">
             <objective type="KillWithItem, SCore" count="10" item="gunRifleT0PipeRifle"  />
         </challenge>
+
+        <challenge name="scoreUpgradeTest" title_key="challengeUpgradeBlocks" icon="ui_game_symbol_challenge_homesteading_upgrade_block" group="SCore03Group" prerequisite_hint="challengeUpgradeBlocksHint1" hint="challengeUpgradeBlocksHint2" short_description_key="challengeUpgradeBlocksShort" description_key="challengeUpgradeBlocksDesc">
+            <objective type="BlockUpgradeSCore,SCore" block="frameShapes:VariantHelper" count="10" held="meleeToolRepairT0StoneAxe" needed_resource="resourceWood" needed_resource_count="8" />
+        </challenge>
+
+        <challenge name="scoreUpgradeTest_tags" title_key="challengeUpgradeBlocks" icon="ui_game_symbol_challenge_homesteading_upgrade_block" group="SCore03Group" prerequisite_hint="challengeUpgradeBlocksHint1" hint="challengeUpgradeBlocksHint2" short_description_key="challengeUpgradeBlocksShort" description_key="challengeUpgradeBlocksDesc">
+            <objective type="BlockUpgradeSCore,SCore" block_tags="wood" count="10" held="meleeToolRepairT0StoneAxe" needed_resource="resourceWood" needed_resource_count="8" />
+        </challenge>
+
+        <challenge name="scoreUpgradeTest_biome" title_key="challengeUpgradeBlocks" icon="ui_game_symbol_challenge_homesteading_upgrade_block" group="SCore03Group" prerequisite_hint="challengeUpgradeBlocksHint1" hint="challengeUpgradeBlocksHint2" short_description_key="challengeUpgradeBlocksShort" description_key="challengeUpgradeBlocksDesc">
+            <objective type="BlockUpgradeSCore,SCore" block_tags="wood" count="10" biome="burnt_forest" />
+        </challenge>
     </append>
 
 </configs>

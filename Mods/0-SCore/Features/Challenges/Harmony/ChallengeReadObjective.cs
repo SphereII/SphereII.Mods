@@ -66,6 +66,12 @@ namespace SCore.Features.Challenges.Harmony {
                     __result = new ChallengeObjectiveHarvest();
                     __result.Read(_currentVersion, _br);
                     break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockUpgradeSCore:
+                    __result = new ChallengeObjectiveBlockUpgradeSCore();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                
+                    
             }
 
             

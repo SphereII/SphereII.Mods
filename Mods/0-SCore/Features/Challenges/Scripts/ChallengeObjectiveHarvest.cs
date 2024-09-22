@@ -56,7 +56,7 @@ namespace Challenges {
             }
 
             if (!CheckBiome()) return;
-            if (!CheckBlocks(bv)) return;
+            if (!CheckBlockTags(bv)) return;
 
             Current++;
             CheckObjectiveComplete();
