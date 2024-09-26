@@ -31,6 +31,22 @@ namespace Challenges {
             if (e.HasAttribute("description_key"))
                 LocalizationKey = e.GetAttribute("description_key");
         }
+        
+        public override BaseChallengeObjective Clone() {
+            return new ChallengeObjectiveDecapitation {
+                entityTag = entityTag,
+                entityTags = entityTags,
+                biome = biome,
+                targetName = targetName,
+                isTwitchSpawn = isTwitchSpawn,
+                killerHasBuffTag = killerHasBuffTag,
+                killedHasBuffTag = killedHasBuffTag,
+                ItemClass = ItemClass,
+                ItemTag = ItemTag,
+                StealthCheck = StealthCheck,
+                LocalizationKey = LocalizationKey
+            };
+        }
 
     }
 }

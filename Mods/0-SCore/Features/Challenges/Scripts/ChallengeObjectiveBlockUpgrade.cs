@@ -11,6 +11,8 @@ namespace Challenges {
 
 
     public class ChallengeObjectiveBlockUpgradeSCore : ChallengeObjectiveSCoreBase {
+        public override ChallengeObjectiveType ObjectiveType =>
+            (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockUpgradeSCore;
      
         public override void HandleAddHooks() {
             QuestEventManager.Current.BlockUpgrade += this.Current_BlockUpgrade;

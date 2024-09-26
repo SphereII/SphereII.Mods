@@ -20,6 +20,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.93.1757
+	[ Challenges ]
+		- Fixed an issue with Decapitation challenge
+		- Fixed an issue with the BlockUpgrade challenge
+
 Version: 1.0.93.1534
 	[ Challenges ]
 		- Added another patch to protect against potential errors when loading saves
