@@ -20,6 +20,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.93.1534
+	[ Challenges ]
+		- Added another patch to protect against potential errors when loading saves
+	
+	- KillWithItem:
+		- Changed main localization entry to challengeKillWithItemDesc
+
+	[ Caves ]
+		- Initial add for new cave system based on a texture2D.
+		- GenerationType is "Texture2D" to activate and test. 
+		- Sample Cave03.png is provided.
+		- Red Spots are POIs
+		- No support yet to control depth.
+
 Version: 1.0.89.1020
 	[ Challenges ]
 		- Added BlockUpgradeSCore, SCore

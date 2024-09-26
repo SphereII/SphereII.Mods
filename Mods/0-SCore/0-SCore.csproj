@@ -42,6 +42,10 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\Caves\Harmony\PathPatcher.cs" />
+    <Compile Include="Features\Caves\Scripts\SCoreCavesSplat3.cs" />
+    <Compile Include="Features\Caves\Scripts\SCoreCavesTexture.cs" />
+    <Compile Include="Features\Caves\Scripts\SCoreCavesUtils.cs" />
     <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
     <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
@@ -544,7 +548,6 @@
     <Compile Include="Scripts\WorldGen\Utilities\FastNoise.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\MapGenerator.cs" />
     <Compile Include="Scripts\WorldGen\Utilities\PathingWormTunneler.cs" />
-    <Compile Include="Scripts\WorldGen\WinterProjectPrefab.cs" />
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanion.cs" />
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreCompanionList.cs" />
     <Compile Include="Scripts\XUiC\Companions\XUiC_SCoreInGameMenu.cs" />

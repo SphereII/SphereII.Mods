@@ -38,9 +38,6 @@ public class SphereII_WinterProject
             if (GameManager.IsDedicatedServer)
                 return;
 
-            modFolder = _modInstance.FolderName;
-            
-            
             RegisterEvents();
 
         }

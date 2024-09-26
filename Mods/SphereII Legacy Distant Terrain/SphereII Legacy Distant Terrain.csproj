@@ -74,7 +74,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModInfo.xml" />
+    <Content Include="DisabledModInfo.xml" />
     <Content Include="Properties\versionTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>versionTemplate.cs</LastGenOutput>

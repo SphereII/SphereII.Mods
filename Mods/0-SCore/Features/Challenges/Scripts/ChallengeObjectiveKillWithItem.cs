@@ -52,7 +52,8 @@ namespace Challenges {
 
         public override string DescriptionText {
             get {
-                var objectiveDesc = Localization.Get("challengeKillZombiesWithItemDesc");
+                var objectiveDesc = Localization.Get("challengeKillWithItemDesc");
+                objectiveDesc += $" {targetName}";
                 var with = Localization.Get("challengeObjectiveWith");
 
                 if (!string.IsNullOrEmpty(ItemClass))
@@ -73,7 +74,7 @@ namespace Challenges {
 
                 if (string.IsNullOrEmpty(ItemTag)) return $"{objectiveDesc} :";
                 var itemWithTags = Localization.Get("itemWithTags");
-                return $"{objectiveDesc} {with} {itemWithTags} {ItemTag} :";
+                return $"{objectiveDesc} {with} {ItemTag} {itemWithTags}:";
 
             }
         }

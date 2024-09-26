@@ -33,12 +33,23 @@
         <property name="Collide" value="sight,movement,melee,bullet,arrow,rocket"/>
     </append>
 
+    <!-- remove drops to reduce index errors -->
+    <remove xpath="/blocks/block[@name='terrSnow']/drop[@event='Fall']"/>
+
+    <!-- The pollution stopped, so let's make the snow super white all around -->
+    <set xpath="/blocks/block[@name='terrSnow']/property[@name='Texture']/@value">6,6,6,6,6,6</set>
+    <append xpath="/blocks/block[@name='terrSnow']">
+        <property name="PassThroughDamage" value="false"/>
+    </append>
+
+    
+
     <insertAfter xpath="/blocks/block[@name='terrSnow']">
         <block name="terrIce">
             <property name="Material" value="Msnow"/>
             <property name="Shape" value="Terrain"/>
             <property name="Mesh" value="terrain"/>
-            <property name="Texture" value="6"/> <!-- 569: stone texture 1 with dirt sound -->
+            <property name="Texture" value="6,6,6,6,6,6"/> 
             
             <!-- 569? -->
             <property name="ImposterExclude" value="true"/>
@@ -86,15 +97,7 @@
   <append xpath="/blocks/block[@name='bunkBedMattress']">
     <property name="BuffsWhenWalkedOn" value="buffsmallBed;BedTerrors"/>
   </append>
-    <!-- remove drops to reduce index errors -->
-    <remove xpath="/blocks/block[@name='terrSnow']/drop[@event='Fall']"/>
-
-    <!-- The pollution stopped, so let's make the snow super white all around -->
-    <set xpath="/blocks/block[@name='terrSnow']/property[@name='Texture']/@value">6</set>
-    <append xpath="/blocks/block[@name='terrSnow']">
-        <property name="PassThroughDamage" value="false"/>
-    </append>
-
+ 
     <!-- This replaces all the blocks that start with tree, then we'll further adjust them later 
     <set xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='Model']/@value">#@modfolder:Resources/WinterTrees.unity3d?Birch2_X</set>
     <remove xpath="/blocks/block[starts-with( @name, 'tree')]/property[@name='MultiBlockDim']" />

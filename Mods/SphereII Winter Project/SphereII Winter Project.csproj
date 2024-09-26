@@ -117,6 +117,7 @@
 		<Compile Include="Scripts\GlobalSnow\GlobalSnowProfile.cs"/>
 		<Compile Include="Scripts\GlobalSnow\GlobalSnowVolume.cs"/>
 		<Compile Include="Scripts\GlobalSnow\GlobalSnowWMAPI.cs"/>
+		<Compile Include="Scripts\WinterProjectPrefab.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include=".gitkeep"/>
@@ -141,6 +142,7 @@
 		<Content Include="Config\rwgmixer.xml"/>
 		<Content Include="Config\sounds.xml"/>
 		<Content Include="Config\spawning.xml"/>
+		<Content Include="Disable-ModInfo.xml" />
 		<Content Include="Properties\versionTemplate.tt">
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>versionTemplate.cs</LastGenOutput>

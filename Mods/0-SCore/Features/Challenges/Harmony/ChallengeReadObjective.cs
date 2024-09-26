@@ -10,8 +10,10 @@ namespace SCore.Features.Challenges.Harmony {
     public class ChallengeReadObjective {
         public static BaseChallengeObjective Postfix(BaseChallengeObjective __result, byte _currentVersion,
             ChallengeObjectiveType _type, BinaryReader _br) {
+           // Debug.Log($"Type: {(ChallengeObjectiveType)_type}");
             if (__result != null) return __result;
             
+          //  Debug.Log($" SCore Type: {(ChallengeObjectiveTypeSCore)_type}");
             switch ((ChallengeObjectiveTypeSCore)_type)
             {
                 case ChallengeObjectiveTypeSCore.ChallengeObjectiveEnterPOI:

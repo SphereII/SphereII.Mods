@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SCore.Features.Caves.Scripts;
 using UnityEngine;
 
 namespace Harmony.WorldGen
@@ -313,8 +314,9 @@ namespace Harmony.WorldGen
                     case "PathingWorm":
                         PathingWormTunneler.AddCaveToChunk(_chunk);
                         break;
-                    case "CaveTunnelerV2":
-                        CaveTunnelerV2.AddCaveToChunk(_chunk);
+                    case "Texture2D":
+                        SCoreCavesUtils.SetTexture();
+                        SCoreCavesTexture.AddCaveToChunk(_chunk);
                         break;
                     //case "FastNosieSIMD":
                     //    TerrainGeneratorSIMD_Caves.GenerateChunk(_chunk);
@@ -349,8 +351,8 @@ namespace Harmony.WorldGen
                     case "Sebastian":
                         Sebastian.AddDecorationsToCave(_chunk);
                         break;
-                    case "HeightMap":
-                        HeightMapTunneler.AddDecorationsToCave(_chunk);
+                    case "Texture2D":
+                        SCoreCavesTexture.AddDecorationsToCave(_chunk);
                         break;
                     default:
                         break;

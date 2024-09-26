@@ -283,7 +283,7 @@
 				<property name="Logging" value="false"/>
 				<property name="CaveEnabled" value="false"/>
 
-				<property name="CavePath" value="@modfolder:/Caves/Stamps/testLegit.png" />
+				<property name="CavePath" value="@modfolder(0-SCore_sphereii):/Caves/StampsV2/Cave03.png" />
 				<property name="CavePrefab" value="Large" />
 				
 				<!-- Legacy is the original style.  Sebastian is an alternative, FastNosieSIMD -->
