@@ -24,7 +24,12 @@ namespace Harmony.PlayerFeatures
                     return;
 
                 AdvLogging.DisplayLog(AdvFeatureClass, "Activating One Block Crouch");
+                
                 __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.49f;
+                var strPhysicsCrouchHeightModifier = Configuration.GetPropertyValue(AdvFeatureClass, "PhysicsCrouchHeightModifier");
+                if (!string.IsNullOrEmpty(strPhysicsCrouchHeightModifier))
+                    __instance.vp_FPController.PhysicsCrouchHeightModifier = StringParsers.ParseFloat(strPhysicsCrouchHeightModifier);
+                
                 __instance.vp_FPController.SyncCharacterController();
             }
         }
