@@ -64,6 +64,7 @@
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveSCoreBase.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStartFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
+    <Compile Include="Features\Challenges\Scripts\IChallengeObjective.cs" />
     <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />

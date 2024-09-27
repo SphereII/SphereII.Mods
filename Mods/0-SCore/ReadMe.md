@@ -20,6 +20,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.0.94.1336
+	[ Challenges ]
+		- Created an Interface for challenges to help future development work
+
+	[ Entity Alive Ground Detection ]
+		- Added a patch to stop a vanilla custom trader that was stuck in a fall post.
+			- Fix is to add vanillatrader tag to the trader
+
+	[ Maintenance ]
+		- Cleaned up some code that was never used, that was failing on 1.1.
+
 Version: 1.0.93.1757
 	[ Challenges ]
 		- Fixed an issue with Decapitation challenge

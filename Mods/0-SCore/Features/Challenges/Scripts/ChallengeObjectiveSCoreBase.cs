@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using UnityEngine;
 
 namespace Challenges {
-    public class ChallengeObjectiveSCoreBase : BaseChallengeObjective {
+    public class ChallengeObjectiveSCoreBase : BaseChallengeObjective ,IChallengeObjective{
         protected bool isDebug = false;
         public string biome;
         public string entityTag;

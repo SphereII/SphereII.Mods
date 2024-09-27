@@ -20,12 +20,12 @@ public class PathingWormTunneler
             var exitX = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(cave.x, cave.x + caveRadius * 16));
             var exitZ = Utils.Fastfloor(GameManager.Instance.World.GetGameRandom().RandomRange(cave.z, cave.z + caveRadius * 16));
             var vector = new Vector2i(exitX, exitZ);
-            var path3 = new Path(startPos, vector, 4, true, true);
-            if (path3.IsValid)
-            {
-                foreach (var path in path3.FinalPathPoints)
-                    PathingWormTunneler.CaveMaps.Add(path);
-            }
+            // var path3 = new Path(startPos, vector, 4, true, true);
+            // if (path3.IsValid)
+            // {
+            //     foreach (var path in path3.FinalPathPoints)
+            //         PathingWormTunneler.CaveMaps.Add(path);
+            // }
         }
     }
     public static void AddCaveToChunk(Chunk chunk)

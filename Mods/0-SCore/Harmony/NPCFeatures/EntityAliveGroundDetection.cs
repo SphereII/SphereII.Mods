@@ -25,6 +25,8 @@ namespace Harmony.NPCFeatures
             var avatarController = __instance.emodel.avatarController;
             if (!avatarController) return;
 
+            var vanillaTrader = FastTags<TagGroup.Global>.Parse("vanillatrader");
+            if (__instance.HasAnyTags(vanillaTrader)) return;
             var flag = __instance.onGround || __instance.isSwimming;
 
             var canFall = !__instance.emodel.IsRagdollActive && __instance.bodyDamage.CurrentStun == EnumEntityStunType.None && !__instance.isSwimming && !__instance.IsDead();

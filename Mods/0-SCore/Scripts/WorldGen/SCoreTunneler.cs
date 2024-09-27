@@ -27,20 +27,21 @@
                 return;
 
             string worldSizeName;
-            foreach (KeyValuePair<string, Vector2i> keyValuePair in WorldBuilder.WorldSizeMapper)
-            {
-                string text;
-                
-                Vector2i vector2i;
-                keyValuePair.Deconstruct(out text, out vector2i);
-                string text2 = text;
-                Vector2i vector2i2 = vector2i;
-                var WorldSize = GamePrefs.GetInt(EnumGamePrefs.WorldGenSize);
-                if (WorldSize >= vector2i2.x && WorldSize < vector2i2.y)
-                {
-                    worldSizeName = text2;
-                }
-            }
+
+            // foreach (KeyValuePair<string, Vector2i> keyValuePair in WorldBuilder.WorldSizeMapper)
+            // {
+            //     string text;
+            //     
+            //     Vector2i vector2i;
+            //     keyValuePair.Deconstruct(out text, out vector2i);
+            //     string text2 = text;
+            //     Vector2i vector2i2 = vector2i;
+            //     var WorldSize = GamePrefs.GetInt(EnumGamePrefs.WorldGenSize);
+            //     if (WorldSize >= vector2i2.x && WorldSize < vector2i2.y)
+            //     {
+            //         worldSizeName = text2;
+            //     }
+            // }
 
             var worldName = GamePrefs.GetString(EnumGamePrefs.GameWorld);
             var worldPath = GameIO.GetUserGameDataDir() + "/GeneratedWorlds/" + worldName + "/";
