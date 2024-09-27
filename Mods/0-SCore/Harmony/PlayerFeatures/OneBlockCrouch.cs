@@ -35,7 +35,7 @@ namespace Harmony.PlayerFeatures
                     if (__instance.vp_FPController.PhysicsCrouchHeightModifier > 0.75f) // to prevent more than vanilla
                         __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.75f;
                 }
-                
+
                 __instance.vp_FPController.SyncCharacterController();
             }
         }
