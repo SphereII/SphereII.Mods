@@ -28,7 +28,13 @@ namespace Harmony.PlayerFeatures
                 __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.49f;
                 var strPhysicsCrouchHeightModifier = Configuration.GetPropertyValue(AdvFeatureClass, "PhysicsCrouchHeightModifier");
                 if (!string.IsNullOrEmpty(strPhysicsCrouchHeightModifier))
+                {
                     __instance.vp_FPController.PhysicsCrouchHeightModifier = StringParsers.ParseFloat(strPhysicsCrouchHeightModifier);
+                    if (__instance.vp_FPController.PhysicsCrouchHeightModifier < 0.10f) // just something to prevent 0f
+                        __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.10f;
+                    if (__instance.vp_FPController.PhysicsCrouchHeightModifier > 0.75f) // to prevent more than vanilla
+                        __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.75f;
+                }
                 
                 __instance.vp_FPController.SyncCharacterController();
             }
