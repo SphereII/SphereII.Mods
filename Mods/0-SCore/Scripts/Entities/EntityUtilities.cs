@@ -2004,6 +2004,41 @@ public static class EntityUtilities
         GameManager.Instance.World.RemoveEntity(entity.entityId, EnumRemoveEntityReason.Despawned);
     }
 
+    public static void UpdateBlockRadiusEffects(EntityAlive entityAlive) {
+        var blockPosition = entityAlive.GetBlockPosition();
+        var num = World.toChunkXZ(blockPosition.x);
+        var num2 = World.toChunkXZ(blockPosition.z);
+        for (var i = -1; i < 2; i++)
+        {
+            for (var j = -1; j < 2; j++)
+            {
+                var chunk = (Chunk)entityAlive.world.GetChunkSync(num + j, num2 + i);
+                if (chunk == null) continue;
+
+                var tileEntities = chunk.GetTileEntities();
+                for (var k = 0; k < tileEntities.list.Count; k++)
+                {
+                    var tileEntity = tileEntities.list[k];
+
+                    if (!tileEntity.IsActive(entityAlive.world)) continue;
+
+                    var block = entityAlive.world.GetBlock(tileEntity.ToWorldPos());
+                    var block2 = Block.list[block.type];
+                    if (block2.RadiusEffects == null) continue;
+
+
+                    var distanceSq = entityAlive.GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
+                    for (var l = 0; l < block2.RadiusEffects.Length; l++)
+                    {
+                        var blockRadiusEffect = block2.RadiusEffects[l];
+                        if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
+                            !entityAlive.Buffs.HasBuff(blockRadiusEffect.variable))
+                            entityAlive.Buffs.AddBuff(blockRadiusEffect.variable);
+                    }
+                }
+            }
+        }
+    }
     public static void UpdateHandItem(int entityId, string item)
     {
         var entity = GameManager.Instance.World.GetEntity(entityId) as EntityAliveSDX;

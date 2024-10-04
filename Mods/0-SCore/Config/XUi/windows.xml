@@ -1,7 +1,7 @@
 ﻿<configs>
 
     <append xpath="/windows">
-        <window name="ingameMenuSCore" anchor="RightTop" pos="-620,-80" width="300" height="200" controller="SCoreInGameMenu, SCore" cursor_area="true">
+        <window name="ingameMenuSCore" anchor="RightTop" pos="-620,-80" width="300" height="200" visible="{# !is_prefab_editor}" controller="SCoreInGameMenu, SCore" cursor_area="true">
             <grid name="buttons" pos="0, -0" cols="1" width="250" cell_width="250" cell_height="56" arrangement="vertical" repeat_content="false" >
                 <simplebutton name="btnSCoreOptions" depth="3" width="250" height="46" caption_key="xuiSCoreUtilities"
                               font_size="40"/>

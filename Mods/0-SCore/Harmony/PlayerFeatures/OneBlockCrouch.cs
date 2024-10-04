@@ -24,7 +24,18 @@ namespace Harmony.PlayerFeatures
                     return;
 
                 AdvLogging.DisplayLog(AdvFeatureClass, "Activating One Block Crouch");
-                __instance.vp_FPController.PhysicsCrouchHeightModifier = 0.49f;
+                var heightModifier = 0.49f;
+                var strPhysicsCrouchHeightModifier = Configuration.GetPropertyValue(AdvFeatureClass, "PhysicsCrouchHeightModifier");
+                if (!string.IsNullOrEmpty(strPhysicsCrouchHeightModifier))
+                {
+                    // Read in and validate the crouch modifier to make sure it's not too small.
+                    heightModifier = StringParsers.ParseFloat(strPhysicsCrouchHeightModifier);
+                    if (heightModifier < 0.10)
+                        heightModifier = 0.10f;
+                    // We don't really care if the modders want to make it higher. Bad knees, maybe?
+                }
+                //__instance.vp_FPController.PhysicsCrouchHeightModifier = 0.49f;
+                __instance.vp_FPController.PhysicsCrouchHeightModifier = heightModifier;
                 __instance.vp_FPController.SyncCharacterController();
             }
         }

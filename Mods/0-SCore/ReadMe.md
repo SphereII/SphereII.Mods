@@ -20,6 +20,42 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.4.1015
+	[ SCore Options ]
+		- Hide SCore Options window when in prefab editor
+
+	[ Challenges ]
+		- Fixed a typo in the comment section of StealthKill showing an example.
+
+	[ EntityAliveSDX ]
+		- Changed the requirements for when to check if an EntityAliveSDX is near a campfire.
+		- Moved UpdateBlockStatusEffect from EntityAliveSDX to EntityUtilities
+
+	[ Entity Alive Patch ]
+		- Added a patch to EntityAlive's OnUpdateLive()
+		- If an entity has this cvar "UpdateBlockStatusEffect" with a value of non-0, then it will process the BlockStatus Effect
+		- This means it'll pick up buffs and effects from blocks like BlockAoE.
+
+	[ One Block Crouch ]
+		- Exposed the crouch height modifier to xml, with the default being still 0.49 in code, and through xml.
+		- Any numbers below 0.10 will be set to 0.10.
+		- No max threshold is protected.
+		- This is adjusted in the AdvancedPlayerFeatures's section of the Config Block called PhysicsCrouchHeightModifier
+		    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='PhysicsCrouchHeightModifier']/@value">0.45</set>
+
+	[ Merged in Raycast change from khzmusik ]
+		From Commit Notes: 
+		- Disable ray hit events when entities can't be damaged
+		- This is a Harmony patch on `ItemActionDynamic.hitTarget` to disable the firing of "on[SelfPrimary|Secondary]Action[Ray|Graze]Hit" events 
+			if the holding entity can't damage the target entity.
+
+		- This is the cause of the stun baton "shock" issue with friendly NPCs. The stun baton itself wasn't hitting or doing damage, but the 
+			baton was still charging, and when fully charged, it still shocked the friendly NPC.
+
+		- I also refactored the logic to determine when an entity should use faction targeting. It was already repeated in two 
+			places in the code, and I would need to repeat it a third time in my patch.
+
+I did test to make sure that there were no regressions. I tested with a friendly NPC (Baker), and enemy NPC (Harley), and animal (bear), and zombies (mainly Boe). I made sure that I could still shock everyone except the Baker, and that when they attacked each other, they did damage.
 Version: 1.0.94.1336
 	[ Challenges ]
 		- Created an Interface for challenges to help future development work

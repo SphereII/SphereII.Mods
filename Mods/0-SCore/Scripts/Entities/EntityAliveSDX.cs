@@ -1252,8 +1252,9 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         }
 
         // Allow EntityAliveSDX to get buffs from blocks
-        if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
-            UpdateBlockRadiusEffects();
+       // if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+       if (!isEntityRemote)
+            EntityUtilities.UpdateBlockRadiusEffects(this);
 
         // No NPC info, don't continue
         if (NPCInfo == null)
@@ -1672,40 +1673,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         base.MarkToUnload();
     }
 
-    private void UpdateBlockRadiusEffects() {
-        var blockPosition = GetBlockPosition();
-        var num = World.toChunkXZ(blockPosition.x);
-        var num2 = World.toChunkXZ(blockPosition.z);
-        _startedThisFrame = new List<string>();
-        for (var i = -1; i < 2; i++)
-        for (var j = -1; j < 2; j++)
-        {
-            var chunk = (Chunk)world.GetChunkSync(num + j, num2 + i);
-            if (chunk == null) continue;
-
-            var tileEntities = chunk.GetTileEntities();
-            for (var k = 0; k < tileEntities.list.Count; k++)
-            {
-                var tileEntity = tileEntities.list[k];
-
-                if (!tileEntity.IsActive(world)) continue;
-
-                var block = world.GetBlock(tileEntity.ToWorldPos());
-                var block2 = Block.list[block.type];
-                if (block2.RadiusEffects == null) continue;
-
-
-                var distanceSq = GetDistanceSq(tileEntity.ToWorldPos().ToVector3());
-                for (var l = 0; l < block2.RadiusEffects.Length; l++)
-                {
-                    var blockRadiusEffect = block2.RadiusEffects[l];
-                    if (distanceSq <= blockRadiusEffect.radius * blockRadiusEffect.radius &&
-                        !Buffs.HasBuff(blockRadiusEffect.variable))
-                        Buffs.AddBuff(blockRadiusEffect.variable);
-                }
-            }
-        }
-    }
+ 
 
     public override float GetMoveSpeed() {
         var speed = EffectManager.GetValue(PassiveEffects.WalkSpeed, null, this.moveSpeed);

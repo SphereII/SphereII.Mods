@@ -12,7 +12,7 @@ namespace Challenges {
      * To pass this challenge, you must do consecutive stealth kills until you've reached the desired count.
      *
      * <!-- Kill two entities in a row with a stealth kill -->
-     * <objective type="StealthStreak, SCore" count="2" cvar="longestStreakCVar" />
+     * <objective type="StealthKillStreak, SCore" count="2" cvar="longestStreakCVar" />
      */
     public class ChallengeObjectiveStealthKillStreak : ChallengeObjectiveKillWithItem {
         public override ChallengeObjectiveType ObjectiveType =>
