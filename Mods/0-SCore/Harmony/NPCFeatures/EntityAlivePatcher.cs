@@ -15,33 +15,7 @@ namespace Harmony.NPCFeatures
         private static readonly string Feature = "EnhancedFeatures";
 
 
-        //[HarmonyPatch(typeof(global::EntityAlive))]
-        //[HarmonyPatch("Attack")]
-        //public class EntityAliveAttack
-        //{
-        //    private static bool Prefix(global::EntityAlive __instance)
-        //    {
-        //        // Check if this feature is enabled.
-        //        if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-        //            return true;
-
-        //        // Check if there's a door in our way, then open it.
-        //        if (__instance.GetAttackTarget() == null)
-        //        {
-        //            // If it's an animal, don't let them attack blocks
-        //            var animal = __instance as EntityAliveFarmingAnimalSDX;
-        //            if (animal)
-        //                if (__instance.GetAttackTarget() == null)
-        //                    return false;
-        //        }
-
-        //        if (__instance.GetAttackTarget() != null)
-        //            __instance.RotateTo(__instance.GetAttackTarget(), 30f, 30f);
-
-        //        return true;
-        //    }
-        //}
-
+     
 
         // Disables the friendly fire of allies
         [HarmonyPatch(typeof(global::EntityAlive))]
@@ -50,6 +24,7 @@ namespace Harmony.NPCFeatures
         {
             private static bool Prefix(global::EntityAlive __instance, ref int __result, DamageSource _damageSource)
             {
+                
                 if (!EntityUtilities.UseFactionTargeting(__instance))
                     return true;
 
@@ -131,14 +106,17 @@ namespace Harmony.NPCFeatures
             private static bool Prefix(
                 ItemActionDynamic __instance,
                 ItemActionData _actionData,
-                WorldRayHitInfo hitInfo)
-            {
-                if (!EntityUtilities.UseFactionTargeting(_actionData.invData.holdingEntity))
-                    return true;
+                WorldRayHitInfo hitInfo) {
 
-                return EntityTargetingUtilities.CanDamage(
-                    _actionData.invData.holdingEntity,
-                    ItemActionAttack.GetEntityFromHit(hitInfo));
+                // Only checking if we are hitting an entity, otherwise, let the damage through.
+                var target = ItemActionAttack.GetEntityFromHit(hitInfo);
+                if (target is not global::EntityAlive entityAlive) return true;
+                
+                // if it's already dead, then no faction targeting. Let the players carve their friends.
+                if (entityAlive.IsDead()) return true;
+                if (!EntityUtilities.UseFactionTargeting(_actionData.invData.holdingEntity)) return true;
+                return EntityTargetingUtilities.CanDamage(_actionData.invData.holdingEntity, ItemActionAttack.GetEntityFromHit(hitInfo));
+
             }
         }
 

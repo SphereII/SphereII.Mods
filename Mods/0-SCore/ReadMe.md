@@ -20,9 +20,18 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.4.1542
+	[ Entity Targetting ]
+		- Updated the code for the ItemItemAction to first check if it's hitting an EntityAlive
+		- Then checks if the entity alive is dead. If so, let the damage through.
+		- If it's an EntityAlive, and it's alive, do the faction checks.
+
 Version: 1.1.4.1015
 	[ SCore Options ]
 		- Hide SCore Options window when in prefab editor
+
+	[ ConfigBlock ]
+		- Pathing cube reverted to 1,1,1 multidim.
 
 	[ Challenges ]
 		- Fixed a typo in the comment section of StealthKill showing an example.
@@ -54,8 +63,9 @@ Version: 1.1.4.1015
 
 		- I also refactored the logic to determine when an entity should use faction targeting. It was already repeated in two 
 			places in the code, and I would need to repeat it a third time in my patch.
+		- I did test to make sure that there were no regressions. I tested with a friendly NPC (Baker), and enemy NPC (Harley), and animal (bear), 
+			and zombies (mainly Boe). I made sure that I could still shock everyone except the Baker, and that when they attacked each other, they did damage.
 
-I did test to make sure that there were no regressions. I tested with a friendly NPC (Baker), and enemy NPC (Harley), and animal (bear), and zombies (mainly Boe). I made sure that I could still shock everyone except the Baker, and that when they attacked each other, they did damage.
 Version: 1.0.94.1336
 	[ Challenges ]
 		- Created an Interface for challenges to help future development work
