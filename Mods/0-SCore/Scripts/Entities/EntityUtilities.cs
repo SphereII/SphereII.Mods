@@ -123,6 +123,26 @@ public static class EntityUtilities
         return false;
     }
 
+    /// <summary>
+    /// Returns true if this entity should use faction targeting, according to feature settings,
+    /// entity properties, or entity tags.
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static bool UseFactionTargeting(EntityAlive entity)
+    {
+        return
+            // allow an override for the action stuff. If its set here, then use faction targeting.
+            CheckProperty(entity.entityId, "AllEntitiesUseFactionTargeting") ||
+
+            // New feature flag, specific to this feature.
+            Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting") ||
+
+            // Even if *all* entities don't use faction targeting rules, this entity should if it has
+            // one of the UseFactions tags.
+            UseFactions(entity);
+    }
+
     public static void AddBuffToRadius(string strBuff, Vector3 position, int Radius)
     {
         // If there's no radius, pick 30 blocks.

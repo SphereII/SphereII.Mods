@@ -48,21 +48,9 @@ namespace Harmony.EAI
                 return;
             }
 
-            // allow an override for the action stuff. If its set here, then use faction targeting.
-            if (!EntityUtilities.CheckProperty(__instance.theEntity.entityId, "AllEntitiesUseFactionTargeting"))
-            {
-                // This patches the check for all entities, so if we're not supposed to use faction
-                // targeting for everything, stop now. Otherwise, do the faction check.
-                if (!Configuration.CheckFeatureStatus("AdvancedNPCFeatures", "AllEntitiesUseFactionTargeting"))
-                {
-                    // Even if *all* entities don't use faction targeting, this entity still should
-                    // if it has one of the UseFactions tags. Only stop now if it doesn't.
-                    if (!EntityUtilities.UseFactions(__instance.theEntity))
-                    {
-                        return;
-                    }
-                }
-            }
+            if (!EntityUtilities.UseFactionTargeting(__instance.theEntity))
+                return;
+
             var myRelationship = FactionManager.Instance.GetRelationshipTier(__instance.theEntity, _e);
             switch (myRelationship)
             {

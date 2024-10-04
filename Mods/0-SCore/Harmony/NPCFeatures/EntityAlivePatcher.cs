@@ -50,21 +50,9 @@ namespace Harmony.NPCFeatures
         {
             private static bool Prefix(global::EntityAlive __instance, ref int __result, DamageSource _damageSource)
             {
+                if (!EntityUtilities.UseFactionTargeting(__instance))
+                    return true;
 
-                // allow an override for the action stuff. If its set here, then use faction targeting.
-                if (!EntityUtilities.CheckProperty(__instance.entityId, "AllEntitiesUseFactionTargeting"))
-                {
-                    // New feature flag, specific to this feature.
-                    if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllEntitiesUseFactionTargeting"))
-                    {
-                        // Even if *all* entities don't use faction damage rules, this entity should
-                        // if it has one of the UseFactions tags. Only stop now if it doesn't.
-                        if (!EntityUtilities.UseFactions(__instance))
-                        {
-                            return true;
-                        }
-                    }
-                }
                 if (_damageSource.damageType == EnumDamageTypes.Suicide)
                     return true;
 
@@ -129,6 +117,28 @@ namespace Harmony.NPCFeatures
                     return false;
                 }
                 return true;
+            }
+        }
+
+        /// <summary>
+        /// Harmony patch to disable the firing of "onSelf[Primary/Secondary]Action[Ray/Graze]Hit"
+        /// events if the holding entity can't damage the target entity.
+        /// </summary>
+        [HarmonyPatch(typeof(ItemActionDynamic))]
+        [HarmonyPatch(nameof(ItemActionDynamic.hitTarget))]
+        public class ItemActionDynamicHitTarget
+        {
+            private static bool Prefix(
+                ItemActionDynamic __instance,
+                ItemActionData _actionData,
+                WorldRayHitInfo hitInfo)
+            {
+                if (!EntityUtilities.UseFactionTargeting(_actionData.invData.holdingEntity))
+                    return true;
+
+                return EntityTargetingUtilities.CanDamage(
+                    _actionData.invData.holdingEntity,
+                    ItemActionAttack.GetEntityFromHit(hitInfo));
             }
         }
 
