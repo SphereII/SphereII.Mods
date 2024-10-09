@@ -30,6 +30,8 @@ namespace Harmony.TileEntities {
                 var smartTextMesh = __instance.smartTextMesh;
                 if (smartTextMesh == null) return true;
                 var parentTransform = smartTextMesh.transform.parent;
+                if (parentTransform.transform.childCount < 2)
+                    return true;
                 var signMesh = parentTransform.transform.GetChild(0);
                 var prefab = parentTransform.transform.GetChild(1);
                 

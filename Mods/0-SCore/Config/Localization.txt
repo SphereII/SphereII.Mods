@@ -188,7 +188,6 @@ BreakBlock04Short,"Destroy any metal block in the pine forest"
 
 SCore02challenges_key,"Fire Bug"
 onStartFire,"Start a Fire"
-
 BurnWithFire02,"Start a fire"
 BurnWithFire02Desc,"Start a fire with the Fire Mod active."
 onBigFire,"Start an out of control fire"

@@ -20,7 +20,37 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version: 1.1.4.1542
+Version: 1.1.9.2008
+	[ Faction Manager ]
+		- Added a Harmony Patch to GetFactionByName() to catch for invalid factions.
+		- If a faction is requested from an entityclass, but it's not defined in npc.xml,
+			the undead faction is used.
+		- A message in the console is printed when a faction was not found.
+
+	[ POI Error Check ]
+		- Added in two Harmony patches, gated by two new blocks.xml entry.
+		- Under the ErrorHandling section:
+				EnablePoolBlockEntityTransformCheck
+				LogPoolBlockEntityTransformCheck
+		- Some POis were throwing errors about block entity's without a proper transform:
+			BlockEntity {0} at pos {1} null transform!
+			2: {0} on pos {1} with empty transform/gameobject!
+		- These were being thrown in the Chunk class.
+		- These two patches block that error from being thrown, and silently returns.
+		- The LogPoolBlockEntityTransformCheck will throw an error, but it'll tell you which block it's failing at.
+		- Both these should be false, unless you are specifically having a problem
+			
+	[ TileEntitySign Gif ]
+		- Fixed an issue where some older signs did not have the correct amount of transforms
+		- ie, pathing cubes
+
+	[ Challenges ]
+		- Fixed an issue with the StartAFire / Extinguish Fire where any entity would contribute
+
+	[ Fire Manager ]
+		- Updated the Fire Manager's StartFire / ExtinguishFire event takes an entity ID.
+
+Version: 1.1.4.1542  
 	[ Entity Targetting ]
 		- Updated the code for the ItemItemAction to first check if it's hitting an EntityAlive
 		- Then checks if the entity alive is dead. If so, let the damage through.

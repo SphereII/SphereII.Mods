@@ -30,13 +30,13 @@ public class FireManager
     public delegate void OnBlockDestroyedByFire();
     public event OnBlockDestroyedByFire OnDestroyed;
     
-    public delegate void OnFireStart();
+    public delegate void OnFireStart(int entityId);
     public event OnFireStart OnStartFire;
     
     public delegate void OnFireRefresh(int count);
     public event OnFireRefresh OnFireUpdate;
     
-    public delegate void OnExtinguishFire(int count);
+    public delegate void OnExtinguishFire(int count, int entityId);
 
     public event OnExtinguishFire OnExtinguish;
 
@@ -608,7 +608,7 @@ public class FireManager
         {
             if (string.IsNullOrEmpty(position)) continue;
             var vector = StringParsers.ParseVector3i(position);
-            ExtinguishBlock(vector);
+            ExtinguishBlock(vector, -1);
         }
     }
 
@@ -636,6 +636,8 @@ public class FireManager
     {
         if (!IsFlammable(blockPos))
             return;
+        
+        OnStartFire?.Invoke(entityID);
 
         
         AddBlock(blockPos);
@@ -655,7 +657,7 @@ public class FireManager
     // General call to remove the fire from a block, and add an extinguished counter, so blocks can be temporarily immune to restarting.
     public void Extinguish(Vector3i blockPos, int entityID = -1)
     {
-        ExtinguishBlock(blockPos);
+        ExtinguishBlock(blockPos, entityID);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
@@ -709,7 +711,7 @@ public class FireManager
         FireMap.TryRemove(blockPos, out _);
     }
 
-    public void ExtinguishBlock(Vector3i blockPos)
+    public void ExtinguishBlock(Vector3i blockPos, int entityId)
     {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         var expiry = worldTime + _smokeTime;
@@ -718,7 +720,7 @@ public class FireManager
         // keep resetting the expired time.
         ExtinguishPositions[blockPos] = expiry;
         RemoveFire(blockPos);
-        OnExtinguish?.Invoke(ExtinguishPositions.Count);
+        OnExtinguish?.Invoke(ExtinguishPositions.Count, entityId);
         //FireMap.TryRemove(blockPos, out _);
 
         var block = GameManager.Instance.World.GetBlock(blockPos);
@@ -739,7 +741,6 @@ public class FireManager
         var block = GameManager.Instance.World.GetBlock(blockPos);
         if (!FireMap.TryAdd(blockPos, block)) return;
 
-        OnStartFire?.Invoke();
 
         ToggleSound(blockPos, true);
         ToggleParticle(blockPos, true);

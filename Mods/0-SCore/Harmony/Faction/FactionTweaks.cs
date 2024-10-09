@@ -47,6 +47,30 @@ namespace Harmony.Faction
                 return false;
             }
         }
+        
+        // Working around missing faction bug
+        [HarmonyPatch(typeof(FactionManager))]
+        [HarmonyPatch("GetFactionByName")]
+        public class FactionGetFactionByName
+        {
+            public static bool Prefix(ref global::Faction __result, FactionManager __instance, string _name) {
+                global::Faction defaultFaction = null;
+                for (var i = 0; i < __instance.Factions.Length; i++)
+                {
+                    // If no faction is found, use this one.
+                    if (__instance.Factions[i]?.Name == "undead")
+                        defaultFaction = __instance.Factions[i];
+
+                    if (__instance.Factions[i]?.Name != _name) continue;
+                    __result = __instance.Factions[i];
+                    return false;
+                }
+               
+                Debug.Log($"FactionManager: Requested this Faction: {_name} but it was not defined in the npc.xml. Defaulting to Undead faction.");
+                __result = defaultFaction;
+                return false;
+            }
+        }
    
     }
 }

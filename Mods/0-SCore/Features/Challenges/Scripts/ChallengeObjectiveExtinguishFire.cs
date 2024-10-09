@@ -28,7 +28,10 @@ namespace Challenges {
             FireManager.Instance.OnExtinguish -= Check_Block;
         }
 
-        private void Check_Block(int count) {
+        private void Check_Block(int count, int entityId) {
+            if (entityId == -1) return;
+            var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+            if (localPlayer.entityId != entityId) return;
             Current = count;
             CheckObjectiveComplete();
         }

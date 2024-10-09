@@ -172,8 +172,14 @@
 			
 			<property class="ErrorHandling">
 				<property name="Logging" value="false"/>
-				<property name="NoExceptionHijack" value="true" />
 				<!-- Disables the console drop down on red exception -->
+				<property name="NoExceptionHijack" value="true" />
+				
+				<!-- If set to true, quiets the "Block Entity at pos null transform -->
+				<property name="EnablePoolBlockEntityTransformCheck" value="false" />
+				<!-- Turns on Advanced debugging -->
+				<property name="LogPoolBlockEntityTransformCheck" value="false" />
+				
 			</property>
 
 			<property class="AdvancedUI">
