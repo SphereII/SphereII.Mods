@@ -20,6 +20,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.10.1307
+	[ Food Spoilage ]
+		- Fixed an issue when using PreserveBonus -99, where a full stack would instant spoil.
+
 Version: 1.1.9.2008
 	[ Faction Manager ]
 		- Added a Harmony Patch to GetFactionByName() to catch for invalid factions.
