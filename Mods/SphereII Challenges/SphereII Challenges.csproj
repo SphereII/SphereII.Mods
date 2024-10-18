@@ -51,6 +51,7 @@
       <Content Include="Config\challenges-02.xml" />
       <Content Include="Config\challenges-03.xml" />
       <Content Include="Config\challenges.xml" />
+      <Content Include="Config\Localization.txt" />
       <Content Include="ModInfo.xml" />
       <Content Include="Properties\versionTemplate.tt">
         <Generator>TextTemplatingFileGenerator</Generator>

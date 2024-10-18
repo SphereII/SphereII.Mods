@@ -12,6 +12,10 @@ public enum ChallengeObjectiveTypeSCore : byte {
     ChallengeObjectiveExtinguishFire= 110,
     ChallengeObjectiveHireNPC =111,
     ChallengeObjectiveHarvest=112,
-    ChallengeObjectiveBlockUpgradeSCore=113
+    ChallengeObjectiveBlockUpgradeSCore=113,
+    ChallengeObjectiveGatherTags=114,
+    ChallengeObjectiveWearTags=115,
+    ChallengeObjectiveCVar=116,
+    ChallengeObjectiveCraftWithTags=117
 
 }

@@ -1,0 +1,9 @@
+Key,English
+SCore04challenges_key,"SCore Challenges"
+gather01_title,"Gather Junk"
+gather01_short,"Gather Junk"
+gather01_desc,"Gather any item that is tagged as junk. This includes resourceScrapPolymers"
+
+wear01_title,"Wear Head Armour"
+wear01_short,"Wear Head Armour"
+wear01_desc,"Wear any head armour with the tag of armorHead"

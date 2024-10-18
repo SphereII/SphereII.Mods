@@ -113,8 +113,11 @@ internal class BlockPathFinding : BlockPlayerSign
         }
         
         tileEntitySign.smartTextMesh =  tileEntitySign.textMesh.transform.gameObject.AddComponent<SmartTextMesh>();
-        var num = (float)_ebcd.blockValue.Block.multiBlockPos.dim.x;
-        tileEntitySign.smartTextMesh.MaxWidth = 0.48f * num;
+        if (_ebcd.blockValue.Block.multiBlockPos != null)
+        {
+            var num = (float)_ebcd.blockValue.Block.multiBlockPos.dim.x;
+            tileEntitySign.smartTextMesh.MaxWidth = 0.48f * num;
+        }
         tileEntitySign.smartTextMesh.MaxLines = this.lineCount;
         tileEntitySign.smartTextMesh.ConvertNewLines = true;
         var authoredText = tileEntitySign.signText;

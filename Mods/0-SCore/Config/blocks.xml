@@ -1,6 +1,4 @@
 ﻿<configs>
-
-
 	<append xpath="/blocks">
 
 		<block name="ConfigFeatureBlock">
@@ -451,7 +449,7 @@
 			<property name="CanPickup" value="true"/>
 			<property name="Collide" value="sight"/>
 			<!-- At 1,2,1, it was causing issues with destroying blocks. Maybe it had to do with the rotation of the cube? -->
-			<property name="MultiBlockDim" value="1,1,1"/>
+			<!--<property name="MultiBlockDim" value="1,1,1"/>-->
 
 
 		</block>
@@ -467,8 +465,9 @@
 			<property name="CanPickup" value="true"/>
 			<property name="TakeDelay" value="3" />
 			<property name="Collide" value="sight"/>
+			<!--
 			<property name="MultiBlockDim" value="1,1,1"/>
-
+-->
 		</block>
 
 		<!-- Cave air block -->

@@ -73,6 +73,25 @@ namespace SCore.Features.Challenges.Harmony {
                     __result.Read(_currentVersion, _br);
                     break;
                 
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveGatherTags:
+                    __result = new ChallengeObjectiveGatherTags();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveWearTags:
+                    __result = new ChallengeObjectiveWearTags();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveCVar:
+                    __result = new ChallengeObjectiveCVar();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveCraftWithTags:
+                    __result = new ChallengeObjectiveCraftWithTags();
+                    __result.Read(_currentVersion, _br);
+                    break;
+                    
+                
                     
             }
 

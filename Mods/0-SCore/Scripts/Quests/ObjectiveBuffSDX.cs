@@ -5,7 +5,7 @@ public class ObjectiveBuffSDX : BaseObjective
 {
     private string strBuff = "";
 
-    public override bool useUpdateLoop => true;
+    public override bool useUpdateLoop => false;
 
     // method to clone the Objective
     public override BaseObjective Clone()
@@ -51,15 +51,16 @@ public class ObjectiveBuffSDX : BaseObjective
         Description = $"{keyword} {buff.LocalizedName}";
     }
 
-    public override void Update(float deltaTime) {
-        if (!(Time.time > this.updateTime)) return;
-        updateTime = Time.time + 1f;
-        var buffClass = BuffManager.GetBuff(strBuff);
-        CheckForBuff(buffClass);
-    }
+    // public override void Update(float deltaTime) {
+    //     if (!(Time.time > this.updateTime)) return;
+    //     updateTime = Time.time + 1f;
+    //     var buffClass = BuffManager.GetBuff(strBuff);
+    //     CheckForBuff(buffClass);
+    // }
 
     public void CheckForBuff(BuffClass buffClass) {
         if (string.IsNullOrEmpty(strBuff)) return;
+        if (buffClass == null) return;
         if (!string.Equals(buffClass.Name, strBuff, StringComparison.CurrentCultureIgnoreCase)) return;
         if (Complete) return;
        
@@ -88,15 +89,11 @@ public class ObjectiveBuffSDX : BaseObjective
                 myEntity = GameManager.Instance.World.Entities.dict[OwnerQuest.SharedOwnerID] as EntityAlive;
 
         // If the entity is *something*, check to see if it has the objective buff, and pass to completion.
-        if (myEntity != null)
-        {
-            Complete = myEntity.Buffs.HasBuff(strBuff);
-            if (Complete)
-            {
-                ObjectiveState = ObjectiveStates.Complete;
-                OwnerQuest.RefreshQuestCompletion();
-            }
-        }
+        if (myEntity == null) return;
+        Complete = myEntity.Buffs.HasBuff(strBuff);
+        if (!Complete) return;
+        ObjectiveState = ObjectiveStates.Complete;
+        OwnerQuest.RefreshQuestCompletion();
     }
 
     public override void ParseProperties(DynamicProperties properties)
@@ -104,6 +101,6 @@ public class ObjectiveBuffSDX : BaseObjective
         base.ParseProperties(properties);
 
         if (properties.Values.ContainsKey("buff"))
-            strBuff = properties.Values["buff"];
+            strBuff = properties.Values["buff"].ToLower();
     }
 }

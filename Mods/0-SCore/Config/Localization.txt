@@ -209,3 +209,8 @@ NPC_title,"Hire NPCs"
 SCore03challenges_key,"Harvests"
 challengeKillZombiesWithItemDesc,"Kill Zombies"
 challengeKillWithItemDesc,"Kill"
+challengeObjectiveWearTags,"Wear with tag(s) "
+challengeObjectiveGatherTags,"Gather items with the tag(s)"
+challengeObjectiveOnCVar,"Get CVar"
+
+challengeObjectiveCraftWithTags,"Craft with tags"

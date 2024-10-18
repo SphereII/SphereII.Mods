@@ -12,7 +12,7 @@ namespace SCore.Harmony.Blocks {
         public class ChunkpoolBlockEntityTransform {
             public static bool Prefix(BlockEntityData _bed) {
                 // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return true;
+             //   if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return true;
                 if (_bed.transform != null && _bed.transform.gameObject != null) return true;
                 if (Configuration.CheckFeatureStatus(AdvFeatureClass, Logging))
                 {
