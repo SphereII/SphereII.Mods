@@ -20,6 +20,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.20.1108
+
+	[ Challenges ]
+		- Expanded support for WearTags Objective to support installable_tags and modifier_tags.
+             <objective type="WearTags,SCore" item_tags="armorHead"/>
+             <objective type="WearTags,SCore" item_mod="modGunBarrelExtender"/>
+             <objective type="WearTags,SCore" installable_tags="turretRanged"/>
+             <objective type="WearTags,SCore" modifier_tags="modGunBarrelExtender"/>
+
 Version: 1.1.18.1635
 
 	[ Documentation ]

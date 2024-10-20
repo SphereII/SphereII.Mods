@@ -4,6 +4,8 @@ using System.Xml.Linq;
 namespace Challenges {
     //             <objective type="WearTags,SCore" item_tags="armorHead"/>
     //             <objective type="WearTags,SCore" item_mod="modGunBarrelExtender"/>
+    //             <objective type="WearTags,SCore" installable_tags="turretRanged"/>
+    //             <objective type="WearTags,SCore" modifier_tags="barrelAttachment"/>
 
     public class ChallengeObjectiveWearTags : ChallengeObjectiveWear {
         public override ChallengeObjectiveType ObjectiveType =>
@@ -11,67 +13,72 @@ namespace Challenges {
 
         private string _itemTags;
         private string _itemMod;
+        private string _installableTags;
+        private string _modifierTags;  
 
         public override string DescriptionText =>
-            Localization.Get("challengeObjectiveWearTags", false) + " " + _itemTags + ":";
+            Localization.Get("challengeObjectiveWearTags", false) + $" {_itemTags} {_installableTags} {_modifierTags} tags:";
 
         public override void HandleAddHooks() {
-            QuestEventManager.Current.WearItem -= Current_WearItem;
+            QuestEventManager.Current.WearItem -= CheckItemMods;
             CheckItems();
-            QuestEventManager.Current.WearItem += Current_WearItem;
+            QuestEventManager.Current.WearItem += CheckItemMods;
         }
 
         public override void HandleRemoveHooks() {
-            QuestEventManager.Current.WearItem -= Current_WearItem;
+            QuestEventManager.Current.WearItem -= CheckItemMods;
         }
 
         private void CheckItems() {
             var xui = LocalPlayerUI.GetUIForPlayer(Owner.Owner.Player).xui;
-            var fastTags = FastTags<TagGroup.Global>.Parse(_itemTags);
             foreach (var item in xui.PlayerEquipment.Equipment.GetItems())
             {
-                if (item == null) continue;
-                if (item.IsEmpty()) continue;
-                if (item.ItemClass.HasAnyTags(fastTags))
-                    Current++;
                 CheckItemMods(item);
             }
-
-            if (Current > 0)
-                CheckObjectiveComplete();
+            CheckObjectiveComplete();
         }
 
-        private new void Current_WearItem(ItemValue itemValue) {
+        private void CheckItemModsTags(ItemValue itemValue) {
+            if (itemValue == null) return;
+            if ( itemValue.IsEmpty()) return;
+            FindItemTags(itemValue, _installableTags);
+            FindItemTags(itemValue, _modifierTags);
+        }
+
+        private void FindItemTags(ItemValue itemValue, string tag) {
+            if (itemValue.ItemClass is not ItemClassModifier itemValueModifier) return;
+            if (string.IsNullOrEmpty(tag)) return;
+            var tags = FastTags<TagGroup.Global>.Parse(tag);
+            if (itemValueModifier.HasAnyTags(tags))
+            {
+                Current++;
+            }
+            if (string.IsNullOrEmpty(_itemMod)) return;
+            if (_itemMod.Contains(itemValueModifier.GetItemName()))
+            {
+                Current++;
+            }
+        }
+        private void CheckItemMods(ItemValue itemValue) {
+            if (itemValue == null) return;
+            if (itemValue.IsEmpty()) return;
             if (!string.IsNullOrEmpty(_itemTags))
             {
                 var fastTags = FastTags<TagGroup.Global>.Parse(_itemTags);
                 if (itemValue.ItemClass.HasAnyTags(fastTags))
                     Current++;
             }
-
-            if (!string.IsNullOrEmpty(_itemMod))
-            {
-                CheckItemMods(itemValue);
-            }
-            CheckObjectiveComplete();
-        }
-
-        private void CheckItemMods(ItemValue itemValue) {
             foreach (var item in itemValue.Modifications)
             {
-                if (item == null) continue;
-                if ( item.IsEmpty()) continue;
-                if ( !_itemMod.Contains(item.ItemClass.GetItemName())) continue;
-                Current++;
+                CheckItemModsTags(item);
             }
 
             foreach (var item in itemValue.CosmeticMods)
             {
-                if (item == null) continue;
-                if ( item.IsEmpty()) continue;
-                if ( !_itemMod.Contains(item.ItemClass.GetItemName())) continue;
-                Current++;
+                CheckItemModsTags(item);
             }
+            CheckObjectiveComplete();
+
         }
 
         public override void ParseElement(XElement e) {
@@ -85,6 +92,14 @@ namespace Challenges {
             {
                 _itemMod = e.GetAttribute("item_mod");
             }
+            if (e.HasAttribute("installable_tags"))
+            {
+                _installableTags = e.GetAttribute("installable_tags");
+            }
+            if (e.HasAttribute("modifier_tags"))
+            {
+                _modifierTags = e.GetAttribute("modifier_tags");
+            }
         }
 
         public override BaseChallengeObjective Clone() {
@@ -93,7 +108,9 @@ namespace Challenges {
                 expectedItem = expectedItem,
                 expectedItemClass = expectedItemClass,
                 _itemTags = _itemTags,
-                _itemMod = _itemMod
+                _itemMod = _itemMod,
+                _installableTags = _installableTags,
+                _modifierTags = _modifierTags
             };
         }
     }
