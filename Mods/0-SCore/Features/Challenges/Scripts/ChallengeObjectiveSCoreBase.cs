@@ -16,7 +16,25 @@ namespace Challenges {
         public string blockName;
         protected string neededResourceID;
         protected int neededResourceCount = 0;
-
+        public string descriptionOveride;
+        public string LocalizationKey;
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(descriptionOveride))
+                {
+                    var display = Localization.Get(LocalizationKey);
+                    display += $"{SCoreChallengeUtils.GenerateString(entityTag)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(targetName)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(item_material)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(itemClass)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(blockName)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(blockTag)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(biome)}";
+                    return display;
+                }
+                return Localization.Get(descriptionOveride);
+            }
+        }
         public void DisplayLog(string message) {
             if (!isDebug) return;
             Debug.Log(message);

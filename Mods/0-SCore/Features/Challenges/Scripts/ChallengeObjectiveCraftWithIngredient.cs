@@ -18,8 +18,18 @@ namespace Challenges {
         private string ingredientString;
 
         public string LocalizationKey = "craftWithIngredient";
-        public override string DescriptionText => Localization.Get(LocalizationKey);
+        private string _descriptionOverride;
 
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                {
+                    return Localization.Get($"{LocalizationKey}") +  ingredientString;
+                }
+
+                return Localization.Get(_descriptionOverride);
+            }
+        }
         
         public override void HandleAddHooks()
         {
@@ -56,6 +66,8 @@ namespace Challenges {
             
             if (e.HasAttribute("description_key"))
                 LocalizationKey =e.GetAttribute("description_key");
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
         
         public override BaseChallengeObjective Clone()

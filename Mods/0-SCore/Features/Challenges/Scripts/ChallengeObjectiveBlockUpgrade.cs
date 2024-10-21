@@ -14,6 +14,9 @@ namespace Challenges {
         public override ChallengeObjectiveType ObjectiveType =>
             (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveBlockUpgradeSCore;
      
+        public string LocalizationKey = "challengeObjectiveOnBlockUpgrade";
+        public override string DescriptionText => Localization.Get(LocalizationKey);
+        
         public override void HandleAddHooks() {
             QuestEventManager.Current.BlockUpgrade += this.Current_BlockUpgrade;
         }
@@ -42,7 +45,8 @@ namespace Challenges {
                 blockName = this.blockName,
                 blockTag = this.blockTag,
                 neededResourceID = this.neededResourceID,
-                neededResourceCount = this.neededResourceCount
+                neededResourceCount = this.neededResourceCount,
+                
             };
         }
      

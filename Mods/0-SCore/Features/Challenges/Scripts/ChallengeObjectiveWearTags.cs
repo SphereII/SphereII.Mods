@@ -14,10 +14,18 @@ namespace Challenges {
         private string _itemTags;
         private string _itemMod;
         private string _installableTags;
-        private string _modifierTags;  
+        private string _modifierTags;
+        private string _descriptionOverride;
 
-        public override string DescriptionText =>
-            Localization.Get("challengeObjectiveWearTags", false) + $" {_itemTags} {_installableTags} {_modifierTags} tags:";
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    return Localization.Get("challengeObjectiveWearTags", false) +
+                           $" {_itemTags} {_installableTags} {_modifierTags} tags:";
+                return Localization.Get(_descriptionOverride);
+            }
+        }
+
 
         public override void HandleAddHooks() {
             QuestEventManager.Current.WearItem -= CheckItemMods;
@@ -35,12 +43,13 @@ namespace Challenges {
             {
                 CheckItemMods(item);
             }
+
             CheckObjectiveComplete();
         }
 
         private void CheckItemModsTags(ItemValue itemValue) {
             if (itemValue == null) return;
-            if ( itemValue.IsEmpty()) return;
+            if (itemValue.IsEmpty()) return;
             FindItemTags(itemValue, _installableTags);
             FindItemTags(itemValue, _modifierTags);
         }
@@ -49,16 +58,23 @@ namespace Challenges {
             if (itemValue.ItemClass is not ItemClassModifier itemValueModifier) return;
             if (string.IsNullOrEmpty(tag)) return;
             var tags = FastTags<TagGroup.Global>.Parse(tag);
-            if (itemValueModifier.HasAnyTags(tags))
+            if (itemValueModifier.ItemTags.Test_AnySet(tags))
             {
                 Current++;
             }
+
+            if (itemValueModifier.InstallableTags.Test_AnySet(tags))
+            {
+                Current++;
+            }
+
             if (string.IsNullOrEmpty(_itemMod)) return;
             if (_itemMod.Contains(itemValueModifier.GetItemName()))
             {
                 Current++;
             }
         }
+
         private void CheckItemMods(ItemValue itemValue) {
             if (itemValue == null) return;
             if (itemValue.IsEmpty()) return;
@@ -68,6 +84,7 @@ namespace Challenges {
                 if (itemValue.ItemClass.HasAnyTags(fastTags))
                     Current++;
             }
+
             foreach (var item in itemValue.Modifications)
             {
                 CheckItemModsTags(item);
@@ -77,8 +94,8 @@ namespace Challenges {
             {
                 CheckItemModsTags(item);
             }
-            CheckObjectiveComplete();
 
+            CheckObjectiveComplete();
         }
 
         public override void ParseElement(XElement e) {
@@ -92,14 +109,19 @@ namespace Challenges {
             {
                 _itemMod = e.GetAttribute("item_mod");
             }
+
             if (e.HasAttribute("installable_tags"))
             {
                 _installableTags = e.GetAttribute("installable_tags");
             }
+
             if (e.HasAttribute("modifier_tags"))
             {
                 _modifierTags = e.GetAttribute("modifier_tags");
             }
+            
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
 
         public override BaseChallengeObjective Clone() {
@@ -110,7 +132,8 @@ namespace Challenges {
                 _itemTags = _itemTags,
                 _itemMod = _itemMod,
                 _installableTags = _installableTags,
-                _modifierTags = _modifierTags
+                _modifierTags = _modifierTags,
+                _descriptionOverride = _descriptionOverride
             };
         }
     }

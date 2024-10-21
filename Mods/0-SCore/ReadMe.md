@@ -20,6 +20,18 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 
+	[ Challenges ]
+		- Fixed an issue where Block Upgrade did not do properly localization
+		- Fixed an issue where the WearTags was not working properly on mods
+
+		- Added a description_override attribute to completely over-ride the Localization key to the following Challenges:
+		- if description_override= does not exist, a generated Localized entry will be used.
+			- ChallengeObjectiveHarvest
+			- ChallengeObjectiveWearTags
+			- ChallengeObjectiveCraftWithTags
+			- ChallengeObjectiveCraftWithIngredient
+
 Version: 1.1.20.1108
 
 	[ Challenges ]

@@ -21,7 +21,27 @@ namespace Challenges {
 
         public string LocalizationKey = "onHarvest";
         private string held_tags;
-        public override string DescriptionText => Localization.Get(LocalizationKey);
+        
+        private string _descriptionOverride;
+
+
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                {
+                    var display = Localization.Get(LocalizationKey);
+                    display += $"{SCoreChallengeUtils.GenerateString(held_tags)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(itemClass)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(blockName)}";
+                    display += $"{SCoreChallengeUtils.GenerateString(biome)}";
+                    return display;
+                }
+                return Localization.Get(_descriptionOverride);
+            }
+        }
+            
+
+      //  public override string DescriptionText => Localization.Get(LocalizationKey);
 
         public override void HandleAddHooks() {
             QuestEventManager.Current.HarvestItem += Current_HarvestItem;
@@ -68,8 +88,9 @@ namespace Challenges {
             if (e.HasAttribute("held_tags"))
             {
                 held_tags = e.GetAttribute("held_tags");
-                DisplayLog($"Held Tags: {held_tags}");
             }
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
 
         public override BaseChallengeObjective Clone() {
@@ -77,7 +98,8 @@ namespace Challenges {
                 biome = this.biome,
                 itemClass = itemClass,
                 blockTag = blockTag,
-                held_tags = held_tags
+                held_tags = held_tags,
+                _descriptionOverride = _descriptionOverride
             };
         }
     }

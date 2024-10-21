@@ -212,5 +212,5 @@ challengeKillWithItemDesc,"Kill"
 challengeObjectiveWearTags,"Wear with tag(s) "
 challengeObjectiveGatherTags,"Gather items with the tag(s)"
 challengeObjectiveOnCVar,"Get CVar"
-
+challengeObjectiveOnBlockUpgrade,"Upgrade Block"
 challengeObjectiveCraftWithTags,"Craft with tags"

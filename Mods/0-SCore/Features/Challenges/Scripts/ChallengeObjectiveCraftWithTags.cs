@@ -18,8 +18,16 @@ namespace Challenges {
         private string item_tags;
 
         public string LocalizationKey = "challengeObjectiveCraftWithTags";
-        public override string DescriptionText => Localization.Get($"{LocalizationKey}", false) + " " + item_tags + ":";
-        
+        private string _descriptionOverride;
+
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    return Localization.Get($"{LocalizationKey}", false) + " " + item_tags + ":";
+                return Localization.Get(_descriptionOverride);
+            }
+        }
+       
         public override void HandleAddHooks()
         {
             QuestEventManager.Current.CraftItem += Current_CraftItem;
@@ -50,6 +58,8 @@ namespace Challenges {
             
             if (e.HasAttribute("description_key"))
                 LocalizationKey =e.GetAttribute("description_key");
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
         
         public override BaseChallengeObjective Clone()
