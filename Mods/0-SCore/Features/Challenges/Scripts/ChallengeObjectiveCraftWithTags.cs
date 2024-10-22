@@ -68,6 +68,10 @@ namespace Challenges {
             {
              item_tags = item_tags,
              LocalizationKey = LocalizationKey
+             ,
+             _descriptionOverride = _descriptionOverride
+
+
             };
         }
 

@@ -13,7 +13,15 @@ namespace Challenges {
         private string _cvarName;
         public string LocalizationKey = "challengeObjectiveOnCVar";
 
-        public override string DescriptionText => Localization.Get($"{LocalizationKey}", false) + " " + _cvarName + ":";
+        private string _descriptionOverride;
+
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                   return Localization.Get($"{LocalizationKey}", false) + " " + _cvarName + ":";
+                return Localization.Get(_descriptionOverride);
+            }
+        }
 
         public override void HandleAddHooks() {
             EventOnCVarAdded.CVarAdded += CheckCVar;
@@ -48,6 +56,10 @@ namespace Challenges {
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveCVar {
                 _cvarName = _cvarName
+                ,
+                _descriptionOverride = _descriptionOverride
+
+
             };
         }
     }

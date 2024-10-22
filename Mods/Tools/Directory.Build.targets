@@ -7,9 +7,13 @@
 	  <OverwriteReadOnlyOutputFiles>true</OverwriteReadOnlyOutputFiles>
     <TransformOutOfDateOnly>false</TransformOutOfDateOnly>
   </PropertyGroup>
+  
+  
+
+  
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TextTemplating\Microsoft.TextTemplating.targets" />
   
-	
+ 	
 	<!-- Disables the extra step of copying all the reference DLLs to the build area. We never use them after the build, so we can skip this -->
 	<Target Name="ModifyCopyLocal" AfterTargets="BeforeBuild">
 		<ItemGroup>

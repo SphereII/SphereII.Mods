@@ -24,8 +24,15 @@ namespace Challenges {
         public string biome;
         public string poi;
         public string poi_tags;
+        private string _descriptionOverride;
 
-        public override string DescriptionText => Localization.Get(LocalizationKey);
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    Localization.Get(LocalizationKey);
+                return Localization.Get(_descriptionOverride);
+            }
+        }
 
         public override void HandleAddHooks() {
             QuestEventManager.Current.BlockDestroy += Check_Block;
@@ -120,6 +127,9 @@ namespace Challenges {
             {
                 poi_tags = e.GetAttribute("poi_tag");
             }
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
+
 
           
         }
@@ -131,7 +141,9 @@ namespace Challenges {
                 biome = biome,
                 poi = poi, 
                 poi_tags = poi_tags,
-                LocalizationKey =LocalizationKey
+                LocalizationKey =LocalizationKey,
+                _descriptionOverride = _descriptionOverride
+
                 
             };
         }

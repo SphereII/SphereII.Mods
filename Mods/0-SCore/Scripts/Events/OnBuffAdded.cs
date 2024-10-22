@@ -13,13 +13,13 @@ public static class EventOnBuffAdded {
     [HarmonyPatch(new Type[] { typeof(string), typeof(Vector3i), typeof(int), typeof(bool), typeof(bool), typeof(float) })]
     public class BuffManagerAddBuff {
         private static void Prefix(string _name) {
-            var buff = BuffManager.GetBuff(_name);
-            if (buff == null)
+            foreach (var buffName in _name.Split(','))
             {
-                Debug.Log($"OnBuffAdded,SCore: No such Buff: {_name}");
-                return;
+                var buff = BuffManager.GetBuff(buffName);
+                if (buff == null) continue;
+
+                BuffAdded?.Invoke(buff);
             }
-            BuffAdded?.Invoke(buff);
         }
     }
 }

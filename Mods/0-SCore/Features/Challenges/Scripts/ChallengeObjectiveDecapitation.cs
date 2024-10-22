@@ -17,8 +17,15 @@ namespace Challenges {
             (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveDecapitation;
 
         public string LocalizationKey = "challengeDecapZombies";
-        public override string DescriptionText => Localization.Get(LocalizationKey);
+        private string _descriptionOverride;
 
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    Localization.Get(LocalizationKey);
+                return Localization.Get(_descriptionOverride);
+            }
+        }
         protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged) {
             if (!dmgResponse.Dismember) return false;
             if (entityDamaged.emodel.avatarController is not AvatarZombieController controller) return false;
@@ -30,6 +37,8 @@ namespace Challenges {
             base.ParseElement(e);
             if (e.HasAttribute("description_key"))
                 LocalizationKey = e.GetAttribute("description_key");
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
         
         public override BaseChallengeObjective Clone() {
@@ -45,6 +54,8 @@ namespace Challenges {
                 ItemTag = ItemTag,
                 StealthCheck = StealthCheck,
                 LocalizationKey = LocalizationKey
+                ,
+                _descriptionOverride = _descriptionOverride
             };
         }
 

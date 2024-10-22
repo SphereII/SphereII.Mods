@@ -229,6 +229,8 @@ namespace Challenges {
             {
                 itemClass = e.GetAttribute("held");
             }
+            if (e.HasAttribute("description_override"))
+                descriptionOveride = e.GetAttribute("description_override");
         }
 
         public override BaseChallengeObjective Clone() {
@@ -244,7 +246,8 @@ namespace Challenges {
                 blockTag = this.blockTag,
 
                 neededResourceID = this.neededResourceID,
-                neededResourceCount = this.neededResourceCount
+                neededResourceCount = this.neededResourceCount,
+                descriptionOveride = this.descriptionOveride
             };
         }
     }

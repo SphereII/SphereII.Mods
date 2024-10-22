@@ -40,7 +40,7 @@ namespace Challenges {
         public bool StealthCheck = false;
         public string LocalizationKey = "";
         public bool GenerateDescription;
-
+        private string _descriptionOverride;
         public override void Init() {
             if ( string.IsNullOrEmpty(entityTag))
                 entityTag = "zombie";
@@ -52,6 +52,9 @@ namespace Challenges {
 
         public override string DescriptionText {
             get {
+                if (!string.IsNullOrEmpty(_descriptionOverride))
+                    return Localization.Get(_descriptionOverride);
+                
                 var objectiveDesc = Localization.Get("challengeKillWithItemDesc");
                 objectiveDesc += $" {targetName}";
                 var with = Localization.Get("challengeObjectiveWith");
@@ -139,7 +142,8 @@ namespace Challenges {
 
             if (e.HasAttribute("target_name_key"))
                 targetName = Localization.Get(e.GetAttribute("target_name_key"));
-             
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
 
 
@@ -155,7 +159,8 @@ namespace Challenges {
                 ItemClass = ItemClass,
                 ItemTag = ItemTag,
                 StealthCheck = StealthCheck,
-                LocalizationKey = LocalizationKey
+                LocalizationKey = LocalizationKey,
+                _descriptionOverride = _descriptionOverride
             };
         }
     }

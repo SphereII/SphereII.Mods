@@ -20,7 +20,14 @@ namespace Challenges {
 
         public string cvarName;
         public new string LocalizationKey = "challengeObjectiveStealthKillStreak";
-
+        private string _descriptionOverride;
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    Localization.Get(LocalizationKey);
+                return Localization.Get(_descriptionOverride);
+            }
+        }
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
         protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged) {
             if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)
@@ -39,11 +46,14 @@ namespace Challenges {
             {
                 cvarName = e.GetAttribute("cvar");
             }
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
 
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveStealthKillStreak {
-                cvarName = cvarName
+                cvarName = cvarName,
+                _descriptionOverride = _descriptionOverride
             };
         }
     }

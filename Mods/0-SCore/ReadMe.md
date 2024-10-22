@@ -20,7 +20,28 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version: 
+Version: 1.1.22.1530
+	[ Challenges ]
+		- Added a description_override attribute to completely over-ride the Localization key to the following Challenges:
+		- if description_override= does not exist, a generated Localized entry will be used.
+			- ChallengeObjectiveBlockDestroyed
+			- ChallengeObjectiveBlockUpgrade
+			- ChallengeObjectiveCompleteQuestStealth
+			- ChallengeObjectiveCraftWithIngredients
+			- ChallengeObjectiveCraftWithTags
+			- ChallengeObjectiveCVar
+			- ChallengeObjectiveDecapitation
+			- ChallengeObjectiveEnterPOI
+			- ChallengeObjectiveGatherTags
+			- ChallengeObjectiveKillWithItem
+			- ChallengeObjectiveStealthKillStreak
+
+	[ Events ]
+		- Fixed an issue with OnBuffAdded not parsing multiple buffs
+		- Removed Debug Log
+	
+
+Version: 1.1.21.1123
 	[ Challenges ]
 		- Fixed an issue where Block Upgrade did not do properly localization
 		- Fixed an issue where the WearTags was not working properly on mods

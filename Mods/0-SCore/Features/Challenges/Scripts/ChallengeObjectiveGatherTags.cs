@@ -11,8 +11,16 @@ namespace Challenges {
 
         public string itemTags;
 
-        public override string DescriptionText =>
-            Localization.Get("challengeObjectiveGatherTags", false) + " " + itemTags + ":";
+        private string _descriptionOverride;
+
+        public override string DescriptionText {
+            get {
+                if (string.IsNullOrEmpty(_descriptionOverride))
+                    return Localization.Get("challengeObjectiveGatherTags", false) + " " + itemTags + ":";
+                return Localization.Get(_descriptionOverride);
+            }
+        }
+        
 
         public override void HandleAddHooks()
         {
@@ -101,11 +109,14 @@ namespace Challenges {
             {
                 itemTags = e.GetAttribute("item_tags");
             }
+            if (e.HasAttribute("description_override"))
+                _descriptionOverride = e.GetAttribute("description_override");
         }
 
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveGatherTags() {
-                itemTags = itemTags
+                itemTags = itemTags,
+                _descriptionOverride = _descriptionOverride
             };
         }
     }
