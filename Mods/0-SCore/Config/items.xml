@@ -1,4 +1,4 @@
-﻿<configs>
+﻿ <configs>
   <append xpath="/items">
     <item name="BanditFactionSchematic">
       <property name="Extends" value="schematicMaster" />

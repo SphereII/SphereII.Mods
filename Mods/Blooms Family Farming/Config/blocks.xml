@@ -68,6 +68,33 @@
 			<property name="DescriptionKey" value="torchGroupDesc"/>
 			<property name="FilterTags" value="fdecor,felectrical"/>
 			<property name="SortOrder1" value="70a0"/>
+			
+			<property name="WaterRange" value="5" />
+			<property name="MuteSound" value="true" />
+		</block>
+
+		<block name="gupSprinklerBlockLarge">
+			<property name="Material" value="Mmetal"/>
+			<property name="Class" value="WaterSourceSDX, SCore" />
+
+			<property name="IsTerrainDecoration" value="true"/>
+			<property name="Shape" value="ModelEntity"/>
+			<property name="Model" value="#@modfolder:Resources/gupSprinklerBlock.unity3d?gupLargeSprinkler.prefab"/>
+			<property name="Place" value="TowardsPlacerInverted"/>
+			<property name="OnlySimpleRotations" value="true"/>
+			<property name="MultiBlockDim" value="1,7,1" />
+			<property name="Collide" value="movement,melee,bullet,arrow,rocket"/>
+			<property name="CustomIcon" value="VMRotateSign" />
+			<property name="Stabilitysupport" value="true"/>
+			<property name="CreativeMode" value="Player"/>
+			<property name="Stacknumber" value="10"/>
+			<property name="Group" value="Basics,Building"/>
+			<property name="DescriptionKey" value="torchGroupDesc"/>
+			<property name="FilterTags" value="fdecor,felectrical"/>
+			<property name="SortOrder1" value="70a0"/>
+
+			<property name="WaterRange" value="25" />
+			<property name="MuteSound" value="true" />
 		</block>
 	</append>
 </configs>

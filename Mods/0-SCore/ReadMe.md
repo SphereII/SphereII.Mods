@@ -20,6 +20,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.28.1028
+	[ Farming ]
+		- Added "MuteSound" to the BlockWaterSourceSDX to turn off sprinkler sound.
+			<property name="MuteSound" value="true" />
+		- Default is false, the sound is not muted.
+
+		- Added GetWaterRange(), RequireWater(), and WillWilt() public methods as part of the BlockPlantGrowingSDX
+			- No functionality change, just makes it easier for others to read values through code.
+
 Version: 1.1.22.1530
 	[ Challenges ]
 		- Added a description_override attribute to completely over-ride the Localization key to the following Challenges:

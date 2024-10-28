@@ -5,7 +5,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     private float WaterRange = 5f;
     private string waterType = "Limited";
     private static readonly int IsSprinklerOn = Animator.StringToHash("isSprinklerOn");
-
+    private bool _muteSprinklerSound = false;
     public override void LateInit()
     {
         base.LateInit();
@@ -14,6 +14,9 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
 
         if (Properties.Values.ContainsKey("WaterType"))
             waterType = Properties.Values["WaterType"];
+        
+        if (this.Properties.Values.ContainsKey("MuteSound"))
+            _muteSprinklerSound = StringParsers.ParseBool(this.Properties.Values["MuteSound"]);
     }
 
     public bool IsWaterSourceUnlimited() {
@@ -104,6 +107,8 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
             animator.SetBool(IsSprinklerOn, false);
             StopSprinklerSound(_blockPos);
         }
+        if ( _muteSprinklerSound)
+            StopSprinklerSound(_blockPos);
     }
 
     private bool IsConnectedToWaterPipe(Vector3i _blockPos)
