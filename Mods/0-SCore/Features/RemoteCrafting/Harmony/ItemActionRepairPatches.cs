@@ -66,7 +66,7 @@ namespace Features.RemoteCrafting {
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
-                var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance);
+                var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance, true);
 
                 // counter quantity needed from item
                 var q = num;
@@ -214,7 +214,7 @@ namespace Features.RemoteCrafting {
                 var strDistance = Configuration.GetPropertyValue(AdvFeatureClass, "Distance");
                 if (!string.IsNullOrEmpty(strDistance))
                     distance = StringParsers.ParseFloat(strDistance);
-                var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance);
+                var tileEntities = RemoteCraftingUtils.GetTileEntities(primaryPlayer, distance, true);
 
                 // counter quantity needed from item
                 var q = _itemStack.count;

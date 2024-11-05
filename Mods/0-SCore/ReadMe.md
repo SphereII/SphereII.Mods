@@ -20,6 +20,39 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.36.1627
+	[ Client Kill Event ]
+		- Changed ClientKill() patch to be a Prefix vs Postfix to fix an issue where it'd fire multiple times
+			- ie, chopping up a dead body would count as a kill for each hit.
+
+	[ Fire Manager ]
+		- Fixed an issue where a molotov would not trigger the OnStartFire
+		- This caused a molotov not to trigger the Start A Fire Challenge
+		- Fixed an issue with the NetPackage for calling AddBlock instead of Add(), skipping player assigning
+			- Fixes an issue with the challenge Fire Started on dedicated servers.
+
+	[ Remote Crafting ]
+		- Added an additional property to AdvancedRecipes for Checking if Enemy is nearby
+		- BlockOnNearbyEnemies is now available in both BlockUpgradeRepair and AdvancedRecipes.
+				<property name="BlockOnNearbyEnemies" value="false"/>
+		- Previously, this toggle was defined in BlockUpgradeRepair only, but used to block crafting as well.
+
+	[ Error Handling ]
+		- Default is false, these errors are NOT handled. Change to true to use them, under ErrorHandling.
+
+		- Added a ConfigBlock entry for a null reference in TraderData.ReadInventoryData()
+			- This error would be thrown sometimes when a POI was being reset, and a workstation / vending machine
+			went from working / non-working. 
+			<property name="TraderDataReadInventory" value="false" />
+
+		- Added a ConfigBlock entry for TileEntity.CopyFrom()
+			- This error could occur during POI resets. Base class for CopyFrom throws an exception. This blocks it.
+				<property name="TileEntityCopyFrom" value="false" />
+			- When set to true, it will also log an entry in the log file saying which block its causing on.
+			- It may be a sign the block is not configured correctly.
+                Debug.Log($"ErrorHandling::TileEntityCopyFrom::Prefix:: {_other.blockValue.Block.GetBlockName()}. No Defined CopyFrom()");
+
+
 Version: 1.1.28.1028
 	[ Farming ]
 		- Added "MuteSound" to the BlockWaterSourceSDX to turn off sprinkler sound.

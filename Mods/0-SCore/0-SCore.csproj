@@ -73,6 +73,8 @@
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
     <Compile Include="Features\EntityPooling\Harmony\EntityFactoryPatch.cs" />
     <Compile Include="Features\EntityPooling\Scripts\EntityFactoryPool.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\TileEntityCopyFrom.cs" />
+    <Compile Include="Features\ErrorChecks\Harmony\TraderDataReadInventoryData.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockCropControlPanel.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockFarmPlotSDX.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\BlockPlantGrowingSDX.cs" />

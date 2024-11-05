@@ -38,6 +38,8 @@
 
 			<property class="AdvancedRecipes" >
 				<property name="ReadFromContainers" value="false"/>
+				<property name="BlockOnNearbyEnemies" value="false"/>
+
 				<!-- Enable Remote Crafting Feature Experimental -->
 				<property name="Distance" value="10" />
 				<!-- reasonable block range seems to be around 10. -->
@@ -178,6 +180,12 @@
 				<!-- Turns on Advanced debugging -->
 				<property name="LogPoolBlockEntityTransformCheck" value="false" />
 				
+				<!-- Checks for null when a workstation / vending machine is reset during a POI reset -->
+				<property name="TraderDataReadInventory" value="false" />
+
+				<!-- PRotects against a TileEntity.CopyFrom() error -->
+				<property name="TileEntityCopyFrom" value="false" />
+
 			</property>
 
 			<property class="AdvancedUI">
