@@ -20,6 +20,22 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.42.847
+	[ ConfigurationBlock ]
+		- Added new section called "AdvancedQuests" to allow more control over quests.
+
+	[ Fire Manager ]
+		- Added a null check for the NetPackage for AddFirePosition
+		- Removed extra checks that may have been block fire from being cleared on quest reset
+
+	[ GotoPOISDX ]
+		- Added new Property block in ConfigurationBlock called AdvancedQuests
+		- New Property value in AdvancedQuests block in ConfigurationBlock for re-using quest locations
+		- If "ReusePOILocations" is set to true, it will not filter quest locations based on if they were already visited.
+
+	[ SpawnCube2SDX ]
+		- Added potential fix for duplicate spawns.
+
 Version: 1.1.36.1627
 	[ Client Kill Event ]
 		- Changed ClientKill() patch to be a Prefix vs Postfix to fix an issue where it'd fire multiple times

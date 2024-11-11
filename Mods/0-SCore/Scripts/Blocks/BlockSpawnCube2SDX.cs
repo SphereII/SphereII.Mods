@@ -225,8 +225,13 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
             ApplySignData(entity as EntityAlive, _blockPos);
 
+            
             _blockValue.meta++;
-            GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
+            if (_blockValue.meta < _maxSpawned)
+            {
+                GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
+            }
+
         }
 
         DestroySelf(_blockPos, _blockValue);

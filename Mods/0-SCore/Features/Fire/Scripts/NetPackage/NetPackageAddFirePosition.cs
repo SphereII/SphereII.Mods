@@ -42,9 +42,9 @@ public class NetPackageAddFirePosition : NetPackage
         if (world == null)
         {
             return;
-        }
+        } 
         //FireManager.Instance.AddBlock(_position);
-        FireManager.Instance.Add(_position, _entityThatCausedIt);
+        FireManager.Instance?.Add(_position, _entityThatCausedIt);
     }
 }
 

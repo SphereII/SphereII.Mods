@@ -8,51 +8,44 @@ using UnityEngine;
 
 public static class QuestUtils
 {
+    private static readonly string AdvFeatureClass = "AdvancedQuests";
+    private static readonly string Feature = "ReusePOILocations";
 
 
     public static PrefabInstance FindPrefab(string poiName, Vector3 startPosition, ref List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome, string biomeFilter = "")
     {
         //var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetPOIPrefabs().FindAll(instance => instance.name.Contains(poiName));
         var listOfPrefabs = GameManager.Instance.World.ChunkClusters[0].ChunkProvider.GetDynamicPrefabDecorator().GetDynamicPrefabs().FindAll(instance => instance.name.Contains(poiName));
-        if (listOfPrefabs == null)
-        {
-            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-            {
-                Log.Out($"GotoPOISDX: No Prefabs by this name found: {poiName} Biome Filter Type: {biomeFilterType} Biome Filter: {biomeFilter}");
-            }
-            return null;
-        }
-
         // Filter the prefab list if there's an exact name
         var filteredPrefabs = listOfPrefabs.FindAll(instance => instance.name == poiName);
         if (filteredPrefabs.Count > 0)
             listOfPrefabs = filteredPrefabs;
 
         // Find the closes Prefab
-        var prefab = QuestUtils.FindClosesPrefabs(startPosition, listOfPrefabs, usedPOILocations, biomeFilterType, biomeFilter);
-        if (prefab == null)
-        {
-            return null;
-        }
+        var prefab = FindClosesPrefabs(startPosition, listOfPrefabs, usedPOILocations, biomeFilterType, biomeFilter);
         return prefab;
     }
     public static PrefabInstance FindClosesPrefabs(Vector3 position, List<PrefabInstance> prefabs, List<Vector2> usedPOILocations, BiomeFilterTypes biomeFilterType, string biomeFilter)
     {
         PrefabInstance prefab = null;
-        float minDist = Mathf.Infinity;
+        var minDist = Mathf.Infinity;
         string[] array = null;
 
         foreach (var t in prefabs)
         {
             // Have we already went to this one?
-            Vector2 vector = new Vector2((float)t.boundingBoxPosition.x, (float)t.boundingBoxPosition.z);
-            if (usedPOILocations != null && usedPOILocations.Contains(vector))
-                continue;
+            var vector = new Vector2(t.boundingBoxPosition.x, t.boundingBoxPosition.z);
+            if (Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
+            {
+                if (usedPOILocations != null && usedPOILocations.Contains(vector)) continue;    
+            }
+
+            
 
             // Check if there's a biome filter.
             if (biomeFilterType != BiomeFilterTypes.AnyBiome)
             {
-                BiomeDefinition biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider().GetBiomeAt((int)vector.x, (int)vector.y);
+                var biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider().GetBiomeAt((int)vector.x, (int)vector.y);
                 if (biomeFilterType == BiomeFilterTypes.OnlyBiome && biomeAt.m_sBiomeName != biomeFilter)
                 {
                     if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
@@ -62,24 +55,18 @@ public static class QuestUtils
                 }
                 if (biomeFilterType == BiomeFilterTypes.ExcludeBiome)
                 {
-                    if (array == null)
+                    array ??= biomeFilter.Split(new char[] {
+                        ','
+                    });
+                    var flag = false;
+                    for (var j = 0; j < array.Length; j++)
                     {
-                        array = biomeFilter.Split(new char[]
-                        {
-                                    ','
-                        });
-                    }
-                    bool flag = false;
-                    for (int j = 0; j < array.Length; j++)
-                    {
-                        if (biomeAt.m_sBiomeName == array[j])
-                        {
-                            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-                                Log.Out($"GotoPOISDX: Prefab excluded based on Biome Filter Type: {biomeFilterType}  Biome Filter: {biomeFilter}");
+                        if (biomeAt.m_sBiomeName != array[j]) continue;
+                        if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+                            Log.Out($"GotoPOISDX: Prefab excluded based on Biome Filter Type: {biomeFilterType}  Biome Filter: {biomeFilter}");
 
-                            flag = true;
-                            break;
-                        }
+                        flag = true;
+                        break;
                     }
                     if (flag)
                     {
@@ -88,18 +75,16 @@ public static class QuestUtils
                 }
             }
 
-            float dist = Vector3.Distance(t.boundingBoxPosition, position);
+            var dist = Vector3.Distance(t.boundingBoxPosition, position);
             if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
                 Log.Out($"GotoPOISDX: Prefab {t.name} Found at {t.boundingBoxPosition} Distance: {dist} {biomeFilterType}  Biome Filter: {biomeFilter}");
 
-            if (dist < minDist)
-            {
-                if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
-                    if (prefab != null)
-                        Log.Out($"GotoPOISDX: Found closer Prefab {t.name} than {prefab.name} Old distance {minDist}");
-                prefab = t;
-                minDist = dist;
-            }
+            if (!(dist < minDist)) continue;
+            if (GamePrefs.GetBool(EnumGamePrefs.DebugMenuEnabled))
+                if (prefab != null)
+                    Log.Out($"GotoPOISDX: Found closer Prefab {t.name} than {prefab.name} Old distance {minDist}");
+            prefab = t;
+            minDist = dist;
         }
 
         return prefab;
@@ -144,27 +129,26 @@ public static class QuestUtils
         BiomeFilterTypes biomeFilterType = BiomeFilterTypes.AnyBiome,
         string biomeFilter = "")
     {
-        World world = GameManager.Instance.World;
+        var world = GameManager.Instance.World;
 
-        int minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
-        int maxDistanceTier = maxSearchDistance < 0 ? 2 : GetTraderPrefabListTier(maxSearchDistance);
+        var minDistanceTier = minSearchDistance < 0 ? 0 : GetTraderPrefabListTier(minSearchDistance);
+        var maxDistanceTier = maxSearchDistance < 0 ? 2 : GetTraderPrefabListTier(maxSearchDistance);
 
-        for (int distanceTier = minDistanceTier; distanceTier <= maxDistanceTier; distanceTier++)
+        for (var distanceTier = minDistanceTier; distanceTier <= maxDistanceTier; distanceTier++)
         {
-            List<PrefabInstance> prefabsForTrader = QuestEventManager.Current.GetPrefabsForTrader(
+           var prefabsForTrader = QuestEventManager.Current.GetPrefabsForTrader(
                 trader.traderArea,
                 difficulty,
                 distanceTier,
                 world.GetGameRandom());
 
-            if (prefabsForTrader != null)
+           if (prefabsForTrader == null) continue;
+           // GetPrefabsForTrader shuffles the prefabs before returning them, so we can just
+            // iterate through the list and still send players to "random" POIs
+            for (var j = 0; j < prefabsForTrader.Count; j++)
             {
-                // GetPrefabsForTrader shuffles the prefabs before returning them, so we can just
-                // iterate through the list and still send players to "random" POIs
-                for (int j = 0; j < prefabsForTrader.Count; j++)
-                {
-                    PrefabInstance prefabInstance = prefabsForTrader[j];
-                    if (ValidPrefabForQuest(
+                var prefabInstance = prefabsForTrader[j];
+                if (ValidPrefabForQuest(
                         trader,
                         prefabInstance,
                         questTag,
@@ -176,9 +160,8 @@ public static class QuestUtils
                         biomeFilter,
                         minSearchDistance,
                         maxSearchDistance))
-                    {
-                        return prefabInstance;
-                    }
+                {
+                    return prefabInstance;
                 }
             }
         }
