@@ -39,9 +39,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         return "";
 
     }
-   
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
-    {
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue) {
         base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         if (GameManager.Instance.IsEditMode()) return;
@@ -147,10 +145,19 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        Vector3 myVector = new Vector3(1, 2, 1);
-
         if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
+            var size = Vector3.one * 2f;
+            if (isMultiBlock)
+            {
+                size = multiBlockPos.dim;
+            }
+            if (GameManager.Instance.World
+                    .GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), size)).Count > _maxSpawned)
+            {
+                DestroySelf(_blockPos, _blockValue);
+                return false;   
+            }
             if (_blockValue.meta >= _maxSpawned)
             {
                 DestroySelf(_blockPos, _blockValue);
@@ -221,16 +228,14 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
                 return false;
             }
             entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
+            Debug.Log($"Spawning: {entity.entityId} :: {_blockPos}");
             GameManager.Instance.World.SpawnEntityInWorld(entity);
 
-            ApplySignData(entity as EntityAlive, _blockPos);
+            ApplySignData(entity, _blockPos);
 
             
             _blockValue.meta++;
-            if (_blockValue.meta < _maxSpawned)
-            {
                 GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
-            }
 
         }
 

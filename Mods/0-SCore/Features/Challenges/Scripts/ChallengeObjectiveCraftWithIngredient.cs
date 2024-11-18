@@ -43,6 +43,9 @@ namespace Challenges {
         private void Current_CraftItem(ItemStack stack) {
             var itemClass = stack.itemValue.ItemClass;
             var recipe = CraftingManager.GetRecipe(itemClass.GetItemName());
+            if (recipe?.ingredients == null ) return;
+            if ( recipe.ingredients.Count == 0) return;
+            
             foreach (var ingred in recipe.ingredients)
             {
                 var itemName = ingred.itemValue.ItemClass.GetItemName();

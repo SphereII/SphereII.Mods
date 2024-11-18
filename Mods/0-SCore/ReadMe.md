@@ -20,6 +20,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ SpawnCube2SDX ]
+		- Added an additional check to see if an entity has already spawned, and blocks further spawns.
+
+	[ Challenges ]
+		- Fixed an issue with Craft With Ingredient, where an item had no recipe, causing a null reference.
+
+	[ EntityAliveSDX ]
+		- Removed a debug log about Weapon not found, but was actually there.
+
+	[ Take And Replace ]
+		- Added a new property that will trigger the drop event Harvest.
+       		<property name="HarvestOnPickUp" value="true" />
+		- If this property is set to true, the following drop event style will be triggered:
+            <drop event="Harvest" name="resourceCrushedSand" count="9" tag="oreWoodHarvest"/>
+            <drop event="Harvest" name="resourceClayLump" count="9" tag="oreWoodHarvest"/>
+		- The block itself will only do the harvest; it will not give you the PickUpValue back.
+		- By default, Harvest On pick up is false.
+
 Version: 1.1.42.847
 	[ ConfigurationBlock ]
 		- Added new section called "AdvancedQuests" to allow more control over quests.

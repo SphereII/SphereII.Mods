@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UniLinq;
 using UnityEngine;
 
 public class BlockTakeAndReplace : Block {
-    
     private const string AdvFeatureClass = "AdvancedPickUpAndPlace";
-    
+
     // By default, all blocks using this class will have a take delay of 15 seconds, unless over-ridden by the XML.
     private float fTakeDelay = 6f;
     private string itemNames = "meleeToolRepairT1ClawHammer";
@@ -17,6 +17,8 @@ public class BlockTakeAndReplace : Block {
     private bool checkToolForMaterial;
     private static FastTags<TagGroup.Global> silentTags = FastTags<TagGroup.Global>.Parse("silenttake");
     private bool legacy = true;
+    private bool triggerHarvest = false;
+
     public override void Init() {
         base.Init();
         if (Properties.Values.ContainsKey("TakeDelay"))
@@ -36,14 +38,15 @@ public class BlockTakeAndReplace : Block {
             itemNames = takeWithTool;
         }
 
-    
-
+        if (Properties.Values.ContainsKey("HarvestOnPickUp"))
+            triggerHarvest = Properties.GetBool("HarvestOnPickUp");
+        Debug.Log($"HarvestOnPickUp: {triggerHarvest}");
     }
 
     public override void LateInit() {
         base.LateInit();
         // This needs to be in the LateInit, as all the changes to the config block won't be available.
-        
+
         // Check to see if we want to do the legacy or a simplistic method of pulling wood boards off.
         var result = Configuration.GetPropertyValue(AdvFeatureClass, "Legacy");
         if (!string.IsNullOrEmpty(result))
@@ -52,23 +55,22 @@ public class BlockTakeAndReplace : Block {
             if (legacy)
             {
                 if (Properties.Values.ContainsKey("HoldingItem")) itemNames = Properties.GetString("HoldingItem");
-                return;                
+                return;
             }
         }
-        
+
         // See if we are using a key for the material in teh config block
-        var globalMaterial= Configuration.GetPropertyValue(AdvFeatureClass, validMaterials);
+        var globalMaterial = Configuration.GetPropertyValue(AdvFeatureClass, validMaterials);
         if (!string.IsNullOrEmpty(globalMaterial))
             validMaterials = globalMaterial;
 
-            
-        var globalTool= Configuration.GetPropertyValue(AdvFeatureClass, takeWithTool);
+
+        var globalTool = Configuration.GetPropertyValue(AdvFeatureClass, takeWithTool);
         if (!string.IsNullOrEmpty(globalTool))
         {
             takeWithTool = globalTool;
             itemNames = globalTool;
         }
-
     }
 
     // Override the on Block activated, so we can pop up our timer
@@ -101,6 +103,13 @@ public class BlockTakeAndReplace : Block {
         if (entityPlayerLocal == null) return;
         var itemStack = CreateItemStack(blockValue.Block.GetBlockName());
 
+        if (triggerHarvest)
+        {
+            Harvest(block, entityPlayerLocal);
+            DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
+            return;
+        }
+
         // Find the block value for the pick up value, and add it to the inventory
         if (!string.IsNullOrEmpty(PickedUpItemValue) && PickedUpItemValue.Contains(":"))
         {
@@ -118,9 +127,39 @@ public class BlockTakeAndReplace : Block {
 
         // Damage the block for its full health 
         DamageBlock(world, clrIdx, vector3I, block, block.Block.blockMaterial.MaxDamage, entityPlayerLocal.entityId);
+    
     }
 
-    // Displays the UI for the timer, calling TakeTarget when its done.
+    private void Harvest(BlockValue blockValue, EntityPlayerLocal player) {
+        if (!blockValue.Block.HasItemsToDropForEvent(EnumDropEvent.Harvest)) return;
+        if (GameUtils.random == null)
+        {
+            GameUtils.random = GameRandomManager.Instance.CreateGameRandom();
+            GameUtils.random.SetSeed((int)GameManager.Instance.World.GetWorldTime());
+        }
+        
+        var itemDropProb = blockValue.Block.itemsToDrop[EnumDropEvent.Harvest];
+        for (var i = 0; i < itemDropProb.Count; i++)
+        {
+            var num2 = EffectManager.GetValue(PassiveEffects.HarvestCount, blockValue.ToItemValue(), 1f,
+                player, null, FastTags<TagGroup.Global>.Parse(itemDropProb[i].tag));
+            var itemValue = new ItemValue(ItemClass.GetItem(itemDropProb[i].name, false).type, false);
+            if (itemValue.type == 0 || ItemClass.list[itemValue.type] == null || (!(itemDropProb[i].prob > 0.999f) &&
+                    !(GameUtils.random.RandomFloat <= itemDropProb[i].prob))) continue;
+            
+            var count = (int)(GameUtils.random.RandomRange(itemDropProb[i].minCount, itemDropProb[i].maxCount + 1) * num2);
+            if (count <= 0) continue;
+            var itemStack = new ItemStack(itemValue, count);
+            var uiforPlayer = LocalPlayerUI.GetUIForPlayer(player);
+            var playerInventory = uiforPlayer.xui.PlayerInventory;
+            QuestEventManager.Current.HarvestedItem(itemValue, itemStack, blockValue);
+            if (playerInventory.AddItem(itemStack)) continue;
+            var dropPos = GameManager.Instance.World.GetPrimaryPlayer().GetDropPosition();
+            GameManager.Instance.ItemDropServer(new ItemStack(itemValue, itemStack.count),dropPos, new Vector3(0.5f, 0.5f, 0.5f));
+        }
+    }
+
+// Displays the UI for the timer, calling TakeTarget when its done.
     public void TakeItemWithTimer(int _cIdx, Vector3i _blockPos, BlockValue _blockValue, EntityAlive _player) {
         var playerUI = (_player as EntityPlayerLocal)?.PlayerUI;
         if (playerUI == null) return;
