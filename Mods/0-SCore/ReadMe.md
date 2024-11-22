@@ -20,7 +20,23 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.1.53.1237
+
+	[ Fire Manager ]
+		- Functionality should be the same, but performance should be increased quite a bit.
+		- Added Smoke Time to be on its own timer
+		- Changed the main check loop to only process 1 block per frame
+		- Changed blocks that are destroyed or extinguished so they are collected as in a list.
+			- At the end of the Check Update, a single netpackage is sent with all the changes.
+			- Previously, a net package was sent for each block in the loop.
+		- Rather than playing sounds at the location of fire, another check is done every second to see if any player is near fire,
+			- If a player is near fire, it'll play the defined FireSound in the player's head.
+			- This was the biggest source of improvement.
+
+	[ SpawnCube2SDX ]
+		- Modified the OnBlockAdded to only add a Tick event if there's more than 1 entity to spawn.
+
+Version: 1.1.49.1701
 	[ SpawnCube2SDX ]
 		- Added an additional check to see if an entity has already spawned, and blocks further spawns.
 

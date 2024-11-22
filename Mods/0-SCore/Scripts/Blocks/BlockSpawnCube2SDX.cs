@@ -81,11 +81,12 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         _chunk.AddEntityStub(entityCreationData);
 
         // We'll use the Meta value as the spawn counter.
-        _blockValue.meta = 0;
+        _blockValue.meta = 1;
         GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
 
         // Set up the tick delay to be pretty short, as we'll just destroy the block anyway.
-        _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)1UL);
+        if ( _maxSpawned > 0)
+            _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)1UL);
     }
 
     private void DestroySelf(Vector3i _blockPos, BlockValue _blockValue)

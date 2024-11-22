@@ -102,7 +102,9 @@
     <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionRemoveFire.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePositions.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePositions.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
     <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
     <Compile Include="Features\FoodSpoilage\Harmony\FoodSpoilage.cs" />

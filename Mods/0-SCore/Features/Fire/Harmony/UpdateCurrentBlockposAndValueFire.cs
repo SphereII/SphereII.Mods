@@ -9,7 +9,8 @@ namespace Features.Fire.Harmony
         public static void Postfix(int _x, int _y, int _z, Entity entity)
         {
             if (FireManager.Instance == null) return;
-
+           // FireManager.Instance.CheckForPlayer(entity);
+            
             var blockPosition = new Vector3i(_x, _y, _z);
             
             if (!FireManager.IsBurning(blockPosition)) return;
