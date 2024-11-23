@@ -442,13 +442,24 @@ public class FireManager {
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
             NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(removeFireMap, -1));
 
-        if (_fireSpread == false) yield break;
+        if (_fireSpread == false)
+        {
+            OnFireUpdate?.Invoke(FireMap.Count);
+            yield break;
+        }
 
-        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-            NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(neighbors, -1));
-        // Spread the fire to the neighbors. We delay this here so the fire does not spread too quickly or immediately, getting stuck in the above loop.
-//        foreach (var pos in neighbors)
-        //          Add(pos);
+        if (neighbors.Count > 0)
+        {
+            // Spread the fire to the neighbors. We delay this here so the fire does not spread too quickly or immediately, getting stuck in the above loop.
+            foreach (var pos in neighbors)
+            {
+                // Do not distribute this immediately, as there could be a lot of changes. Instead, use the AddPositions netpackage to update everything.
+                Add(pos, -1, false);
+            }
+
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(neighbors, -1));
+        }
 
         OnFireUpdate?.Invoke(FireMap.Count);
 

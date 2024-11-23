@@ -20,6 +20,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.1.54.933
+
+	[ Fire Manager ]
+		- Fixed the laws of physics or whatever laws there are that govern how fire spreads.
+		- Fire now spreads.
+
 Version: 1.1.53.1237
 
 	[ Fire Manager ]
