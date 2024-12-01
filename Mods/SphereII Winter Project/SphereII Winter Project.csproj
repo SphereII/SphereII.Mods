@@ -142,7 +142,7 @@
 		<Content Include="Config\rwgmixer.xml"/>
 		<Content Include="Config\sounds.xml"/>
 		<Content Include="Config\spawning.xml"/>
-		<Content Include="Disable-ModInfo.xml" />
+		<Content Include="ModInfo.xml" />
 		<Content Include="Properties\versionTemplate.tt">
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>versionTemplate.cs</LastGenOutput>

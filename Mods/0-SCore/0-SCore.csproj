@@ -191,6 +191,7 @@
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionHandleBreakItem.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
+    <Compile Include="Harmony\ItemActions\ItemActionRepairLimiter.cs" />
     <Compile Include="Harmony\ItemActions\ItemClass.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
     <Compile Include="Harmony\MiniTurret\shouldIgnoreTarget.cs" />

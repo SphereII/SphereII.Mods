@@ -19,13 +19,11 @@ public class SphereII_WinterProject
    
     public static string modFolder;
 
-    public class SphereIIWinterProjectInit : IModApi
-    {
+    public class SphereIIWinterProjectInit : IModApi {
         private GlobalSnow _globalSnow;
         private EntityPlayerLocal _player;
 
-        public void InitMod(Mod _modInstance)
-        {
+        public void InitMod(Mod _modInstance) {
             Log.Out(" Loading Patch: " + GetType());
 
             // Reduce extra logging stuff
@@ -41,101 +39,43 @@ public class SphereII_WinterProject
             RegisterEvents();
 
         }
-        
-        // [HarmonyPatch(typeof(global::EntityAlive))]
-        // [HarmonyPatch("playStepSound")]
-        // public class EntityAliveplayStepSound
-        // {
-        //     private static EntityPlayerLocal _player;
-        //
-        //     public static void Postfix(global::EntityAlive __instance)
-        //     {
-        //         if (__instance is EntityPlayerLocal) return;
-        //         var snow = GlobalSnow.instance;
-        //         if (snow == null) return;
-        //         
-        //         //var position = __instance.transform.InverseTransformDirection(__instance.position);
-        //
-        //
-        //         if ( _player == null )
-        //             _player = GameManager.Instance.World.GetPrimaryPlayer();
-        //
-        //         var position = _player.playerCamera.transform.InverseTransformPoint(__instance.position);
-        //         Debug.Log($"Setting Footprint at :{position} towards: {__instance.moveDirection}");
-        //         snow.FootprintAt(position, __instance.moveDirection);
-        //
-        //     }
-        // }
 
-
-        private void RegisterEvents()
-        {
+        private void RegisterEvents() {
             ModEvents.GameUpdate.RegisterHandler(UpdateSnow);
         }
 
-        private void InitGlobalSnow()
-        {
+        private void InitGlobalSnow() {
             _player = GameManager.Instance.World.GetPrimaryPlayer();
-            
+
             // Asset Bundles are defined in GlobalSnow.ReadFromModlet(), triggered from GlobalSnow.LoadResources.
             _globalSnow = _player.playerCamera.gameObject.GetOrAddComponent<GlobalSnow>();
 
             // Let the game handle the snow particles
             _globalSnow.snowfall = true;
-            
+
             _globalSnow.snowAmount = 1f;
 
             // Let the game handle its own frost
             _globalSnow.cameraFrost = false;
 
             // cover the ground a bit more.
-            _globalSnow.groundCoverage = 0.45f;
+            _globalSnow.groundCoverage = 0.50f;
 
             _globalSnow.slopeThreshold = 0.9f;
-            
+
             // Foot prints will only appear at a certain depth of snow amount.
             _globalSnow.footprints = true;
             _globalSnow.groundCheck = GROUND_CHECK.CharacterController;
             _globalSnow.characterController = _player.RootTransform.GetComponent<CharacterController>();
-            
+
         }
 
-        private void UpdateSnow()
-        {
+        private void UpdateSnow() {
             if (_globalSnow == null)
                 InitGlobalSnow();
 
-            // if (_globalSnow == null) return;
-            //
-            // // Give a bonus if we are in a snowy area, so we can layer everything in a fine dust.
-            // if (_player.biomeStandingOn?.m_SpectrumName == "snow")
-            //     _globalSnow.snowAmount += 0.5f;
-            
         }
 
-        // [HarmonyPatch(typeof(GameManager))]
-        // [HarmonyPatch("PlayerSpawnedInWorld")]
-        // public class CloneCameraPlayer
-        // {
-        //     public static void Postfix()
-        //     {
-        //         var entityPlayer = GameManager.Instance.World.GetPrimaryPlayer();
-        //         if (entityPlayer == null) return;
-        //         var settings = entityPlayer.playerCamera.gameObject.GetOrAddComponent<GlobalSnow>();
-        //         settings.snowAmount = 0.70f;
-        //         settings.cameraFrost = false;
-        //         settings.groundCoverage = 0.45f;
-        //         //settings.footprints = true;
-        //
-        //         //settings.groundCheck = GROUND_CHECK.RayCast;
-        //         //settings.characterController = entityPlayer.PhysicsTransform.GetComponent<CharacterController>();
-        //         //settings.footprintsObscurance = 0.3f;
-        //         //settings.footprintsScale = 10;
-        //
-        //
-        //
-        //     }
-        // }
     }
 
     [HarmonyPatch(typeof(DynamicPrefabDecorator))]

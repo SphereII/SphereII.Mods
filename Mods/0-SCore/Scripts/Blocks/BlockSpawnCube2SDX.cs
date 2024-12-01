@@ -44,48 +44,48 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         if (GameManager.Instance.IsEditMode()) return;
 
-        var entityId = -1;
-        var text = PathingCubeParser.GetValue(_signText, "ec");
-        if (string.IsNullOrEmpty(text))
-        {
-            var group = PathingCubeParser.GetValue(_signText, "eg");
-            if (string.IsNullOrEmpty(group))
-            {
-                if (string.IsNullOrEmpty(_entityGroup))
-                    return;
-                group = _entityGroup;
-            }
-            var ClassID = 0;
-            entityId = EntityGroups.GetRandomFromGroup(group, ref ClassID);
-            if (entityId == 0) // Invalid group.
-                return;
-        }
-        else
-        {
-            entityId = text.GetHashCode();
-        }
-
-        // Match the rotation, and create the stub for the entity
-        var entityCreationData = new EntityCreationData();
-        entityCreationData.id = -1;
-        entityCreationData.entityClass = entityId;
-        entityCreationData.pos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
-
-        // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
-        var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
-        var blockEntity = _chunk.GetBlockEntity(_blockPos);
-        if (blockEntity != null && blockEntity.bHasTransform)
-            rotation = blockEntity.transform.rotation.eulerAngles;
-
-        entityCreationData.rot = rotation;
-        _chunk.AddEntityStub(entityCreationData);
-
-        // We'll use the Meta value as the spawn counter.
-        _blockValue.meta = 1;
-        GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
+        // var entityId = -1;
+        // var text = PathingCubeParser.GetValue(_signText, "ec");
+        // if (string.IsNullOrEmpty(text))
+        // {
+        //     var group = PathingCubeParser.GetValue(_signText, "eg");
+        //     if (string.IsNullOrEmpty(group))
+        //     {
+        //         if (string.IsNullOrEmpty(_entityGroup))
+        //             return;
+        //         group = _entityGroup;
+        //     }
+        //     var ClassID = 0;
+        //     entityId = EntityGroups.GetRandomFromGroup(group, ref ClassID);
+        //     if (entityId == 0) // Invalid group.
+        //         return;
+        // }
+        // else
+        // {
+        //     entityId = text.GetHashCode();
+        // }
+        //
+        // // Match the rotation, and create the stub for the entity
+        // var entityCreationData = new EntityCreationData();
+        // entityCreationData.id = -1;
+        // entityCreationData.entityClass = entityId;
+        // entityCreationData.pos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);
+        //
+        // // We need to check if this is a block entity or not, and match the rotation of the entity to the block, in case its a model preview.
+        // var rotation = new Vector3(0f, (float)(45f * (_blockValue.rotation & 3)), 0f);
+        // var blockEntity = _chunk.GetBlockEntity(_blockPos);
+        // if (blockEntity != null && blockEntity.bHasTransform)
+        //     rotation = blockEntity.transform.rotation.eulerAngles;
+        //
+        // entityCreationData.rot = rotation;
+        // _chunk.AddEntityStub(entityCreationData);
+        //
+        // // We'll use the Meta value as the spawn counter.
+        // _blockValue.meta = 1;
+        // GameManager.Instance.World.SetBlockRPC(_blockPos, _blockValue);
 
         // Set up the tick delay to be pretty short, as we'll just destroy the block anyway.
-        if ( _maxSpawned > 0)
+        //if ( _maxSpawned > 0)
             _world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, blockID, (ulong)1UL);
     }
 
@@ -153,12 +153,12 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             {
                 size = multiBlockPos.dim;
             }
-            if (GameManager.Instance.World
-                    .GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), size)).Count > _maxSpawned)
-            {
-                DestroySelf(_blockPos, _blockValue);
-                return false;   
-            }
+            // if (GameManager.Instance.World
+            //         .GetEntitiesInBounds(null, new Bounds(_blockPos.ToVector3(), size)).Count > _maxSpawned)
+            // {
+            //     DestroySelf(_blockPos, _blockValue);
+            //     return false;   
+            // }
             if (_blockValue.meta >= _maxSpawned)
             {
                 DestroySelf(_blockPos, _blockValue);
@@ -225,11 +225,11 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
             var entity = EntityFactory.CreateEntity(entityId, transformPos, rotation) as EntityAlive;
             if (entity == null)
             {
-                Log.Out($"No entity created: {_signText}");
+         //       Log.Out($"No entity created: {_signText}");
                 return false;
             }
             entity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
-            Debug.Log($"Spawning: {entity.entityId} :: {_blockPos}");
+          //  Debug.Log($"Spawning: {entity.entityId} :: {_blockPos}");
             GameManager.Instance.World.SpawnEntityInWorld(entity);
 
             ApplySignData(entity, _blockPos);

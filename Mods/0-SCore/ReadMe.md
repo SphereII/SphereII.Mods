@@ -20,8 +20,28 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version: 1.1.54.933
+Version: 1.1.62.918
+	[ Repair Counter ]
+		- Added a new Harmony patch to monitor how often an item can be repaired, before blocking the repair.
+		- This only works on Items, repaired through ItemActionEntryRepair.
+		- Two formats are supported:
+			- Comma delimited value. This will allow you to adjust max repairs based on quality
+			- For non-quality items, or to simplify, a single value can be used for all teirs.
+	 		
+  				<append xpath="/items/item[@name='meleeToolRepairT0StoneAxe']">
+					<!-- The first value is quality 1. The last value is quality 6 -->
+  					<property name="RepairLimit" value="1,2,3,4,5,6" />
+  				</append>
 
+				<append xpath="/items/item[@name='meleeToolRepairT0TazasStoneAxe']">
+					<property name="RepairLimit" value="5" />
+				</append>
+		- Localization Key is: repair_limit_reached
+
+	[ Block Spawn Cube 2SDX ]
+		- Adjusted the code again to try to spawn just a single entity.
+
+Version: 1.1.54.933
 	[ Fire Manager ]
 		- Fixed the laws of physics or whatever laws there are that govern how fire spreads.
 		- Fire now spreads.
