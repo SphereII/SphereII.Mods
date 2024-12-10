@@ -350,7 +350,7 @@ public class MortSpawnerScript : MonoBehaviour
                 var ClassID = 0;
                 var entityId = EntityGroups.GetRandomFromGroup(EntityGroup, ref ClassID);
                 var spawnEntity = EntityFactory.CreateEntity(entityId, new Vector3(x, y, z));
-                spawnEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner, 0, EntityGroup);
+                spawnEntity.SetSpawnerSource(EnumSpawnerSource.StaticSpawner);
                 world.SpawnEntityInWorld(spawnEntity);
 
                 if (NumberToPauseCounter > 0) NumberToPauseCounter--;

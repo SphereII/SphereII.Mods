@@ -26,7 +26,7 @@ namespace SCore.Harmony.Blocks {
         }
         
         [HarmonyPatch(typeof(Chunk))]
-        [HarmonyPatch("setBlockEntityRendering")]
+        [HarmonyPatch("SetBlockEntityRendering")]
         public class ChunksetBlockEntityRendering {
             public static bool Prefix(BlockEntityData _bed) {
                 // Check if this feature is enabled.

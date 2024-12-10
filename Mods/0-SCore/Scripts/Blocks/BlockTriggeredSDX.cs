@@ -41,7 +41,7 @@ internal class BlockTriggeredSDX : BlockLoot {
             _isLootContainer = StringParsers.ParseBool(Properties.Values["IsContainer"]);
 
         // Should the block activate when you look at it?
-        if (!Properties.Values.ContainsKey("ActivateOnLook"))
+        if (Properties.Values.ContainsKey("ActivateOnLook"))
             _activateOnLook = StringParsers.ParseBool(Properties.Values["ActivateOnLook"]);
 
         if (Properties.Values.ContainsKey("CopyCVarToAnimator"))

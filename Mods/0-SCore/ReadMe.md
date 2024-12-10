@@ -20,6 +20,20 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.4.1601
+	[ Block Triggered SDX ]
+		- Fixed an issue with the ActivateOnLook check
+
+Version: 1.2.2.2032
+	- Updated Cave Spawning to fix against 1.2
+	- Updated other broken code from the 1.2... minor adjustments
+
+	[ Lock Pick ]
+		- Added a null check on entityalive before checking if they have a cvar.
+
+	[ Challenges ]
+		- Fixed a grammar issue in a comment
+
 Version: 1.1.62.918
 	[ Repair Counter ]
 		- Added a new Harmony patch to monitor how often an item can be repaired, before blocking the repair.

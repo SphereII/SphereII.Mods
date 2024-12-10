@@ -3,28 +3,28 @@
   <!-- General purpose Cave and DeepCave, used when a biome-specific one isn't set. -->
   <append xpath="/spawning">
     <biome name="Cave">
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesAll" />
-      <spawn maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesNight" />
-      <spawn maxcount="1" respawndelay="3.1" time="Any" entitygroup="ZombiesWasteland" spawnDeadChance="0" />
+      <spawn id="ca01" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesAll" />
+      <spawn id="ca02" maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesNight" />
+      <spawn id="ca03" maxcount="1" respawndelay="3.1" time="Any" entitygroup="ZombiesWasteland" spawnDeadChance="0" />
     </biome>
 
     <biome name="DeepCave">
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombieBadassGroup" />
-      <spawn maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesWasteland" />
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesWastelandNight" />
+      <spawn id="dc01" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombieBadassGroup" />
+      <spawn id="dc02" maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesWasteland" />
+      <spawn id="dc03" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesWastelandNight" />
     </biome>
    
     <!-- Special spawner for Desert Caves -->
      <biome name="desert_Cave">
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesAll" />
-      <spawn maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesNight" />
-      <spawn maxcount="1" respawndelay="3.1" time="Any" entitygroup="ZombiesWasteland" spawnDeadChance="0" />
+      <spawn id="de01" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesAll" />
+      <spawn id="de02" maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesNight" />
+      <spawn id="de03" maxcount="1" respawndelay="3.1" time="Any" entitygroup="ZombiesWasteland" spawnDeadChance="0" />
     </biome>
 
     <biome name="desert_DeepCave">
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombieBadassGroup" />
-      <spawn maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesWasteland" />
-      <spawn maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesWastelandNight" />
+      <spawn id="dd01" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombieBadassGroup" />
+      <spawn id="dd02" maxcount="1" respawndelay="1.7" time="Night" entitygroup="ZombiesWasteland" />
+      <spawn id="dd03" maxcount="1" respawndelay="2.6" time="Any" entitygroup="ZombiesWastelandNight" />
     </biome>
   </append>
 

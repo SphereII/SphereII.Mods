@@ -10,7 +10,7 @@ public class EntityZombieFlyingSDX : EntityFlying
     private const float BS = 0.25f;
     private const float ES = 10f;
     private const float EE = 80f;
-    public static EAIFactory AiFactory = new EAIFactory();
+    
     public int maxHeight = 80; // maximum height modifier, used to prevent the birds from flying too high
 
     public Vector3 Waypoint;

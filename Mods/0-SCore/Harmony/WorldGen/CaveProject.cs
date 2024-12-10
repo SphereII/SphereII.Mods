@@ -78,63 +78,6 @@ namespace Harmony.WorldGen
                 return true;
             }
 
-            // This is a slightly modified version of the underground code from vanilla. The range of y is a bit throttled, as we want to spawn creatures near the player, and the original
-            // underground code did not check if they were within the view spawn code, so you could see them spawn in front of you.
-            // public static bool FindRandomSpawnPointNearPositionUnderground(Rect _area, int _minDistance, int _maxDistance, bool _bConsiderBedrolls, out Vector3 _position, Vector3i PlayerPosition)
-            // {
-            //     _position = Vector3.zero;
-            //     if (GameManager.Instance.World.Players.list.Count == 0) return false;
-            //
-            //     // Since the cave system can be eratic in its location, we want to try 20 times to find a random spot where they can spawn at.
-            //     for (var i = 0; i < 40; i++)
-            //     {
-            //         var rangeY = new Vector2(PlayerPosition.y - 10, PlayerPosition.y + 10);
-            //         if (rangeY.x < 1)
-            //             rangeY.x = 2;
-            //
-            //         _position = new Vector3(_area.x + GameManager.Instance.World.RandomRange(0f, _area.width - 1f), GameManager.Instance.World.RandomRange(rangeY.x, rangeY.y),
-            //             _area.y + GameManager.Instance.World.RandomRange(0f, _area.height - 1f));
-            //         if (_position.y < 1)
-            //             _position.y = 2;
-            //         var vector3i = World.worldToBlockPos(_position);
-            //         var chunk = (Chunk)GameManager.Instance.World.GetChunkFromWorldPos(vector3i);
-            //         if (chunk == null) continue;
-            //
-            //         var x = World.toBlockXZ(vector3i.x);
-            //         var z = World.toBlockXZ(vector3i.z);
-            //
-            //         // Grab the terrian height. If it's above the terrain level, ignore it.
-            //         float terrainLevel = chunk.GetHeight(x, z) + 1;
-            //         float maxLevel = PlayerPosition.y + 10;
-            //         vector3i.y = (int)GameManager.Instance.World.RandomRange((float)PlayerPosition.y - 10, maxLevel);
-            //         if (vector3i.y < 1)
-            //             vector3i.y = PlayerPosition.y;
-            //
-            //         if (maxLevel >= terrainLevel)
-            //             vector3i.y = PlayerPosition.y;
-            //
-            //         if (!chunk.CanMobsSpawnAtPos(x, vector3i.y, z)) continue;
-            //
-            //         var flag = isPositionMinDistanceAwayFromAllPlayers(_position, _minDistance);
-            //         var num = 0;
-            //         while (flag && num < GameManager.Instance.World.Players.list.Count)
-            //         {
-            //             if ((_position - GameManager.Instance.World.Players.list[num].GetPosition()).sqrMagnitude < 2500f &&
-            //                 GameManager.Instance.World.Players.list[num].IsInViewCone(_position)) flag = false;
-            //             num++;
-            //         }
-            //
-            //         if (!flag) continue;
-            //
-            //         // Set the y position correctly.
-            //         _position.y = vector3i.y;
-            //         return true;
-            //     }
-            //
-            //     _position = Vector3.zero;
-            //     return false;
-            // }
-
 
             // This method is a modified version of vanilla, doing the same checks and balances. However, we do use the player position a bit more, and we change which biome spawning group we
             // will use, when below the terrain. 
@@ -220,13 +163,14 @@ namespace Harmony.WorldGen
                 var num = -1;
                 var num2 = gameRandom.RandomRange(biomeSpawnEntityGroupList.list.Count);
                 var j = 0;
-                
+
+                var idHash = 0;
                 while (j < 5)
                 {
                     BiomeSpawnEntityGroupData biomeSpawnEntityGroupData2 = biomeSpawnEntityGroupList.list[num2];
                     if (biomeSpawnEntityGroupData2.daytime == EDaytime.Any || biomeSpawnEntityGroupData2.daytime == edaytime)
                     {
-                        bool flag2 = EntityGroups.IsEnemyGroup(biomeSpawnEntityGroupData2.entityGroupRefName);
+                        bool flag2 = EntityGroups.IsEnemyGroup(biomeSpawnEntityGroupData2.entityGroupName);
                         if (!flag2 || _bSpawnEnemyEntities)
                         {
                             int num4 = biomeSpawnEntityGroupData2.maxCount;
@@ -235,17 +179,17 @@ namespace Harmony.WorldGen
                                 num4 = EntitySpawner.ModifySpawnCountByGameDifficulty(num4);
                             }
                             
-                            entityGroupName = biomeSpawnEntityGroupData2.entityGroupRefName + "_" + biomeSpawnEntityGroupData2.daytime.ToStringCached<EDaytime>();
-                            ulong respawnDelayWorldTime = _chunkBiomeSpawnData.GetRespawnDelayWorldTime(entityGroupName);
-                            if (respawnDelayWorldTime > 0UL)
+                            idHash = biomeSpawnEntityGroupData2.idHash;
+
+                            entityGroupName = biomeSpawnEntityGroupData2.entityGroupName + "_" + biomeSpawnEntityGroupData2.daytime.ToStringCached<EDaytime>();
+                            ulong respawnDelayWorldTime = _chunkBiomeSpawnData.GetDelayWorldTime(idHash);
+                            if (GameManager.Instance.World.worldTime > respawnDelayWorldTime )
                             {
-                                if (GameManager.Instance.World.worldTime < respawnDelayWorldTime)
-                                {
-                                    break;
-                                }
-                                _chunkBiomeSpawnData.ClearRespawn(entityGroupName);
+                                int num7 = biomeSpawnEntityGroupData2.maxCount;
+
+                                _chunkBiomeSpawnData.ResetRespawn(idHash, GameManager.Instance.World, num7);
                             }
-                            if (_chunkBiomeSpawnData.GetEntitiesSpawned(entityGroupName) < num4)
+                            if (_chunkBiomeSpawnData.CanSpawn(idHash))
                             {
                                 
                                 num = num2;
@@ -266,19 +210,15 @@ namespace Harmony.WorldGen
                 if (count > 0)
                     return;
                 var biomeSpawnEntityGroupData3 = biomeSpawnEntityGroupList.list[num];
-                var randomFromGroup = EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData3.entityGroupRefName, ref lastClassId);
-                var spawnDeadChance = biomeSpawnEntityGroupData3.spawnDeadChance;
-                _chunkBiomeSpawnData.IncEntitiesSpawned(entityGroupName);
+                var randomFromGroup = EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData3.entityGroupName, ref lastClassId);
+                _chunkBiomeSpawnData.IncCount(idHash);
                 var entity = EntityFactory.CreateEntity(randomFromGroup, vector);
-                entity.SetSpawnerSource(EnumSpawnerSource.Dynamic, _chunkBiomeSpawnData.chunk.Key, entityGroupName);
+                entity.SetSpawnerSource(EnumSpawnerSource.Dynamic, _chunkBiomeSpawnData.chunk.Key, idHash);
                 var myEntity = entity as global::EntityAlive;
                 if (myEntity) myEntity.SetSleeper();
 
                 // Debug.Log("Spawning: " + myEntity.entityId + " " + vector );
                 GameManager.Instance.World.SpawnEntityInWorld(entity);
-
-
-                if (spawnDeadChance > 0f && gameRandom.RandomFloat < spawnDeadChance) entity.Kill(DamageResponse.New(true));
                 GameManager.Instance.World.DebugAddSpawnedEntity(entity);
             }
         }
@@ -318,6 +258,9 @@ namespace Harmony.WorldGen
                         SCoreCavesUtils.SetTexture();
                         SCoreCavesTexture.AddCaveToChunk(_chunk);
                         break;
+                    case "SCoreCavesSplat3":
+                        SCoreCavesSplat3.AddCaveToChunk(_chunk);
+                        break;
                     //case "FastNosieSIMD":
                     //    TerrainGeneratorSIMD_Caves.GenerateChunk(_chunk);
                     //    break;
@@ -354,6 +297,10 @@ namespace Harmony.WorldGen
                     case "Texture2D":
                         SCoreCavesTexture.AddDecorationsToCave(_chunk);
                         break;
+                    case "SCoreCavesSplat3":
+                        SCoreCavesSplat3.AddDecorationsToCave(_chunk);
+                        break;
+
                     default:
                         break;
                 }
