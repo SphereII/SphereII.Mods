@@ -20,6 +20,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.8.1136
+	[ NPCs ]
+		- Fixed an issue where NPCs could be added to Drone
+
 Version: 1.2.4.1601
 	[ Block Triggered SDX ]
 		- Fixed an issue with the ActivateOnLook check

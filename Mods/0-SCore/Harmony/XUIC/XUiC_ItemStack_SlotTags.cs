@@ -8,10 +8,12 @@ using UnityEngine;
 namespace SCore.Harmony.TileEntities {
     public class CheckItemsForContainers {
         private static bool IsStackAllowedInContainer(XUiC_ItemStack itemStack) {
+            if (itemStack == null) return true;
             switch (itemStack.StackLocation)
             {
                 case XUiC_ItemStack.StackLocationTypes.Backpack:
                 case XUiC_ItemStack.StackLocationTypes.ToolBelt:
+                    
                     return true;
             }
 
@@ -20,13 +22,14 @@ namespace SCore.Harmony.TileEntities {
 
             // Only run on loot containers and their slots.
             if (itemStack.xui.lootContainer == null) return true;
-            
+
             if (itemStack.StackLocation != XUiC_ItemStack.StackLocationTypes.LootContainer) return true;
 
             var blockValue = GameManager.Instance.World.GetBlock(itemStack.xui.lootContainer.ToWorldPos());
             var block = blockValue.Block;
             return CanPlaceItemInContainerViaTags(block, currentStack, true);
         }
+
         private static bool CanPlaceItemInContainerViaTags(Block block, ItemStack itemStack, bool showToolTip = false) {
             if (itemStack.itemValue.HasMetadata("NoStorage"))
             {
@@ -38,13 +41,13 @@ namespace SCore.Harmony.TileEntities {
                     {
                         DisplayToolTip(block, itemStack);
                         return false;
-                    }    
+                    }
                 }
-                
             }
+
             // If the tags don't exist, skip all the checks.
             if (!block.Properties.Contains("AllowTags") && !block.Properties.Contains("DisallowTags")) return true;
-            
+
             var all = FastTags<TagGroup.Global>.Parse("all");
             if (block.Properties.Contains("AllowTags"))
             {
@@ -71,10 +74,12 @@ namespace SCore.Harmony.TileEntities {
             {
                 message = Localization.Get(block.Properties.GetString("DisallowedKey"));
             }
+
             if (itemStack.itemValue.ItemClass.Properties.Contains("DisallowedKey"))
             {
                 message = Localization.Get(itemStack.itemValue.ItemClass.Properties.GetString("DisallowedKey"));
             }
+
             Manager.PlayInsidePlayerHead("ui_denied");
             var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
             XUiC_PopupToolTip.ClearTooltips(primaryPlayer.playerUI.xui);
@@ -88,7 +93,9 @@ namespace SCore.Harmony.TileEntities {
             public class TEFeatureStorageTryStackItem {
                 public static bool Prefix(TEFeatureStorage __instance, ItemStack _itemStack) {
                     if (__instance is ITileEntityLootable tileEntityLootable)
+                    {
                         return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+                    }
                     return true;
                 }
             }
@@ -100,7 +107,6 @@ namespace SCore.Harmony.TileEntities {
                     if (__instance is ITileEntityLootable tileEntityLootable)
                         return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
                     return true;
-
                 }
             }
         }
@@ -124,6 +130,18 @@ namespace SCore.Harmony.TileEntities {
             }
         }
 
+        public class XUiM_LootContainerItemStackPatch {
+            [HarmonyPatch(typeof(XUiM_LootContainer))]
+            [HarmonyPatch("AddItem")]
+            public class XUiMLootContainerItemStackPatchAddItem {
+                public static bool Prefix(ItemStack _itemStack, XUi _xui) {
+                    if ( _xui.lootContainer == null ) return true;
+                    var blockValue = GameManager.Instance.World.GetBlock(_xui.lootContainer.ToWorldPos());
+                    var block = blockValue.Block;
+                    return CanPlaceItemInContainerViaTags(block, _itemStack, true);
+                }
+            }
+        }
 
         public class XUICLootContainerCheckItemsForContainers {
             [HarmonyPatch(typeof(XUiC_LootWindow))]
@@ -141,13 +159,13 @@ namespace SCore.Harmony.TileEntities {
                         __instance.RefreshBindings(true);
                         return;
                     }
+
                     if (block.Properties.Contains("DisallowTags"))
                     {
                         var display = block.Properties.GetString("DisallowTags");
                         __instance.lootContainerName = $"{_lootContainerName} ( Blocked Tags: {display} )";
                         __instance.RefreshBindings(true);
                     }
-
                 }
             }
         }
