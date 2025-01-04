@@ -189,6 +189,10 @@
 
                 <!-- PRotects against a TileEntity.CopyFrom() error -->
                 <property name="TileEntityCopyFrom" value="false"/>
+                
+                <!-- Protects against a block entity data that does not have a valid transform, causing a null ref -->
+                <property name="BlockEntityDataGetRenderers" value="false"/>
+
 
             </property>
 

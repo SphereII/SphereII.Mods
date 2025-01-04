@@ -106,7 +106,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     private List<string> _startedThisFrame;
 
     // Default name
-    private string _strMyName = "Bob";
+    private string _strMyName = string.Empty;
     private string _strTitle;
 
     private TileEntityTrader _tileEntityTrader;
@@ -132,7 +132,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     public override string EntityName {
         get {
             // No configured name? return the default.
-            if (_strMyName == "Bob")
+            if (string.IsNullOrEmpty(_strMyName))
                 return entityName;
 
             if (string.IsNullOrEmpty(_strTitle))

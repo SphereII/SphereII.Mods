@@ -45,6 +45,6 @@ public class NetPackageRemoveFirePosition : NetPackage
             return;
         }
 
-        FireManager.Instance.RemoveFire(_position);
+        FireManager.Instance?.RemoveFire(_position);
     }
 }

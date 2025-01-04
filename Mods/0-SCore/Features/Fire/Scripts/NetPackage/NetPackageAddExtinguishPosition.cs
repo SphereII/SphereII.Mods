@@ -49,7 +49,7 @@ public class NetPackageAddExtinguishPosition : NetPackage
             return;
         }
 
-        FireManager.Instance.ExtinguishBlock(_position, _entityThatCausedIt);
+        FireManager.Instance?.ExtinguishBlock(_position, _entityThatCausedIt);
     }
 }
 

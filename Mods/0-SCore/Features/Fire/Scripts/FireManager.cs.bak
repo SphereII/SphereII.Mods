@@ -269,7 +269,6 @@ public class FireManager {
                 // ThreadManager.StartCoroutine(ProcessBlocks());
                 GameManager.Instance.StopCoroutine(CheckBlocks());
                 GameManager.Instance.StartCoroutine(CheckBlocks());
-                _currentTime =  _checkTime;
             }
 
             if (_currentSmokeTime <= 0f)
@@ -287,7 +286,6 @@ public class FireManager {
     }
 
     private void CheckForPlayer() {
-        
         var fireSound = _fireSound.ToLower();
         foreach (var player in GameManager.Instance.World.Players.list)
         {
@@ -312,8 +310,10 @@ public class FireManager {
     private IEnumerator CheckBlocks() {
         if (GameManager.Instance.IsPaused()) yield break;
         if (!GameManager.Instance.gameStateManager.IsGameStarted()) yield break;
+
         AdvLogging.DisplayLog(AdvFeatureClass,
             $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
+        _currentTime = _checkTime;
 
         CheckForPlayer();
 
@@ -333,9 +333,9 @@ public class FireManager {
         foreach (var posDict in FireMap)
         {
             counter++;
-             //only process 10 blocks per frame.
-            if ( counter % 10 == 0)
-              yield return null;
+            // only process 10 blocks per frame.
+            //if ( counter % 10 == 0)
+            //  yield return null;
 
             var blockPos = posDict.Key;
             if (!IsFlammable(blockPos))
@@ -385,14 +385,14 @@ public class FireManager {
 
             if (!block.isair)
             {
-                  SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                    NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(blockPos, -1));
+                //   SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                //     NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(blockPos, -1));
             }
             else
             {
-                //removeFireMap.Add(blockPos);
-                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                  NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(blockPos, -1));
+                removeFireMap.Add(blockPos);
+                //SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                //  NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(blockPos, -1));
             }
 
             changes.Add(new BlockChangeInfo(0, blockPos, block));
@@ -415,6 +415,10 @@ public class FireManager {
                 continue;
             }
 
+            // ToggleSound(blockPos, rand < 0.10);
+            // //ToggleParticle(blockPos, rand > 0.90);
+            // ToggleParticle(blockPos, true);
+
             // If we are damaging a block, allow the fire to spread.
             if (_fireSpread)
             {
@@ -424,20 +428,26 @@ public class FireManager {
                     if (neighbors.Contains(neighbor)) continue;
                     neighbors.Add(neighbor);
                 }
+                //neighbors.AddRange(CheckNeighbors(blockPos));
             }
 
             FireMap[blockPos] = block;
+            yield return new WaitForEndOfFrame();
         }
 
         // Send all the changes in one shot
         if (changes.Count > 0)
             GameManager.Instance.SetBlocksRPC(changes);
 
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(removeFireMap, -1));
+
         if (_fireSpread == false)
         {
             OnFireUpdate?.Invoke(FireMap.Count);
             yield break;
         }
+
         if (neighbors.Count > 0)
         {
             // Spread the fire to the neighbors. We delay this here so the fire does not spread too quickly or immediately, getting stuck in the above loop.
@@ -446,9 +456,11 @@ public class FireManager {
                 // Do not distribute this immediately, as there could be a lot of changes. Instead, use the AddPositions netpackage to update everything.
                 Add(pos, -1, false);
             }
+
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
                 NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(neighbors, -1));
         }
+
         OnFireUpdate?.Invoke(FireMap.Count);
 
 
@@ -674,13 +686,10 @@ public class FireManager {
         if (!IsFlammable(blockPos))
             return;
 
-        var block = GameManager.Instance.World.GetBlock(blockPos);
-        if (!FireMap.TryAdd(blockPos, block)) return;
-        
         OnStartFire?.Invoke(entityID);
         AddBlock(blockPos);
 
-       if (net == false) return;
+        if (net == false) return;
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
@@ -771,7 +780,10 @@ public class FireManager {
 
     // Add flammable blocks to the Fire Map
     public void AddBlock(Vector3i blockPos) {
-      
+        var block = GameManager.Instance.World.GetBlock(blockPos);
+        if (!FireMap.TryAdd(blockPos, block)) return;
+
+
         ToggleSound(blockPos, true);
         ToggleParticle(blockPos, true);
     }

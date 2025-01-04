@@ -20,6 +20,25 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.29.952
+	[ Fire Mod ]
+		- Additional performance fixes when playing on servers
+
+	[ Caves ]
+		- Fixed issues with decorations being too few
+		- Cleaned up old staglamites which do not exist anymore
+		- Fixed cave spawning issues, and refactored the class
+
+	[ EntityAliveSDX ]
+		- Changed the default name of Bob to empty string.
+
+	[ Error Handling ]
+		- Added a ConfigBlock entry for a null reference in BlockEntityData.GetRenderers()
+			- This error would be thrown sometimes when a POI was being reset
+			- This feature must be set to true to guard against the null check. Default is false.
+				<property name="BlockEntityDataGetRenderers" value="true" />
+
+
 Version: 1.2.8.1136
 	[ NPCs ]
 		- Fixed an issue where NPCs could be added to Drone

@@ -49,7 +49,7 @@ public class NetPackageRemoveParticleEffect : NetPackage
             return;
         }
 
-        FireManager.Instance.ClearPosOnly(_position);
+        FireManager.Instance?.ClearPosOnly(_position);
     }
 }
 
