@@ -20,6 +20,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.30.803
+	[ Path Finding ]
+		- Fixed an issue with Pathing Cubes throwing null references in resets
+		- Modified the xml for the Pathfinding to use the default sign.
+			-> The model is turned off in the code
+		- Added multi-dim of 1x1x1 to avoid potential errors in base calls
+
 Version: 1.2.29.952
 	[ Fire Mod ]
 		- Additional performance fixes when playing on servers
