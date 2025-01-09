@@ -20,6 +20,15 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ TileEntityCopyFrom ]
+		- Removed Debug log from harmony patch
+
+	[ Caves ]
+		- Fixed an issue with excessive cave / world spawning.
+
+
+
 Version: 1.2.30.803
 	[ Path Finding ]
 		- Fixed an issue with Pathing Cubes throwing null references in resets

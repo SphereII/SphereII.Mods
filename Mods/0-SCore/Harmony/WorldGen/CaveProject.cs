@@ -44,20 +44,18 @@ namespace Harmony.WorldGen {
         }
 
         [HarmonyPatch(typeof(SpawnManagerBiomes))]
-        [HarmonyPatch("Update")]
+        [HarmonyPatch("SpawnUpdate")]
         public class CaveProjectSpawnmanagerBiomes {
             // We want to run our cave spawning class right under the main biome spawner.
-            public static bool Prefix(SpawnManagerBiomes __instance, string _spawnerName, bool _bSpawnEnemyEntities,
-                object _userData, ref List<Entity> ___spawnNearList, ref int ___lastClassId) {
+            public static bool Prefix(SpawnManagerBiomes __instance, string _spawnerName, bool _isSpawnEnemy,
+                ChunkAreaBiomeSpawnData _spawnData) {
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
 
 
-                if (!GameUtils.IsPlaytesting())
-                {
-                    SpawnUpdate(__instance, _bSpawnEnemyEntities, _userData as ChunkAreaBiomeSpawnData,
-                        ref ___spawnNearList, ref ___lastClassId);
-                }
+                if (GameUtils.IsPlaytesting()) return true;
+                
+                SpawnUpdate(ref __instance, _isSpawnEnemy, ref _spawnData);
 
                 return true;
             }
@@ -78,7 +76,7 @@ namespace Harmony.WorldGen {
                 countsAndTime.delayWorldTime = world.worldTime +
                                                (ulong)((float)biomeSpawnEntityGroupData.respawnDelayInWorldTime *
                                                        world.RandomRange(0.9f, 1.1f));
-                Debug.Log($"Reset respawn for {idHash}: {countsAndTime.count}");
+               // Debug.Log($"Reset respawn for {idHash}: {countsAndTime.count}");
                 countsAndTime.maxCount = maxCount;
                 spawnData.entitesSpawned[idHash] = countsAndTime;
                 spawnData.chunk.isModified = true;
@@ -87,8 +85,8 @@ namespace Harmony.WorldGen {
 
             // This method is a modified version of vanilla, doing the same checks and balances. However, we do use the player position a bit more, and we change which biome spawning group we
             // will use, when below the terrain. 
-            private static void SpawnUpdate(SpawnManagerBiomes spawnManagerBiomes, bool isSpawnEnemy,
-                ChunkAreaBiomeSpawnData spawnData, ref List<Entity> spawnNearList, ref int lastClassId) {
+            private static void SpawnUpdate(ref SpawnManagerBiomes spawnManagerBiomes, bool isSpawnEnemy,
+                ref ChunkAreaBiomeSpawnData spawnData) {
                 // Check for a valid player
                 var position = GetNearestPlayerPosition(isSpawnEnemy, spawnData);
                 if (position == Vector3.zero) return;
@@ -135,8 +133,6 @@ namespace Harmony.WorldGen {
                                 spawnGroupIndex = randomGroupIndex;
                                 break;
                             }
-
-                            // Debug.Log($"Could not spawn Group: {idHash} {biomeSpawnEntityGroupData2.entityGroupName}");
                         }
                     }
 
@@ -150,14 +146,14 @@ namespace Harmony.WorldGen {
                 }
 
                 var bb = new Bounds(position, new Vector3(4f, 2.5f, 4f));
-                GameManager.Instance.World.GetEntitiesInBounds(typeof(Entity), bb, spawnNearList);
-                var count = spawnNearList.Count;
-                spawnNearList.Clear();
+                GameManager.Instance.World.GetEntitiesInBounds(typeof(Entity), bb, spawnManagerBiomes.spawnNearList);
+                var count = spawnManagerBiomes.spawnNearList.Count;
+                spawnManagerBiomes.spawnNearList.Clear();
                 if (count > 0)
                     return;
                 var biomeSpawnEntityGroupData3 = biomeSpawnEntityGroupList.list[spawnGroupIndex];
                 var randomFromGroup =
-                    EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData3.entityGroupName, ref lastClassId);
+                    EntityGroups.GetRandomFromGroup(biomeSpawnEntityGroupData3.entityGroupName, ref spawnManagerBiomes.lastClassId);
                 if (randomFromGroup == 0)
                 {
                     spawnData.DecMaxCount(idHash);
@@ -170,7 +166,6 @@ namespace Harmony.WorldGen {
                 var myEntity = entity as global::EntityAlive;
                 if (myEntity) myEntity.SetSleeper();
 
-                Debug.Log("Spawning: " + entity.entityId + " " + position);
                 GameManager.Instance.World.SpawnEntityInWorld(entity);
                 GameManager.Instance.World.DebugAddSpawnedEntity(entity);
             }
@@ -268,6 +263,14 @@ namespace Harmony.WorldGen {
                         playerPosition = entityPlayer.position;
                         flag = true;
                         break;
+                    }
+
+                    // If the player is above ground, do not run this spawner.
+                    var position = new Vector3i(playerPosition);
+                    float offSet = GameManager.Instance.World.GetTerrainHeight(position.x, position.z);
+                    if (offSet <= playerPosition.y)
+                    {
+                        return Vector3.zero;
                     }
 
                     if (!flag)

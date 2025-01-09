@@ -104,6 +104,7 @@
             <property class="AdvancedPlayerFeatures">
                 <property name="Logging" value="true"/>
                 <property name="AntiNerdPole" value="false"/>
+
                 <!-- Player cannot jump and place a block under neath them-->
                 <property name="OneBlockCrouch" value="false"/>
                 <property name="PhysicsCrouchHeightModifier" value="0.49"/>
@@ -472,9 +473,9 @@
         <block name="PathingCube">
             <property name="Shape" value="ModelEntity"/>
             <!--property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/-->
-            <!--<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/> -->
+            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/> 
 			
-			<property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/>
+			<!--property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/-->
 			<property name="MultiBlockDim" value="1,1,1"/>
 			
             <property name="Class" value="PathFinding, SCore"/>
