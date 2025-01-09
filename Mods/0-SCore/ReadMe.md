@@ -20,7 +20,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.2.34.940
 	[ TileEntityCopyFrom ]
 		- Removed Debug log from harmony patch
 
