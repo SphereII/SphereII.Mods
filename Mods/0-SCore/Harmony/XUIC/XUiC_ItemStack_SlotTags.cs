@@ -142,6 +142,18 @@ namespace SCore.Harmony.TileEntities {
                 }
             }
         }
+        
+        public class TileEntityLootContainerItemStackPatch {
+            [HarmonyPatch(typeof(TileEntityLootContainer))]
+            [HarmonyPatch("AddItem")]
+            public class XTileEntityLootContainerItemStackPatchItemStackPatchAddItem {
+                public static bool Prefix(TileEntityLootContainer __instance, ItemStack _item) {
+
+                    var block = __instance.blockValue.Block;
+                    return CanPlaceItemInContainerViaTags(block, _item, true);
+                }
+            }
+        }
 
         public class XUICLootContainerCheckItemsForContainers {
             [HarmonyPatch(typeof(XUiC_LootWindow))]

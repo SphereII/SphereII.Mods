@@ -175,6 +175,7 @@
     <Compile Include="Harmony\EntityAlive\EntityAliveJiggleAdjustment.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAlivePatches.cs" />
     <Compile Include="Harmony\EntityAlive\EntityAliveUpdateBlockStatusEffect.cs" />
+    <Compile Include="Harmony\EntityAlive\EntityFactory.cs" />
     <Compile Include="Harmony\EntityAlive\EntityTraderRektMute.cs" />
     <Compile Include="Harmony\EntityAlive\ReplicateSpeed.cs" />
     <Compile Include="Harmony\EntityDrone\EntityDronePatches.cs" />

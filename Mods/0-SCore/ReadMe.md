@@ -20,21 +20,17 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version: 1.2.34.940
-	[ TileEntityCopyFrom ]
-		- Removed Debug log from harmony patch
+Version: 1.2.35.852
+	[ NPCs ]
+		- Fixed an issue where NPCs could be added to a storage box using the Stash All button.
 
-	[ Caves ]
-		- Fixed an issue with excessive cave / world spawning.
-
-
-
-Version: 1.2.30.803
 	[ Path Finding ]
-		- Fixed an issue with Pathing Cubes throwing null references in resets
-		- Modified the xml for the Pathfinding to use the default sign.
-			-> The model is turned off in the code
-		- Added multi-dim of 1x1x1 to avoid potential errors in base calls
+		- Accidentally reverted the sign for path finding.
+		- Intentionally restored the change.
+
+	[ Entity Factory Patch ]
+		- Added a patch to EntityFactory to catch "GetEntityType slow lookup for" for SCore-related classes
+
 
 Version: 1.2.29.952
 	[ Fire Mod ]
