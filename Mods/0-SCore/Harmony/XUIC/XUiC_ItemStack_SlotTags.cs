@@ -148,8 +148,8 @@ namespace SCore.Harmony.TileEntities {
             [HarmonyPatch("AddItem")]
             public class XTileEntityLootContainerItemStackPatchItemStackPatchAddItem {
                 public static bool Prefix(TileEntityLootContainer __instance, ItemStack _item) {
-
-                    var block = __instance.blockValue.Block;
+                    var block = __instance?.blockValue.Block;
+                    if ( block == null ) return true;
                     return CanPlaceItemInContainerViaTags(block, _item, true);
                 }
             }

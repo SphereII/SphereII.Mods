@@ -20,6 +20,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.36.1142
+	[ NPCs ]
+		- Fixed an issue where a null reference would happen in a harmony patch for the Stash All.
+
+	[ Cave Spawning ]
+		- Fixed an issue where cave spawning was too sensitive.
+
 Version: 1.2.35.852
 	[ NPCs ]
 		- Fixed an issue where NPCs could be added to a storage box using the Stash All button.
