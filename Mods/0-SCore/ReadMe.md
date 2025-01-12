@@ -20,6 +20,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ NPCs ]
+		- Reverted a patch that was causing null ref on player death.
+		- This patch was meant to block people stashing NPCs.
+
 Version: 1.2.36.1142
 	[ NPCs ]
 		- Fixed an issue where a null reference would happen in a harmony patch for the Stash All.
