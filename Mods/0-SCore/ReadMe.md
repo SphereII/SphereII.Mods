@@ -20,7 +20,7 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.2.37.1146
 	[ NPCs ]
 		- Reverted a patch that was causing null ref on player death.
 		- This patch was meant to block people stashing NPCs.
