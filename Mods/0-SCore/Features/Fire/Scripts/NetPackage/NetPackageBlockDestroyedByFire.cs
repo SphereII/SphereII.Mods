@@ -5,12 +5,12 @@
 /// </summary>
 
 [UsedImplicitly]
-public class NetPackageAddFirePosition : NetPackage
+public class NetPackageBlockDestroyedByFire : NetPackage
 {
     private Vector3i _position;
     private int _entityThatCausedIt;
 
-    public NetPackageAddFirePosition Setup(Vector3i position, int entityThatCausedIt)
+    public NetPackageBlockDestroyedByFire Setup(Vector3i position, int entityThatCausedIt)
     {
         _position = position;
         _entityThatCausedIt = entityThatCausedIt;
@@ -43,7 +43,7 @@ public class NetPackageAddFirePosition : NetPackage
         {
             return;
         } 
-        FireManager.Instance?.AddBlock(_position, _entityThatCausedIt);
+        FireManager.Instance?.OnBlockDestroyed(_position);
     }
 }
 

@@ -6,15 +6,14 @@ using JetBrains.Annotations;
 /// </summary>
 
 [UsedImplicitly]
-public class NetPackageAddFirePositions : NetPackage
+public class NetPackageFireUpdate : NetPackage
 {
     private List<Vector3i> _positions;
     private int _entityThatCausedIt;
 
-    public NetPackageAddFirePositions Setup(List<Vector3i> positions, int entityThatCausedIt)
+    public NetPackageFireUpdate Setup(List<Vector3i> positions)
     {
         _positions = positions;
-        _entityThatCausedIt = entityThatCausedIt;
         return this;
     }
 
@@ -26,8 +25,6 @@ public class NetPackageAddFirePositions : NetPackage
             var position = StreamUtils.ReadVector3i(br);
             _positions.Add(position);
         }
-
-        _entityThatCausedIt = br.ReadInt32();
     }
 
     public override void write(PooledBinaryWriter bw) {
@@ -38,8 +35,6 @@ public class NetPackageAddFirePositions : NetPackage
         {
             StreamUtils.Write(bw, _positions[i]);
         }
-
-        bw.Write(_entityThatCausedIt);
     }
  
 
@@ -53,9 +48,8 @@ public class NetPackageAddFirePositions : NetPackage
         if (world == null)
         {
             return;
-        } 
-        foreach (var position in _positions)
-            FireManager.Instance?.AddBlock(position, _entityThatCausedIt);
+        }
+        FireManager.Instance?.InvokeFireUpdate();
     }
 }
 

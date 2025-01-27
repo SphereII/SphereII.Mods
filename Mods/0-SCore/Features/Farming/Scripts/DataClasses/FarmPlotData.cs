@@ -93,42 +93,40 @@ public class FarmPlotData
                 plantData.LastCheck = GameManager.Instance.World.GetWorldTime();
                 return null;
             }
-            else
+
+            currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Harvest, out harvestItems);
+
+            // Including the breaking of the plant here.
+            currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Destroy, out var harvestItems2);
+            if (harvestItems != null && harvestItems2 != null)
             {
-                currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Harvest, out harvestItems);
-
-                // Including the breaking of the plant here.
-                currentBlock.Block.itemsToDrop.TryGetValue(EnumDropEvent.Destroy, out var harvestItems2);
-                if (harvestItems != null && harvestItems2 != null)
-                {
-                    foreach (var item in harvestItems2)
-                        harvestItems.Add(item);
-                }
-
-                // Clean all all the seeds
-                for (var x = harvestItems.Count - 1; x >= 0; x--)
-                {
-                    var harvestItem = harvestItems[x];
-                    if (harvestItem.name.StartsWith("planted"))
-                    {
-                        seedFromPlant = harvestItem.name;
-                        harvestItems.RemoveAt(x);
-                    }
-
-                    // If the NPC has cvar of the name of the harvested item, then this will restrict the amount of items they get.
-                    if (entityAlive.Buffs.HasCustomVar(harvestItem.name))
-                    {
-                        var count = entityAlive.Buffs.GetCustomVar(harvestItem.name);
-                        harvestItem.minCount = (int) count;
-                        harvestItem.maxCount = (int) count;
-                        harvestItems[x] = harvestItem;
-                    }
-                }
-
-                //GameManager.Instance.World.SetBlockRPC(plantPos, BlockValue.Air);
-                GameManager.Instance.World.SetBlock(0, plantPos, BlockValue.Air, false, false);
-                replant = true;
+                foreach (var item in harvestItems2)
+                    harvestItems.Add(item);
             }
+
+            // Clean all all the seeds
+            for (var x = harvestItems.Count - 1; x >= 0; x--)
+            {
+                var harvestItem = harvestItems[x];
+                if (harvestItem.name.StartsWith("planted"))
+                {
+                    seedFromPlant = harvestItem.name;
+                    harvestItems.RemoveAt(x);
+                }
+
+                // If the NPC has cvar of the name of the harvested item, then this will restrict the amount of items they get.
+                if (entityAlive.Buffs.HasCustomVar(harvestItem.name))
+                {
+                    var count = entityAlive.Buffs.GetCustomVar(harvestItem.name);
+                    harvestItem.minCount = (int)count;
+                    harvestItem.maxCount = (int)count;
+                    harvestItems[x] = harvestItem;
+                }
+            }
+
+            //GameManager.Instance.World.SetBlockRPC(plantPos, BlockValue.Air);
+            GameManager.Instance.World.SetBlock(0, plantPos, BlockValue.Air, false, false);
+            replant = true;
         }
 
         if (currentBlock.isair)
@@ -149,6 +147,7 @@ public class FarmPlotData
                 stack.count--;
                 break;
             }
+
             entityAlive.lootContainer.SetModified();
         }
 
@@ -169,7 +168,7 @@ public class FarmPlotData
         worldRayHitInfo.hit.blockPos = plantPos;
 
         if (!blockValue.Block.CanPlaceBlockAt(GameManager.Instance.World, 0, plantPos, blockValue)) return harvestItems;
-       var result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(
+        var result = blockValue.Block.BlockPlacementHelper.OnPlaceBlock(
             BlockPlacement.EnumRotationMode.Auto, 0, GameManager.Instance.World, blockValue, worldRayHitInfo.hit,
             plantPos);
         blockValue.Block.PlaceBlock(GameManager.Instance.World, result, null);

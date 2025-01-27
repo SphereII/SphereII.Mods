@@ -33,21 +33,17 @@ namespace UAI
         {
             _context.Self.SetLookPosition(_vector);
             _context.Self.RotateTo(_vector.x, _vector.y, _vector.z, 8f,8f);
-            var headPosition = _context.Self.getHeadPosition();
-            var dir = _vector - headPosition;
-            var forwardVector = _context.Self.GetForwardVector();
-            var angleBetween = Utils.GetAngleBetween(dir, forwardVector);
-            var num2 = 70 * 0.5f;
-            var isInFront = (angleBetween >= -num2 && angleBetween <= num2);
+            var isInFront = _context.Self.IsInFrontOfMe(_vector);
             if (!isInFront)
             {
                 return;
             }
             
             // If we have the activity buff, just wait until it wears off
-            if (_context.Self.Buffs.HasBuff(_buff)) return;
-        //    timeOut--;
-
+            if (_context.Self.Buffs.HasBuff(_buff))
+            {
+                return;
+            }
 
             // If we had it, and it's gone, then we are done with this location.
             if (hadBuff)
@@ -77,6 +73,7 @@ namespace UAI
                 return;
             }
       
+            timeOut-= Time.deltaTime;
             // Use a timeout in case the NPC gets stuck somewhere trying to get to a position in an awkward corner
             if (timeOut < 0)
             {
@@ -87,7 +84,7 @@ namespace UAI
 
     
             var distance = Vector3.Distance(_vector, _context.Self.position);
-            if (distance > 1)
+            if (distance > 1.5)
             {
                 _context.Self.moveHelper.SetMoveTo(_vector, false);
                 return;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Features.Fire.Harmony
 {
@@ -21,10 +22,29 @@ namespace Features.Fire.Harmony
             {
                 Debug.Log("Disabling Fire Manager in Play Testing / Prefab editor");
                 return;
+            } 
+            
+            var fireManager = GameManager.Instance.transform.gameObject.GetOrAddComponent<FireManager>();
+            if (fireManager != null)
+            {
+                fireManager.Init();
             }
-            FireManager.Init();
+            else
+            {
+                Log.Out("No Fire Manager Available.");
+            }
         }
     }
-
-
+    
+    [HarmonyPatch(typeof(GameStateManager))]
+    [HarmonyPatch("EndGame")]
+    public class GameStateManagerEndGame
+    {
+        public static void Prefix()
+        {
+            var fireManager = GameManager.Instance.transform.gameObject.GetComponent<FireManager>();
+            if (fireManager == null) return;
+            fireManager.ForceStop();
+        }
+    }
 }

@@ -30,7 +30,13 @@ namespace Challenges {
             if (!dmgResponse.Dismember) return false;
             if (entityDamaged.emodel.avatarController is not AvatarZombieController controller) return false;
             if (!controller.headDismembered) return false;
-            return base.Check_EntityKill(dmgResponse, entityDamaged);
+            var result = base.Check_EntityKill(dmgResponse, entityDamaged);
+            if (result)
+            {
+                Current++;
+                CheckObjectiveComplete();
+            }
+            return result;
         }
 
         public override void ParseElement(XElement e) {

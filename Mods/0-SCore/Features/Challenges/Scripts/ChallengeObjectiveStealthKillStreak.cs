@@ -21,6 +21,13 @@ namespace Challenges {
         public string cvarName;
         public new string LocalizationKey = "challengeObjectiveStealthKillStreak";
         private string _descriptionOverride;
+
+        public override void Init()
+        {
+            base.Init();
+            StealthCheck = true;
+        }
+
         public override string DescriptionText {
             get {
                 if (string.IsNullOrEmpty(_descriptionOverride))
@@ -37,7 +44,13 @@ namespace Challenges {
                 return false;
             }
 
-            return base.Check_EntityKill(dmgResponse, entityDamaged);
+            var result = base.Check_EntityKill(dmgResponse, entityDamaged);
+            if (result)
+            {
+                Current++;
+                CheckObjectiveComplete();
+            }
+            return result;
         }
 
         public override void ParseElement(XElement e) {
@@ -53,7 +66,10 @@ namespace Challenges {
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveStealthKillStreak {
                 cvarName = cvarName,
-                _descriptionOverride = _descriptionOverride
+                _descriptionOverride = _descriptionOverride,
+                StealthCheck = StealthCheck,
+                ItemClass = ItemClass,
+                ItemTag = ItemTag
             };
         }
     }

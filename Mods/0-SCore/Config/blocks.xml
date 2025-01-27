@@ -397,8 +397,13 @@
                 <property name="Logging" value="false"/>
                 <property name="FireEnable" value="false"/>                <!-- Enables the feature -->
 
+                <!-- Enables or disables saving of fire state -->
+                <!-- Set to true to allowing saving -->
+                <property name="FirePersists" value="false"/> 
+                
                 <property name="CheckInterval"
                           value="20"/>                <!-- How many seconds before checking blocks,spreading fire, etc -->
+                
                 <property name="FireDamage"
                           value="50"/>                <!-- How much damage each time it checks will do the block. -->
                 <property name="SmokeTime"

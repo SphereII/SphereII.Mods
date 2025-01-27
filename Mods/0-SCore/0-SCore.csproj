@@ -95,7 +95,10 @@
     <Compile Include="Features\Fire\Harmony\FireInit.cs" />
     <Compile Include="Features\Fire\Harmony\PerformanceTweaks.cs" />
     <Compile Include="Features\Fire\Harmony\UpdateCurrentBlockposAndValueFire.cs" />
+    <Compile Include="Features\Fire\Scripts\FireEvents.cs" />
+    <Compile Include="Features\Fire\Scripts\FireManager_orig.cs" />
     <Compile Include="Features\Fire\Scripts\FireManager.cs" />
+    <Compile Include="Features\Fire\Scripts\IFireManager.cs" />
     <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamage.cs" />
     <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamageCascade.cs" />
     <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionCheckFireProximity.cs" />
@@ -103,9 +106,11 @@
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePositions.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageBlockDestroyedByFire.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePositions.cs" />
     <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
+    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageFireUpdate.cs" />
     <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
     <Compile Include="Features\FoodSpoilage\Harmony\FoodSpoilage.cs" />
     <Compile Include="Features\FoodSpoilage\Harmony\Freshness.cs" />
@@ -163,6 +168,7 @@
     <Compile Include="Harmony\Blocks\ChunkPoolBlockEntityTransform.cs" />
     <Compile Include="Harmony\Blocks\ElectricityMultiDimFix.cs" />
     <Compile Include="Harmony\Blocks\GroundAlignPatch.cs" />
+    <Compile Include="Harmony\Blocks\OnBlockAdded.cs" />
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
     <Compile Include="Harmony\Blocks\Particles.cs" />
     <Compile Include="Harmony\Blocks\TerrainAlignmentUtilsPatch.cs" />

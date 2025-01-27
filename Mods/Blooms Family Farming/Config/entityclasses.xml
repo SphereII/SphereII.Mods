@@ -1,5 +1,5 @@
 ﻿<config>
-	<!--
+	
 	<append xpath="/entity_classes" >
 		
 		<entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
@@ -23,5 +23,5 @@
 		</entity_class>
 		
 	</append>
-	-->
+	
 </config>

@@ -74,7 +74,7 @@ internal class ObjectiveGotoPOISDX : ObjectiveRandomPOIGoto
                 FinalizePoint(new Vector3(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.y, randomPOINearWorldPos.boundingBoxPosition.z),
                     new Vector3(randomPOINearWorldPos.boundingBoxSize.x, randomPOINearWorldPos.boundingBoxSize.y, randomPOINearWorldPos.boundingBoxSize.z));
                 OwnerQuest.QuestPrefab = randomPOINearWorldPos;
-                OwnerQuest.DataVariables.Add("POIName", OwnerQuest.QuestPrefab.location.Name);
+                OwnerQuest.DataVariables.Add("POIName", Localization.Get(OwnerQuest.QuestPrefab.location.Name));
                 if (usedPOILocations != null)
                     usedPOILocations.Add(new Vector2(randomPOINearWorldPos.boundingBoxPosition.x, randomPOINearWorldPos.boundingBoxPosition.z));
 

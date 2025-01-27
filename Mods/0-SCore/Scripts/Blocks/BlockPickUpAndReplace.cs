@@ -40,7 +40,6 @@ public class BlockTakeAndReplace : Block {
 
         if (Properties.Values.ContainsKey("HarvestOnPickUp"))
             triggerHarvest = Properties.GetBool("HarvestOnPickUp");
-        Debug.Log($"HarvestOnPickUp: {triggerHarvest}");
     }
 
     public override void LateInit() {

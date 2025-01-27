@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +16,8 @@ using Debug = UnityEngine.Debug;
 /// The Fire Manager allows blocks to catch on fire, and allows them to spread to other blocks around it at a timed interval.
 /// The following parameters are configured through the blocks.xml
 /// </remarks>
-public class FireManager {
+public class FireManager : MonoBehaviour
+{
     private const string AdvFeatureClass = "FireManagement";
     private static readonly object Locker = new object();
 
@@ -43,19 +44,17 @@ public class FireManager {
     public event OnExtinguishFire OnExtinguish;
 
     private float _checkTime = 120f;
-    private float _currentTime;
     private const float CheckTimeLights = 0.8f;
-    private float _currentTimeLights;
     private float _fireDamage = 1f;
 
     private float _smokeTime = 60f;
-    private float _currentSmokeTime;
     private readonly GameRandom _random = GameManager.Instance.World.GetGameRandom();
     private bool _fireSpread = true;
 
+    private Coroutine _checkBlocksCoroutine;
+
 
     // Used to throttle sounds playing.
-    private static readonly List<Vector3i> SoundPlaying = new List<Vector3i>();
     private static readonly List<Vector3i> ParticlePlaying = new List<Vector3i>();
     private const int MaxLights = 32;
 
@@ -68,16 +67,17 @@ public class FireManager {
     private const string SaveFile = "FireManager.dat";
     private ThreadManager.ThreadInfo _dataSaveThreadInfo;
     private float _chanceToExtinguish = 0.05f;
-    public bool Enabled { private set; get; }
+    public bool Enabled { set; get; }
 
     public static FireManager Instance { get; private set; }
 
-    public static void Init() {
-        Instance = new FireManager();
-        Instance.ReadConfig();
+    public void Start()
+    {
+        Instance = this;
     }
 
-    private void ReadConfig() {
+    public void Init()
+    {
         var option = Configuration.GetPropertyValue(AdvFeatureClass, "FireEnable");
         if (!StringParsers.ParseBool(option))
         {
@@ -112,7 +112,6 @@ public class FireManager {
         var strDamage = Configuration.GetPropertyValue(AdvFeatureClass, "FireDamage");
         if (!string.IsNullOrWhiteSpace(strDamage))
             _fireDamage = StringParsers.ParseFloat(strDamage);
-        _currentTime = -1;
 
         var smoke = Configuration.GetPropertyValue(AdvFeatureClass, "SmokeTime");
         if (!string.IsNullOrWhiteSpace(smoke))
@@ -140,27 +139,29 @@ public class FireManager {
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         Log.Out($" :: Fire Interval Check time: {_checkTime}");
 
-        ModEvents.GameUpdate.RegisterHandler(FireUpdate);
-        ModEvents.GameUpdate.RegisterHandler(LightsUpdate);
+
+        InvokeRepeating(nameof(CheckFireSystems), _checkTime, _checkTime);
+        InvokeRepeating(nameof(CheckSmokeSystems), _smokeTime, _smokeTime);
+        InvokeRepeating(nameof(CheckPlayerSystems), 1f, 1f);
+        InvokeRepeating(nameof(LightsUpdate), CheckTimeLights, CheckTimeLights);
+        InvokeRepeating(nameof(Save), 300f, 300f);
+
+        //  ModEvents.GameUpdate.RegisterHandler(FireUpdate);
+        //ModEvents.GameUpdate.RegisterHandler(LightsUpdate);
     }
 
 
     #region LightCode
 
-    private void LightsUpdate() {
-        // Make sure to only run it once
-        lock (Locker)
-        {
-            _currentTimeLights -= Time.deltaTime;
-            if (_currentTimeLights > 0f) return;
-            _currentTimeLights = CheckTimeLights;
-            ShutoffLights();
-            CheckLights();
-        }
+    public void LightsUpdate()
+    {
+        ShutoffLights();
+        CheckLights();
     }
 
 
-    private static void ShutoffLights() {
+    private static void ShutoffLights()
+    {
         if (Shutoff.Count == 0) return;
         if (GameManager.Instance.IsPaused()) return;
         Shutoff.RemoveWhere(light => light == null);
@@ -178,7 +179,8 @@ public class FireManager {
         Shutoff.RemoveWhere(light => light.intensity <= 0f);
     }
 
-    private static void CheckLights() {
+    private static void CheckLights()
+    {
         if (GameManager.Instance.IsPaused()) return;
         var allLights = UnityEngine.Object.FindObjectsOfType<Light>();
         if (allLights.Length <= MaxLights) return;
@@ -207,7 +209,8 @@ public class FireManager {
     #endregion
 
     // Poor man's timed cache
-    private void CheckExtinguishedPosition() {
+    public void CheckExtinguishedPosition()
+    {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         foreach (var position in ExtinguishPositions)
         {
@@ -219,11 +222,13 @@ public class FireManager {
         }
     }
 
-    public ConcurrentDictionary<Vector3i, BlockValue> GetFireMap() {
+    public ConcurrentDictionary<Vector3i, BlockValue> GetFireMap()
+    {
         return FireMap;
     }
 
-    public int CloseFires(Vector3i position, int range = 5) {
+    public int CloseFires(Vector3i position, int range = 5)
+    {
         var count = 0;
         for (var x = position.x - range; x <= position.x + range; x++)
         {
@@ -240,7 +245,8 @@ public class FireManager {
         return count;
     }
 
-    public bool IsPositionCloseToFire(Vector3i position, int range = 5) {
+    public bool IsPositionCloseToFire(Vector3i position, int range = 5)
+    {
         for (var x = position.x - range; x <= position.x + range; x++)
         {
             for (var z = position.z - range; z <= position.z + range; z++)
@@ -256,94 +262,93 @@ public class FireManager {
         return false;
     }
 
-    private float _checkPlayer = 0;
-    private void FireUpdate() {
-        // Make sure to only run it once
-        lock (Locker)
+
+    public void CheckFireSystems()
+    {
+        if (_checkBlocksCoroutine != null)
         {
-            _currentTime -= Time.deltaTime;
-            _currentSmokeTime -= Time.deltaTime;
-            _checkPlayer -= Time.deltaTime;
-            if (_currentTime <= 0f)
-            {
-                // ThreadManager.StartCoroutine(ProcessBlocks());
-                GameManager.Instance.StopCoroutine(CheckBlocks());
-                GameManager.Instance.StartCoroutine(CheckBlocks());
-                _currentTime =  _checkTime;
-            }
-
-            if (_currentSmokeTime <= 0f)
-            {
-                CheckExtinguishedPosition();
-                _currentSmokeTime = _smokeTime;
-            }
-
-            if (_checkPlayer <= 0f)
-            {
-                CheckForPlayer();
-                _checkPlayer = 1f;
-            }
+            GameManager.Instance.StopCoroutine(_checkBlocksCoroutine);
         }
+        _checkBlocksCoroutine = GameManager.Instance.StartCoroutine(CheckBlocks());
     }
 
-    private void CheckForPlayer() {
+    public void CheckSmokeSystems()
+    {
+        CheckExtinguishedPosition();
+    }
+    public void CheckPlayerSystems()
+    {
+        CheckForPlayer();
+    }
+
+    public void ForceStop()
+    {
+        if (_checkBlocksCoroutine != null)
+            StopCoroutine(_checkBlocksCoroutine);
         
+        CancelInvoke();
+        Save();
+    }
+
+ 
+
+    public void CheckForPlayer()
+    {
+        if (GameManager.Instance.World == null) return;
+        if (GameManager.Instance.World.Players == null) return;
+
         var fireSound = _fireSound.ToLower();
         foreach (var player in GameManager.Instance.World.Players.list)
         {
             var position = new Vector3i(player.position);
 
-            if ( Instance.IsPositionCloseToFire(position, 10) ) 
+            if (Instance.IsPositionCloseToFire(position, 10))
             {
                 // Check if we are already looping on the player.
                 if (Manager.loopingOnEntity.TryGetValue(player.entityId, out var value))
                 {
-                    if ( value.ContainsKey(fireSound) )
-                        continue;   
+                    if (value.ContainsKey(fireSound))
+                        continue;
                 }
-                Manager.PlayInsidePlayerHead(fireSound, player.entityId, isLooping:true);
+
+                Manager.PlayInsidePlayerHead(fireSound, player.entityId, isLooping: true);
                 continue;
             }
+
             Manager.StopLoopInsidePlayerHead(fireSound, player.entityId);
-            
         }
     }
 
-    private IEnumerator CheckBlocks() {
+    public IEnumerator CheckBlocks()
+    {
         if (GameManager.Instance.IsPaused()) yield break;
         if (!GameManager.Instance.gameStateManager.IsGameStarted()) yield break;
         AdvLogging.DisplayLog(AdvFeatureClass,
             $"Checking Blocks for Fire: {FireMap.Count} Blocks registered. Extinguished Blocks: {ExtinguishPositions.Count}");
 
-        CheckForPlayer();
-
         var changes = new List<BlockChangeInfo>();
         var neighbors = new List<Vector3i>();
-
-//        CheckExtinguishedPosition();
-        //      yield return null;
-
         var removeFireMap = new List<Vector3i>();
+
         var chunkCluster = GameManager.Instance.World.ChunkClusters[0];
         if (chunkCluster == null) yield break;
-        var watch1 = Stopwatch.StartNew();
         var counter = 0;
 
         var rainfallValue = WeatherManager.Instance.GetCurrentRainfallValue();
         foreach (var posDict in FireMap)
         {
             counter++;
-             //only process 10 blocks per frame.
-            if ( counter % 10 == 0)
-              yield return null;
 
             var blockPos = posDict.Key;
             if (!IsFlammable(blockPos))
             {
-                //Remove(blockPos);
                 removeFireMap.Add(blockPos);
                 continue;
             }
+
+            //only process 10 blocks per frame.
+            if (counter % 10 == 0)
+                yield return null;
 
             var block = GameManager.Instance.World.GetBlock(blockPos);
             // Get block specific damages
@@ -361,8 +366,8 @@ public class FireManager {
 
             if (block.damage >= block.Block.MaxDamage)
             {
-                block.Block.SpawnDestroyParticleEffect(GameManager.Instance.World, block, blockPos, 1f,
-                    block.Block.tintColor, -1);
+                //block.Block.SpawnDestroyParticleEffect(GameManager.Instance.World, block, blockPos, 1f, block.Block.tintColor, -1);
+                block.Block.SpawnDestroyFX(GameManager.Instance.World, block, blockPos, block.Block.tintColor, -1);
                 var blockValue2 = block.Block.DowngradeBlock;
 
                 if (block.Block.Properties.Values.ContainsKey("FireDowngradeBlock"))
@@ -380,19 +385,12 @@ public class FireManager {
                 blockValue2.meta = block.meta;
 
                 block = blockValue2;
-                OnDestroyed?.Invoke();
-            }
+                if (block.isair)
+                {
+                    removeFireMap.Add(blockPos);
+                }
 
-            if (!block.isair)
-            {
-                  SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                    NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(blockPos, -1));
-            }
-            else
-            {
-                //removeFireMap.Add(blockPos);
-                SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                  NetPackageManager.GetPackage<NetPackageRemoveFirePosition>().Setup(blockPos, -1));
+                OnBlockDestroyed(blockPos);
             }
 
             changes.Add(new BlockChangeInfo(0, blockPos, block));
@@ -433,62 +431,63 @@ public class FireManager {
         if (changes.Count > 0)
             GameManager.Instance.SetBlocksRPC(changes);
 
+        // Clean up any block positions that have already been removed.
+        if (removeFireMap.Count > 0)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+                NetPackageManager.GetPackage<NetPackageRemoveFirePositions>().Setup(removeFireMap, -1));
+        }
+
         if (_fireSpread == false)
         {
-            OnFireUpdate?.Invoke(FireMap.Count);
+            InvokeFireUpdate();
             yield break;
         }
-        if (neighbors.Count > 0)
-        {
-            // Spread the fire to the neighbors. We delay this here so the fire does not spread too quickly or immediately, getting stuck in the above loop.
-            foreach (var pos in neighbors)
-            {
-                // Do not distribute this immediately, as there could be a lot of changes. Instead, use the AddPositions netpackage to update everything.
-                Add(pos, -1, false);
-            }
-            SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
-                NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(neighbors, -1));
-        }
-        OnFireUpdate?.Invoke(FireMap.Count);
 
+
+        yield return ProcessNeighbourBlocks(neighbors);
+
+
+        InvokeFireUpdate();
 
         //Debug.Log($"Sound Counter: {SoundPlaying.Count}, Fire Counter: {FireMap.Count} Particle Count: {ParticlePlaying.Count}: Heat: {heatMeter}");
     }
 
-
-    private void ToggleSound(Vector3i blockPos, bool turnOn) {
-        return;
-        //if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        if (!ThreadManager.IsMainThread()) return;
-        // If there's a lot of fires going on, turn off the sounds.
-        if (turnOn && FireMap.Count > 60)
+    public void InvokeFireUpdate()
+    {
+        OnFireUpdate?.Invoke(FireMap.Count);
+        List<Vector3i> positions = new List<Vector3i>();
+        positions.AddRange(FireMap.Keys);
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
-            turnOn = false;
-        }
-
-        var sound = GetFireSound(blockPos);
-        if (string.IsNullOrEmpty(sound)) return;
-
-        if (turnOn)
-        {
-            if (SoundPlaying.Contains(blockPos))
-                return;
-            SoundPlaying.Add(blockPos);
-            Manager.Play(blockPos, sound);
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                NetPackageManager.GetPackage<NetPackageFireUpdate>().Setup(positions));
             return;
         }
+        
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageFireUpdate>().Setup(positions));
+    }
 
-        // No sound?
-        if (!SoundPlaying.Contains(blockPos)) return;
-        Manager.Stop(blockPos, sound);
-        SoundPlaying.Remove(blockPos);
+    public IEnumerator ProcessNeighbourBlocks(List<Vector3i> neighbors)
+    {
+        if (neighbors.Count == 0) yield break;
+        AddBlocks(neighbors);
+    }
+
+    public void SyncFireMap()
+    {
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
+
+        var positions = new List<Vector3i>();
+        positions.AddRange(FireMap.Keys);
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageFireUpdate>().Setup(positions));
     }
 
 
-    private void ToggleParticle(Vector3i blockPos, bool turnOn) {
-        // if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
-        if (!ThreadManager.IsMainThread()) return;
-
+    public void ToggleParticle(Vector3i blockPos, bool turnOn)
+    {
         var randomFireParticle = GetRandomFireParticle(blockPos);
         if (turnOn)
         {
@@ -503,7 +502,8 @@ public class FireManager {
         BlockUtilitiesSDX.removeParticles(blockPos);
     }
 
-    public string GetFireSound(Vector3i blockPos) {
+    public string GetFireSound(Vector3i blockPos)
+    {
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
         var fireSound = _fireSound;
@@ -512,16 +512,17 @@ public class FireManager {
         return fireSound;
     }
 
-    private string GetRandomFireParticle(Vector3i blockPos) {
+    public string GetRandomFireParticle(Vector3i blockPos)
+    {
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
-        var fireParticle = _fireParticle;
-        if (block.Block.Properties.Contains("FireParticle"))
-            fireParticle = block.Block.Properties.GetString("FireParticle");
-
         if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
-            fireParticle = block.Block.blockMaterial.Properties.GetString("FireParticle");
+            return block.Block.blockMaterial.Properties.GetString("FireParticle");
 
+        if (block.Block.Properties.Contains("FireParticle"))
+            return block.Block.Properties.GetString("FireParticle");
+
+        var fireParticle = _fireParticle;
         var randomFire = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
         if (string.IsNullOrEmpty(randomFire)) return fireParticle;
         var fireParticles = randomFire.Split(',');
@@ -531,7 +532,8 @@ public class FireManager {
         return fireParticle;
     }
 
-    public string GetRandomSmokeParticle(Vector3i blockPos) {
+    public string GetRandomSmokeParticle(Vector3i blockPos)
+    {
         var block = GameManager.Instance.World.GetBlock(blockPos);
 
         var smokeParticle = _smokeParticle;
@@ -551,7 +553,8 @@ public class FireManager {
     }
 
     // Check to see if the nearby blocks can catch fire.
-    private static List<Vector3i> CheckNeighbors(Vector3i blockPos) {
+    private static List<Vector3i> CheckNeighbors(Vector3i blockPos)
+    {
         var neighbors = new List<Vector3i>();
         foreach (var direction in Vector3i.AllDirections)
         {
@@ -565,7 +568,8 @@ public class FireManager {
         return neighbors;
     }
 
-    private static bool IsNearWater(Vector3i blockPos) {
+    private static bool IsNearWater(Vector3i blockPos)
+    {
         foreach (var direction in Vector3i.AllDirections)
         {
             var position = blockPos + direction;
@@ -579,7 +583,8 @@ public class FireManager {
         return false;
     }
 
-    private static bool IsFlammable(BlockValue blockValue) {
+    private static bool IsFlammable(BlockValue blockValue)
+    {
         if (blockValue.Block.HasAnyFastTags(FastTags<TagGroup.Global>.Parse("inflammable"))) return false;
         if (blockValue.ischild) return false;
         if (blockValue.isair) return false;
@@ -603,7 +608,8 @@ public class FireManager {
         return matSurface.Contains(blockMaterial.SurfaceCategory);
     }
 
-    private static bool IsFlammable(Vector3i blockPos) {
+    private static bool IsFlammable(Vector3i blockPos)
+    {
         if (GameManager.Instance.World.IsWithinTraderArea(blockPos)) return false;
         if (ExtinguishPositions.ContainsKey(blockPos)) return false;
 
@@ -616,7 +622,8 @@ public class FireManager {
         return IsFlammable(blockValue);
     }
 
-    private static void Write(BinaryWriter bw) {
+    private static void Write(BinaryWriter bw)
+    {
         // Save the burning blocks.
         var writeOut = "";
         foreach (var temp in FireMap)
@@ -632,14 +639,15 @@ public class FireManager {
         bw.Write(writeOut2);
     }
 
-    private void Read(BinaryReader br) {
+    public void Read(BinaryReader br)
+    {
         // Read burning blocks
         var positions = br.ReadString();
         foreach (var position in positions.Split(';'))
         {
             if (string.IsNullOrEmpty(position)) continue;
             var vector = StringParsers.ParseVector3i(position);
-            AddBlock(vector);
+            ToggleParticle(vector, true);
         }
 
         // Read extinguished blocks.
@@ -652,12 +660,26 @@ public class FireManager {
         }
     }
 
-    public void ClearPosOnly(Vector3i blockPos) {
-        ToggleSound(blockPos, false);
+    public void OnBlockDestroyed(Vector3i blockPos)
+    {
+        OnDestroyed?.Invoke();
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                NetPackageManager.GetPackage<NetPackageBlockDestroyedByFire>().Setup(blockPos, -1));
+            return;
+        }
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageBlockDestroyedByFire>().Setup(blockPos, -1));
+    }
+
+    public void ClearPosOnly(Vector3i blockPos)
+    {
         ToggleParticle(blockPos, false);
     }
 
-    public void ClearPos(Vector3i blockPos) {
+    public void ClearPos(Vector3i blockPos)
+    {
         ClearPosOnly(blockPos);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -670,17 +692,11 @@ public class FireManager {
             NetPackageManager.GetPackage<NetPackageRemoveParticleEffect>().Setup(blockPos, -1));
     }
 
-    public void Add(Vector3i blockPos, int entityID = -1, bool net = true) {
-        if (!IsFlammable(blockPos))
-            return;
+    public void Add(Vector3i blockPos, int entityID = -1, bool net = true)
+    {
+        AddBlock(blockPos, entityID);
 
-        var block = GameManager.Instance.World.GetBlock(blockPos);
-        if (!FireMap.TryAdd(blockPos, block)) return;
-        
-        OnStartFire?.Invoke(entityID);
-        AddBlock(blockPos);
-
-       if (net == false) return;
+        if (net == false) return;
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
             SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
@@ -691,10 +707,39 @@ public class FireManager {
         SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
             NetPackageManager.GetPackage<NetPackageAddFirePosition>().Setup(blockPos, entityID));
     }
+    public void AddBlocks(List<Vector3i> blocksPos, int entityID = -1)
+    {
+        foreach( var blockPos in blocksPos)
+            AddBlock(blockPos, entityID);
+
+        if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            SingletonMonoBehaviour<ConnectionManager>.Instance.SendToServer(
+                NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(blocksPos, entityID));
+            return;
+        }
+
+        SingletonMonoBehaviour<ConnectionManager>.Instance.SendPackage(
+            NetPackageManager.GetPackage<NetPackageAddFirePositions>().Setup(blocksPos, entityID));
+    }
+
+
+    public void AddBlock(Vector3i blockPos, int entityId)
+    {
+        if (!IsFlammable(blockPos))
+            return;
+
+        OnStartFire?.Invoke(entityId);
+        ToggleParticle(blockPos, true);
+        
+        var block = GameManager.Instance.World.GetBlock(blockPos);
+        FireMap.TryAdd(blockPos, block);
+    }
 
 
     // General call to remove the fire from a block, and add an extinguished counter, so blocks can be temporarily immune to restarting.
-    public void Extinguish(Vector3i blockPos, int entityID = -1) {
+    public void Extinguish(Vector3i blockPos, int entityID = -1)
+    {
         ExtinguishBlock(blockPos, entityID);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
         {
@@ -727,7 +772,8 @@ public class FireManager {
         GameManager.Instance.World.SetBlockRPC(0, blockPos, extinguishedBlock);
     }
 
-    public void Remove(Vector3i blockPos, int entityID = -1) {
+    public void Remove(Vector3i blockPos, int entityID = -1)
+    {
         RemoveFire(blockPos);
 
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
@@ -742,14 +788,14 @@ public class FireManager {
     }
 
 
-    public void RemoveFire(Vector3i blockPos) {
-        //if (!FireMap.ContainsKey(blockPos)) return;
-        ToggleSound(blockPos, false);
+    public void RemoveFire(Vector3i blockPos)
+    {
         ToggleParticle(blockPos, false);
         FireMap.TryRemove(blockPos, out _);
     }
 
-    public void ExtinguishBlock(Vector3i blockPos, int entityId) {
+    public void ExtinguishBlock(Vector3i blockPos, int entityId)
+    {
         var worldTime = GameManager.Instance.World.GetWorldTime();
         var expiry = worldTime + _smokeTime;
 
@@ -758,29 +804,21 @@ public class FireManager {
         ExtinguishPositions[blockPos] = expiry;
         RemoveFire(blockPos);
         OnExtinguish?.Invoke(ExtinguishPositions.Count, entityId);
-        //FireMap.TryRemove(blockPos, out _);
 
         var block = GameManager.Instance.World.GetBlock(blockPos);
-//        ToggleSound(blockPos, false);
-
         if (block.isair || !(_smokeTime > 0)) return;
         var randomSmokeParticle = GetRandomSmokeParticle(blockPos);
         BlockUtilitiesSDX.addParticlesCentered(randomSmokeParticle, blockPos);
     }
 
 
-    // Add flammable blocks to the Fire Map
-    public void AddBlock(Vector3i blockPos) {
-      
-        ToggleSound(blockPos, true);
-        ToggleParticle(blockPos, true);
-    }
-
-    public static bool IsBurning(Vector3i blockPos) {
+    public static bool IsBurning(Vector3i blockPos)
+    {
         return Instance.Enabled && FireMap.ContainsKey(blockPos);
     }
 
-    private int SaveDataThreaded(ThreadManager.ThreadInfo threadInfo) {
+    public int SaveDataThreaded(ThreadManager.ThreadInfo threadInfo)
+    {
         var pooledExpandableMemoryStream =
             (PooledExpandableMemoryStream)threadInfo.parameter;
         var text = $"{GameIO.GetSaveGameDir()}/{SaveFile}";
@@ -797,7 +835,19 @@ public class FireManager {
         return -1;
     }
 
-    private void Save() {
+    public static bool canFirePersists()
+    {
+        var firePersists = Configuration.GetPropertyValue(AdvFeatureClass, "FirePersists");
+        if (StringParsers.TryParseBool(firePersists, out var firePersistsBool))
+        {
+            return firePersistsBool;
+        }
+        return false;
+    }
+    public void Save()
+    {
+      if ( !canFirePersists()) return;
+
         if (_dataSaveThreadInfo == null || !ThreadManager.ActiveThreads.ContainsKey("silent_FireDataSave"))
         {
             Log.Out($"FireManager saving {FireMap.Count} Fires...");
@@ -818,7 +868,10 @@ public class FireManager {
         }
     }
 
-    private void Load() {
+    public void Load()
+    {
+        if ( !canFirePersists()) return;
+        
         var path = $"{GameIO.GetSaveGameDir()}/{SaveFile}";
         if (!Directory.Exists(GameIO.GetSaveGameDir()) || !File.Exists(path)) return;
 
@@ -844,7 +897,8 @@ public class FireManager {
         Log.Out($"Fire Manager {path} Loaded: {FireMap.Count}");
     }
 
-    public void Reset() {
+    public void Reset()
+    {
         Log.Out("Removing all blocks that are on fire and smoke.");
         lock (Locker)
         {

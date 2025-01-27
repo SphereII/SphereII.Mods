@@ -150,7 +150,7 @@ public class CropManager
     }
     public PlantData GetPlant(Vector3i position)
     {
-        return _cropMap.ContainsKey(position) ? _cropMap[position] : null;
+        return _cropMap.GetValueOrDefault(position);
     }
     public void CheckCrops()
     {
