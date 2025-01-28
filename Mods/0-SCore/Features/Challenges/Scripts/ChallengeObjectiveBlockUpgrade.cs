@@ -35,6 +35,7 @@ namespace Challenges {
 
         private void Current_BlockUpgrade(string block, Vector3i blockPos) {
             if (!CheckBlockName(block)) return;
+            if (!CheckBlockTags(block)) return;
             if (!CheckBiome()) return;
             if (!CheckHoldingItems()) return;
             Current++;

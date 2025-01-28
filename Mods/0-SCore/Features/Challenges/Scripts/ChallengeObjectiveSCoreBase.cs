@@ -72,6 +72,12 @@ namespace Challenges {
             var blockTags = FastTags<TagGroup.Global>.Parse(blockTag);
             return block.Block.HasAnyFastTags(blockTags);
         }
+        public bool CheckBlockTags(string _blockName) {
+            if (string.IsNullOrEmpty(blockTag)) return true;
+            var blockTags = FastTags<TagGroup.Global>.Parse(blockTag);
+            var blockByName = Block.GetBlockByName(_blockName, true);
+            return blockByName.HasAnyFastTags(blockTags);
+        }
 
         public bool CheckHoldingItems() {
             // No items defined, so skipping.

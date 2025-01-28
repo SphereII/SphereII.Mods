@@ -20,6 +20,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.53.1812
+	[ Challenges ]
+		- Added in a missing block tag check on the BlockUpgrade challenge
+
 Version: 1.2.52.1518
 
 	[ Challenges ]
