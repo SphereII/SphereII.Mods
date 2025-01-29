@@ -35,6 +35,15 @@ namespace Challenges {
                 return Localization.Get(_descriptionOverride);
             }
         }
+        
+        public override void HandleAddHooks() {
+            EventOnClientKill.OnClientKillEvent += Check_EntityKill;
+        }
+
+        public override void HandleRemoveHooks() {
+            EventOnClientKill.OnClientKillEvent -= Check_EntityKill;
+        }
+
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
         protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged) {
             if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)

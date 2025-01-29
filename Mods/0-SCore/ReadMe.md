@@ -20,6 +20,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.54.1354
+	[ NPCs ]
+		- Fixed an issue where NPCs could be quick stacked into Drop box and other storage units
+
+	[ Challenges ]
+		- Fixed an issue where Stealth Kills would trigger twice, resulting in credit of 2 for 1 kill.
+
 Version: 1.2.53.1812
 	[ Challenges ]
 		- Added in a missing block tag check on the BlockUpgrade challenge

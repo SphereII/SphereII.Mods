@@ -86,6 +86,10 @@ namespace Challenges {
             EventOnClientKill.OnClientKillEvent += KillEntity;
         }
 
+        public override void HandleRemoveHooks() {
+            EventOnClientKill.OnClientKillEvent -= KillEntity;
+        }
+
         private bool KillEntity(DamageResponse _dmresponse, EntityAlive entitydamaged)
         {
             var result = Check_EntityKill(_dmresponse, entitydamaged);
@@ -97,10 +101,7 @@ namespace Challenges {
             return result;
         }
 
-        public override void HandleRemoveHooks() {
-            EventOnClientKill.OnClientKillEvent -= KillEntity;
-        }
-
+    
         public virtual bool HasPrerequisiteCondition(DamageResponse dmgResponse) {
             if (!dmgResponse.Fatal) return false;
             if (StealthCheck)
