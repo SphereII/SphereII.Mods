@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Audio;
 using HarmonyLib;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace SCore.Harmony.TileEntities
@@ -31,21 +32,34 @@ namespace SCore.Harmony.TileEntities
             return CanPlaceItemInContainerViaTags(block, currentStack, true);
         }
 
+        private static bool CheckItemsForContainer(ItemStack itemStack)
+        {
+            if (!itemStack.itemValue.HasMetadata("NoStorage"))
+            {
+                return true;
+            }
+
+            var noStorageString = itemStack.itemValue.GetMetadata("NoStorage")?.ToString();
+            if (string.IsNullOrEmpty(noStorageString))
+            {
+                return true;
+            }
+
+            var noStorageId = StringParsers.ParseSInt32(noStorageString);
+            if (noStorageId > 0)
+            {
+                DisplayToolTip(null, itemStack);
+                return false;
+            }
+
+            return true;
+        }
+
         private static bool CanPlaceItemInContainerViaTags(Block block, ItemStack itemStack, bool showToolTip = false)
         {
-            if (itemStack.itemValue.HasMetadata("NoStorage"))
-            {
-                var noStorageString = itemStack.itemValue.GetMetadata("NoStorage")?.ToString();
-                if (!string.IsNullOrEmpty(noStorageString))
-                {
-                    var noStorageId = StringParsers.ParseSInt32(noStorageString);
-                    if (noStorageId > 0)
-                    {
-                        DisplayToolTip(block, itemStack);
-                        return false;
-                    }
-                }
-            }
+            if (CheckItemsForContainer(itemStack) == false) return false;
+
+            if (block == null) return true;
 
             // If the tags don't exist, skip all the checks.
             if (!block.Properties.Contains("AllowTags") && !block.Properties.Contains("DisallowTags")) return true;
@@ -73,9 +87,12 @@ namespace SCore.Harmony.TileEntities
         private static void DisplayToolTip(Block block, ItemStack itemStack)
         {
             var message = Localization.Get("ItemCannotBePlaced");
-            if (block.Properties.Contains("DisallowedKey"))
+            if (block != null)
             {
-                message = Localization.Get(block.Properties.GetString("DisallowedKey"));
+                if (block.Properties.Contains("DisallowedKey"))
+                {
+                    message = Localization.Get(block.Properties.GetString("DisallowedKey"));
+                }
             }
 
             if (itemStack.itemValue.ItemClass.Properties.Contains("DisallowedKey"))
@@ -100,7 +117,9 @@ namespace SCore.Harmony.TileEntities
                 {
                     if (__instance is ITileEntityLootable tileEntityLootable)
                     {
-                        return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+                        if (tileEntityLootable.GetChunk() != null)
+                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+                        return CanPlaceItemInContainerViaTags(null, _itemStack);
                     }
 
                     return true;
@@ -122,7 +141,7 @@ namespace SCore.Harmony.TileEntities
                 }
             }
         }
-        
+
         public class TileEntityContainerStoragePatch
         {
             [HarmonyPatch(typeof(TileEntityLootContainer))]
@@ -133,7 +152,9 @@ namespace SCore.Harmony.TileEntities
                 {
                     if (__instance is ITileEntityLootable tileEntityLootable)
                     {
-                        return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+                        if (tileEntityLootable.GetChunk() != null)
+                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _itemStack);
+                        return CanPlaceItemInContainerViaTags(null, _itemStack);
                     }
 
                     return true;
@@ -148,7 +169,9 @@ namespace SCore.Harmony.TileEntities
                 {
                     if (__instance is ITileEntityLootable tileEntityLootable)
                     {
-                        return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _item);
+                        if ( tileEntityLootable.GetChunk() != null )
+                            return CanPlaceItemInContainerViaTags(tileEntityLootable.blockValue.Block, _item);
+                        return CanPlaceItemInContainerViaTags(null, _item);
                     }
 
                     return true;

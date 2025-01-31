@@ -20,6 +20,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version:
+	[ NPCs ]
+		- Fixed a few issues with null references when adding NPCs to storage.
+		
+
 Version: 1.2.54.1354
 	[ NPCs ]
 		- Fixed an issue where NPCs could be quick stacked into Drop box and other storage units
