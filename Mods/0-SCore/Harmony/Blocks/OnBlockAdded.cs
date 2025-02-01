@@ -7,7 +7,9 @@ namespace SCore.Harmony.Blocks {
         public class OnBlockAddedPatch {
             private static string _fieldName = "RegisterToFireManager";
 
-            public static void Postfix(Block __instance, Vector3i _blockPos) {
+            public static void Postfix(Block __instance, Vector3i _blockPos)
+            {
+                if (FireManager.Instance == null) return;
                 if (!FireManager.Instance.Enabled) return;
                 if (!__instance.Properties.Values.ContainsKey(_fieldName)) return;
 

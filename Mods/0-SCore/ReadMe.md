@@ -20,7 +20,11 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
-Version:
+Version: 1.2.57.733
+	[ On Block Added ]
+		- Fixed a null reference in onBlockAdded patch when loading prefab editor.
+
+Version:1.2.56.900
 	[ NPCs ]
 		- Fixed a few issues with null references when adding NPCs to storage.
 		
