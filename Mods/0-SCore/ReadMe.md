@@ -20,6 +20,12 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.59.838
+	[ Fire Manager ]
+		- Fixed a net package setup that was causing bad performance
+		- Adjusted how the netpackages are sent to the clients and recieved by the clients
+		- Reduced the information distributed via net packages
+
 Version: 1.2.57.733
 	[ On Block Added ]
 		- Fixed a null reference in onBlockAdded patch when loading prefab editor.

@@ -1,42 +1,32 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEngine;
 
 /// <summary>
 /// Distributes the call to all clients to add a block that is considered burning.
 /// </summary>
-
 [UsedImplicitly]
 public class NetPackageFireUpdate : NetPackage
 {
-    private List<Vector3i> _positions;
-    private int _entityThatCausedIt;
+    private int _count;
 
-    public NetPackageFireUpdate Setup(List<Vector3i> positions)
+    public NetPackageFireUpdate Setup(int count)
     {
-        _positions = positions;
+        _count = count;
         return this;
     }
 
-    public override void read(PooledBinaryReader br) {
-        var num = (int)br.ReadInt16();
-        _positions = new List<Vector3i>();
-        for (var i = 0; i < num; i++)
-        {
-            var position = StreamUtils.ReadVector3i(br);
-            _positions.Add(position);
-        }
+    public override void read(PooledBinaryReader br)
+    {
+        _count = br.ReadInt32();
     }
 
-    public override void write(PooledBinaryWriter bw) {
+    public override void write(PooledBinaryWriter bw)
+    {
         base.write(bw);
-        var count = _positions.Count;
-        bw.Write((short)count);
-        for (var i = 0; i < count; i++)
-        {
-            StreamUtils.Write(bw, _positions[i]);
-        }
+        bw.Write(_count);
     }
- 
+
 
     public override int GetLength()
     {
@@ -49,7 +39,7 @@ public class NetPackageFireUpdate : NetPackage
         {
             return;
         }
-        FireManager.Instance?.InvokeFireUpdate();
+
+        FireManager.Instance.InvokeFireUpdate(_count);
     }
 }
-

@@ -28,8 +28,8 @@ namespace Challenges {
             FireManager.Instance.OnDestroyed -= Check_Block;
         }
 
-        private void Check_Block() {
-            Current++;
+        private void Check_Block(int count) {
+            Current += count;
             CheckObjectiveComplete();
         }
 

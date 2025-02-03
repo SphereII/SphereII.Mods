@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using UnityEngine;
 
 /// <summary>
 /// Distributes the call to all clients to add a block that is considered burning.
@@ -7,29 +8,23 @@
 [UsedImplicitly]
 public class NetPackageBlockDestroyedByFire : NetPackage
 {
-    private Vector3i _position;
-    private int _entityThatCausedIt;
-
-    public NetPackageBlockDestroyedByFire Setup(Vector3i position, int entityThatCausedIt)
+    private int _count;
+    public NetPackageBlockDestroyedByFire Setup(int count)
     {
-        _position = position;
-        _entityThatCausedIt = entityThatCausedIt;
+        _count = count;
         return this;
     }
 
     public override void read(PooledBinaryReader br)
     {
-        _position = new Vector3i(br.ReadInt32(), br.ReadInt32(), br.ReadInt32());
-        _entityThatCausedIt = br.ReadInt32();
+        _count = br.ReadInt32();
     }
 
     public override void write(PooledBinaryWriter bw)
     {
         base.write(bw);
-        bw.Write(_position.x);
-        bw.Write(_position.y);
-        bw.Write(_position.z);
-        bw.Write(_entityThatCausedIt);
+
+        bw.Write(_count);
     }
 
     public override int GetLength()
@@ -43,7 +38,8 @@ public class NetPackageBlockDestroyedByFire : NetPackage
         {
             return;
         } 
-        FireManager.Instance?.OnBlockDestroyed(_position);
+        FireManager.Instance.InvokeOnBlockDestroyed(_count);
     }
+   
 }
 
