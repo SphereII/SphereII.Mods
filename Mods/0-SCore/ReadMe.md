@@ -20,6 +20,10 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.61.2007
+	[ Fire Manager ]
+		- Fixed a potential threading issue with fire particles.
+
 Version: 1.2.59.838
 	[ Fire Manager ]
 		- Fixed a net package setup that was causing bad performance

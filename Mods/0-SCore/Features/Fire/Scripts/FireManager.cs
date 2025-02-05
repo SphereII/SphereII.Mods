@@ -6,6 +6,7 @@ using UnityEngine;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using Audio;
 using Debug = UnityEngine.Debug;
 
@@ -132,6 +133,8 @@ public class FireManager : MonoBehaviour
         if (!string.IsNullOrEmpty(option))
             _chanceToExtinguish = StringParsers.ParseFloat(optionChanceToExtinguish);
 
+        PreCacheParticles();
+        
         // Read the FireManager
         Load();
 
@@ -519,6 +522,41 @@ public class FireManager : MonoBehaviour
         return fireSound;
     }
 
+    public void PreCacheParticles()
+    {
+        string strParticleName;
+        for (int i = 0; i < Block.MAX_BLOCKS; i++)
+        {
+            if (Block.list[i] == null) continue;
+            var block = Block.list[i];
+            if ( block == null ) continue;
+            if (block.blockMaterial != null)
+            {
+                if (block.blockMaterial.Properties.Contains("FireParticle"))
+                {
+                    strParticleName = block.blockMaterial.Properties.GetString("FireParticle");
+                    CheckParticle(strParticleName);
+                }
+            }
+
+            if (block.Properties.Contains("FireParticle"))
+            {
+                strParticleName = block.Properties.GetString("FireParticle");
+                CheckParticle(strParticleName);
+            }
+        }
+        strParticleName = Configuration.GetPropertyValue(AdvFeatureClass, "RandomFireParticle");
+        CheckParticle(strParticleName);
+        CheckParticle(_fireParticle);
+        CheckParticle(_smokeParticle);
+    }
+
+    private void CheckParticle(string particleName)
+    {
+        if ( string.IsNullOrEmpty(particleName) || ParticleEffect.IsAvailable(particleName)) return;
+        Log.Out($"Preloading Particle: {particleName}");
+        ParticleEffect.LoadAsset(particleName);
+    }
     public string GetRandomFireParticle(Vector3i blockPos)
     {
         var block = GameManager.Instance.World.GetBlock(blockPos);
@@ -656,6 +694,7 @@ public class FireManager : MonoBehaviour
             var vector = StringParsers.ParseVector3i(position);
             ToggleParticle(vector, true);
         }
+        
 
         // Read extinguished blocks.
         var extingished = br.ReadString();
