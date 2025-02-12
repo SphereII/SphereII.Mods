@@ -39,10 +39,10 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyVersion("20.0.*")]
 
-[assembly: AssemblyVersion("1.2.<#= this.RevisionNumber #>.<#= this.BuildNumber #>")]
-[assembly: AssemblyFileVersion("1.2.<#= this.RevisionNumber #>.<#= this.BuildNumber #>")]
+[assembly: AssemblyVersion("1.3.<#= this.RevisionNumber #>.<#= this.BuildNumber #>")]
+[assembly: AssemblyFileVersion("1.3.<#= this.RevisionNumber #>.<#= this.BuildNumber #>")]
 <#+
-    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2024,12,07)).TotalDays + 1;
+    int RevisionNumber = (int)(DateTime.UtcNow - new DateTime(2025,2,11)).TotalDays + 1;
     string BuildNumber = DateTime.Now.ToString("HHmm");
     
 #>

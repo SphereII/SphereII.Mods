@@ -20,6 +20,9 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.3.2.1535
+	- No Code changes. Rebuilt against Game Version 1.3.
+
 Version: 1.2.68.1007
 	[ Material Modifier ]
 		- With approval from Zilox, consumed the Material Modifier mod into 0-SCore to take over maintenance going forward.
