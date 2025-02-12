@@ -16,6 +16,7 @@ public enum ChallengeObjectiveTypeSCore : byte {
     ChallengeObjectiveGatherTags=114,
     ChallengeObjectiveWearTags=115,
     ChallengeObjectiveCVar=116,
-    ChallengeObjectiveCraftWithTags=117
+    ChallengeObjectiveCraftWithTags=117,
+    ChallengeObjectivePlaceBlockByTag=118
 
 }

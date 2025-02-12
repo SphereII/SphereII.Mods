@@ -20,6 +20,29 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.2.68.1007
+	[ Material Modifier ]
+		- With approval from Zilox, consumed the Material Modifier mod into 0-SCore to take over maintenance going forward.
+			<triggered_effect trigger="onSelfFirstSpawn" action="ReplaceMaterial, SCore" 
+				target_material_name="HD_Arlene_Radiated" replace_material="#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_Rad"/>
+	
+	[ Challenges ]
+		- Added an item_tags to the CraftWithIngredient Challenge to check the tag for an ingredient
+			<objective type="CraftWithIngredient, SCore" count="2" item_tags="tag"/>
+			- This can work with ingredient= as well, and mix and match.
+			- Tag is checked first, then ingredient name.
+			- If tag is found, then it counts towards the challenge, but does not again check the ingredient name.
+
+		- Added a PlaceBlockByTag objective that checks for block tag when a block is placed.
+			<objective type="BlockPlaceByTag, SCore" count="2" block_tags="myTag"/>
+
+		- Added a loot_list attribute to GatherTags. It varies that the loot container is opened, with the loot_list name, before counting.
+			- This will not be 100% accurate, as it counts the items you have, and not necessarily how many you are grabbing from the loot container itself
+	            <objective type="GatherTags, SCore" loot_list="garbage"  item_tags="junk" count="10"/>
+
+
+
+
 Version: 1.2.61.2007
 	[ Fire Manager ]
 		- Fixed a potential threading issue with fire particles.

@@ -10,13 +10,16 @@ namespace Challenges {
      * A new challenge objective to allow a player to craft with a certain ingredient, rather than a recipe itself.
      *
      * <objective type="CraftWithIngredient, SCore" count="2" ingredient="resourceLegendaryParts"/>
+     * <objective type="CraftWithIngredient, SCore" count="2" item_tags="tag"/>
+
      */
     public class ChallengeObjectiveCraftWithIngredient : BaseChallengeObjective {
         public override ChallengeObjectiveType ObjectiveType =>
             (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveCraftWithIngredient;
 
         private string ingredientString;
-
+        private string ingredientTagString;
+        
         public string LocalizationKey = "craftWithIngredient";
         private string _descriptionOverride;
 
@@ -49,9 +52,23 @@ namespace Challenges {
             foreach (var ingred in recipe.ingredients)
             {
                 var itemName = ingred.itemValue.ItemClass.GetItemName();
+                if (!string.IsNullOrEmpty(ingredientTagString))
+                {
+                    var tags = FastTags<TagGroup.Global>.Parse(ingredientTagString);
+                    if (ingred.itemValue.ItemClass.HasAnyTags(tags))
+                    {
+                        Current += ingred.count;
+                        CheckObjectiveComplete();
+                        continue;
+                    }
+                }
+
+                if (string.IsNullOrEmpty(ingredientString)) continue;
                 if (!string.Equals(itemName, ingredientString, StringComparison.InvariantCultureIgnoreCase)) continue;
+
                 Current += ingred.count;
                 CheckObjectiveComplete();
+
             }
         }
 
@@ -63,6 +80,9 @@ namespace Challenges {
                 ingredientString = e.GetAttribute("ingredient");
             }
 
+            if ( e.HasAttribute("item_tags"))
+                ingredientTagString = e.GetAttribute("item_tags");
+            
             if (e.HasAttribute("description_key"))
                 LocalizationKey = e.GetAttribute("description_key");
             if (e.HasAttribute("description_override"))
@@ -72,6 +92,7 @@ namespace Challenges {
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveCraftWithIngredient {
                 ingredientString = ingredientString,
+                ingredientTagString = ingredientTagString,
                 _descriptionOverride = _descriptionOverride
             };
         }

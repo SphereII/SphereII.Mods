@@ -90,6 +90,10 @@ namespace SCore.Features.Challenges.Harmony {
                     __result = new ChallengeObjectiveCraftWithTags();
                     __result.Read(_currentVersion, _br);
                     break;
+                case ChallengeObjectiveTypeSCore.ChallengeObjectivePlaceBlockByTag:
+                    __result = new ChallengeObjectivePlaceBlockByTag();
+                    __result.Read(_currentVersion, _br);
+                    break;
                     
                 
                     

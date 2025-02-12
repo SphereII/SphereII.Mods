@@ -64,6 +64,7 @@
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveHarvest.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveHireNPC.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveKillWithItem.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectivePlaceBlockByTag.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveSCoreBase.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStartFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
@@ -133,6 +134,8 @@
     <Compile Include="Features\LockPicking\Scripts\LocksetAudio.cs" />
     <Compile Include="Features\LockPicking\Scripts\SphereII_Locks.cs" />
     <Compile Include="Features\LockPicking\XUiC\XUiC_PickLocking.cs" />
+    <Compile Include="Features\MaterialModifier\Harmony\EntityTintMaterial_Patch.cs" />
+    <Compile Include="Features\MaterialModifier\Scripts\MinEvents\MinEventActionReplaceMaterial.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromAttackTarget.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromPlayer.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\MinEventActionSetParticleAttractorFromSource.cs" />
