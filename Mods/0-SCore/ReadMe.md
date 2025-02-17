@@ -20,6 +20,22 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.3.7.1037
+	[ Challenges ]
+		- Added multi-option to the loot_list= for the Gather Challenge. This is a comma-delimited list.
+	
+	[ Craft From Containers ]
+		- Added new Config option in Blocks.xml to check if a container is within Landclaim bounds, rather than distance.
+		    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedRecipes']/property[@name='LandClaimContainersOnly']/@value">true</set>
+		- Default is false, do not restrict to landclaim, but rely on distance.
+
+		- Added new Config option in Blocks.xml to check if the player is within landclaim bounds.
+		    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedRecipes']/property[@name='LandClaimPlayerOnly']/@value">true</set>
+		- Default is false, do not restrict player from being within a landclaim bounds.
+
+	[ Dynamic Bone ]
+		- Added test code for a new dynamic bone system.
+
 Version: 1.3.2.1535
 	- No Code changes. Rebuilt against Game Version 1.3.
 

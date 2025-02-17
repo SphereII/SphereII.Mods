@@ -86,8 +86,14 @@ namespace Challenges
             var xui = LocalPlayerUI.GetUIForPlayer(player).xui;
             if (xui == null) return;
             if (xui.lootContainer == null) return;
-            if (xui.lootContainer.lootListName != _lootList) return;
-            CheckObjectiveComplete();
+            foreach (var loot in _lootList.Split(','))
+            {
+                if (xui.lootContainer.lootListName == loot)
+                {
+                    CheckObjectiveComplete();
+                    return;
+                }
+            }
         }
 
 

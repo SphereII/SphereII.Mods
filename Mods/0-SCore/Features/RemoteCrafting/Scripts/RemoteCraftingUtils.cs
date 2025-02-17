@@ -27,6 +27,15 @@ namespace SCore.Features.RemoteCrafting.Scripts {
             return Configuration.CheckFeatureStatus("BlockUpgradeRepair", "BlockOnNearbyEnemies");
         }
 
+        public static bool CheckForLandClaimContainers()
+        {
+            return Configuration.CheckFeatureStatus("AdvancedRecipes", "LandClaimContainersOnly");
+        }
+        
+        public static bool CheckForLandClaimPlayer()
+        {
+            return Configuration.CheckFeatureStatus("AdvancedRecipes", "LandClaimPlayerOnly");
+        }
         
         public static List<TileEntity> GetTileEntities(EntityAlive player, float distance, bool forRepairs) {
             if ( forRepairs && CheckEnemyForRepairing())
@@ -35,6 +44,18 @@ namespace SCore.Features.RemoteCrafting.Scripts {
             if ( !forRepairs && CheckEnemyForCrafting())
                 if (IsEnemyNearby(player)) return new List<TileEntity>() ;
 
+            var landClaimContainersOnly = CheckForLandClaimContainers();
+            var world = GameManager.Instance.World;
+            
+            // If the player is not within a land claim zone, don't search for containers.
+            var landClaimPlayerOnly = CheckForLandClaimPlayer();
+            if (landClaimPlayerOnly)
+            {
+                var vector3I = new Vector3i(player.GetPosition());
+                if (!world.IsMyLandProtectedBlock(vector3I, world.GetGameManager().GetPersistentLocalPlayer()))
+                    return new List<TileEntity>() ;
+            }
+            
             var disabledsender = Configuration.GetPropertyValue(AdvFeatureClass, "disablesender").Split(',');
             var nottoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "nottoWorkstation");
             var bindtoWorkstation = Configuration.GetPropertyValue(AdvFeatureClass, "bindtoWorkstation");
@@ -43,8 +64,20 @@ namespace SCore.Features.RemoteCrafting.Scripts {
             var paths = SCoreUtils.ScanForTileEntities(player, targetTypes, true);
             foreach (var path in paths)
             {
-                var distanceToLeader = Vector3.Distance(player.position, path);
-                if (!(distanceToLeader < distance)) continue;
+                if (landClaimContainersOnly)
+                {
+                    var vector3I = new Vector3i(path);
+                    if (!world.IsMyLandProtectedBlock(vector3I, world.GetGameManager().GetPersistentLocalPlayer()))
+                    {
+                        continue;
+                    }
+                }
+                else
+                {
+                    var distanceToLeader = Vector3.Distance(player.position, path);
+                    if (!(distanceToLeader < distance)) continue;
+                }
+              
                 var tileEntity = player.world.GetTileEntity(0, new Vector3i(path));
                 if (tileEntity == null) continue;
 
