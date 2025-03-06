@@ -159,6 +159,10 @@
     <Compile Include="Features\Signs\Scripts\Blocks\BlockSCoreSign.cs" />
     <Compile Include="Features\Signs\Scripts\Blocks\SCoreVideo.cs" />
     <Compile Include="Features\Signs\Scripts\TileEntity\TileEntitySCoreSign.cs" />
+    <Compile Include="Features\StoryEvents\Scripts\Story.cs" />
+    <Compile Include="Features\StoryEvents\Scripts\StoryManager.cs" />
+    <Compile Include="Features\TemplateManager\Interface\ITemplateManager.cs" />
+    <Compile Include="Features\VersionCheck\Scripts\VersionCheck.cs" />
     <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPCamera.cs" />
     <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPWeapon.cs" />
     <Compile Include="Features\WeaponCameraSway\Scripts\ConsoleCmdWeaponSway.cs" />
@@ -213,6 +217,7 @@
     <Compile Include="Harmony\MiniTurret\shouldIgnoreTarget.cs" />
     <Compile Include="Harmony\ModEvents.cs" />
     <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
+    <Compile Include="Harmony\NPCFeatures\AllowStashButtonsForNPCs.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
@@ -630,6 +635,8 @@
     <Content Include="Documentation\Utils\ChatGPT.txt" />
     <Content Include="Features\Challenges\ReadMe.md" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
+    <Content Include="Features\VersionCheck\Readme.md" />
+    <Content Include="Features\VersionCheck\versioncheck.example" />
     <Content Include="ModInfo.xml" />
     <Content Include="Prefabs\caveOpening02.tts" />
     <Content Include="Prefabs\caveOpening02.xml" />

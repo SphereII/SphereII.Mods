@@ -99,6 +99,12 @@
             <property class="AdvancedItemFeatures">
                 <property name="Logging" value="false"/>
                 <property name="AdvancedItemRepair" value="false"/>
+                <!-- If AdvanedItemRepair is set to true, but RepairItems or ScrapItems is not defined, a reduced raw ingredients recipe
+                    will be created. Turn this feature on to disable that, allowing only scraping or repairitems on items specifically listed 
+                    -->
+                <property name="DisableScrapFallback" value="false"/>
+
+                
                 <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
                 <property name="DurabilityAffectsDamage" value="false"/>
                 <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->

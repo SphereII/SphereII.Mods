@@ -20,6 +20,32 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.3.24.1230
+	[ NPCs ]
+		- Added support for the Auto-Stach buttons to work with NPCs.
+
+	[ AdvancedItemsFeatures ]
+		- Added a new property to the AdvancedItemsFeature in the blocks.xml
+	        <property name="DisableScrapFallback" value="false"/>
+		- This feature is only enabled AdvancedItemRepair is set to true.
+		- If this feature is enabled, but RepairItems / ScrapItems is not defined, then the item will scrap using vanilla.
+		- Current behaviour allows an item to be scrapped using a reduced recipe based on its ingredients, without defining RepairItems / ScrapItems.
+
+		- Added ScrapItems support for blocks.
+
+	[ Version Checker ]
+		- Received donated Code from Yakov that allows modders to add a versioncheck.xml file to their overhauls
+		- This versioncheck.xml file can be anywhere in the Mods folder
+		- This versioncheck.xml file contains the expected game version, along with optional messages to display.
+		- If this versioncheck.xml file is found in the Mods folder,
+			- Reads the current game version, and compares it to the expected game version.
+			- If the version matches, the main menu loads normally.
+			- If the version mismatches, a message box is shown to the players, saying the version does not match.
+			- The message box has a Quit and Continue button, allowing the user to keep going if they really want too.
+		- Example file can be found under Features/VersionCheck/versioncheck.example
+		- Added localization support.
+
+
 Version: 1.3.7.1037
 	[ Challenges ]
 		- Added multi-option to the loot_list= for the Gather Challenge. This is a comma-delimited list.

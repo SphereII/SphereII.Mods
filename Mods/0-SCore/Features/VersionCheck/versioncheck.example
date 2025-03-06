@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+    <!-- Configuration for the Version Check -->
+    <Settings>
+        <!-- Set this to the version of the game you're modding -->
+        <!-- This should match the version in the game's build version which is visible in the main menu (top right) -->
+        <!-- Example: b312 would be <ModVersion>312</ModVersion> -->
+        <ModVersion>1.3.9</ModVersion>
+
+        <!-- Set to true to disable the news screen on game start -->
+        <!-- Set to false to keep the default behavior -->
+        <DisableNewsScreen>false</DisableNewsScreen>
+
+        <!-- Customize the version mismatch error message -->
+        <ErrorMessage>
+            <!-- Title of the error message box -->
+            <Title>score_versioncheck_mismatchTitle</Title>
+            <!-- Description of the error. Use {0} for game version and {1} for mod version -->
+            <Description>score_versioncheck_mismatchDesc</Description>
+        </ErrorMessage>
+    </Settings>
+</xml>

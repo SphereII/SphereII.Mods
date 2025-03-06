@@ -14,8 +14,12 @@ public class SCoreModEvents {
         ModletChecks();
         ModEvents.GameStartDone.RegisterHandler(CheckExternalParticles);
         ModEvents.GameStartDone.RegisterHandler(EntityPool);
-        
+
+        VersionCheck.LoadConfig();
+        ModEvents.GameStartDone.RegisterHandler(VersionCheck.OnGameStartDone);
+
         ModEvents.PlayerSpawnedInWorld.RegisterHandler(CheckGraphicSettings);      
+        
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));

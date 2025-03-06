@@ -8,6 +8,7 @@ namespace Harmony.ItemActions
     public class ItemClasses
     {
 
+  
         [HarmonyPatch(typeof(ItemInventoryData))]
         [HarmonyPatch(MethodType.Constructor)]
         [HarmonyPatch(new[] { typeof(ItemClass), typeof(ItemStack), typeof(IGameManager), typeof(global::EntityAlive), typeof(int) })]

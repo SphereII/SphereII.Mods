@@ -215,3 +215,6 @@ challengeObjectiveOnCVar,"Get CVar"
 challengeObjectiveOnBlockUpgrade,"Upgrade Block"
 challengeObjectiveCraftWithTags,"Craft with tags"
 repair_limit_reached,"Repair Reached For This Item."
+
+score_versioncheck_mismatchTitle,"Version Mismatch Detected"
+score_versioncheck_mismatchDesc,"The game version ({0}) does not match the mod version ({1}). This may cause issues."

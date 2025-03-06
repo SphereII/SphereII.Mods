@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace Harmony.ItemActions
 {
@@ -236,16 +237,14 @@ namespace Harmony.ItemActions
                
                 var itemStack = xuiCItemStack.ItemStack.Clone();
                 var scrapableRecipe = CraftingManager.GetScrapableRecipe(itemStack.itemValue, itemStack.count);
-                if (scrapableRecipe == null)
-                    return true;
+                if (scrapableRecipe == null) return true;
 
                 var xuiController = __instance.ItemController.xui.FindWindowGroupByName("workstation_workbench");
                 if (xuiController == null || !xuiController.WindowGroup.isShowing)
                     xuiController = xui.FindWindowGroupByName("crafting");
 
                 var childByType = xuiController.GetChildByType<XUiC_CraftingWindowGroup>();
-                if (childByType == null)
-                    return true;
+                if (childByType == null) return true;
 
                 #endregion vanilla_code
 
@@ -254,42 +253,103 @@ namespace Harmony.ItemActions
                 var forId = ItemClass.GetForId(itemStack.itemValue.type);
                  if (forId.RepairTools is { Length: > 0 }) return true;
 
-                if (CraftingManager.GetRecipe(forId.GetItemName()) == null)
-                    return true;
-                
-                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
+                 if (CraftingManager.GetRecipe(forId.GetItemName()) == null) return true;
+
+                 if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
                     return true;
 
-                // Check if ScrapItems is specified
-                if (forId.Properties.Classes.ContainsKey("ScrapItems"))
-                {
-                    var dynamicProperties3 = forId.Properties.Classes["ScrapItems"];
-                    scrapItems = ItemsUtilities.ParseProperties(dynamicProperties3);
-                    ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
-                    return false;
-                }
+                 var blockList = CheckProperties(forId.GetBlock()?.Properties);
+                 if (blockList.Count > 0)
+                 {
+                     ItemsUtilities.Scrap(blockList, itemStack, __instance.ItemController);
+                     return false;
+                 }
 
-                if (forId.Properties.Contains("ScrapItems")) // Support for <property name="ScrapItems" value="resourceWood,0,resourceLeather,2" />
-                {
-                    var strData = forId.Properties.Values["ScrapItems"];
-                    scrapItems = ItemsUtilities.ParseProperties(strData);
-                    ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
-                    return false;
-                }
-                // Check if Repair Items is specified, if the ScrapItems wasn't.
-                if (forId.Properties.Classes.ContainsKey("RepairItems"))
-                {
-                    var dynamicProperties3 = forId.Properties.Classes["RepairItems"];
-                    scrapItems = ItemsUtilities.ParseProperties(dynamicProperties3);
-                    ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
-                    return false;
-                }
-                
+                 var list = CheckProperties(forId.Properties);
+                 if (list.Count > 0)
+                 {
+                     ItemsUtilities.Scrap(list, itemStack, __instance.ItemController);
+                     return false;
+                 }
+
+                // // Check if ScrapItems is specified
+                // if (forId.Properties.Classes.ContainsKey("ScrapItems"))
+                // {
+                //     var dynamicProperties3 = forId.Properties.Classes["ScrapItems"];
+                //     scrapItems = ItemsUtilities.ParseProperties(dynamicProperties3);
+                //     ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
+                //     return false;
+                // }
+                //
+                //
+                // if (forId.Properties.Contains("ScrapItems")) // Support for <property name="ScrapItems" value="resourceWood,0,resourceLeather,2" />
+                // {
+                //     var strData = forId.Properties.Values["ScrapItems"];
+                //     scrapItems = ItemsUtilities.ParseProperties(strData);
+                //     ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
+                //     return false;
+                // }
+                // // Check if Repair Items is specified, if the ScrapItems wasn't.
+                // if (forId.Properties.Classes.ContainsKey("RepairItems"))
+                // {
+                //     var dynamicProperties3 = forId.Properties.Classes["RepairItems"];
+                //     scrapItems = ItemsUtilities.ParseProperties(dynamicProperties3);
+                //     ItemsUtilities.Scrap(scrapItems, itemStack, __instance.ItemController);
+                //     return false;
+                // }
+                //
+                //
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "DisableScrapFallback"))
+                    return true;
                 // If there's a recipe, reduce it
                 var recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);
                 if (recipe == null) return false;
                 ItemsUtilities.Scrap(recipe.ingredients, itemStack, __instance.ItemController);
                 return false;
+            }
+
+
+            private static List<ItemStack> CheckProperties(DynamicProperties dynamicProperties)
+            {
+                if ( dynamicProperties == null) return new List<ItemStack>();
+                if (dynamicProperties.Contains("ScrapItems")) // Support for <property name="ScrapItems" value="resourceWood,0,resourceLeather,2" />
+                {
+                    var strData = dynamicProperties.Values["ScrapItems"];
+                    return ItemsUtilities.ParseProperties(strData);
+                }
+                // Check if Repair Items is specified, if the ScrapItems wasn't.
+                if (dynamicProperties.Classes.ContainsKey("RepairItems"))
+                {
+                    var dynamicProperties3 = dynamicProperties.Classes["RepairItems"];
+                    return ItemsUtilities.ParseProperties(dynamicProperties3);
+                }
+                if (dynamicProperties.Classes.ContainsKey("ScrapItems"))
+                {
+                    var dynamicProperties3 = dynamicProperties.Classes["ScrapItems"];
+                    return ItemsUtilities.ParseProperties(dynamicProperties3);
+                }
+                return new List<ItemStack>();
+            }
+            private static List<ItemStack> CheckForBlock(Block block)
+            {
+                if ( block == null ) return new List<ItemStack>();
+                if (block.Properties.Contains("ScrapItems")) // Support for <property name="ScrapItems" value="resourceWood,0,resourceLeather,2" />
+                {
+                    var strData = block.Properties.Values["ScrapItems"];
+                    return ItemsUtilities.ParseProperties(strData);
+                }
+                // Check if Repair Items is specified, if the ScrapItems wasn't.
+                if (block.Properties.Classes.ContainsKey("RepairItems"))
+                {
+                    var dynamicProperties3 = block.Properties.Classes["RepairItems"];
+                    return ItemsUtilities.ParseProperties(dynamicProperties3);
+                }
+                if (block.Properties.Classes.ContainsKey("ScrapItems"))
+                {
+                    var dynamicProperties3 = block.Properties.Classes["ScrapItems"];
+                    return ItemsUtilities.ParseProperties(dynamicProperties3);
+                }
+                return new List<ItemStack>();
             }
         }
     }
