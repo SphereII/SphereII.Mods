@@ -20,9 +20,13 @@ Direct Download to the 0-SCore.zip available on gitlab mirror: https://github.co
 ### Change Logs
 
 [ Change Log ]
+Version: 1.3.31.1014
+	[ NPCs Auto Stash ]
+		- Fixed a null reference when opening up loot bags.
+	
 Version: 1.3.24.1230
 	[ NPCs ]
-		- Added support for the Auto-Stach buttons to work with NPCs.
+		- Added support for the Auto-Stash buttons to work with NPCs.
 
 	[ AdvancedItemsFeatures ]
 		- Added a new property to the AdvancedItemsFeature in the blocks.xml

@@ -16,6 +16,7 @@ namespace Harmony.NPCFeatures
                 var entityId = __instance.xui.lootContainer.EntityId;
                 if (entityId == -1) return;
                 var owner = EntityUtilities.GetLeaderOrOwner(entityId);
+                if ( owner == null) return;
                 if (owner.entityId != __instance.xui.mPlayerUI.entityPlayer.entityId) return;
                 value = "true";
                 __result = true;
