@@ -31,8 +31,12 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
- 
-Version: 2.0.11.824
+Version: 2.0.11.921
+	[ SphereII Peace of Mind ]
+		- Replaced a few new hanging corpses with empty pillar
+
+
+ Version: 2.0.11.824
 	[ Shared Reading ]
 		- Removed "Learned" from the Tooltip
 		- Added a new Localization method to try to always get a localized entry

@@ -1,6 +1,9 @@
 <configs>
     <!-- Removes the dead man hanging from the poles, and replaces with an empty pole-->
     <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog2White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog3White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingRope1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
 
     <remove xpath="/blocks/block[@name='modularRopeNoose']"/>
     <append xpath="/blocks">
