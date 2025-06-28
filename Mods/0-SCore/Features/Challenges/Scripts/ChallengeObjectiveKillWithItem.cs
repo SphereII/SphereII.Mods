@@ -41,6 +41,8 @@ namespace Challenges {
         public string LocalizationKey = "";
         public bool GenerateDescription;
         private string _descriptionOverride;
+        public string biome;
+
         public override void Init() {
             if ( string.IsNullOrEmpty(entityTag))
                 entityTag = "zombie";
@@ -188,6 +190,10 @@ namespace Challenges {
 
             }
 
+            if (e.HasAttribute("biome"))
+            {
+                biome = e.GetAttribute("biome");
+            }
             if (e.HasAttribute("target_name_key"))
                 targetName = Localization.Get(e.GetAttribute("target_name_key"));
             if (e.HasAttribute("description_override"))

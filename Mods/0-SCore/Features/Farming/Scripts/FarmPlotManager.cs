@@ -66,8 +66,8 @@ public class FarmPlotManager
                 for (var y = position.y - 2; y <= position.y + 2; y++)
                 {
                     var blockPos = new Vector3i(position.x + x, y, position.z + z);
-                    if (!_farmPlots.ContainsKey(blockPos)) continue;
-                    if (_farmPlots[blockPos].Visited) continue;
+                    if (!_farmPlots.TryGetValue(blockPos, out var plot)) continue;
+                    if (plot.Visited) continue;
                     if (needWater)
                     {
                         if (_farmPlots[blockPos].HasWater()) return _farmPlots[blockPos];

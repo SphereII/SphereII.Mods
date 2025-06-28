@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Harmony
 {
     [HarmonyPatch(typeof(XUiC_MainMenu))]
-    [HarmonyPatch("OnOpen")]
+    [HarmonyPatch(nameof(XUiC_MainMenu.OnOpen))]
     public class Menu_ClearCache
     {
         private static void Postfix(XUiC_MainMenu __instance) {

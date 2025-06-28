@@ -7,7 +7,7 @@
 //         // in Alpha 21.1, NPCs on dedi will sometimes throw a null reference when grabbing the loot container.
 //         // This could be due to a timing issue, so we'll try this patch to get around it.
 //         [HarmonyPatch(typeof(TileEntityLootContainer))]
-//         [HarmonyPatch("GetOpenTime")]
+//         [HarmonyPatch(nameof(TileEntityLootContainer.GetOpenTime))]
 //         public class TileEntityLootContainerGetOpenTime
 //         {
 //             public static bool Prefix(TileEntityLootContainer __instance, ref float __result)

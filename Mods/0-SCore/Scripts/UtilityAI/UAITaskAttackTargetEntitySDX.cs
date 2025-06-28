@@ -200,7 +200,7 @@ namespace UAI
                     // use, much like attack, goes through a few additional checks that can return false, including making sure that the 
                     // entity can attack / use. Conditions like if they are stunned, electrocuted, or its already running, will return false.
                     // Normally the Use fails briefly, but we likely don't want to trigger the event needlessly, just to cancel it.
-                    if (!_context.Self.Use(false))
+                    if (!_context.Self.UseHoldingItem(_actionIndex,false))
                     {
                         //_context.Self.emodel.avatarController.CancelEvent("WeaponFire");
                         return;
@@ -212,7 +212,7 @@ namespace UAI
                         _context.Self.emodel.avatarController.TriggerEvent("WeaponFire");
                     }
 
-                    _context.Self.Use(true);
+                    _context.Self.UseHoldingItem(_actionIndex,true);
                     break;
                 default:
                     if (entityAliveSdx)

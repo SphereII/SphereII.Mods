@@ -22,7 +22,7 @@ namespace Features.LockPicking
 
 
         [HarmonyPatch(typeof(global::EntityAlive))]
-        [HarmonyPatch("updateCurrentBlockPosAndValue")]
+        [HarmonyPatch(nameof(global::EntityAlive.updateCurrentBlockPosAndValue))]
         public class SCoreBlock_updateCurrentBlockPosAndValue
         {
             public static void Postfix(global::EntityAlive __instance)
@@ -40,17 +40,17 @@ namespace Features.LockPicking
         }
 
         // Let the NPCs pass by traps without being hurt.
-        [HarmonyPatch(typeof(BlockDamage))]
-        [HarmonyPatch("OnEntityCollidedWithBlock")]
+        [HarmonyPatch(typeof(Block))]
+        [HarmonyPatch(nameof(Block.OnEntityCollidedWithBlock))]
         public class SCoreBlockDamage_OnEntityCollidedWithBlock
         {
-            public static bool Prefix(BlockDamage __instance, Entity _targetEntity)
+            public static bool Prefix(BlockDamage __instance, Entity _entity)
             {
-                if (_targetEntity == null)
+                if (_entity == null)
                     return false;
 
                 // For hired entities, take a move penalty, but no damage.
-                var entityAlive = _targetEntity as global::EntityAlive;
+                var entityAlive = _entity as global::EntityAlive;
                 if (entityAlive == null) return true;
 
                 if (EntityUtilities.GetLeaderOrOwner(entityAlive.entityId) != null )

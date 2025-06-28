@@ -8,7 +8,7 @@ public class RequirementHoldingItemDurability : TargetedCompareRequirementBase
 {
     public override bool IsValid(MinEventParams _params)
     {
-        if (!this.ParamsValid(_params))
+        if (!base.IsValid(_params))
             return false;
 
         if (this.target == null)

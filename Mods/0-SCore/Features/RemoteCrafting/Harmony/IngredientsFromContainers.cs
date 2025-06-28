@@ -18,7 +18,7 @@ namespace Features.RemoteCrafting
         /// Used to determine which recipes the player can craft based on the availability of ingredients in local containers. 
         /// </summary>
         [HarmonyPatch(typeof(XUiC_RecipeList))]
-        [HarmonyPatch("BuildRecipeInfosList")]
+        [HarmonyPatch(nameof(XUiC_RecipeList.BuildRecipeInfosList))]
         public class BuildRecipeInfosList
         {
             public static bool Prefix(XUiC_RecipeList __instance, ref List<ItemStack> _items)
@@ -56,7 +56,7 @@ namespace Features.RemoteCrafting
         /// Extends what is considered to be in the player's backpack / tool belt to include local containers.
         /// </summary>
         [HarmonyPatch(typeof(XUiM_PlayerInventory))]
-        [HarmonyPatch("GetAllItemStacks")]
+        [HarmonyPatch(nameof(XUiM_PlayerInventory.GetAllItemStacks))]
         public class GetAllItemStacks
         {
             public static void Postfix(ref List<ItemStack> __result, EntityPlayerLocal ___localPlayer)
@@ -272,7 +272,7 @@ namespace Features.RemoteCrafting
         // Code from OCB7D2D/OcbPinRecipes
         // Patch world unload to cleanup and save on exit
         [HarmonyPatch(typeof(World))]
-        [HarmonyPatch("UnloadWorld")]
+        [HarmonyPatch(nameof(World.UnloadWorld))]
         public class WorldUnloadWorld
         {
             static void Postfix()

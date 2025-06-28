@@ -1,0 +1,74 @@
+<configs>
+    <append xpath="/dialogs">
+        <dialog id="FrankieDialogTradersSurvival" startstatementid="start">
+
+            <statement id="start" text="FrankieTS_start" ref_text="[Frankie leans on his hoe, looking tired] Sun's high. You need somethin'?">
+                <response_entry id="ask_traders"/>
+                <response_entry id="ask_supplies"/>
+                <response_entry id="ask_survival"/>
+                <response_entry id="leave_start"/>
+            </statement>
+
+            <statement id="traders_talk" text="FrankieTS_traders_talk" ref_text="Traders? Once in a blue moon. That fella Joel used to pass by sometimes, Rekt too. Prices are high, and you never know who you're dealin' with these days. Mostly keep to myself.">
+                <response_entry id="traders_trust"/>
+                <response_entry id="traders_need"/>
+                <response_entry id="ask_supplies_cont"/>
+                <response_entry id="ask_survival_cont"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="traders_distrust" text="FrankieTS_traders_distrust" ref_text="Trust? Trust is earned, not given freely no more. Seen too many friendly faces turn ugly when supplies get low. Rather rely on myself.">
+                <response_entry id="ask_traders_again"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="traders_necessity" text="FrankieTS_traders_necessity" ref_text="Sure, need parts, ammo sometimes. Can't grow bullets. But I trade careful. Small amounts. Quick business. Don't linger.">
+                <response_entry id="ask_traders_again"/>
+                <response_entry id="back_to_start"/> </statement>
+
+            <statement id="supplies_talk" text="FrankieTS_supplies_talk" ref_text="Supplies? Farm gives me food, water from the well if I boil it. Everything else... gotta scavenge. Quick runs to nearby places, always watchin' my back. Mostly lookin' for fuel, tools, maybe some shells for the shotgun.">
+                <response_entry id="supplies_scavenge"/>
+                <response_entry id="supplies_needs"/>
+                <response_entry id="ask_traders_cont"/>
+                <response_entry id="ask_survival_cont"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="supplies_danger" text="FrankieTS_supplies_danger" ref_text="Always dangerous. Never know what's lurkin' behind a door. Gotta be quick, quiet, and ready to run. Only take what you absolutely need.">
+                <response_entry id="ask_supplies_again"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="supplies_specifics" text="FrankieTS_supplies_specifics" ref_text="Could always use more gas for the tiller, duct tape... always need tape. Shotgun shells are worth their weight in gold. But mostly, just try to make do with what I got.">
+                <response_entry id="ask_supplies_again"/>
+                <response_entry id="back_to_start"/> </statement>
+
+            <statement id="survival_talk" text="FrankieTS_survival_talk" ref_text="Survival tips? Heh. Ain't no magic words. Keep your head on a swivel. Don't trust easily. And learn to fix things yourself. Nobody's comin' to save ya.">
+                <response_entry id="survival_fix"/>
+                <response_entry id="survival_trust"/>
+                <response_entry id="ask_traders_cont"/>
+                <response_entry id="ask_supplies_cont"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="survival_fixing" text="FrankieTS_survival_fixing" ref_text="Damn right. Pump breaks, fence falls, roof leaks... gotta handle it. Can't run to the store no more. Knowin' how things work, how to patch 'em up... that's real survival skill.">
+                <response_entry id="ask_survival_again"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="survival_trust_details" text="FrankieTS_survival_trust_details" ref_text="Didn't say *anyone*. Said don't trust *easily*. Takes time. See how folks act when things get tight. That tells you who they really are. Most folks... they only look out for number one.">
+                <response_entry id="ask_survival_again"/>
+                <response_entry id="back_to_start"/> </statement>
+
+            <statement id="done" text="Frankie_done" ref_text="Alright. Keep your eyes peeled out there.">
+            </statement>
+
+            <response id="ask_traders" text="FrankieTS_ask_traders" ref_text="See many traders come through?" nextstatementid="traders_talk"/>
+            <response id="ask_supplies" text="FrankieTS_ask_supplies" ref_text="How do you get supplies besides farming?" nextstatementid="supplies_talk"/>
+            <response id="ask_survival" text="FrankieTS_ask_survival" ref_text="Got any survival tips for this area?" nextstatementid="survival_talk"/>
+            <response id="leave_start" text="ui_greetings_generic_on_my_way" ref_text="Just heading out."/>
+            <response id="traders_trust" text="FrankieTS_resp_traders_trust" ref_text="Don't trust them much?" nextstatementid="traders_distrust"/>
+            <response id="traders_need" text="FrankieTS_resp_traders_need" ref_text="Must need supplies sometimes though?" nextstatementid="traders_necessity"/>
+            <response id="ask_supplies_cont" text="FrankieTS_resp_ask_supplies_cont" ref_text="How do you manage for supplies?" nextstatementid="supplies_talk"/>
+            <response id="ask_survival_cont" text="FrankieTS_ask_survival" ref_text="Any survival tips?" nextstatementid="survival_talk"/>
+            <response id="ask_traders_again" text="FrankieTS_resp_ask_traders_again" ref_text="Any specific traders?" nextstatementid="traders_talk"/>
+            <response id="supplies_scavenge" text="FrankieTS_resp_supplies_scavenge" ref_text="Scavenging dangerous around here?" nextstatementid="supplies_danger"/>
+            <response id="supplies_needs" text="FrankieTS_resp_supplies_needs" ref_text="What do you need most?" nextstatementid="supplies_specifics"/>
+            <response id="ask_traders_cont" text="FrankieTS_resp_ask_traders_cont" ref_text="Do traders help with supplies?" nextstatementid="traders_talk"/>
+            <response id="ask_supplies_again" text="FrankieTS_resp_ask_supplies_again" ref_text="Where do you usually scavenge?" nextstatementid="supplies_talk"/>
+            <response id="survival_fix" text="FrankieTS_resp_survival_fix" ref_text="Fixing things is important?" nextstatementid="survival_fixing"/>
+            <response id="survival_trust" text="FrankieTS_resp_survival_trust" ref_text="So you don't trust anyone?" nextstatementid="survival_trust_details"/>
+            <response id="ask_survival_again" text="FrankieTS_resp_ask_survival_again" ref_text="Any other advice?" nextstatementid="survival_talk"/>
+            <response id="back_to_start" text="Frankie_resp_back_to_start" ref_text="Anything else?" nextstatementid="start"/> </dialog>
+    </append>
+</configs>
+    
+    

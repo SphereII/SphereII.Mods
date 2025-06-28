@@ -67,7 +67,7 @@ namespace Harmony.UtilityAI
         /// We will need those attributes later to see if the user specified package filters.
         /// </summary>
         [HarmonyPatch(typeof(UAIFromXml))]
-        [HarmonyPatch("parseAIPackageNode")]
+        [HarmonyPatch(nameof(UAIFromXml.parseAIPackageNode))]
         public static class UAIFromXml_parseAIPackageNode
         {
             public static void Postfix(XElement _element)
@@ -165,6 +165,15 @@ namespace Harmony.UtilityAI
                 }
                 for (int i = 0; i < ___actionList.Count; i++)
                 {
+                    // If the weight of this action is lower than the current high score, then evenAdd commentMore actions
+                    // the highest consideration score of 1 can't make this the winning action.
+                    if (___actionList[i].Weight < highScore)
+                    {
+                        if (LoggingEnabled)
+                            AdvLogging.DisplayLog(AdvFeatureClass, Feature, $"Action {___actionList[i].Name} with weight {___actionList[i].Weight} cannot beat high score of {highScore}: skipping");
+                        continue;
+                    }
+
                     var actionEntityFilter = SCoreUtils.GetEntityFilter(__instance, ___actionList[i], _context.Self);
                     var actionWaypointFilter = SCoreUtils.GetWaypointFilter(__instance, ___actionList[i], _context.Self);
                     if (LoggingEnabled)

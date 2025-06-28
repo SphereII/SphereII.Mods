@@ -9,7 +9,7 @@ namespace Harmony.XML
     public class ModInfoPatches
     {
         [HarmonyPatch(typeof(Mod))]
-        [HarmonyPatch("LoadDefinitionFromFolder")]
+        [HarmonyPatch(nameof(Mod.LoadDefinitionFromFolder))]
         public class ModInfoLoadFromFolder
         {
             public static bool Prefix(Mod __instance, string _path)

@@ -72,6 +72,10 @@ public class FireManager : MonoBehaviour
 
     public static FireManager Instance { get; private set; }
 
+    /// <summary>
+    /// Initializes the FireManager instance and assigns it to the static Instance property.
+    /// This method is called when the FireManager component is first started in the Unity lifecycle.
+    /// </summary>
     public void Start()
     {
         Instance = this;
@@ -667,44 +671,7 @@ public class FireManager : MonoBehaviour
         return IsFlammable(blockValue);
     }
 
-    private static void Write(BinaryWriter bw)
-    {
-        // Save the burning blocks.
-        var writeOut = "";
-        foreach (var temp in FireMap)
-            writeOut += $"{temp.Key};";
-        writeOut = writeOut.TrimEnd(';');
-        bw.Write(writeOut);
-
-        // Save the blocks we've put out
-        var writeOut2 = "";
-        foreach (var temp in ExtinguishPositions.Keys)
-            writeOut2 += $"{temp};";
-        writeOut2 = writeOut2.TrimEnd(';');
-        bw.Write(writeOut2);
-    }
-
-    public void Read(BinaryReader br)
-    {
-        // Read burning blocks
-        var positions = br.ReadString();
-        foreach (var position in positions.Split(';'))
-        {
-            if (string.IsNullOrEmpty(position)) continue;
-            var vector = StringParsers.ParseVector3i(position);
-            ToggleParticle(vector, true);
-        }
-        
-
-        // Read extinguished blocks.
-        var extingished = br.ReadString();
-        foreach (var position in extingished.Split(';'))
-        {
-            if (string.IsNullOrEmpty(position)) continue;
-            var vector = StringParsers.ParseVector3i(position);
-            ExtinguishBlock(vector, -1);
-        }
-    }
+   
 
 
     public void ClearPosOnly(Vector3i blockPos)
@@ -852,6 +819,12 @@ public class FireManager : MonoBehaviour
         return Instance.Enabled && FireMap.ContainsKey(blockPos);
     }
 
+    /// <summary>
+    /// Saves the current fire data to a file in a threaded manner. The method creates a backup of the existing save file, writes the data
+    /// from the provided memory stream to the save file, and frees the allocated memory resources after completion.
+    /// </summary>
+    /// <param name="threadInfo">The thread information which contains the parameter needed for the save operation. It is expected to include a memory stream as the parameter.</param>
+    /// <returns>Returns -1 to indicate completion of the save operation.</returns>
     public int SaveDataThreaded(ThreadManager.ThreadInfo threadInfo)
     {
         var pooledExpandableMemoryStream =

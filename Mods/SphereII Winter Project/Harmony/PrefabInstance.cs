@@ -70,7 +70,7 @@ public class SphereII_WinterProject
 
         }
 
-        private void UpdateSnow() {
+        private void UpdateSnow(ref ModEvents.SGameUpdateData data) {
             if (_globalSnow == null)
                 InitGlobalSnow();
 
@@ -131,7 +131,7 @@ public class SphereII_WinterProject
 
     // Sinks the prefabs
     [HarmonyPatch(typeof(Prefab))]
-    [HarmonyPatch("CopyIntoLocal")]
+    [HarmonyPatch(nameof(Prefab.CopyIntoLocal))]
     public class SphereII_WinterProject_Prefab_Prefix
     {
         public static void Postfix(Prefab __instance, Vector3i _destinationPos, ChunkCluster _cluster, FastTags<TagGroup.Poi> _questTags)

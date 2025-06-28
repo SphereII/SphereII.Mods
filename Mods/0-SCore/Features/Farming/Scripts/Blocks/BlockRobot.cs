@@ -20,7 +20,7 @@ public class BlockRobot : Block
         base.LateInit();
     }
 
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         _chunk.AddEntityBlockStub(new BlockEntityData(_blockValue, _blockPos)
         {

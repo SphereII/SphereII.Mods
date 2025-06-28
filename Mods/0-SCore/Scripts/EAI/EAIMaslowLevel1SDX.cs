@@ -221,7 +221,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
         theEntity.SetLookPosition(lookPosition);
 
         // if the entity is blocked by anything, switch it around and tell it to find a new path.
-        if (theEntity.moveHelper.BlockedTime > 1f)
+        if (theEntity.moveHelper.BlockedTime > SCoreConstants.BlockedTime)
         {
             pathRecalculateTicks = 0;
             theEntity.SetLookPosition(lookPosition - Vector3.back);
@@ -333,7 +333,7 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             {
                 // This is the actual item we want to drink out of. The above is just to deplete the water source.
                 theEntity.inventory.SetBareHandItem(ItemClass.GetItem("drinkJarEmpty"));
-                theEntity.Use(true);
+                theEntity.UseHoldingItem(0,true);
                 theEntity.inventory.SetBareHandItem(ItemClass.GetItem(original.Name));
 
                 return true;
@@ -563,25 +563,25 @@ internal class EAIMaslowLevel1SDX : EAIApproachSpot
             if (Action is ItemActionEat)
             {
                 DisplayLog(" Action Is Eat");
-                foreach (var EffectGroup in item.ItemClass.Effects.EffectGroups)
-                    foreach (var TriggeredEffects in EffectGroup.TriggeredEffects)
-                    {
-                        var effect = TriggeredEffects as MinEventActionModifyCVar;
-                        if (effect == null)
-                            continue;
-
-                        DisplayLog(" Checking Effects");
-                        if (strSearchType == "Food")
-                        {
-                            if (effect.cvarName == "$foodAmountAdd" || effect.cvarName == "foodHealthAmount")
-                                return item;
-                        }
-                        else if (strSearchType == "Water")
-                        {
-                            if (effect.cvarName == "$waterAmountAdd" || effect.cvarName == "waterHealthAmount")
-                                return item;
-                        }
-                    }
+                // foreach (var EffectGroup in item.ItemClass.Effects.EffectGroups)
+                //     foreach (var TriggeredEffects in EffectGroup.TriggeredEffects)
+                //     {
+                //         var effect = TriggeredEffects.Key as MinEventActionModifyCVar;
+                //         if (effect == null)
+                //             continue;
+                //
+                //         DisplayLog(" Checking Effects");
+                //         if (strSearchType == "Food")
+                //         {
+                //             if (effect.cvarName == "$foodAmountAdd" || effect.cvarName == "foodHealthAmount")
+                //                 return item;
+                //         }
+                //         else if (strSearchType == "Water")
+                //         {
+                //             if (effect.cvarName == "$waterAmountAdd" || effect.cvarName == "waterHealthAmount")
+                //                 return item;
+                //         }
+                //     }
             }
 
         return null;

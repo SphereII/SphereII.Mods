@@ -20,12 +20,12 @@ namespace Challenges {
 
         
         public override void HandleAddHooks() {
-            FireManager.Instance.OnFireUpdate += Check_Block;
+            FireManager.Instance.Events.OnFireUpdate += Check_Block;
         }
         
         
         public override void HandleRemoveHooks() {
-            FireManager.Instance.OnFireUpdate -= Check_Block;
+            FireManager.Instance.Events.OnFireUpdate -= Check_Block;
         }
 
         private void Check_Block(int count) {

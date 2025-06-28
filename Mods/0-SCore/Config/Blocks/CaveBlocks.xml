@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+    <append xpath="/blocks">
+        <!-- Cave air block -->
+        <block name="caveBlock02">
+            <property name="Extends" value="air"/>
+            <property name="StabilityFull" value="true"/>
+            <property name="Material" value="McaveAir"/>
+        </block>
+
+        <block name="cntCaveFloorRandomLootHelper">
+            <property name="Extends" value="cntWastelandRandomLootHelper"/>
+            <property name="CreativeMode" value="Dev"/>
+        </block>
+        <block name="cntCaveCeilingRandomLootHelper">
+            <property name="Extends" value="cntWastelandRandomLootHelper"/>
+            <property name="CreativeMode" value="Dev"/>
+        </block>
+
+        <block name="cntDeepCaveFloorRandomLootHelper">
+            <property name="Extends" value="cntWastelandRandomLootHelper"/>
+            <property name="CreativeMode" value="Dev"/>
+        </block>
+    </append>
+</configs>

@@ -29,7 +29,7 @@ namespace UAI
 
 				return 1f;
 			}
-			if (moveHelper.BlockedTime > 0.35f && moveHelper.CanBreakBlocks)
+			if (moveHelper.BlockedTime > SCoreConstants.BlockedTime && moveHelper.CanBreakBlocks)
 			{
 				if (SphereCache.BreakingBlockCache.ContainsKey(_context.Self.entityId))
 					SphereCache.BreakingBlockCache.Remove(_context.Self.entityId);

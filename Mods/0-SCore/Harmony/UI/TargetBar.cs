@@ -10,7 +10,7 @@ namespace Harmony.UI
     public class TargetBar
     {
         [HarmonyPatch(typeof(XUiC_TargetBar))]
-        [HarmonyPatch("Update")]
+        [HarmonyPatch(nameof(XUiC_TargetBar.Update))]
         public class TargetBarPrefix
         {
             public static bool Prefix(XUiC_TargetBar __instance, ref XUiView ___viewComponent, ref float ___noTargetFadeTimeMax)

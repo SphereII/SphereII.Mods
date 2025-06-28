@@ -7,7 +7,7 @@ public class RequirementLookingAt : RequirementBase
 {
     public string blocks = "";
     public string cvar = "focusBlockLocation";
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         var blockPosition = _params.Self.GetBlockPosition();
         var num = World.toChunkXZ(blockPosition.x);

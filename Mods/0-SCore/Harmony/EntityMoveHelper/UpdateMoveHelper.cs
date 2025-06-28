@@ -1,10 +1,10 @@
 ﻿using HarmonyLib;
 
-namespace Harmony.EntityMoveHelper
+namespace Harmony.EntityMoveHelperPatch
 {
     [HarmonyPatch(typeof(global::EntityMoveHelper))]
-    [HarmonyPatch("UpdateMoveHelper")]
-    public class MoveHelperUpdate
+    [HarmonyPatch(nameof(global::EntityMoveHelper.UpdateMoveHelper))]
+    public class MoveHelperUpdatePatch
     {
         public static bool Prefix(global::EntityAlive ___entity, ref int ___moveToFailCnt, ref int ___moveToTicks)
         {

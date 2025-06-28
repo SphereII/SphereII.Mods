@@ -37,7 +37,7 @@ public class TargetCVarCompare : RequirementBase
 
     public override bool IsValid(MinEventParams _params)
     {
-        if (!ParamsValid(_params))
+        if (!base.IsValid(_params))
         {
             return false;
         }
@@ -50,15 +50,7 @@ public class TargetCVarCompare : RequirementBase
         return invert ? !isValid : isValid;
     }
 
-    public override bool ParamsValid(MinEventParams _params)
-    {
-        if (!base.ParamsValid(_params))
-        {
-            return false;
-        }
-
-        return _params.Self && _params.Other;
-    }
+   
 
     public override bool ParseXAttribute(XAttribute _attribute)
     {

@@ -32,6 +32,8 @@ namespace Harmony.EntityAlive
                 {
                     EntityUtilities.Traverse(__instance.GetModelTransformParent()?.gameObject);
                 }
+
+             
             }
         }
         

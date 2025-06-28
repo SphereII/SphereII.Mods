@@ -17,10 +17,9 @@ namespace SampleProject.Harmony
         // The __instance is a reference to the class you are patching. 
         // To access a private field of the class, add it to the parameter line, adding three underscore (___) to the variable name.
         // To access a private field, and to change its value, pass it by reference by adding ref to it.
-        private static bool Prefix(XUiC_MainMenu __instance, XUiC_SimpleButton ___btnNewGame, ref XUiC_SimpleButton ___btnContinueGame)
+        private static bool Prefix(XUiC_MainMenu __instance)
         { 
             Log.Out($"SampleProject Prefix Example: Am I opened? {__instance.IsOpen}");
-            Log.Out($"btnNewGame's Label: {___btnNewGame.Label}");
             Log.Out("OnOpenPrefix(): I happen before the method starts.");
 
             // If I did not want the method we are patching to run at all, we would return false.

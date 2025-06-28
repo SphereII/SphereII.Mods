@@ -13,7 +13,7 @@ namespace SCore.Harmony.GameManagerPatches
 
         // copy of firehook
         [HarmonyPatch(typeof(GameStateManager))]
-        [HarmonyPatch("StartGame")]
+        [HarmonyPatch(nameof(GameStateManager.StartGame))]
         public class GameStateManagerStartGame
         {
             public static void Postfix()

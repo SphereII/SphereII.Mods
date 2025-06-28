@@ -1,0 +1,61 @@
+<configs>
+    <include filename="Dialogs/Farmer/FarmingDialog.xml" />
+    <include filename="Dialogs/General/ZombiesDialog.xml" />
+    <include filename="Dialogs/General/TraderSurvival.xml" />
+    <append xpath="/dialogs">
+     
+        
+        <dialog id="FrankieFarmerDialog" startstatementid="start" extends="trader,dialogSurvivorZombieInfo">
+
+            <statement id="start" text="Frankie_start" ref_text="[Frankie looks up from his work, wary] Well now... ain't seen many new faces 'round here lately. What do you want?">
+                <response_entry id="ask_rain" ref_text="Frankie_resp_ask_rain" />
+                <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin" />
+                <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo" />
+                <response_entry id="ask_who" ref_text="Frankie_resp_ask_who"/>
+                <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
+
+            </statement>
+
+            <response id="return" text="ui_greetings_generic_okay" ref_text="Oh Okay." nextstatementid="start"/>
+
+            <response id="ask_rain" text="Frankie_ask_rain" ref_text="Could use some rain, huh?" nextstatementid="rain_talk"/>
+            <response id="ask_origin" text="Frankie_ask_origin" ref_text="Are you from around here originally?" nextstatementid="origin_talk"/>
+            <response id="ask_since_apo" text="Frankie_ask_since_apo" ref_text="What have you been up to since it all went bad?" nextstatementid="since_apo_talk"/>
+            <response id="ask_who" text="Frankie_ask_who" ref_text="Who are you?" nextstatementid="who_frankie"/>
+
+            <statement id="rain_talk" text="Frankie_rain_talk" ref_text="[Nods slowly] Tell me about it. Crops are thirsty. A good downpour would be nice, 'long as it ain't that acid stuff some folks talk about further out. Just need honest rain.">
+                <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin_cont"/>
+                <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="return" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
+            </statement>
+
+            <statement id="origin_talk" text="Frankie_origin_talk" ref_text="Born and raised right here on this land. Farm's been in my family... well, longer than I can rightly remember. Pa taught me everything I know 'bout workin' the soil. Simpler times, then.">
+                <response_entry id="ask_rain" ref_text="Frankie_resp_ask_rain_cont"/>
+                <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="return" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>
+            </statement>
+
+            <statement id="since_apo_talk" text="Frankie_since_apo_talk" ref_text="Mostly just this. [Gestures around the farm] Tryin' to keep the fences up, crops growin', and the dead... well, dead-er. Scavenge when I gotta. Lost my pa early on. Been just me and the dirt since.">
+                <response_entry id="ask_rain" ref_text="Frankie_resp_ask_rain_cont"/>
+                <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin_cont"/>
+                <response_entry id="return" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>        
+            </statement>
+
+
+            <statement id="who_frankie" text="Frankie_who_frankie" ref_text="Name's Frankie. This farm... it's all I got left. Just tryin' to make it day by day.">
+                <response_entry id="ask_rain" ref_text="Frankie_resp_ask_rain_cont"/>
+                <response_entry id="ask_origin" ref_text="Frankie_resp_ask_origin_cont"/>
+                <response_entry id="ask_since_apo" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="return" ref_text="Frankie_resp_ask_since_apo_cont"/>
+                <response_entry id="done" ref_text="Frankie_resp_ask_since_apo_cont"/>           
+            </statement>
+
+            <statement id="done" text="Frankie_done" ref_text="Alright. Keep your eyes peeled out there.">
+            </statement>
+
+        </dialog>
+    </append>
+</configs>

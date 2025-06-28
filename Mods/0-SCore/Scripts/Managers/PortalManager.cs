@@ -65,8 +65,8 @@ public class PortalManager
     public void Init()
     {
         Log.Out("Starting Portal Manager...");
-        ModEvents.GameStartDone.RegisterHandler(new Action(Load));
-        Load();
+        ModEvents.GameStartDone.RegisterHandler(Load);
+        //Load();
     }
     public void Display()
     {
@@ -315,11 +315,11 @@ public class PortalManager
                 pooledBinaryWriter.SetBaseStream(pooledExpandableMemoryStream);
                 this.Write(pooledBinaryWriter);
             }
-            this.dataSaveThreadInfo = ThreadManager.StartThread("silent_PortalDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, System.Threading.ThreadPriority.Normal, pooledExpandableMemoryStream, null, false);
+            this.dataSaveThreadInfo = ThreadManager.StartThread("silent_PortalDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null,  pooledExpandableMemoryStream, null, false);
         }
     }
 
-    public void Load()
+    public void Load(ref ModEvents.SGameStartDoneData data )
     {
         Log.Out("Reading Portal Data...");
         PortalMap.Clear();

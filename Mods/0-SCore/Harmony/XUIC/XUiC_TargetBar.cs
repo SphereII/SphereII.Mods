@@ -12,7 +12,7 @@ namespace Harmony.XUiC
         private static readonly string Feature = "ShowTargetHealthBar";
 
         [HarmonyPatch(typeof(XUiC_TargetBar))]
-        [HarmonyPatch("ParseAttribute")]
+        [HarmonyPatch(nameof(XUiC_TargetBar.ParseAttribute))]
         public class XUICTargetHealthBar
         {
             public static void Postfix(XUiC_TargetBar __instance, string _name, ref XUiC_TargetBar.EVisibility ___visibility)
@@ -27,7 +27,7 @@ namespace Harmony.XUiC
         }
         
         [HarmonyPatch(typeof(XUiC_TargetBar))]
-        [HarmonyPatch("GetBindingValue")]
+        [HarmonyPatch(nameof(XUiC_TargetBar.GetBindingValue))]
         public class XUICTargetHealthBar_GetBindingValue
         {
             public static void Postfix(XUiC_TargetBar __instance, ref string value, string bindingName)

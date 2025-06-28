@@ -5,7 +5,7 @@ using System.Reflection;
 namespace Harmony.Standard
 {
     [HarmonyPatch(typeof(Mod))]
-    [HarmonyPatch("InitModCode")]
+    [HarmonyPatch(nameof(Mod.InitModCode))]
     public class SCoreMod_InitModCode
     {
         private static bool Prefix(Mod __instance, Dictionary<string, Assembly> ___allAssemblies)

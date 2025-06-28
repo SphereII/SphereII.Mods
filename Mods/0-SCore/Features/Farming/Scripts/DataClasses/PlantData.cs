@@ -1,38 +1,42 @@
 ﻿using System;
+using System.Collections.Generic; // Required for HashSet iteration
 using UnityEngine;
 
+// Updated PlantData class reflecting Manager changes
 public class PlantData
 {
     private static readonly string AdvFeatureClass = "CropManagement";
 
-    public Vector3i BlockPos { get; set; } = Vector3i.zero;
-    public Vector3i WaterPos { get; set; } = Vector3i.zero;
-    private BlockValue BlockValue { get; set; } = BlockValue.Air;
+    public Vector3i BlockPos { get; private set; } = Vector3i.zero;
+    public BlockValue BlockValue { get; private set; } = BlockValue.Air;
+    public Vector3i WaterPos { get; private set; } = Vector3i.zero; // Cached water source pos
 
     private readonly bool _requireWater = false;
     private readonly float _waterRange = 5f;
-    public bool Visited = false;
-    private readonly string _waterParticle;
+    private readonly string _waterParticle = "NoParticle";
 
-    public PlantData(Vector3i blockPos) : this(blockPos, Vector3i.zero)
-    {
-    }
+    public bool Visited { get; set; } = false;
+    public ulong LastCheck { get; set; } = 0ul;
+    public float LastMaintained { get; set; } = 0f;
 
-    private PlantData(Vector3i _blockPos, Vector3i _waterPos)
+    public PlantData(Vector3i blockPos)
     {
-        BlockPos = _blockPos;
-        WaterPos = _waterPos;
+        BlockPos = blockPos;
         BlockValue = GameManager.Instance.World.GetBlock(BlockPos);
 
-        if (BlockValue.Block.Properties.Values.ContainsKey("RequireWater"))
-            _requireWater = StringParsers.ParseBool(BlockValue.Block.Properties.Values["RequireWater"]);
-
-        if (BlockValue.Block.Properties.Values.ContainsKey("WaterRange"))
-            _waterRange = StringParsers.ParseFloat(BlockValue.Block.Properties.Values["WaterRange"]);
-
+        // Read properties (unchanged)
+        if (BlockValue.Block.Properties.Values.TryGetValue("RequireWater", out string requireWaterStr))
+            _requireWater = StringParsers.ParseBool(requireWaterStr);
+        if (BlockValue.Block.Properties.Values.TryGetValue("WaterRange", out string waterRangeStr))
+            _waterRange = StringParsers.ParseFloat(waterRangeStr);
         _waterParticle = Configuration.GetPropertyValue(AdvFeatureClass, "WaterParticle");
+        if (BlockValue.Block.Properties.Values.TryGetValue("WaterParticle", out string particleOverride))
+            _waterParticle = particleOverride;
         if (string.IsNullOrWhiteSpace(_waterParticle))
             _waterParticle = "NoParticle";
+
+        // Initialize WaterPos by checking nearby sources (unchanged)
+        IsNearWater(_waterRange);
     }
 
     public void Manage()
@@ -42,220 +46,254 @@ public class PlantData
         LastMaintained = GameManager.Instance.World.GetWorldTime();
     }
 
+    /// <summary>
+    /// Registers the plant with the CropManager.
+    /// CropManager's Add method now handles spatial grid updates internally.
+    /// </summary>
     public void RegisterPlant()
     {
-        BlockValue = GameManager.Instance.World.GetBlock(BlockPos);
         ToggleWaterParticle();
-        CropManager.Instance.Add(this);
+        CropManager.Instance.Add(this); // No change needed here
     }
 
     public bool CanStay()
     {
-        var results = IsNearWater();
-        if (results)
+        if (!RequiresWater()) return true;
+        if (IsNearWater()) // Updates WaterPos if found
+        {
             Consume();
-        return results;
+            return true;
+        }
+        return false;
     }
 
     private void Consume()
     {
-        AdvLogging.DisplayLog(AdvFeatureClass,
-            $"Last Checked: {BlockPos} {WaterPos} Checked at: {LastCheck} Maintained at: {LastMaintained} Current Time: {GameManager.Instance.World.GetWorldTime()} Difference: {GameManager.Instance.World.GetWorldTime() - LastCheck}");
+        LastCheck = GameManager.Instance.World.GetWorldTime();
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Consume check for {BlockPos}. WaterPos: {WaterPos}");
 
-        if (!RequiresWater()) return;
-        if (WaterPos == Vector3i.zero) return;
+        if (!RequiresWater() || WaterPos == Vector3i.zero) return;
 
-        // If its raining, don't consume water.
-        if ((double) WeatherManager.Instance.GetCurrentRainfallValue() > 0.25)
+        if (WeatherManager.Instance.GetCurrentRainfallValue() > 0.25)
         {
             AdvLogging.DisplayLog(AdvFeatureClass, $"Using Rain Water for {BlockPos}.");
             return;
         }
 
-        // Damage the water block to simulate usage.
-        var waterBlock = GameManager.Instance.World.GetBlock(WaterPos);
+        Vector3i sourceDamagePos = WaterPos;
+        BlockValue waterBlockValue = GameManager.Instance.World.GetBlock(WaterPos);
 
-        var source = WaterPos;
-
-
-        // If the water block is a sprinkler, find out where its getting its water from.
-        if (waterBlock.Block is BlockWaterSourceSDX waterSource)
+        if (waterBlockValue.Block is BlockWaterSourceSDX waterSourceBlock)
         {
-            if (waterSource.IsWaterSourceUnlimited())
+            if (waterSourceBlock.IsWaterSourceUnlimited())
             {
+                AdvLogging.DisplayLog(AdvFeatureClass, $"Sprinkler at {WaterPos} is unlimited source for {BlockPos}.");
                 ToggleWaterParticle();
                 return;
             }
-
-            source = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
-            waterBlock = GameManager.Instance.World.GetBlock(source);
+            // Use the refactored (and cached) lookup in WaterPipeManager
+            sourceDamagePos = WaterPipeManager.Instance.GetWaterForPosition(WaterPos);
+            if (sourceDamagePos == Vector3i.zero)
+            {
+                AdvLogging.DisplayLog(AdvFeatureClass, $"Sprinkler at {WaterPos} for {BlockPos} lost its pipe connection (checked via WaterPipeManager).");
+                return;
+            }
+            waterBlockValue = GameManager.Instance.World.GetBlock(sourceDamagePos);
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Sprinkler at {WaterPos} draws from {sourceDamagePos} for {BlockPos}.");
         }
 
-        var waterValue = GameManager.Instance.World.GetWater(source);
-        if (waterValue.GetMassPercent() > 0.25f)
+        // --- Consume from the sourceDamagePos ---
+        var world = GameManager.Instance.World;
+        if (world.IsWater(sourceDamagePos))
         {
-            AdvLogging.DisplayLog(AdvFeatureClass,
-                $"Consuming Water: {BlockPos} {source} {waterBlock.Block.GetBlockName()}");
-            var currentMass = waterValue.GetMass();
-            currentMass--;
-            waterValue.SetMass(currentMass);
-            var package = NetPackageManager.GetPackage<NetPackageWaterSet>();
-            package.AddChange(source, waterValue);
-            GameManager.Instance.SetWaterRPC(package);
+             float waterPercent = world.GetWaterPercent(sourceDamagePos);
+             if (waterPercent > 0.01f)
+             {
+                AdvLogging.DisplayLog(AdvFeatureClass, $"TODO: Implement A21+ water consumption at {sourceDamagePos} for {BlockPos}. Current percent: {waterPercent * 100}%");
+                // --- FALLBACK ---
+                DamageWaterBlockLegacy(sourceDamagePos, waterBlockValue);
+                // --- END FALLBACK ---
+                ToggleWaterParticle();
+                return;
+             }
+        }
+
+        if (waterBlockValue.Block is BlockLiquidv2)
+        {
+            DamageWaterBlockLegacy(sourceDamagePos, waterBlockValue);
+            ToggleWaterParticle();
             return;
         }
 
-
-        if (waterBlock.Block is not BlockLiquidv2 water) return;
-        
-        AdvLogging.DisplayLog(AdvFeatureClass,
-            $"Consuming Water: {BlockPos} {source} {waterBlock.Block.GetBlockName()}");
-
-        if (water.Properties.Values.ContainsKey("WaterType"))
+        if (waterBlockValue.Block.Properties.GetString("WaterType").ToLower() == "unlimited")
         {
-            if (water.Properties.Values["WaterType"].ToLower() == "unlimited")
-            {
-                ToggleWaterParticle();
-                return;
-            }
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Source at {sourceDamagePos} is unlimited type for {BlockPos}.");
+            ToggleWaterParticle();
+            return;
         }
 
-        // Check the global value of damaging water for this growth cycle
-        var damage = WaterPipeManager.Instance.GetWaterDamage(source);
+        AdvLogging.DisplayLog(AdvFeatureClass, $"Source at {sourceDamagePos} for {BlockPos} is not a recognized consumable water type. Block: {waterBlockValue.Block.GetBlockName()}");
+    }
 
-        // If the blant block itself has its own water damage, use it instead.
+    private void DamageWaterBlockLegacy(Vector3i sourcePos, BlockValue waterBlockVal)
+    {
+         AdvLogging.DisplayLog(AdvFeatureClass, $"Consuming legacy water block: {sourcePos} ({waterBlockVal.Block.GetBlockName()}) for {BlockPos}");
+         if (waterBlockVal.Block.Properties.GetString("WaterType").ToLower() == "unlimited") return;
+
+        int damage = WaterPipeManager.Instance.GetWaterDamage(sourcePos);
         if (BlockValue.Block.Properties.Contains("WaterDamage"))
             damage = BlockValue.Block.Properties.GetInt("WaterDamage");
 
-        // Grab the damage value from a) the water block itself, or b) the globa one
-        waterBlock.damage += damage;
-        if (waterBlock.damage <= waterBlock.Block.MaxDamage)
-            GameManager.Instance.World.SetBlockRPC(0, source, waterBlock);
+        waterBlockVal.damage += damage;
+        if (waterBlockVal.damage < waterBlockVal.Block.MaxDamage)
+        {
+            GameManager.Instance.World.SetBlockRPC(0, sourcePos, waterBlockVal);
+        }
         else
         {
-            AdvLogging.DisplayLog(AdvFeatureClass, $"Water is completely consumed here: {source}");
-            GameManager.Instance.World.SetBlockRPC(0, source, BlockValue.Air);
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Water block consumed completely: {sourcePos}");
+            GameManager.Instance.World.SetBlockRPC(0, sourcePos, BlockValue.Air);
+            // If our cached source was this block, clear the cache
+            if (WaterPos == sourcePos) WaterPos = Vector3i.zero;
         }
-
-        ToggleWaterParticle();
     }
 
     private void ToggleWaterParticle()
     {
         if (GameManager.Instance.HasBlockParticleEffect(BlockPos))
             BlockUtilitiesSDX.removeParticles(BlockPos);
-
-        var waterParticle = GetWaterParticle();
-        BlockUtilitiesSDX.addParticlesCentered(waterParticle, BlockPos);
+        if (_waterParticle != "NoParticle")
+        {
+            BlockUtilitiesSDX.addParticlesCentered(_waterParticle, BlockPos);
+        }
     }
 
-    private string GetWaterParticle()
-    {
-        var block = GameManager.Instance.World.GetBlock(BlockPos);
-
-        var waterParticle = this._waterParticle;
-        if (block.Block.Properties.Contains("WaterParticle"))
-            waterParticle = block.Block.Properties.GetString("WaterParticle");
-
-        if (block.Block.blockMaterial.Properties.Contains("WaterParticle"))
-            waterParticle = block.Block.blockMaterial.Properties.GetString("WaterParticle");
-
-        return waterParticle;
-    }
-
+    /// <summary>
+    /// Removes the plant from CropManager. CropManager handles spatial grid internally.
+    /// Triggers base game check which may lead to wilting.
+    /// </summary>
     public void Remove()
     {
-        if (BlockValue.Block is not BlockPlantGrowing block) return;
         BlockUtilitiesSDX.removeParticles(BlockPos);
-        CropManager.Instance.Remove(BlockPos);
-        var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
-        if (chunk == null) return;
-        block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, BlockValue);
-    }
+        CropManager.Instance.Remove(BlockPos); // No change needed here
 
-    public ulong LastCheck { get; set; } = 0ul;
-    public float LastMaintained { get; set; } = 0f;
+        if (BlockValue.Block is BlockPlantGrowing block)
+        {
+             var chunk = GameManager.Instance.World.GetChunkFromWorldPos(BlockPos) as Chunk;
+             if (chunk != null)
+             {
+                 block.CheckPlantAlive(GameManager.Instance.World, chunk.ClrIdx, BlockPos, BlockValue);
+             }
+        }
+    }
 
     public bool RequiresWater()
     {
         return _requireWater;
     }
 
+    /// <summary>
+    /// Checks if the plant is near a valid water source (Direct, Pipe, Sprinkler).
+    /// Updates WaterPos if a source is found. Interacts with refactored WaterPipeManager.
+    /// </summary>
     public bool IsNearWater(float waterRange = -1f)
     {
-        if (waterRange == -1f)
-            waterRange = _waterRange;
+        float rangeToCheck = (waterRange == -1f) ? _waterRange : waterRange;
 
+        // 1. Check cached WaterPos validity (unchanged)
         if (WaterPos != Vector3i.zero)
         {
-            if (GameManager.Instance.World.IsWater(WaterPos))
-                return true;
-        }
-
-        // Check if we still have a water valve reference, and its on.
-        var valves = WaterPipeManager.Instance.GetWaterValves();
-
-        // Check to see if there's a valve that can provide coverage for this.
-        foreach (var valve in valves)
-        {
-            var blockValue = GameManager.Instance.World.GetBlock(valve.Key);
-            if (blockValue.Block is not BlockWaterSourceSDX waterBlock) continue;
-            if (waterBlock.IsWaterSourceUnlimited()) return true;
-
-            // If the valve itself is not connected to water, skip it.
-            if (WaterPipeManager.Instance.GetWaterForPosition(valve.Key) == Vector3i.zero)
-                continue;
-
-            var num = Vector3.Distance(BlockPos, valve.Key);
-            if (num <= waterBlock.GetWaterRange())
+            // Use WaterPipeManager's check which handles various source types
+            if (WaterPipeManager.Instance.IsWaterSource(WaterPos))
             {
-                WaterPos = valve.Key;
-                return true;
+                 // If it's a limited sprinkler, ensure it's still connected
+                 var cachedBlockValue = GameManager.Instance.World.GetBlock(WaterPos);
+                 if (cachedBlockValue.Block is BlockWaterSourceSDX sp && !sp.IsWaterSourceUnlimited())
+                 {
+                     if (WaterPipeManager.Instance.GetWaterForPosition(WaterPos) != Vector3i.zero) return true;
+                 }
+                 else // Direct water or unlimited sprinkler
+                 {
+                     return true;
+                 }
             }
+             // Cached position is no longer a valid source or sprinkler lost connection
+            AdvLogging.DisplayLog(AdvFeatureClass, $"Cached WaterPos {WaterPos} for {BlockPos} is no longer valid.");
+            WaterPos = Vector3i.zero;
         }
 
-        // search for a direct water source.
-        var newWaterSource = ScanForWater(BlockPos, waterRange);
-        if (WaterPipeManager.Instance.IsDirectWaterSource(newWaterSource))
+        // 2. Check Sprinklers in range
+        // *** Optimization Note: Still iterates ALL active sprinklers via GetWaterValves ***
+        // Requires WaterPipeManager spatial partitioning for sprinklers to optimize further.
+        HashSet<Vector3i> activeSprinklers = WaterPipeManager.Instance.GetWaterValves();
+        float rangeToCheckSq = rangeToCheck * rangeToCheck; // Check against plant's range? Or sprinkler's? Using Plant's here.
+
+        foreach (Vector3i sprinklerPos in activeSprinklers) // Iterate HashSet directly
         {
-            WaterPos = newWaterSource;
-            return true;
-        }
+            var blockValue = GameManager.Instance.World.GetBlock(sprinklerPos);
+            if (blockValue.Block is not BlockWaterSourceSDX waterBlock) continue;
 
-        // If there's no water source
-        if (newWaterSource == Vector3i.zero)
-            newWaterSource = BlockPos;
-
-        // If this is an indirect water source, check its piping to make sure its connected to a BlockLiquidv2 or legit water source
-        newWaterSource = WaterPipeManager.Instance.GetWaterForPosition(newWaterSource);
-        if (newWaterSource == Vector3i.zero) // No water source connected?
-            return false;
-
-        WaterPos = newWaterSource;
-        return true;
-    }
-
-    public Vector3i ScanForWater(Vector3i _blockPos, float range = -1f)
-    {
-        if (range == -1)
-            range = _waterRange;
-
-        var _world = GameManager.Instance.World;
-        for (var x = -range; x <= range; x++)
-        {
-            for (var z = -range; z <= range; z++)
+            // Check distance from plant to sprinkler using the plant's waterRange
+            if (Vector3.SqrMagnitude(BlockPos - sprinklerPos) <= rangeToCheckSq) // Use plant's range
+            // Alternative: Check against sprinkler's range: <= waterBlock.GetWaterRange() * waterBlock.GetWaterRange() ?
             {
-                for (var y = _blockPos.y - 2; y <= _blockPos.y + 2; y++)
+                // Check if this sprinkler is connected (uses WaterPipeManager cache/search) or unlimited
+                if (waterBlock.IsWaterSourceUnlimited() || WaterPipeManager.Instance.GetWaterForPosition(sprinklerPos) != Vector3i.zero)
                 {
-                    var waterCheck = new Vector3i(_blockPos.x + x, y, _blockPos.z + z);
-
-                    // If it's a straight up water block, grab it.
-                    if (WaterPipeManager.Instance.IsWaterSource(waterCheck))
-                        return waterCheck;
+                    AdvLogging.DisplayLog(AdvFeatureClass, $"Found valid sprinkler {sprinklerPos} for {BlockPos}");
+                    WaterPos = sprinklerPos;
+                    return true;
                 }
             }
         }
 
+        // 3. Scan for local direct water sources or connected pipes (unchanged)
+        Vector3i foundSource = ScanForWater(BlockPos, rangeToCheck);
+        if (foundSource != Vector3i.zero)
+        {
+             if (WaterPipeManager.Instance.IsDirectWaterSource(foundSource))
+             {
+                 AdvLogging.DisplayLog(AdvFeatureClass, $"Found direct water source {foundSource} via ScanForWater for {BlockPos}");
+                 WaterPos = foundSource;
+                 return true;
+             }
+
+             Vector3i ultimateSource = WaterPipeManager.Instance.GetWaterForPosition(foundSource);
+             if (ultimateSource != Vector3i.zero)
+             {
+                AdvLogging.DisplayLog(AdvFeatureClass, $"Found indirect water via pipe/sprinkler {foundSource} (leading to {ultimateSource}) for {BlockPos}");
+                 WaterPos = foundSource; // Cache intermediate connector block
+                 return true;
+             }
+        }
+
+        // 4. No water source found (unchanged)
+        AdvLogging.DisplayLog(AdvFeatureClass, $"No water source found for {BlockPos} within range {rangeToCheck}");
+        WaterPos = Vector3i.zero;
+        return false;
+    }
+
+    // ScanForWater remains unchanged internally, but uses updated WaterPipeManager.IsWaterSource
+    public Vector3i ScanForWater(Vector3i _blockPos, float range = -1f)
+    {
+        if (range == -1) range = _waterRange;
+        int intRange = Mathf.Clamp(Mathf.CeilToInt(range), 1, 10);
+        var world = GameManager.Instance.World;
+        for (int x = -intRange; x <= intRange; x++)
+        {
+            for (int z = -intRange; z <= intRange; z++)
+            {
+                for (int y = _blockPos.y - intRange; y <= _blockPos.y + intRange; y++)
+                {
+                    Vector3i checkPos = new Vector3i(_blockPos.x + x, y, _blockPos.z + z);
+                    // IsWaterSource check now uses the updated WaterPipeManager method
+                    if (WaterPipeManager.Instance.IsWaterSource(checkPos))
+                    {
+                        return checkPos;
+                    }
+                }
+            }
+        }
         return Vector3i.zero;
     }
 }

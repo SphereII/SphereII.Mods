@@ -1,10 +1,4 @@
 ﻿<configs>
-    <!-- Caves -->
-    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveEnabled']/@value">true</set>
-    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CaveType']/@value">All</set>
-    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='GenerationType']/@value">Legacy</set>
-    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='CaveConfiguration']/property[@name='CavePrefab']/@value">Large</set>
-    
     <!-- Random Walk Types -->
     <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedZombieFeatures']/property[@name='RandomWalk']/@value">true</set>
     
@@ -22,9 +16,9 @@
     <!-- Auto redeem challenges as you go -->
     <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='AutoRedeemChallenges']/@value">true</set>
 
-    <!-- Food Spoilage, but to make hot things go cold 
-    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FoodSpoilage']/property[@name='FoodSpoilage']/@value">true</set>
-    -->
+    <!-- Allows everyone in the party to get the benefit of a read book -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedPlayerFeatures']/property[@name='SharedReading']/@value">true</set>
+    
     <append xpath="/blocks">
         
         <!-- The drop box -->

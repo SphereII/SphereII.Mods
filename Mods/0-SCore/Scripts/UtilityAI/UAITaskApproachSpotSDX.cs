@@ -94,8 +94,7 @@
 
         private static bool IsBlocked(Context _context)
         {
-            return _context.Self.moveHelper.IsBlocked
-                && _context.Self.moveHelper.BlockedTime > 0.35f;
+            return  _context.Self.moveHelper.BlockedTime > SCoreConstants.BlockedTime;
         }
 
         private static bool NeedsPath(Context context)

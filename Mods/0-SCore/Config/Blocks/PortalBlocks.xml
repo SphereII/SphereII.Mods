@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+    <append xpath="/blocks">
+        <block name="portalMaster">
+            <property name="Class" value="Portal, SCore"/>
+            <property name="CooldownBuff" value="buffTeleportCooldown"/>
+            <property name="Delay" value="2000"/>
+
+            <!-- Uncomment to hard code the portal ID-->
+            <!--property name="Location" value="Portal01" /-->
+
+            <!-- determines if the name of the portal is displayed -->
+            <property name="Display" value="true"/>
+
+            <!-- If the player has this buff, they will be able to see the portal name. -->
+            <!--property name="DisplayBuff" value="buffyours" /-->
+
+            <property name="Material" value="Mstone"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
+            <property name="IsTerrainDecoration" value="true"/>
+            <property class="RepairItems">
+                <property name="resourceRockSmall" value="100"/>
+            </property>
+            <drop event="Harvest" name="resourceRockSmall" count="15,28" tag="allHarvest"/>
+            <drop event="Destroy" count="0"/>
+            <property name="EconomicValue" value="500"/>
+            <property name="EconomicBundleSize" value="1"/>
+            <property name="Group" value="Decor/Miscellaneous"/>
+            <property name="FilterTags" value="MC_outdoor,SC_decor"/>
+            <property name="SortOrder1" value="70r2"/>
+            <property name="SortOrder2" value="0050"/>
+            <property name="DescriptionKey" value="guppyPortal_desc"/>
+        </block>
+
+        <block name="samplePortal01">
+            <property name="Extends" value="portalMaster"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <property name="Location" value="samplePortal01"/> <!-- Legacy and default -->
+            <property name="Display" value="true"/>
+            <property name="RequiredPower" value="0"/>  <!-- Does not require power to operate -->
+        </block>
+
+        <block name="samplePortal01b">
+            <property name="Extends" value="portalMaster"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <property name="Location" value="source=samplePortal01cb,destination=samplePortal01b"/>
+            <property name="Display" value="true"/>
+            <property name="RequiredPower" value="0"/>    <!-- Does not require power to operate -->
+        </block>
+        <block name="samplePortal02">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <property name="Location"
+                      value="source=samplePortal02,destination=samplePortal03"/>  <!-- I am Portal02, I go to Portal03 -->
+            <property name="RequiredPower" value="0"/>
+            <!-- Does not require power to operate -->
+
+            <property name="Display" value="true"/>
+        </block>
+
+        <block name="samplePortal03">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <property name="Location"
+                      value="source=samplePortal03,destination=NA"/>  <!-- I am Portal03, I go to NA, which is not created, thus not anywhere-->
+            <property name="RequiredPower" value="0"/>
+            <!-- Does not require power to operate -->
+
+            <property name="Display" value="true"/>
+        </block>
+
+        <block name="samplePortal04">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="Entities/Electrical/power_switchPrefab"/>
+            <!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
+            <property name="Display" value="true"/>
+        </block>
+
+        <block name="samplePortal05">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02-->
+            <property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02"/>
+            <property name="RequiredPower" value="0"/>
+            <!-- Does not require power to operate -->
+
+            <property name="Display" value="true"/>
+        </block>
+
+        <block name="samplePortal06samplePortal06">
+            <property name="Extends" value="portalMaster"/>
+            <property name="Class" value="PoweredPortal, SCore"/>
+            <property name="DisplayType" value="blockMulti"/>
+            <property name="MultiBlockDim" value="3,3,3"/>
+            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
+            <property name="RequiredPower" value="0"/>
+            <property name="Display" value="true"/>
+            <property name="Delay" value="200"/>
+        </block>
+    </append>
+</configs>

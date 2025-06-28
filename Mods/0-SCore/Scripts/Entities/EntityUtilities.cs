@@ -218,8 +218,8 @@ public static class EntityUtilities
         myEntity.inventory.SetHoldingItemIdxNoHolsterTime(index);
 
         // Forcing the show items
-        myEntity.inventory.ShowHeldItem(false, 0f);
-        myEntity.inventory.ShowHeldItem(true);
+        myEntity.inventory.ShowHeldItem(0f,false);
+        myEntity.inventory.ShowHeldItem(0f,true);
 
         //myEntity.inventory.SetHoldingItemIdx(index);
         myEntity.inventory.ForceHoldingItemUpdate();

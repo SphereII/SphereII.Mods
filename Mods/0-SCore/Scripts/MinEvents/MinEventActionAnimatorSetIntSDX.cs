@@ -18,7 +18,7 @@ public class MinEventActionAnimatorSetIntSDX : MinEventActionTargetedBase
             if (targets[i].emodel == null || this.targets[i].emodel.avatarController == null) continue;
             if (_cvarRef)
             {
-                _value = targets[i].Buffs.GetCustomVar(_refCvarName, 0f);
+                _value = targets[i].Buffs.GetCustomVar(_refCvarName);
             }
 
             targets[i].emodel.avatarController.UpdateInt(_property, (int) _value, true);

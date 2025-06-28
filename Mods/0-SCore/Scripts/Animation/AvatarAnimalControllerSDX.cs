@@ -14,7 +14,7 @@ internal class AvatarAnimalControllerSDX : AvatarAnimalController
     public override void SwitchModelAndView(string _modelName, bool _bFPV, bool _bMale)
     {
         base.SwitchModelAndView(_modelName, _bFPV, _bMale);
-        rightHand = bipedTransform.FindInChilds(entity.GetRightHandTransformName());
+        rightHand = bipedT.FindInChilds(entity.GetRightHandTransformName());
         if (rightHandItemTransform != null)
         {
             rightHandItemTransform.parent = rightHand;
@@ -45,7 +45,7 @@ internal class AvatarAnimalControllerSDX : AvatarAnimalController
     public override void StartAnimationReloading()
     {
         idleTime = 0f;
-        if (bipedTransform == null || !bipedTransform.gameObject.activeInHierarchy)
+        if (bipedT == null || !bipedT.gameObject.activeInHierarchy)
             return;
         var value = EffectManager.GetValue(PassiveEffects.ReloadSpeedMultiplier, entity.inventory.holdingItemItemValue, 1f, entity);
         UpdateBool("Reload", true);

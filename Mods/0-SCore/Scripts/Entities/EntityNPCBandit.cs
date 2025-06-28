@@ -83,6 +83,7 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         // So, make sure we call SetupStartingItems after calling the base class.
         SetupStartingItems();
 
+        
         // Does a quick local scan to see what pathing blocks, if any, are nearby.
         // If one is found nearby, then it'll use that code for pathing.
         SetupAutoPathingBlocks();
@@ -97,21 +98,23 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         for (var i = 0; i < itemsOnEnterGame.Count; i++)
         {
             var itemStack = itemsOnEnterGame[i];
+
             var itemClass = ItemClass.GetForId(itemStack.itemValue.type);
             if (itemClass.HasQuality)
                 itemStack.itemValue = new ItemValue(itemStack.itemValue.type, 1, 6);
             else
                 itemStack.count = itemClass.Stacknumber.Value;
+            
             inventory.SetItem(i, itemStack);
+            if ( i == 0)
+                inventory.SetHoldingItemIdx(i);
         }
-
-        inventory.SetHoldingItemIdx(0);
     }
 
     public override void OnUpdateLive()
     {
         base.OnUpdateLive();
-
+    
         // Wake them up if they are sleeping, since the trigger sleeper makes them go idle again.
         if (!sleepingOrWakingUp && IsAlwaysAwake)
         {
@@ -129,6 +132,9 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
             // Set in EntityAlive.TriggerSleeperPose() - resetting here
             IsSleeping = false;
         }
+        
+       // this.inventory.SetRightHandAsModel();
+        this.ShowHoldingItem(true);
     }
 
     public override bool IsSavedToFile()

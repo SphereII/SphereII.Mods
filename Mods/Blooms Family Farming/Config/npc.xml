@@ -1,0 +1,17 @@
+<configs>
+    <insertAfter xpath="/npc/npc_info[@id='NPCjunkDrone']" >
+    <npc_info
+            id="NPCFrankieFarmer"
+            name="NPC"
+            name_key="npc_FrankieFarmer"
+            faction="whiteriver"
+            portrait="npc_joel"
+            greeting_type="nearby"
+            stance="Neutral"
+            voice_set=""
+            trader_id="200"
+            dialog_id="FrankieFarmerDialog"
+            quest_list="frankie_quests"
+            localization_id="npc_FrankieFarmer" />
+    </insertAfter>
+</configs>

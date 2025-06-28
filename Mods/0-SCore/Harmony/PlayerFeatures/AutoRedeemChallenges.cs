@@ -8,7 +8,7 @@ namespace SCore.Harmony.PlayerFeatures {
         private static readonly string Feature = "AutoRedeemChallenges";
 
         [HarmonyPatch(typeof(ChallengeJournal))]
-        [HarmonyPatch("FireEvent")]
+        [HarmonyPatch(nameof(ChallengeJournal.FireEvent))]
         public class AutoRedeemChallengesFireEvent {
             public static void Postfix(ChallengeJournal __instance,MinEventTypes _eventType, MinEventParams _params) {
                 // Check if this feature is enabled.

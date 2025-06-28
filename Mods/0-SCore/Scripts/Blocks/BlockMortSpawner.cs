@@ -136,9 +136,9 @@ public class BlockMortSpawner : BlockLoot
         AddScript(_world, _blockPos, null);
     }
 
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue,_addedByPlayer);
 
         AddScript(world, _blockPos, null);
     }

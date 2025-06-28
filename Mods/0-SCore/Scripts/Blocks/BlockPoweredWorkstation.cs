@@ -13,7 +13,7 @@
         HasTileEntity = true;
     }
 
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         if (_blockValue.ischild) return;
         _chunk.AddTileEntity(new TileEntityPoweredWorkstationSdx(_chunk)

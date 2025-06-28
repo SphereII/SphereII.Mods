@@ -82,7 +82,7 @@ namespace Harmony.ItemActions
 
             // Used to display the repair requirements
             [HarmonyPatch(typeof(XUiC_ItemInfoWindow))]
-            [HarmonyPatch("GetBindingValue")]
+            [HarmonyPatch(nameof(XUiC_ItemInfoWindow.GetBindingValue))]
             [HarmonyPatch(new[] { typeof(string), typeof(string) })]
             public static bool Prefix(ref string value, string binding, ItemClass ___itemClass)
             {
@@ -116,7 +116,7 @@ namespace Harmony.ItemActions
         }
 
         [HarmonyPatch(typeof(ItemActionEntryRepair))]
-        [HarmonyPatch("OnDisabledActivate")]
+        [HarmonyPatch(nameof(ItemActionEntryRepair.OnDisabledActivate))]
         public class RepairOnDisabledActivate
         {
             public static bool Prefix(ItemActionEntryRepair __instance)
@@ -167,7 +167,7 @@ namespace Harmony.ItemActions
 
         // Make sure all items are available.
         [HarmonyPatch(typeof(ItemActionEntryRepair))]
-        [HarmonyPatch("OnActivated")]
+        [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
         public class RepairOnActivated
         {
             public static bool Prefix(ItemActionEntryRepair __instance)

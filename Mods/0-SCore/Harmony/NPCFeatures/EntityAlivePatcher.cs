@@ -121,7 +121,7 @@ namespace Harmony.NPCFeatures
         }
 
         [HarmonyPatch(typeof(global::EntityAlive))]
-        [HarmonyPatch("SetAttackTarget")]
+        [HarmonyPatch(nameof(global::EntityAlive.SetAttackTarget))]
         public class EntityAliveSetAttackTarget
         {
             private static bool Prefix(global::EntityAlive __instance)

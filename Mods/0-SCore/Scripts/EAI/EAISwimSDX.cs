@@ -71,9 +71,8 @@ public class EAISwimSDX : EAIWander
     public override bool Continue()
     {
         var result = theEntity.bodyDamage.CurrentStun == EnumEntityStunType.None &&
-               theEntity.moveHelper.BlockedTime <= 0.3f && time <= 30f &&
+               theEntity.moveHelper.BlockedTime <= SCoreConstants.BlockedTime && time <= 30f &&
                !theEntity.navigator.noPathAndNotPlanningOne();
-Debug.Log($"Can Continue? : {result}");
 return result;
     }
 

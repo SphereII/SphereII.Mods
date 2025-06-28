@@ -39,8 +39,8 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         return "";
 
     }
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue) {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer) {
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         if (!SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer) return;
         if (GameManager.Instance.IsEditMode()) return;
 

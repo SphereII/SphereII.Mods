@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SphereII Peace Of Mind")]
-[assembly: AssemblyCopyright("Copyright ©sphereii  2024")]
+[assembly: AssemblyCopyright("Copyright ©sphereii  2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

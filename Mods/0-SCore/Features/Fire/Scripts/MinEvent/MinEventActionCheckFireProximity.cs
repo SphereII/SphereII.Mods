@@ -18,7 +18,7 @@ public class MinEventActionCheckFireProximity : MinEventActionRemoveBuff
 
     public override void Execute(MinEventParams @params)
     {
-        if (FireManager.Instance.Enabled == false) return;
+        if (FireManager.Instance.Enabled== false) return;
 
         var position = new Vector3i(@params.Self.position);
         var count = FireManager.Instance.CloseFires(position, (int)maxRange);

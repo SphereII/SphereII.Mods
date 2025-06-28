@@ -59,7 +59,7 @@ public class VersionCheck
         return bool.TryParse(GetConfigString(key), out bool result) && result;
     }
 
-    public static void OnGameStartDone()
+    public static void OnGameStartDone(ref ModEvents.SGameStartDoneData data)
     {
         CheckVersions();
     }
@@ -144,7 +144,7 @@ public class VersionCheck
     }
 
     [HarmonyPatch(typeof(XUiC_MessageBoxWindowGroup))]
-    [HarmonyPatch("GetBindingValue")]
+    [HarmonyPatch(nameof(XUiC_MessageBoxWindowGroup.GetBindingValue))]
 
     public class MessageBoxWindowGroupPatch
     {

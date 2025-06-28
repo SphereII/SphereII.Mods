@@ -12,17 +12,17 @@ namespace Harmony.SoundFeatures
         private static readonly string AdvFeatureClass = "AdvancedSoundFeatures";
 
 
-        private static bool Prefix(Manager __instance, Entity entity, string soundGroupName)
+        private static bool Prefix(Manager __instance, Entity _entity, string soundGroupName)
         {
             AdvLogging.DisplayLog(AdvFeatureClass, "AudioManager.Play(): Entity, String, float, bool: " + soundGroupName);
-            if (entity == null)
+            if (_entity == null)
                 return true;
 
             if (string.IsNullOrEmpty(soundGroupName))
                 return true;
 
             AdvLogging.DisplayLog(AdvFeatureClass, "Audio.Client.Play(): Vector3, string: " + soundGroupName.Split('/').Last());
-            GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGroupName.Split('/').Last(), entity.position);
+            GiveBuffOrQuestBySound.CheckForBuffOrQuest(soundGroupName.Split('/').Last(), _entity.position);
             return true;
         }
     }

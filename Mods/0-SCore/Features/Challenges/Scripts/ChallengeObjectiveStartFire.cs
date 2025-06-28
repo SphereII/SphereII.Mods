@@ -26,19 +26,19 @@ namespace Challenges {
         // Subscribe to the fire-starting event
         public override void HandleAddHooks() {
             if (FireManager.Instance != null) {
-                FireManager.Instance.OnStartFire += OnFireStarted;
+                FireManager.Instance.Events.OnFireStarted += OnFireStarted;
             }
         }
 
         // Unsubscribe from the fire-starting event
         public override void HandleRemoveHooks() {
             if (FireManager.Instance != null) {
-                FireManager.Instance.OnStartFire -= OnFireStarted;
+                FireManager.Instance.Events.OnFireStarted -= OnFireStarted;
             }
         }
 
         // Event handler for when a fire is started
-        private void OnFireStarted(int entityId) {
+        private void OnFireStarted(Vector3i position, int entityId) {
             if (IsFireStartedByPlayer(entityId)) {
                 IncrementObjectiveProgress();
             }

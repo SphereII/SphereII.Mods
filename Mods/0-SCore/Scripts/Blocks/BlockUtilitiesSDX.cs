@@ -110,11 +110,12 @@ public static class BlockUtilitiesSDX
         var rotation = Quaternion.identity;
         //rotation = blockValue.Block.shape.GetRotation(blockValue);
         var particle = new ParticleEffect(strParticleName, centerPosition, rotation, 1f, Color.white);
+   
+       
         GameManager.Instance.SpawnBlockParticleEffect(position, particle);
     }
-
+    
    
-
    
     public static void removeParticles(Vector3i position)
     {

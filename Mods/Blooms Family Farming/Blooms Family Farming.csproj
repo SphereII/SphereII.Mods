@@ -54,8 +54,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\blocks.xml" />
+    <Content Include="Config\buffs.xml" />
+    <Content Include="Config\dialogs.xml" />
+    <Content Include="Config\Dialogs\Farmer\FarmingDialog.xml" />
+    <Content Include="Config\Dialogs\Farmer\Localization.txt" />
+    <Content Include="Config\Dialogs\General\TraderSurvival.txt" />
+    <Content Include="Config\Dialogs\General\TraderSurvival.xml" />
+    <Content Include="Config\Dialogs\General\ZombiesDialog.txt" />
+    <Content Include="Config\Dialogs\General\ZombiesDialog.xml" />
     <Content Include="Config\entityclasses.xml" />
     <Content Include="Config\Localization.txt" />
+    <Content Include="Config\npc.xml" />
+    <Content Include="Config\quests.xml" />
+    <Content Include="Config\traders.xml" />
     <Content Include="Config\utilityai.xml" />
     <Content Include="ModInfo.xml" />
     <Content Include="Properties\versionTemplate.tt">

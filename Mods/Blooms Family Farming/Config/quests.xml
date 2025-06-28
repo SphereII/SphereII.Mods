@@ -1,0 +1,26 @@
+<configs>
+    <insertBefore xpath="/quests/quest_list[@id='test_quests']">
+        <quest id="farmer_harvest_goldenrod" name_key="farmer_quest_goldenrod_title"
+               subtitle_key="farmer_quest_goldenrod_subtitle" description_key="farmer_quest_goldenrod_desc"
+               icon="ui_game_symbol_quest" category_key="quest" group_name_key="quest_farming" difficulty="veryeasy"
+               quest_type="fetch">
+            <property name="offer_key" value="farmer_quest_goldenrod_offer"/>
+            <property name="shareable" value="false"/>
+
+            <objective type="Fetch" id="resourceCropGoldenrodPlant" value="20" phase="1"/>
+
+            <reward type="Exp" value="500"/>
+            <reward type="Item" id="casinoCoin" value="200"/>
+        </quest>
+    </insertBefore>
+
+    <insertAfter xpath="/quests/quest_list[@id='test_quests']">
+        <quest_list id="frankie_quests">
+            <quest id="tier1_clear" />
+            <quest id="tier1_fetch" />
+            <quest id="tier1_buried_supplies" />
+            <quest id="farmer_harvest_goldenrod"/>
+
+        </quest_list>
+    </insertAfter>
+</configs>

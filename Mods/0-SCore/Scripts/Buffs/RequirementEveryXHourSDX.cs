@@ -3,7 +3,7 @@
 
 public class RequirementEveryXHourSDX : RequirementBase
 {
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         var hour = GameUtils.WorldTimeToHours(GameManager.Instance.World.GetWorldTime());
         if (hour == value)

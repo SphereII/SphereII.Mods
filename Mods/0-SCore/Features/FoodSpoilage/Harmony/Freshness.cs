@@ -46,7 +46,7 @@ namespace SCore.Features.FoodSpoilage.Harmony {
                 }
                 foreach (var t in __instance.targets)
                 {
-                    var currentValue = t.Buffs.GetCustomVar(__instance.cvarName, 0f);
+                    var currentValue = t.Buffs.GetCustomVar(__instance.cvarName);
                     switch (__instance.operation)
                     {
                         case MinEventActionModifyCVar.OperationTypes.add:

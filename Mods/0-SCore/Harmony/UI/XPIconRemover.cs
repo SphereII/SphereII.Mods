@@ -8,7 +8,7 @@ namespace Harmony.UI
      * This class includes a Harmony patch hide the IP Notification pop up
      */
     [HarmonyPatch(typeof(XUiC_CollectedItemList))]
-    [HarmonyPatch("AddIconNotification")]
+    [HarmonyPatch(nameof(XUiC_CollectedItemList.AddIconNotification))]
     public class XPIconRemover
     {
         private static readonly string AdvFeatureClass = "AdvancedUI";

@@ -1,0 +1,142 @@
+<configs>
+    <append xpath="/dialogs">
+        <dialog id="GenericZombieLoreDialog" startstatementid="start">
+            <statement id="start" text="ZL_start"
+                       ref_text="Generic trigger, perhaps examining something or idle chatter prompt.">
+                <response_entry id="trigger_lore_talk"/>
+            </statement>
+
+            <statement id="zombie_types" text="ZL_types"
+                       ref_text="Types? Mostly the slow ones, the shamblers. Dangerous in groups. But sometimes... sometimes they move faster. Or make those awful guttural noises. Some crawl, too. Always gotta watch your feet.">
+                <response_entry id="types_specials"/>
+                <response_entry id="types_behavior"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+            </statement>
+            <statement id="zombie_specials" text="ZL_specials"
+                       ref_text="The 'special' ones? Stories abound. Radiated ones, screamers, big bloated ones... Seeing them seems more common near old city centers or maybe military sites. Best be extra careful in places like that.">
+                <response_entry id="types_main"/>
+                <response_entry id="back_to_start"/>
+            </statement>
+            <statement id="zombie_behavior" text="ZL_behavior"
+                       ref_text="Main thing is, they're drawn to noise. And light, it seems. Sometimes they just stand there, twitchin'. Other times, they come runnin'. Doesn't seem to be much rhyme or reason. Best assume they're always dangerous.">
+                <response_entry id="types_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+
+            <statement id="zombie_hunting" text="ZL_hunting"
+                       ref_text="Dealing with 'em? Avoidance is best. Waste of resources otherwise. If you have to engage, distance is your friend - a rifle or bow. If they get close, something sturdy with good reach... aim for the head, always. Stops 'em cold.">
+                <response_entry id="hunting_headshots"/>
+                <response_entry id="hunting_melee"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="hunting_headshots_detail" text="ZL_headshots"
+                       ref_text="Yes, the head. Seems like the only sure way. Body shots just slow 'em down, sometimes not even that. Gotta destroy the brain, nasty as it is.">
+                <response_entry id="hunting_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="hunting_melee_detail" text="ZL_melee" text_key="ZL_melee"
+                       ref_text="Something sturdy? Sledgehammers, spears, even a reinforced club or shovel. Good reach keeps them away from biting distance. Cracks skulls effectively. Better than getting close with just a knife.">
+                <response_entry id="hunting_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+
+            <statement id="zombie_avoidance" text="ZL_avoidance"
+                       ref_text="Best way to deal with 'em is not to. Avoidance is key. Stay low, stay quiet. Move smart - don't cross open areas if you can help it, stick to cover. And avoid night travel if possible. That's their time.">
+                <response_entry id="avoidance_noise"/>
+                <response_entry id="avoidance_night"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="avoidance_noise_detail" text="ZL_noise"
+                       ref_text="Noise travels far, especially in the quiet. Gunshots, yelling, even loud footsteps or rattling gear... brings 'em investigating. Gotta learn to move quietly.">
+                <response_entry id="avoidance_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="avoidance_night_detail" text="ZL_night"
+                       ref_text="Night travel? Extremely risky. Visibility is low, but they seem to sense you just fine. They seem more active, maybe bolder. Best find a secure spot before dusk.">
+                <response_entry id="avoidance_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+
+            <statement id="zombie_origin" text="ZL_origin"
+                       ref_text="What made 'em? [Sighs] The million-dollar question. Heard everything. Weird space radiation, tainted water supplies, government bioweapons... maybe just a plague that got out of hand. Hard to know what to believe.">
+                <response_entry id="origin_government"/>
+                <response_entry id="origin_sickness"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="origin_government_detail" text="ZL_government"
+                       ref_text="The government theory? Plausible. They always had secret projects. Easy to imagine something escaping a lab, or being released intentionally, though that's dark to think about.">
+                <response_entry id="origin_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+            <statement id="origin_sickness_detail" text="ZL_sickness"
+                       ref_text="Just a hyper-aggressive virus, maybe? Like rabies or a mutated flu. Spreads quick, rewires the brain. Seems simple, but does it explain the ones that seem... different? Unnatural?">
+                <response_entry id="origin_main"/>
+                <response_entry id="back_to_start"/>
+                <response_entry id="back_to_lore_talk"/>
+
+            </statement>
+
+            <statement id="done" text="ZL_done" ref_text="General conversation ender.">
+            </statement>
+
+            <response id="trigger_lore_talk" text="ZL_trigger_lore_talk" ref_text="Tell me about the undead."
+                      nextstatementid="zombie_types"/>
+            <response id="ask_types" text="ZL_ask_types" ref_text="What are the different kinds?"
+                      nextstatementid="zombie_types"/>
+            <response id="ask_hunting" text="ZL_ask_hunting" ref_text="How do you fight them?"
+                      nextstatementid="zombie_hunting"/>
+            <response id="ask_avoidance" text="ZL_ask_avoidance" ref_text="How do you avoid them?"
+                      nextstatementid="zombie_avoidance"/>
+            <response id="ask_origin" text="ZL_ask_origin" ref_text="Where did they come from?"
+                      nextstatementid="zombie_origin"/>
+            <response id="types_specials" text="ZL_resp_types_specials" ref_text="Are there 'special' types?"
+                      nextstatementid="zombie_specials"/>
+            <response id="types_behavior" text="ZL_resp_types_behavior" ref_text="How do they usually act?"
+                      nextstatementid="zombie_behavior"/>
+            <response id="types_main" text="ZL_resp_types_main" ref_text="What else about the types?"
+                      nextstatementid="zombie_types"/>
+            <response id="hunting_headshots" text="ZL_resp_hunting_headshots" ref_text="Headshots are essential?"
+                      nextstatementid="hunting_headshots_detail"/>
+            <response id="hunting_melee" text="ZL_resp_hunting_melee" ref_text="What about melee?"
+                      nextstatementid="hunting_melee_detail"/>
+            <response id="hunting_main" text="ZL_resp_hunting_main" ref_text="Any other combat advice?"
+                      nextstatementid="zombie_hunting"/>
+            <response id="avoidance_noise" text="ZL_resp_avoidance_noise" ref_text="Is noise a big factor?"
+                      nextstatementid="avoidance_noise_detail"/>
+            <response id="avoidance_night" text="ZL_resp_avoidance_night" ref_text="Is night travel really that bad?"
+                      nextstatementid="avoidance_night_detail"/>
+            <response id="avoidance_main" text="ZL_resp_avoidance_main" ref_text="What else about avoidance?"
+                      nextstatementid="zombie_avoidance"/>
+            <response id="origin_government" text="ZL_resp_origin_government"
+                      ref_text="Could the government be responsible?" nextstatementid="origin_government_detail"/>
+            <response id="origin_sickness" text="ZL_resp_origin_sickness" ref_text="Could it just be a disease?"
+                      nextstatementid="origin_sickness_detail"/>
+            <response id="origin_main" text="ZL_resp_origin_main" ref_text="Any other theories on the origin?"
+                      nextstatementid="zombie_origin"/>
+            <response id="back_to_start" text="ZL_resp_back_to_start" ref_text="Got it. Ask something else?"
+                      nextstatementid="start"/>
+            <response id="back_to_lore_talk" text="ZL_resp_back_to_lore" ref_text="Got it. Ask something else?"
+                      nextstatementid="trigger_lore_talk"/>
+            
+        </dialog>
+    </append>
+</configs>

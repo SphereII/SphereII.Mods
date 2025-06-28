@@ -15,9 +15,9 @@ public class BlockDecoAoE : BlockParticle
     }
 
   
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         if (_blockValue.ischild) return;
         
         _chunk.AddTileEntity(new TileEntityAoE(_chunk)

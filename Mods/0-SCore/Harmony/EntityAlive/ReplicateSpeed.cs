@@ -1,16 +1,16 @@
 ﻿using HarmonyLib;
 // Code from Zilox to fix the animals animating on dedi when they do not have root motion.
-namespace Harmony.EntityAlive
+namespace Harmony.EntityAlivePatches
 {
     [HarmonyPatch(typeof(global::EntityAlive))]
-    [HarmonyPatch("OnUpdatePosition")]
+    [HarmonyPatch(nameof(global::EntityAlive.OnUpdatePosition))]
     public class ReplicateMovementSpeedsPatch
     {
         [HarmonyPatch]
         public class Patch
         {
             [HarmonyReversePatch]
-            [HarmonyPatch(typeof(Entity), "ReplicateSpeeds")]
+            [HarmonyPatch(typeof(Entity), nameof(Entity.ReplicateSpeeds))]
             public static void ReplicateSpeeds(Entity instance)
             {
             }

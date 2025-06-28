@@ -9,7 +9,7 @@ namespace Features.LockPicking
 
         // This resets for the quest activations
         [HarmonyPatch(typeof(TileEntityLootContainer))]
-        [HarmonyPatch("Reset")]
+        [HarmonyPatch(nameof(TileEntityLootContainer.Reset))]
         public class TileEntityLootContainerReset
         {
             private static bool IsSupposedToBeLocked(Vector3i position)

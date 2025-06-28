@@ -1,4 +1,8 @@
-Key,English
+Key,english
+<include filename="Dialogs/Farmer/Localization.txt"/>
+<include filename="Dialogs/General/ZombiesDialog.txt"/>
+<include filename="Dialogs/General/TraderSurvival.txt"/>
+
 cropControlPanelBase01,"Debug Control Panel for Plant Irrigation System"
 debugcontrol_enable,"Enable Debug Settings"
 debugcontrol_disable,"Disble Debug Settings"
@@ -10,3 +14,51 @@ blockcommand_debugcontrol_turnoffWater,"Turning off water"
 has_water,"Has Water"
 debugcontrol_startbot,"Start RoboPlanter"
 debugcontrol_startingbot,"Starting Robo Planter..."
+
+farmer_quest_goldenrod_title,Goldenrod Harvest
+farmer_quest_goldenrod_subtitle,Farming Task
+farmer_quest_goldenrod_desc,"The local farmer needs help gathering some goldenrod. It's useful for making tea and other remedies. Harvest 20 Goldenrod Plants from the wild and return them."
+farmer_quest_goldenrod_offer,"Howdy, friend. Goldenrod's blooming nicely, but my back isn't what it used to be. Could you gather 20 Goldenrod Plants for me? I'll make it worth your while."
+farmer_quest_goldenrod_objective,Harvest 20 Goldenrod Plants
+
+Frankie_start,"[Frankie looks up from his work, wary] Well now... ain't seen many new faces 'round here lately. What do you want?"
+Frankie_resp_ask_rain,"Could use some rain, huh?"
+Frankie_resp_ask_origin,"Are you from around here originally?"
+Frankie_resp_ask_since_apo,"What have you been up to since it all went bad?"
+Frankie_resp_offer_trade,"I could use some supplies. Got anything to trade?"
+Frankie_resp_offer_help,"Looking for work. Need any help around the farm?"
+Frankie_resp_ask_who,"Who are you?"
+Frankie_ask_rain,"Could use some rain, huh?"
+Frankie_ask_origin,"Are you from around here originally?"
+Frankie_ask_since_apo,"What have you been up to since it all went bad?"
+Frankie_offer_trade,"Looking to trade supplies."
+Frankie_offer_help,"Seems like you could use a hand. Looking for work?"
+Frankie_ask_who,"Who are you?"
+Frankie_rain_talk,"[Nods slowly] Tell me about it. Crops are thirsty. A good downpour would be nice, 'long as it ain't that acid stuff some folks talk about further out. Just need honest rain."
+Frankie_origin_talk,"Born and raised right here on this land. Farm's been in my family... well, longer than I can rightly remember. Pa taught me everything I know 'bout workin' the soil. Simpler times, then."
+Frankie_since_apo_talk,"Mostly just this. [Gestures around the farm] Tryin' to keep the fences up, crops growin', and the dead... well, dead-er. Scavenge when I gotta. Lost my pa early on. Been just me and the dirt since."
+Frankie_resp_ask_rain_cont,"Speaking of weather, could use some rain..."
+Frankie_resp_ask_origin_cont,"You mentioned this was family land?"
+Frankie_resp_ask_since_apo_cont,"How've things been since it all went down?"
+Frankie_resp_leave_rain,"Hope you get some soon."
+Frankie_resp_leave_origin,"Sounds like a long time."
+Frankie_resp_leave_since_apo,"Sorry to hear about your pa. Stay safe."
+Frankie_trade_start,"Trade, eh? Depends what you got and what you need. Can't spare much, but let's see."
+Frankie_resp_open_trade,"Let's see what you have."
+Frankie_resp_offer_work_for_trade,"Maybe I could work for some supplies?"
+Frankie_resp_trade_cancel,"Actually, I don't need anything right now."
+Frankie_work_start,"[Looks the player up and down] Always work needs doin'. You look capable enough. Might have a task, if you're willing."
+Frankie_resp_quest_1_offer,"Sure, I can help out. What needs doing? (Pest Control)"
+Frankie_resp_quest_2_offer,"I'm always up for work. Lay it on me. (Gather Seeds)"
+Frankie_resp_quest_busy,"Looks like you're already helping me with something. Finish that first."
+Frankie_resp_trade_instead,"On second thought, maybe just trade?"
+Frankie_quest_1_details,"Damn Zeds been trampling the corn. Go clear out the infestation marked on this map. I'll give you some canned goods for your trouble."
+Frankie_resp_accept_quest_1,"Alright, I'll handle it."
+Frankie_quest_2_details,"Seed stocks are runnin' low. If you can find me some corn and potato seeds out there, and I've got some preserved food I can part with."
+Frankie_resp_accept_quest_2,"I'll see what I can find."
+Frankie_who_frankie,"Name's Frankie. This farm... it's all I got left. Just tryin' to make it day by day."
+Frankie_done,"Alright then. Watch yourself out there."
+ui_greetings_generic_nevermind,"Nevermind."
+ui_greetings_generic_goodluck,"Good luck with it."
+ui_greetings_generic_maybe_later,"Maybe another time."
+ui_greetings_generic_take_care,"Thanks for sharing, Frankie. Take care."

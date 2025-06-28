@@ -1,4 +1,4 @@
-﻿public class EAIRangedAttackTargetSDX : EAIRangedAttackTarget2
+﻿public class EAIRangedAttackTargetSDX : EAIRangedAttackTarget
 {
     private EntityAlive entityTarget;
     private int attackTimeout;
@@ -95,7 +95,7 @@
                 this.theEntity.Attack((float)this.curAttackPeriod < (float)this.attackPeriodMax / 2f);
                 return;
             }
-            this.theEntity.Use((float)this.curAttackPeriod < (float)this.attackPeriodMax / 2f);
+            this.theEntity.UseHoldingItem(0,(float)this.curAttackPeriod < (float)this.attackPeriodMax / 2f);
         }
     }
 
@@ -111,7 +111,7 @@
             this.theEntity.Attack(true);
             return;
         }
-        this.theEntity.Use(true);
+        this.theEntity.UseHoldingItem(0,true);
     }
 
     public override string ToString()

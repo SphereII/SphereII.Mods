@@ -3,7 +3,7 @@
 namespace Harmony.EAI
 {
     [HarmonyPatch(typeof(EAIManager))]
-    [HarmonyPatch("MakeDebugName")]
+    [HarmonyPatch(nameof(EAIManager.MakeDebugName))]
     public class EAIManager_MakeDebugName
     {
         public static bool Prefix(ref string __result, EAIManager __instance, EntityPlayer player, ref global::EntityAlive ___entity)

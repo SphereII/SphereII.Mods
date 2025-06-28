@@ -65,7 +65,7 @@ public class MinEventActionAddFireDamage : MinEventActionRemoveBuff
                 for (var y = -range; y <= range; y++)
                 {
                     var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
-                    FireManager.Instance.Add(vector, entityId);
+                    FireManager.Instance.AddBlock(vector, entityId);
                 }
             }
         }

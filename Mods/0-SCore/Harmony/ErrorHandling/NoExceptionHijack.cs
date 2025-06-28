@@ -14,7 +14,7 @@ namespace Harmony.ErrorHandling
         private static readonly string Feature = "NoExceptionHijack";
 
         [HarmonyPatch(typeof(GUIWindowConsole))]
-        [HarmonyPatch("openConsole")]
+        [HarmonyPatch(nameof(GUIWindowConsole.openConsole))]
         public class DisableExceptionHijack
         {
             private static bool Prefix()

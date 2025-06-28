@@ -8,7 +8,7 @@ namespace Features.RemoteCrafting {
         private const string Feature = "ReadFromContainers";
 
         [HarmonyPatch(typeof(XUiC_LootContainer))]
-        [HarmonyPatch("OnClose")]
+        [HarmonyPatch(nameof(XUiC_LootContainer.OnClose))]
         public class XUiCLootContainerOnClose {
             public static bool Prefix(XUiC_LootContainer __instance) {
                 // Check if this feature is enabled.

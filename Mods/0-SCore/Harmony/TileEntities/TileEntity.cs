@@ -22,7 +22,7 @@ namespace Harmony.TileEntities
 
         [HarmonyPatch(typeof(TileEntity))]
         [HarmonyPatch("Instantiate")]
-        public class TileEntityIsActive
+        public class TileEntityInstantiate
         {
             public static bool Prefix(ref TileEntity __result, TileEntityType type, Chunk _chunk)
             {

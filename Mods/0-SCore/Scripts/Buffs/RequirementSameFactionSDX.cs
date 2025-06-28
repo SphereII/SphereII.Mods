@@ -10,9 +10,9 @@ public class RequirementSameFactionSDX : TargetedCompareRequirementBase
 {
     public string strFaction = "";
 
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
-        if (!base.ParamsValid(_params))
+        if (!base.IsValid(_params))
             return false;
 
         var targetFaction = FactionManager.Instance.GetFaction(target.factionId);

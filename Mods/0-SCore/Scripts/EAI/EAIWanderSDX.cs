@@ -53,7 +53,7 @@ internal class EAIWanderSDX : EAIWander
     public override bool Continue()
     {
         // Reduces the entity from continuing to walk against a wall
-        if (theEntity.moveHelper.BlockedTime >= 0.3f)
+        if (theEntity.moveHelper.BlockedTime >= SCoreConstants.BlockedTime)
         {
             //  Debug.Log("Continuie(): Blocked Time is greater than 0.3: " + theEntity.moveHelper.BlockedTime);
             EntityUtilities.Stop(theEntity.entityId);
@@ -66,7 +66,7 @@ internal class EAIWanderSDX : EAIWander
         //Debug.Log("Time: " + time);
         //Debug.Log("No Path or not planning one: " + theEntity.navigator.noPathAndNotPlanningOne());
         // calling stop here if we can't continue to clear the path and movement. 
-        var result = theEntity.bodyDamage.CurrentStun == EnumEntityStunType.None && theEntity.moveHelper.BlockedTime <= 0.3f && time <= 30f && !theEntity.navigator.noPathAndNotPlanningOne();
+        var result = theEntity.bodyDamage.CurrentStun == EnumEntityStunType.None && theEntity.moveHelper.BlockedTime <= SCoreConstants.BlockedTime && time <= 30f && !theEntity.navigator.noPathAndNotPlanningOne();
         if (!result)
         {
             //   Debug.Log("Continue(): no stunn, and no path.");

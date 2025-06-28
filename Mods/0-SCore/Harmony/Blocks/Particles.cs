@@ -10,7 +10,7 @@ namespace Harmony.Blocks
     public class Particles
     {
         [HarmonyPatch(typeof(Block))]
-        [HarmonyPatch("Init")]
+        [HarmonyPatch(nameof(Block.Init))]
         public class Init
         {
             public static void Postfix(ref Block __instance)

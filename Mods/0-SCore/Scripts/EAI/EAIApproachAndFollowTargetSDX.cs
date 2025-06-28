@@ -187,7 +187,7 @@ public class EAIApproachAndFollowTargetSDX : EAIApproachAndAttackTarget
                 return false;
         }
 
-        if (theEntity.moveHelper.BlockedTime > 2)
+        if (theEntity.moveHelper.BlockedTime > SCoreConstants.BlockedTime)
         {
             DisplayLog(" Blocked Time: " + theEntity.moveHelper.BlockedTime);
 

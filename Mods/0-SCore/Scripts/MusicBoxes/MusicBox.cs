@@ -75,7 +75,7 @@ public class BlockMusicBox : BlockLoot
 
     // We want to set down the file if it doesn't already exist, but we don't want to do the Loot container check
     // We want it to only have a 1,1 slot, but don't want to waste a loot container id for it.
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue, PlatformUserIdentifierAbs _addedByPlayer)
     {
         #region OnBlockAdded
 

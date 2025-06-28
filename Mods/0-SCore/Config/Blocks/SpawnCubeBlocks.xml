@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+    <append xpath="/blocks">
+        <block name="SpawnCube">
+            <property name="Extends" value="woodNoUpgradeMaster"/>
+            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
+            <!--property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/-->
+            <property name="Class" value="SpawnCubeSDX, SCore"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="HandleFace" value="South"/>
+            <property name="MultiBlockDim" value="1,1,1"/>
+            <property name="ImposterExchange" value="imposterDontBlockSheet" param1="43"/>
+            <property name="StabilitySupport" value="false"/>
+            <!-- build restriction -->
+            <property name="Place" value="TowardsPlacerInverted"/>
+            <property name="Group" value="Decor/Miscellaneous"/>
+            <property name="FilterTags" value="fdecor,fsigns,fother"/>
+            <property name="SortOrder1" value="70s0"/>
+            <drop event="Fall" count="0" prob="0"/>
+            <property name="Collide" value="sight"/>
+        </block>
+
+
+        <block name="TestSpawnCube">
+            <property name="Extends" value="SpawnCube"/>
+            <property name="Class" value="SpawnCube2SDX, SCore"/>
+            <property name="Config" value="ec=npcNurseEmptyHand;task=stay;pc=0;leader=yes"/>
+        </block>
+
+        <block name="TestSpawnCube2">
+            <property name="Extends" value="SpawnCube"/>
+            <property name="Class" value="SpawnCube2SDX, SCore"/>
+            <property name="Config" value="eg=ZombiesAll;buff=buffOrderStay;pc=0"/>
+        </block>
+
+        <block name="TestSpawnCube3">
+            <property name="Extends" value="SpawnCube"/>
+            <property name="Class" value="SpawnCube2SDX, SCore"/>
+
+            <!-- Rather than using Config, you can optionally set the EntityGroup -->
+            <property name="EntityGroup" value="ZombiesForestDowntown"/>
+            <!-- Range of spawn from the block pos -->
+            <property name="SpawnRadius" value="5"/>
+            <property name="SpawnArea" value="15"/>
+            <!-- Spawn 2 each tick -->
+            <property name="NumberToSpawn" value="2"/>
+            <!-- Total number of ticksbefore the block self-destructs -->
+            <property name="MaxSpawned" value="10"/>
+
+            <!-- How many ticks between the spawn times-->
+            <!-- NumberToSpawn spawns each time it block ticks. -->
+            <property name="TickRate" value="10"/>
+        </block>
+    </append>
+</configs>

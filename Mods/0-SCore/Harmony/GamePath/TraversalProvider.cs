@@ -17,7 +17,7 @@ namespace Harmony
 
         // Fixing for a reverse condition for isGameStarted
         [HarmonyPatch(typeof(AstarVoxelGrid))]
-        [HarmonyPatch("CheckHeights")]
+        [HarmonyPatch(nameof(AstarVoxelGrid.CheckHeights))]
         public class RecalculateCell
         {
             private static BlockValue GetBlock(IChunk chunk, int _x, int _y, int _z)

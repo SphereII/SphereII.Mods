@@ -1,15 +1,58 @@
 ﻿<config>
 	<append xpath="/utility_ai/ai_packages">
+		<ai_package name="NPCFarmingGeneral" >
+			<action name="DefaultAction" weight=".5" entity_filter="IsSelf">
+				<task class="IdleSDX, SCore" />
+			</action>
+			<action name="Wander" weight="1" entity_filter="IsSelf">
+				<task class="WanderSDX, SCore"/>
+				<consideration class="NotHasHomePosition, SCore"/>
+				<consideration class="NotHasOrder, SCore" order="Stay"/>
+				<consideration class="EnemyNotNear, SCore" distance="30" />
+			</action>
+
+			<action name="Territorial" weight="1" entity_filter="IsSelf">
+				<task class="TerritorialSDX, SCore"/>
+				<consideration class="HasHomePosition, SCore"/>
+				<consideration class="NotHasOrder, SCore" order="Stay"/>
+				<consideration class="EnemyNotNear, SCore" distance="30" />
+			</action>
+			
+			<action name="Chat" weight="2" entity_filter="IsPlayer">
+				<task class="IdleSDX, SCore" OnStartAddBuffs="RandomIdle" OnStopRemoveBuffs="RandomIdle" />
+				<!-- Remove this buff for "In your Face" Idle anim  -->
+				<consideration class="EnemyNotNear, SCore" distance="10" />
+				<consideration class="TargetDistance" flip_x="true" min="1" max="4" curve="threshold" />
+			</action>
+
+			<action name="Stay" weight="2" entity_filter="IsSelf">
+				<task class="Guard, SCore"  />
+				<consideration class="EnemyNotNear, SCore" />
+				<consideration class="HasOrder, SCore" order="Stay"/>
+			</action>
+			<action name="Guard" weight="2" entity_filter="IsSelf">
+				<task class="Guard, SCore" />
+				<consideration class="HasOrder, SCore" order="Guard" />
+			</action>
+			<action name="Flee" weight="6" entity_filter="IsEnemy">
+				<task class="FleeFromTarget" max_distance="30"/>
+				<consideration class="SelfHasCVar, SCore" cvar="$Timid" value="1"/>
+				<consideration class="TargetDistance" min="0" max="15" curve="threshold"/>
+				<consideration class="SelfVisible"/>
+			</action>
+		</ai_package>
+		
 		<ai_package name="NPCFarming" >
-			<action name="Harvest" weight="3" entity_filter="IsSelf" >
-				<task class="Farming, SCore" run="false" buff="IsGathering"/>
+			<action name="Harvest" weight="2" entity_filter="IsSelf" >
+				<task class="Farming, SCore" run="false" buff="IsGathering" cooldownBuff="buffFarmerCoolDown"/>
+				<consideration class="SelfNotHasBuff, SCore" buffs="buffFarmerCoolDown"/>
+
 				<!-- Default distance is 10 if distance is not specified.-->
 				<consideration class="IsNearFarm, SCore" distance="50" />
-			
+
 				<!-- Don't do farming if the enemies are dear by-->
 				<consideration class="EnemyNotNear, SCore" distance="15"/>
 			</action>
-
 		</ai_package>
 	</append>
 </config>

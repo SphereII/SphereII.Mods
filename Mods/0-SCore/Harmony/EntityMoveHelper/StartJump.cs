@@ -15,9 +15,8 @@ namespace Harmony.EntityMoveHelper
             // var vector3I = new Vector3i(Utils.Fastfloor(position.x), Utils.Fastfloor(position.y + 2.35f), Utils.Fastfloor(position.z));
             // var block = ___entity.world.GetBlock(vector3I);
             // if (block.isair && !__instance.IsBlocked) return false;
-            
-            if (__instance.IsBlocked) return true;
-            if (__instance.BlockedTime > 0.5) return true;
+            if (__instance.BlockedTime > SCoreConstants.BlockTimeToJump) return true;
+
 
             EntityUtilities.Stop(___entity.entityId);
             return false;

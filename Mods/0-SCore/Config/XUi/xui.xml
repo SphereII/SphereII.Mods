@@ -16,11 +16,12 @@
     <window_group name="SCoreCompanionsGroup" close_compass_on_open="true">
       <window name="windowSCoreCompanions"/>
     </window_group>
-
+  
   </append>
   
   <append xpath="//window_group[@name='ingameMenu']">
     <window name="ingameMenuSCore"/>
   </append>
+ 
  
 </configs>

@@ -267,9 +267,9 @@ internal class BlockSpawnCubeSDX : BlockPlayerSign
         }
         return blockValue;
     }
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue,_addedByPlayer);
         var tileEntitySign = _world.GetTileEntity(_chunk.ClrIdx, _blockPos) as TileEntitySign;
         if (tileEntitySign != null)
             if (Properties.Values.ContainsKey("Config"))

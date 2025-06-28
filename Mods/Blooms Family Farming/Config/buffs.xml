@@ -1,0 +1,8 @@
+<configs>
+    <append xpath="/buffs">
+        <buff name="buffFarmerCoolDown" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="30"/>
+        </buff>
+    </append>
+</configs>

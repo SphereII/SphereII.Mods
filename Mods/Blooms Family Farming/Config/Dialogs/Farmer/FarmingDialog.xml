@@ -1,0 +1,51 @@
+<configs>
+    <append xpath="/dialogs">
+        <dialog id="FrankieDialogCropsAnimals" startstatementid="start">
+
+            <statement id="start" text="FrankieCA_start" ref_text="[Frankie wipes sweat from his brow] Hot one today. Somethin' I can help you with, or just passin' by?">
+                <response_entry id="ask_crops"/>
+                <response_entry id="ask_animals"/>
+                <response_entry id="leave_start"/>
+            </statement>
+
+            <statement id="crops_state" text="FrankieCA_crops_state" ref_text="It's a struggle, always is. Corn's comin' in okay this year, spuds too. But the blight hit the tomatoes hard last season. Always somethin'.">
+                <response_entry id="crops_blight"/>
+                <response_entry id="crops_zeds"/>
+                <response_entry id="ask_animals_cont"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="crops_blight_details" text="FrankieCA_crops_blight_details" ref_text="Bad? Wiped out nearly half the plants. Seems like fungi grow better than food these days. Gotta be careful what you plant, where you plant it.">
+                <response_entry id="ask_crops_again"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="crops_zed_issues" text="FrankieCA_crops_zed_issues" ref_text="They just stumble through, tramplin' everything. Don't eat 'em, thankfully, but they ruin enough just walkin'. Gotta keep fences strong.">
+                <response_entry id="ask_crops_again"/>
+                <response_entry id="back_to_start"/> </statement>
+
+            <statement id="animals_state" text="FrankieCA_animals_state" ref_text="Wildlife? See deer sometimes, tasty but skittish. Heard wolves howlin' more often lately, though. Worryin'. Don't keep livestock no more, too much trouble protectin' 'em.">
+                <response_entry id="animals_wolves"/>
+                <response_entry id="animals_livestock"/>
+                <response_entry id="ask_crops_cont"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="animals_wolf_details" text="FrankieCA_animals_wolf_details" ref_text="Aye, seem bolder than usual. Might be normal ones, might be... changed. Hard to tell from a distance. Don't like it either way. Keep my rifle close.">
+                <response_entry id="ask_animals_again"/>
+                <response_entry id="back_to_start"/> </statement>
+            <statement id="animals_livestock_loss" text="FrankieCA_animals_livestock_loss" ref_text="Lost 'em early on. Chickens vanished, cow got taken by Zeds one night. Learned quick it was easier feedin' myself than tryin' to protect feed animals from everything else out here.">
+                <response_entry id="ask_animals_again"/>
+                <response_entry id="back_to_start"/> </statement>
+
+            <statement id="done" text="Frankie_done" ref_text="Alright. Keep your eyes peeled out there.">
+            </statement>
+
+            <response id="ask_crops" text="FrankieCA_ask_crops" ref_text="Wondering how the farming's going?" nextstatementid="crops_state"/>
+            <response id="ask_animals" text="FrankieCA_ask_animals" ref_text="See much wildlife around here?" nextstatementid="animals_state"/>
+            <response id="leave_start" text="ui_greetings_generic_just_passing_through" ref_text="Just passing through."/>
+            <response id="crops_blight" text="FrankieCA_resp_crops_blight" ref_text="Blight? That sounds bad." nextstatementid="crops_blight_details"/>
+            <response id="crops_zeds" text="FrankieCA_resp_crops_zeds" ref_text="Do the dead cause much trouble for the crops?" nextstatementid="crops_zed_issues"/>
+            <response id="ask_animals_cont" text="FrankieCA_resp_ask_animals_cont" ref_text="See any animals lately?" nextstatementid="animals_state"/>
+            <response id="ask_crops_again" text="FrankieCA_resp_ask_crops_again" ref_text="How are the crops otherwise?" nextstatementid="crops_state"/>
+            <response id="animals_wolves" text="FrankieCA_resp_animals_wolves" ref_text="Wolves nearby?" nextstatementid="animals_wolf_details"/>
+            <response id="animals_livestock" text="FrankieCA_resp_animals_livestock" ref_text="What happened to your livestock?" nextstatementid="animals_livestock_loss"/>
+            <response id="ask_crops_cont" text="FrankieCA_resp_ask_crops_cont" ref_text="How's the farming?" nextstatementid="crops_state"/>
+            <response id="ask_animals_again" text="FrankieCA_resp_ask_animals_again" ref_text="Any other wildlife?" nextstatementid="animals_state"/>
+            <response id="back_to_start" text="Frankie_resp_back_to_start" ref_text="Anything else?" nextstatementid="start"/> </dialog>
+    </append>
+</configs>

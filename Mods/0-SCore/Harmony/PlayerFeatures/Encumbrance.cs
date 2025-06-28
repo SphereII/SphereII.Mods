@@ -81,7 +81,6 @@ namespace SCore.Harmony.PlayerFeatures {
                 var flMaxEncumbrance = flDefaultMax;
                 if (localPlayer.Buffs.HasCustomVar("MaxEncumbrance"))
                     flMaxEncumbrance = localPlayer.Buffs.GetCustomVar("MaxEncumbrance");
-
                 // Safety check. If the encumbrance goes to a negative value, reset it.
                 if (flMaxEncumbrance < 0)
                 {

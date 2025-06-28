@@ -1,0 +1,73 @@
+<configs>
+    <append xpath="/dialogs">
+
+        <dialog id="dialogSurvivorZombieInfo" startstatementid="start">
+            
+                <statement id="start" text="GS_start" ref_text="[Survivor nods cautiously] Seen worse days, I suppose. What are you curious about? The dead? Gear?">
+                    <response_entry id="ask_infected"/>
+                    <response_entry id="ask_weapons"/>
+                    <response_entry id="ask_tools"/>
+                    <response_entry id="leave_start"/>
+                </statement>
+
+                <statement id="infected_main" text="GS_infected_main" ref_text="The infected? Yeah, they're not all the same slowpokes. You learn to spot the dangerous ones quick... or you don't learn anything else.">
+                    <response_entry id="infected_screamer"/>
+                    <response_entry id="infected_cop"/>
+                    <response_entry id="infected_demo"/>
+                    <response_entry id="back_to_start"/>
+                </statement>
+                <statement id="infected_screamer_detail" text="GS_infected_screamer" ref_text="Watch out for the Screamers. Skinny, pale things. Don't look like much, but that shriek... it calls every walker in earshot right down on you. Shut 'em up fast if you see 'em.">
+                    <response_entry id="back_to_infected"/> <response_entry id="back_to_start"/> </statement>
+                <statement id="infected_cop_detail" text="GS_infected_cop" ref_text="The ones in old police gear? They spit some kinda nasty acid. Burns right through you. And if you damage 'em too much? Boom. Nasty explosion. Keep your distance.">
+                    <response_entry id="back_to_infected"/> <response_entry id="back_to_start"/> </statement>
+                <statement id="infected_demo_detail" text="GS_infected_demo" ref_text="Then there's the big ones, the Demolishers. Huge brutes wired with explosives. They charge, and if they hit something solid... well, hope you're not nearby. Takes heavy firepower to bring them down before they get close.">
+                    <response_entry id="back_to_infected"/> <response_entry id="back_to_start"/> </statement>
+
+                <statement id="weapons_main" text="GS_weapons_main" ref_text="Weapons? Gotta have options. Something for range, something for when they get too close for comfort. And ammo... never enough ammo.">
+                    <response_entry id="weapons_ranged"/>
+                    <response_entry id="weapons_melee"/>
+                    <response_entry id="back_to_start"/>
+                </statement>
+                <statement id="weapons_ranged_detail" text="GS_weapons_ranged" ref_text="Ranged? A good rifle helps pick 'em off before they're a threat. Shotguns are great for crowd control up close, but loud. Pipe guns... better than nothing, but jam easy. Crossbows are quiet, if you can find bolts.">
+                    <response_entry id="back_to_weapons"/> <response_entry id="back_to_start"/> </statement>
+                <statement id="weapons_melee_detail" text="GS_weapons_melee" ref_text="Melee? You want something sturdy. Sledgehammers hit hard. Reinforced clubs, spears for keeping distance. Even a good shovel works. Forget flimsy knives unless you like getting bit.">
+                    <response_entry id="back_to_weapons"/> <response_entry id="back_to_start"/> </statement>
+
+                <statement id="tools_main" text="GS_tools_main" ref_text="Tools are almost as important as weapons. Can't build, can't fix, can't get resources without 'em. Good tools mean better survival, simple as that.">
+                    <response_entry id="tools_resource"/>
+                    <response_entry id="tools_building"/>
+                    <response_entry id="tools_other"/>
+                    <response_entry id="back_to_start"/>
+                </statement>
+                <statement id="tools_resource_detail" text="GS_tools_resource" ref_text="For resources? Need a good axe for wood, pickaxe for stone and ore. A salvage tool, like a wrench or ratchet, helps break down metal stuff faster. Makes scavenging worthwhile.">
+                    <response_entry id="back_to_tools"/> <response_entry id="back_to_start"/> </statement>
+                <statement id="tools_building_detail" text="GS_tools_building" ref_text="Building and fixing? Claw hammer, wrench, maybe a wire tool for electrical traps if you're fancy. Keeping your walls strong and your gear repaired is half the battle.">
+                    <response_entry id="back_to_tools"/> <response_entry id="back_to_start"/> </statement>
+                <statement id="tools_other_detail" text="GS_tools_other" ref_text="Don't forget things like a beaker for chemistry, maybe a crucible if you get a forge running. Advanced stuff needs specialized tools. Can make life a lot easier... or help you make better weapons.">
+                    <response_entry id="back_to_tools"/> <response_entry id="back_to_start"/> </statement>
+
+                <statement id="done" text="GS_done" ref_text="Generic conversation ender.">
+                </statement>
+
+                <response id="ask_infected" text="GS_ask_infected" ref_text="Tell me about the 'special' infected." nextstatementid="infected_main"/>
+                <response id="ask_weapons" text="GS_ask_weapons" ref_text="What weapons are most useful?" nextstatementid="weapons_main"/>
+                <response id="ask_tools" text="GS_ask_tools" ref_text="What about essential tools?" nextstatementid="tools_main"/>
+                <response id="leave_start" text="ui_greetings_generic_on_my_way" ref_text="Got to go."/>
+                <response id="infected_screamer" text="GS_resp_infected_screamer" ref_text="What about Screamers?" nextstatementid="infected_screamer_detail"/>
+                <response id="infected_cop" text="GS_resp_infected_cop" ref_text="And Cops?" nextstatementid="infected_cop_detail"/>
+                <response id="infected_demo" text="GS_resp_infected_demo" ref_text="Demolishers sound bad." nextstatementid="infected_demo_detail"/>
+                <response id="back_to_infected" text="GS_resp_back_infected" ref_text="Anything else about infected?" nextstatementid="infected_main"/>
+                <response id="weapons_ranged" text="GS_resp_weapons_ranged" ref_text="What kind of ranged weapons?" nextstatementid="weapons_ranged_detail"/>
+                <response id="weapons_melee" text="GS_resp_weapons_melee" ref_text="Best melee options?" nextstatementid="weapons_melee_detail"/>
+                <response id="back_to_weapons" text="GS_resp_back_weapons" ref_text="Anything else about weapons?" nextstatementid="weapons_main"/>
+                <response id="tools_resource" text="GS_resp_tools_resource" ref_text="Tools for gathering resources?" nextstatementid="tools_resource_detail"/>
+                <response id="tools_building" text="GS_resp_tools_building" ref_text="What about for building or repairs?" nextstatementid="tools_building_detail"/>
+                <response id="tools_other" text="GS_resp_tools_other" ref_text="Any other important tools?" nextstatementid="tools_other_detail"/>
+                <response id="back_to_tools" text="GS_resp_back_tools" ref_text="Anything else about tools?" nextstatementid="tools_main"/>
+                <response id="back_to_start" text="ZL_resp_back_to_start" ref_text="Ask about something else?" nextstatementid="start"/>
+
+            
+        </dialog>
+
+    </append>
+</configs>

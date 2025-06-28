@@ -1,6 +1,11 @@
 ﻿<configs>
-    <append xpath="/blocks">
+    <include filename="Blocks/PortalBlocks.xml" />
+    <include filename="Blocks/DropBoxBlocks.xml" />
+    <include filename="Blocks/CaveBlocks.xml" />
+    <include filename="Blocks/PathingBlocks.xml" />
+    <include filename="Blocks/SpawnCubeBlocks.xml" />
 
+    <append xpath="/blocks">
         <block name="ConfigFeatureBlock">
             <property name="Extends" value="terrDesertGround"/>
 
@@ -148,6 +153,9 @@
                 <property name="MinimumWeight" value="0.1"/>
 
                 <property name="AutoRedeemChallenges" value="false"/>
+                
+                <!-- Allows all players within a party to share their reading of books -->
+                <property name="SharedReading" value="false" />
             </property>
 
             <property class="AdvancedZombieFeatures">
@@ -256,6 +264,9 @@
                 <!-- -1, or 0, to disable this check, allowing you to talk to all npcs regardless of enemies. -->
                 <!-- Default is 10, meaning, if an enemy is within 10 blocks of the NPC, it will not talk to you -->
                 <property name="EnemyDistanceToTalk" value="10"/>
+                
+                <property name="BlockTimeToJump" value="0.19"/>
+                <property name="BlockedTime" value="0.2"/>
             </property>
 
             <!-- Allow themed settings to be applied: See Harmony/Atmosphere/-->
@@ -298,6 +309,12 @@
                 <property name="AllowBuildingInTraderArea" value="false"/>
 
                 <property name="DisableFlickeringLights" value="false"/>
+                
+                <!-- Property to check if the prefab name has a no building flag on it. Goes by prefab name. -->
+                <!-- Comma delimited -->
+                <property name="PrefabName_NoBuilding" value="" />
+                <!-- Property to check if a Prefab has this tag on its XML. Comma delimited. -->
+                <property name="PrefabTag_NoBuilding" value="NoBuild" />
             </property>
 
             <property class="AdvancedTileEntities">
@@ -483,300 +500,6 @@
                 -->
             </property>
         </block>
-
-        <block name="PathingCube">
-            <property name="Shape" value="ModelEntity"/>
-            <!--property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/-->
-            <!--<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>--> 
-			
-			<property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/>
-			<property name="MultiBlockDim" value="1,1,1"/>
-			
-            <property name="Class" value="PathFinding, SCore"/>
-            <property name="Material" value="Mair"/>
-            <property name="CreativeMode" value="Player"/>
-            <property name="CanPickup" value="true"/>
-            <property name="Collide" value="sight"/>
-            <!-- At 1,2,1, it was causing issues with destroying blocks. Maybe it had to do with the rotation of the cube? -->
-            <!--<property name="MultiBlockDim" value="1,1,1"/>-->
-
-
-        </block>
-
-        <block name="PathingCube2">
-            <property name="Shape" value="ModelEntity"/>
-            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube2"/>
-            <property name="Class" value="Particle"/>
-            <property name="Material" value="Mair"/>
-            <property name="CreativeMode" value="Player"/>
-            <property name="ImposterExclude" value="true"/>
-            <property name="CanPlayersSpawnOn" value="true"/>
-            <property name="CanPickup" value="true"/>
-            <property name="TakeDelay" value="3"/>
-            <property name="Collide" value="sight"/>
-            <!--
-            <property name="MultiBlockDim" value="1,1,1"/>
--->
-        </block>
-
-        <!-- Cave air block -->
-        <block name="caveBlock02">
-            <property name="Extends" value="air"/>
-            <property name="StabilityFull" value="true"/>
-            <property name="Material" value="McaveAir"/>
-        </block>
-
-        <block name="cntCaveFloorRandomLootHelper">
-            <property name="Extends" value="cntWastelandRandomLootHelper"/>
-            <property name="CreativeMode" value="Dev"/>
-        </block>
-        <block name="cntCaveCeilingRandomLootHelper">
-            <property name="Extends" value="cntWastelandRandomLootHelper"/>
-            <property name="CreativeMode" value="Dev"/>
-        </block>
-
-        <block name="cntDeepCaveFloorRandomLootHelper">
-            <property name="Extends" value="cntWastelandRandomLootHelper"/>
-            <property name="CreativeMode" value="Dev"/>
-        </block>
-
-        <block name="SpawnCube">
-            <property name="Extends" value="woodNoUpgradeMaster"/>
-            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
-            <!--property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/-->
-            <property name="Class" value="SpawnCubeSDX, SCore"/>
-            <property name="CreativeMode" value="Player"/>
-            <property name="Shape" value="ModelEntity"/>
-            <property name="HandleFace" value="South"/>
-            <property name="MultiBlockDim" value="1,1,1"/>
-            <property name="ImposterExchange" value="imposterDontBlockSheet" param1="43"/>
-            <property name="StabilitySupport" value="false"/>
-            <!-- build restriction -->
-            <property name="Place" value="TowardsPlacerInverted"/>
-            <property name="Group" value="Decor/Miscellaneous"/>
-            <property name="FilterTags" value="fdecor,fsigns,fother"/>
-            <property name="SortOrder1" value="70s0"/>
-            <drop event="Fall" count="0" prob="0"/>
-            <property name="Collide" value="sight"/>
-        </block>
-
-
-        <block name="TestSpawnCube">
-            <property name="Extends" value="SpawnCube"/>
-            <property name="Class" value="SpawnCube2SDX, SCore"/>
-            <property name="Config" value="ec=npcNurseEmptyHand;task=stay;pc=0;leader=yes"/>
-        </block>
-
-        <block name="TestSpawnCube2">
-            <property name="Extends" value="SpawnCube"/>
-            <property name="Class" value="SpawnCube2SDX, SCore"/>
-            <property name="Config" value="eg=ZombiesAll;buff=buffOrderStay;pc=0"/>
-        </block>
-
-        <block name="TestSpawnCube3">
-            <property name="Extends" value="SpawnCube"/>
-            <property name="Class" value="SpawnCube2SDX, SCore"/>
-
-            <!-- Rather than using Config, you can optionally set the EntityGroup -->
-            <property name="EntityGroup" value="ZombiesForestDowntown"/>
-            <!-- Range of spawn from the block pos -->
-            <property name="SpawnRadius" value="5"/>
-            <property name="SpawnArea" value="15"/>
-            <!-- Spawn 2 each tick -->
-            <property name="NumberToSpawn" value="2"/>
-            <!-- Total number of ticksbefore the block self-destructs -->
-            <property name="MaxSpawned" value="10"/>
-
-            <!-- How many ticks between the spawn times-->
-            <!-- NumberToSpawn spawns each time it block ticks. -->
-            <property name="TickRate" value="10"/>
-        </block>
-
-        <block name="portalMaster">
-            <property name="Class" value="Portal, SCore"/>
-            <property name="CooldownBuff" value="buffTeleportCooldown"/>
-            <property name="Delay" value="2000"/>
-
-            <!-- Uncomment to hard code the portal ID-->
-            <!--property name="Location" value="Portal01" /-->
-
-            <!-- determines if the name of the portal is displayed -->
-            <property name="Display" value="true"/>
-
-            <!-- If the player has this buff, they will be able to see the portal name. -->
-            <!--property name="DisplayBuff" value="buffyours" /-->
-
-            <property name="Material" value="Mstone"/>
-            <property name="Shape" value="ModelEntity"/>
-            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
-            <property name="IsTerrainDecoration" value="true"/>
-            <property class="RepairItems">
-                <property name="resourceRockSmall" value="100"/>
-            </property>
-            <drop event="Harvest" name="resourceRockSmall" count="15,28" tag="allHarvest"/>
-            <drop event="Destroy" count="0"/>
-            <property name="EconomicValue" value="500"/>
-            <property name="EconomicBundleSize" value="1"/>
-            <property name="Group" value="Decor/Miscellaneous"/>
-            <property name="FilterTags" value="MC_outdoor,SC_decor"/>
-            <property name="SortOrder1" value="70r2"/>
-            <property name="SortOrder2" value="0050"/>
-            <property name="DescriptionKey" value="guppyPortal_desc"/>
-        </block>
-
-        <block name="samplePortal01">
-            <property name="Extends" value="portalMaster"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location" value="samplePortal01"/> <!-- Legacy and default -->
-            <property name="Display" value="true"/>
-            <property name="RequiredPower" value="0"/>  <!-- Does not require power to operate -->
-        </block>
-
-        <block name="samplePortal01b">
-            <property name="Extends" value="portalMaster"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location" value="source=samplePortal01cb,destination=samplePortal01b"/>
-            <property name="Display" value="true"/>
-            <property name="RequiredPower" value="0"/>    <!-- Does not require power to operate -->
-        </block>
-        <block name="samplePortal02">
-            <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location"
-                      value="source=samplePortal02,destination=samplePortal03"/>  <!-- I am Portal02, I go to Portal03 -->
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
-            <property name="Display" value="true"/>
-        </block>
-
-        <block name="samplePortal03">
-            <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="Location"
-                      value="source=samplePortal03,destination=NA"/>  <!-- I am Portal03, I go to NA, which is not created, thus not anywhere-->
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
-            <property name="Display" value="true"/>
-        </block>
-
-        <block name="samplePortal04">
-            <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="Entities/Electrical/power_switchPrefab"/>
-            <!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
-            <property name="Display" value="true"/>
-        </block>
-
-        <block name="samplePortal05">
-            <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <!-- I am samplePortal05, I go to samplePortal03, which is inside a prefab called farm_02-->
-            <property name="Location" value="source=samplePortal05,destination=samplePortal03,prefab=farm_02"/>
-            <property name="RequiredPower" value="0"/>
-            <!-- Does not require power to operate -->
-
-            <property name="Display" value="true"/>
-        </block>
-
-        <block name="samplePortal06samplePortal06">
-            <property name="Extends" value="portalMaster"/>
-            <property name="Class" value="PoweredPortal, SCore"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/>
-            <property name="RequiredPower" value="0"/>
-            <property name="Display" value="true"/>
-            <property name="Delay" value="200"/>
-        </block>
-
-        <block name="cntSphereDropBoxTest">
-            <!-- Doesn't need to be signed container, but might make the most sense -->
-            <property name="Extends" value="cntWoodWritableCrate"/>
-            <property name="Class" value="DropBoxContainer, SCore"/>
-            <property name="LootList" value="playerWoodWritableStorage"/>
-
-            <!-- Default is 100 ticks -->
-            <property name="UpdateTick" value="200"/>
-            <!-- Optionally trigger the distribution when the user closes the box -->
-            <property name="DropBox" value="true"/>
-
-        </block>
-
-        <block name="cntSphereDropBoxTest2">
-            <!-- Doesn't need to be signed container, but might make the most sense -->
-            <property name="Extends" value="cntWoodWritableCrate"/>
-            <property name="LootList" value="playerWoodWritableStorage"/>
-
-            <property name="DropBox" value="true"/>
-        </block>
-
-        <!--
-        <block name="PrefabPlacerMaster">
-            <property name="Class" value="PrefabPlacer, SCore" />
-            <property name="Prefab" value ="PortalPrefab"/>
-            <property name="Material" value="Mstone"/>
-            <property name="Shape" value="ModelEntity"/>
-            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>
-            <property name="DisplayType" value="blockMulti"/>
-            <property name="IsTerrainDecoration" value="true"/>
-            <property class="RepairItems">
-                <property name="resourceRockSmall" value="100"/>
-            </property>
-            <drop event="Harvest" name="resourceRockSmall" count="15,28" tag="allHarvest"/>
-            <drop event="Destroy" count="0"/>
-            <property name="EconomicValue" value="500"/>
-            <property name="EconomicBundleSize" value="1"/>
-            <property name="Group" value="Decor/Miscellaneous"/>
-            <property name="FilterTags" value="MC_outdoor,SC_decor"/>
-            <property name="SortOrder1" value="70r2"/>
-            <property name="SortOrder2" value="0050"/>
-            <property name="DescriptionKey" value="guppyPortal_desc"/>
-        </block>
--->
-        <!--
-        <block name="PrefabPlacerPortal">
-            <property name="Extends" value="PrefabPlacerMaster"/>
-            <property name="Prefab" value ="PortalPrefab"/>
-            <property name="Model" value="#@modfolder:Resources/gupMagicPortal.unity3d?gupMagicPortal"/>
-        </block>
-        -->
-        <!--
-                <block name="sphereiiAoETest">
-                    <property name="Class" value="DecoAoE, SCore" />
-                    <property name="ActiveRadiusEffects" value="buffCampfireAOE(3)"/>
-                    <property name="Material" value="Mwood_weak"/>
-                    <property name="Tags" value="coalBurnedDmg"/>
-                    <property name="StabilitySupport" value="false"/>
-                    <property name="Shape" value="Ext3dModel"/>
-                    <property name="Texture" value="293"/>
-                    <property name="Mesh" value="models"/>
-                    <property name="Model" value="OutdoorDecor/ember_pile_1" param1="main_mesh"/>
-                    <property name="IsTerrainDecoration" value="true"/>
-                    <property name="ParticleName" value="ember_pile"/>
-                    <property name="ParticleOffset" value="0,0,0"/>
-                    <property name="BuffsWhenWalkedOn" value="buffBurningEnvironment"/>
-                    <property name="Collide" value="melee,bullet,arrow,rocket"/>
-                    <property name="VehicleHitScale" value="999"/>
-                    <property name="FilterTags" value="MC_outdoor,SC_decor"/>
-                </block>
-        -->
     </append>
 
 

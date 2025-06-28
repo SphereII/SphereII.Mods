@@ -267,13 +267,13 @@ public static class ModGeneralUtilities
         var result = false;
         foreach (var TriggeredEffects in group.TriggeredEffects)
         {
-            var effect = TriggeredEffects as MinEventActionModifyCVar;
-            if (effect == null)
-                continue;
+            // var effect = TriggeredEffects as MinEventActionModifyCVar;
+            // if (effect == null)
+            //     continue;
 
-            DisplayLog(" Checking Effects: " + effect.cvarName + " " + effect.GetValueForDisplay());
-            if (cvars.Contains(effect.cvarName))
-                return true;
+            // DisplayLog(" Checking Effects: " + effect.cvarName + " " + effect.GetValueForDisplay());
+            // if (cvars.Contains(effect.cvarName))
+            //     return true;
         }
 
         return result;

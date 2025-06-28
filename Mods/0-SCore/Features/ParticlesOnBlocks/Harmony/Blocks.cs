@@ -82,7 +82,7 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         
         // Reloading all the particles
         [HarmonyPatch(typeof(Block))]
-        [HarmonyPatch("Init")]
+        [HarmonyPatch(nameof(Block.Init))]
         public class BlockInit {
             public static void Postfix(Block __instance) {
                 if (!__instance.Properties.Classes.ContainsKey("Particles")) return;

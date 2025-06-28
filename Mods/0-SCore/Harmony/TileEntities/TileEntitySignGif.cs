@@ -9,7 +9,7 @@ namespace Harmony.TileEntities {
             Configuration.CheckFeatureStatus("AdvancedPlayerFeatures", "ExtendedSigns");
 
         [HarmonyPatch(typeof(SmartTextMesh))]
-        [HarmonyPatch("CanRenderString")]
+        [HarmonyPatch(nameof(SmartTextMesh.CanRenderString))]
         public class SmartTextMeshCanRenderString {
             public static bool Prefix(ref bool __result, SmartTextMesh __instance, string _text) {
                 if (!EnableExtendedSigns) return true;
@@ -22,7 +22,7 @@ namespace Harmony.TileEntities {
 
 
         [HarmonyPatch(typeof(TileEntitySign))]
-        [HarmonyPatch("RefreshTextMesh")]
+        [HarmonyPatch(nameof(TileEntitySign.RefreshTextMesh))]
         public class TileEntitySignSetText {
             public static bool Prefix(TileEntitySign __instance) {
                 if (GameManager.IsDedicatedServer)

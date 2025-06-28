@@ -44,7 +44,7 @@ namespace Harmony.ItemActions {
         }
         
         [HarmonyPatch(typeof(ItemActionEntryRepair))]
-        [HarmonyPatch("OnActivated")]
+        [HarmonyPatch(nameof(ItemActionEntryRepair.OnActivated))]
         public class ItemActionRepairLimiterItemActionEntryRepair {
             public static bool Prefix(ItemActionEntryRepair __instance) {
                 // Don't bother checking empty stacks

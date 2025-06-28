@@ -24,16 +24,16 @@ public class BlockFarmPlotSDX : Block
     }
 
 
-    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockUnloaded(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue )
     {
         base.OnBlockUnloaded(_world, _clrIdx, _blockPos, _blockValue);
         FarmPlotManager.Instance.Remove(_blockPos);
 
     }
 
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         FarmPlotManager.Instance.Add(_blockPos);
     }
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)

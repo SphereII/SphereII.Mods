@@ -89,6 +89,7 @@
     <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterPipeSDX.cs" />
     <Compile Include="Features\Farming\Scripts\Blocks\Water Blocks\BlockWaterSourceSDX.cs" />
     <Compile Include="Features\Farming\Scripts\CropManager.cs" />
+    <Compile Include="Features\Farming\Scripts\CropManagerV2.cs" />
     <Compile Include="Features\Farming\Scripts\DataClasses\FarmPlotData.cs" />
     <Compile Include="Features\Farming\Scripts\DataClasses\Pipe.cs" />
     <Compile Include="Features\Farming\Scripts\DataClasses\PipeData.cs" />
@@ -96,31 +97,43 @@
     <Compile Include="Features\Farming\Scripts\FarmPlotManager.cs" />
     <Compile Include="Features\Farming\Scripts\NetPackage\NetPackageToggleSprinkler.cs" />
     <Compile Include="Features\Farming\Scripts\WaterPipeManager.cs" />
-    <Compile Include="Features\Fire\Harmony\ChunkSetBlock.cs" />
-    <Compile Include="Features\Fire\Harmony\Explosion.cs" />
-    <Compile Include="Features\Fire\Harmony\FireInit.cs" />
-    <Compile Include="Features\Fire\Harmony\PerformanceTweaks.cs" />
-    <Compile Include="Features\Fire\Harmony\UpdateCurrentBlockposAndValueFire.cs" />
-    <Compile Include="Features\Fire\Scripts\FireEvents.cs" />
-    <Compile Include="Features\Fire\Scripts\FireManager_orig.cs" />
-    <Compile Include="Features\Fire\Scripts\FireManager.cs" />
-    <Compile Include="Features\Fire\Scripts\IFireManager.cs" />
-    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamage.cs" />
-    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionAddFireDamageCascade.cs" />
-    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionCheckFireProximity.cs" />
-    <Compile Include="Features\Fire\Scripts\MinEvent\MinEventActionRemoveFire.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageAddFirePositions.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageBlockDestroyedByFire.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveFirePositions.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
-    <Compile Include="Features\Fire\Scripts\NetPackage\NetPackageFireUpdate.cs" />
+    <Compile Include="Features\FireV2\Harmony\ChunkSetBlock.cs" />
+    <Compile Include="Features\FireV2\Harmony\Explosion.cs" />
+    <Compile Include="Features\FireV2\Harmony\FireInit.cs" />
+    <Compile Include="Features\FireV2\Harmony\OnBlockAdded.cs" />
+    <Compile Include="Features\FireV2\Harmony\PerformanceTweaks.cs" />
+    <Compile Include="Features\FireV2\Harmony\UpdateCurrentBlockposAndValueFire.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireConfig.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireEvents.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireHandler.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireNetworkManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\Interfaces\IFireHandler.cs" />
+    <Compile Include="Features\FireV2\Scripts\Interfaces\IFireNetworkManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\Interfaces\ILightManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\Interfaces\ISmokeHandler.cs" />
+    <Compile Include="Features\FireV2\Scripts\LightManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\MinEvent\MinEventActionAddFireDamage.cs" />
+    <Compile Include="Features\FireV2\Scripts\MinEvent\MinEventActionAddFireDamageCascade.cs" />
+    <Compile Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs" />
+    <Compile Include="Features\FireV2\Scripts\MinEvent\MinEventActionRemoveFire.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddExtinguishPosition.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddExtinguishPositions.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddFirePosition.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageAddFirePositions.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageBlockDestroyedByFire.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageFireUpdate.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageRemoveFirePosition.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageRemoveFirePositions.cs" />
+    <Compile Include="Features\FireV2\Scripts\NetPackage\NetPackageRemoveParticleEffect.cs" />
+    <Compile Include="Features\FireV2\Scripts\SmokeHandler.cs" />
     <Compile Include="Features\FlickeringLights\Harmony\DisableFlickeringLights.cs" />
-    <Compile Include="Features\FoodSpoilage\Harmony\FoodSpoilage.cs" />
-    <Compile Include="Features\FoodSpoilage\Harmony\Freshness.cs" />
-    <Compile Include="Features\FoodSpoilage\Harmony\XUiC_ItemInfoWindow.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Harmony\FoodSpoilagePatches.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Harmony\Freshness.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Harmony\XUiC_ItemInfoWindow.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
+    <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
+    <Compile Include="Features\Localization\Scripts\SCoreLocalizationHelper.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\LockPickingUtils.cs" />
@@ -156,6 +169,9 @@
     <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingUtils.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\XUiC\XUiC_BroadcastButton.cs" />
     <Compile Include="Features\SCoreOptions\Scripts\ProcessOptions.cs" />
+    <Compile Include="Features\SCoreOptions\Scripts\SCoreConstants.cs" />
+    <Compile Include="Features\SharedReading\Harmony\SharedReading.cs" />
+    <Compile Include="Features\SharedReading\Scripts\NetPackageMinEventShared.cs" />
     <Compile Include="Features\Signs\Scripts\Blocks\BlockSCoreSign.cs" />
     <Compile Include="Features\Signs\Scripts\Blocks\SCoreVideo.cs" />
     <Compile Include="Features\Signs\Scripts\TileEntity\TileEntitySCoreSign.cs" />
@@ -175,17 +191,19 @@
     <Compile Include="Harmony\Animation\EmodelBaseLookAtUpdate.cs" />
     <Compile Include="Harmony\Animation\ModelBaseInitCommon.cs" />
     <Compile Include="Harmony\Atmosphere\Spook.cs" />
+    <Compile Include="Harmony\Blocks\BlockCanPlaceBlockAt.cs" />
     <Compile Include="Harmony\Blocks\BlockEntityDataGetRenderers.cs" />
     <Compile Include="Harmony\Blocks\BlockWorkarounds.cs" />
     <Compile Include="Harmony\Blocks\ChunkPoolBlockEntityTransform.cs" />
     <Compile Include="Harmony\Blocks\ElectricityMultiDimFix.cs" />
     <Compile Include="Harmony\Blocks\GroundAlignPatch.cs" />
-    <Compile Include="Harmony\Blocks\OnBlockAdded.cs" />
     <Compile Include="Harmony\Blocks\OnEntityCollidedWithBlock.cs" />
     <Compile Include="Harmony\Blocks\Particles.cs" />
     <Compile Include="Harmony\Blocks\TerrainAlignmentUtilsPatch.cs" />
     <Compile Include="Harmony\Dialog\DialogClose.cs" />
+    <Compile Include="Harmony\Dialog\DialogExtends.cs" />
     <Compile Include="Harmony\Dialog\DialogFromXML.cs" />
+    <Compile Include="Harmony\Dialog\DialogStatement.cs" />
     <Compile Include="Harmony\DMS\DynamicMusicPlayerTracker.cs" />
     <Compile Include="Harmony\EAI\EAIManager.cs" />
     <Compile Include="Harmony\EAI\EAITarget.cs" />
@@ -213,11 +231,13 @@
     <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionRepairLimiter.cs" />
     <Compile Include="Harmony\ItemActions\ItemClass.cs" />
+    <Compile Include="Harmony\Localization\IncludeFilename.cs" />
     <Compile Include="Harmony\Menu_ClearCache.cs" />
     <Compile Include="Harmony\MiniTurret\shouldIgnoreTarget.cs" />
     <Compile Include="Harmony\ModEvents.cs" />
     <Compile Include="Harmony\NetPackage\QuestGotoPoint.cs" />
     <Compile Include="Harmony\NPCFeatures\AllowStashButtonsForNPCs.cs" />
+    <Compile Include="Harmony\NPCFeatures\DynamicMusicPlayerTracking.cs" />
     <Compile Include="Harmony\NPCFeatures\DynamicPrefabGetTraderArea.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAliveGroundDetection.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityAlivePatcher.cs" />
@@ -226,6 +246,7 @@
     <Compile Include="Harmony\NPCFeatures\EntityNPCJumpHeight.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCMakeVulnerable.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityNPCSpeedFix.cs" />
+    <Compile Include="Harmony\NPCFeatures\EntityStatsInit.cs" />
     <Compile Include="Harmony\NPCFeatures\EntityTraderEModalSetLookAt.cs" />
     <Compile Include="Harmony\PlayerFeatures\AutoRedeemChallenges.cs" />
     <Compile Include="Harmony\PlayerFeatures\Encumbrance.cs" />
@@ -270,8 +291,10 @@
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiController.cs" />
+    <Compile Include="Harmony\XUIC\XUiC_DialogWindowGroup.cs" />
     <Compile Include="Harmony\XUIC\XUiC_ItemStack.cs" />
     <Compile Include="Harmony\XUIC\XUiC_ItemStack_SlotTags.cs" />
+    <Compile Include="Harmony\XUIC\XUiC_LootWindowGroupOnOpen.cs" />
     <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
     <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
     <Compile Include="Harmony\ZombieFeatures\HeadshotOnly.cs" />
@@ -358,6 +381,7 @@
     <Compile Include="Scripts\Dialogs\DialogRequirementHasPlayerLevelSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHasQuestSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementIsSleeper.cs" />
+    <Compile Include="Scripts\Dialogs\DialogRequirementIsTrader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementLeader.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementHiredSDX.cs" />
     <Compile Include="Scripts\Dialogs\DialogRequirementNPCHasCVar.cs" />
@@ -578,6 +602,7 @@
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToAttackTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskMoveToTargetSDX.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskFollowSDX.cs" />
+    <Compile Include="Scripts\UtilityAI\UAITaskTerritorial.cs" />
     <Compile Include="Scripts\UtilityAI\UAITaskWanderSDX.cs" />
     <Compile Include="Scripts\WorldGen\CaveTunnelerV2.cs" />
     <Compile Include="Scripts\WorldGen\HeightMapTunneler.cs" />
@@ -606,9 +631,16 @@
   <ItemGroup>
     <Content Include="Config\blockplaceholders.xml" />
     <Content Include="Config\blocks.xml" />
+    <Content Include="Config\Blocks\CaveBlocks.xml" />
+    <Content Include="Config\Blocks\DropBoxBlocks.xml" />
+    <Content Include="Config\Blocks\PathingBlocks.xml" />
+    <Content Include="Config\Blocks\PortalBlocks.xml" />
+    <Content Include="Config\Blocks\SpawnCubeBlocks.xml" />
     <Content Include="Config\buffs.xml" />
     <Content Include="Config\challenges.xml" />
     <Content Include="Config\dialogs.xml" />
+    <Content Include="Config\Dialogs\Zombies.txt" />
+    <Content Include="Config\Dialogs\Zombies.xml" />
     <Content Include="Config\items.xml" />
     <Content Include="Config\loadingscreen.xml" />
     <Content Include="Config\Localization.txt" />
@@ -628,12 +660,16 @@
     <Content Include="Documentation\Challenges\KillChallenges.md" />
     <Content Include="Documentation\Challenges\PlayerChallenges.md" />
     <Content Include="Documentation\Factions.md" />
+    <Content Include="Documentation\Features\Craft From Containers\Examples\blocks.xml" />
+    <Content Include="Documentation\Features\Craft From Containers\Readme.md" />
     <Content Include="Documentation\FireManager.md" />
     <Content Include="Documentation\MinEvents\MinEvents.md" />
     <Content Include="Documentation\MinEvents\MinEvents_01.md" />
     <Content Include="Documentation\Readme.md" />
     <Content Include="Documentation\Utils\ChatGPT.txt" />
     <Content Include="Features\Challenges\ReadMe.md" />
+    <Content Include="Features\FireV2\Readme.md" />
+    <Content Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs.bak" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="Features\VersionCheck\Readme.md" />
     <Content Include="Features\VersionCheck\versioncheck.example" />
@@ -723,7 +759,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Features\Farming\Readme.md" />
-    <None Include="Features\Fire\Readme.md" />
     <None Include="Licenses\CaveGeneration.md" />
     <None Include="packages.config" />
     <None Include="Prefabs\caveOpening02.blocks.nim" />
@@ -794,12 +829,14 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\FoodSpoilage\Scripts\" />
+    <Folder Include="Features\NPC_V3\Harmony\" />
+    <Folder Include="Features\NPC_V3\Scripts\" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Features\PlayerMetrics\BloodMoonTracking\Harmony\" />
     <Folder Include="Features\PlayerMetrics\KillTracking\Harmony\" />
     <Folder Include="Harmony\Recipes" />
     <Folder Include="Harmony\Weather\" />
+    <Folder Include="Scripts\Constants\" />
     <Folder Include="Scripts\Particles\" />
   </ItemGroup>
   <ItemGroup>
@@ -814,6 +851,9 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\7DaysToDie_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="AstarPathfindingProject">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
     </Reference>
     <Reference Include="InControl">
       <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
@@ -848,6 +888,9 @@
     <Reference Include="netstandard" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NGUI">
+      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\NGUI.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Immutable, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.9.0.0-rc.2.24473.5\lib\net462\System.Collections.Immutable.dll</HintPath>

@@ -16,7 +16,7 @@ namespace Harmony.Faction
     {
         // Fixing for a reverse condition for isGameStarted
         [HarmonyPatch(typeof(FactionManager))]
-        [HarmonyPatch("Update")]
+        [HarmonyPatch(nameof(FactionManager.Update))]
         public class FactionUpdate
         {
 

@@ -5,7 +5,7 @@ using System.Reflection;
 // Disabled due to Potential Performance issues
 
 
-namespace Harmony.Progression
+namespace Harmony.ProgressionChanges
 {
     /**
      * SCoreProgression
@@ -18,7 +18,7 @@ namespace Harmony.Progression
         private static readonly string Feature = "ZeroXP";
 
         [HarmonyPatch(typeof(global::Progression))]
-        [HarmonyPatch("AddLevelExpRecursive")]
+        [HarmonyPatch(nameof(global::Progression.AddLevelExpRecursive))]
         public class ProgressionNoAddLevelExpRecursive
         {
             private static bool Prefix()
@@ -29,7 +29,7 @@ namespace Harmony.Progression
         }
 
         [HarmonyPatch(typeof(global::Progression))]
-        [HarmonyPatch("AddLevelExp")]
+        [HarmonyPatch(nameof(global::Progression.AddLevelExp))]
         public class ProgressionNoExpAddLevelExpRecursive
         {
             private static bool Prefix()
@@ -40,7 +40,7 @@ namespace Harmony.Progression
         }
 
         [HarmonyPatch(typeof(global::Progression))]
-        [HarmonyPatch("AddLevelExp")]
+        [HarmonyPatch(nameof(global::Progression.AddLevelExp))]
         public class ProgressionAddLevelExp
         {
             public enum XPTypes

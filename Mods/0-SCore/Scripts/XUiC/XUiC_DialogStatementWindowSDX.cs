@@ -11,7 +11,7 @@ public class XUiC_DialogWindowGroupSDX : XUiController
     // Token: 0x17000794 RID: 1940
     // (get) Token: 0x060049BE RID: 18878 RVA: 0x001F5E10 File Offset: 0x001F4010
     // (set) Token: 0x060049BF RID: 18879 RVA: 0x001F5E18 File Offset: 0x001F4018
-    public Dialog CurrentDialog { get; private set; }
+    public Dialog CurrentDialog { get; set; }
 
     // Token: 0x060049C0 RID: 18880 RVA: 0x001F5E24 File Offset: 0x001F4024
     public override void Init()

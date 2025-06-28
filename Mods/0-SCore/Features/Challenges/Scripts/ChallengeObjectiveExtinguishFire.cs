@@ -26,21 +26,21 @@ namespace Challenges {
         // Adds the event listener for when a fire is extinguished
         public override void HandleAddHooks() {
             if (FireManager.Instance != null) {
-                FireManager.Instance.OnExtinguish += OnFireExtinguished;
+                FireManager.Instance.Events.OnFireExtinguished += OnFireExtinguished;
             }
         }
 
         // Removes the event listener when no longer needed
         public override void HandleRemoveHooks() {
             if (FireManager.Instance != null) {
-                FireManager.Instance.OnExtinguish -= OnFireExtinguished;
+                FireManager.Instance.Events.OnFireExtinguished -= OnFireExtinguished;
             }
         }
 
         // Event handler for when a fire is extinguished
-        private void OnFireExtinguished(int count, int entityId) {
+        private void OnFireExtinguished(Vector3i position, int entityId) {
             if (IsExtinguishedByPlayer(entityId)) {
-                UpdateProgress(count);
+                UpdateProgress(1);
             }
         }
 

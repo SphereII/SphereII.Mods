@@ -7,7 +7,7 @@ public class RequirementOnSpecificBiomeSDX : RequirementBase
 {
     public string strBiome = "";
 
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         if (_params.Self.MinEventContext.Biome == null)
             //Debug.Log(" RequirementOnSpecificBiomeSDX: Biome is null ");

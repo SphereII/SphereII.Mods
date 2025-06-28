@@ -224,11 +224,11 @@ namespace UAI
             CheckForClosedDoor(_context);
 
             var result =
-                _context.Self.moveHelper.BlockedTime <= 0.35f; //&& !_context.Self.navigator.noPathAndNotPlanningOne();
+                _context.Self.moveHelper.BlockedTime <= SCoreConstants.BlockedTime; //&& !_context.Self.navigator.noPathAndNotPlanningOne();
             if (result)
                 return false;
 
-            return _context.Self.moveHelper.IsBlocked;
+            return true;
         }
 
 
@@ -790,8 +790,8 @@ namespace UAI
         public static bool CheckForClosedDoor(Context _context)
         {
             // If you are not blocked, don't bother processing.
-            //  if (!(_context.Self.moveHelper.BlockedTime >= 0.1f)) return false;
-            if (!_context.Self.moveHelper.IsBlocked) return false;
+             if (!(_context.Self.moveHelper.BlockedTime >= SCoreConstants.BlockedTime)) return false;
+            //if (!_context.Self.moveHelper.IsBlocked) return false;
 
             // If they are not human, and are not hired, don't let them open doors.
             // This allows pets to open doors

@@ -9,7 +9,7 @@ namespace Harmony.AIDirectorBloodMoon
     public class AiDirectorBloodMoonParty
     {
         [HarmonyPatch(typeof(AIDirectorBloodMoonParty))]
-        [HarmonyPatch("SeekTarget")]
+        [HarmonyPatch(nameof(AIDirectorBloodMoonParty.SeekTarget))]
         public static bool Prefix(ref bool __result, ManagedZombie mz)
         {
             global::EntityAlive zombie = mz.zombie;

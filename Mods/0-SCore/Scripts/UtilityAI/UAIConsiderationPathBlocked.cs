@@ -55,7 +55,7 @@ namespace UAI
                 return 1f;
             }
 
-            if (_context.Self.moveHelper.BlockedTime >= 0.35f )
+            if (_context.Self.moveHelper.BlockedTime >=SCoreConstants.BlockedTime )
             {
                 Vector3i blockPos = Vector3i.zero;
                 if (_context.Self.moveHelper != null && _context.Self.moveHelper.HitInfo != null)

@@ -22,7 +22,7 @@ namespace Features.RemoteCrafting {
         }
 
         [HarmonyPatch(typeof(ItemActionRepair))]
-        [HarmonyPatch("RemoveRequiredResource")]
+        [HarmonyPatch(nameof(ItemActionRepair.RemoveRequiredResource))]
         public class RemoveRequiredResource {
             private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data,
                 BlockValue blockValue) {
@@ -132,7 +132,7 @@ namespace Features.RemoteCrafting {
         }
 
         [HarmonyPatch(typeof(ItemActionRepair))]
-        [HarmonyPatch("CanRemoveRequiredResource")]
+        [HarmonyPatch(nameof(ItemActionRepair.CanRemoveRequiredResource))]
         public class CanRemoveRequiredResource {
             private static void Postfix(ref bool __result, ItemActionRepair __instance, ItemInventoryData data,
                 BlockValue blockValue) {
@@ -189,7 +189,7 @@ namespace Features.RemoteCrafting {
         }
 
         [HarmonyPatch(typeof(ItemActionRepair))]
-        [HarmonyPatch("removeRequiredItem")]
+        [HarmonyPatch(nameof(ItemActionRepair.removeRequiredItem))]
         public class RemoveRequiredItem {
             private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data,
                 ItemStack _itemStack) {
@@ -271,7 +271,7 @@ namespace Features.RemoteCrafting {
         }
 
         [HarmonyPatch(typeof(ItemActionRepair))]
-        [HarmonyPatch("canRemoveRequiredItem")]
+        [HarmonyPatch(nameof(ItemActionRepair.canRemoveRequiredItem))]
         public class CanRemoveRequiredItem {
             private static bool Prefix(ref bool __result, ItemActionRepair __instance, ItemInventoryData _data,
                 ItemStack _itemStack) {

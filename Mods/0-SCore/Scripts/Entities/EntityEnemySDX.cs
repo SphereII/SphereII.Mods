@@ -12,7 +12,9 @@
  *      <property name="Class" value="EntityEnemySDX, SCore" />
  */
 
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Random = System.Random;
 
@@ -177,52 +179,51 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
     }
 
     // Un-comment ONLY when we release a version that can break game saves
-    //public override void Read(byte _version, BinaryReader _br)
-    //{
-    //    base.Read(_version, _br);
-    //    try
-    //    {
-    //        var strPatrol = _br.ReadString();
-    //        _patrolCoordinates.Clear();
-    //        _tempList.Clear();
-    //        foreach (var strPatrolPoint in strPatrol.Split(';'))
-    //        {
-    //            var temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
-    //            if (temp != Vector3.zero)
-    //                UpdatePatrolPoints(temp); // call this method to also update _tempList
-    //        }
+    public override void Read(byte _version, BinaryReader _br)
+    {
+        base.Read(_version, _br);
+        try
+        {
+            var strPatrol = _br.ReadString();
+            _patrolCoordinates.Clear();
+            _tempList.Clear();
+            foreach (var strPatrolPoint in strPatrol.Split(';'))
+            {
+                var temp = ModGeneralUtilities.StringToVector3(strPatrolPoint);
+                if (temp != Vector3.zero)
+                    UpdatePatrolPoints(temp); // call this method to also update _tempList
+            }
 
-    //        var strGuardPosition = _br.ReadString();
-    //        _guardPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
-    //        _guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+            var strGuardPosition = _br.ReadString();
+            _guardPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
+            _guardLookPosition = ModGeneralUtilities.StringToVector3(_br.ReadString());
 
-    //        Buffs.Read(_br);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Log.Out($"Read exception for: {entityName} ( {entityId} ) : {ex}");
-    //    }
-    //}
+            Buffs.Read(_br);
+        }
+        catch (Exception ex)
+        {
+            Log.Out($"Read exception for: {entityName} ( {entityId} ) : {ex}");
+        }
+    }
 
-    // Un-comment ONLY when we release a version that can break game saves
-    //public override void Write(BinaryWriter _bw)
-    //{
-    //    base.Write(_bw);
-    //    try
-    //    {
-    //        var strPatrolCoordinates = "";
-    //        foreach (var temp in _patrolCoordinates) strPatrolCoordinates += ";" + temp;
+    public override void Write(BinaryWriter _bw, bool _bNetworkWrite)
+    {
+        base.Write(_bw, _bNetworkWrite);
+        try
+        {
+            var strPatrolCoordinates = "";
+            foreach (var temp in _patrolCoordinates) strPatrolCoordinates += ";" + temp;
 
-    //        _bw.Write(strPatrolCoordinates);
-    //        _bw.Write(_guardPosition.ToString());
-    //        _bw.Write(_guardLookPosition.ToString());
-    //        Buffs.Write(_bw);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Log.Out($"Write exception for: {entityName} ( {entityId} ) : {ex}");
-    //    }
-    //}
+            _bw.Write(strPatrolCoordinates);
+            _bw.Write(_guardPosition.ToString());
+            _bw.Write(_guardLookPosition.ToString());
+            Buffs.Write(_bw);
+        }
+        catch (Exception ex)
+        {
+            Log.Out($"Write exception for: {entityName} ( {entityId} ) : {ex}");
+        }
+    }
 
     /// <inheritdoc/>
     public void SetupAutoPathingBlocks()

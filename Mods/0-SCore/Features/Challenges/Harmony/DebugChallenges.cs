@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SCore.Features.Challenges.Harmony {
     public class DebugChallenges {
         [HarmonyPatch(typeof(ChallengeJournal))]
-        [HarmonyPatch("AddChallenge")]
+        [HarmonyPatch(nameof(ChallengeJournal.AddChallenge))]
         public class ChallengeJournalAddChallenge {
             public static bool Prefix(ChallengeJournal __instance,Challenge challenge) {
                 __instance.ChallengeDictionary.TryAdd(challenge.ChallengeClass.Name, challenge);

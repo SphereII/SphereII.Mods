@@ -50,7 +50,7 @@ namespace UAI
 
             // If we have a noisy player, and we can hear them.
             if (!_context.Self.noisePlayer) return 0f;
-            if (!(_context.Self.noisePlayerVolume >= _context.Self.noiseWake)) return 0f;
+            if (!(_context.Self.noisePlayerVolume >= _context.Self.sleeperNoiseToWake)) return 0f;
             _context.Self.SetInvestigatePosition(_context.Self.noisePlayer.position, 1200, true);
             return 1;
 

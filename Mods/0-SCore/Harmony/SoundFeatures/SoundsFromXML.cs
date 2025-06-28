@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace Harmony.SoundFeatures
 {
     [HarmonyPatch(typeof(SoundsFromXml))]
-    [HarmonyPatch("Parse")]
+    [HarmonyPatch(nameof(SoundsFromXml.Parse))]
     public class SoundsFromXML
     {
         private static bool Prefix(XElement node)

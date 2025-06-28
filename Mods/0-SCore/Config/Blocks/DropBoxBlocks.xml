@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+    <append xpath="/blocks">
+        <block name="cntSphereDropBoxTest">
+            <!-- Doesn't need to be signed container, but might make the most sense -->
+            <property name="Extends" value="cntWoodWritableCrate"/>
+            <property name="Class" value="DropBoxContainer, SCore"/>
+            <property name="LootList" value="playerWoodWritableStorage"/>
+
+            <!-- Default is 100 ticks -->
+            <property name="UpdateTick" value="200"/>
+            <!-- Optionally trigger the distribution when the user closes the box -->
+            <property name="DropBox" value="true"/>
+
+        </block>
+
+        <block name="cntSphereDropBoxTest2">
+            <!-- Doesn't need to be signed container, but might make the most sense -->
+            <property name="Extends" value="cntWoodWritableCrate"/>
+            <property name="LootList" value="playerWoodWritableStorage"/>
+
+            <property name="DropBox" value="true"/>
+        </block>
+    </append>
+</configs>

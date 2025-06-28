@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Configuration
 {
+    private static List<string> requiredModletsCache = new List<string>();
   
     //public static object GetCustomMenu()
     //{
@@ -39,6 +42,8 @@ public static class Configuration
         {
             if (!ModManager.ModLoaded(requiredMod))
             {
+                if ( requiredModletsCache.Contains(requiredMod)) return false;
+                requiredModletsCache.Add(requiredMod);
                 Log.Out($"WARN: RequiredModlet is defined on {strClass}: {requiredMod} not found. Feature is turned off.");
                 return false;
             }

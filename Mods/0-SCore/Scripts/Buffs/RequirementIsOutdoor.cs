@@ -1,6 +1,6 @@
 ﻿public class RequirementIsOutdoor : TargetedCompareRequirementBase
 {
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         var result = false;
 

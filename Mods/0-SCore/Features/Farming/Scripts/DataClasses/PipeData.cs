@@ -1,118 +1,108 @@
-﻿using System.Collections.Generic;
+﻿using System; // Required for Tuple
+using System.Collections.Generic;
 using UnityEngine;
 
+// Refactored PipeData using Iterative BFS.
+// Incorporates neighbor finding logic previously in the separate Pipe class.
 public class PipeData
 {
-    private Vector3i BlockPos = Vector3i.zero;
-    private Dictionary<Vector3i, Pipe> pipes = new Dictionary<Vector3i, Pipe>();
-    private int maxPipes = 50;
-    private int currentPipe = 0;
-    public PipeData(Vector3i blockPos, int maxpipeCount = -1)
+    private readonly Vector3i _startBlockPos; // Store starting pos for context if needed
+    private readonly int _maxPipes = 50;    // Max search depth/count
+
+    /// <summary>
+    /// Constructor, mainly sets the search limit.
+    /// </summary>
+    /// <param name="startBlockPos">The initial position where the search originates.</param>
+    /// <param name="maxPipeCount">Max number of pipe segments to check.</param>
+    public PipeData(Vector3i startBlockPos, int maxPipeCount = -1)
     {
-        BlockPos = blockPos;
-        maxPipes = maxpipeCount;
-        if (maxpipeCount == -1)
-            maxPipes = WaterPipeManager.Instance.GetMaxPipeCount();
+        this._startBlockPos = startBlockPos;
+        this._maxPipes = (maxPipeCount == -1)
+            ? WaterPipeManager.Instance.GetMaxPipeCount() // Get from manager
+            : maxPipeCount;                               // Use provided value
     }
-    public Pipe GetNeighbors()
+
+    /// <summary>
+    /// Iteratively searches for the nearest connected water source using Breadth-First Search (BFS).
+    /// </summary>
+    /// <param name="startPosition">The position to start searching from (pipe or block needing water).</param>
+    /// <returns>The position of the found water source, or Vector3i.zero if none found within limits.</returns>
+    public Vector3i DiscoverWaterFromPipes(Vector3i startPosition)
     {
-        var pipe = new Pipe(BlockPos);
-        foreach( var direction in Vector3i.AllDirections)
+        Queue<Vector3i> queue = new Queue<Vector3i>();
+        HashSet<Vector3i> visited = new HashSet<Vector3i>();
+        int pipeCount = 0;
+
+        // Start BFS from the initial position
+        queue.Enqueue(startPosition);
+        visited.Add(startPosition);
+
+        while (queue.Count > 0 && pipeCount < _maxPipes)
         {
-            var position = BlockPos + direction;
+            Vector3i currentPos = queue.Dequeue();
+            pipeCount++; // Count nodes processed
 
-            if (WaterPipeManager.Instance.IsValveOff(position)) continue;
+            // Get neighbors (water sources and pipes) for the current position
+            var (pipeNeighbors, waterSourceNeighbors) = GetNeighbors(currentPos);
 
-            // If it's a pipe, add it to the list, and keep going.
-            var blockValue = GameManager.Instance.World.GetBlock(position);
-            if (blockValue.Block is BlockWaterPipeSDX)
-                pipe.Add(position);
-
-            if (WaterPipeManager.Instance.IsDirectWaterSource(position))
-                pipe.AddWater(position);
-
-        }
-
-        return pipe;
-    }
-
-    public void ClearPipes()
-    {
-        pipes.Clear();
-    }
-    public Vector3i GetWaterSource()
-    {
-        foreach ( var pipe in pipes)
-        {
-            if (pipe.Value.IsWaterSource())
+            // Check if any neighbor is a direct water source
+            if (waterSourceNeighbors.Count > 0)
             {
-                return pipe.Value.GetWaterSource();
+                // Found the closest direct water source(s) via this path
+                return waterSourceNeighbors[0]; // Return the first one found
+            }
+
+            // Add unvisited pipe neighbors to the queue
+            foreach (Vector3i pipeNeighborPos in pipeNeighbors)
+            {
+                if (!visited.Contains(pipeNeighborPos))
+                {
+                    visited.Add(pipeNeighborPos);
+                    queue.Enqueue(pipeNeighborPos);
+                }
             }
         }
+
+        // No water source found within the maximum pipe count limit
         return Vector3i.zero;
     }
 
-  
 
-    public bool FindAllPipes(Pipe _pipe, bool findFirst = true)
+    /// <summary>
+    /// Static helper to get lists of adjacent pipe and direct water source neighbors.
+    /// </summary>
+    /// <param name="position">The position to check neighbors for.</param>
+    /// <returns>A Tuple containing two lists: (List of pipe neighbors, List of direct water source neighbors).</returns>
+    private static Tuple<List<Vector3i>, List<Vector3i>> GetNeighbors(Vector3i position)
     {
-        // If we exceeded our max, stop searching. This is the limit of the pipe system.
-        if (currentPipe >= maxPipes) return true;
-        currentPipe++;
+        List<Vector3i> pipeNeighbors = new List<Vector3i>();
+        List<Vector3i> waterSourceNeighbors = new List<Vector3i>();
+        var world = GameManager.Instance.World; // Cache world instance
 
-        // Generate a new set of PipeData. This will hold data on connecting pipes and water sources,
-        // and collect data from all the neighbors.
-        var pipeData = new PipeData(_pipe.GetBlockPos());
-        var neighbors = pipeData.GetNeighbors();
-
-        //// If the neighbors have a water source, then end the loop. 
-        if (neighbors.IsWaterSource() && findFirst)
+        foreach (var direction in Vector3i.AllDirections)
         {
-            // Add the watert source as part of the piping system
-            var waterSource = neighbors.GetWaterSource();
-            var pipe = new Pipe(waterSource);
-            pipe.AddWater(waterSource);
+            var neighborPos = position + direction;
 
-            if (!pipes.ContainsKey(waterSource))
-                pipes.Add(waterSource, pipe);
-            return true;
+            // TODO: Refine valve checking logic if needed based on implementation details.
+
+            BlockValue blockValue = world.GetBlock(neighborPos);
+
+            // Check for direct water source first
+            if (WaterPipeManager.Instance.IsDirectWaterSource(neighborPos))
+            {
+                waterSourceNeighbors.Add(neighborPos);
+                // Continue checking other neighbors
+            }
+            // Check if it's a water pipe block (and not also direct water)
+            else if (blockValue.Block is BlockWaterPipeSDX)
+            {
+                pipeNeighbors.Add(neighborPos); // Add as a pipe to explore
+            }
+            // Potential: Check if neighbor is a Sprinkler (BlockWaterSourceSDX)
+            // else if (blockValue.Block is BlockWaterSourceSDX) { /* Decide if sprinklers act as pipes */ }
         }
-
-        // Loop around the pipes and check if they have already been indexed. If not, keep 
-        // searching.
-        foreach (var position in neighbors.GetPipes())
-        {
-            if (pipes.ContainsKey(position)) continue;
-
-            // Register the pipe to the list so we can keep track of it.
-            var pipe = new Pipe(position);
-            pipes.Add(position, pipe);
-
-            // Keep searching if we haven't discovered this pipe yet.
-            var result = FindAllPipes(pipe, findFirst);
-            if (result)
-                return true;
-
-        }
-        return false;
+        // Return tuple containing the lists
+        return new Tuple<List<Vector3i>, List<Vector3i>>(pipeNeighbors, waterSourceNeighbors);
     }
 
-    public Vector3i DiscoverWaterFromPipes(Vector3i position)
-    {
-        currentPipe = 0;
-        var startPipe = new Pipe(position);
-
-        // Clear the pipes so we don't detect any dead branches in the pipes.
-        ClearPipes();
-
-        FindAllPipes(startPipe);
-        foreach (var pipe in pipes)
-        {
-            if (pipe.Value.IsWaterSource())
-                return pipe.Value.GetWaterSource();
-        }
-        return Vector3i.zero;
-    }
-  
-}
-
+} // End of PipeData class

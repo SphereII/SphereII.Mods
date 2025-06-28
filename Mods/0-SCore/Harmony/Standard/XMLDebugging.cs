@@ -15,7 +15,7 @@
 //         private static readonly string SecondFeature = "PhysicsBody";
 //
 //         [HarmonyPatch(typeof(XmlPatcher))]
-//         [HarmonyPatch("singlePatch")]
+//         [HarmonyPatch(nameof(XmlPatcher.singlePatch))]
 //         public class XmlPatcherSinglePatch
 //         {
 //             private static bool Prefix(XmlFile _targetFile, XmlElement _patchElement, string _patchName)
@@ -31,7 +31,7 @@
 //         }
 //
 //         [HarmonyPatch(typeof(DialogFromXml))]
-//         [HarmonyPatch("ParseResponse")]
+//         [HarmonyPatch(nameof(DialogFromXml.ParseResponse))]
 //         public class SCoreDialogFromXML
 //         {
 //             private static bool Prefix(global::Dialog dialog, XmlElement e)

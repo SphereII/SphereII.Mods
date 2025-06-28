@@ -7,7 +7,7 @@ using System.Xml.Linq;
 public class RequirementIsNearFire : RequirementBase
 {
     float maxRange = 5f;
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         return FireManager.Instance.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
     }

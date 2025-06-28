@@ -29,7 +29,7 @@ public class Broadcastmanager
     {
 
         var option = Configuration.GetPropertyValue(AdvFeatureClass, "BroadcastManage");
-        if (!StringParsers.ParseBool(option))
+        if (string.IsNullOrEmpty(option) || !StringParsers.ParseBool(option))
         {
             Log.Out("Broadcast Manager is disabled.");
             //Broadcastmanager.Instance.Enabled = false;
@@ -40,7 +40,7 @@ public class Broadcastmanager
         Log.Out("Starting Broadcast Manager");
 
         // Read the Broadcastmanager
-        Broadcastmanager.Instance.Load();
+        Instance.Load();
     }
 
     // Save the lootcontainer location.
@@ -150,7 +150,7 @@ public class Broadcastmanager
             }
 
 
-            this.dataSaveThreadInfo = ThreadManager.StartThread("silent_BroadcastDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, System.Threading.ThreadPriority.Normal, pooledExpandableMemoryStream, null, false);
+            this.dataSaveThreadInfo = ThreadManager.StartThread("silent_BroadcastDataSave", null, new ThreadManager.ThreadFunctionLoopDelegate(this.saveDataThreaded), null, pooledExpandableMemoryStream, null, false);
         }
     }
 

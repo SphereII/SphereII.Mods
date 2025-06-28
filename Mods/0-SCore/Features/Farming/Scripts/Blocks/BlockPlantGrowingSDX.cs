@@ -8,18 +8,9 @@ using UnityEngine;
 public class BlockPlantGrowingSDX : BlockPlantGrowing
 {
     public static Dictionary<Vector3i, Vector3i> WaterSources = new Dictionary<Vector3i, Vector3i>();
-    private bool requireWater = false;
-    private int waterRange = 5;
+    public bool RequireWater { get; set; } = false;
+    public int WaterRange { get; set; } = 5;
     private bool willWilt = false;
-
-
-    public int GetWaterRange() {
-        return waterRange;
-    }
-
-    public bool RequireWater() {
-        return requireWater;
-    }
 
     public bool WillWilt() {
         return willWilt;
@@ -29,13 +20,13 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
     {
         base.LateInit();
         if (this.Properties.Values.ContainsKey("RequireWater"))
-            this.requireWater = StringParsers.ParseBool(this.Properties.Values["RequireWater"]);
+            RequireWater = StringParsers.ParseBool(this.Properties.Values["RequireWater"]);
 
         if (this.Properties.Values.ContainsKey("Wilt"))
             this.willWilt = StringParsers.ParseBool(this.Properties.Values["Wilt"]);
 
         if (this.Properties.Values.ContainsKey("WaterRange"))
-            this.waterRange = int.Parse(this.Properties.Values["WaterRange"]);
+            this.WaterRange = int.Parse(this.Properties.Values["WaterRange"]);
 
         if (this.Properties.Values.ContainsKey("PlantGrowing.Wilt"))
             this.wiltedPlant = ItemClass.GetItem(this.Properties.Values["PlantGrowing.Wilt"], false).ToBlockValue();
@@ -46,7 +37,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
     public override void PlaceBlock(WorldBase _world, BlockPlacement.Result _result, EntityAlive _ea)
     {
         base.PlaceBlock(_world, _result, _ea);
-        CropManager.Instance.Add(_result.blockPos, waterRange);
+        CropManager.Instance.Add(_result.blockPos, WaterRange);
     }
 
     // Checks the preview if the plant can actually go there.
@@ -55,8 +46,8 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (!base.CanPlaceBlockAt(_world, _clrIdx, _blockPos, _blockValue, _bOmitCollideCheck))
             return false;
 
-        if (requireWater == false) return true;
-        return CropManager.Instance.IsNearWater(_blockPos, waterRange);
+        if (RequireWater == false) return true;
+        return CropManager.Instance.IsNearWater(_blockPos, WaterRange);
     }
 
     // When chunk is loaded, force add the block. This will be valiated on the update check in the crop manager, but
@@ -75,15 +66,15 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
     }
 
     // When the block is added
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
-        CropManager.Instance.Add(_blockPos, waterRange);
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
+        CropManager.Instance.Add(_blockPos, WaterRange);
     }
 
     public override bool UpdateTick(WorldBase _world, int _clrIdx, Vector3i _blockPos, BlockValue _blockValue, bool _bRandomTick, ulong _ticksIfLoaded, GameRandom _rnd)
     {
-        if (requireWater)
+        if (RequireWater)
         {
             var plantData = CropManager.Instance.GetPlant(_blockPos);
             if (plantData != null && plantData.CanStay() == false)
@@ -104,7 +95,7 @@ public class BlockPlantGrowingSDX : BlockPlantGrowing
         if (result == false) return false;
 
         // check if we are near a water source.
-        if (CropManager.Instance.IsNearWater(_blockPos, waterRange)) return true;
+        if (CropManager.Instance.IsNearWater(_blockPos, WaterRange)) return true;
 
         // Only wilt if the property is set.
         if (willWilt)

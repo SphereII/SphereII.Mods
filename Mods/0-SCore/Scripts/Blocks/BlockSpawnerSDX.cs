@@ -45,9 +45,9 @@ internal class BlockSpawnerSDX : Block
         }
     }
 
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         CheckForSpawn(_world, _chunk.ClrIdx, _blockPos, _blockValue);
     }
 

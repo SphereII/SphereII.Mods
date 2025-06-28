@@ -23,9 +23,9 @@ public class BlockDropBoxContainer : BlockSecureLootSigned
     {
         return (ulong)_updateTime;
     }
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         if (!world.IsRemote())
         {
             world.GetWBT().AddScheduledBlockUpdate(0, _blockPos, this.blockID, GetTickRate());

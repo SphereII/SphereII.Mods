@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.Windows.Forms.VisualStyles;
+using System.Xml;
 using System.Xml.Linq;
 using UnityEngine;
 
@@ -36,7 +37,13 @@ public class MinEventActionCreateItemSDX : MinEventActionBase
         // item value.
         if (_params.Self as EntityPlayerLocal == null || _createItem == null || _createItemCount <= 0) return;
 
-        var itemStack = new ItemStack(ItemClass.GetItem(_createItem), _createItemCount);
+        var item = ItemClass.GetItem(_createItem);
+        if (item == null)
+        {
+            Log.Out($"MinEventActionCreateItemSDX:: No such item: {_createItem}");
+            return;
+        }
+        var itemStack = new ItemStack(item, _createItemCount);
         if (!LocalPlayerUI.GetUIForPlayer(entityPlayer).xui.PlayerInventory.AddItem(itemStack, true))
             entityPlayer.world.gameManager.ItemDropServer(itemStack, entityPlayer.GetPosition(), Vector3.zero);
     }

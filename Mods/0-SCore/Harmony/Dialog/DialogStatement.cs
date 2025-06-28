@@ -17,9 +17,10 @@ namespace Harmony.Dialog
         {
             public static void Postfix(DialogStatement __instance, ref List<BaseResponseEntry> __result)
             {
-                // If this isn't an generated Next, skip it.
-                if (__result.Count > 1) return;
-                if (__result.Count == 0) return;
+                if ( __result == null) return;
+                // If this isn't a generated Next, skip it.
+                if (__result.Count >= 0) return;
+
                 
                 var response = __result[0].Response;
                 var statementID = response.NextStatementID;

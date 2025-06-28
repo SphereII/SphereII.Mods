@@ -34,7 +34,7 @@ namespace Harmony.Animation
         public class AvatarControllerSetCrouching
         {
             private static readonly int IsCrouchingHash = Animator.StringToHash("IsCrouching");
-            public static bool Prefix(global::AvatarController __instance, Animator ___anim, bool _bEnable, Dictionary<int, AnimParamData> ___ChangedAnimationParameters, global::EntityAlive ___entity)
+            public static bool Prefix(global::AvatarController __instance, Animator ___anim, bool _bEnable, Dictionary<int, AnimParamData> ___changedAnimationParameters, global::EntityAlive ___entity)
             {
                 if (___anim == null || ___anim.GetBool(IsCrouchingHash) == _bEnable) return true;
                 ___anim.SetBool(IsCrouchingHash, _bEnable);
@@ -44,25 +44,25 @@ namespace Harmony.Animation
                 }
                 if (!___entity.isEntityRemote)
                 {
-                    ___ChangedAnimationParameters[IsCrouchingHash] = new AnimParamData(IsCrouchingHash, AnimParamData.ValueTypes.Bool, _bEnable);
+                    ___changedAnimationParameters[IsCrouchingHash] = new AnimParamData(IsCrouchingHash, AnimParamData.ValueTypes.Bool, _bEnable);
                 }
                 return true;
             }
         }
         
-        [HarmonyPatch(typeof(AvatarZombieController))]
-        [HarmonyPatch("FindBodyParts")]
-        public class AvatarControllerFindBodyParts
-        {
-            public static void Postfix(global::AvatarZombieController __instance,  global::EntityAlive ___entity, Transform ___bipedT, ref Transform ___rightHandT)
-            {
-                if (___entity is not EntityAliveSDX entityAliveSdx) return;
-                
-                // Since we allow weapon switching, the right hand transform may change depending on the weapon.
-                // Re-read the right hand transform, which will give it the option to specify another one through a property entry on the item.
-                ___rightHandT = ___bipedT.FindInChilds(entityAliveSdx.GetRightHandTransformName(), false);
-            }
-        }
+        // [HarmonyPatch(typeof(AvatarZombieController))]
+        // [HarmonyPatch("FindBodyParts")]
+        // public class AvatarControllerFindBodyParts
+        // {
+        //     public static void Postfix(global::AvatarZombieController __instance,  global::EntityAlive ___entity, Transform ___bipedT, ref Transform ___rightHandT)
+        //     {
+        //         if (___entity is not EntityAliveSDX entityAliveSdx) return;
+        //         
+        //         // Since we allow weapon switching, the right hand transform may change depending on the weapon.
+        //         // Re-read the right hand transform, which will give it the option to specify another one through a property entry on the item.
+        //         ___rightHandT = ___bipedT.FindInChilds(entityAliveSdx.GetRightHandTransformName(), false);
+        //     }
+        // }
 
      
         [HarmonyPatch(typeof(AvatarZombieController))]

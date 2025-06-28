@@ -1,0 +1,56 @@
+<configs>
+
+    <!-- Craft From Container -->
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedRecipes']/property[@name='ReadFromContainers']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='BlockUpgradeRepair']/property[@name='ReadFromContainers']/@value">true</set>
+    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='BlockUpgradeRepair']/property[@name='BlockOnNearbyEnemies']/@value">true</set>
+
+    <!-- *** PLAYER_LOCKED_WRITABLE_IRON_DROP_BOX_CRATE_0-SCORE_EXAMPLE -->
+
+    <!-- This example is modelled on using a writeable iron crate, but removes the upgrade and downgrade features due to base game hardcoding limitations.
+    Add those back at your own risk. This example provides a standalone Drop Box that performs the fundamental basics of its primary task. -->
+    <append xpath="/blocks">
+        <block name="cntIronSwagDropBox">
+            <property name="CustomIcon" value="cntIronWritableCrate"/>
+            <property name="Class" value="DropBoxContainer, SCore"/>
+            <property name="CustomIconTint" value="FFBF00"/>
+            <property name="TintColor" value="FFBF00"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="Class" value="CompositeTileEntity"/>
+            <property class="CompositeFeatures">
+                <property class="TEFeatureStorage">
+                    <property name="LootList" value="playerSteelWritableStorage"/>
+                </property>
+                <property class="TEFeatureLockable"/>
+                <property class="TEFeatureSignable">
+                    <property name="FontSize" value="90"/>
+                    <property name="LineCount" value="3"/>
+                    <property name="LineWidth" value="0.55"/>
+                </property>
+            </property>
+
+            <property name="DescriptionKey" value="cntIronSwagDropBoxDesc"/>
+            <property name="DropBox" value="true"/>
+            <property name="Material" value="Mmetal"/>
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="@:Entities/LootContainers/ironWritableCratePrefab.prefab"/>
+            <property name="WaterFlow" value="permitted"/>
+            <property name="Path" value="solid"/>
+            <property name="Place" value="TowardsPlacerInverted"/>
+            <property name="AllowedRotations" value="Basic90"/>
+            <property name="FuelValue" value="300"/>
+            <property name="EconomicValue" value="6"/>
+            <property name="MaxDamage" value="2500"/>
+            <property class="RepairItems">
+                <property name="resourceForgedIron" value="10"/>
+            </property>
+            <drop event="Destroy" name="resourceScrapIron" count="10,30"/>
+            <drop event="Fall" name="scrapMetalPile" count="1" prob="0.75" stick_chance="1"/>
+            <property name="SortOrder1" value="B106"/>
+            <property name="SortOrder2" value="0002"/>
+            <property name="Group" value="Basics,Building,advBuilding"/>
+            <property name="Tags" value="timecharge"/>
+            <property name="FilterTags" value="MC_playerBlocks,SC_decor"/>
+        </block>
+    </append>
+</configs>

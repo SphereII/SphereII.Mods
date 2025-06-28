@@ -1,8 +1,10 @@
 ﻿<configs>
 
     <append xpath="/windows">
-        <window name="ingameMenuSCore" anchor="RightTop" pos="-620,-80" width="300" height="200" visible="{# !is_prefab_editor}" controller="SCoreInGameMenu, SCore" cursor_area="true">
-            <grid name="buttons" pos="0, -0" cols="1" width="250" cell_width="250" cell_height="56" arrangement="vertical" repeat_content="false" >
+        <window name="ingameMenuSCore" anchor="RightTop" pos="-620,-80" width="300" height="200"
+                visible="{# !is_prefab_editor}" controller="SCoreInGameMenu, SCore" cursor_area="true">
+            <grid name="buttons" pos="0, -0" cols="1" width="250" cell_width="250" cell_height="56"
+                  arrangement="vertical" repeat_content="false">
                 <simplebutton name="btnSCoreOptions" depth="3" width="250" height="46" caption_key="xuiSCoreUtilities"
                               font_size="40"/>
                 <simplebutton name="btnNPCView" depth="3" width="250" height="46" caption_key="xuiSCoreNPCSettings"
@@ -34,7 +36,7 @@
                        style="label_outline, header.name"/>
                 <label depth="20" text="Use standard keys" width="900" height="60"
                        text_key="advancedlockpicking_desc" font_size="24" justify="center"
-                       style="label_outline" 
+                       style="label_outline"
                        pos="0,-50"/>
             </panel>
         </window>
@@ -136,7 +138,7 @@
                                           depth="3" font_size="24" crispness="OnDesktop" effect="Outline8"
                                           effect_distance="1,1" effect_color="20,20,20,230"/>
 
-                        <simplebutton name="SCorebtnSubmit" depth="3" pos="0,-80"  width="290" height="32"
+                        <simplebutton name="SCorebtnSubmit" depth="3" pos="0,-80" width="290" height="32"
                                       font_size="24" caption_key="xuiSave" upper_case="true"/>
                     </grid>
                 </panel>
@@ -169,6 +171,8 @@
                 </grid>
             </panel>
         </window>
+
+    
     </append>
 
     <append xpath="/windows/window[@name='windowLooting']//rect[@controller='ContainerStandardControls']">
@@ -183,5 +187,6 @@
                 sound="[paging_click]"
                 controller="BroadcastButton, SCore"/>
     </append>
+
 
 </configs>

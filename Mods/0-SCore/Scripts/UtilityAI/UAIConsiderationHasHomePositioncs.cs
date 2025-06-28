@@ -4,10 +4,15 @@
     {
         public override float GetScore(Context _context, object target)
         {
-            if (_context.Self.isWithinHomeDistanceCurrentPosition())
-                return 0f;
-
-            return 1f;
+            return _context.Self.hasHome() == false ? 0f : 1f;
+        }
+    }
+    
+    public class UAIConsiderationNotHasHomePosition : UAIConsiderationHasHomePosition
+    {
+        public override float GetScore(Context _context, object target)
+        {
+            return EntityUtilities.SameValue(base.GetScore(_context, target), 1f) ? 0f : 1f;
         }
     }
 }

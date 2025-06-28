@@ -118,7 +118,7 @@ public class BlockPoweredPortal : BlockPowered
         ChunkObserver ??= GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
     }
 
-    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
         var tileEntity = new TileEntityPoweredPortal(_chunk);
         tileEntity.localChunkPos = World.toBlock(_blockPos);
@@ -134,7 +134,7 @@ public class BlockPoweredPortal : BlockPowered
         {
             bNeedsTemperature = true
         });
-        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         ChunkObserver ??= GameManager.Instance.AddChunkObserver(_blockPos, true, 1, -1);
 
     }

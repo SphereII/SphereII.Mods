@@ -4,7 +4,7 @@
 
 public class RequirementEveryXDaySDX : RequirementBase
 {
-    public override bool ParamsValid(MinEventParams _params)
+    public override bool IsValid(MinEventParams _params)
     {
         var day = GameUtils.WorldTimeToDays(GameManager.Instance.World.GetWorldTime());
         var currentValue = value;

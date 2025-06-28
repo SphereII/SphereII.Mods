@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Harmony.EntityAlive {
     public class EntityFactoryPatch {
+        
+        [HarmonyPatch(typeof(Animator))]
+        [HarmonyPatch(nameof(Animator.Play))]
         [HarmonyPatch(typeof(EntityFactory))]
         [HarmonyPatch("GetEntityType")]
         public class EntityFactoryGetEntityType {
@@ -24,6 +27,11 @@ namespace Harmony.EntityAlive {
                     return false;
                 }
                 
+                if (_className == "EntityBanditSDX")
+                {
+                    __result =  typeof(EntityBanditSDX);
+                    return false;
+                }
                 if (_className == "EntitySwimmingSDX")
                 {
                     __result =  typeof(EntitySwimmingSDX);

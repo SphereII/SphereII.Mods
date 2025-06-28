@@ -15,7 +15,7 @@
 //public class SMXui_itemactionentry_xuic
 //{
 //    [HarmonyPatch(typeof(XUiC_HUDStatBar))]
-//    [HarmonyPatch("SetupActiveItemEntry")]
+//    [HarmonyPatch(nameof(XUiC_HUDStatBar.SetupActiveItemEntry))]
 //    public class SMXuiSetUpActiveItemEntry
 //    {
 //        public static bool Prefix(XUiC_HUDStatBar __instance, int ___currentSlotIndex, ref ItemClass ___itemClass, ref ItemActionAttack ___attackAction)
@@ -110,7 +110,7 @@
 ////		// To Patch a base method, we need to fake a patch to it.
 ////		[HarmonyReversePatch]
 ////		// This is our base class, as XUiC_ItemActionEntry : XUiController (<= that's the base class name )
-////		[HarmonyPatch(typeof(XUiController), "Update")]
+////		[HarmonyPatch(typeof(XUiController), nameof(XUiController.Update))]
 ////		[MethodImpl(MethodImplOptions.NoInlining)]
 ////		// Method can be called anything, but the first parameter must be the instance reference, along with the parameters.
 ////		// the { return; } must match the return value of the base method. Note: this isn't used, it's just a reference

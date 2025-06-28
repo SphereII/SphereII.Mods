@@ -11,7 +11,7 @@ public class SCore_QuickLoad
     // If steam is not detected, we want the game to go into Offline mode.
     // This can happen even if Steam is running, but at a different permission level.
     [HarmonyPatch(typeof(XUiC_MainMenu))]
-    [HarmonyPatch("Open")]
+    [HarmonyPatch(nameof(XUiC_MainMenu.Open))]
     public class SphereII_XUiC_MainMenuOpen
     {
         private static bool Prefix(XUiC_MainMenu __instance, XUi _xuiInstance)

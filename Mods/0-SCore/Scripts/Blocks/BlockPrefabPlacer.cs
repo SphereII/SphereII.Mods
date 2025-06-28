@@ -31,9 +31,9 @@ public class BlockPrefabPlacer : Block
         return true;
     }
     // When the block is added, set the prefab then.
-    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue)
+    public override void OnBlockAdded(WorldBase _world, Chunk _chunk, Vector3i _blockPos, BlockValue _blockValue,  PlatformUserIdentifierAbs _addedByPlayer)
     {
-        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue);
+        base.OnBlockAdded(_world, _chunk, _blockPos, _blockValue, _addedByPlayer);
         SetPrefab(_blockPos);
     }
 

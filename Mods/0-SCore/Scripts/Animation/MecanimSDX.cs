@@ -224,7 +224,7 @@ internal class MecanimSDX : AvatarController
             idleTime += Time.deltaTime;
             UpdateFloat("RotationPitch", entity.rotation.x);
 
-            SendAnimParameters(0.05f);
+                //SendAnimParameters();
         }
     }
 
@@ -335,7 +335,7 @@ internal class MecanimSDX : AvatarController
         return IsHarvesting;
     }
 
-    public override void StartAnimationHarvesting()
+    public override void StartAnimationHarvesting(float _length, bool _weaponFireTrigger)
     {
         if (!IsAnimationHarvestingPlaying())
         {

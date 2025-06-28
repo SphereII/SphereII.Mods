@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configs>
+    <append xpath="/blocks">
+        <block name="PathingCube">
+            <property name="Shape" value="ModelEntity"/>
+            <!--property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/-->
+            <!--<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>-->
+
+            <property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/>
+            <property name="MultiBlockDim" value="1,1,1"/>
+
+            <property name="Class" value="PathFinding, SCore"/>
+            <property name="Material" value="Mair"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="CanPickup" value="true"/>
+            <property name="Collide" value="sight"/>
+            <!-- At 1,2,1, it was causing issues with destroying blocks. Maybe it had to do with the rotation of the cube? -->
+            <!--<property name="MultiBlockDim" value="1,1,1"/>-->
+
+
+        </block>
+
+        <block name="PathingCube2">
+            <property name="Shape" value="ModelEntity"/>
+            <property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube2"/>
+            <property name="Class" value="Particle"/>
+            <property name="Material" value="Mair"/>
+            <property name="CreativeMode" value="Player"/>
+            <property name="ImposterExclude" value="true"/>
+            <property name="CanPlayersSpawnOn" value="true"/>
+            <property name="CanPickup" value="true"/>
+            <property name="TakeDelay" value="3"/>
+            <property name="Collide" value="sight"/>
+            <!--
+            <property name="MultiBlockDim" value="1,1,1"/>
+-->
+        </block>
+    </append>
+</configs>
