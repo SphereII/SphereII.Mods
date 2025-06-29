@@ -45,14 +45,14 @@ public class FireHandler : IFireHandler
         _events.RaiseFireStarted(position, entityId);
     }
 
-    public void RemoveFire(Vector3i position, int entityId = -1)
+    public void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true)
     {
-        if (!_fireMap.ContainsKey(position))
+        if (!_fireMap.Remove(position))
             return;
 
-        _fireMap.Remove(position);
         StopFireEffects(position);
 
+        if (!showSmoke) return;
         // Add to extinguished positions with expiry time
         var worldTime = GameManager.Instance.World.GetWorldTime();
         _extinguishedPositions[position] = worldTime + _config.SmokeTime;

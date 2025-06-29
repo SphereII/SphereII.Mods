@@ -178,6 +178,8 @@
     <Compile Include="Features\StoryEvents\Scripts\Story.cs" />
     <Compile Include="Features\StoryEvents\Scripts\StoryManager.cs" />
     <Compile Include="Features\TemplateManager\Interface\ITemplateManager.cs" />
+    <Compile Include="Features\Trader\Harmony\TraderInfoPatches.cs" />
+    <Compile Include="Features\Trader\Scripts\TraderCurrencyManager.cs" />
     <Compile Include="Features\VersionCheck\Scripts\VersionCheck.cs" />
     <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPCamera.cs" />
     <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPWeapon.cs" />
@@ -834,7 +836,7 @@
     <Folder Include="Features\ParticleAttractor\Harmony\" />
     <Folder Include="Features\PlayerMetrics\BloodMoonTracking\Harmony\" />
     <Folder Include="Features\PlayerMetrics\KillTracking\Harmony\" />
-    <Folder Include="Harmony\Recipes" />
+    <Folder Include="Harmony\Recipes\" />
     <Folder Include="Harmony\Weather\" />
     <Folder Include="Scripts\Constants\" />
     <Folder Include="Scripts\Particles\" />

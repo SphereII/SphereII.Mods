@@ -18,22 +18,38 @@ Summary for 2.0 Update:
 This release of 0-SCore introduces significant enhancements across several core systems, with a strong emphasis on **Shared Reading**, **NPC behaviors (including farming and combat)**, **block placement controls within POIs**, and **performance optimizations**.
 **Key Highlights:**
 
-* **Shared Reading System:** A major new feature allowing party members to share unlocked content from books and items. This includes new localization entries and fixes for server and client-side issues.
-* **Improved NPC AI and Behaviors:**
-	* **Farming:** Reworked Utility AI for farming tasks, making farmers more reliable, preventing task locks and accidental destruction of farm blocks, and keeping them closer to their farms. Sprinklers can now be individually controlled and detect water sources more effectively, and can even extinguish fires.
-	* **Combat/General:** Fixed issues with NPC bandit weapon handling, enabled patrol points for EntityEnemySDX, and exposed more configuration options for NPC movement (e.g., `BlockTimeToJump`, `BlockedTime`).
-	* **Dialog:** Patches for improved dialog functionality, including displaying statements in the subtitle window for EntityAliveSDX and allowing dialogs to inherit and combine from multiple sources using an "extends" property.
-* **POI Building Restrictions:** Introduced a new patch and configuration options to prevent players from placing blocks within specific POI bounds, based on prefab names or tags. This aims to maintain the integrity of designed POIs.
-* **Performance and Refactoring:**
-	* **Fire Manager V2 & Food Spoilage V2:** Both systems underwent significant AI-assisted refactoring to improve performance, breaking down classes into helper classes and cleaning up code.
-* **Localization Enhancements:** Added a new localization method to ensure localized entries are always retrieved, even if the direct key is missing (checking for `Name` or `Desc` suffixes). Also added support for `<include>` tags in Localization files, allowing for better organization.
-* **Bug Fixes and Stability:** Addressed various null reference errors, spamming issues with spoiled items, durability bar disappearing, and general migration/refactoring for broken references and changed parameters.
+* Shared Reading System: A major new feature allowing party members to share unlocked content from books and items. This includes new localization entries and fixes for server and client-side issues.
+* Improved NPC AI and Behaviors:
+	* Farming: Reworked Utility AI for farming tasks, making farmers more reliable, preventing task locks and accidental destruction of farm blocks, and keeping them closer to their farms. Sprinklers can now be individually controlled and detect water sources more effectively, and can even extinguish fires.
+	* Combat/General: Fixed issues with NPC bandit weapon handling, enabled patrol points for EntityEnemySDX, and exposed more configuration options for NPC movement (e.g., `BlockTimeToJump`, `BlockedTime`).
+	* Dialog: Patches for improved dialog functionality, including displaying statements in the subtitle window for EntityAliveSDX and allowing dialogs to inherit and combine from multiple sources using an "extends" property.
+* POI Building Restrictions: Introduced a new patch and configuration options to prevent players from placing blocks within specific POI bounds, based on prefab names or tags. This aims to maintain the integrity of designed POIs.
+* Performance and Refactoring:
+	* Fire Manager V2 & Food Spoilage V2: Both systems underwent significant AI-assisted refactoring to improve performance, breaking down classes into helper classes and cleaning up code.
+* Localization Enhancements: Added a new localization method to ensure localized entries are always retrieved, even if the direct key is missing (checking for `Name` or `Desc` suffixes). Also added support for `<include>` tags in Localization files, allowing for better organization.
+* Bug Fixes and Stability: Addressed various null reference errors, spamming issues with spoiled items, durability bar disappearing, and general migration/refactoring for broken references and changed parameters.
 
 
 [ Change Log ]
-Version: 2.0.11.921
+Version: 2.0.12.1509
+	[ Disable Trader Protection ]
+		- When DisableWallVolume is enabled, the invisible wall volumes will be removed.
+		- New property under AdvancedPrefabFeature to enable it:
+			<!-- Disables the invisible wall behind traders -->
+			<property name="DisableWallVolume" value="false" />
+
+	[ Fire Manager ]
+		- Fixed an issue where a POI reset would cause it to fill with extinguished smoke.
+		- Updated reference to the SCoreMedium loop for sounds.
+
+	[ Trader Currency ]
+		- Added the ability to change a particular trader's currency, using the alt_currency attribute.
+				<trader_info id="8" reset_interval="3" open_time="4:05" close_time="21:50" alt_currency="oldCash">
+		- When a player talks with a trader, with the alt_currency, it will update the backpack's currency display to use that value.
+
 	[ SphereII Peace of Mind ]
 		- Replaced a few new hanging corpses with empty pillar
+		- Fixed issue here zombiePartyGirlCharged was throwing warnings
 
 
  Version: 2.0.11.824

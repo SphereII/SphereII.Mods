@@ -35,6 +35,9 @@ public class MinEventActionAddFireDamageCascade : MinEventActionRemoveBuff
  
     public override void Execute(MinEventParams @params)
     {
+        if (FireManager.Instance == null) return;
+        if (FireManager.Instance.Enabled == false) return;
+        
         var position = @params.Position;
         var entityId = @params.Self.entityId;
         if (targetType != TargetTypes.positionAOE)

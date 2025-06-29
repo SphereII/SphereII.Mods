@@ -136,9 +136,24 @@ public class FireManager : MonoBehaviour
         _networkManager.SyncAddFire(blockPos, entityId);
     }
 
+    public void ClearFire(Vector3i blockPos)
+    {
+        if (!Enabled) return;
+  
+        try
+        {
+            _fireHandler.RemoveFire(blockPos, -1, false);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error Remove fire at position {blockPos}: {ex.Message}");
+        }
+        
+    }
     public void ExtinguishFire(Vector3i blockPos, int entityId = -1)
     {
         if (!Enabled) return;
+  
         try
         {
             _fireHandler.RemoveFire(blockPos, entityId);

@@ -25,7 +25,7 @@
     <append xpath="/Sounds">
         <SoundDataNode name="SCoreMediumLoop">
             <Noise ID="1" noise="1" heat_map_strength="0.1" heat_map_time="2" />
-            <AudioSource name="Sounds/AudioSource_Amb_Small"/>
+            <AudioSource name="@:Sounds/Prefabs/AudioSource_Amb_Small.prefab"/>
             <AudioClip ClipName="Sounds/Ambient_Loops/a_fire_med_lp" Loop="true"/>
             <LocalCrouchVolumeScale value="1.0"/> 
             <CrouchNoiseScale value="0.5"/> 

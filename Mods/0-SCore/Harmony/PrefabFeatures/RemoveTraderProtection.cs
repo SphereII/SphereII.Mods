@@ -7,7 +7,7 @@ namespace Harmony.PrefabFeatures
 {
     /**
      * SCoreRemoveTraderProtection
-     * 
+     *
      * This class includes a Harmony patches to disable the landclaim block on the trader, making them vulnerable.
      */
     public class RemoveTraderProtection
@@ -49,8 +49,7 @@ namespace Harmony.PrefabFeatures
         // This includes checking for block damages, picking up items, etc.
         [HarmonyPatch(typeof(World))]
         [HarmonyPatch("IsWithinTraderArea")]
-        [HarmonyPatch(new Type[]
-        {
+        [HarmonyPatch(new Type[] {
             typeof(Vector3i)
         })]
         public class WorldIsWithinTraderArea
@@ -69,8 +68,7 @@ namespace Harmony.PrefabFeatures
         // Allows placing of blocks in the trader area
         [HarmonyPatch(typeof(World))]
         [HarmonyPatch("IsWithinTraderPlacingProtection")]
-        [HarmonyPatch(new Type[]
-        {
+        [HarmonyPatch(new Type[] {
             typeof(Vector3i)
         })]
         public class WorldIsWithinTraderPlacingProtection
@@ -80,7 +78,7 @@ namespace Harmony.PrefabFeatures
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-                
+
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllowBuildingInTraderArea"))
                     return true;
 
@@ -88,11 +86,11 @@ namespace Harmony.PrefabFeatures
                 return false;
             }
         }
+
         // Allows placing of blocks in the trader area using a bounds check
         [HarmonyPatch(typeof(World))]
         [HarmonyPatch("IsWithinTraderPlacingProtection")]
-        [HarmonyPatch(new Type[]
-        {
+        [HarmonyPatch(new Type[] {
             typeof(Bounds)
         })]
         public class WorldIsWithinTraderPlacingProtectionBounds
@@ -102,7 +100,7 @@ namespace Harmony.PrefabFeatures
                 // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
                     return true;
-                
+
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "AllowBuildingInTraderArea"))
                     return true;
 
@@ -124,8 +122,8 @@ namespace Harmony.PrefabFeatures
 
                 return false;
             }
-        }  
-        
+        }
+
         // Allows you to talk to the trader
         [HarmonyPatch(typeof(EntityTrader))]
         [HarmonyPatch("ActivateTrader")]
@@ -138,7 +136,21 @@ namespace Harmony.PrefabFeatures
                     return true;
                 traderIsOpen = true;
                 return true;
+            }
+        }
 
+        // Disable the volume block behind the trader
+        [HarmonyPatch(typeof(Prefab))]
+        [HarmonyPatch(nameof(Prefab.ReadFromProperties))]
+        public class PrefabReadFromProperties
+        {
+            public static void Postfix(Prefab __instance)
+            {
+                // Check if this feature is enabled.
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "DisableWallVolume"))
+                    return;
+
+                __instance.WallVolumes.Clear();
             }
         }
     }

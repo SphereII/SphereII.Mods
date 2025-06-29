@@ -1,9 +1,9 @@
 <configs>
     <!-- Removes the dead man hanging from the poles, and replaces with an empty pole-->
-    <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
-    <set xpath="/blocks/block[@name='corpseHangingLog2White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
-    <set xpath="/blocks/block[@name='corpseHangingLog3White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
-    <set xpath="/blocks/block[@name='corpseHangingRope1White']/property[@name='Model']/@value">Entities/Bandits/logWallPillarPrefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog1White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog2White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingLog3White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
+    <set xpath="/blocks/block[@name='corpseHangingRope1White']/property[@name='Model']/@value">@:Entities/BanditProps/logWallPillarPrefab.prefab</set>
 
     <remove xpath="/blocks/block[@name='modularRopeNoose']"/>
     <append xpath="/blocks">
@@ -11,7 +11,7 @@
             <property name="Extends" value="modularRopeTiled"/>
             <property name="Class" value="Ladder"/>
             <property name="CustomIcon" value="modularRopeTiled"/>
-            <property name="Model" value="Entities/OutdoorDecor/modularRopeTiledSideCenteredPrefab"/>
+            <property name="Model" value="@:Entities/OutdoorDecor/modularRopeTiledSideCenteredPrefab.prefab"/>
             <property name="Collide" value="movement,melee"/>
             <property name="MaxDamage" value="100"/>
         </block>

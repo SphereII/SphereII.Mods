@@ -11,7 +11,8 @@ namespace Features.Fire.Harmony {
             if (FireManager.Instance.Enabled == false) return ;
             // If the POI is being reset, clear the fire.
             var vector3I = new Vector3i((___m_X << 4) + x, y, (___m_Z << 4) + z);
-            FireManager.Instance?.ExtinguishFire(vector3I);
+           // FireManager.Instance?.ExtinguishFire(vector3I, -1, false);
+           FireManager.Instance?.ClearFire(vector3I);
         }
     }
 }

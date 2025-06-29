@@ -308,6 +308,9 @@
                 <!-- To enable this, you must also enable Disable Trader Protection -->
                 <property name="AllowBuildingInTraderArea" value="false"/>
 
+                <!-- Disables the invisible wall behind traders -->
+                <property name="DisableWallVolume" value="false" />
+                
                 <property name="DisableFlickeringLights" value="false"/>
                 
                 <!-- Property to check if the prefab name has a no building flag on it. Goes by prefab name. -->

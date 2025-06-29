@@ -1,7 +1,7 @@
 public interface IFireHandler
 {
     void AddFire(Vector3i position, int entityId = -1);
-    void RemoveFire(Vector3i position, int entityId = -1);
+    void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true);
     void SpreadFire(Vector3i sourcePosition);
     bool IsFlammable(Vector3i position);
     bool IsBurning(Vector3i position);
