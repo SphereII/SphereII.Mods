@@ -1,17 +1,24 @@
 
 using System.Collections.Generic;
+using UnityEngine;
+
 public class TraderCurrencyManager
 {
-    private static readonly Dictionary<int, string> CurrencyItems = new Dictionary<int, string>();
-
+    public static string DefaultCurrency = "casinoCoin";
+    
+    private static Dictionary<int, string> _currencyItems = new Dictionary<int, string>();
     public static void SetTraderCurrency(int traderID, string currency)
     {
-        CurrencyItems.Add(traderID, currency);
+        if (!_currencyItems.TryAdd(traderID, currency))
+        {
+           // Log.Out($"Duplicate Trader ID detected. Using {Localization.Get(currency)} for Trader ID {traderID}");
+        }
     }
 
     public static string GetTraderCurrency(int traderID)
     {
-        var result= CurrencyItems.GetValueOrDefault(traderID, "casinoCoin");
+        var result= _currencyItems.GetValueOrDefault(traderID, DefaultCurrency);
         return result;
     }
+
 }

@@ -208,16 +208,14 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     }
 
     public override float GetEyeHeight() {
-        if (this.walkType == 4)
+        if (this.walkType == 21)
         {
             return 0.15f;
         }
-
-        if (this.walkType == 8)
+        if (this.walkType == 22)
         {
             return 0.6f;
         }
-
         if (!this.IsCrouching)
         {
             return base.height * 0.8f;
@@ -1027,19 +1025,25 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
                 }
             }
 
-            float num5 = _direction.magnitude;
-            num5 = Mathf.Max(num5, 1f);
-            float num6 = num3 / num5;
+            float magnitude = _direction.magnitude;
+            if (magnitude > 1f)
+            {
+                num3 /= magnitude;
+            }
+            float num5 = _direction.z * num3;
             if (this.lerpForwardSpeed)
             {
-                this.speedForwardTarget = _direction.z * num6;
+                if (Utils.FastAbs(this.speedForwardTarget - num5) > 0.05f)
+                {
+                    this.speedForwardTargetStep = Utils.FastAbs(num5 - this.speedForward) / 0.18f;
+                }
+                this.speedForwardTarget = num5;
             }
             else
             {
-                this.speedForward = _direction.z * num6;
+                this.speedForward = num5;
             }
-
-            this.speedStrafe = _direction.x * num6;
+            this.speedStrafe = _direction.x * num3;
             this.SetMovementState();
             base.ReplicateSpeeds();
         }
@@ -1243,6 +1247,10 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         try
         {
             base.OnUpdateLive();
+            if (GetWalkType() == 8 && bodyDamage.CurrentStun == EnumEntityStunType.Getup) 
+            {
+                SetHeight(this.physicsBaseHeight);
+            }
         }
         catch (Exception ex)
         {
@@ -1258,6 +1266,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             }
         }
 
+    
+        
         // Allow EntityAliveSDX to get buffs from blocks
        // if (!isEntityRemote && !SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
        if (!isEntityRemote)
@@ -1284,6 +1294,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         var avatarController = this.emodel.avatarController;
         if (!avatarController) return;
 
+     
         var flag = this.onGround || this.isSwimming || this.bInElevator;
         if (flag)
         {

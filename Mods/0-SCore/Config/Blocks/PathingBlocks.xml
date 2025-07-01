@@ -6,7 +6,7 @@
             <!--property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/-->
             <!--<property name="Model" value="#@modfolder:Resources/PathingCube.unity3d?PathingCube"/>-->
 
-            <property name="Model" value="Entities/Crafting/sign_wood_1x1_Prefab"/>
+            <property name="Model" value="@:Entities/Crafting/sign_wood_1x1_Prefab"/>
             <property name="MultiBlockDim" value="1,1,1"/>
 
             <property name="Class" value="PathFinding, SCore"/>

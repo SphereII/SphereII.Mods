@@ -61,14 +61,32 @@ public class EntityEnemySDX : EntityHuman, IEntityOrderReceiverSDX
 
     /// <inheritdoc/>
     public Vector3 Position => position;
+    public override float GetEyeHeight() {
+        if (walkType == 21)
+        {
+            return 0.15f;
+        }
+        if (walkType == 22)
+        {
+            return 0.6f;
+        }
+        if (!IsCrouching)
+        {
+            return height * 0.8f;
+        }
 
-    public override float GetEyeHeight()
-    {
-        if (flEyeHeight == -1f)
-            return base.GetEyeHeight();
-
-        return flEyeHeight;
+        return height * 0.5f;
+        // return flEyeHeight == -1f ? base.GetEyeHeight() : flEyeHeight;
     }
+
+    // public override float GetEyeHeight()
+    // {
+    //     
+    //     if (flEyeHeight == -1f)
+    //         return base.GetEyeHeight();
+    //
+    //     return flEyeHeight;
+    // }
 
     public override float GetMoveSpeed()
     {

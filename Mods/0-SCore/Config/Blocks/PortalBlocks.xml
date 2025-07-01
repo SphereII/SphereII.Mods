@@ -85,7 +85,7 @@
             <property name="Class" value="PoweredPortal, SCore"/>
             <property name="DisplayType" value="blockMulti"/>
             <property name="MultiBlockDim" value="3,3,3"/>
-            <property name="Model" value="Entities/Electrical/power_switchPrefab"/>
+            <property name="Model" value="@:Entities/Electrical/power_switchPrefab"/>
             <!--property name="Model" value="#@modfolder:Resources/gupFuturePortal.unity3d?guppyFuturePortal"/-->
             <property name="Display" value="true"/>
         </block>

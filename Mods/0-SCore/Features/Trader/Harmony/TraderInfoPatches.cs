@@ -14,6 +14,7 @@ namespace Features.Trader
             return player.playerUI.xui.Trader.TraderTileEntity.TraderData.TraderID;
         }
         
+   
         // Hijack the Getter for CurrencyItem, and check to see if they exist in our alt_currency dictionary.
         [HarmonyPatch(typeof(TraderInfo))]
         [HarmonyPatch(nameof(TraderInfo.CurrencyItem), MethodType.Getter)]
@@ -40,6 +41,22 @@ namespace Features.Trader
 
                 if (!e.HasAttribute("alt_currency")) return;
                 TraderCurrencyManager.SetTraderCurrency(traderId, e.GetAttribute("alt_currency"));
+            }
+        }
+        
+        
+        // Grabs the default currency
+        [HarmonyPatch(typeof(TradersFromXml))]
+        [HarmonyPatch(nameof(TradersFromXml.ParseNode))]
+        public class TradersFromXMLPatchParseNode
+        {
+            public static void Postfix(XElement e)
+            {
+                if (e.HasAttribute("currency_item"))
+                {
+                    TraderCurrencyManager.DefaultCurrency = e.GetAttribute("currency_item");
+                }
+               
             }
         }
         

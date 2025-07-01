@@ -65,6 +65,7 @@ public class FireManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_events == null) return;
         // Unsubscribe from events
         _events.OnFireStarted -= HandleFireStarted;
         _events.OnFireExtinguished -= HandleFireExtinguished;

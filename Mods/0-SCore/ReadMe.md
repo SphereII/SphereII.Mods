@@ -31,6 +31,22 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.14.1511
+	[ Block ]
+		- Updated block Model reference to support new format.
+
+	[ Fire Manager ]
+		- Cleaned up an error when game is exiting and fire manager is not enabled.
+
+	[ Trader Currency ]
+		- Added a check to see if the trader was already in the dictionary.
+		- Added a check to store the original currency, and use in place of casinoCoin
+
+	[ NPC Core ]
+		- Fixed an issue where NPCs would get stuck in a crouch after stun
+		- Updated code in EntityAliveSDX and EntityBanditSDX for GetEyeHeight() checks
+
+
 Version: 2.0.12.1509
 	[ Disable Trader Protection ]
 		- When DisableWallVolume is enabled, the invisible wall volumes will be removed.
