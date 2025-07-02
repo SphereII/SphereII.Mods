@@ -1247,7 +1247,8 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         try
         {
             base.OnUpdateLive();
-            if (GetWalkType() == 8 && bodyDamage.CurrentStun == EnumEntityStunType.Getup) 
+            // Potential work around for NPC stuck for 3 seconds in crouch after being stunned
+            if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone) 
             {
                 SetHeight(this.physicsBaseHeight);
             }
@@ -2234,6 +2235,11 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         var entityClassType = EntityClass.list[entityClass];
         emodel.avatarController.SwitchModelAndView(entityClassType.mesh.name, emodel.IsFPV, IsMale);
 
+        if (emodel.avatarController is AvatarZombieController zombieController)
+        {
+           zombieController.rightHandT = zombieController.FindTransform(GetRightHandTransformName());    
+        }
+        
         // Item update has to happen after the SwitchModelAndView, otherwise the weapon will attach to the previous hand position
         inventory.OnUpdate();
         inventory.ForceHoldingItemUpdate();
@@ -2242,6 +2248,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     // The GetRightHandTransformName() is not virtual in the base class. There's a Harmony patch that redirects the AvatarAnimator's call here.
     // This helps adjust the hand position for various weapons we can add to the NPC.
     public new string GetRightHandTransformName() {
+
         var currentItemHand = inventory.holdingItem;
         if (currentItemHand.Properties.Contains(EntityClass.PropRightHandJointName))
         {

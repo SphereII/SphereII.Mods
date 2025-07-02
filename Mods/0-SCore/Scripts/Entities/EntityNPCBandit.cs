@@ -123,7 +123,7 @@ public class EntityNPCBandit : EntityBandit, IEntityOrderReceiverSDX
         }
 
         // Potential work around for NPC stuck for 3 seconds in crouch after being stunned
-        if (GetWalkType() == 8 && bodyDamage.CurrentStun == EnumEntityStunType.Getup) 
+        if (bodyDamage.CurrentStun is EnumEntityStunType.Getup or EnumEntityStunType.Prone) 
         {
             SetHeight(this.physicsBaseHeight);
         }

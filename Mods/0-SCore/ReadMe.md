@@ -31,6 +31,11 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.15.1644
+	[ EntityAliveSDX , EntityNPCBandit ]
+		- Removed the Walk Type 8 filter from the Crouch after stun reset.
+		- Fixed an issue where the NPC wouldn't use the right/left hand as they were supposed too for the various weapons.
+
 Version: 2.0.14.1511
 	[ Block ]
 		- Updated block Model reference to support new format.
