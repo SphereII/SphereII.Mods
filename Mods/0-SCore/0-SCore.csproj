@@ -166,6 +166,7 @@
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\BlockDropBoxContainer.cs" />
+    <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingManager.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\RemoteCraftingUtils.cs" />
     <Compile Include="Features\RemoteCrafting\Scripts\XUiC\XUiC_BroadcastButton.cs" />
     <Compile Include="Features\SCoreOptions\Scripts\ProcessOptions.cs" />

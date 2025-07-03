@@ -206,7 +206,6 @@ namespace SCore.Features.RemoteCrafting.Scripts {
                 {
                     continue;
                 }
-
                 items.AddRange(lootTileEntity.items);
             }
 

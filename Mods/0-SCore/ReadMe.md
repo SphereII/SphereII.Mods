@@ -31,6 +31,10 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.16.2016
+	[ Fire Manager ]
+		- Fixed an issue where Challenge Objectives related to Fire would null ref if used.
+
 Version: 2.0.15.1644
 	[ EntityAliveSDX , EntityNPCBandit ]
 		- Removed the Walk Type 8 filter from the Crouch after stun reset.

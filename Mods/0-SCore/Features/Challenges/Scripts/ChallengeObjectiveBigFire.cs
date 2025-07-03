@@ -20,11 +20,13 @@ namespace Challenges {
 
         
         public override void HandleAddHooks() {
+            if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
             FireManager.Instance.Events.OnFireUpdate += Check_Block;
         }
         
         
         public override void HandleRemoveHooks() {
+            if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
             FireManager.Instance.Events.OnFireUpdate -= Check_Block;
         }
 
