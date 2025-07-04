@@ -31,6 +31,10 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.17.1140
+	[ TileEntity IsAlwaysActive ]
+		- Fixed an issue where isAlwaysActive was blocking regular tile entities from showing they are Active.
+
 Version: 2.0.16.2016
 	[ Fire Manager ]
 		- Fixed an issue where Challenge Objectives related to Fire would null ref if used.
