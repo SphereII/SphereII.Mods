@@ -1,36 +1,34 @@
 ﻿<config>
     <append xpath="/entity_classes">
+        <conditional>
 
+            <if cond="mod_loaded('0-XNPCCore')">
 
-        <entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
-            <property name="UserSpawnType" value="Menu"/>
+                <entity_class name="MyFarmer" extends="npcAdvancedEmptyHandTemplate">
+                    <property name="UserSpawnType" value="Menu"/>
 
-            <property name="Tags" value="entity,male,npc,melee,cp,DRMid,notrample"/>
-            <property name="Faction" value="whiteriver"/>
-            <property name="Names" value="Farmer Frankie"/>
-            <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
-            <property name="NPCID" value="NPCFrankieFarmer" />
-            <property name="dialogWindow" value="dialog" />
-            <conditional>
-                <if cond="mod_loaded('0-XNPCCore')">
-                    <property name="AIPackages" value="NPCModCore,NPCModNPCHired, NPCModNPCMeleeBasic,NPCModNPCRangedBasic,NPCFarming"/>
-                </if>
-                <else>
-                    <property name="AIPackages" value="NPCFarmingGeneral, NPCFarming"/>
-                </else>
-            </conditional>
-        </entity_class>
+                    <property name="Tags" value="entity,male,npc,melee,cp,DRMid,notrample"/>
+                    <property name="Faction" value="whiteriver"/>
+                    <property name="Names" value="Farmer Frankie"/>
+                    <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
+                    <property name="NPCID" value="NPCFrankieFarmer"/>
+                    <property name="dialogWindow" value="dialog"/>
+                    <property name="AIPackages"
+                              value="NPCModCore,NPCModNPCHired, NPCModNPCMeleeBasic,NPCModNPCRangedBasic,NPCFarming"/>
+                </entity_class>
 
-        <entity_class name="MyPather" extends="npcAdvancedEmptyHandTemplate">
-            <property name="UserSpawnType" value="Menu"/>
+                <entity_class name="MyPather" extends="npcAdvancedEmptyHandTemplate">
+                    <property name="UserSpawnType" value="Menu"/>
 
-            <property name="Tags" value="entity,male,npc,melee,cp,DRMid"/>
-            <property name="Faction" value="whiteriver"/>
-            <property name="Names" value="Farmer Frankie"/>
-            <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
-            <property name="AIPackages" value="Patrol"/>
-        </entity_class>
+                    <property name="Tags" value="entity,male,npc,melee,cp,DRMid"/>
+                    <property name="Faction" value="whiteriver"/>
+                    <property name="Names" value="Farmer Frankie"/>
+                    <property name="Mesh" value="#@modfolder:Resources/FarmerFrankie.unity3d?FarmerFrankie_X"/>
+                    <property name="AIPackages" value="Patrol"/>
+                </entity_class>
 
+            </if>
+        </conditional>
 
     </append>
 </config>

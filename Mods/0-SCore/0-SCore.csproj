@@ -42,6 +42,7 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\BloodMoonTweaks\Harmony\AIDirectorBloodMoonParty.cs" />
     <Compile Include="Features\Caves\Harmony\PathPatcher.cs" />
     <Compile Include="Features\Caves\Scripts\SCoreCavesSplat3.cs" />
     <Compile Include="Features\Caves\Scripts\SCoreCavesTexture.cs" />

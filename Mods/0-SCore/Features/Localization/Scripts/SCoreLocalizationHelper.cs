@@ -3,15 +3,15 @@ public static class SCoreLocalizationHelper
     public static string GetLocalization(string str)
     {
         var result = Localization.Get(str);
-        if (result == str)
+        if (result.StartsWith(str))
         {
             result = GetLocalizationName(str);
         }
-        if (result == str)
+        if (result.StartsWith(str))
         {
             result = GetLocalizationDesc(str);
         }
-        if (result == str)
+        if (result.StartsWith(str))
         {
             result = GetLocalizationLongDesc(str);
         }

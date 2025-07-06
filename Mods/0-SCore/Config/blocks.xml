@@ -176,7 +176,9 @@
                 <property name="LowerResolutionUMA" value="false"/>    <!-- Lower resolution on UMAs drastically -->
 
                 <property name="EntityPooling" value="false"/>
-
+                
+                <!-- Vanilla is default to 30. -1 disables this patch. -->
+                <propert name="EnemyActiveMax" value="-1" />
             </property>
 
             <property class="AdvancedProgression">

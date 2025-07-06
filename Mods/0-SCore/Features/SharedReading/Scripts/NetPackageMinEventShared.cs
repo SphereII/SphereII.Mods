@@ -44,9 +44,7 @@ public class NetPackageMinEventSharedReading : NetPackage
         
         var readingPlayer = _world.GetEntity(otherEntityID) as EntityPlayer;
         if (readingPlayer == null) return;
-
-
-        if (ConnectionManager.Instance.IsServer)
+        if (ConnectionManager.Instance.IsServer)    
         {
             foreach (var member in readingPlayer.Party.MemberList)
             {
@@ -55,21 +53,24 @@ public class NetPackageMinEventSharedReading : NetPackage
                 package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, itemValue);
                 ConnectionManager.Instance.SendPackage(package);
             }
-            return;
         }
+        ApplyMinEffect(entityAlive);
 
-        if (readingPlayer is EntityPlayerLocal localplayer) return;
-        
-        entityAlive.MinEventContext.Self = entityAlive;
-        entityAlive.MinEventContext.ItemValue = itemValue;
-        entityAlive.MinEventContext.ItemValue.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, entityAlive.MinEventContext);
-
-        
         var unlock = itemValue.ItemClass.Properties.GetString("Unlocks");
         unlock = SCoreLocalizationHelper.GetLocalization(unlock);
         var toolTipDisplay = $"{Localization.Get("sharedReadingDesc")} {readingPlayer.EntityName} :: {unlock}";
         GameManager.ShowTooltip(entityAlive as EntityPlayerLocal, toolTipDisplay);
+
     }
+
+    public virtual void ApplyMinEffect(EntityPlayer entityAlive)
+    {
+        entityAlive.MinEventContext.Self = entityAlive;
+        entityAlive.MinEventContext.ItemValue = itemValue;
+        entityAlive.MinEventContext.ItemValue.FireEvent(MinEventTypes.onSelfPrimaryActionEnd, entityAlive.MinEventContext);
+
+    }
+
     public override int GetLength()
     {
         return 32;

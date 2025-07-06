@@ -31,6 +31,27 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.19.1555
+	[ Blocks.xml ]
+		- Updated a reference to a vanilla block for a mesh
+
+	[ Shared Reading ]
+		- Fixed an issue where a connecting player would not share their reading with a player that is hosting.
+
+	[ Blooms Family Farm ]
+		- Added conditional for NPC farm to only be available if NPC Core is loaded.
+
+	[ Blood Moon Tweak ]
+		- Added new property to AdvancedZombieFeatures configuration block that allows you to increase the default enemy active during blood moons
+		- Previously, it was fixed to max out at 30.
+                <!-- Vanilla is default to 30. -1 disables this patch. -->
+                <propert name="EnemyActiveMax" value="-1" />
+
+	[ SCoreLocalization Helper ]
+		- Fixed a dumb implementation in a less dumb way.
+
+EnemyActiveMax
+
 Version: 2.0.17.1140
 	[ TileEntity IsAlwaysActive ]
 		- Fixed an issue where isAlwaysActive was blocking regular tile entities from showing they are Active.
