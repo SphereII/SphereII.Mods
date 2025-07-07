@@ -8,16 +8,11 @@ namespace Harmony.EntityAlive {
         [HarmonyPatch("PlayVoiceSetEntry")]
         public class EntityTraderPlayVoiceSetEntry 
         {
-            private static bool Prefix(EntityTrader __instance) {
+            private static bool Prefix(EntityTrader __instance, EntityPlayer player) {
 
-                var localPlayer = GameManager.Instance.myEntityPlayerLocal;
-                if (localPlayer == null) return true;
-
-                if (localPlayer.Buffs.GetCustomVar("MuteTraderAll") > 0) return false;
-               
-                if (__instance.EntityName != "npcTraderRekt") return true;
-
-                return !(localPlayer.Buffs.GetCustomVar("MuteTraderRekt") > 0);
+                if (player.Buffs.GetCustomVar("MuteTraderAll") > 0) return false;
+                if (__instance.npcID != "traderrekt") return true;
+                return !(player.Buffs.GetCustomVar("MuteTraderRekt") > 0);
             }
         }
     }

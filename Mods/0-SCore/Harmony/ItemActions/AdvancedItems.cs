@@ -102,9 +102,8 @@ namespace Harmony.ItemActions
                     return;
                 
                 if (_actionListType != XUiC_ItemActionList.ItemActionListTypes.Item) return;
-                var xuiCItemStack = (XUiC_ItemStack)itemController;
-                var itemStack = xuiCItemStack.ItemStack;
-                var itemValue = itemStack.itemValue;
+                var itemValue = ItemClassUtils.GetItemValue(itemController);
+                if (itemValue == null) return ;
                 if (itemValue.MaxUseTimes <= 0 || !(itemValue.UseTimes > 0f)) return;
                 
                  if (ItemsUtilities.CheckProperty(itemValue.ItemClass, "RepairItems"))
@@ -140,7 +139,10 @@ namespace Harmony.ItemActions
                 }
 
                 List<ItemStack> stack;
-                var forId = ItemClass.GetForId(((XUiC_ItemStack)__instance.ItemController).ItemStack.itemValue.type);
+                var itemValue = ItemClassUtils.GetItemValue(__instance.ItemController);
+                if (itemValue == null) return false;
+
+                var forId = ItemClass.GetForId(itemValue.type);
                 if (forId.Properties.Classes.ContainsKey("RepairItems"))
                 {
                     var dynamicProperties3 = forId.Properties.Classes["RepairItems"];
@@ -177,7 +179,8 @@ namespace Harmony.ItemActions
                     return true;
 
                 var xui = __instance.ItemController.xui;
-                var itemValue = ((XUiC_ItemStack)__instance.ItemController).ItemStack.itemValue;
+                var itemValue = ItemClassUtils.GetItemValue(__instance.ItemController);
+                if (itemValue == null) return false;
                 var forId = ItemClass.GetForId(itemValue.type);
                 var player = xui.playerUI.entityPlayer;
 

@@ -25,16 +25,15 @@ namespace Challenges {
 
         // Adds the event listener for when a fire is extinguished
         public override void HandleAddHooks() {
-            if (FireManager.Instance != null) {
+            if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
                 FireManager.Instance.Events.OnFireExtinguished += OnFireExtinguished;
-            }
+            
         }
 
         // Removes the event listener when no longer needed
         public override void HandleRemoveHooks() {
-            if (FireManager.Instance != null) {
+            if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
                 FireManager.Instance.Events.OnFireExtinguished -= OnFireExtinguished;
-            }
         }
 
         // Event handler for when a fire is extinguished

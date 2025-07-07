@@ -31,6 +31,26 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version:
+	[ ItemAction Repair ]
+		- Fixed multiple null references when attempting to repair an item while the player was wearing it. 
+
+	[ Challenges ]
+		- Fixed an issue with the StartFire challenge when there was no fire manager.
+		- Fixed an issue with ExtinguishFire
+
+	[ Drop Box ]
+		- Fixed an issue where the DropBox was distributing items to containers that was opened by another player, and disappearing.
+
+	[ Trader Currency ]
+		- Fixed an issue where the currency wouldn't refresh.
+
+	[ ItemActionMelee ]
+		- Added two events for when a zombie misses its hit.
+			onSelfPrimaryActionEnd
+			onSelfPrimaryActionMissEntity
+
+
 Version: 2.0.19.1555
 	[ Blocks.xml ]
 		- Updated a reference to a vanilla block for a mesh

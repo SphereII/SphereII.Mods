@@ -189,7 +189,7 @@ namespace SCore.Features.RemoteCrafting.Scripts {
                 return true;
             if (player is not EntityPlayerLocal entityPlayerLocal) return false;
             var openTileEntityID = GameManager.Instance.GetEntityIDForLockedTileEntity(tileEntity);
-            
+            if (openTileEntityID == -1) return false;
             if (!tileEntityLootable.IsUserAccessing()) return false;
             // Check to see if we have it opened.
             return player.entityId != openTileEntityID;
@@ -267,12 +267,14 @@ namespace SCore.Features.RemoteCrafting.Scripts {
             foreach (var tileEntity in tileEntities)
             {
                 if (!tileEntity.TryGetSelfOrFeature<ITileEntityLootable>(out var lootTileEntity)) continue;
+                if ( IsLootContainerOpenByAnotherPlayer(tileEntity, player)) continue;
                 if (CheckTileEntity(itemStack, lootTileEntity)) return true;
             }
 
             return false;
         }
 
+      
         private static bool CheckTileEntity(ItemStack itemStack, ITileEntityLootable lootTileEntity) {
             if (lootTileEntity.IsUserAccessing()) return false;
 

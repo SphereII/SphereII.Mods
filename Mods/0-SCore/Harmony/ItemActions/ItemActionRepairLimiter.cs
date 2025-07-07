@@ -33,9 +33,7 @@ namespace Harmony.ItemActions {
             if (valueObj is int obj) return obj;
             return 0;
         }
-        private static int GetCurrentRepairLimit(XUiC_ItemStack stack) {
-            if (stack.ItemStack == null || stack.ItemStack.IsEmpty()) return -1;
-            var itemValue = stack.ItemStack.itemValue;
+        private static int GetCurrentRepairLimit(ItemValue itemValue) {
             if ( itemValue == null ) return -1;
                 
             // Look for the property on the item.
@@ -49,13 +47,15 @@ namespace Harmony.ItemActions {
             public static bool Prefix(ItemActionEntryRepair __instance) {
                 // Don't bother checking empty stacks
                 var xui = __instance.ItemController.xui;
-                var stack = (XUiC_ItemStack)__instance.ItemController;
+                var itemValue = ItemClassUtils.GetItemValue(__instance.ItemController);
+                if (itemValue == null) return true;
+                //var stack = (XUiC_ItemStack)__instance.ItemController;
                 // If it's -1, then it doesn't have a repair limit.
-                var currentRepair = GetCurrentRepairLimit(stack);
+                var currentRepair = GetCurrentRepairLimit(itemValue);
                 if (currentRepair == -1) return true;
 
                 // Look for the property on the item, checking for quality.
-                var itemValue = stack.ItemStack.itemValue;
+                //var itemValue = stack.ItemStack.itemValue;
                 var repairLimit = GetRepairLimit(itemValue);
                 
                 if ( repairLimit == -1) return true;
@@ -65,6 +65,8 @@ namespace Harmony.ItemActions {
                 return false;
 
             }
+
+        
 
             private static void RepairItem(ItemValue itemValue) {
                 var currentRepair = GetCurrentMetaData(itemValue, "CurrentRepairLimit");

@@ -25,7 +25,8 @@ namespace Features.Trader
                 var id = GetCurrentTraderID();
                 if (id == -1) return;
                 
-                __result = TraderCurrencyManager.GetTraderCurrency(id);
+                if ( TraderCurrencyManager.HasCustomCurrency(id))
+                    __result = TraderCurrencyManager.GetTraderCurrency(id);
             }
         }
 
@@ -69,7 +70,9 @@ namespace Features.Trader
             public static bool Prefix(XUiM_PlayerInventory __instance)
             {
                 var id = GetCurrentTraderID();
-                if (id == -1) return true; 
+                if (id == -1) return true;
+                if (!TraderCurrencyManager.HasCustomCurrency(id)) return true;
+                
                 var currencyItemString = TraderCurrencyManager.GetTraderCurrency(id);
                 var currencyItem = ItemClass.GetItem(currencyItemString);
                 var itemCount = __instance.GetItemCount(currencyItem);
@@ -77,6 +80,7 @@ namespace Features.Trader
                 {
                     __instance.CurrencyAmount = itemCount;
                 }
+               
                 return false;
             }
         }

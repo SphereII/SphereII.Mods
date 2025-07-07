@@ -15,8 +15,13 @@ public class TraderCurrencyManager
         }
     }
 
+    public static bool HasCustomCurrency(int traderID)
+    {
+        return _currencyItems.ContainsKey(traderID);
+    }
     public static string GetTraderCurrency(int traderID)
     {
+        
         var result= _currencyItems.GetValueOrDefault(traderID, DefaultCurrency);
         return result;
     }
