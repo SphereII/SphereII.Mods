@@ -422,9 +422,10 @@ public class FireHandler : IFireHandler
     private void StartFireEffects(Vector3i position)
     {
         // Add particle effect
-        if (!string.IsNullOrEmpty(_config.FireParticle))
+        var fireParticle = GetRandomFireParticle(position);
+        if (!string.IsNullOrEmpty(fireParticle))
         {
-            BlockUtilitiesSDX.addParticlesCentered(_config.FireParticle, position);
+            BlockUtilitiesSDX.addParticlesCentered(fireParticle, position);
         }
 
         // Add light
@@ -438,6 +439,26 @@ public class FireHandler : IFireHandler
         {
             Manager.PlayInsidePlayerHead(_config.FireSound, -1, 0, true);
         }
+    }
+
+    private string GetRandomFireParticle(Vector3i blockPos)
+    {
+        var block = GameManager.Instance.World.GetBlock(blockPos);
+
+        if (block.Block.blockMaterial.Properties.Contains("FireParticle"))
+            return block.Block.blockMaterial.Properties.GetString("FireParticle");
+
+        if (block.Block.Properties.Contains("FireParticle"))
+            return block.Block.Properties.GetString("FireParticle");
+
+        var fireParticle = _config.FireParticle;
+        var randomFire = Configuration.GetPropertyValue("FireManagement", "RandomFireParticle");
+        if (string.IsNullOrEmpty(randomFire)) return fireParticle;
+        var fireParticles = randomFire.Split(',');
+        var randomIndex = _random.RandomRange(0, fireParticles.Length);
+        fireParticle = fireParticles[randomIndex];
+
+        return fireParticle;
     }
 
     private void StopFireEffects(Vector3i position)

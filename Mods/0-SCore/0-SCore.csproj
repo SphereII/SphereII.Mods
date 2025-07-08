@@ -163,6 +163,9 @@
     <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
     <Compile Include="Features\PlayerMetrics\KillTracking\Scripts\SCoreKillTracker.cs" />
     <Compile Include="Features\PlayerMetrics\SCoreMetrics.cs" />
+    <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
+    <Compile Include="Features\Recipe\Scripts\MinEventAction\MinEventActionAddAdditionalOutput.cs" />
+    <Compile Include="Features\Recipe\Scripts\RecipeManager.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />

@@ -1,9 +1,10 @@
 <configs>
 	<append xpath="/entity_classes">
-		<entity_class name="PassiveFish"   extends="animalChicken">
+		<entity_class name="PassiveFish">
 			<property name="Mesh" value="Animals/Stag/STAG" />
 			<property name="EntityFlags" value="animal"/>
 			<property name="Prefab" value="NPC"/>
+			<property name="PrefabCombined" value="false"/>
 			<property name="Parent" value="Animals"/>
 			<property name="EntityType" value="Animal"/>
 			<property name="IsEntityAnimal" value="true"/>
@@ -123,7 +124,7 @@
 			<property name="Tags" value="entity,animal,notrample"/>
 			<property name="Faction" value="animals"/>
 		</entity_class>
-
+		
 		<entity_class name="fishSardine" extends="PassiveFish" >
 			<property name="Mesh" value="#@modfolder:Resources/Swimmers.unity3d?Sardine_X" />
 			<drop event="Harvest" name="foodRawMeat" count="0" tool_category="Butcher"/>

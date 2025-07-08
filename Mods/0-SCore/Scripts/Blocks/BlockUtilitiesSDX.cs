@@ -4,6 +4,25 @@ using UnityEngine;
 using System.Collections.Generic;
 public static class BlockUtilitiesSDX
 {
+    public static void CheckAndLoadParticles(DynamicProperties dynamicProperties, string property)
+    {
+        if (string.IsNullOrEmpty(property)) return;
+        if (!dynamicProperties.Values.ContainsKey(property)) return;
+        var particleName = dynamicProperties.Values[property];
+        CheckAndLoadParticles(particleName);
+    }
+    
+    public static void CheckAndLoadParticles(string particleName)
+    {
+        if (string.IsNullOrEmpty(particleName)) return;
+        foreach (var particle in particleName.Split(','))
+        {
+            if ( ParticleEffect.IsAvailable(particle)) continue;
+            Log.Out($"SCore: Loading Particle: {particle}");
+            ParticleEffect.LoadAsset(particle);
+        }
+
+    }
     public static void AddRadiusEffect(string strItemClass, ref Block myBlock)
     {
         var itemClass = ItemClass.GetItemClass(strItemClass);
@@ -97,9 +116,20 @@ public static class BlockUtilitiesSDX
         if (strParticleName == "NoParticle")
             return;
 
+        
         if (!ParticleEffect.IsAvailable(strParticleName))
-            ParticleEffect.LoadAsset(strParticleName);
-
+        {
+            if (ThreadManager.IsMainThread())
+            {
+                ParticleEffect.LoadAsset(strParticleName);
+            }
+            else
+            {
+                Log.Out($"Trying to load {strParticleName} but the call is not on the main thread: {Environment.StackTrace}. Failing.");
+                return;
+            }
+        }
+        
         if (GameManager.Instance.HasBlockParticleEffect(position)) 
             return;
 

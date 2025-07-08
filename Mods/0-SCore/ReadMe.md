@@ -31,7 +31,31 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
-Version:
+Version: 2.0.21.1719
+	[ Fire Manager ]
+		- Fixed a Crash To Desktop ( CTD ) when adding fire particles off main thread.
+		- Added support for random fire particles, using "," as a delimiter.
+
+	[ Drop Box ]
+		- Fixed another 2 issues with Drop Box eating items when nearby storage was opened.
+
+	[ A Better Life ]
+		- Fixed entityclasse references for Fish
+
+	[ Recipes ]
+		- Added a new feature to trigger multiple outputs when crafting a recipe.
+		- Example: in addition to ammo45ACPCase, this will also produce grass fibres and duct tape.
+    <recipe name="ammo45ACPCase" count="30" craft_time="5" craft_area="MillingMachine" tags="workbenchCrafting,PerkHOHMachineGuns">
+        <ingredient name="resourceBrassIngot" count="5"/>
+        <effect_group name="Additional Output">
+			<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceYuccaFibers" count="2"/>
+			<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceDuctTape" count="1"/>
+		</effect_group>
+    </recipe>
+
+		- Note: The AddAdditionalOutput MinEvent is only usable by this recipes hook. It will do nothing in any other context.
+		
+Version: 2.0.20.1639
 	[ ItemAction Repair ]
 		- Fixed multiple null references when attempting to repair an item while the player was wearing it. 
 

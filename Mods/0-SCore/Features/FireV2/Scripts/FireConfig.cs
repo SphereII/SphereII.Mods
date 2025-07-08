@@ -59,12 +59,14 @@ public class FireConfig
             // Smoke settings
             SmokeTime = ParseFloatSetting("SmokeTime", 60f);
             SmokeParticle = ParseStringSetting("SmokeParticle", "smokeParticle");
+            BlockUtilitiesSDX.CheckAndLoadParticles(SmokeParticle);                
 
             // Fire settings
-            FireParticle = ParseStringSetting("FireParticle", "fireParticle");
             FireSound = ParseStringSetting("FireSound", "fireSound");
             FireSoundRadius = ParseFloatSetting("FireSoundRadius", 10f);
-
+            FireParticle = ParseStringSetting("FireParticle", "fireParticle");
+            BlockUtilitiesSDX.CheckAndLoadParticles(FireParticle);
+            
             // Light settings
             MaxLights = ParseIntSetting("MaxLights", 32);
             LightIntensity = ParseFloatSetting("LightIntensity", 1f);
@@ -90,7 +92,6 @@ public class FireConfig
     }
 
    
-
     private void ValidateSettings()
     {
         CheckInterval = Mathf.Max(0.1f, CheckInterval);

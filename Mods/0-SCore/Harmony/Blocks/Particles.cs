@@ -9,51 +9,22 @@ namespace Harmony.Blocks
      */
     public class Particles
     {
+
+     
         [HarmonyPatch(typeof(Block))]
         [HarmonyPatch(nameof(Block.Init))]
         public class Init
         {
             public static void Postfix(ref Block __instance)
             {
-                var strParticleName = "";
-                if (__instance.Properties.Values.ContainsKey("ParticleName"))
-                {
-                    strParticleName = __instance.Properties.Values["ParticleName"];
-                    if (!ParticleEffect.IsAvailable(strParticleName))
-                        ParticleEffect.LoadAsset(strParticleName);
-                }
-
-                
+                BlockUtilitiesSDX.CheckAndLoadParticles(__instance.Properties, "ParticleName");
                 if (__instance.blockMaterial != null)
                 {
-                    if (__instance.blockMaterial.Properties.Contains("FireParticle"))
-                    {
-                        var fireParticle = __instance.blockMaterial.Properties.Values["FireParticle"];
-                        if (!ParticleEffect.IsAvailable(fireParticle))
-                            ParticleEffect.LoadAsset(fireParticle);
-                    }
-                    if (__instance.blockMaterial.Properties.Contains("SmokeParticle"))
-                    {
-                        var smokeParticle = __instance.blockMaterial.Properties.Values["SmokeParticle"];
-                        if (!ParticleEffect.IsAvailable(smokeParticle))
-                            ParticleEffect.LoadAsset(smokeParticle);
-                    }
-
+                    BlockUtilitiesSDX.CheckAndLoadParticles(__instance.blockMaterial.Properties, "FireParticle");
+                    BlockUtilitiesSDX.CheckAndLoadParticles(__instance.blockMaterial.Properties, "SmokeParticle");
                 }
-
-                if (__instance.Properties.Contains("FireParticle"))
-                {
-                    var fireParticle = __instance.Properties.Values["FireParticle"];
-                    if (!ParticleEffect.IsAvailable(fireParticle))
-                        ParticleEffect.LoadAsset(fireParticle);
-                }
-                if (__instance.Properties.Contains("SmokeParticle"))
-                {
-                    var smokeParticle = __instance.Properties.Values["SmokeParticle"];
-                    if (!ParticleEffect.IsAvailable(smokeParticle))
-                        ParticleEffect.LoadAsset(smokeParticle);
-                }
-
+                BlockUtilitiesSDX.CheckAndLoadParticles(__instance.Properties, "FireParticle");
+                BlockUtilitiesSDX.CheckAndLoadParticles(__instance.Properties, "SmokeParticle");
             }
         }
     }

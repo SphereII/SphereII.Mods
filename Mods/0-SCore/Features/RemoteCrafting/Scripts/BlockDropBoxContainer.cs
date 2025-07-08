@@ -38,7 +38,7 @@ public class BlockDropBoxContainer : BlockSecureLootSigned
         var tileLootContainer = (TileEntityLootContainer) world.GetTileEntity(_clrIdx, _blockPos);
         if (tileLootContainer == null) return false;
 
-        if (!tileLootContainer.IsUserAccessing())
+        if (!tileLootContainer.IsUserAccessing() )
         {
             var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
             foreach (var itemStack in tileLootContainer.GetItems())
