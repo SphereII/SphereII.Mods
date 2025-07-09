@@ -12,6 +12,21 @@ namespace Harmony.Recipes
 			<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceYuccaFibers" count="2"/>
 			<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceDuctTape" count="1"/>
 		</effect_group>
+		
+		<effect_group name="Sphere Testing">
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceYuccaFibers" count="2"/>
+
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="ammoRocketHE" count="2">
+			    <requirement name="HasBuff" buff="god"/>
+		    </triggered_effect>
+
+		    <triggered_effect trigger="onSelfItemCrafted" action="PlaySound" sound="player#painsm">
+			    <requirement name="!HasBuff" buff="god"/>
+		    </triggered_effect>
+		    
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffDrugEyeKandy"/>
+	</effect_group>
+	
     </recipe>
      */
     public class XUiCRecipeStackOutputStackPatches
@@ -49,21 +64,25 @@ namespace Harmony.Recipes
                 DisplayTooltip(entityPlayer, text);
             }
 
-            private static List<ItemStack> GetAdditionalOutput(Recipe recipe)
+            private static List<ItemStack> GetAdditionalOutput(Recipe recipe, MinEventParams minEventParams)
             {
                 List<ItemStack> items = new List<ItemStack>();
                 foreach (var minEffectGroup in recipe.Effects.EffectGroups)
                 {
+                    // Fire off all the events that may be on there.
+                    minEffectGroup.FireEvent(MinEventTypes.onSelfItemCrafted, minEventParams);
+
+                    // We need to grab the data from the xml, which is only stored in this minevent. We have to loop around looking for it.
                     foreach (var minEventActionBase in minEffectGroup.GetTriggeredEffects(MinEventTypes
                                  .onSelfItemCrafted))
                     {
                         if (minEventActionBase is not MinEventActionAddAdditionalOutput additionalOutput) continue;
+                        if (!minEventActionBase.CanExecute(MinEventTypes.onSelfItemCrafted, minEventParams)) continue;
 
                         var itemStack = additionalOutput.GetItemStack();
                         items.Add(itemStack);
                     }
                 }
-
                 return items;
             }
 
@@ -80,6 +99,16 @@ namespace Harmony.Recipes
                 return currentRecipe;
             }
 
+            public static MinEventParams GenerateMinEventParams(EntityPlayer currentPlayer, EntityPlayer starterPlayer, ItemValue outputItemValue)
+            {
+                var minEventParams = new MinEventParams();
+                minEventParams.TileEntity = TraderUtils.GetCurrentTraderTileEntity();
+                minEventParams.Self = currentPlayer;
+                minEventParams.Other = starterPlayer;
+                minEventParams.Biome = currentPlayer.biomeStandingOn;
+                minEventParams.ItemValue = outputItemValue;
+                return minEventParams;
+            }
             public static bool Prefix(ref bool __result, XUiC_RecipeStack __instance)
             {
                 if (__instance.recipe == null) return true;
@@ -90,8 +119,11 @@ namespace Harmony.Recipes
 
                 var entityPlayer = __instance.xui.playerUI.entityPlayer;
                 if (entityPlayer == null) return true;
-
-                List<ItemStack> items = GetAdditionalOutput(recipe);
+                var startedPlayer = GameManager.Instance.World.GetEntity(__instance.startingEntityId) as EntityPlayer;
+                
+                var minEventParams = GenerateMinEventParams(entityPlayer, startedPlayer, __instance.outputItemValue);
+                List<ItemStack> items = GetAdditionalOutput(recipe, minEventParams);
+                
                 if (items.Count == 0) return true;
                 // if we have a workstation open
                 var childByType = __instance.windowGroup.Controller.GetChildByType<XUiC_WorkstationOutputGrid>();

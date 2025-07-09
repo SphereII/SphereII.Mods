@@ -6,15 +6,7 @@ namespace Features.Trader
 {
     public class TraderInfoPatches
     {
-        // Helper method to try to get the current trader ID.
-        private static int GetCurrentTraderID(){
-            var player = GameManager.Instance.World.GetPrimaryPlayer();
-            if (player == null) return -1;
-            if (player.playerUI?.xui?.Trader?.TraderTileEntity?.TraderData == null) return -1;
-            return player.playerUI.xui.Trader.TraderTileEntity.TraderData.TraderID;
-        }
-        
-   
+  
         // Hijack the Getter for CurrencyItem, and check to see if they exist in our alt_currency dictionary.
         [HarmonyPatch(typeof(TraderInfo))]
         [HarmonyPatch(nameof(TraderInfo.CurrencyItem), MethodType.Getter)]
@@ -22,7 +14,7 @@ namespace Features.Trader
         {
             public static void Postfix(ref string __result, TraderInfo __instance)
             {
-                var id = GetCurrentTraderID();
+                var id = TraderUtils.GetCurrentTraderID();
                 if (id == -1) return;
                 
                 if ( TraderCurrencyManager.HasCustomCurrency(id))
@@ -69,7 +61,7 @@ namespace Features.Trader
         {
             public static bool Prefix(XUiM_PlayerInventory __instance)
             {
-                var id = GetCurrentTraderID();
+                var id = TraderUtils.GetCurrentTraderID();
                 if (id == -1) return true;
                 if (!TraderCurrencyManager.HasCustomCurrency(id)) return true;
                 

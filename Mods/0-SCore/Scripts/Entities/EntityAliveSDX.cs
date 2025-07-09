@@ -897,7 +897,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         if (isBusy)
             return;
 
-        if (this.walkType == 4 && this.Jumping)
+        if (this.walkType == 21 && this.Jumping)
         {
             this.motion = this.accumulatedRootMotion;
             this.accumulatedRootMotion = Vector3.zero;

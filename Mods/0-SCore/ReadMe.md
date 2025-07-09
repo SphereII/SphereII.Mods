@@ -31,6 +31,30 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.22.1718
+
+	[ Recipes ]
+		- Added support for generateing a MinEvenParams package, which allows more MinEvents to be used on the onSelfItemCrafted.
+		- These seem to only trigger when looking in a workstation and an item is creted.
+		- Now will respect requirements.
+		Examples:
+
+		<effect_group name="Sphere Testing">
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceYuccaFibers" count="2"/>
+
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="ammoRocketHE" count="2">
+			    <requirement name="HasBuff" buff="god"/>
+		    </triggered_effect>
+
+		    <triggered_effect trigger="onSelfItemCrafted" action="PlaySound" sound="player#painsm">
+			    <requirement name="!HasBuff" buff="god"/>
+		    </triggered_effect>
+		    
+		    <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffDrugEyeKandy"/>
+
+	[ EntityAliveSDX ]
+		- Changed a walk type from 4 to 21 for crawler.
+
 Version: 2.0.21.1719
 	[ Fire Manager ]
 		- Fixed a Crash To Desktop ( CTD ) when adding fire particles off main thread.
