@@ -4,7 +4,6 @@ using UAI;
 
 namespace SCore.Harmony.ItemActions
 {
-    // Adds new feature where Durability affects the damage a weapon can do.
     [HarmonyPatch(typeof(ItemActionMelee))]
     [HarmonyPatch(nameof(ItemActionMelee.GetExecuteActionTarget))]
     public class ItemActionMeleeGetExecuteActionTarget

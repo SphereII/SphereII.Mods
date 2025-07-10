@@ -1,7 +1,15 @@
 ﻿using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.Scripting;
-
+/*
+ * 	<append xpath="entity_classes/entity_class[@name='zombieArleneRadiated']">
+		<effect_group name="ReplaceMaterial">
+		<triggered_effect trigger="onSelfFirstSpawn" action="ReplaceMaterial, SCore" target_material_name="HD_Arlene_Radiated" replace_material="#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_Rad"/>
+		<triggered_effect trigger="onSelfFirstSpawn" action="ReplaceMaterial, SCore" target_material_name="HD_Arlene_Radiated2" replace_material="#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_Rad"/>
+		<triggered_effect trigger="onSelfFirstSpawn" action="ReplaceMaterial, SCore" target_material_name="HD_Arlene_Radiated3" replace_material="#@modfolder:Resources/ww_zeds_1.unity3d?HD_Arlene_Rad"/>
+		</effect_group>
+	</append>
+ */
 [Preserve]
 public class MinEventActionReplaceMaterial : MinEventActionTargetedBase
 {

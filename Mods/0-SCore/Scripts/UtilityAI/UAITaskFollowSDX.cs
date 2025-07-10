@@ -39,7 +39,7 @@ namespace UAI
             EntityUtilities.ClearAttackTargets(context.Self.entityId);
                 
             // Sets up the original position of the leader.
-            _position = _leader.position;
+            _position = _leader.getHipPosition();
 
          //   SCoreUtils.SetLookPosition(_context, _leader);
             SCoreUtils.FindPath(context, _position, true);

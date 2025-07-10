@@ -57,23 +57,6 @@ namespace Harmony.EntityAlive
             }
         }
 
-        //[HarmonyPatch(typeof(global::EntityAlive))]
-        //[HarmonyPatch("IsAttackValid")]
-        //public class EntityAliveIsAttackValid
-        //{
-        //    public static void Postfix(bool __result, ref global::EntityAlive __instance)
-        //    {
-        //        var entityTarget = EntityUtilities.GetAttackOrRevengeTarget(__instance.entityId);
-        //        if (entityTarget == null)
-        //            return;
-
-        //        // Face and rotate the target.
-        //        __instance.SetLookPosition(entityTarget.getHeadPosition());
-        //        __instance.RotateTo(entityTarget, 30f, 30f);
-
-        //    }
-        //}
-
         /// <summary>
         /// Postfix for <see cref="global::EntityAlive.PostInit"/> that adds a read-only cvar
         /// containing the entity ID.

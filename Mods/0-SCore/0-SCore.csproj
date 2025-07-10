@@ -165,7 +165,6 @@
     <Compile Include="Features\PlayerMetrics\SCoreMetrics.cs" />
     <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
     <Compile Include="Features\Recipe\Scripts\MinEventAction\MinEventActionAddAdditionalOutput.cs" />
-    <Compile Include="Features\Recipe\Scripts\RecipeManager.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\ItemActionRepairPatches.cs" />
@@ -517,8 +516,6 @@
     <Compile Include="Scripts\ProgrammableLogic\PathingCubeParser.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBlockDestroySDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveBuffSDX.cs" />
-    <Compile Include="Scripts\Quests\ObjectiveEntityEnemySDXKill.cs" />
-    <Compile Include="Scripts\Quests\ObjectiveEntityAliveSDXKill.cs" />
     <Compile Include="Scripts\Quests\ObjectiveGotoPOISDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomGotoSDX.cs" />
     <Compile Include="Scripts\Quests\ObjectiveRandomPOIGotoSDX.cs" />
@@ -655,6 +652,7 @@
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\materials.xml" />
     <Content Include="Config\quests.xml" />
+    <Content Include="Config\ReadMe.md" />
     <Content Include="Config\sounds.xml" />
     <Content Include="Config\spawning.xml" />
     <Content Include="Config\utilityai.xml" />
@@ -679,9 +677,32 @@
     <Content Include="Features\Challenges\ReadMe.md" />
     <Content Include="Features\FireV2\Readme.md" />
     <Content Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs.bak" />
+    <Content Include="Features\FoodSpoilageV2\ReadMe.md" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
+    <Content Include="Features\MaterialModifier\ReadMe.md" />
+    <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />
+    <Content Include="Features\Recipe\ReadMe.md" />
+    <Content Include="Features\RemoteCrafting\ReadMe.md" />
+    <Content Include="Features\SharedReading\ReadMe.md" />
+    <Content Include="Features\Signs\ReadMe.md" />
+    <Content Include="Features\Trader\ReadMe.md" />
     <Content Include="Features\VersionCheck\Readme.md" />
     <Content Include="Features\VersionCheck\versioncheck.example" />
+    <Content Include="Features\WeaponCameraSway\ReadMe.md" />
+    <Content Include="Harmony\Animation\ReadMe.md" />
+    <Content Include="Harmony\Blocks\ReadMe.md" />
+    <Content Include="Harmony\Dialog\ReadMe.md" />
+    <Content Include="Harmony\EntityAlive\ReadMe.md" />
+    <Content Include="Harmony\EntityMoveHelper\ReadMe.md" />
+    <Content Include="Harmony\ItemActions\ReadMe.md" />
+    <Content Include="Harmony\NPCFeatures\ReadMe.md" />
+    <Content Include="Harmony\PlayerFeatures\ReadMe.md" />
+    <Content Include="Harmony\PrefabFeatures\ReadMe.md" />
+    <Content Include="Harmony\Progression\ReadMe.md" />
+    <Content Include="Harmony\SoundFeatures\ReadMe.md" />
+    <Content Include="Harmony\TileEntities\ReadMe.md" />
+    <Content Include="Harmony\Vehicles\ReadMe.md" />
+    <Content Include="Harmony\ZombieFeatures\ReadMe.md" />
     <Content Include="ModInfo.xml" />
     <Content Include="Prefabs\caveOpening02.tts" />
     <Content Include="Prefabs\caveOpening02.xml" />
@@ -763,6 +784,17 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Buffs\ReadMe.md" />
+    <Content Include="Scripts\ConsoleCmd\ReadMe.md" />
+    <Content Include="Scripts\Dialogs\ReadMe.md" />
+    <Content Include="Scripts\MinEvents\ReadMe.md" />
+    <Content Include="Scripts\Quests\Examples.md" />
+    <Content Include="Scripts\Quests\ReadMe.md" />
+    <Content Include="Scripts\UtilityAI\Documentation\ConsiderationExamples.md" />
+    <Content Include="Scripts\UtilityAI\Documentation\Considerations.md" />
+    <Content Include="Scripts\UtilityAI\Documentation\Tasks.md" />
+    <Content Include="Scripts\UtilityAI\Documentation\TasksExamples.md" />
+    <Content Include="Scripts\UtilityAI\Documentation\UtilityAI.md" />
     <Content Include="TextTemplate.ico" />
   </ItemGroup>
   <ItemGroup>

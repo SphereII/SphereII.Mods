@@ -57,49 +57,4 @@ public class SphereII_DialogFromXML_Extensions
     }
 
 
-    // // Extends
-    // [HarmonyPatch(typeof(DialogFromXml))]
-    // [HarmonyPatch("ParseDialog")]
-    // public class SphereII__DialogFromXML_ParseDialog
-    // {
-    //     static void Postfix(ref Dialog __result, XElement e)
-    //     {
-    //         if (e.HasAttribute("extends"))
-    //         {
-    //             var dialogNode = e.GetAttribute("extends");
-    //             if (string.IsNullOrEmpty(dialogNode)) return;
-    //
-    //             if (Dialog.DialogList.TryGetValue(dialogNode, out var dialog))
-    //             {
-    //                 //foreach (var statement in dialog.Statements)
-    //                 //{
-    //                 //    var originalStatement = __result.Statements.Find(x => x.ID == statement.ID);
-    //                 //    if (originalStatement == null) // If we don't have the statement, just add it.
-    //                 //    {
-    //                 //        __result.Statements.Add(statement);
-    //                 //        continue;
-    //                 //    }
-    //                 //    // We have an existing statement, so let's begin the merge.
-    //                 //    foreach (var entry in statement.GetResponses())
-    //                 //    {
-    //                 //        var original = __result.Statements.Find(x => x.ID == entry.ID);
-    //                 //        if (original == null)
-    //                 //            originalStatement.ResponseEntries.Add(entry);
-    //                 //    }
-    //
-    //                 //    foreach (var entry in statement.Actions)
-    //                 //    {
-    //                 //        var original = __result.Statements.Find(x => x.ID == entry.ID);
-    //                 //        if (original == null)
-    //                 //            originalStatement.Actions.Add(entry);
-    //                 //    }
-    //                 //}
-    //                 __result.Statements.AddRange(dialog.Statements);
-    //                 __result.Responses.AddRange(dialog.Responses);
-    //                 __result.Phases.AddRange(dialog.Phases);
-    //                 __result.QuestEntryList.AddRange(dialog.QuestEntryList);
-    //             }
-    //         }
-    //
-    //     }
 }

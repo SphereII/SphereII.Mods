@@ -31,6 +31,15 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.0.23.1213
+	[ EntityMoveHelper ]
+		- Removed old StartJump block based on BlockedTime, which caused NPCs not to jump.
+
+	[ MinEventActionChangeFactionSDX ]
+		- Added code to reset attack target, removing temporarily the aggro switch.
+
+	- Added documentation 
+		
 Version: 2.0.22.1718
 
 	[ Recipes ]

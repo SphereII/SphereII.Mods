@@ -2,7 +2,7 @@
 using UnityEngine;
 
 // Fires the specified trigger on all animators found on the target.
-//			<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTriggerSDX, SCore" trigger="triggerName"/>
+//			<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTriggerSDX, SCore" Animator_trigger="triggerName"/>
 
 public class MinEventActionAnimatorFireTriggerSDX : MinEventActionTargetedBase
 {
@@ -24,7 +24,7 @@ public class MinEventActionAnimatorFireTriggerSDX : MinEventActionTargetedBase
     public override bool ParseXmlAttribute(XAttribute attribute)
     {
         var flag = base.ParseXmlAttribute(attribute);
-        if (flag || attribute.Name.LocalName != "trigger") return flag;
+        if (flag || attribute.Name.LocalName != "Animator_trigger") return flag;
         _triggerName = attribute.Value;
         return true;
     }
