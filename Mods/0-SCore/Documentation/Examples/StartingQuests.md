@@ -129,8 +129,3 @@ This XML snippet defines a **temporary buff** named `questBuff_teleport` that ha
 
 This design provides a crucial delay between quest acceptance and teleportation, preventing issues where triggered
 events might fire before the quest is fully registered or accepted by the player.
-
------
-
-Do you have any specific aspects of this system you'd like to explore further, or perhaps a different scenario you're
-working on?
