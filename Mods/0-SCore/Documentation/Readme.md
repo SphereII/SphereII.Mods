@@ -9,9 +9,12 @@ and tools for both modders and players to utilize, significantly expanding the g
 
 All these features are exposed to XML.
 
-Note: Most of this documentation is AI Generated.
+Note: Most of this documentation is AI Generated with tweaks and corrections manually.
 
 ## Index
+
+# Examples
+[Implementation Examples](Examples/ReadMe.md)
 
 # Features
 [Challenges](../Features/Challenges/ReadMe.md)

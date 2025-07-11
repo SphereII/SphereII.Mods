@@ -8,9 +8,10 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
     public override void Execute(MinEventParams _params)
     {
         var entityPlayer = _params.Self as EntityPlayer;
+        if (entityPlayer == null) return;
         foreach (var quest in entityPlayer.QuestJournal.quests)
         {
-            //  Log.Out($"Quest: {quest.ID} POI: {quest.GetPOIName()} Position: {quest.Position}");
+            Log.Out($"Quest: {quest.ID} Target Quest: {questName} POI: {quest.GetPOIName()} Position: {quest.Position}");
             if (quest.ID == questName)
             {
                 quest.GetPositionData(out var pos, Quest.PositionDataTypes.POIPosition);
@@ -32,7 +33,7 @@ public class MinEventActionTeleportToQuest : MinEventActionTargetedBase
             if (name != null)
                 if (name == "quest")
                 {
-                    questName = _attribute.Value;
+                    questName = _attribute.Value.ToLower();
                     return true;
                 }
         }

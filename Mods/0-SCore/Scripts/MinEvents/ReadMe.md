@@ -77,694 +77,472 @@ Here's an overview of the custom MinEventActions available:
 * **MinEventActionTeleportToQuest**: Teleports the player to a quest objective location.
 * **MinEventActionToggleCamera**: Toggles a camera view or state.
 
-Here are conceptual XML examples for each of the custom MinEventActions, illustrating how they might be used within a
-`<triggered_effect>` tag. These effects can be attached to various game elements like buffs, item actions, or entity
-definitions, depending on the `trigger` you specify.
+### MinEventActions Examples
 
-**Note**: These are conceptual examples based on the C\# script's parsing logic and typical `7 Days to Die` modding
-patterns. The exact `trigger` for each effect would depend on the context where you apply it.
+Here is the reformatted documentation for the custom MinEventActions, maintaining the requested structure and adding a summary to each:
 
 ### MinEventActions Examples
 
-#### 1\. `MinEventActionAddAdditionalOutput`
-
-Adds extra items to a player's inventory or workstation output upon crafting completion.
+### MinEventActionAddAdditionalOutput
+Adds extra items to a player's inventory or workstation output upon crafting completion, often with conditional requirements.
 
 ```xml
-
-<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceScrapPolymers"
-                  count="5"/>
+<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="resourceScrapPolymers" count="5"/>
 ```
 
-**Explanation**: When the item containing this effect is crafted, 5 `resourceScrapPolymers` are added to the output.
+When the item containing this effect is crafted, 5 `resourceScrapPolymers` are added to the output.
 
-#### 2\. `MinEventActionAddBuffByFactionSDX`
 
-Applies a buff to entities based on their faction relationship.
+### Add Buff By Faction
+
+Tracks and manages the application of buffs to entities based on faction alignment.
+
+In an XML configuration file, the buff might be set up like this:
 
 ```xml
-
-<triggered_effect trigger="onSelfTargetAttacked" action="AddBuffByFactionSDX, SCore" target="other" faction="player"
-                  buff="buffConcussion" operator="EQ" value="0"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="AddBuffByFactionSDX, SCore" target="selfAOE" range="4" mustmatch="true" buff="buffAnimalFertility" />
 ```
 
-**Explanation**: When the entity's target is attacked, if the target's relationship with the "player" faction is exactly
-0, apply `buffConcussion` to the target.
+This configuration defines an action where a buff is added to targets in a specified range, depending on whether their faction matches or differs from the entity's faction.
 
-#### 3\. `MinEventActionAddBuffToPrimaryPlayer`
+### Add Script To Transform
 
-Applies a specific buff directly to the primary local player.
+Tracks and manages the addition of scripts to specific transforms in a game entity, based on event triggers.
+
+In an XML configuration file, the script addition might be set up like this:
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuffToPrimaryPlayer, SCore" buff="buffStatHealthRegen"/>
+<triggered_effect trigger="onSelfEnteredGame" action="AddScriptToTransform, SCore" transform="Camera" script="GlobalSnowEffect.GlobalSnow, BetterBiomeEffects"/>
 ```
 
-**Explanation**: After a primary action, `buffStatHealthRegen` is applied to the local player.
+This configuration defines an action where a script is added to a specific transform (like the camera) when the entity (player) enters the game.
 
-#### 4\. `MinEventActionAddFireDamage`
+### Adjust Transform Values
 
-Applies fire damage to a block.
+Tracks and manages the adjustment of transform values such as position and rotation for specific child objects in a game entity.
+
+XML Snippet Relation:
+In an XML configuration file, the transform adjustment might be set up like this:
 
 ```xml
-
-<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamage, SCore" target="positionAOE" range="3"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="AdjustTransformValues, SCore" parent_transform="AK47" local_offset="-0.05607828,0.07183618,-0.02150292" local_rotation="-3.98,-9.826,-5.901" debug="true"/>
 ```
 
-**Explanation**: When the entity damages a block, fire damage is applied in a 3-block radius around the hit position.
+This configuration defines an action where the local position and rotation of a specified transform (like "AK47") are adjusted when a buff is updated on the entity.
 
-#### 5\. `MinEventActionAddFireDamageCascade`
+### MinEventActionAdjustTransformValues
 
-Spreads fire to neighboring flammable blocks.
+Tracks and manages the adjustment of transform values such as position and rotation for specific child objects in a game entity.
+
+XML Snippet Relation:
+In an XML configuration file, the transform adjustment might be set up like this:
 
 ```xml
-
-<triggered_effect trigger="onSelfDamagedBlock" action="AddFireDamageCascade, SCore" range="4" filter="Material"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="AdjustTransformValues, SCore" 
+    parent_transform="AK47" 
+    local_offset="-0.05607828,0.07183618,-0.02150292" 
+    local_rotation="-3.98,-9.826,-5.901" 
+    debug="true"/>
 ```
 
-**Explanation**: When the entity damages a block, fire spreads to neighboring blocks up to 4 blocks away if they share
-the same material.
+This configuration defines an action where the local position and rotation of a specified transform (like "AK47") are adjusted when a buff is updated on the entity.
 
-#### 6\. `MinEventActionAddScriptToArmour`
+### MinEventActionAnimatorFireTriggerSDX
 
-Dynamically attaches a custom C\# script to a piece of armor.
+Fires a specified trigger on all animators found on the target entities.
 
 ```xml
-
-<triggered_effect trigger="onSelfEquipStart" action="AddScriptToArmour, SCore"
-                  script="MyCustomArmorScript, MyModAssembly"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTriggerSDX, SCore" trigger="triggerName"/>
 ```
 
-**Explanation**: When the armor piece is equipped, `MyCustomArmorScript` is attached to it.
+### MinEventActionAnimatorSpeedSDX
 
-#### 7\. `MinEventActionAddScriptToTransform`
-
-Dynamically attaches a custom C\# script to a game object's transform.
+Adjusts the speed of the animator for target entities based on the specified value.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="AddScriptToTransform, SCore"
-                  script="MyCustomScript, MyModAssembly" transform="FireTransform"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSpeedSDX, SCore" target="self" value="1"/> <!-- normal speed -->
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSpeedSDX, SCore" target="self" value="2"/> <!-- twice the speed -->
 ```
 
-**Explanation**: After a primary action, `MyCustomScript` is attached to the transform named "FireTransform".
+### MinEventActionAnimatorSetFloatSDX
 
-#### 8\. `MinEventActionAdjustTransformValues`
-
-Adjusts the position, rotation, or scale values of a game object's transform.
+Sets a float property on the animator for the target entities, with an optional reference to a custom variable (CVar).
 
 ```xml
-
-<triggered_effect trigger="onSelfEquipStart" action="AdjustTransformValues, SCore" target_transform="Flashlight"
-                  position_offset="0,0.1,0"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetFloatSDX, SCore" target="self" property="speed" value="2"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetFloatSDX, SCore" target="self" property="speed" value="@customSpeed"/>
 ```
 
-**Explanation**: When equipped, adjusts the "Flashlight" transform's position.
+### MinEventActionAnimatorSetIntSDX
 
-#### 9\. `MinEventActionAnimatorFireTriggerSDX`
-
-Fires a specific trigger on an entity's animator.
+Sets an integer property on the animator for the target entities, with an optional reference to a custom variable (CVar).
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="AnimatorFireTriggerSDX, SCore" target="self" Animator_trigger="Stunned"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetIntSDX, SCore" target="self" property="actionState" value="1"/>
+<triggered_effect trigger="onSelfBuffStart" action="AnimatorSetIntSDX, SCore" target="self" property="actionState" value="@customActionState"/>
 ```
 
-**Explanation**: When the buff starts, fires the "Stunned" trigger on the entity's animator.
+### MinEventActionAttachPrefabWithAnimationsToEntity
 
-#### 10\. `MinEventActionAnimatorSetFloatSDX`
-
-Sets a float parameter on an entity's animator.
+Attaches a prefab to an entity and enables any animator components within the entity's hierarchy, adding a `BlockClockScript` if it's not already present.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetFloatSDX, SCore" target="self" parameter="RunSpeed"
-                  value="1.5"/>
+<triggered_effect trigger="onSelfBuffStart" action="AttachPrefabWithAnimationsToEntity, SCore" target="self"/>
 ```
 
-**Explanation**: On buff update, sets the "RunSpeed" float parameter to 1.5 on the entity's animator.
+### MinEventActionAutoRedeemChallenges
 
-#### 11\. `MinEventActionAnimatorSetIntSDX`
-
-Sets an integer parameter on an entity's animator.
+Automatically redeems completed challenges for the target entity by setting the challenge state to "Redeemed" and triggering the appropriate completion events.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffUpdate" action="AnimatorSetIntSDX, SCore" target="self" parameter="AttackState"
-                  value="2"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="AutoRedeemChallenges, SCore"/>
 ```
 
-**Explanation**: On buff update, sets the "AttackState" integer parameter to 2 on the entity's animator.
+### MinEventActionChangeFactionSDX
 
-#### 12\. `MinEventActionAnimatorSDX`
-
-A versatile animator action to set various animator parameters.
+Changes the faction of the target entity based on a specified faction name, with the option to revert to the original faction.
 
 ```xml
-
-<triggered_effect trigger="onSelfDismember" action="AnimatorSDX, SCore" target="self" parameter="IsDismembered"
-                  type="Bool" value="true"/>
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX, SCore" target="self" value="bandits"/> <!-- change faction to bandits -->
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX, SCore" target="self" value="undead"/> <!-- change faction to undead -->
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX, SCore" target="self" value="original"/> <!-- revert to original faction -->
 ```
 
-**Explanation**: On dismemberment, sets the "IsDismembered" boolean animator parameter to `true`.
+### MinEventActionChangeFactionSDX2
 
-#### 13\. `MinEventActionAttachPrefabWithAnimationsToEntity`
-
-Attaches a prefab (which may include animations) to an entity dynamically.
+Changes the faction of the target entity based on a specified faction name, with the option to revert to the original faction. The event clears the entity's attack and revenge targets after the faction change.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="AttachPrefabWithAnimationsToEntity, SCore"
-                  prefab="myCustomEffectPrefab" parent_transform="Head"/>
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX2, SCore" target="self" value="bandits"/> <!-- change faction to bandits -->
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX2, SCore" target="self" value="undead"/> <!-- change faction to undead -->
+<triggered_effect trigger="onSelfBuffStart" action="ChangeFactionSDX2, SCore" target="self" value="original"/> <!-- revert to original faction -->
 ```
 
-**Explanation**: When the buff starts, `myCustomEffectPrefab` is attached to the entity's "Head" transform.
+### MinEventActionCheckWeapon
 
-#### 14\. `MinEventActionAutoRedeemChallenges`
-
-Automatically redeems completed challenges for the player.
+Checks the current weapon of the target entity by retrieving the weapon ID from a custom variable and updating the weapon accordingly.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffEnd" action="AutoRedeemChallenges, SCore"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="CheckWeapon, SCore"/>
 ```
 
-**Explanation**: When the buff ends, all completed challenges are automatically redeemed for the player.
+### MinEventActionClearOwner
 
-#### 15\. `MinEventActionChangeFactionSDX`
-
-Changes the faction of an entity.
+Clears the owner of a tile entity, such as a powered trigger, when the entity damages a block.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="ChangeFactionSDX, SCore" target="self" value="bandits"/>
+<triggered_effect trigger="onSelfDamagedBlock" action="ClearOwner, SCore"/>
 ```
 
-**Explanation**: When the entity is damaged, its faction is changed to "bandits".
+### MinEventActionClearStaleHires
 
-#### 16\. `MinEventActionChangeFactionSDX2`
-
-An alternative or extended version of `MinEventActionChangeFactionSDX` for changing factions.
+Checks and clears any stale or dangling hires associated with the entity.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="ChangeFactionSDX2, SCore" target="self" value="undead"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="ClearStaleHires, SCore"/>
 ```
 
-**Explanation**: Similar to `ChangeFactionSDX`, changes the entity's faction to "undead" when damaged.
+### MinEventActionConvertItem
 
-#### 17\. `MinEventActionCheckFireProximity`
-
-Checks if an entity is near an active fire.
+Converts the current item being used by the entity into another item when its usage reaches a specified limit. The item is downgraded after a set number of uses.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffUpdate" action="CheckFireProximity, SCore" range="10" cvar="_closeFires"/>
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="ConvertItem, SCore" downgradeItem="meleeClub" maxUsage="10"/>
 ```
 
-**Explanation**: On buff update, checks for fires within 10 blocks and stores the count in `_closeFires` CVar.
+### MinEventActionCreateItemSDX
 
-#### 18\. `MinEventActionCheckWeapon`
-
-Checks the currently held weapon or item for specific properties or tags.
+Creates an item or spawns items from a loot group when triggered. The items can be directly added to the player's inventory or dropped in the game world if the inventory is full.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionStart" action="CheckWeapon, SCore" item_tags="knife"/>
+<triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" item="drinkJarCoffee" count="2"/>
+<triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" lootgroup="2" count="1"/>
 ```
 
-**Explanation**: Before a primary action, checks if the held weapon has the "knife" tag.
+### MinEventActionDespawnNPC
 
-#### 19\. `MinEventActionClearOwner`
-
-Clears the owner of a specified entity.
+Despawns the NPC entity by removing it from the game world when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDeath" action="ClearOwner, SCore" target="self"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="DespawnNPC, SCore"/>
 ```
 
-**Explanation**: On death, clears the ownership of the entity.
+### MinEventActionExecuteConsoleCommand
 
-#### 20\. `MinEventActionClearStaleHires`
-
-Clears out old or "stale" hired NPC data, likely for maintenance.
+Executes a specified console command when the action is triggered, either locally or sent to the server depending on whether the game is in client or server mode.
 
 ```xml
-
-<triggered_effect trigger="onSelfRespawn" action="ClearStaleHires, SCore"/>
+<triggered_effect trigger="onSelfBuffStart" action="ExecuteConsoleCommand, SCore" command="st night"/>
 ```
 
-**Explanation**: On player respawn, clears any stale hired NPC data.
+### MinEventActionExecuteConsoleCommandCVars
 
-#### 21\. `MinEventActionConvertItem`
-
-Converts one item into another.
+Executes a console command using values from specified custom variables (CVars) when the action is triggered. The command is assembled dynamically with the CVar values replacing placeholders in the command string.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="ConvertItem, SCore" from_item="foodCanChili"
-                  to_item="foodCanDogFood"/>
+<triggered_effect trigger="onSelfBuffStart" action="ExecuteConsoleCommandCVars, SCore" command="testCommand {0} {1}" cvars="cvar1,cvar2"/>
 ```
 
-**Explanation**: After a primary action, converts `foodCanChili` in inventory to `foodCanDogFood`.
+### MinEventActionGiveQuestSDX
 
-#### 22\. `MinEventActionCreateItemSDX`
-
-Creates and adds an item to an entity's inventory.
+Gives a specified quest to the target entity or player when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="CreateItemSDX, SCore" target="self" item="gun9mmPistol"
-                  count="1"/>
+<triggered_effect trigger="onSelfBuffStart" action="GiveQuestSDX, SCore" target="self" quest="myNewQuest"/>
 ```
 
-**Explanation**: After a primary action, adds 1 `gun9mmPistol` to the entity's inventory.
+### MinEventActionGuardClear
 
-#### 23\. `MinEventActionDespawnNPC`
-
-Despawns a specified NPC entity.
+Clears the guard position and look position for an entity that can receive orders.
 
 ```xml
-
-<triggered_effect trigger="onSelfDeath" action="DespawnNPC, SCore" target="self"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="GuardClear, SCore"/>
 ```
 
-**Explanation**: Despawns the NPC upon its death.
+### MinEventActionGuardHere
 
-#### 24\. `MinEventActionExecuteConsoleCommand`
-
-Executes a console command.
+Sets the guard position for an entity to either the position of its leader or owner, or to the entity's own position if no leader or owner is found. The guard look position is also updated based on the chosen position.
 
 ```xml
+<triggered_effect trigger="onSelfBuffUpdate" action="GuardHere, SCore"/>
+```
+### GuardThere ###
 
-<triggered_effect trigger="onSelfBuffStart" action="ExecuteConsoleCommand, SCore" command="giveself xp 100"/>
+Sets the guard position to match where the entity is standing.
+
+```xml
+<triggered_effect trigger="onSelfBuffUpdate" action="GuardThere" />
 ```
 
-**Explanation**: When the buff starts, executes the console command `giveself xp 100`.
+### MinEventActionHideNPCSDX
 
-#### 25\. `MinEventActionExecuteConsoleCommandCVars`
-
-Executes a console command, allowing the use of CVars within the command string.
+Hides or reveals the target NPC by sending it on a mission based on the specified "hide" attribute value.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="ExecuteConsoleCommandCVars, SCore"
-                  command="setcvar myQuestVar {myQuestCVar}"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="HideNPCSDX, SCore" hide="true"/>
 ```
 
-**Explanation**: Executes `setcvar myQuestVar <value_of_myQuestCVar>` when the buff starts.
+### MinEventActionModifyFactionSDX
 
-#### 26\. `MinEventActionGiveQuestSDX`
-
-Awards a specific quest to the player.
+Modifies the relationship between the target entity and a specified faction by adding or subtracting points from the relationship value.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="GiveQuestSDX, SCore" id="quest_new_mission"/>
+<triggered_effect trigger="onSelfBuffStart" action="ModifyFactionSDX, SCore" target="self" faction="bandits" value="10"/> <!-- Increases relationship with bandits by 10 points -->
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyFactionSDX, SCore" target="self" faction="undead" value="-10"/> <!-- Decreases relationship with undead by 10 points -->
 ```
 
-**Explanation**: When the buff starts, awards the player the quest `quest_new_mission`.
+### ModifyRelatedFactionsSDX
 
-#### 27\. `MinEventActionGuardClear`
-
-Clears a "guard" order for an NPC.
+This action modifies relationships between factions when a specific primary action is taken.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffEnd" action="GuardClear, SCore"/>
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyRelatedFactionsSDX, SCore" target="self" faction="redteam" value="10" />
 ```
 
-**Explanation**: When the buff ends, any existing guard order on the NPC is cleared.
+### ModifySkillSDX
 
-#### 28\. `MinEventActionGuardHere`
-
-Sets an NPC's guard position to the current location and facing direction of the executing entity.
-
+This action modifies a player's skill when a specific event occurs.
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="GuardHere, SCore"/>
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifySkillSDX, SCore" target="self" skill="mining" value="2" />
 ```
 
-**Explanation**: After a primary action, sets the NPC's guard point to the player's current location and facing.
+### NotifyTeamAttack
 
-#### 29\. `MinEventActionGuardThere`
-
-Sets an NPC's guard position to the current location and facing direction of the NPC itself.
-
+This action notifies the team of that an entity is being attacked.
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="GuardThere, SCore"/>
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="NotifyTeamAttack, SCore" target="selfAoE" />
 ```
 
-**Explanation**: When the buff starts, sets the NPC's guard point to its own current location and facing.
+### NotifyTeamTeleport
 
-#### 30\. `MinEventActionHideNPCSDX`
-
-Hides a specified NPC entity.
-
+This action notifies the team of an entity that is teleporting.
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="HideNPCSDX, SCore" target="other"/>
+<triggered_effect trigger="onSelfPrimaryActionEnd" action="NotifyTeamTeleport, SCore" target="self" />
 ```
 
-**Explanation**: When the buff starts, hides the specified target NPC.
+### MinEventActionOpenWindow
 
-#### 31\. `MinEventActionModifyFactionSDX`
-
-Modifies an entity's faction relationship with another faction.
+Opens a specified UI window for the player when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="ModifyFactionSDX, SCore" target="self" faction="bandits"
-                  value="-100"/>
+<triggered_effect trigger="onSelfDamagedBlock" action="OpenWindow, SCore" window="SCoreCompanionsGroup"/>
 ```
 
-**Explanation**: When damaged, reduces the entity's relationship with the "bandits" faction by 100 points.
+### MinEventActionPlayerLevelSDX
 
-#### 32\. `MinEventActionModifyRelatedFactionsSDX`
-
-Modifies an entity's relationship with multiple related factions simultaneously.
+Increases the player's level by one if the player has not yet reached the maximum level, and displays a level-up tooltip.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="ModifyRelatedFactionsSDX, SCore" target="self" faction="undead"
-                  value="100" related="bandits,whiteriver" scale="0.5"/>
+<triggered_effect trigger="onSelfBuffStart" action="PlayerLevelSDX, SCore" target="self"/>
 ```
 
-**Explanation**: When damaged, increases relationship with "undead" by 100, and also affects "bandits" and "whiteriver"
-by 50% of that value.
+### MinEventActionPumpQuestSDX
 
-#### 33\. `MinEventActionModifySkillSDX`
-
-Modifies a player's skill level.
+Refreshes all objectives of the quests for the target entities when triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifySkillSDX, SCore" skill="HeavyArmor" value="1"/>
+<triggered_effect trigger="onSelfBuffStart" action="PumpQuestSDX, SCore" target="self"/>
 ```
 
-**Explanation**: After a primary action, increases the player's "HeavyArmor" skill by 1 level.
+### MinEventActionRandomLootSDX
 
-#### 34\. `MinEventActionNotifyTeam`
-
-Sends a notification to the player's team.
+Generates random loot for the target entity from a specified loot group when the action is triggered. The amount of loot can be influenced by a custom variable, such as `spLootExperience`.
 
 ```xml
-
-<triggered_effect trigger="onSelfDeath" action="NotifyTeam, SCore" text="msgPlayerDied"/>
+<triggered_effect trigger="onSelfBuffRemove" action="RandomLootSDX, SCore" lootgroup="brassResource" count="1"/>
 ```
 
-**Explanation**: On player death, sends a team notification with text from `msgPlayerDied`.
+### MinEventActionRecalculateEncumbrance
 
-#### 35\. `MinEventActionNotifyTeamTeleport`
-
-Notifies the player's team about an upcoming teleportation.
+Recalculates the encumbrance for the player entity when the action is triggered, ensuring the player's encumbrance status is up-to-date.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="NotifyTeamTeleport, SCore" delay="5"/>
-```
-
-**Explanation**: When the buff starts, notifies the team that a teleport will occur in 5 seconds.
-
-#### 36\. `MinEventActionOpenWindow`
-
-Opens a specific UI window.
-
-```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="OpenWindow, SCore" window="SCoreCompanionsGroup"/>
-```
-
-**Explanation**: After a primary action, opens the UI window named "SCoreCompanionsGroup".
-
-#### 37\. `MinEventActionPlayerLevelSDX`
-
-Modifies a player's level.
-
-```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="PlayerLevelSDX, SCore" value="1" operator="Add"/>
-```
-
-**Explanation**: When the buff starts, increases the player's level by 1. `operator` can be `Add`, `Subtract`, `Set`.
-
-#### 38\. `MinEventActionPumpQuestSDX`
-
-Advances or "pumps" the progress of a specific quest.
-
-```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="PumpQuestSDX, SCore" id="quest_gather_materials"/>
-```
-
-**Explanation**: After a primary action, advances the quest `quest_gather_materials`.
-
-#### 39\. `MinEventActionRandomLootSDX`
-
-Generates random loot from a loot list and adds it to an entity's inventory.
-
-```xml
-
-<triggered_effect trigger="onSelfDeath" action="RandomLootSDX, SCore" target="self" loot_list="smallAnimalLoot"/>
-```
-
-**Explanation**: On death, generates loot from `smallAnimalLoot` list and adds it to the entity's inventory.
-
-#### 40\. `MinEventActionRecalculateEncumbrance`
-
-Forces a recalculation of the player's encumbrance.
-
-```xml
-
 <triggered_effect trigger="onSelfBuffStart" action="RecalculateEncumbrance, SCore"/>
 ```
 
-**Explanation**: When the buff starts, recalculates the player's encumbrance.
+### MinEventActionResetTargetsSDX
 
-#### 41\. `MinEventActionRemoveFire`
-
-Removes fire from a specified area.
+Resets the attack and revenge targets for the target entities when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="RemoveFire, SCore" target="positionAOE" range="5"/>
+<triggered_effect trigger="onSelfBuffStart" action="ResetTargetsSDX, SCore"/>
 ```
 
-**Explanation**: After a primary action, removes fire from blocks within a 5-block radius around the target position.
+### MinEventActionSetCVar
 
-#### 42\. `MinEventActionResetTargetsSDX`
-
-Resets the attack or revenge targets of an entity.
+Sets a custom variable (CVar) for the target entities within a specified range, associating the CVar with the entity that triggered the action.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffEnd" action="ResetTargetsSDX, SCore" target="self"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="SetCVar, SCore" target="selfAOE" range="4" cvar="Leader"/>
 ```
 
-**Explanation**: When the buff ends, clears the attack and revenge targets of the entity.
+### MinEventActionSetDateToCVar
 
-#### 43\. `MinEventActionSetCVar`
-
-Sets a CVar on an entity.
+Sets the current in-game day to a custom variable (CVar) when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="SetCVar, SCore" target="self" cvar="myFeatureToggle" value="1"/>
+<triggered_effect trigger="onSelfBuffStart" action="SetDateToCVar, SCore" target="self"/>
 ```
 
-**Explanation**: When the buff starts, sets `myFeatureToggle` CVar to 1 on the entity.
+### MinEventActionSetFactionRelationship
 
-#### 44\. `MinEventActionSetDateToCVar`
-
-Sets a CVar to the current in-game date.
+Sets the target's relationship with a specified faction to a new value, adjusting how the faction perceives the target entity.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="SetDateToCVar, SCore" target="self" cvar="lastVisitedDate"/>
+<!-- Sets the player's relationship with bandits to 400 ("Neutral"). -->
+<triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationshipSDX, Mods" target="self" faction="bandits" value="400"/>
 ```
 
-**Explanation**: When the buff starts, sets `lastVisitedDate` CVar to the current in-game date.
+### MinEventActionSetOrder
 
-#### 45\. `MinEventActionSetFactionRelationship`
-
-Sets the numerical relationship value between two factions.
+Sets a specific order for the target entity, such as "Stay" or "Wander", when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfBuffStart" action="SetFactionRelationship, SCore" source_faction="player"
-                  target_faction="zombies" value="-1000"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="SetOrder, SCore" value="Stay"/>
 ```
 
-**Explanation**: Sets the relationship between "player" and "zombies" factions to -1000 when the buff starts.
+### MinEventActionSetOwner
 
-#### 46\. `MinEventActionSetOrder`
-
-Issues an order (e.g., stay, follow, guard) to an NPC.
+Sets the owner of a `TileEntityPoweredTrigger` to the local player when the entity damages a block.
 
 ```xml
+<triggered_effect trigger="onSelfDamagedBlock" action="SetOwner, SCore"/>
 
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="SetOrder, SCore" target="other" order="Guard"/>
 ```
 
-**Explanation**: After a primary action, issues a "Guard" order to the `other` entity (e.g., an NPC).
+### MinEventActionSetRevengeTarget
 
-#### 47\. `MinEventActionSetOwner`
-
-Sets the owner of an entity.
+Sets the revenge target of the target entities to the specified entity ID. If the value is 0 or omitted, the revenge target will be cleared.
 
 ```xml
+<!-- Sets the revenge target of the entity you're attacking to yourself -->
+<triggered_effect trigger="onSelfAttackedOther" action="SetRevengeTarget, SCore" target="other" value="@_entityId"/>
 
-<triggered_effect trigger="onSelfSpawned" action="SetOwner, SCore" target="self" owner_id="ownerID"/>
+<!-- Clears the revenge target of the entity that damaged you -->
+<triggered_effect trigger="onOtherDamagedSelf" action="SetRevengeTarget, SCore" target="other" value="0"/>
 ```
 
-**Explanation**: When the entity spawns, sets its owner to the specified `owner_id`.
+### MinEventActionShowToolTipSDX
 
-#### 48\. `MinEventActionSetParticleAttractorFromAttackTarget`
-
-Sets a particle attractor's target to the executing entity's attack target.
+Displays a tooltip message to the player, optionally playing a sound and setting a title, when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfAttacked" action="SetParticleAttractorFromAttackTarget, SCore"
-                  particle_name="myCustomParticle"/>
+<triggered_effect trigger="onSelfBuffStart" action="ShowToolTipSDX, SCore" message_key="tipMessage" sound="tipSound" title_key="tipTitle"/>
 ```
 
-**Explanation**: When attacked, sets the target of "myCustomParticle" attractor to the entity's current attack target.
+### MinEventActionSkillPointSDX
 
-#### 49\. `MinEventActionSetParticleAttractorFromPlayer`
-
-Sets a particle attractor's target to the player.
+Awards the target player entity a specified number of skill points when the action is triggered.
 
 ```xml
+<triggered_effect trigger="onSelfBuffStart" action="SkillPointSDX, SCore" target="self" value="2"/> <!-- Adds 2 skill points -->
 
-<triggered_effect trigger="onSelfBuffUpdate" action="SetParticleAttractorFromPlayer, SCore"
-                  particle_name="myPlayerAuraParticle"/>
 ```
 
-**Explanation**: On buff update, sets the target of "myPlayerAuraParticle" attractor to the player's position.
+### MinEventActionSpawnBabySDX
 
-#### 50\. `MinEventActionSetParticleAttractorFromSource`
+A dummy class for backwards compatibility that inherits from `MinEventActionSpawnEntitySDX`.
 
-Sets a particle attractor's target to the source of the triggered effect.
+### MinEventActionAddBuffToPrimaryPlayer
+
+Adds a specified buff to the primary player when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="SetParticleAttractorFromSource, SCore"
-                  particle_name="impactSparksParticle"/>
+<triggered_effect trigger="onSelfBuffStart" action="AddBuffToPrimaryPlayer, SCore" buff="buffName"/>
 ```
 
-**Explanation**: When damaged, sets the target of "impactSparksParticle" attractor to the damage source.
+### MinEventActionSpawnEntityAtPoint
 
-#### 51\. `MinEventActionSetRevengeTarget`
-
-Sets a new revenge target for an entity.
+Spawns an entity from a specified spawn group at a designated point, such as the impact point of a projectile, when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="SetRevengeTarget, SCore" target="self"
-                  revenge_target_entity_id="other_entity_id"/>
+<triggered_effect trigger="onProjectileImpact" action="SpawnEntityAtPoint, SCore" SpawnGroup="ZombiesBurntForest"/>
 ```
 
-**Explanation**: When damaged, sets the entity's revenge target to a specific entity ID.
+### MinEventActionSwapWeapon
 
-#### 52\. `MinEventActionShowToolTipSDX`
-
-Displays a tooltip message.
+Swaps the target entity's current weapon with a specified weapon when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="ShowToolTipSDX, SCore" text="myToolTipTextKey"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="SwapWeapon, SCore" item="meleeClub"/>
 ```
 
-**Explanation**: After a primary action, displays a tooltip with text from `myToolTipTextKey`.
+### MinEventActionTeamTeleportNow
 
-#### 53\. `MinEventActionSkillPointSDX`
-
-Awards a skill point to the player.
+Teleports hired NPCs in the player's team who are within a certain distance to the player's location. NPCs who are guarding or too far away are not teleported.
 
 ```xml
-
-<triggered_effect trigger="onSelfQuestComplete" action="SkillPointSDX, SCore" amount="2"/>
+<triggered_effect trigger="onSelfBuffUpdate" action="NotifyTeamTeleportNow, SCore"/>
 ```
 
-**Explanation**: On quest completion, awards the player 2 skill points.
+### MinEventActionTeleport
 
-#### 54\. `MinEventActionSpawnBabySDX`
-
-Spawns a "baby" version of an entity.
+Teleports the player to a specified location when the action is triggered, using a defined portal.
 
 ```xml
-
-<triggered_effect trigger="onSelfDeath" action="SpawnBabySDX, SCore" target="self" entity_class="animalRabbit"/>
+<triggered_effect trigger="onSelfBuffStart" action="Teleport, SCore" location="Portal01"/>
 ```
 
-**Explanation**: On death, spawns a `animalRabbit` entity as a "baby" version.
+### MinEventActionTeleportToQuest
 
-#### 55\. `MinEventActionSpawnEntityAtPoint`
-
-Spawns a specified entity at a given point in the world.
+Teleports the player to the position of a specified quest when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDeath" action="SpawnEntityAtPoint, SCore" entity_class="zombieDog" x="100" y="50"
-                  z="100"/>
+<triggered_effect trigger="onSelfBuffStart" action="TeleportToQuest, SCore" quest="sorcery_trader_arcane"/>
 ```
 
-**Explanation**: On death, spawns a `zombieDog` at coordinates (100, 50, 100).
+### MinEventActionToggleCamera
 
-#### 56\. `MinEventActionSwapWeapon`
-
-Forces an entity to swap its currently held weapon.
+Toggles the camera's enabled status based on the specified attributes when the action is triggered.
 
 ```xml
-
-<triggered_effect trigger="onSelfDamaged" action="SwapWeapon, SCore" target="self"/>
+<triggered_effect trigger="onSelfBuffStart" action="ToggleCamera, SCore" cameraName="Camera" value="false"/> <!-- Disables the camera -->
+<triggered_effect trigger="onSelfBuffFinish" action="ToggleCamera, SCore" cameraName="Camera" value="true"/> <!-- Enables the camera -->
 ```
 
-**Explanation**: When damaged, forces the entity to swap its current weapon.
 
-#### 57\. `MinEventActionTeamTeleportNow`
 
-Instantly teleports the player's entire team to a specified location.
 
-```xml
 
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="TeamTeleportNow, SCore" x="200" y="70" z="300"/>
-```
 
-**Explanation**: After a primary action, teleports the player's entire team to (200, 70, 300).
 
-#### 58\. `MinEventActionTeleport`
-
-Teleports an entity to a specified location.
-
-```xml
-
-<triggered_effect trigger="onSelfBuffEnd" action="Teleport, SCore" target="self" x="150" y="60" z="250"/>
-```
-
-**Explanation**: When the buff ends, teleports the entity to coordinates (150, 60, 250).
-
-#### 59\. `MinEventActionTeleportToQuest`
-
-Teleports the player to a quest objective location.
-
-```xml
-
-<triggered_effect trigger="onSelfQuestStart" action="TeleportToQuest, SCore"/>
-```
-
-**Explanation**: When a quest starts, teleports the player to its objective location.
-
-#### 60\. `MinEventActionToggleCamera`
-
-Toggles a camera view or state.
-
-```xml
-
-<triggered_effect trigger="onSelfPrimaryActionEnd" action="ToggleCamera, SCore"/>
-```
-
-**Explanation**: After a primary action, toggles a camera view or state.

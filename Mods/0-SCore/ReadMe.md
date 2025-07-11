@@ -30,7 +30,35 @@ This release of 0-SCore introduces significant enhancements across several core 
 * Bug Fixes and Stability: Addressed various null reference errors, spamming issues with spoiled items, durability bar disappearing, and general migration/refactoring for broken references and changed parameters.
 
 
+
 [ Change Log ]
+Version: 2.0.24.1245
+	[ Spawn Cube ]
+		- Cleaned up SpawnCube2SDX
+		- Added new BlockSpawnCubeRepeater, that will tick and spawn entities over time.
+	        <block name="DeamonPortal2">
+    	        <property name="Extends" value="DeamonPortal"/>
+        	    <property name="Class" value="SpawnCubeRepeater, SCore"/>
+	            <property name="Model" value="@:Entities/Vehicles/TraderVehicles/traderMountainBikeStaticPrefab.prefab"/>
+	            <property name="ModelOffset" value="0,0,0"/>
+	            <property name="MaxDamage" value="250"/>
+
+	            <property name="EntityGroup" value="ZombiesAll"/>
+	            <property name="SpawnRadius" value="5"/>
+	            <property name="SpawnArea" value="15"/>
+	            <!-- Spawn 2 each tick -->
+	            <property name="NumberToSpawn" value="2"/>
+	            <!-- Total number of ticksbefore the block self-destructs -->
+	            <property name="MaxSpawned" value="10"/>
+
+	            <!-- How many ticks between the spawn times-->
+	            <!-- NumberToSpawn spawns each time it block ticks. -->
+	            <property name="TickRate" value="10"/>
+	        </block>
+
+	[ Documentation ]
+		- Added new Examples documentation that shows examples on how to accomplish 0-SCore features.
+
 Version: 2.0.23.1213
 	[ EntityMoveHelper ]
 		- Removed old StartJump block based on BlockedTime, which caused NPCs not to jump.

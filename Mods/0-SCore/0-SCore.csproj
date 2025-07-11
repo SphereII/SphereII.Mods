@@ -328,6 +328,7 @@
     <Compile Include="Scripts\Blocks\BlockPoweredWorkstation.cs" />
     <Compile Include="Scripts\Blocks\BlockPrefabPlacer.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCube2SDX.cs" />
+    <Compile Include="Scripts\Blocks\BlockSpawnCubeRepeater.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnCubeSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockSpawnerSDX.cs" />
     <Compile Include="Scripts\Blocks\BlockTriggeredSDX.cs" />
@@ -666,6 +667,18 @@
     <Content Include="Documentation\Challenges\FireChallenges.md" />
     <Content Include="Documentation\Challenges\KillChallenges.md" />
     <Content Include="Documentation\Challenges\PlayerChallenges.md" />
+    <Content Include="Documentation\Examples\Challenges.md" />
+    <Content Include="Documentation\Examples\Farming.md" />
+    <Content Include="Documentation\Examples\FireV2.md" />
+    <Content Include="Documentation\Examples\FoodSpoilage.md" />
+    <Content Include="Documentation\Examples\LightlyModded.md" />
+    <Content Include="Documentation\Examples\ReadMe.md" />
+    <Content Include="Documentation\Examples\RecipeEffects.md" />
+    <Content Include="Documentation\Examples\Sounds.md" />
+    <Content Include="Documentation\Examples\SpawnCubeExamples.md" />
+    <Content Include="Documentation\Examples\StartingQuests.md" />
+    <Content Include="Documentation\Examples\TakeAndReplace.md" />
+    <Content Include="Documentation\Examples\Traders.md" />
     <Content Include="Documentation\Factions.md" />
     <Content Include="Documentation\Features\Craft From Containers\Examples\blocks.xml" />
     <Content Include="Documentation\Features\Craft From Containers\Readme.md" />
