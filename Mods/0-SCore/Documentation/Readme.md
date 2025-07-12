@@ -13,6 +13,9 @@ Note: Most of this documentation is AI Generated with tweaks and corrections man
 
 ## Index
 
+# XPath
+[XPath Explained with Examples](XPath/XPath.md)
+
 # Examples
 [Implementation Examples](Examples/ReadMe.md)
 
