@@ -134,6 +134,9 @@
     <Compile Include="Features\FoodSpoilageV2\Harmony\XUiC_ItemInfoWindow.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
+    <Compile Include="Features\ItemRepairDegradation\Harmony\ItemActionRepairDegradation.cs" />
+    <Compile Include="Features\ItemRepairDegradation\Scripts\MinEventActionModifyItem.cs" />
+    <Compile Include="Features\ItemRepairDegradation\Scripts\RequirementCompareItemProperty.cs" />
     <Compile Include="Features\Localization\Scripts\SCoreLocalizationHelper.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
@@ -687,10 +690,14 @@
     <Content Include="Documentation\MinEvents\MinEvents_01.md" />
     <Content Include="Documentation\Readme.md" />
     <Content Include="Documentation\Utils\ChatGPT.txt" />
+    <Content Include="Documentation\XPath\Conditionals.md" />
+    <Content Include="Documentation\XPath\Includes.md" />
+    <Content Include="Documentation\XPath\XPath.md" />
     <Content Include="Features\Challenges\ReadMe.md" />
     <Content Include="Features\FireV2\Readme.md" />
     <Content Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs.bak" />
     <Content Include="Features\FoodSpoilageV2\ReadMe.md" />
+    <Content Include="Features\ItemRepairDegradation\ReadMe.md" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="Features\MaterialModifier\ReadMe.md" />
     <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />

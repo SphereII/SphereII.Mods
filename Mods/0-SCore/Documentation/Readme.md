@@ -16,6 +16,12 @@ Note: Most of this documentation is AI Generated with tweaks and corrections man
 # XPath
 [XPath Explained with Examples](XPath/XPath.md)
 
+[Conditionals](XPath/Conditionals.md)
+
+[Includes](XPath/Includes.md)
+
+----
+
 # Examples
 [Implementation Examples](Examples/ReadMe.md)
 

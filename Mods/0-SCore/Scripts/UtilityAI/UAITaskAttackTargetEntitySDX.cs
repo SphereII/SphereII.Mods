@@ -108,26 +108,6 @@ namespace UAI
                     return;
                 }
 
-                // if ( ! _context.Self.IsInFrontOfMe(entityAlive.getHeadPosition()))
-                // {
-                //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
-                //     attackTimeout = 5;
-                //     return;
-                // }
-                //
-           
-                // They may be in our viewcone, but the view cone may be huge, so let's check our angles.
-                // var headPosition = _context.Self.getHeadPosition();
-                // var dir = position - headPosition;
-                // var forwardVector = _context.Self.GetForwardVector();
-                // var angleBetween = Utils.GetAngleBetween(forwardVector, dir);
-                // if (angleBetween is > 30 or < -30)
-                // {
-                //     Debug.Log($"Not Attacking: Angle: {angleBetween}");
-                //     // Reset the attack time out if the angle isn't right, to give them a pause before shooting.
-                //     attackTimeout = 10;
-                //     return;
-                // }
             }
 
             if (_context.ActionData.Target is Vector3 vector)
@@ -145,7 +125,6 @@ namespace UAI
             // Reloading
             if (_context.Self.Buffs.HasBuff(_buffThrottle))
             {
-              //  Debug.Log($"Not Attacking:  Buff Throttle: {_buffThrottle}");
                 return;
             }
 
@@ -165,21 +144,13 @@ namespace UAI
                     //distance = Utils.FastMax(0.8f, range);
                     
                     // Check if we are already running.
-                    if (itemAction.IsActionRunning(itemActionData))
-                        return;
+                    // if (itemAction.IsActionRunning(itemActionData))
+                    // {
+                    //     Debug.Log("IsAction Running: true");
+                    //     return;
+                    // }
                 }
             }
-            //var minDistance = distance * distance;
-            //var a = position - _context.Self.position;
-
-            //not within range ?
-            // if (a.sqrMagnitude > minDistance)
-            // {
-            //     // If we are out of range, it's probably a very small amount, so this will step forward, but not if we are staying.
-            //     if (EntityUtilities.GetCurrentOrder(_context.Self.entityId) != EntityUtilities.Orders.Stay)
-            //         _context.Self.moveHelper.SetMoveTo(position, true);
-            //     Stop(_context);
-            // }
 
             attackTimeout--;
             if (attackTimeout > 0)
@@ -196,7 +167,7 @@ namespace UAI
                     _context.Self.Attack(true);
                     break;
                 case 1:
-
+                    
                     // use, much like attack, goes through a few additional checks that can return false, including making sure that the 
                     // entity can attack / use. Conditions like if they are stunned, electrocuted, or its already running, will return false.
                     // Normally the Use fails briefly, but we likely don't want to trigger the event needlessly, just to cancel it.
@@ -211,7 +182,6 @@ namespace UAI
                     {
                         _context.Self.emodel.avatarController.TriggerEvent("WeaponFire");
                     }
-
                     _context.Self.UseHoldingItem(_actionIndex,true);
                     break;
                 default:
@@ -223,7 +193,8 @@ namespace UAI
                     break;
             }
 
-           // Stop(_context);
+            _context.Self.Buffs.AddBuff(_buffThrottle);
+            // Stop(_context);
         }
     }
 }

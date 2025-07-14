@@ -40,7 +40,10 @@ namespace SCore.Features.ParticlesOnBlocks.Scripts {
         private static string GetParticle(DynamicProperties classProperty, string key, Vector3i blockPos) {
             
             // Check to see if we have a biome specific particle to use.
-            var biomeAt = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider().GetBiomeAt((int)blockPos.x, (int)blockPos.z);
+            var biomeProvider = GameManager.Instance.World.ChunkCache.ChunkProvider.GetBiomeProvider();
+            if (biomeProvider == null) return string.Empty;
+            var biomeAt = biomeProvider.GetBiomeAt((int)blockPos.x, (int)blockPos.z);
+            
             var biomeSpecificParticle = key + "_" + biomeAt.m_sBiomeName;
             
             // If not defined, check the block for an overall property

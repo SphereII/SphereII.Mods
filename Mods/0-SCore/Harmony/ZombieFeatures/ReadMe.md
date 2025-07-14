@@ -108,20 +108,27 @@ is not defined, the system will use a default size range.
 
 * **Default Size Range**: `{ 0.7f, 0.8f, 0.9f, 0.9f, 1.0f, 1.0f, 1.0f, 1.1f, 1.2f }`
 
+In addition, the `RandomSize` is property is `true` or `false`, to check if they need to be randomized.
+
 ### XML Usage Example
 
-You can enforce a specific size range for an entity class using the `RandomSize` property:
+You can enforce a specific size range for an entity class using the `RandomSizes` property:
 
 ```xml
-
-<property name="RandomSize" value="1.2,1.2,1.4"/>
+<property name="RandomSizes" value="1.2,1.2,1.4"/>
 ```
 
 **Explanation**:
 
-* **`RandomSize`**: This property defines a comma-separated list of float values representing the possible sizes an
+* **`RandomSizes`**: This property defines a comma-separated list of float values representing the possible sizes an
   entity can spawn with. The system will randomly select one of these values when the entity is spawned. For example,
   `1.2,1.2,1.4` means the entity could spawn at 1.2x, 1.2x, or 1.4x its base size.
+
+* To use this property, the ConfigurationBlock's RandomSize must be set to true.
+
+```xml
+<property name="RandomSize" value="true" />
+```
 
 ---
 

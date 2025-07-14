@@ -32,6 +32,36 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.2.1825
+
+	[ Audio Patch ]
+		- Fixed an issue with score running against 2.1
+
+	[ ItemActionLauncherSDX ]
+		- Fixed an issue where the NPC's with rocket launchers was not shooting past 1 or 2 rockets.
+
+	[ UAITaskAttackTargetEntitySDX ]
+		- Fixed an issue where the NPC's IsReloading() was being incorrectly checked. That functionality does not work on NPCs.
+
+	[ Particles On Blocks ]
+		- Fixed an issue where biomeProvider was null.
+
+	[ Documentation ]
+		- Restructed XPath and Conditionals documentation.
+
+	[ onSelfItemRepaired ]
+		- Added a Harmony patch to trigger the minevent effects on an item being repaired.
+			- Patched via the QuestManager's event.
+
+	[ MinEvent Action ]
+		- Added a new MinEventAction that handles modifying the quality of items.
+				<triggered_effect trigger="onSelfItemRepaired" action="ModifyItem, SCore" >
+		- Added new Requirement to check against the quality of an item.
+			<requirement name="CompareItemProperty, SCore" property="Quality" operation="Equals" value="1"/>
+
+		[ See More ](Features/ItemRepairDegradation/ReadMe.md)
+
+
 Version: 2.0.24.1245
 	[ Spawn Cube ]
 		- Cleaned up SpawnCube2SDX
