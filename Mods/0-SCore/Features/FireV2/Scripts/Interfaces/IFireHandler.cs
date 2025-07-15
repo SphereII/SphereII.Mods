@@ -12,4 +12,9 @@ public interface IFireHandler
     void Reset();
     void ForceStop();
     int CloseFires(Vector3i position, int maxRange);
+
+    bool IsAnyFireBurning();
+    public void DisplayStatus(double elapsedTime);
+    public bool IsProcessing();
+    public int GetFiresPerFrame();
 }

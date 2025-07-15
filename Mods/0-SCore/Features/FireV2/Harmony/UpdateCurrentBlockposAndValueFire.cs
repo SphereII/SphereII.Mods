@@ -8,11 +8,12 @@ namespace Features.Fire.Harmony
     {
         public static void Postfix(int _x, int _y, int _z, Entity entity)
         {
-            if (FireManager.Instance == null) return;
-           // FireManager.Instance.CheckForPlayer(entity);
-            
+            if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return;
             var blockPosition = new Vector3i(_x, _y, _z);
-            
+           
+            // Check to see if the player is near fire for sounds
+            FireManager.Instance.CheckForPlayer(entity);
+
             if (!FireManager.Instance.IsBurning(blockPosition)) return;
             
             if ( !GameManager.IsDedicatedServer)
@@ -25,7 +26,8 @@ namespace Features.Fire.Harmony
             {
                 entityAlive.Buffs.AddBuff(buff, -1, entityAlive.isEntityRemote);
             }
-              //  entityAlive.Buffs.AddBuff(buff, entityAlive.entityId);
+
+
         }
     }
 }

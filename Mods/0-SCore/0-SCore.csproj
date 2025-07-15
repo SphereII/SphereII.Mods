@@ -109,6 +109,7 @@
     <Compile Include="Features\FireV2\Scripts\FireHandler.cs" />
     <Compile Include="Features\FireV2\Scripts\FireManager.cs" />
     <Compile Include="Features\FireV2\Scripts\FireNetworkManager.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireParticleOptimizer.cs" />
     <Compile Include="Features\FireV2\Scripts\Interfaces\IFireHandler.cs" />
     <Compile Include="Features\FireV2\Scripts\Interfaces\IFireNetworkManager.cs" />
     <Compile Include="Features\FireV2\Scripts\Interfaces\ILightManager.cs" />

@@ -15,10 +15,13 @@ damage, and appears visually.
     * **`FireEnable`**: Set to `true` to activate all FireV2 mechanics.
     * **`CheckInterval`**: Defines the frequency (in game ticks/seconds) at which the system checks for fire propagation
       and updates. A lower value leads to faster, more aggressive fire behavior.
+    * **`FireSpread`**: Allows fire to spread to neighbor blocks.
     * **Example (`Config/blocks.xml`)**:
       ```xml
       <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']/property[@name='FireEnable']/@value">true</set>
       <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']/property[@name='CheckInterval']/@value">20</set>
+      <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='FireManagement']/property[@name='FireSpread']/@value">true</set>
+
       ```
 * **Damage and Susceptible Materials**:
     * **`FireDamage`**: Sets the base damage dealt by fire to both blocks and entities per check interval.

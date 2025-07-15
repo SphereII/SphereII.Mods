@@ -32,6 +32,17 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.3.1505
+
+	[ Fire Manager ]
+		- Fixed an issue where fire sounds were heard by every player, regardless of proxmity of fire.
+		- Updated the logic on how each player hears to allow it to fade correctly.
+		- Modified the processing logic to ensure all blocks on fire will be processed accurately.
+		- Added a Fire Particple Optimizer that enables culling based on the size of the fire.
+			- A Small fire will have a particle on each block.
+			- A medium size fire will a particle on it, however, neighborly blocks will not.
+			- A larger size fire will further reduce the concentration of particles.
+
 Version: 2.1.2.1825
 
 	[ Audio Patch ]

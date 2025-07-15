@@ -9,6 +9,7 @@ public class RequirementIsNearFire : RequirementBase
     float maxRange = 5f;
     public override bool IsValid(MinEventParams _params)
     {
+        if (FireManager.Instance == null || FireManager.Instance.Enabled == false) return false;
         return FireManager.Instance.IsPositionCloseToFire(new Vector3i(_params.Self.position), (int)maxRange);
     }
 

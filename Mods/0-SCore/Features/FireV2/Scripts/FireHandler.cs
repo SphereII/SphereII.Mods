@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,6 +15,7 @@ public class FireHandler : IFireHandler
     private readonly Dictionary<Vector3i, float> _extinguishedPositions = new Dictionary<Vector3i, float>();
     private readonly FireEvents _events;
     private readonly FireConfig _config;
+    private readonly FireParticleOptimizer _fireParticleOptimizer;
     private readonly GameRandom _random = GameManager.Instance.World.GetGameRandom();
     private ThreadManager.ThreadInfo _dataSaveThreadInfo;
     private const string SaveFile = "FireManager.dat";
@@ -28,8 +30,17 @@ public class FireHandler : IFireHandler
     {
         _events = events;
         _config = config;
+        _fireParticleOptimizer = new FireParticleOptimizer();
     }
 
+    public int GetFiresPerFrame()
+    {
+        return FIRES_PER_FRAME;
+    }
+    public bool IsProcessing()
+    {
+        return _isProcessing;
+    }
     public void AddFire(Vector3i position, int entityId = -1)
     {
         if (!_config.Enabled || _fireMap.ContainsKey(position) || !IsFlammable(position))
@@ -47,10 +58,9 @@ public class FireHandler : IFireHandler
 
     public void RemoveFire(Vector3i position, int entityId = -1, bool showSmoke = true)
     {
-        if (!_fireMap.Remove(position))
-            return;
-
         StopFireEffects(position);
+
+        if (!_fireMap.Remove(position)) return;
 
         if (!showSmoke) return;
         // Add to extinguished positions with expiry time
@@ -149,6 +159,15 @@ public class FireHandler : IFireHandler
         return _fireMap.ContainsKey(position);
     }
 
+
+    public void DisplayStatus(double seconds = -1f)
+    {
+        if (!_config.Logging) return;
+        var message =$"Processing Current Fires: {_fireMap.Count} : Max Per Frame: {FIRES_PER_FRAME} : Processing Queue: {_processingQueue.Count}"; 
+        if (seconds >= 0)
+            message = $"Processed: Current Fires: {_fireMap.Count} : Max Per Frame: {FIRES_PER_FRAME} : Processing Queue: {_processingQueue.Count} Time: {seconds}";
+        Log.Out(message);
+    }
     public void UpdateFires()
     {
         var currentTime = Time.realtimeSinceStartup;
@@ -162,7 +181,7 @@ public class FireHandler : IFireHandler
             _isProcessing = true;
             _pendingChanges.Clear();
         }
-
+        
         // Process batch
         ProcessFireBatch();
 
@@ -171,6 +190,7 @@ public class FireHandler : IFireHandler
         {
             FinalizeBatchProcessing();
         }
+        
     }
 
     private void ProcessFireBatch()
@@ -220,6 +240,7 @@ public class FireHandler : IFireHandler
 
         if (block.damage >= block.Block.MaxDamage)
         {
+            blocksToRemove.Add(position);
             HandleBlockDestruction(position, block);
             return false;
         }
@@ -297,6 +318,19 @@ public class FireHandler : IFireHandler
 
         // Raise update event
         _events.RaiseFireUpdate(_fireMap.Count);
+
+        switch (_fireMap.Count)
+        {
+            case > 100:
+                _fireParticleOptimizer.UpdateCullDistance(2);
+                _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
+                break;
+            case > 30:
+                _fireParticleOptimizer.UpdateCullDistance(1);
+                _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
+                break;
+        }
+        
 
         // Reset processing state
         _isProcessing = false;
@@ -425,19 +459,14 @@ public class FireHandler : IFireHandler
         var fireParticle = GetRandomFireParticle(position);
         if (!string.IsNullOrEmpty(fireParticle))
         {
-            BlockUtilitiesSDX.addParticlesCentered(fireParticle, position);
+            if ( _fireMap.Count < 30)
+                BlockUtilitiesSDX.addParticlesCentered(fireParticle, position);
         }
 
         // Add light
         if (_config.LightIntensity > 0)
         {
             _events.RaiseLightAdded(position);
-        }
-
-        // Add sound
-        if (!string.IsNullOrEmpty(_config.FireSound))
-        {
-            Manager.PlayInsidePlayerHead(_config.FireSound, -1, 0, true);
         }
     }
 
@@ -468,12 +497,6 @@ public class FireHandler : IFireHandler
 
         // Remove light
         _events.RaiseLightRemoved(position);
-
-        // Stop sound
-        if (!string.IsNullOrEmpty(_config.FireSound))
-        {
-            Manager.StopLoopInsidePlayerHead(_config.FireSound, -1);
-        }
     }
 
     private void UpdateExtinguishedPositions()
@@ -523,6 +546,10 @@ public class FireHandler : IFireHandler
         SaveState();
     }
 
+    public bool IsAnyFireBurning()
+    {
+        return _fireMap.Count > 0;
+    }
     public void ForceStop()
     {
      
