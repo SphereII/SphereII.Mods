@@ -19,9 +19,9 @@
 
 	<!-- For testing, this rate (in minutes) should be set no lower than 2 -->
 
-
+<!--
 	<append xpath="/blocks/block/property[@name='FilterTags' and contains(@value, 'SC_crops')]/@value">,fcropsDestroy</append>
-	
+-->
 	
 	<!-- Water System -->
 	<!-- Sets the class for the metalPipes to be the WaterPipeSDX. This is used as a flag to see if it can carry water or not. -->

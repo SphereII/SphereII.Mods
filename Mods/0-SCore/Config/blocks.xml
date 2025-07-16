@@ -178,7 +178,11 @@
                 <property name="EntityPooling" value="false"/>
                 
                 <!-- Vanilla is default to 30. -1 disables this patch. -->
-                <propert name="EnemyActiveMax" value="-1" />
+                <property name="EnemyActiveMax" value="-1" />
+                
+                <!-- There is a limited in the CheckToSpawn that will only spawn a scout after a 20% random roll -->
+                <!-- -1 disables this patch.  A value of 0.2 will be 20% chance to spawn.  A value of 1 will be 100% chance -->
+                <property name="ScoutSpawnChance" value="-1" />
             </property>
 
             <property class="AdvancedProgression">

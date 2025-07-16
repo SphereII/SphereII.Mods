@@ -115,6 +115,7 @@ In addition, the `RandomSize` is property is `true` or `false`, to check if they
 You can enforce a specific size range for an entity class using the `RandomSizes` property:
 
 ```xml
+
 <property name="RandomSizes" value="1.2,1.2,1.4"/>
 ```
 
@@ -127,7 +128,8 @@ You can enforce a specific size range for an entity class using the `RandomSizes
 * To use this property, the ConfigurationBlock's RandomSize must be set to true.
 
 ```xml
-<property name="RandomSize" value="true" />
+
+<property name="RandomSize" value="true"/>
 ```
 
 ---
@@ -163,3 +165,41 @@ To enforce a specific range of walk types for an entity class, use the `RandomWa
 * **`RandomWalkTypes`**: This property defines a comma-separated list of integer values, each representing a possible
   walk type the entity can exhibit upon spawning. The system will randomly select one of these values. For example,
   `2,3,21,5,6,7,22` means the entity could use walk types 2, 3, 21, 5, 6,7 or 22.
+
+---
+
+## AIDirectorChunkEventComponentScout Patch Documentation
+
+The AIDirectorChunkEventComponentScout Harmony patch customizes the behavior of the AI Director's chunk event system,
+specifically controlling the spawning of scout zombies.
+
+* **Patch Target**: AIDirectorChunkEventComponent.CheckToSpawn
+* **Purpose**: To introduce a configurable chance for scout zombies to spawn based on various in-game conditions, offering
+more control over zombie behavior and difficulty.
+
+###  Configuration
+The behavior of this patch is controlled by the ScoutSpawnChance property within the AdvancedZombieFeatures class in
+your configuration file (e.g., blocks.xml or Config/features.xml).
+
+```xml
+<property class="AdvancedZombieFeatures">
+    <property name="ScoutSpawnChance" value="0.05"/> <!-- Example: 5% chance -->
+</property>
+```
+
+**Configuration Key**: AdvancedZombieFeatures/ScoutSpawnChance
+Type: Float
+
+**Explanation**: 
+This property defines the probability (as a float between 0.0 and 1.0) that a scout zombie will be spawned when all other conditions are met.
+
+**Special Configuration Values**:
+
+-1.0 (ConfigDisableCustomSpawn):
+If ScoutSpawnChance is set to -1.0, this custom patch will be completely disabled. The original game's
+AIDirectorChunkEventComponent.CheckToSpawn method will execute without any interference from this patch.
+
+0.2 (ConfigAllowOriginalChance):
+If ScoutSpawnChance is set to 0.2, this custom patch will also defer to the original method. This is the vanilla setting for 2.1.
+
+---

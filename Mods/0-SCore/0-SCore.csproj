@@ -308,6 +308,7 @@
     <Compile Include="Harmony\XUIC\XUiC_ItemStack_SlotTags.cs" />
     <Compile Include="Harmony\XUIC\XUiC_LootWindowGroupOnOpen.cs" />
     <Compile Include="Harmony\XUIC\XUiC_TargetBar.cs" />
+    <Compile Include="Harmony\ZombieFeatures\AIDirectorChunkEventComponentScout.cs" />
     <Compile Include="Harmony\ZombieFeatures\EntityFlyingEAITasks.cs" />
     <Compile Include="Harmony\ZombieFeatures\HeadshotOnly.cs" />
     <Compile Include="Harmony\ZombieFeatures\InertEntity.cs" />
