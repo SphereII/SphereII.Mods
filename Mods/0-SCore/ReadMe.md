@@ -32,6 +32,49 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.8.1723
+	[ Fire Manager ]
+		- Move sending blocks to clients more regularly, rather than waiting until all fire blocks were processed.
+			- Previously, this was only sent when all blocks were processed, which could be 10 seconds or so for larger fires.
+		- Added an additional Stop Sound in case there was a fire sound playing, but no fires left (ie, from tree falling down)
+
+	[ Challenges ]
+		- Fixed a potential null check on biome check in KillWithItem
+
+	[ Triggered Effects Hooks ]
+		- Cleaned up various trigger calls to unhooked up vanilla triggers under Features\PassiveEffectHooks
+		- Added onSelfHarvestOther
+		- Added onSelfHarvestBlock
+		- Added onSelfItemCraft
+		- Added onSelfItemRepaired
+		- Added onSelfPrimaryActionMiss
+
+	[ BlockSpawnCube2SDX ]
+		- Fixed an issue where ec= parameter was being improperly read
+
+	[ Buff Requirements ]
+		- Added new Buff Requirements
+			- <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" />
+				- True if the block you are harvesting has any Harvest Drop events with the tag of SalvageHarvest
+
+			- <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attPerception" />
+				- True if attPerception is currently locked to the player.
+
+			- <requirement name="RequirementIsTargetBlock, SCore" tags="air"/>
+				- True if the target block is air.
+			- <requirement name="RequirementQuestObjective, SCore" objective="ObjectiveTreasureChest" />
+				- True if any quest is currently in <objective type="TreasureChest"
+
+	[ MinEvent Action Change Faction SDX ]
+		- Added clearing of the RevengeTarget
+
+	[ SphereII Learn By Doing ]
+		- Experimental modlet designed to bring back Learn by Doing without touching progressions.xml or items.xml.
+		- Don't use this unless you are intentionally and knowingly testing it.
+		
+
+
+
 Version: 2.1.4.1248
 
 	[ AIDirector Scout Chance ]

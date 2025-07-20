@@ -183,3 +183,145 @@ Checks the relationship value with a specific faction.
 
 **Explanation**: Requires the entity's relationship with the "bandits" faction to be Greater Than or Equal to 500.
 `operator` can be `LT`, `LTE`, `GT`, `GTE`, `EQ`, `NEQ`.
+
+### 14\. `RequirementQuestObjective, SCore`
+
+This requirement checks all in-progress quests for specific in-progress objectives, allowing modders to create
+conditional logic based on a player's active quest progression [cite: user\_provided\_code].
+
+```xml
+
+<requirement name="RequirementQuestObjective, SCore" id="cntBuriedLootStashChest"/>
+<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+<requirement name="RequirementQuestObjective, SCore" objective="ObjectiveTreasureChest"/>
+```
+
+**Explanation**: This requirement takes the following attributes:
+
+* **`name="RequirementQuestObjective, SCore"`**: The name of the requirement [cite: user\_provided\_code].
+* **`id`**: (Optional) Specifies the ID of the objective to check. The interpretation of this `id` depends on the
+  objective's type [cite: user\_provided\_code]:
+    * For `TreasureChest` objectives, the `id` refers to the **block name** (e.g.,
+      `cntBuriedLootStashChest`) [cite: user\_provided\_code].
+    * For `EntityKill` objectives, it would be the **entity name(s)**.
+    * For `Goto` objectives, it would be the **location name**.
+    * The comparison is case-insensitive [cite: user\_provided\_code].
+* **`objective`**: (Optional) Specifies the type of objective to check. This can be the full class name (e.g.,
+  `ObjectiveTreasureChest`) or a shorthand (e.g., `TreasureChest`), as the code automatically prepends "Objective" if
+  missing and converts to lowercase for comparison [cite: user\_provided\_code].
+* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement evaluates to `true` if *no* matching
+  in-progress quest objective is found [cite: user\_provided\_code].
+
+**Special Behavior for `TreasureChest` Objectives:**
+When checking for an `objective="TreasureChest"` (or `ObjectiveTreasureChest`), an additional radius check is
+performed [cite: user\_provided\_code]. The requirement will only return `true` if the player is currently **within
+the `CurrentRadius`** of the active `TreasureChest` objective's location [cite: user\_provided\_code]. This ensures that
+the condition is met only when the player is actively near the quest's treasure.
+
+### 15\. `RequirementIsTargetBlock, SCore`
+
+This requirement checks if the `BlockValue` associated with the current `MinEventParams` (i.e., the block at the event's
+target location) possesses specific tags. It allows for conditional logic based on the characteristics of the block that
+an event is interacting with.
+
+```xml
+
+<requirement name="RequirementIsTargetBlock, SCore" tags="wood,stone" has_all_tags="false" invert="false"/>
+```
+
+**Explanation**: This requirement takes the following attributes:
+
+* **`name="RequirementIsTargetBlock, SCore"`**: The name of the requirement.
+* **`tags`**: (Required) A comma-separated string of `FastTags` that the target block will be checked against. The block
+  must possess these tags.
+* **`has_all_tags`**: (Optional) A boolean value. If `true`, the target block must have *all* of the tags specified in
+  the `tags` attribute. If `false` (default behavior), the block only needs to have *any* of the specified tags.
+* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted, meaning it evaluates to
+  `true` if the target block *does not* meet the specified tag conditions.
+
+**Example Usage:**
+
+You could use this requirement in an `effect_group` within an item or buff, or in a `response_entry` in a dialog, to
+ensure an action only triggers when a player interacts with a block that has certain properties:
+
+```xml
+
+<effect_group>
+    <triggered_effect trigger="onSelfPrimaryActionEnd" action="PlaySound" sound="player_pickup">
+        <requirement name="RequirementIsTargetBlock, SCore" tags="wood,stone" has_all_tags="false"/>
+    </triggered_effect>
+
+    <triggered_effect trigger="onBlockDamaged">
+        <requirement name="RequirementIsTargetBlock, SCore" tags="electric,trap" has_all_tags="true"/>
+    </triggered_effect>
+
+    <triggered_effect trigger="onBlockPlaced">
+        <requirement name="RequirementIsTargetBlock, SCore" tags="decorative,furniture" has_all_tags="false"
+                     invert="true"/>
+    </triggered_effect>
+</effect_group>
+```
+
+### 16\. `RequirementBlockHasHarvestTags, SCore`
+
+This requirement checks if a target block, when harvested, is configured to drop items that possess any of a specified
+set of tags. This allows for conditional actions based on the harvestable properties of blocks.
+
+```xml
+
+<requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
+```
+
+**Explanation**: This requirement takes the following attributes:
+
+* **`name="RequirementBlockHasHarvestTags, SCore"`**: The name of the requirement.
+* **`tags`**: (Required) A comma-separated string of tags. The requirement evaluates to `true` if the target block has
+  configured harvest drops, and *any* of those harvestable items possess *any* of the tags specified in this attribute.
+* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted, meaning it evaluates to
+  `true` if the target block *does not* have harvest drops with the specified tags.
+
+**Example Usage:**
+
+You could use this requirement to trigger a special effect or provide a specific dialog option when a player harvests a
+block that yields items with certain characteristics:
+
+```xml
+
+<effect_group>
+  <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="8">
+    <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+    <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" /> <!-- The Superior Requirement -->
+    <requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
+  </triggered_effect>
+</effect_group>
+```
+
+### 17\. `RequirementIsProgressionLocked, SCore`
+
+This requirement checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for the entity (typically the player) that triggered the event. This allows for conditional content or actions based on the player's progression lock status.
+
+```xml
+```
+
+**Explanation**: This requirement takes the following attributes:
+
+* **`name="RequirementIsProgressionLocked, SCore"`**: The name of the requirement.
+* **`progression_name`**: (Required) A string representing the ID of the progression to check (e.g., `attPerception` for the Perception attribute, or the ID of a specific perk or skill).
+* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted. This means it evaluates to `true` if the specified progression is *not* locked (i.e., it is unlocked). The XML shorthand `!` before the requirement name (e.g., `!RequirementIsProgressionLocked`) is equivalent to setting `invert="true"`.
+
+**Example Usage:**
+
+You can use this requirement to make a recipe available only if a certain skill is unlocked, or to display a dialog option only if an attribute is still locked:
+
+```xml
+<buff name="buffLBD_attPerception_LevelUpCheck" hidden="true">
+  <stack_type value="ignore"/><duration value="1"/>
+  <effect_group>
+    <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception" />
+    <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception" level="1"/>
+    <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="subtract" value="@$attperception_lbd_xptonext"/>
+    <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="multiply" value="1.3"/>
+    <triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+  </effect_group>
+</buff>
+```

@@ -1,0 +1,145 @@
+<configs>
+	<append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+		<effect_group name="Agility Perks">
+			<!-- ... (existing initializers for Perception, Strength, and Fortitude) ... -->
+			<!-- Add Initializers for Agility CVars -->
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attAgility_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attAgility_LBD_XPToNext" operation="set" value="5000"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkArchery_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkArchery_LBD_XPToNext" operation="set" value="1100"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGunslinger_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGunslinger_LBD_XPToNext" operation="set" value="1200"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkDeepCuts_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkDeepCuts_LBD_XPToNext" operation="set" value="1000"/>
+			<!-- Apply the new Agility Manager Buff -->
+			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_AgilityManager"/>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<!-- =============================================================================== -->
+		<!-- ====================== AGILITY LEARN BY DOING SYSTEM ========================== -->
+		<!-- =============================================================================== -->
+		<!-- Buff #1: The AGILITY MANAGER BUFF -->
+		<!-- This is the permanent buff that handles all LBD logic for the Agility attribute and its child perks. -->
+		<buff name="buffLBD_AgilityManager" hidden="true">
+			<stack_type value="ignore"/>
+			<!-- === XP GAIN LOGIC === -->
+			<effect_group>
+				<!-- Grant XP for attAgility for ANY agility-related action -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attAgility_LBD_XP" operation="add" value="5">
+					<requirement name="HoldingItemHasTags" tags="attAgility"/>
+					<requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+					<requirement name="HoldingItemHasTags" tags="attAgility"/>
+					<requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+				</triggered_effect>
+				<!-- Grant XP for perkArchery when using a bow or crossbow -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkArchery_LBD_XP" operation="add" value="12">
+					<requirement name="HoldingItemHasTags" tags="perkArchery"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkArchery_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkArchery_XPCoolDown">
+					<requirement name="HoldingItemHasTags" tags="perkArchery"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkArchery_XPCoolDown"/>
+				</triggered_effect>
+				<!-- Grant XP for perkGunslinger when using a handgun -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkGunslinger_LBD_XP" operation="add" value="15">
+					<requirement name="HoldingItemHasTags" tags="perkGunslinger"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkGunslinger_XPCoolDown">
+					<requirement name="HoldingItemHasTags" tags="perkGunslinger"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+				</triggered_effect>
+				<!-- Grant XP for perkDeepCuts when using a bladed weapon -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkDeepCuts_LBD_XP" operation="add" value="10">
+					<requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeepCuts_XPCoolDown">
+					<requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+				</triggered_effect>
+			</effect_group>
+			<!-- === LEVEL UP CHECK LOGIC === -->
+			<effect_group>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+					<requirement name="HoldingItemHasTags" tags="attAgility"/>
+					<requirement name="CVarCompare" cvar="$attAgility_LBD_XP" operation="GTE" value="@$attAgility_LBD_XPToNext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkArchery_LevelUpCheck">
+					<requirement name="HoldingItemHasTags" tags="perkArchery"/>
+					<requirement name="CVarCompare" cvar="$perkArchery_LBD_XP" operation="GTE" value="@$perkArchery_LBD_XPToNext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkGunslinger_LevelUpCheck">
+					<requirement name="HoldingItemHasTags" tags="perkGunslinger"/>
+					<requirement name="CVarCompare" cvar="$perkGunslinger_LBD_XP" operation="GTE" value="@$perkGunslinger_LBD_XPToNext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeepCuts_LevelUpCheck">
+					<requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+					<requirement name="CVarCompare" cvar="$perkDeepCuts_LBD_XP" operation="GTE" value="@$perkDeepCuts_LBD_XPToNext"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+		<!-- Buff #2: SUPPORTING BUFFS (Cooldowns and Level-Up Handlers) -->
+		<!-- Cooldowns -->
+		<buff name="buffLBD_attAgility_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkArchery_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkGunslinger_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkDeepCuts_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- Level-Up Handlers -->
+		<buff name="buffLBD_attAgility_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attAgility"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attAgility" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attAgility_LBD_XP" operation="subtract" value="@$attAgility_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attAgility_LBD_XPToNext" operation="multiply" value="1.3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkArchery_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkArchery"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkArchery" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkArchery_LBD_XP" operation="subtract" value="@$perkArchery_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkArchery_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkGunslinger_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkGunslinger"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGunslinger" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGunslinger_LBD_XP" operation="subtract" value="@$perkGunslinger_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGunslinger_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkDeepCuts_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkDeepCuts"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeepCuts" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkDeepCuts_LBD_XP" operation="subtract" value="@$perkDeepCuts_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkDeepCuts_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

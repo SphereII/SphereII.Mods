@@ -163,16 +163,7 @@ public class BlockSpawnCube2SDX : BlockMotionSensor
         }
         else
         {
-            // Parse explicit entity ID from sign
-            if (int.TryParse(text, out int parsedEntityId))
-            {
-                entityId = parsedEntityId;
-            }
-            else
-            {
-                Debug.LogWarning($"BlockSpawnCube2SDX at {_blockPos}: Invalid 'ec' value '{text}'. Cannot spawn.");
-                return false;
-            }
+                entityId = text.GetHashCode();
         }
 
         var transformPos = _blockPos.ToVector3() + new Vector3(0.5f, 0.25f, 0.5f);

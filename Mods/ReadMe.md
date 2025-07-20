@@ -49,7 +49,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 	
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=0-SCore
 
 ***
 
@@ -68,7 +67,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=Blooms%20Family%20Farming
 	
 ***
 
@@ -87,7 +85,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 	
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20A%20Better%20Life
 
 ***
 
@@ -104,7 +101,6 @@ Server-Only 	| &check;
 EAC-Safe	 	| &check;
 
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Dedicated%20Tweaks
 
 ***
 
@@ -120,7 +116,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 	
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Legacy%20Distant%20Terrain
 
 ***
 
@@ -136,7 +131,6 @@ Single-Player 	| &check;
 Server-Only 	| &check;
 EAC-Safe	 	| &check;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20PG13
 
 ***
 
@@ -152,7 +146,6 @@ Single-Player 	| &check;
 Server-Only 	| &check;
 EAC-Safe	 	| &check;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Peace%20Of%20Mind
 
 ***
 
@@ -168,7 +161,6 @@ Single-Player 	| &check;
 Server-Only 	| &check;
 EAC-Safe	 	| &check;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Skip%20Tutorial%20Quests
 
 ***
 
@@ -184,7 +176,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Take%20And%20Replace
 
 ***
 
@@ -200,7 +191,6 @@ Single-Player 	| &check;
 Server-Only 	| &cross;
 EAC-Safe	 	| &cross;
 
-https://gitlab.com/sphereii/SphereII-Mods/-/archive/master/SphereII-Mods-master.zip?path=SphereII%20Music%20Boxes
 
 
 ***

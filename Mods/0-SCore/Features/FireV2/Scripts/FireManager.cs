@@ -79,6 +79,8 @@ public class FireManager : MonoBehaviour
 
     private IEnumerator UpdateFiresRoutine()
     {
+        if (!_fireHandler.IsAnyFireBurning()) yield break;
+        
         var stopwatch = new Stopwatch();
         stopwatch.Restart(); // Start measuring time for this frame's processing chunk
 
@@ -124,7 +126,11 @@ public class FireManager : MonoBehaviour
             return;
         }
 
-        if (!Instance.IsPositionCloseToFire(position, 10)) return;
+        if (!Instance.IsPositionCloseToFire(position, 10))
+        {
+            StopSoundAtPosition(player, position);
+            return;
+        }
 
         var fireSound = _config.FireSound.ToLower();
 

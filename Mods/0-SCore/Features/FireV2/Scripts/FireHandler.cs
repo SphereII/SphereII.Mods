@@ -185,6 +185,13 @@ public class FireHandler : IFireHandler
         // Process batch
         ProcessFireBatch();
 
+        // Apply all accumulated changes
+        if (_pendingChanges.Count > 0)
+        {
+            GameManager.Instance.SetBlocksRPC(_pendingChanges);
+            _pendingChanges.Clear();
+        }
+
         // Check if we're done processing all fires
         if (_processingQueue.Count == 0)
         {
@@ -306,13 +313,7 @@ public class FireHandler : IFireHandler
 
     private void FinalizeBatchProcessing()
     {
-        // Apply all accumulated changes
-        if (_pendingChanges.Count > 0)
-        {
-            GameManager.Instance.SetBlocksRPC(_pendingChanges);
-            _pendingChanges.Clear();
-        }
-
+   
         // Update extinguished positions
         UpdateExtinguishedPositions();
 

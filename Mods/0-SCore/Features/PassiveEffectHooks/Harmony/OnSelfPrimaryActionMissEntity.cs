@@ -1,8 +1,6 @@
-﻿using HarmonyLib;
-using UnityEngine;
-using UAI;
+using HarmonyLib;
 
-namespace SCore.Harmony.ItemActions
+namespace SCore.Features.PassiveEffectHooks.Harmony
 {
     [HarmonyPatch(typeof(ItemActionMelee))]
     [HarmonyPatch(nameof(ItemActionMelee.GetExecuteActionTarget))]

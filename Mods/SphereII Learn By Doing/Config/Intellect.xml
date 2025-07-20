@@ -1,0 +1,196 @@
+<configs>
+	<append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+		<effect_group name="Intellect">
+			<!-- ... (existing initializers for other attributes) ... -->
+			<!-- Add Initializers for Intellect CVars -->
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attIntellect_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attIntellect_LBD_XPToNext" operation="set" value="5000"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkElectrocutioner_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkElectrocutioner_LBD_XPToNext" operation="set" value="1100"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkPhysician_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkPhysician_LBD_XPToNext" operation="set" value="1500"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkAdvancedEngineering_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkAdvancedEngineering_LBD_XPToNext" operation="set" value="2000"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGreaseMonkey_LBD_XP" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGreaseMonkey_LBD_XPToNext" operation="set" value="2000"/>
+			<!-- Apply the new Intellect Manager Buff -->
+			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_IntellectManager"/>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		        <!-- =============================================================================== -->
+        <!-- ===================== INTELLECT LEARN BY DOING SYSTEM ========================= -->
+        <!-- =============================================================================== -->
+
+        <!-- This is the permanent buff that handles all LBD logic for the Intellect attribute and its child perks. -->
+        <buff name="buffLBD_IntellectManager" hidden="true">
+            <stack_type value="ignore"/>
+            
+            <!-- Group for Intellect Attribute -->
+            <effect_group name="Intellect">
+                <!-- This group uses multiple triggers since Intellect actions are varied -->
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attIntellect_LBD_XP" operation="add" value="5">
+                    <requirement name="HoldingItemHasTags" tags="attIntellect"/>
+                    <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfItemCraft" action="ModifyCVar" cvar="$attIntellect_LBD_XP" operation="add" value="10">
+                    <requirement name="CraftingItemHasTags" tags="attIntellect"/>
+                    <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfHealed" action="ModifyCVar" cvar="$attIntellect_LBD_XP" operation="add" value="8">
+                    <requirement name="NotHasBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
+                </triggered_effect>
+                <!-- Cooldown applicators for all actions -->
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attIntellect_XPCoolDown"><requirement name="HoldingItemHasTags" tags="attIntellect"/></triggered_effect>
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_attIntellect_XPCoolDown"><requirement name="CraftingItemHasTags" tags="attIntellect"/></triggered_effect>
+                <triggered_effect trigger="onSelfHealed" action="AddBuff" buff="buffLBD_attIntellect_XPCoolDown"/>
+                <!-- Level Up Checks for all actions -->
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attIntellect_LevelUpCheck"><requirement name="CVarCompare" cvar="$attIntellect_LBD_XP" operation="GTE" value="@$attIntellect_LBD_XPToNext"/></triggered_effect>
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_attIntellect_LevelUpCheck"><requirement name="CVarCompare" cvar="$attIntellect_LBD_XP" operation="GTE" value="@$attIntellect_LBD_XPToNext"/></triggered_effect>
+                <triggered_effect trigger="onSelfHealed" action="AddBuff" buff="buffLBD_attIntellect_LevelUpCheck"><requirement name="CVarCompare" cvar="$attIntellect_LBD_XP" operation="GTE" value="@$attIntellect_LBD_XPToNext"/></triggered_effect>
+            </effect_group>
+
+            <!-- Group for Electrocutioner Perk -->
+            <effect_group name="Electrocutioner">
+                <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkElectrocutioner_LBD_XP" operation="add" value="12">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+                </triggered_effect>
+                <!-- Level Up Check -->
+                <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkElectrocutioner_LevelUpCheck">
+                    <requirement name="CVarCompare" cvar="$perkElectrocutioner_LBD_XP" operation="GTE" value="@$perkElectrocutioner_LBD_XPToNext"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Group for Physician Perk -->
+            <effect_group name="Physician">
+                <triggered_effect trigger="onSelfHealed" action="ModifyCVar" cvar="$perkPhysician_LBD_XP" operation="add" value="15">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfHealed" action="AddBuff" buff="buffLBD_perkPhysician_XPCoolDown">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+                </triggered_effect>
+                <!-- Level Up Check -->
+                <triggered_effect trigger="onSelfHealed" action="AddBuff" buff="buffLBD_perkPhysician_LevelUpCheck">
+                    <requirement name="CVarCompare" cvar="$perkPhysician_LBD_XP" operation="GTE" value="@$perkPhysician_LBD_XPToNext"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Group for Advanced Engineering Perk -->
+            <effect_group name="Advanced Engineering">
+                <requirement name="CraftingToolHasTags" tags="workbench,chemStation"/>
+                <triggered_effect trigger="onSelfItemCraft" action="ModifyCVar" cvar="$perkAdvancedEngineering_LBD_XP" operation="add" value="20">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
+                </triggered_effect>
+                <!-- Level Up Check -->
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
+                    <requirement name="CVarCompare" cvar="$perkAdvancedEngineering_LBD_XP" operation="GTE" value="@$perkAdvancedEngineering_LBD_XPToNext"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Group for Grease Monkey Perk -->
+            <effect_group name="Grease Monkey">
+                <requirement name="CraftingItemHasTags" tags="vehicle"/>
+                <triggered_effect trigger="onSelfItemCraft" action="ModifyCVar" cvar="$perkGreaseMonkey_LBD_XP" operation="add" value="25">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown">
+                    <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+                </triggered_effect>
+                <!-- Level Up Check -->
+                <triggered_effect trigger="onSelfItemCraft" action="AddBuff" buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                    <requirement name="CVarCompare" cvar="$perkGreaseMonkey_LBD_XP" operation="GTE" value="@$perkGreaseMonkey_LBD_XPToNext"/>
+                </triggered_effect>
+            </effect_group>
+            
+            <!-- Placeholders for remaining Intellect perks to be implemented later -->
+            <effect_group name="Robotic Turrets" />
+            <effect_group name="Flurry of Blows" />
+            <effect_group name="Better Barter" />
+            <effect_group name="Daring Adventurer" />
+            <effect_group name="Charismatic Nature" />
+            <effect_group name="Intellect Mastery" />
+
+        </buff>
+
+		<!-- Buff #2: SUPPORTING BUFFS (Cooldowns and Level-Up Handlers) -->
+		<!-- Cooldowns -->
+		<buff name="buffLBD_attIntellect_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkElectrocutioner_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkPhysician_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkAdvancedEngineering_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkGreaseMonkey_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- Level-Up Handlers -->
+		<buff name="buffLBD_attIntellect_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attIntellect"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attIntellect" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attIntellect_LBD_XP" operation="subtract" value="@$attIntellect_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attIntellect_LBD_XPToNext" operation="multiply" value="1.3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkElectrocutioner_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkElectrocutioner"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkElectrocutioner" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkElectrocutioner_LBD_XP" operation="subtract" value="@$perkElectrocutioner_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkElectrocutioner_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkPhysician_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPhysician"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPhysician" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkPhysician_LBD_XP" operation="subtract" value="@$perkPhysician_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkPhysician_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkAdvancedEngineering_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkAdvancedEngineering"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAdvancedEngineering" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkAdvancedEngineering_LBD_XP" operation="subtract" value="@$perkAdvancedEngineering_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkAdvancedEngineering_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkGreaseMonkey_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkGreaseMonkey"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGreaseMonkey" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGreaseMonkey_LBD_XP" operation="subtract" value="@$perkGreaseMonkey_LBD_XPToNext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkGreaseMonkey_LBD_XPToNext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

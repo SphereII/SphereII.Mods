@@ -49,9 +49,11 @@ public class MinEventActionChangeFactionSDX : MinEventActionRemoveBuff
                     // Set the new faction ID as a cvar for saving.
                     entity.Buffs.SetCustomVar("FactionNew", newFaction.ID);
 
-                    Debug.Log("Changing " + entity.EntityName + " faction from " + entity.factionId + "  to " + newFaction.ID);
+                    //Debug.Log("Changing " + entity.EntityName + " faction from " + entity.factionId + "  to " + newFaction.ID);
                     entity.factionId = newFaction.ID;
                     entity.SetAttackTarget(null, 0);
+                    entity.SetRevengeTarget(null);
+
                 }
             }
         }

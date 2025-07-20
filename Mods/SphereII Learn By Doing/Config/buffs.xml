@@ -1,0 +1,18 @@
+<configs>
+	<append xpath="/buffs">
+		<!-- 1. THE GLOBAL INITIALIZER -->
+		<buff name="ProgressionLearnByDoing_Init" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<!-- Included files below will add the respective settings for each perk tree -->
+		</buff>
+	</append>
+	
+    <!-- Include the manager file for each attribute -->
+    <include filename="Perception.xml" />
+    <include filename="Strength.xml" />
+    <include filename="Fortitude.xml" />
+    <include filename="Agility.xml" />
+    <include filename="Intellect.xml" />
+
+</configs>

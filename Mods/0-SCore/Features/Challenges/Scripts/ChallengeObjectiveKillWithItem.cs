@@ -134,7 +134,7 @@ namespace Challenges {
             {
                 return false;
             }
-            if (this.biome != "" && this.Owner.Owner.Player.biomeStandingOn.m_sBiomeName != this.biome)
+            if (this.biome != "" && this.Owner.Owner.Player.biomeStandingOn?.m_sBiomeName != this.biome)
             {
                 return false;
             }

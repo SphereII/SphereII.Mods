@@ -1,0 +1,653 @@
+<configs>
+	<append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+		<effect_group name="Perception Perks">
+			<!-- ... -->
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="set" value="5000"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xptonext" operation="set" value="1000"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xptonext" operation="set" value="1500"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xptonext" operation="set" value="1000"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xptonext" operation="set" value="800"/>
+
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xptonext" operation="set" value="900"/>
+
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xptonext" operation="set" value="1500"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xptonext" operation="set" value="2000"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="set" value="0"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xptonext" operation="set" value="1800"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xptonext" operation="set" value="2500"/>
+			
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="set" value="0"/>
+			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xptonext" operation="set" value="3000"/>
+
+			<!-- Apply the new Perception Manager Buff -->
+			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_PerceptionManager"/>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<!-- =============================================================================== -->
+		<!-- ==================== PERCEPTION LEARN BY DOING SYSTEM ========================= -->
+		<!-- =============================================================================== -->
+
+		<!-- Buff #1: The PERCEPTION MANAGER BUFF -->
+		<buff name="buffLBD_PerceptionManager" hidden="true">
+			<stack_type value="ignore"/>
+
+			<!-- Group for Perception Attribute -->
+			<effect_group name="Perception">
+				<requirement name="HoldingItemHasTags" tags="attPerception"/>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="5">
+					<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+				</triggered_effect>
+			</effect_group>
+
+			<!-- Group for Dead Eye Perk -->
+			<effect_group name="Dead Eye">
+				<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkdeadeye_lbd_xp" operation="add" value="12">
+					<requirement name="NotHasBuff" buff="buffLBD_perkDeadEye_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeadEye_XPCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkDeadEye_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeadEye_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkdeadeye_lbd_xp" operation="GTE" value="@$perkdeadeye_lbd_xptonext"/>
+				</triggered_effect>
+			</effect_group>
+
+			<!-- Group for Demolitions Expert Perk -->
+			<effect_group name="Demolitions Expert">
+				<!-- Grant XP for the explosion -->
+				<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="add" value="20">
+					<requirement name="NotHasBuff" buff="buffLBD_perkDemolitionsExpert_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- Apply the cooldown -->
+				<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_XPCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkDemolitionsExpert_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- Level Up Check -->
+				<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+
+			<!-- Group for Javelin Master Perk -->
+			<effect_group name="Javelin Master">
+				<!-- These requirements now apply to all effects in this group -->
+				<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+				<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+
+				<!-- XP Gain -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="add" value="10">
+					<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- Cooldown Application -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- Level Up Check -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJavelinMaster_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkjavelinmaster_lbd_xp" operation="GTE" value="@$perkjavelinmaster_lbd_xptonext"/>
+				</triggered_effect>
+			</effect_group>
+			
+			<!-- Group for Salvage Operations Perk -->
+			<effect_group name="Salvage Operations">
+				<requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+				<requirement name="!RequirementIsTargetBlock, SCore" tags="air"/>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="8">
+					<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
+				</triggered_effect>
+			</effect_group>
+
+			<!-- Group for Flurry of Perception Perk -->
+			<effect_group name="Flurry of Perception">
+				<!-- This entire block will only be considered if the player is holding a spear. -->
+				<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+
+				<!-- === XP GAIN LOGIC === -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - COMBO HIT! Attempting XP Gain (+15)">
+					<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="15">
+					<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				</triggered_effect>
+
+				<!-- === COMBO WINDOW LOGIC === -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Starting/Refreshing Combo Window">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
+
+				<!-- === LEVEL UP CHECK LOGIC === -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Triggering Level Up Check">
+					<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+			<!-- Group for The Infiltrator Perk -->
+			<effect_group name="The Infiltrator">
+
+				<!-- ====================================================== -->
+				<!-- ================== XP GAIN LOGIC ===================== -->
+				<!-- ====================================================== -->
+
+				<!-- "The Tactician" - HIGH REWARD (Placement) -->
+				<triggered_effect trigger="onSelfPlaceBlock" action="LogMessage" message="LBD DEBUG: The Infiltrator - TRAP PLACED! Attempting XP Gain (+75)">
+					<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="add" value="75">
+					<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="subtract" value="1">
+					<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+				</triggered_effect>
+
+
+				<!-- "The Trapper" - BASELINE REWARD (Crafting) -->
+				<triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Crafted! Attempting XP Gain (+20) and adding Placement Credit.">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="add" value="20">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				</triggered_effect>
+
+
+				<!-- "The Scavenger" - BONUS (Looting) -->
+				<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				</triggered_effect>
+
+
+				<!-- ====================================================== -->
+				<!-- ============= COOLDOWN & LEVEL UP LOGIC ============== -->
+				<!-- ====================================================== -->
+
+				<triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown">
+					<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown">
+					<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				</triggered_effect>
+
+				<triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkinfiltrator_lbd_xp" operation="GTE" value="@$perkinfiltrator_lbd_xptonext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkInfiltrator_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkinfiltrator_lbd_xp" operation="GTE" value="@$perkinfiltrator_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+
+			<!-- Group for Animal Tracker Perk -->
+			<effect_group name="Animal Tracker">
+				<!-- This is the master requirement for the entire group. -->
+				<requirement name="EntityTagCompare" target="other" tags="animal"/>
+
+				<!-- ====================================================== -->
+				<!-- ============== ON ANIMAL KILL LOGIC ================== -->
+				<!-- ====================================================== -->
+
+				<!-- High reward for a skillful kill -->
+				<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Skillful Kill XP (+30)">
+					<!-- This new block checks if EITHER of the following conditions are met -->
+					<requirements compare_type="or">
+						<requirement name="HitLocation" body_part="Head"/>
+						<requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+					</requirements>
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="30">
+					<requirements compare_type="or">
+						<requirement name="HitLocation" body_part="Head"/>
+						<requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+					</requirements>
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+				</triggered_effect>
+
+				<!-- Standard reward for any other kill -->
+				<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Standard Kill XP (+15)">
+					<!-- This logic now correctly ensures it only fires if it was NOT a skillful kill -->
+					<requirement name="!HitLocation" body_part="Head"/>
+					<requirement name="!CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="15">
+					<requirement name="!HitLocation" body_part="Head"/>
+					<requirement name="!CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+				</triggered_effect>
+
+				<!-- Apply the kill cooldown -->
+				<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Applying Kill Cooldown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown">
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
+				</triggered_effect>
+
+				<!-- Check for a level up after a kill -->
+				<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Kill)">
+					<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
+				</triggered_effect>
+
+				<!-- ====================================================== -->
+				<!-- ============== ON ANIMAL HARVEST LOGIC =============== -->
+				<!-- ====================================================== -->
+
+				<!-- Bonus reward for harvesting an animal -->
+				<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Harvest XP (+10)">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="10">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
+				</triggered_effect>
+
+				<!-- Apply the harvest cooldown -->
+				<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Applying Harvest Cooldown">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
+				</triggered_effect>
+
+				<!-- Check for a level up after a harvest -->
+				<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Harvest)">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_LevelUpCheck">
+					<requirement name="HoldingItemHasTags" tags="knife,machete"/> <!-- The Corrected and Optimized Tag -->
+					<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+
+			<!-- Group for The Penetrator Perk -->
+			<effect_group name="The Penetrator">
+				<!-- Master requirement: this logic only applies when holding a rifle or spear. -->
+				<requirement name="HoldingItemHasTags" tags="perkDeadEye,perkJavelinMaster"/>
+
+				<!-- ====================================================== -->
+				<!-- ================== XP GAIN LOGIC ===================== -->
+				<!-- ====================================================== -->
+
+				<!-- High Skill, High Reward: Multi-Kill Bonus -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - MULTI-KILL! Attempting XP Gain (+40)">
+					<requirement name="HasBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="add" value="40">
+					<requirement name="HasBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+				</triggered_effect>
+
+				<!-- Baseline Reward: Hitting Elite Armored Targets -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Armored Hit! Attempting XP Gain (+18)">
+					<!-- The 'zombie' tag has been removed for a more focused progression -->
+					<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="add" value="18">
+					<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- ====================================================== -->
+				<!-- =========== COOLDOWN & COMBO WINDOW LOGIC ============ -->
+				<!-- ====================================================== -->
+
+				<!-- This trigger STARTS or REFRESHES the multi-hit window on ANY successful hit. -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Starting/Refreshing Multi-Hit Window">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+
+				<!-- This trigger applies the standard cooldown for armored hits. -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Applying Cooldown">
+					<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPenetrator_XPCoolDown">
+					<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+				</triggered_effect>
+
+				<!-- ====================================================== -->
+				<!-- ============= LEVEL UP CHECK LOGIC =================== -->
+				<!-- ====================================================== -->
+
+				<!-- This checks for a level up on ANY successful hit, to ensure it catches both XP sources. -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Triggering Level Up Check">
+					<requirement name="CVarCompare" cvar="$perkpenetrator_lbd_xp" operation="GTE" value="@$perkpenetrator_lbd_xptonext"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPenetrator_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkpenetrator_lbd_xp" operation="GTE" value="@$perkpenetrator_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+			<!-- Group for Treasure Hunter Perk -->
+			<effect_group name="Treasure Hunter">
+				<!-- 
+                  This is the master requirement for the entire group.
+                  None of the effects below will even be considered unless the player
+                  is actively on a treasure hunt quest.
+                -->
+				<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+
+				<!-- ====================================================== -->
+				<!-- ================== XP GAIN LOGIC ===================== -->
+				<!-- ====================================================== -->
+
+				<!-- "The Dig" - Baseline Reward -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Treasure Hunter - DIGGING! Attempting XP Gain (+5)">
+					<requirement name="HoldingItemHasTags" tags="tool"/>
+					<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="5">
+					<requirement name="HoldingItemHasTags" tags="tool"/>
+					<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
+				</triggered_effect>
+
+				<!-- "The Discovery" - HIGH REWARD -->
+				<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Treasure Hunter - TREASURE CHEST OPENED! Attempting XP Gain (+150)">
+					<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="150">
+					<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
+				</triggered_effect>
+
+				<!-- ====================================================== -->
+				<!-- ============= COOLDOWN & LEVEL UP LOGIC ============== -->
+				<!-- ====================================================== -->
+
+				<!-- Apply the digging cooldown -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Applying Dig Cooldown">
+					<requirement name="HoldingItemHasTags" tags="tool"/>
+					<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown">
+					<requirement name="HoldingItemHasTags" tags="tool"/>
+					<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+				</triggered_effect>
+
+				<!-- Apply the looting cooldown -->
+				<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Applying Loot Cooldown">
+					<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown">
+					<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+				</triggered_effect>
+
+				<!-- Check for a level up after any action that could grant XP -->
+				<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkTreasureHunter_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkTreasureHunter_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+			<!-- Group for Perception Mastery Perk -->
+			<effect_group name="Perception Mastery">
+
+				<!-- ====================================================== -->
+				<!-- ================== XP GAIN LOGIC ===================== -->
+				<!-- ====================================================== -->
+
+				<!-- "The Scrounger" - Rewarding the bonus harvest -->
+				<!-- This grants XP for harvesting blocks that yield salvage, using a proper salvage tool. -->
+				<triggered_effect trigger="onSelfHarvestBlock" action="LogMessage" message="LBD DEBUG: Perception Mastery - Scrounging XP (+8)">
+					<requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+					<requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" />
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="8">
+					<requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+					<requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" />
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
+				</triggered_effect>
+
+				<!-- "The Sharpshooter" - Rewarding rifle usage -->
+				<!-- This grants XP for damaging enemies with a rifle. -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Mastery - Rifle Damage XP (+10)">
+					<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="10">
+					<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+				</triggered_effect>
+
+				<!-- "The Skirmisher" - Rewarding spear usage -->
+				<!-- This grants XP for damaging enemies with a spear. -->
+				<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Mastery - Spear Damage XP (+10)">
+					<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="10">
+					<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+					<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+				</triggered_effect>
+
+				<!-- ====================================================== -->
+				<!-- ============= COOLDOWN & LEVEL UP LOGIC ============== -->
+				<!-- ====================================================== -->
+
+				<!-- Apply the harvesting cooldown -->
+				<triggered_effect trigger="onSelfHarvestBlock" action="AddBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown">
+					<requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+					<requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" />
+				</triggered_effect>
+
+				<!-- Apply the combat cooldown -->
+				<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown">
+					<requirement name="HoldingItemHasTags" tags="perkDeadEye,perkJavelinMaster"/>
+				</triggered_effect>
+
+				<!-- Check for a level up after any action -->
+				<triggered_effect trigger="onSelfHarvestBlock" action="AddBuff" buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_xp" operation="GTE" value="@$perkperceptionmastery_lbd_xptonext"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+					<requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_xp" operation="GTE" value="@$perkperceptionmastery_lbd_xptonext"/>
+				</triggered_effect>
+
+			</effect_group>
+		</buff>
+
+		<!-- Buff #2: SUPPORTING BUFFS (Cooldowns and Level-Up Handlers) -->
+
+		<!-- This is the temporary buff that creates the 2-second window for a combo strike -->
+		<buff name="buffLBD_Flurry_ComboWindow" hidden="false">
+			<stack_type value="replace"/>
+			<duration value="2"/>
+		</buff>
+		
+		<!-- Cooldowns -->
+		<buff name="buffLBD_attPerception_XPCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkDeadEye_XPCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkDemolitionsExpert_XPCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkJavelinMaster_XPCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkSalvageOperations_XPCoolDown" hidden="true"><duration value="1.5"/></buff>
+		<buff name="buffLBD_perkAnimalTracker_KillCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkAnimalTracker_HarvestCoolDown" hidden="true"><duration value="5"/></buff>
+		<buff name="buffLBD_perkTreasureHunter_DigCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkTreasureHunter_LootCoolDown" hidden="true"><duration value="1"/></buff>
+		<buff name="buffLBD_perkPerceptionMastery_HarvestCoolDown" hidden="true"><duration value="2"/></buff>
+		<buff name="buffLBD_perkPerceptionMastery_CombatCoolDown" hidden="true"><duration value="1"/></buff>
+		
+		<!-- Supporting Buffs for The Penetrator -->
+		<buff name="buffLBD_Penetrator_MultiHitWindow" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="0.1"/>
+		</buff>
+		<buff name="buffLBD_perkPenetrator_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+		<!--  Level-Up Handlers (NOW WITH CORRECTED LOWERCASE CVARS)  -->
+		<buff name="buffLBD_attPerception_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="subtract" value="@$attperception_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="multiply" value="1.3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkDeadEye_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkDeadEye" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeadEye" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xp" operation="subtract" value="@$perkdeadeye_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkDemolitionsExpert_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkDemolitionsExpert" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDemolitionsExpert" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="subtract" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkJavelinMaster_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkJavelinMaster" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJavelinMaster" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="subtract" value="@$perkjavelinmaster_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+		<buff name="buffLBD_perkSalvageOperations_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkSalvageOperations" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSalvageOperations" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="subtract" value="@$perksalvageoperations_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+
+		<!-- The Combo Window buff remains the same, but the LevelUpCheck and Cooldown must be renamed -->
+		<buff name="buffLBD_Flurry_ComboWindow" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="2"/>
+		</buff>
+
+		<!-- Renamed Cooldown Buff -->
+		<buff name="buffLBD_perkFlurryOfPerception_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+		<!-- Renamed and Corrected Level-Up Handler -->
+		<buff name="buffLBD_perkFlurryOfPerception_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception" />
+
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Level Up SUCCESSFUL. Applying changes.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfPerception" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="subtract" value="@$perkflurryofperception_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception" />
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

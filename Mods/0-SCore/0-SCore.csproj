@@ -135,9 +135,10 @@
     <Compile Include="Features\FoodSpoilageV2\Harmony\XUiC_ItemInfoWindow.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
-    <Compile Include="Features\ItemRepairDegradation\Harmony\ItemActionRepairDegradation.cs" />
     <Compile Include="Features\ItemRepairDegradation\Scripts\MinEventActionModifyItem.cs" />
     <Compile Include="Features\ItemRepairDegradation\Scripts\RequirementCompareItemProperty.cs" />
+    <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillAttributeLevel.cs" />
+    <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillPerkLevel.cs" />
     <Compile Include="Features\Localization\Scripts\SCoreLocalizationHelper.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
@@ -165,6 +166,10 @@
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\SCoreParticleAttractor.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemCraft.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemRepaired.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfHarvest.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfPrimaryActionMissEntity.cs" />
     <Compile Include="Features\PlayerMetrics\KillTracking\Scripts\SCoreKillTracker.cs" />
     <Compile Include="Features\PlayerMetrics\SCoreMetrics.cs" />
     <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
@@ -238,8 +243,6 @@
     <Compile Include="Harmony\GamePath\UtilsDrawLine.cs" />
     <Compile Include="Harmony\ItemActions\AdvancedItems.cs" />
     <Compile Include="Harmony\ItemActions\DurabilityAffectsDamage.cs" />
-    <Compile Include="Harmony\ItemActions\ItemActionHandleBreakItem.cs" />
-    <Compile Include="Harmony\ItemActions\ItemActionMelee.cs" />
     <Compile Include="Harmony\ItemActions\ItemActionRepairLimiter.cs" />
     <Compile Include="Harmony\ItemActions\ItemClass.cs" />
     <Compile Include="Harmony\ItemActions\ItemClassUtils.cs" />
@@ -343,13 +346,18 @@
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />
+    <Compile Include="Scripts\Buffs\RequirementBlockHasHarvestTags.cs" />
     <Compile Include="Scripts\Buffs\RequirementHoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsBloodMoon.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsOutdoor.cs" />
+    <Compile Include="Scripts\Buffs\RequirementIsTargetBlock.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsUnderground.cs" />
+    <Compile Include="Scripts\Buffs\RequirementItemMetaData.cs" />
     <Compile Include="Scripts\Buffs\RequirementLookingAt.cs" />
     <Compile Include="Scripts\Buffs\RequirementOnSpecificBiomeSDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsNearFire.cs" />
+    <Compile Include="Scripts\Buffs\RequirementIsProgressionLocked.cs" />
+    <Compile Include="Scripts\Buffs\RequirementQuestObjective.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Buffs\TargetCVarCompare.cs" />
     <Compile Include="Scripts\Cache\SCoreQueue.cs" />
@@ -892,6 +900,7 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Features\ItemRepairDegradation\Harmony\" />
     <Folder Include="Features\NPC_V3\Harmony\" />
     <Folder Include="Features\NPC_V3\Scripts\" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />
