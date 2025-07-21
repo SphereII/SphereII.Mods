@@ -1,0 +1,63 @@
+<configs>
+<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+	<!-- Group for Treasure Hunter Perk -->
+	<effect_group name="Treasure Hunter">
+		<!-- This is the master requirement for the entire group. -->
+		<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+		<!-- XP GAIN: "The Dig" -->
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Treasure Hunter - DIGGING! Attempting XP Gain (+5)">
+			<requirement name="HoldingItemHasTags" tags="tool"/>
+			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="5">
+			<requirement name="HoldingItemHasTags" tags="tool"/>
+			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown"/>
+		</triggered_effect>
+		<!-- XP GAIN: "The Discovery" -->
+		<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Treasure Hunter - TREASURE CHEST OPENED! Attempting XP Gain (+150)">
+			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="add" value="150">
+			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown"/>
+		</triggered_effect>
+		<!-- COOLDOWN APPLICATION -->
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Applying Dig Cooldown">
+			<requirement name="HoldingItemHasTags" tags="tool"/>
+			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkTreasureHunter_DigCoolDown">
+			<requirement name="HoldingItemHasTags" tags="tool"/>
+			<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Applying Loot Cooldown">
+			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkTreasureHunter_LootCoolDown">
+			<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+		</triggered_effect>
+		<!-- LEVEL UP CHECK -->
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Triggering Level Up Check (from Dig)">
+			<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkTreasureHunter_LevelUpCheck">
+			<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Treasure Hunter - Triggering Level Up Check (from Loot)">
+			<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkTreasureHunter_LevelUpCheck">
+			<requirement name="CVarCompare" cvar="$perktreasurehunter_lbd_xp" operation="GTE" value="@$perktreasurehunter_lbd_xptonext"/>
+		</triggered_effect>
+	</effect_group>
+	</append>
+</configs>

@@ -1,0 +1,56 @@
+<configs>
+    <!-- Append the LBD logic for Pummel Pete to the main Strength Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <effect_group name="Pummel Pete">
+            <!-- This is the master requirement for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="perkPummelPete"/>
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Attempting XP Gain (+10)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="add" value="10">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkPummelPete_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+            </triggered_effect>
+            
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkpummelpete_lbd_xp" operation="GTE" value="@$perkpummelpete_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkPummelPete_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkpummelpete_lbd_xp" operation="GTE" value="@$perkpummelpete_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Pummel Pete. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkPummelPete_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPummelPete" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPummelPete" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="subtract" value="@$perkpummelpete_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xptonext" operation="multiply" value="1.2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPummelPete" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPummelPete" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pummel Pete - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

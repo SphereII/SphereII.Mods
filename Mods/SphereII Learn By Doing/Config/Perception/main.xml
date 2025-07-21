@@ -1,0 +1,87 @@
+<!--
+    ====================================================================================================
+    ======================== PERCEPTION LEARN BY DOING (LBD) SYSTEM OVERVIEW ===========================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for the Perception attribute
+    and all of its associated perks.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_PerceptionManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+    HOW TO LEVEL UP PERKS
+
+    - Perception (Attribute):
+      Gain small amounts of XP from performing ANY of the actions listed below. Specializing in
+      Perception perks will naturally level up your main Perception attribute over time.
+
+    - Dead Eye:
+      Gain XP by damaging enemies with Rifles.
+
+    - Demolitions Expert:
+      Gain XP for each enemy damaged by an explosion you caused. There is no cooldown,
+      rewarding effective multi-kills.
+
+    - Javelin Master:
+      Gain XP by damaging zombies and animals with Spears.
+
+    - Salvage Operations:
+      Gain XP by harvesting blocks that yield salvage (e.g., cars, couches) with a salvage tool.
+
+    - Animal Tracker:
+      Gain XP for killing and harvesting animals. A large bonus is granted for skillful kills
+      (headshots or sneak attacks).
+
+    - Flurry of Perception:
+      Gain XP by landing rapid, successive strikes with a Spear, rewarding a "combo" playstyle.
+
+    - The Penetrator:
+      Gain a baseline XP reward for damaging tough, armored enemies (Ferals, Soldiers, etc.)
+      and a massive bonus for hitting multiple targets with a single shot.
+
+    - Treasure Hunter:
+      Gain a small amount of XP for digging in the treasure quest area and a massive reward for
+      successfully looting the final treasure chest.
+
+    - The Infiltrator:
+      Gain XP for crafting and placing traps. A "Placement Credit" system is used to prevent
+      exploits, ensuring XP is only granted for placing "fresh" mines (crafted or looted).
+
+    - Perception Mastery:
+      The capstone perk. Gain XP by performing all the core activities of a Perception build:
+      scrounging with salvage tools, and dealing damage with Rifles and Spears.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- Includes the initial leveling requirements -->
+    <include filename="Perception/Init.xml" />
+    
+    <!-- The main perception manager. The individual skills are appended to this -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_PerceptionManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+    
+    <!-- Individual Perks, including the LevelUp Check -->
+    <include filename="Perception/Perception.xml" />
+    <include filename="Perception/DeadEye.xml" />
+    <include filename="Perception/DemolitionExpert.xml" />
+    <include filename="Perception/Javelin.xml" />
+    <include filename="Perception/SalvageOperations.xml" />
+    <include filename="Perception/AnimalTracker.xml" />
+    <include filename="Perception/FlurryOfPerceptions.xml" />
+    <include filename="Perception/ThePenetrator.xml" />
+    <include filename="Perception/TreasureHunter.xml" />
+    <include filename="Perception/TheInfiltrator.xml" />
+
+    <include filename="Perception/Cooldowns.xml" />
+
+</configs>

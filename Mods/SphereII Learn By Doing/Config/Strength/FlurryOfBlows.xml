@@ -1,0 +1,59 @@
+<configs>
+    <!-- Append the LBD logic for Flurry of Blows to the main Strength Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <effect_group name="Flurry of Blows">
+            <!-- This is the master requirement for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
+
+            <!-- XP GAIN: This trigger grants XP if you land a hit while the combo window is active. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - COMBO HIT! Attempting XP Gain (+15)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="add" value="15">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+            </triggered_effect>
+
+            <!-- COMBO WINDOW: This trigger starts or refreshes the combo window on ANY successful hit. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Starting/Refreshing Combo Window">
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+            
+            <!-- LEVEL UP CHECK: This checks for a level up on any successful hit. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfBlows_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler and the new Combo Window buff. -->
+    <append xpath="/buffs">
+        <!-- The temporary buff that creates the combo window. 'replace' is critical. -->
+        <buff name="buffLBD_Flurry_ComboWindow_Strength" hidden="true">
+            <stack_type value="replace"/>
+            <duration value="2"/>
+        </buff>
+
+        <buff name="buffLBD_perkFlurryOfBlows_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfBlows" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfBlows" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="subtract" value="@$perkflurryofblows_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xptonext" operation="multiply" value="1.2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfBlows" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfBlows" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

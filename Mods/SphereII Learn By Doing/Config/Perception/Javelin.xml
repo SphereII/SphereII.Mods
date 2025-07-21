@@ -1,0 +1,47 @@
+<configs>
+	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+		<!-- Group for Javelin Master Perk -->
+		<effect_group name="Javelin Master">
+			<!-- Master requirements for the entire group -->
+			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+			<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+			<!-- XP Gain -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Javelin Master - Attempting XP Gain (+10)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="add" value="10">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Cooldown Application -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Javelin Master - Applying Cooldown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Level Up Check -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Javelin Master - Triggering Level Up Check">
+				<requirement name="CVarCompare" cvar="$perkjavelinmaster_lbd_xp" operation="GTE" value="@$perkjavelinmaster_lbd_xptonext"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJavelinMaster_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkjavelinmaster_lbd_xp" operation="GTE" value="@$perkjavelinmaster_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<buff name="buffLBD_perkJavelinMaster_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkJavelinMaster"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJavelinMaster" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="subtract" value="@$perkjavelinmaster_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

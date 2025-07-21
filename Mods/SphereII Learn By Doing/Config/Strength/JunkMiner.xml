@@ -1,0 +1,59 @@
+<configs>
+	<!-- Append the LBD logic for Junk Miner to the main Strength Manager buff. -->
+	<append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+		<!-- Group for Junk Miner Perk -->
+		<effect_group name="Junk Miner">
+			<!-- 
+      These are the master requirements for the entire group.
+      This logic ONLY applies when using a MINING tool on a block that is
+      specifically tagged for the Junk Miner perk.
+    -->
+			<requirement name="HoldingItemHasTags" tags="miningTool"/>
+			<requirement name="RequirementBlockHasHarvestTags, SCore" tags="perkJunkMiner"/>
+			<!-- XP Gain -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Junk Miner - Attempting XP Gain (+10)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJunkMiner_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkjunkminer_lbd_xp" operation="add" value="10">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJunkMiner_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Cooldown Application -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Junk Miner - Applying Cooldown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJunkMiner_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJunkMiner_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkJunkMiner_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Level Up Check -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Junk Miner - Triggering Level Up Check">
+				<requirement name="CVarCompare" cvar="$perkjunkminer_lbd_xp" operation="GTE" value="@$perkjunkminer_lbd_xptonext"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJunkMiner_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkjunkminer_lbd_xp" operation="GTE" value="@$perkjunkminer_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<!-- Define the Level-Up Handler buff for Junk Miner. -->
+	<append xpath="/buffs">
+		<buff name="buffLBD_perkJunkMiner_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkJunkMiner"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJunkMiner" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xp" operation="subtract" value="@$perkjunkminer_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkJunkMiner" sound="read_skillbook_final"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkJunkMiner"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Junk Miner - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

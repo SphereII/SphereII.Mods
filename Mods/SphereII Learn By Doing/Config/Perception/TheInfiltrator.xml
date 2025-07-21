@@ -1,0 +1,57 @@
+<configs>
+<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+	<!-- Group for The Infiltrator Perk -->
+	<effect_group name="The Infiltrator">
+		<!-- XP GAIN: "The Tactician" (Placement) -->
+		<triggered_effect trigger="onSelfPlaceBlock" action="LogMessage" message="LBD DEBUG: The Infiltrator - TRAP PLACED! Attempting XP Gain (+75)">
+			<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="add" value="75">
+			<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPlaceBlock" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="subtract" value="1">
+			<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="CVarCompare" cvar="$infiltrator_placement_credits" operation="GT" value="0"/>
+		</triggered_effect>
+		<!-- XP GAIN: "The Trapper" (Crafting) -->
+		<triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Crafted! Attempting XP Gain (+20) and adding Placement Credit.">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkinfiltrator_lbd_xp" operation="add" value="20">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+		</triggered_effect>
+		<!-- CREDIT GAIN: "The Scavenger" (Looting) -->
+		<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+		</triggered_effect>
+		<!-- COOLDOWN & LEVEL UP LOGIC -->
+		<triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown">
+			<requirement name="HoldingItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkInfiltrator_ActionCoolDown">
+			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfPlaceBlock" action="AddBuff" buff="buffLBD_perkInfiltrator_LevelUpCheck">
+			<requirement name="CVarCompare" cvar="$perkinfiltrator_lbd_xp" operation="GTE" value="@$perkinfiltrator_lbd_xptonext"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkInfiltrator_LevelUpCheck">
+			<requirement name="CVarCompare" cvar="$perkinfiltrator_lbd_xp" operation="GTE" value="@$perkinfiltrator_lbd_xptonext"/>
+		</triggered_effect>
+	</effect_group>
+	</append>
+</configs>

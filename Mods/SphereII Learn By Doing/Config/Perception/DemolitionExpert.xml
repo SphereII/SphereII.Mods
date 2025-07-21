@@ -1,0 +1,40 @@
+<configs>
+	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+		<!-- Group for Demolitions Expert Perk -->
+		<effect_group name="Demolitions Expert">
+			<!-- XP Gain: This trigger now fires for EACH enemy damaged by a player-caused explosion. -->
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert - Explosion Hit! Attempting XP Gain (+20)">
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="add" value="20"/>
+			<!-- Level Up Check: This also fires on each hit, allowing for immediate level-ups from multi-kills. -->
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert - Triggering Level Up Check">
+				<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<!-- Level-Up Handler for Demolitions Expert -->
+		<buff name="buffLBD_perkDemolitionsExpert_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkDemolitionsExpert"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDemolitionsExpert" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="subtract" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDemolitionsExpert" sound="read_skillbook_final"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkDemolitionsExpert"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Demolitions Expert - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

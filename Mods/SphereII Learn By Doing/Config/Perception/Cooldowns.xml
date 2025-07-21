@@ -1,0 +1,61 @@
+<configs>
+	<append xpath="/buffs">
+		<!-- =============================================================================== -->
+		<!-- ================= PERCEPTION LBD SUPPORTING BUFFS ============================= -->
+		<!-- =============================================================================== -->
+		<!-- For attPerception -->
+		<buff name="buffLBD_attPerception_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- For perkDeadEye -->
+		<buff name="buffLBD_perkDeadEye_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- For perkJavelinMaster -->
+		<buff name="buffLBD_perkJavelinMaster_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- For perkSalvageOperations -->
+		<buff name="buffLBD_perkSalvageOperations_XPCoolDown" hidden="true">
+			<duration value="1.5"/>
+		</buff>
+		<!-- For perkAnimalTracker -->
+		<buff name="buffLBD_perkAnimalTracker_KillCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkAnimalTracker_HarvestCoolDown" hidden="true">
+			<duration value="5"/>
+		</buff>
+		<!-- For perkFlurryOfPerception -->
+		<buff name="buffLBD_Flurry_ComboWindow" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="2"/>
+		</buff>
+		<!-- For perkThePenetrator -->
+		<buff name="buffLBD_perkPenetrator_XPCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_Penetrator_MultiHitWindow" hidden="true">
+			<stack_type value="replace"/>
+			<duration value="0.1"/>
+		</buff>
+		<!-- For perkTreasureHunter -->
+		<buff name="buffLBD_perkTreasureHunter_DigCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<buff name="buffLBD_perkTreasureHunter_LootCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+		<!-- For perkInfiltrator -->
+		<buff name="buffLBD_perkInfiltrator_ActionCoolDown" hidden="true">
+			<duration value="2"/>
+		</buff>
+		<!-- For perkPerceptionMastery -->
+		<buff name="buffLBD_perkPerceptionMastery_HarvestCoolDown" hidden="true">
+			<duration value="2"/>
+		</buff>
+		<buff name="buffLBD_perkPerceptionMastery_CombatCoolDown" hidden="true">
+			<duration value="1"/>
+		</buff>
+	</append>
+</configs>

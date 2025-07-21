@@ -1,0 +1,56 @@
+<configs>
+	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+		<!-- Group for Flurry of Perception Perk -->
+		<effect_group name="Flurry of Perception">
+			<!-- This is the master requirement for the entire group. -->
+			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+			<!-- XP GAIN LOGIC -->
+			<!-- This trigger grants XP if you land a spear hit while the combo window is active. -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - COMBO HIT! Attempting XP Gain (+15)">
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="15">
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+			</triggered_effect>
+			<!-- COMBO WINDOW LOGIC -->
+			<!-- This trigger starts or refreshes the 2-second combo window on ANY successful spear hit. -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Starting/Refreshing Combo Window">
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
+			<!-- LEVEL UP CHECK LOGIC -->
+			<!-- This checks for a level up on any successful spear hit. -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Triggering Level Up Check">
+				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<!-- Renamed and Corrected Level-Up Handler -->
+		<buff name="buffLBD_perkFlurryOfPerception_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Level Up SUCCESSFUL. Applying changes.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfPerception" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="subtract" value="@$perkflurryofperception_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

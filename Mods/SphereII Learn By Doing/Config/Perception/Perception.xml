@@ -1,0 +1,115 @@
+<configs>
+	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+		<!-- Group for Perception Attribute -->
+		<effect_group name="Perception">
+			<!-- Generalist XP for using any Perception-tagged item. -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting General Use XP (+2)">
+				<requirement name="HoldingItemHasTags" tags="attPerception"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="2">
+				<requirement name="HoldingItemHasTags" tags="attPerception"/>
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Demolitionist Synergy for explosion damage. -->
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Explosion Synergy XP (+3)">
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="3">
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Hunter Synergy for killing an animal. -->
+			<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Hunter Kill Synergy XP (+2)">
+				<requirement name="EntityTagCompare" target="other" tags="animal"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="2">
+				<requirement name="EntityTagCompare" target="other" tags="animal"/>
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Trapper Synergy for crafting a trap. -->
+			<triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Trapper Crafting Synergy XP (+4)">
+				<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="4">
+				<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Treasure Hunter Synergy (Digging). -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Treasure Digging Synergy XP (+1)">
+				<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+				<requirement name="HoldingItemHasTags" tags="tool"/>
+				<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="1">
+				<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+				<requirement name="HoldingItemHasTags" tags="tool"/>
+				<requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Treasure Hunter Synergy (Discovery). -->
+			<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Treasure Discovery Synergy XP (+5)">
+				<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+				<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="5">
+				<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+				<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Cooldown Application for all synergy actions -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+				<requirement name="HoldingItemHasTags" tags="attPerception"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+			<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+				<requirement name="EntityTagCompare" target="other" tags="animal"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+				<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+				<requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+			</triggered_effect>
+			<!-- Level Up Check for all synergy actions -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<!-- Level-Up Handler for Perception Attribute -->
+		<buff name="buffLBD_attPerception_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="subtract" value="@$attperception_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="multiply" value="1.3"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attPerception" sound="read_skillbook_final"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Perception - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

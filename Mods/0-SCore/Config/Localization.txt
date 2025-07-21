@@ -231,3 +231,5 @@ sprinkler_manual_desc,"Sprinkler Manual",""
 sharedReadingDesc,"Shared Reading from",""
 sharedReadingSourceDesc,"Sharing To Party Members",""
 poi_no_building,"No Building Within This POI.",""
+
+LearnByDoingLevelUp,"Skill Level Up! You are a better",""

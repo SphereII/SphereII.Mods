@@ -1,0 +1,52 @@
+<configs>
+<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+	<!-- Group for The Penetrator Perk -->
+	<effect_group name="The Penetrator">
+		<!-- Master requirement: this logic only applies when holding a rifle or spear. -->
+		<requirement name="HoldingItemHasTags" tags="perkDeadEye,perkJavelinMaster"/>
+		<!-- XP GAIN: High Skill, High Reward for Multi-Kills -->
+		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - MULTI-KILL! Attempting XP Gain (+40)">
+			<requirement name="HasBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="add" value="40">
+			<requirement name="HasBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+		</triggered_effect>
+		<!-- XP GAIN: Baseline Reward for Hitting Elite Armored Targets -->
+		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Armored Hit! Attempting XP Gain (+18)">
+			<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="add" value="18">
+			<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+		</triggered_effect>
+		<!-- COMBO WINDOW & COOLDOWN LOGIC -->
+		<!-- This trigger STARTS or REFRESHES the multi-hit window on ANY successful hit. -->
+		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Starting/Refreshing Multi-Hit Window">
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_Penetrator_MultiHitWindow"/>
+		<!-- This trigger applies the standard cooldown for armored hits. -->
+		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Applying Cooldown">
+			<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPenetrator_XPCoolDown">
+			<requirement name="EntityTagCompare" target="other" tags="feral,soldier,demolition"/>
+			<requirement name="NotHasBuff" buff="buffLBD_perkPenetrator_XPCoolDown"/>
+		</triggered_effect>
+		<!-- LEVEL UP CHECK LOGIC -->
+		<!-- This checks for a level up on ANY successful hit, to ensure it catches both XP sources. -->
+		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: The Penetrator - Triggering Level Up Check">
+			<requirement name="CVarCompare" cvar="$perkpenetrator_lbd_xp" operation="GTE" value="@$perkpenetrator_lbd_xptonext"/>
+			<requirement name="HasBuff" buff="god"/>
+		</triggered_effect>
+		<triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkPenetrator_LevelUpCheck">
+			<requirement name="CVarCompare" cvar="$perkpenetrator_lbd_xp" operation="GTE" value="@$perkpenetrator_lbd_xptonext"/>
+		</triggered_effect>
+	</effect_group>
+	</append>
+</configs>

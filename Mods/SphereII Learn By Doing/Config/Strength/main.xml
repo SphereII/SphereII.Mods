@@ -1,0 +1,101 @@
+<!--
+    ====================================================================================================
+    ========================= STRENGTH LEARN BY DOING (LBD) SYSTEM OVERVIEW ============================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for the Strength attribute
+    and all of its associated perks.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_StrengthManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+    HOW TO LEVEL UP PERKS
+
+    - Strength (Attribute):
+      Gain small amounts of XP from performing ANY Strength-related action. Specializing in
+      Strength perks will naturally level up your main Strength attribute over time.
+
+    - Boomstick:
+      Gain XP by damaging enemies with Shotguns.
+
+    - Pummel Pete:
+      Gain XP by damaging enemies with Clubs and Bats.
+
+    - Skull Crusher:
+      Gain XP by damaging enemies with Sledgehammers.
+
+    - Grand Slam:
+      Gain XP by landing a running power attack with a Club or Sledgehammer.
+
+    - Flurry of Blows:
+      Gain XP by landing rapid, successive strikes with a Club or Sledgehammer, rewarding a "combo" playstyle.
+
+    - Miner 69'r:
+      Gain a baseline XP reward for harvesting any block with a mining tool, and a bonus reward
+      for harvesting high-value resources like ore and trees.
+
+    - Mother Lode:
+      Gain XP specifically for harvesting high-value resources (ore, trees) with a mining tool.
+
+    - Junk Miner:
+      Gain XP by harvesting mechanical/electronic salvage (e.g., cars) with a mining tool.
+
+    - Pack Mule:
+      Gain a small, steady amount of XP for moving while encumbered. The more encumbered you are,
+      the more XP you gain, rewarding your struggle.
+
+    - Strength Mastery:
+      The capstone perk. Gain XP by demonstrating true mastery in both fields: efficiently
+      destroying high-value resource nodes and finishing off stunned or knocked-down enemies.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- 
+      This is the master include file for the Strength LBD system.
+      It defines the main Manager Buff and then includes all the separate files
+      that contain the logic for the attribute and its individual perks.
+      This file is intended to be included by the top-level buffs.xml.
+    -->
+
+    <!-- First, define the empty shell of the Strength Manager buff. -->
+    <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_StrengthManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+    
+    <!-- 
+      Include all the modular component files for the Strength LBD system.
+      The game will process these as if their content was pasted directly here.
+    -->
+
+    <!-- Includes the CVar initializers for the entire Strength tree. -->
+    <include filename="Strength/Init.xml" />
+    
+    <!-- Includes the LBD logic for the main attStrength attribute itself. -->
+    <include filename="Strength/Strength.xml" />
+    
+    <!-- Includes the LBD logic for each individual perk in the Strength tree. -->
+    <include filename="Strength/Boomstick.xml" />
+    <include filename="Strength/FlurryOfBlows.xml" />
+    <include filename="Strength/GrandSlam.xml" />
+    <include filename="Strength/JunkMiner.xml" />
+    <include filename="Strength/Miner69r.xml" />
+    <include filename="Strength/MotherLode.xml" />
+    <include filename="Strength/PackMule.xml" />
+    <include filename="Strength/PummelPete.xml" />
+    <include filename="Strength/SkullCrusher.xml" />
+    <include filename="Strength/StrengthMastery.xml" />
+
+    <!-- Includes all the supporting cooldown and special mechanic buffs for the Strength tree. -->
+    <include filename="Strength/Cooldowns.xml" />
+
+</configs>

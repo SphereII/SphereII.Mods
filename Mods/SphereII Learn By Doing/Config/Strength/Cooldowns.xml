@@ -1,0 +1,44 @@
+<configs>
+    <append xpath="/buffs">
+
+        <!-- Strength LBD Supporting Buffs -->
+
+        <!-- Cooldown for attStrength -->
+        <buff name="buffLBD_attStrength_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkBoomstick -->
+        <buff name="buffLBD_perkBoomstick_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkPummelPete -->
+        <buff name="buffLBD_perkPummelPete_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkSkullCrusher -->
+        <buff name="buffLBD_perkSkullCrusher_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkGrandSlam -->
+        <buff name="buffLBD_perkGrandSlam_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Special Mechanic Buff for perkFlurryOfBlows -->
+        <buff name="buffLBD_Flurry_ComboWindow_Strength" hidden="true">
+            <stack_type value="replace"/>
+            <duration value="2"/>
+        </buff>
+
+        <!-- Cooldown for perkMiner69r -->
+        <buff name="buffLBD_perkMiner69r_XPCoolDown" hidden="true"><duration value="1.5"/></buff>
+
+        <!-- Cooldown for perkMotherLode -->
+        <buff name="buffLBD_perkMotherLode_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        
+        <!-- Cooldown for perkJunkMiner -->
+        <buff name="buffLBD_perkJunkMiner_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkPackMule -->
+        <buff name="buffLBD_perkPackMule_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldowns for perkStrengthMastery -->
+        <buff name="buffLBD_perkStrengthMastery_CombatCoolDown" hidden="true"><duration value="1"/></buff>
+        <buff name="buffLBD_perkStrengthMastery_MiningCoolDown" hidden="true"><duration value="2"/></buff>
+        
+    </append>
+</configs>

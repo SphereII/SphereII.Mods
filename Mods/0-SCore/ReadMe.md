@@ -32,6 +32,27 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.9.1708
+	[ MinEventActionCreateItem ]	
+		- Added a new attribute to be read from XML to set the actual loot list.
+			<triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" lootgroup2="LootList" count="1" />
+		- The original lootgroup="" actually refers to the loot container id. This is unchanged for backward compatibility.
+	
+	[ MinEventAction Set investigation position ]
+		- New triggered effect that will set the Investigation position of all surrounding entities.		
+			<triggered_effect trigger="onSelfBuffUpdate" action="SetInvestigationPosition, SCore" target="positionAOE" range="10" ticks="100" />
+
+	[ MinEventActionShowPerkLevelUp ]
+		- Added a new MinEventActionShowPerkLevelUp. Designed to be used by Learn By Doing.
+			<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPummelPete"  sound="read_skillbook_final" />
+	[ XUiC ]
+		- Added a new patch for SkillEntry, to include a progress bar.
+
+ 	[ SphereII Learn By Doing ]
+		- Restructured the Perception Perks
+		- Added Strength Perks
+		
+
 Version: 2.1.8.1723
 	[ Fire Manager ]
 		- Move sending blocks to clients more regularly, rather than waiting until all fire blocks were processed.

@@ -1,4 +1,6 @@
 <configs>
+	
+	<!-- Perk -->
 	<append xpath="/controls/skill_perk_level/panel">
 		<rect pos="2,-${height -8}" width="${width}" height="8" visible="{LearnByDoingVisible}">
 			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced"/>
@@ -7,8 +9,18 @@
 		</rect>
 	</append>
 
+	<!-- main Attribute -->
 	<append xpath="/controls/skill_attribute_level/panel">
 		<rect pos="2,-${height -8}" width="${width}" height="8" visible="{LearnByDoingVisible}">
+			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced"/>
+			<sprite depth="9" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false"/>
+			<filledsprite depth="5" pos="1,0" width="${width - 10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}"/>
+		</rect>
+	</append>
+
+	<!-- Entire attribute tree view -->
+	<append xpath="/controls/skill_entry/panel">
+		<rect pos="2,-38" width="${width - 10 }" height="8" visible="{canpurchase}">
 			<sprite depth="1" color="[mediumGrey]" sprite="menu_empty2px" globalopacity="false" type="sliced"/>
 			<sprite depth="9" color="[black]" sprite="menu_empty2px" globalopacity="false" type="sliced" fillcenter="false"/>
 			<filledsprite depth="5" pos="1,0" width="${width - 10}" name="BarContent" color="0,255,54,128" globalopacity="false" type="filled" fill="{LearnByDoing}"/>

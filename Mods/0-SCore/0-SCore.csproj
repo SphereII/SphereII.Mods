@@ -138,7 +138,9 @@
     <Compile Include="Features\ItemRepairDegradation\Scripts\MinEventActionModifyItem.cs" />
     <Compile Include="Features\ItemRepairDegradation\Scripts\RequirementCompareItemProperty.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillAttributeLevel.cs" />
+    <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillEntry.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillPerkLevel.cs" />
+    <Compile Include="Features\LearnByDoing\Scripts\MinEventActionShowPerkLevelUp.cs" />
     <Compile Include="Features\Localization\Scripts\SCoreLocalizationHelper.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockSecureLootPatch.cs" />
     <Compile Include="Features\LockPicking\Harmony\BlockDoorSecurePatch.cs" />
@@ -476,6 +478,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAttachPrefabWithAnimationsToEntity.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearOwner.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionSetInvestigationPosition.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetOwner.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAnimatorSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionChangeFactionSDX.cs" />

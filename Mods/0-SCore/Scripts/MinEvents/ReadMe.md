@@ -256,7 +256,12 @@ Creates an item or spawns items from a loot group when triggered. The items can 
 
 ```xml
 <triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" item="drinkJarCoffee" count="2"/>
+
+<!-- It's not actually lootgroup, but rather, loot container ID. -->
 <triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" lootgroup="2" count="1"/>
+
+<!-- lootgroup2= is actually the loot group from loot.xml. To maintain backward compatibility, the original is left untouched. -->
+<triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" lootgroup2="LootList" count="1" />
 ```
 
 ### MinEventActionDespawnNPC
@@ -540,6 +545,42 @@ Toggles the camera's enabled status based on the specified attributes when the a
 <triggered_effect trigger="onSelfBuffFinish" action="ToggleCamera, SCore" cameraName="Camera" value="true"/> <!-- Enables the camera -->
 ```
 
+### `MinEventActionShowPerkLevelUp, SCore` ( Under LearnByDoing Feature)
+
+This `MinEventAction` is designed to display a custom tooltip message to a player when a specified perk levels up. It provides clear and localized feedback about perk progression.
+
+```xml
+    <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="skillArchery" sound="read_skillbook_final" />
+```
+
+**Explanation**: This action takes the following attributes:
+
+* **`name="ShowPerkLevelUp, SCore"`**: The name of the action.
+* **`perk`**: (Required) A string representing the internal ID of the perk whose level-up message should be displayed (e.g., `perkPummelPete`, `skillPistols`). The value is converted to lowercase for comparison.
+* **`sound`**: (Optional, inherited from `MinEventActionShowToolbeltMessage`) Specifies a sound event to play concurrently with the tooltip message (e.g., `read_skillbook_final`).
+
+**Message Construction:**
+The action constructs the message automatically using localized strings. The format is:
+`"[Localized LearnByDoingLevelUp phrase] [Localized PerkName]!"`
+
+**Example Output:**
+"Skill Level Up\! You are a better Demolitions Expert\!"
+
+**Localization Keys Used:**
+The action relies on specific localization keys from your `Localization.txt` file to construct the message:
+
+* `LearnByDoingLevelUp`: For the generic "Level Up\!" phrase (e.g., "Skill Level Up\!").
+* `[PerkName]Name`: For the perk's full localized name (e.g., `perkPummelPeteName` for "Demolitions Expert").
+
+**Example Usage:**
+
+You would typically use this action within a `triggered_effect` that responds to progression events, such as `onProgressionLevelUp` or `onSelfBuffStart` (if a buff is used to indicate level-up):
+
+```xml
+<effect_group>
+    <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="skillArchery" sound="read_skillbook_final" />
+</effect_group>
+```
 
 
 
