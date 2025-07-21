@@ -9,9 +9,13 @@
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher - Attempting XP Gain (+12)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
+                <requirement name="IsAlive" target="other"/>
+
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="add" value="12">
                 <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
+                <requirement name="IsAlive" target="other"/>
+
             </triggered_effect>
 
             <!-- Cooldown Application -->

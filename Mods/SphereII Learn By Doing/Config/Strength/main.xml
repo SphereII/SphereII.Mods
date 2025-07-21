@@ -78,24 +78,24 @@
     -->
 
     <!-- Includes the CVar initializers for the entire Strength tree. -->
-    <include filename="Strength/Init.xml" />
+    <include filename="Init.xml" />
     
     <!-- Includes the LBD logic for the main attStrength attribute itself. -->
-    <include filename="Strength/Strength.xml" />
+    <include filename="Strength.xml" />
     
     <!-- Includes the LBD logic for each individual perk in the Strength tree. -->
-    <include filename="Strength/Boomstick.xml" />
-    <include filename="Strength/FlurryOfBlows.xml" />
-    <include filename="Strength/GrandSlam.xml" />
-    <include filename="Strength/JunkMiner.xml" />
-    <include filename="Strength/Miner69r.xml" />
-    <include filename="Strength/MotherLode.xml" />
-    <include filename="Strength/PackMule.xml" />
-    <include filename="Strength/PummelPete.xml" />
-    <include filename="Strength/SkullCrusher.xml" />
-    <include filename="Strength/StrengthMastery.xml" />
+    <include filename="Boomstick.xml" />
+    <include filename="FlurryOfBlows.xml" />
+    <include filename="GrandSlam.xml" />
+    <include filename="JunkMiner.xml" />
+    <include filename="Miner69er.xml" />
+    <include filename="MotherLode.xml" />
+    <include filename="PackMule.xml" />
+    <include filename="PummelPete.xml" />
+    <include filename="SkullCrusher.xml" />
+    <include filename="StrengthMastery.xml" />
 
     <!-- Includes all the supporting cooldown and special mechanic buffs for the Strength tree. -->
-    <include filename="Strength/Cooldowns.xml" />
+    <include filename="Cooldowns.xml" />
 
 </configs>

@@ -17,19 +17,27 @@
 		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Mastery - Attempting Rifle Damage XP (+10)">
 			<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
 			<requirement name="HasBuff" buff="god"/>
+			<requirement name="IsAlive" target="other"/>
+
 		</triggered_effect>
 		<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="10">
 			<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+			<requirement name="IsAlive" target="other"/>
+
 		</triggered_effect>
 		<!-- XP GAIN: "The Skirmisher" -->
 		<triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Mastery - Attempting Spear Damage XP (+10)">
 			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
 			<requirement name="HasBuff" buff="god"/>
+			<requirement name="IsAlive" target="other"/>
+
 		</triggered_effect>
 		<triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="10">
 			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_CombatCoolDown"/>
+			<requirement name="IsAlive" target="other"/>
+
 		</triggered_effect>
 		<!-- COOLDOWN APPLICATION -->
 		<triggered_effect trigger="onSelfHarvestBlock" action="AddBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown">

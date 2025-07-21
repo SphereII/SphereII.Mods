@@ -14,9 +14,11 @@
 			<!-- Demolitionist Synergy for explosion damage. -->
 			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Explosion Synergy XP (+3)">
 				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="3">
 				<requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
+				<requirement name="IsAlive" target="other"/>
 			</triggered_effect>
 			<!-- Hunter Synergy for killing an animal. -->
 			<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Perception Attribute - Attempting Hunter Kill Synergy XP (+2)">

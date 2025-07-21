@@ -61,7 +61,7 @@
 -->
 <configs>
     <!-- Includes the initial leveling requirements -->
-    <include filename="Perception/Init.xml" />
+    <include filename="Init.xml" />
     
     <!-- The main perception manager. The individual skills are appended to this -->
     <append xpath="/buffs">
@@ -71,17 +71,17 @@
     </append>
     
     <!-- Individual Perks, including the LevelUp Check -->
-    <include filename="Perception/Perception.xml" />
-    <include filename="Perception/DeadEye.xml" />
-    <include filename="Perception/DemolitionExpert.xml" />
-    <include filename="Perception/Javelin.xml" />
-    <include filename="Perception/SalvageOperations.xml" />
-    <include filename="Perception/AnimalTracker.xml" />
-    <include filename="Perception/FlurryOfPerceptions.xml" />
-    <include filename="Perception/ThePenetrator.xml" />
-    <include filename="Perception/TreasureHunter.xml" />
-    <include filename="Perception/TheInfiltrator.xml" />
+    <include filename="Perception.xml" />
+    <include filename="DeadEye.xml" />
+    <include filename="DemolitionExpert.xml" />
+    <include filename="Javelin.xml" />
+    <include filename="SalvageOperations.xml" />
+    <include filename="AnimalTracker.xml" />
+    <include filename="FlurryOfPerceptions.xml" />
+    <include filename="ThePenetrator.xml" />
+    <include filename="TreasureHunter.xml" />
+    <include filename="TheInfiltrator.xml" />
 
-    <include filename="Perception/Cooldowns.xml" />
+    <include filename="Cooldowns.xml" />
 
 </configs>

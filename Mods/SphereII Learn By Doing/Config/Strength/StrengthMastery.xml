@@ -1,4 +1,3 @@
-```xml
 <configs>
     <!-- Append the LBD logic for Strength Mastery to the main Strength Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
@@ -24,6 +23,8 @@
                     <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
                     <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
                 </requirements>
+                <requirement name="IsAlive" target="other"/>
+
                 <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
@@ -33,6 +34,8 @@
                     <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
                     <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
                 </requirements>
+                <requirement name="IsAlive" target="other"/>
+
                 <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
             </triggered_effect>
 
@@ -44,6 +47,8 @@
                     <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
                     <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
                 </requirements>
+                <requirement name="IsAlive" target="other"/>
+
                 <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
@@ -54,6 +59,8 @@
                     <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
                     <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
                 </requirements>
+                <requirement name="IsAlive" target="other"/>
+
                 <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
             </triggered_effect>
 
@@ -103,4 +110,3 @@
         </buff>
     </append>
 </configs>
-```

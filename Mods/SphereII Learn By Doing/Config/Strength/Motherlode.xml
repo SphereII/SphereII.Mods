@@ -1,0 +1,61 @@
+<configs>
+    <!-- Append the LBD logic for Mother Lode to the main Strength Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <!-- Group for Mother Lode Perk -->
+        <effect_group name="Mother Lode">
+            <!-- 
+              These are the master requirements for the entire group.
+              This logic ONLY applies when using a mining tool on a high-value resource.
+            -->
+            <requirement name="HoldingItemHasTags" tags="miningTool"/>
+            <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Mother Lode - Attempting XP Gain (+15)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMotherLode_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkmotherlode_lbd_xp" operation="add" value="15">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMotherLode_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Mother Lode - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMotherLode_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkMotherLode_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMotherLode_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Mother Lode - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkmotherlode_lbd_xp" operation="GTE" value="@$perkmotherlode_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkMotherLode_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkmotherlode_lbd_xp" operation="GTE" value="@$perkmotherlode_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Mother Lode. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkMotherLode_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkMotherLode" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMotherLode" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xp" operation="subtract" value="@$perkmotherlode_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="multiply" value="1.2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMotherLode" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkMotherLode" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Mother Lode - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

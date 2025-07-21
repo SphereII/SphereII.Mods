@@ -30,7 +30,7 @@ public class RequirementBlockHasHarvestTags : TargetedCompareRequirementBase
 
         foreach (var itemDrop in _params.BlockValue.Block.itemsToDrop[EnumDropEvent.Harvest])
         {
-            var itemTag = FastTags<TagGroup.Global>.GetTag(itemDrop.tag);
+            var itemTag = FastTags<TagGroup.Global>.Parse(itemDrop.tag);
             if (itemTag.Test_AnySet(tags))
             {
                 return true;

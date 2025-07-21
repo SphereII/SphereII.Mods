@@ -9,9 +9,13 @@
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - COMBO HIT! Attempting XP Gain (+15)">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
                 <requirement name="HasBuff" buff="god"/>
+                <requirement name="IsAlive" target="other"/>
+
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="add" value="15">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+                <requirement name="IsAlive" target="other"/>
+
             </triggered_effect>
 
             <!-- COMBO WINDOW: This trigger starts or refreshes the combo window on ANY successful hit. -->

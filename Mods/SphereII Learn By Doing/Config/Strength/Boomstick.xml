@@ -1,0 +1,58 @@
+<configs>
+	<!-- Append the LBD logic for Boomstick to the main Strength Manager buff. -->
+	<append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+		<effect_group name="Boomstick">
+			<!-- This is the master requirement for the entire group. -->
+			<requirement name="HoldingItemHasTags" tags="perkBoomstick"/>
+
+			<!-- XP Gain -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Attempting XP Gain (+15)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
+
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkboomstick_lbd_xp" operation="add" value="15">
+				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
+				<requirement name="IsAlive" target="other"/>
+
+			</triggered_effect>
+			<!-- Cooldown Application -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Applying Cooldown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBoomstick_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
+			</triggered_effect>
+			<!-- Level Up Check -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Triggering Level Up Check">
+				<requirement name="CVarCompare" cvar="$perkboomstick_lbd_xp" operation="GTE" value="@$perkboomstick_lbd_xptonext"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBoomstick_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkboomstick_lbd_xp" operation="GTE" value="@$perkboomstick_lbd_xptonext"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+	<!-- Define the Level-Up Handler buff for Boomstick. -->
+	<append xpath="/buffs">
+		<buff name="buffLBD_perkBoomstick_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkBoomstick"/>
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkBoomstick" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xp" operation="subtract" value="@$perkboomstick_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkBoomstick" sound="read_skillbook_final"/>
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkBoomstick"/>
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Boomstick - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+	</append>
+</configs>

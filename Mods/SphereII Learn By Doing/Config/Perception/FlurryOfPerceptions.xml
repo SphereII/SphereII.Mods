@@ -4,14 +4,19 @@
 		<effect_group name="Flurry of Perception">
 			<!-- This is the master requirement for the entire group. -->
 			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
+
 			<!-- XP GAIN LOGIC -->
 			<!-- This trigger grants XP if you land a spear hit while the combo window is active. -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - COMBO HIT! Attempting XP Gain (+15)">
 				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
 				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="15">
 				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<!-- COMBO WINDOW LOGIC -->
 			<!-- This trigger starts or refreshes the 2-second combo window on ANY successful spear hit. -->

@@ -5,18 +5,24 @@
 			<!-- Master requirements for the entire group -->
 			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
 			<requirement name="EntityTagCompare" target="other" tags="zombie,animal"/>
+
 			<!-- XP Gain -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Javelin Master - Attempting XP Gain (+10)">
 				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
 				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="add" value="10">
 				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<!-- Cooldown Application -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Javelin Master - Applying Cooldown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>
 				<requirement name="HasBuff" buff="god"/>
+
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkJavelinMaster_XPCoolDown"/>

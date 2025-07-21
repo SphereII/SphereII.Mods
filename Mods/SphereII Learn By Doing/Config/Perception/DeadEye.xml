@@ -4,13 +4,18 @@
 		<effect_group name="Dead Eye">
 			<!-- This is the master requirement for the entire group. -->
 			<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+
 			<!-- XP Gain -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Dead Eye - Attempting XP Gain (+12)">
 				<requirement name="NotHasBuff" buff="buffLBD_perkDeadEye_XPCoolDown"/>
 				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkdeadeye_lbd_xp" operation="add" value="12">
 				<requirement name="NotHasBuff" buff="buffLBD_perkDeadEye_XPCoolDown"/>
+				<requirement name="IsAlive" target="other"/>
+
 			</triggered_effect>
 			<!-- Cooldown Application -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Dead Eye - Applying Cooldown">
@@ -19,6 +24,7 @@
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeadEye_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkDeadEye_XPCoolDown"/>
+
 			</triggered_effect>
 			<!-- Level Up Check -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Dead Eye - Triggering Level Up Check">

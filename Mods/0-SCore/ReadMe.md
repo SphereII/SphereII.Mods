@@ -32,6 +32,13 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.9.1904
+	[ Requirements ]
+		- Fixed an issue where BlockhasHarvestTags was not working
+
+	[ SphereII Learn By Doing ]
+		- XML fixes, tweaks, and adding IsAlive to various checks.
+
 Version: 2.1.9.1708
 	[ MinEventActionCreateItem ]	
 		- Added a new attribute to be read from XML to set the actual loot list.
