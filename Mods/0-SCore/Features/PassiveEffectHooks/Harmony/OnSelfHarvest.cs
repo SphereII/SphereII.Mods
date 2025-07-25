@@ -1,7 +1,7 @@
 using HarmonyLib;
 using UnityEngine;
 
-namespace SCore.Features.PassiveEffectHooks.Harmony
+namespace SCore.Features.PassiveEffectHooks
 {
     [HarmonyPatch(typeof(ItemActionDynamicMelee))]
     [HarmonyPatch(nameof(ItemActionDynamicMelee.ExecuteAction))]

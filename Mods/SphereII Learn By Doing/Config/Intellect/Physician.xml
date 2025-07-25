@@ -1,0 +1,58 @@
+<configs>
+    <!-- Append the LBD logic for Physician to the main Intellect Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="Physician">
+            <!-- Master requirement: Player must be using a medical item. -->
+            <requirement name="HoldingItemHasTags" tags="medical"/>
+            <!-- Player must not be at full health (to reward effective healing). -->
+            <requirement name="StatComparePercCurrentToModMax" stat="Health" operation="LT" value="1"/>
+
+            <!-- XP Gain: Rewarding medical item use -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessage" message="LBD DEBUG: Physician - Attempting Healing Action XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$perkphysician_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessage" message="LBD DEBUG: Physician - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffLBD_perkPhysician_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPhysician_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="LogMessage" message="LBD DEBUG: Physician - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkphysician_lbd_xp" operation="GTE" value="@$perkphysician_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffLBD_perkPhysician_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkphysician_lbd_xp" operation="GTE" value="@$perkphysician_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Physician. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkPhysician_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPhysician" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPhysician" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkphysician_lbd_xp" operation="subtract" value="@$perkphysician_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkphysician_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPhysician" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPhysician" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Physician - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

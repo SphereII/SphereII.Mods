@@ -1,0 +1,107 @@
+<!--
+    ====================================================================================================
+    ========================== INTELLECT LEARN BY DOING (LBD) SYSTEM OVERVIEW ==========================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for the Intellect attribute
+    and all of its associated perks.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_IntellectManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+    HOW TO LEVEL UP PERKS 
+
+    - Intellect (Attribute):
+      Gain small amounts of XP from performing ANY Intellect-related action. Specializing in
+      Intellect perks will naturally level up your main Intellect attribute over time.
+
+    - Electrocutioner:
+      Gain XP by damaging enemies with Stun Batons and Robotic Weapons.
+
+    - Robotic Turrets:
+      Gain XP when your deployed Turrets (Melee or Ranged) damage or kill enemies, reflecting
+      their combat performance.
+
+    - Flurry of Intellect:
+      Gain bonus XP by landing rapid, successive strikes with Robotic Weapons or Stun Batons,
+      rewarding a "combo" playstyle.
+
+    - Better Barter:
+      Gain XP by successfully buying or selling items at a trader, rewarding active engagement
+      in commerce.
+
+    - Daring Adventurer:
+      Gain XP by successfully completing quests. XP is dynamically scaled, with higher-tier
+      quests granting significantly more rewards.
+
+    - Physician:
+      Gain XP by using medical items (bandages, first aid kits, splints, etc.) to heal yourself
+      or others, rewarding active medical aid.
+
+    - Advanced Engineering:
+      Gain XP by crafting items at advanced workstations (Workbenches, Forges, Chemistry Stations),
+      rewarding complex fabrication.
+
+    - Grease Monkey:
+      Gain XP by crafting vehicles and high-value vehicle parts. A bonus is awarded for crafts
+      with longer crafting times, rewarding complex assemblies.
+
+    - Charismatic Nature:
+      Gain XP by successfully buying or selling items at a trader, and by completing quests,
+      rewarding positive social and exploratory interactions.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- 
+      This is the master include file for the Intellect LBD system.
+      It defines the main Manager Buff and then includes all the separate files
+      that contain the logic for the attribute and its individual perks.
+      This file is intended to be included by the top-level buffs.xml.
+    -->
+
+    <!-- First, define the empty shell of the Intellect Manager buff. -->
+    <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_IntellectManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+
+    <!-- 
+      Include all the modular component files for the Intellect LBD system.
+      The game will process these as if their content was pasted directly here.
+      Using simplified filenames, assuming all files are in the same 'Intellect' folder.
+    -->
+
+    <!-- Includes the CVar initializers for the entire Intellect tree. -->
+    <include filename="Init.xml" />
+
+    <!-- Includes the LBD logic for the main attIntellect attribute itself. -->
+    <include filename="Intellect.xml" />
+
+    <!-- Includes the LBD logic for each individual perk in the Intellect tree. -->
+    <include filename="Electrocutioner.xml" />
+    <include filename="RoboticTurrets.xml" />
+    <include filename="FlurryOfIntellect.xml" />
+    <include filename="BetterBarter.xml" />
+    <include filename="DaringAdventurer.xml" />
+    <include filename="Physician.xml" />
+    <include filename="AdvancedEngineering.xml" />
+    <include filename="GreaseMonkey.xml" />
+    <include filename="CharismaticNature.xml" />
+
+    <!-- Includes the capstone perk for Intellect. -->
+    <include filename="IntellectMastery.xml" /> <!-- Placeholder for when we build this -->
+
+    <!-- Includes all the supporting cooldown and special mechanic buffs for the Intellect tree. -->
+    <include filename="Cooldowns.xml" /> <!-- Assuming Cooldowns.xml is renamed to Intellect_Cooldowns.xml -->
+
+    <include filename="Decay.xml" />
+</configs>

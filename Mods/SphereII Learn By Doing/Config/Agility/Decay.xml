@@ -1,0 +1,323 @@
+<configs>
+    <append xpath="/buffs">
+        <!-- Main permanent buff that handles all Agility decay logic. -->
+        <buff name="buffLBD_Agility_DecayManager" hidden="true">
+            <duration value="0"/> <!-- Permanent -->
+            <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
+
+            <!-- Logic for attAgility Decay -->
+            <effect_group name="Agility Attribute Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$attagility_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attAgility_Decay">
+                    <requirement name="CVarCompare" cvar="$attagility_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkArchery Decay -->
+            <effect_group name="Archery Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkarchery_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkArchery_Decay">
+                    <requirement name="CVarCompare" cvar="$perkarchery_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkGunslinger Decay -->
+            <effect_group name="Gunslinger Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkgunslinger_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkGunslinger_Decay">
+                    <requirement name="CVarCompare" cvar="$perkgunslinger_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkDeepCuts Decay -->
+            <effect_group name="Deep Cuts Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkdeepcuts_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkDeepCuts_Decay">
+                    <requirement name="CVarCompare" cvar="$perkdeepcuts_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkParkour Decay -->
+            <effect_group name="Parkour Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkparkour_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkParkour_Decay">
+                    <requirement name="CVarCompare" cvar="$perkparkour_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkLightArmor Decay -->
+            <effect_group name="Light Armor Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLightArmor_Decay">
+                    <requirement name="CVarCompare" cvar="$perklightarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkRunAndGun Decay -->
+            <effect_group name="Run and Gun Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkrunandgun_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkRunAndGun_Decay">
+                    <requirement name="CVarCompare" cvar="$perkrunandgun_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkHiddenStrike Decay -->
+            <effect_group name="Hidden Strike Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkhiddenstrike_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkHiddenStrike_Decay">
+                    <requirement name="CVarCompare" cvar="$perkhiddenstrike_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFromTheShadows Decay -->
+            <effect_group name="From the Shadows Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFromTheShadows_Decay">
+                    <requirement name="CVarCompare" cvar="$perkfromtheshadows_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFlurryOfAgility Decay -->
+            <effect_group name="Flurry of Agility Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfAgility_Decay">
+                    <requirement name="CVarCompare" cvar="$perkflurryofagility_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkAgilityMastery Decay -->
+            <effect_group name="Agility Mastery Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkAgilityMastery_Decay">
+                    <requirement name="CVarCompare" cvar="$perkagilitymastery_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the attAgility decay -->
+        <buff name="buffLBD_attAgility_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="attAgility" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attAgility" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attAgility" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkArchery decay -->
+        <buff name="buffLBD_perkArchery_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkArchery" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkArchery" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkarchery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkArchery" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkGunslinger decay -->
+        <buff name="buffLBD_perkGunslinger_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkGunslinger" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGunslinger" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgunslinger_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkGunslinger" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkDeepCuts decay -->
+        <buff name="buffLBD_perkDeepCuts_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkDeepCuts" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeepCuts" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDeepCuts" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkParkour decay -->
+        <buff name="buffLBD_perkParkour_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkParkour" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkParkour" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkParkour" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkLightArmor decay -->
+        <buff name="buffLBD_perkLightArmor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkLightArmor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLightArmor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLightArmor" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkRunAndGun decay -->
+        <buff name="buffLBD_perkRunAndGun_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkRunAndGun" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRunAndGun" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRunAndGun" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkHiddenStrike decay -->
+        <buff name="buffLBD_perkHiddenStrike_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkHiddenStrike" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkHiddenStrike" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhiddenstrike_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkHiddenStrike" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFromTheShadows decay -->
+        <buff name="buffLBD_perkFromTheShadows_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFromTheShadows" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFromTheShadows" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFromTheShadows" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFlurryOfAgility decay -->
+        <buff name="buffLBD_perkFlurryOfAgility_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFlurryOfAgility" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfAgility" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfAgility" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkAgilityMastery decay -->
+        <buff name="buffLBD_perkAgilityMastery_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkAgilityMastery" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAgilityMastery" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAgilityMastery" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+    </append>
+
+    <!-- NEW: Append the activity reset logic to the main Agility Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <effect_group name="LBD Decay Activity Resets">
+            <!-- Reset Decay Counter on attAgility Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attAgility"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfFallImpact" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$attagility_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkArchery Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkarchery_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkArchery"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkGunslinger Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkgunslinger_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkGunslinger"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkDeepCuts Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkdeepcuts_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkParkour Activity -->
+            <triggered_effect trigger="onSelfFallImpact" action="ModifyCVar" cvar="$perkparkour_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkLightArmor Activity -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
+                <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkRunAndGun Activity -->
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkrunandgun_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="ranged"/>
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkHiddenStrike Activity -->
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkhiddenstrike_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkFromTheShadows Activity -->
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkfromtheshadows_decay_counter" operation="set" value="0">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkFlurryOfAgility Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofagility_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkFlurryOfAgility"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkAgilityMastery Activity -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="attAgility" operation="GT" value="0"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+</configs>

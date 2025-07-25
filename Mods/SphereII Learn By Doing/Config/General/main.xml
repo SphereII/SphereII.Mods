@@ -1,0 +1,86 @@
+<!--
+    ====================================================================================================
+    ======================== GENERAL PERKS LEARN BY DOING (LBD) SYSTEM OVERVIEW ========================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for general perks
+    that are not directly tied to a specific primary attribute.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_GeneralManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+    HOW TO LEVEL UP PERKS
+
+    - Master Chef:
+      Gain XP by crafting food and drink items at a Campfire. A bonus is awarded for crafts
+      with longer crafting times, rewarding complex culinary creations.
+
+    - Living Off the Land:
+      Gain XP by harvesting wild or bonus crops from the land, rewarding sustainable foraging.
+
+    - Lock Picking:
+      Gain XP by successfully picking locks, rewarding skill and precision.
+
+    - Lucky Looter:
+      Gain XP by successfully opening any loot container (excluding buried treasure chests),
+      rewarding active scavenging.
+
+    - Light Armor:
+      Gain XP by taking damage from zombies and animals while actively wearing a majority of Light Armor,
+      rewarding mobile defense.
+
+    - Medium Armor:
+      Gain XP by taking damage from zombies and animals while actively wearing a majority of Medium Armor,
+      rewarding balanced defense.
+
+    - Heavy Armor:
+      Gain XP by taking damage from zombies and animals while actively wearing a majority of Heavy Armor,
+      rewarding steadfast defense.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- 
+      This is the master include file for the General LBD perks.
+      It defines the main General Manager Buff and then includes all the separate files
+      that contain the logic for these independent perks.
+      This file is intended to be included by the top-level buffs.xml.
+    -->
+
+    <!-- First, define the empty shell of the General Manager buff. -->
+    <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_GeneralManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+
+    <!-- 
+      Include all the modular component files for the General LBD perks.
+      The game will process these as if their content was pasted directly here.
+      Using simplified filenames, assuming all files are in the same 'Intellect' folder.
+    -->
+
+    <!-- Includes the CVar initializers for the General perks. -->
+    <include filename="Init.xml" />
+
+    <!-- Includes the LBD logic for each individual general perk. -->
+    <include filename="LightArmor.xml" />
+    <include filename="MediumArmor.xml" />
+    <include filename="HeavyArmor.xml" />
+    <include filename="MasterChef.xml" />
+    <include filename="LivingOffTheLand.xml" />
+    <include filename="LockPicking.xml" />
+    <include filename="LuckyLooter.xml" />
+
+    <!-- Includes all the supporting cooldown and special mechanic buffs for the General perks. -->
+    <include filename="Cooldowns.xml" />
+
+    <include filename="Decay.xml" />
+</configs>

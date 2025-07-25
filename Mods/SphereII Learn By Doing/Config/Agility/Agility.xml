@@ -1,0 +1,156 @@
+<configs>
+    <!-- Append the LBD logic for attAgility to the main Agility Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <effect_group name="Agility">
+
+            <!-- Synergy XP for any general Agility action -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Agility Attribute - General Use Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="HoldingItemHasTags" tags="attAgility"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="HoldingItemHasTags" tags="attAgility"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Synergy XP for successful movement (from Parkour and Rule #1: Cardio) -->
+            <triggered_effect trigger="onSelfFallImpact" action="LogMessage" message="LBD DEBUG: Agility Attribute - Parkour Synergy XP (+@$lbd_xp_synergy_parkour_bonus)">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfFallImpact" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_synergy_parkour_bonus">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Agility Attribute - Movement Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Agility Attribute - Movement Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+
+       
+
+            <!-- Synergy XP for successful stealth attacks (from Hidden Strike) -->
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Agility Attribute - Hidden Strike Synergy XP (+@$lbd_xp_synergy_hiddenstrike_bonus)">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_synergy_hiddenstrike_bonus">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Synergy XP for moving in low light (from From the Shadows) -->
+            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Agility Attribute - Shadow Walker Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                <requirement name="CVarCompare" cvar="_lightlevel" operation="LTE" value="65"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attAgility_XPCoolDown"/>
+            </triggered_effect>
+
+
+            <!-- Cooldown Application for all synergy actions -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+                <requirement name="HoldingItemHasTags" tags="attAgility"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfFallImpact" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+                <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+                <requirements compare_type="or">
+                    <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                    <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
+                    <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>
+                    <requirement name="CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
+                    <requirement name="!ItemHasTags" tags="perkSkullCrusher"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
+                <requirements compare_type="or">
+                    <requirement name="EntityHasMovementTag" tags="running"/>
+                    <requirement name="EntityHasMovementTag" tags="walking"/>
+                </requirements>
+            </triggered_effect>
+
+            <!-- Level Up Check for all synergy actions -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfFallImpact" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_attAgility_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attagility_lbd_xp" operation="GTE" value="@$attagility_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for attAgility. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_attAgility_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attAgility" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attAgility" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="subtract" value="@$attagility_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attagility_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attAgility" sound="read_skillbook_final" />
+                <!-- NEW: Trigger the Agility Mastery Checker buff -->
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attAgility_MasteryChecker"/>
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attAgility" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Agility - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

@@ -2,35 +2,38 @@
 	<!-- Append the LBD logic for Boomstick to the main Strength Manager buff. -->
 	<append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
 		<effect_group name="Boomstick">
-			<!-- This is the master requirement for the entire group. -->
 			<requirement name="HoldingItemHasTags" tags="perkBoomstick"/>
 
 			<!-- XP Gain -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Attempting XP Gain (+15)">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
 				<requirement name="HasBuff" buff="god"/>
-				<requirement name="IsAlive" target="other"/>
-
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkboomstick_lbd_xp" operation="add" value="15">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
-				<requirement name="IsAlive" target="other"/>
-
 			</triggered_effect>
+
 			<!-- Cooldown Application -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Applying Cooldown">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
 				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBoomstick_XPCoolDown">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="NotHasBuff" buff="buffLBD_perkBoomstick_XPCoolDown"/>
 			</triggered_effect>
+
 			<!-- Level Up Check -->
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Boomstick - Triggering Level Up Check">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="CVarCompare" cvar="$perkboomstick_lbd_xp" operation="GTE" value="@$perkboomstick_lbd_xptonext"/>
 				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBoomstick_LevelUpCheck">
+				<requirement name="IsAlive" target="other"/> <!-- NEW -->
 				<requirement name="CVarCompare" cvar="$perkboomstick_lbd_xp" operation="GTE" value="@$perkboomstick_lbd_xptonext"/>
 			</triggered_effect>
 		</effect_group>

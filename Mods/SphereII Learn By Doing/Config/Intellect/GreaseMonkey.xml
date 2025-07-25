@@ -1,0 +1,67 @@
+<configs>
+    <!-- Append the LBD logic for Grease Monkey to the main Intellect Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="Grease Monkey">
+            <!-- Master requirement: The crafted recipe must be tagged for Grease Monkey. -->
+            <requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey" />
+
+            <!-- XP Gain: BASELINE for any Grease Monkey craft -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Grease Monkey - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- XP Gain: BONUS for long crafting times -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Grease Monkey - Attempting Long Craft Bonus XP (+@$lbd_xp_greasemonkey_longcraft_bonus)">
+                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="100" /> <!-- Example: Craft time >= 100 seconds -->
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="add" value="@($lbd_xp_greasemonkey_longcraft_bonus)">
+                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="100" />
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Grease Monkey - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGreaseMonkey_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Grease Monkey - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE" value="@$perkgreasemonkey_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkGreaseMonkey_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgreasemonkey_lbd_xp" operation="GTE" value="@$perkgreasemonkey_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Grease Monkey. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkGreaseMonkey_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkGreaseMonkey" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGreaseMonkey" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xp" operation="subtract" value="@$perkgreasemonkey_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgreasemonkey_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkGreaseMonkey" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkGreaseMonkey" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Grease Monkey - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

@@ -1,0 +1,47 @@
+<configs>
+    <append xpath="/buffs">
+
+        <!-- Agility LBD Supporting Buffs -->
+
+        <!-- Cooldown for attAgility -->
+        <buff name="buffLBD_attAgility_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkArchery -->
+        <buff name="buffLBD_perkArchery_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkGunslinger -->
+        <buff name="buffLBD_perkGunslinger_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkDeepCuts -->
+        <buff name="buffLBD_perkDeepCuts_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkParkour -->
+        <buff name="buffLBD_perkParkour_XPCoolDown" hidden="true"><duration value="2"/></buff>
+
+        <!-- Cooldown for perkLightArmor -->
+        <buff name="buffLBD_perkLightArmor_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkRunAndGun -->
+        <buff name="buffLBD_perkRunAndGun_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkHiddenStrike -->
+        <buff name="buffLBD_perkHiddenStrike_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkFromTheShadows -->
+        <buff name="buffLBD_perkFromTheShadows_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Special Mechanic Buff for perkFlurryOfAgility -->
+        <buff name="buffLBD_Flurry_ComboWindow_Agility" hidden="true">
+            <stack_type value="replace"/>
+            <duration value="2"/>
+        </buff>
+
+        <!-- Cooldown for perkFlurryOfAgility -->
+        <buff name="buffLBD_perkFlurryOfAgility_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkAgilityMastery -->
+        <buff name="buffLBD_perkAgilityMastery_CombatCoolDown" hidden="true"><duration value="1"/></buff>
+        <buff name="buffLBD_perkAgilityMastery_MovementCoolDown" hidden="true"><duration value="1"/></buff>
+
+    </append>
+</configs>

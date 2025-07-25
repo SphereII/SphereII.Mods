@@ -1,0 +1,63 @@
+<configs>
+    <!-- Append the LBD logic for Flurry of Intellect to the main Intellect Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="Flurry of Intellect">
+            <!-- Master requirement: This group applies when holding a Robotic Weapon or Stun Baton. -->
+            <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
+            <requirement name="IsAlive" target="other"/>
+
+            <!-- XP GAIN: BONUS for a Combo Hit -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Intellect - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Intellect"/>
+            </triggered_effect>
+
+
+            <!-- COMBO WINDOW LOGIC: This trigger starts or refreshes the combo window on ANY successful hit. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Intellect - Starting/Refreshing Combo Window">
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Intellect">
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- LEVEL UP CHECK: This checks for a level up on any successful hit. -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Intellect - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfIntellect_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkflurryofintellect_lbd_xp" operation="GTE" value="@$perkflurryofintellect_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler and the Combo Window buff. -->
+    <append xpath="/buffs">
+        <!-- The temporary buff that creates the combo window. 'stack_type="replace"' is CRITICAL. -->
+        <buff name="buffLBD_Flurry_ComboWindow_Intellect" hidden="true">
+            <stack_type value="replace"/>
+            <duration value="2"/>
+        </buff>
+
+        <buff name="buffLBD_perkFlurryOfIntellect_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfIntellect" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfIntellect" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="subtract" value="@$perkflurryofintellect_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfIntellect" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfIntellect" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Intellect - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

@@ -8,6 +8,8 @@ namespace SCore.Features.LearnByDoing.Harmony
     [HarmonyPatch(nameof(XUiC_SkillEntry.GetBindingValue))]
     public class XUICSkillGetBindingValue
     {
+        public static readonly CachedStringFormatterXuiRgbaColor staticoncolorFormatter = new CachedStringFormatterXuiRgbaColor();
+
         public static void Postfix(ref bool __result, XUiC_SkillEntry __instance, ref string value,
             string bindingName)
         {
@@ -26,7 +28,7 @@ namespace SCore.Features.LearnByDoing.Harmony
 
                 var currentLevel = entityPlayer.Buffs.GetCustomVar(perkCurrentLevel);
                 var toNextLevel = entityPlayer.Buffs.GetCustomVar(perkToNextLevel);
-                Log.Out($"Perk: {perkName} {perkCurrentLevel} : {currentLevel}  {perkToNextLevel} : {toNextLevel}");
+                //Log.Out($"Perk: {perkName} {perkCurrentLevel} : {currentLevel}  {perkToNextLevel} : {toNextLevel}");
                 if (toNextLevel > 0)
                 {
                     value = (currentLevel / toNextLevel).ToString(CultureInfo.InvariantCulture);
@@ -42,6 +44,23 @@ namespace SCore.Features.LearnByDoing.Harmony
                 if (__instance.currentSkill == null) return;
                 // value = (__instance.currentSkill.Level + 1 == __instance.currentSkill.CalculatedLevel(entityPlayer) && __instance.currentSkill.Level + 1 <=
                 //     __instance.currentSkill.CalculatedMaxLevel(entityPlayer)).ToString();
+            }
+            if (bindingName == "color")
+            {
+                var defaultColor = new Color(0, 255, 54, 128);
+                value = defaultColor.ToString();
+                __result = true;
+                var perkName = "";
+                if (__instance.currentSkill == null) return;
+                
+                perkName = __instance.currentSkill.Name;
+                var perkCurrentLevel = $"${perkName}_decay_counter";
+                var currentLevel = entityPlayer.Buffs.GetCustomVar(perkCurrentLevel);
+                value = currentLevel switch {
+                    <= 2 => staticoncolorFormatter.Format(defaultColor),
+                    <= 4 => staticoncolorFormatter.Format(Color.yellow),
+                    _ => staticoncolorFormatter.Format(Color.red)
+                };
             }
         }
     }

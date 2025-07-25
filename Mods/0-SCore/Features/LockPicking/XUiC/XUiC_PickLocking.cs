@@ -54,6 +54,9 @@ public class XUiC_PickLocking : XUiController {
     public override void OnClose() {
         if (Lock.IsLockOpened())
         {
+            // adding trigger
+            OnLootContainerPicked.onLootContainerPicked(currentBlock);
+            
             var blockValue = BlockValue.Air;
             if (!currentBlock.Block.LockpickDowngradeBlock.isair)
             {

@@ -1,0 +1,98 @@
+<!--
+    ====================================================================================================
+    =========================== AGILITY LEARN BY DOING (LBD) SYSTEM OVERVIEW ===========================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for the Agility attribute
+    and all of its associated perks.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_AgilityManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+    HOW TO LEVEL UP PERKS 
+
+    - Agility (Attribute):
+      Gain small amounts of XP from performing ANY Agility-related action. Specializing in
+      Agility perks will naturally level up your main Agility attribute over time.
+
+    - Archery:
+      Gain XP by damaging enemies with Bows and Crossbows.
+
+    - Gunslinger:
+      Gain XP by damaging enemies with Handguns.
+
+    - Deep Cuts:
+      Gain XP by damaging enemies with Bladed Weapons.
+
+    - Parkour:
+      Gain XP by successfully enduring and mitigating the impact of significant falls,
+      reflecting improved control and resilience.
+
+    - Hard Target:
+      Gain XP by taking damage from zombies and animals while moving, rewarding mobile defense.
+
+    - Run and Gun:
+      Gain XP by damaging enemies with firearms while actively moving (running or walking),
+      rewarding accuracy on the move.
+
+    - Hidden Strike:
+      Gain XP by successfully executing stealth attacks on unaware enemies, rewarding precision
+      from the shadows.
+
+    - From the Shadows:
+      Gain XP by actively moving (walking or running) while crouched in low light conditions,
+      rewarding sustained stealth.
+
+    - Flurry of Agility:
+      Gain bonus XP by landing rapid, successive strikes with Bladed Weapons, rewarding a
+      "whirlwind of slashes" combo playstyle.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- 
+      This is the master include file for the Agility LBD system.
+      It defines the main Manager Buff and then includes all the separate files
+      that contain the logic for the attribute and its individual perks.
+      This file is intended to be included by the top-level buffs.xml.
+    -->
+
+    <!-- First, define the empty shell of the Agility Manager buff. -->
+    <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_AgilityManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+
+    <!-- 
+      Include all the modular component files for the Agility LBD system.
+      The game will process these as if their content was pasted directly here.
+      Using simplified filenames, assuming all files are in the same 'Agility' folder.
+    -->
+
+    <!-- Includes the CVar initializers for the entire Agility tree. -->
+    <include filename="Init.xml" /> <!-- Assuming Init.xml is renamed to Agility_Init.xml -->
+
+    <!-- Includes the LBD logic for the main attAgility attribute itself. -->
+    <include filename="Agility.xml" />
+    <include filename="Archery.xml" />
+    <include filename="AgilityMastery.xml" /> <!-- Placeholder for when we build this -->
+    <include filename="DeepCuts.xml" />
+    <include filename="FlurryOfAgility.xml" />
+    <include filename="FromTheShadows.xml" />
+    <include filename="Gunslinger.xml" />
+    <include filename="HardTarget.xml" />
+    <include filename="HiddenStrike.xml" />
+    <include filename="Parkour.xml" />
+    <include filename="RunAndGun.xml" />
+    <include filename="Cooldowns.xml" />
+
+    <include filename="Decay.xml" />
+</configs>

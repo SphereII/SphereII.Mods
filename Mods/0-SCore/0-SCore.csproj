@@ -137,6 +137,7 @@
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
     <Compile Include="Features\ItemRepairDegradation\Scripts\MinEventActionModifyItem.cs" />
     <Compile Include="Features\ItemRepairDegradation\Scripts\RequirementCompareItemProperty.cs" />
+    <Compile Include="Features\LearnByDoing\Harmony\BlockSecureLootEventData_Event.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillAttributeLevel.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillEntry.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillPerkLevel.cs" />
@@ -168,10 +169,20 @@
     <Compile Include="Features\ParticleAttractor\Scripts\MinEvent\SCoreParticleAttractor.cs" />
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
+    <Compile Include="Features\PassiveEffectHooks\AddHooks.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\MinEventActionBasePatch.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnLootContainerPicked.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnRecipeCrafted.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfPlaceBlock.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfQuestComplete.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemBought.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemCraft.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemRepaired.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfHarvest.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfItemSold.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\OnSelfPrimaryActionMissEntity.cs" />
+    <Compile Include="Features\PassiveEffectHooks\SCoreMinEventTypes.cs" />
+    <Compile Include="Features\PassiveEffectHooks\TestingHooks.cs" />
     <Compile Include="Features\PlayerMetrics\KillTracking\Scripts\SCoreKillTracker.cs" />
     <Compile Include="Features\PlayerMetrics\SCoreMetrics.cs" />
     <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
@@ -360,6 +371,9 @@
     <Compile Include="Scripts\Buffs\RequirementIsNearFire.cs" />
     <Compile Include="Scripts\Buffs\RequirementIsProgressionLocked.cs" />
     <Compile Include="Scripts\Buffs\RequirementQuestObjective.cs" />
+    <Compile Include="Scripts\Buffs\RequirementRecipeCraftArea.cs" />
+    <Compile Include="Scripts\Buffs\RequirementRecipeHasTags.cs" />
+    <Compile Include="Scripts\Buffs\RequirementRecipeHasLongCraftTime.cs" />
     <Compile Include="Scripts\Buffs\RequirementSameFactionSDX.cs" />
     <Compile Include="Scripts\Buffs\TargetCVarCompare.cs" />
     <Compile Include="Scripts\Cache\SCoreQueue.cs" />
@@ -687,6 +701,7 @@
     <Content Include="Documentation\Examples\Farming.md" />
     <Content Include="Documentation\Examples\FireV2.md" />
     <Content Include="Documentation\Examples\FoodSpoilage.md" />
+    <Content Include="Documentation\Examples\LearnByDoing.md" />
     <Content Include="Documentation\Examples\LightlyModded.md" />
     <Content Include="Documentation\Examples\ReadMe.md" />
     <Content Include="Documentation\Examples\RecipeEffects.md" />
@@ -702,7 +717,7 @@
     <Content Include="Documentation\MinEvents\MinEvents.md" />
     <Content Include="Documentation\MinEvents\MinEvents_01.md" />
     <Content Include="Documentation\Readme.md" />
-    <Content Include="Documentation\Utils\ChatGPT.txt" />
+    <Content Include="Documentation\Utils\Testing.md" />
     <Content Include="Documentation\XPath\Conditionals.md" />
     <Content Include="Documentation\XPath\Includes.md" />
     <Content Include="Documentation\XPath\XPath.md" />
@@ -714,6 +729,7 @@
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="Features\MaterialModifier\ReadMe.md" />
     <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />
+    <Content Include="Features\PassiveEffectHooks\Readme.md" />
     <Content Include="Features\Recipe\ReadMe.md" />
     <Content Include="Features\RemoteCrafting\ReadMe.md" />
     <Content Include="Features\SharedReading\ReadMe.md" />

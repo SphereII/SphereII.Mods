@@ -4,7 +4,9 @@
 	<effect_group name="Animal Tracker">
 		<!-- This is the master requirement for the entire group. -->
 		<requirement name="EntityTagCompare" target="other" tags="animal"/>
-		<!-- ON ANIMAL KILL LOGIC -->
+
+		<!-- === XP GAIN LOGIC === -->
+
 		<!-- High reward for a skillful kill (headshot OR sneak attack) -->
 		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Skillful Kill XP (+30)">
 			<requirements compare_type="or">
@@ -20,6 +22,7 @@
 			</requirements>
 			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
 		</triggered_effect>
+
 		<!-- Standard reward for any other kill -->
 		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Standard Kill XP (+15)">
 			<requirement name="!HitLocation" body_part="Head"/>
@@ -31,6 +34,9 @@
 			<requirement name="!CVarCompare" cvar="_notAlerted" operation="GT" value="0" target="other"/>
 			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
 		</triggered_effect>
+
+		<!-- === COOLDOWN APPLICATION === -->
+
 		<!-- Apply the kill cooldown -->
 		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting to Apply Kill Cooldown">
 			<requirement name="HasBuff" buff="god"/>
@@ -38,6 +44,9 @@
 		<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown">
 			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_KillCoolDown"/>
 		</triggered_effect>
+
+		<!-- === LEVEL UP CHECK LOGIC === -->
+
 		<!-- Check for a level up after a kill -->
 		<triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Kill)">
 			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
@@ -46,35 +55,25 @@
 		<triggered_effect trigger="onSelfKilledOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_LevelUpCheck">
 			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
 		</triggered_effect>
-		<!-- ON ANIMAL HARVEST LOGIC -->
-		<!-- Bonus reward for harvesting an animal -->
-		<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting Harvest XP (+10)">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="HasBuff" buff="god"/>
-		</triggered_effect>
-		<triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="add" value="10">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
-		</triggered_effect>
-		<!-- Apply the harvest cooldown -->
-		<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Attempting to Apply Harvest Cooldown">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="HasBuff" buff="god"/>
-		</triggered_effect>
-		<triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="NotHasBuff" buff="buffLBD_perkAnimalTracker_HarvestCoolDown"/>
-		</triggered_effect>
-		<!-- Check for a level up after a harvest -->
-		<triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Animal Tracker - Triggering Level Up Check (from Harvest)">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
-			<requirement name="HasBuff" buff="god"/>
-		</triggered_effect>
-		<triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_perkAnimalTracker_LevelUpCheck">
-			<requirement name="HoldingItemHasTags" tags="knife,machete"/>
-			<requirement name="CVarCompare" cvar="$perkanimaltracker_lbd_xp" operation="GTE" value="@$perkanimaltracker_lbd_xptonext"/>
-		</triggered_effect>
+
 	</effect_group>
+	</append>
+	<append xpath="/buffs">
+		<buff name="buffLBD_perkAnimalTracker_LevelUpCheck" hidden="true">
+			<stack_type value="ignore"/><duration value="1"/>
+			<effect_group>
+				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkAnimalTracker" />
+				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAnimalTracker" level="1"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xp" operation="subtract" value="@$perkanimaltracker_lbd_xptonext"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_lbd_xptonext" operation="multiply" value="1.2"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAnimalTracker" sound="read_skillbook_final" />
+			</effect_group>
+			<effect_group>
+				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkAnimalTracker" />
+				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Animal Tracker - Level Up FAILED. Perk is locked by requirements.">
+					<requirement name="HasBuff" buff="god"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
 	</append>
 </configs>

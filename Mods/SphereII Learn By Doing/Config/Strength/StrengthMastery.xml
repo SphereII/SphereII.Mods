@@ -1,109 +1,126 @@
+<!--
+    ====================================================================================================
+    =========================== STRENGTH MASTERY LEARN BY DOING (LBD) SYSTEM ===========================
+    ====================================================================================================
+
+    This file defines the Mastery Checker buff for attStrength.
+
+    HOW IT WORKS:
+    This temporary buff is triggered by `buffLBD_attStrength_LevelUpCheck` whenever the player's
+    main `attStrength` attribute levels up. It then checks the current level of `attStrength`
+    and, if it matches a predefined milestone, triggers a level-up for `perkStrengthMastery`.
+
+    -   **Progression Trigger:** This buff is applied by `buffLBD_attStrength_LevelUpCheck`.
+    -   **Staggered Unlocks:** `perkStrengthMastery` will level up at specific milestones of the `attStrength` attribute:
+        -   Tier 1: at `attStrength` Level 3
+        -   Tier 2: at `attStrength` Level 5
+        -   Tier 3: at `attStrength` Level 7
+        -   Tier 4: at `attStrength` Level 9
+        -   Tier 5: at `attStrength` Level 10
+    -   **Internal Tracking:** The `$perkstrengthmastery_lbd_level` CVar is used to ensure
+        each tier is only unlocked once.
+
+    This design ensures that overall proficiency in Strength (developed through combat and mining)
+    leads to the ultimate mastery of the attribute.
+
+    ====================================================================================================
+-->
 <configs>
-    <!-- Append the LBD logic for Strength Mastery to the main Strength Manager buff. -->
-    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
-        <effect_group name="Strength Mastery">
-
-            <!-- Pillar 1: "The Master Miner" - HIGH REWARD -->
-            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Mastery - MASTER MINER! Attempting XP Gain (+25)">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_MiningCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="add" value="25">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_MiningCoolDown"/>
-            </triggered_effect>
-
-            <!-- Pillar 2: "The Improviser" (with a mining tool) - HIGH RISK, HIGH REWARD -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Strength Mastery - IMPROVISED FINISHER! Attempting XP Gain (+20)">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirements compare_type="or">
-                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
-                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
-                </requirements>
-                <requirement name="IsAlive" target="other"/>
-
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="add" value="20">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirements compare_type="or">
-                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
-                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
-                </requirements>
-                <requirement name="IsAlive" target="other"/>
-
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
-            </triggered_effect>
-
-            <!-- Pillar 3: "The Finisher" (with a proper weapon) - STANDARD REWARD -->
-            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Strength Mastery - WEAPON FINISHER! Attempting XP Gain (+10)">
-                <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                <requirement name="!HoldingItemHasTags" tags="miningTool"/>
-                <requirements compare_type="or">
-                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
-                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
-                </requirements>
-                <requirement name="IsAlive" target="other"/>
-
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="add" value="10">
-                <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                <requirement name="!HoldingItemHasTags" tags="miningTool"/>
-                <requirements compare_type="or">
-                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
-                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
-                </requirements>
-                <requirement name="IsAlive" target="other"/>
-
-                <requirement name="NotHasBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown"/>
-            </triggered_effect>
-
-            <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_perkStrengthMastery_MiningCoolDown">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkStrengthMastery_CombatCoolDown">
-                <requirements compare_type="or">
-                    <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                    <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                </requirements>
-                <requirements compare_type="or">
-                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
-                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
-                </requirements>
-            </triggered_effect>
-
-            <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_perkStrengthMastery_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_xp" operation="GTE" value="@$perkstrengthmastery_lbd_xptonext"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkStrengthMastery_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_xp" operation="GTE" value="@$perkstrengthmastery_lbd_xptonext"/>
-            </triggered_effect>
-        </effect_group>
-    </append>
-
-    <!-- Define the Level-Up Handler buff for Strength Mastery. -->
     <append xpath="/buffs">
+        <buff name="buffLBD_attStrength_MasteryChecker" hidden="true">
+            <duration value="0.1"/> <!-- Very short duration, just long enough to process -->
+
+            <!-- Log message for debugging the checker's activation. -->
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                              message="LBD DEBUG: Strength Mastery Checker Fired. Checking for Mastery level up.">
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+
+            <!-- Level 1 Mastery (at attStrength Level 3) -->
+            <effect_group name="Mastery Level 1">
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="3"/>
+                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 1)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkStrengthMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 2 Mastery (at attStrength Level 5) -->
+            <effect_group name="Mastery Level 2">
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="5"/>
+                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 2)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkStrengthMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 3 Mastery (at attStrength Level 7) -->
+            <effect_group name="Mastery Level 3">
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="7"/>
+                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="3"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 3)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkStrengthMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 4 Mastery (at attStrength Level 9) -->
+            <effect_group name="Mastery Level 4">
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="9"/>
+                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="4"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 4)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkStrengthMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="9"/>
+                    <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="4"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Level 5 Mastery (at attStrength Level 10) -->
+            <effect_group name="Mastery Level 5">
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="10"/>
+                <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Triggering Level Up Check (Tier 5)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkStrengthMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attStrength" operation="Equals" value="10"/>
+                    <requirement name="CVarCompare" cvar="$perkstrengthmastery_lbd_level" operation="LT" value="5"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+
+        <!-- Define the Level-Up Handler buff for Strength Mastery. -->
         <buff name="buffLBD_perkStrengthMastery_LevelUpCheck" hidden="true">
-            <stack_type value="ignore"/><duration value="1"/>
+            <stack_type value="ignore"/>
+            <duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery" />
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkStrengthMastery" level="1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="subtract" value="@$perkstrengthmastery_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xptonext" operation="multiply" value="1.2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkStrengthMastery" sound="read_skillbook_final" />
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
+                                  progression_name="perkStrengthMastery" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_level"
+                                  operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkStrengthMastery"
+                                  sound="read_skillbook_final"/>
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength Mastery - Level Up FAILED. Perk is locked by requirements.">
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Strength Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>
             </effect_group>

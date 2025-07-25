@@ -1,0 +1,57 @@
+<configs>
+    <!-- Append the LBD logic for Gunslinger to the main Agility Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <effect_group name="Gunslinger">
+            <!-- Master requirement for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="perkGunslinger"/>
+            <requirement name="IsAlive" target="other"/>
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Gunslinger - Attempting XP Gain (+@$lbd_xp_ranged_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkgunslinger_lbd_xp" operation="add" value="@$lbd_xp_ranged_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Gunslinger - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkGunslinger_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkGunslinger_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Gunslinger - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkgunslinger_lbd_xp" operation="GTE" value="@$perkgunslinger_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkGunslinger_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkgunslinger_lbd_xp" operation="GTE" value="@$perkgunslinger_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Gunslinger. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkGunslinger_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkGunslinger" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGunslinger" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgunslinger_lbd_xp" operation="subtract" value="@$perkgunslinger_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgunslinger_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkGunslinger" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkGunslinger" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Gunslinger - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

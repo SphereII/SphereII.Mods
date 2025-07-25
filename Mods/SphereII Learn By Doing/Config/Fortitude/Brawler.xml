@@ -1,0 +1,84 @@
+<configs>
+    <!-- Append the LBD logic for Brawler to the main Fortitude Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="Brawler">
+            <!-- Master requirement for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+            <requirement name="IsAlive" target="other"/>
+
+            <!-- XP Gain: Regular Attack -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Attempting Regular XP Gain (@$lbd_xp_melee_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkbrawler_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- XP Gain: Power Attack -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Attempting Power Attack XP Gain (@$lbd_xp_melee_power_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkbrawler_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application: For Primary Attack -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Applying Cooldown (Primary)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBrawler_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application: For Secondary Attack -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Applying Cooldown (Secondary)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkBrawler_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkBrawler_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check: For Primary Attack -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Triggering Level Up Check (Primary)">
+                <requirement name="CVarCompare" cvar="$perkbrawler_lbd_xp" operation="GTE" value="@$perkbrawler_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkBrawler_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkbrawler_lbd_xp" operation="GTE" value="@$perkbrawler_lbd_xptonext"/>
+            </triggered_effect>
+
+            <!-- Level Up Check: For Secondary Attack -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Brawler - Triggering Level Up Check (Secondary)">
+                <requirement name="CVarCompare" cvar="$perkbrawler_lbd_xp" operation="GTE" value="@$perkbrawler_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkBrawler_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkbrawler_lbd_xp" operation="GTE" value="@$perkbrawler_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Brawler. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkBrawler_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkBrawler" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkBrawler" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbrawler_lbd_xp" operation="subtract" value="@$perkbrawler_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbrawler_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkBrawler" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkBrawler" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Brawler - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

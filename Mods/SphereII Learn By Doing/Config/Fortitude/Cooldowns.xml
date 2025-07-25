@@ -1,0 +1,46 @@
+<configs>
+    <append xpath="/buffs">
+
+        <!-- Fortitude LBD Supporting Buffs -->
+
+        <!-- Cooldown for attFortitude -->
+        <buff name="buffLBD_attFortitude_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkBrawler -->
+        <buff name="buffLBD_perkBrawler_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkMachineGunner -->
+        <buff name="buffLBD_perkMachineGunner_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for perkFlurryOfFortitude -->
+        <buff name="buffLBD_Flurry_ComboWindow_Fortitude" hidden="true">
+            <stack_type value="replace"/>
+            <duration value="2"/>
+        </buff>
+
+        <!-- Cooldown for perkTheHuntsman -->
+        <buff name="buffLBD_perkTheHuntsman_XPCoolDown" hidden="true"><duration value="5"/></buff>
+
+        <!-- Cooldown for perkSiphoningStrikes -->
+        <buff name="buffLBD_perkSiphoningStrikes_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldowns for perkPainTolerance -->
+        <buff name="buffLBD_perkPainTolerance_DamageCoolDown" hidden="true"><duration value="1"/></buff>
+        <buff name="buffLBD_perkPainTolerance_StunCoolDown" hidden="true"><duration value="5"/></buff>
+        <buff name="buffLBD_perkPainTolerance_ConcussionCoolDown" hidden="true"><duration value="60"/></buff>
+        <buff name="buffLBD_perkPainTolerance_ConcussionChecker" hidden="true"><duration value="0.1"/></buff>
+
+        <!-- Cooldown for perkHealingFactor -->
+        <buff name="buffLBD_perkHealingFactor_XPCoolDown" hidden="true"><duration value="10"/></buff>
+
+        <!-- Cooldowns for perkSlowMetabolism -->
+        <buff name="buffLBD_perkSlowMetabolism_ConsumeCoolDown" hidden="true"><duration value="10"/></buff>
+        <buff name="buffLBD_perkSlowMetabolism_RecoveryCoolDown" hidden="true"><duration value="600"/></buff>
+        <buff name="buffLBD_perkSlowMetabolism_ConsumeChecker" hidden="true"><duration value="0.1"/></buff>
+        <buff name="buffLBD_perkSlowMetabolism_RecoveryChecker" hidden="true"><duration value="0.1"/></buff>
+
+        <!-- Cooldown for perkRuleOneCardio -->
+        <buff name="buffLBD_perkRuleOneCardio_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+    </append>
+</configs>

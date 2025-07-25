@@ -19,10 +19,17 @@ public class SCoreModEvents {
         ModEvents.GameStartDone.RegisterHandler(VersionCheck.OnGameStartDone);
 
         ModEvents.PlayerSpawnedInWorld.RegisterHandler(CheckGraphicSettings);      
-        
+        ModEvents.PlayerSpawnedInWorld.RegisterHandler(AddTriggeredEvents);
+
         // When player starts a game
         // ModEvents.GameShutdown.RegisterHandler(new Action(FireManager.Instance.CleanUp));
         //  ModEvents.PlayerSpawnedInWorld.RegisterHandler(new Action<ClientInfo, RespawnType, Vector3i>(FireManager.Instance.Init));
+    }
+ 
+
+    private static void AddTriggeredEvents(ref ModEvents.SPlayerSpawnedInWorldData data)
+    {
+        AddHooks.Initialize();
     }
 
     private static void CheckGraphicSettings(ref ModEvents.SPlayerSpawnedInWorldData data) {

@@ -1,0 +1,57 @@
+<configs>
+    <!-- Append the initializers for the Fortitude LBD system to the global Init buff. -->
+    <append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+        <effect_group name="Fortitude Initializers">
+
+            <!-- Apply the permanent Fortitude Manager Buff to the player -->
+            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_FortitudeManager"/>
+
+            <!-- Initializers for Fortitude CVars -->
+
+            <!-- attFortitude -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xptonext" operation="set" value="5000"/>
+
+            <!-- perkBrawler -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbrawler_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbrawler_lbd_xptonext" operation="set" value="1000"/>
+
+            <!-- perkMachineGunner -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmachinegunner_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmachinegunner_lbd_xptonext" operation="set" value="1200"/>
+
+            <!-- perkFlurryOfFortitude -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryoffortitude_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryoffortitude_lbd_xptonext" operation="set" value="1500"/>
+
+            <!-- perkTheHuntsman -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkthehuntsman_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkthehuntsman_lbd_xptonext" operation="set" value="900"/>
+
+            <!-- perkSiphoningStrikes -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksiphoningstrikes_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksiphoningstrikes_lbd_xptonext" operation="set" value="1000"/>
+
+            <!-- perkPainTolerance -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xptonext" operation="set" value="1500"/>
+
+            <!-- perkHealingFactor -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhealingfactor_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhealingfactor_lbd_xptonext" operation="set" value="1200"/>
+
+            <!-- perkSlowMetabolism -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xptonext" operation="set" value="1000"/>
+
+            <!-- perkRuleOneCardio -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xptonext" operation="set" value="750"/>
+
+            <!-- perkFortitudeMastery -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_xptonext" operation="set" value="3000"/>
+
+        </effect_group>
+    </append>
+</configs>

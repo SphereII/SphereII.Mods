@@ -1,0 +1,58 @@
+<configs>
+    <!-- Append the LBD logic for Run and Gun to the main Agility Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <effect_group name="Run and Gun">
+            <!-- Master requirements for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="ranged"/> <!-- Any ranged weapon -->
+            <requirement name="IsAlive" target="other"/>
+                <requirement name="EntityHasMovementTag" tags="running"/>
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Attempting Moving Hit XP (+@$lbd_xp_ranged_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="add" value="@$lbd_xp_ranged_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkRunAndGun_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRunAndGun_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfDamagedOther" action="LogMessage" message="LBD DEBUG: Run and Gun - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkrunandgun_lbd_xp" operation="GTE" value="@$perkrunandgun_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="AddBuff" buff="buffLBD_perkRunAndGun_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkrunandgun_lbd_xp" operation="GTE" value="@$perkrunandgun_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Run and Gun. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkRunAndGun_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkRunAndGun" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRunAndGun" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="subtract" value="@$perkrunandgun_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRunAndGun" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkRunAndGun" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Run and Gun - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

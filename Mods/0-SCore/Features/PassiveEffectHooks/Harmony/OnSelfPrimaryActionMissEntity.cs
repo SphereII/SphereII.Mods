@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace SCore.Features.PassiveEffectHooks.Harmony
+namespace SCore.Features.PassiveEffectHooks
 {
     [HarmonyPatch(typeof(ItemActionMelee))]
     [HarmonyPatch(nameof(ItemActionMelee.GetExecuteActionTarget))]

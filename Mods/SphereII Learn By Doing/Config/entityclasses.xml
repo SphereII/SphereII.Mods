@@ -1,5 +1,0 @@
-<configs>
-	<append xpath="/entity_classes/entity_class[@name='playerMale']">
-		<property name="Buffs" value="ProgressionLearnByDoing_Init"/>
-	</append>
-</configs>

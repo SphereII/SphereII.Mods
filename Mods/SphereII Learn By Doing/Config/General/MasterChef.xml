@@ -1,0 +1,67 @@
+<configs>
+    <!-- Append the LBD logic for Master Chef to the main General Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="Master Chef">
+            <!-- Master requirement: Crafting must occur at a campfire. -->
+            <requirement name="RequirementRecipeCraftArea, SCore" craft_area="campfire"/>
+
+            <!-- XP Gain: BASELINE for any Master Chef craft -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Master Chef - Attempting Base Crafting XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- XP Gain: BONUS for long crafting times -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Master Chef - Attempting Long Craft Bonus XP (+@$lbd_xp_masterchef_longcraft_bonus)">
+                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60" /> <!-- Example: Craft time >= 60 seconds for food -->
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="add" value="@$lbd_xp_masterchef_longcraft_bonus">
+                <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60" />
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Master Chef - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkMasterChef_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkMasterChef_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Master Chef - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkmasterchef_lbd_xp" operation="GTE" value="@$perkmasterchef_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_perkMasterChef_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkmasterchef_lbd_xp" operation="GTE" value="@$perkmasterchef_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Master Chef. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkMasterChef_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkMasterChef" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMasterChef" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="subtract" value="@$perkmasterchef_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmasterchef_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMasterChef" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkMasterChef" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Master Chef - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

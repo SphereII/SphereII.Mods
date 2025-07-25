@@ -21,3 +21,5 @@ Explore real-world XML examples and see how to get things done.
 [Removing Trader Protection, and changing trader currency ](Traders.md)
 
 [Give Buffs and Quests by Sounds](Sounds.md)
+
+[Learn By Doing](LearnByDoing.md)

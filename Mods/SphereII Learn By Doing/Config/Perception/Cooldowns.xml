@@ -23,9 +23,7 @@
 		<buff name="buffLBD_perkAnimalTracker_KillCoolDown" hidden="true">
 			<duration value="1"/>
 		</buff>
-		<buff name="buffLBD_perkAnimalTracker_HarvestCoolDown" hidden="true">
-			<duration value="5"/>
-		</buff>
+
 		<!-- For perkFlurryOfPerception -->
 		<buff name="buffLBD_Flurry_ComboWindow" hidden="true">
 			<stack_type value="replace"/>

@@ -1,0 +1,73 @@
+<configs>
+    <!-- Append the LBD logic for Siphoning Strikes to the main Fortitude Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="Siphoning Strikes">
+            <!-- Master requirements for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="melee"/>
+            <requirement name="ProgressionLevel" progression_name="attStrength" operation="GTE" value="2"/> <!-- The Strength gate -->
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfKilledOther" action="LogMessage"
+                              message="LBD DEBUG: Siphoning Strikes - Attempting XP Gain (@$lbd_xp_melee_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkSiphoningStrikes_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perksiphoningstrikes_lbd_xp"
+                              operation="add" value="@$lbd_xp_melee_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkSiphoningStrikes_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfKilledOther" action="LogMessage"
+                              message="LBD DEBUG: Siphoning Strikes - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkSiphoningStrikes_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfKilledOther" action="AddBuff"
+                              buff="buffLBD_perkSiphoningStrikes_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkSiphoningStrikes_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfKilledOther" action="LogMessage"
+                              message="LBD DEBUG: Siphoning Strikes - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perksiphoningstrikes_lbd_xp" operation="GTE"
+                             value="@$perksiphoningstrikes_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfKilledOther" action="AddBuff"
+                              buff="buffLBD_perksiphoningstrikes_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perksiphoningstrikes_lbd_xp" operation="GTE"
+                             value="@$perksiphoningstrikes_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Siphoning Strikes. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkSiphoningStrikes_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkSiphoningStrikes"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
+                                  progression_name="perkSiphoningStrikes" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksiphoningstrikes_lbd_xp"
+                                  operation="subtract" value="@$perksiphoningstrikes_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
+                                  cvar="$perksiphoningstrikes_lbd_xptonext" operation="multiply"
+                                  value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSiphoningStrikes"
+                                  sound="read_skillbook_final"/>
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkSiphoningStrikes"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Siphoning Strikes - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

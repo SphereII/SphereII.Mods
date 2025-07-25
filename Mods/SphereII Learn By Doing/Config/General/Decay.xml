@@ -1,0 +1,186 @@
+<configs>
+    <append xpath="/buffs">
+        <!-- Main permanent buff that handles all General perk decay logic. -->
+        <buff name="buffLBD_General_DecayManager" hidden="true">
+            <duration value="0"/> <!-- Permanent -->
+            <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
+
+            <!-- Logic for Master Chef Perk Decay -->
+            <effect_group name="Master Chef Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkmasterchef_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkMasterChef_Decay">
+                    <requirement name="CVarCompare" cvar="$perkmasterchef_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Living Off the Land Perk Decay -->
+            <effect_group name="Living Off the Land Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perklivingofftheland_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLivingOffTheLand_Decay">
+                    <requirement name="CVarCompare" cvar="$perklivingofftheland_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Lock Picking Perk Decay -->
+            <effect_group name="Lock Picking Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perklockpicking_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLockPicking_Decay">
+                    <requirement name="CVarCompare" cvar="$perklockpicking_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Lucky Looter Perk Decay -->
+            <effect_group name="Lucky Looter Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkluckylooter_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkluckylooter_Decay">
+                    <requirement name="CVarCompare" cvar="$perkluckylooter_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Light Armor Perk Decay -->
+            <effect_group name="Light Armor Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkLightArmor_Decay">
+                    <requirement name="CVarCompare" cvar="$perklightarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Medium Armor Perk Decay -->
+            <effect_group name="Medium Armor Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkMediumArmor_Decay">
+                    <requirement name="CVarCompare" cvar="$perkmediumarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Heavy Armor Perk Decay -->
+            <effect_group name="Heavy Armor Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkHeavyArmor_Decay">
+                    <requirement name="CVarCompare" cvar="$perkheavyarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Master Chef decay -->
+        <buff name="buffLBD_perkMasterChef_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkMasterChef" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMasterChef" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmasterchef_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMasterChef" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Living Off the Land decay -->
+        <buff name="buffLBD_perkLivingOffTheLand_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkLivingOffTheLand" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLivingOffTheLand" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklivingofftheland_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLivingOffTheLand" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Lock Picking decay -->
+        <buff name="buffLBD_perkLockPicking_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkLockPicking" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLockPicking" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklockpicking_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLockPicking" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Lucky Looter decay -->
+        <buff name="buffLBD_perkLuckyLooter_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkLuckyLooter" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLuckyLooter" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLuckyLooter" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Light Armor decay -->
+        <buff name="buffLBD_perkLightArmor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkLightArmor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLightArmor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLightArmor" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Medium Armor decay -->
+        <buff name="buffLBD_perkMediumArmor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkMediumArmor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMediumArmor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMediumArmor" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the Heavy Armor decay -->
+        <buff name="buffLBD_perkHeavyArmor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkHeavyArmor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkHeavyArmor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkHeavyArmor" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+    </append>
+
+    <!-- NEW: Append the activity reset logic to the main General Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Decay Activity Resets">
+            <!-- Reset Decay Counter on Master Chef Activity -->
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$perkmasterchef_decay_counter" operation="set" value="0">
+                <requirement name="RequirementRecipeCraftArea, SCore" craft_area="campfire"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on Living Off the Land Activity -->
+            <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perklivingofftheland_decay_counter" operation="set" value="0">
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="wildCropsHarvest,bonusCropHarvest"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on Lock Picking Activity -->
+            <triggered_effect trigger="onSelfLockpickSuccess" action="ModifyCVar" cvar="$perklockpicking_decay_counter" operation="set" value="0"/>
+
+            <!-- Reset Decay Counter on Lucky Looter Activity -->
+            <triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$perkluckylooter_decay_counter" operation="set" value="0">
+                <requirement name="!RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on Light Armor Activity -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perklightarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="IsAlive" target="self"/>
+                <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on Medium Armor Activity -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkmediumarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="IsAlive" target="self"/>
+                <requirement name="CVarCompare" cvar=".ArmorMediumWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on Heavy Armor Activity -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkheavyarmor_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="IsAlive" target="self"/>
+                <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+</configs>

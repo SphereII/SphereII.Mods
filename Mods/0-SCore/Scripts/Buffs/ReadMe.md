@@ -288,17 +288,21 @@ block that yields items with certain characteristics:
 ```xml
 
 <effect_group>
-  <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp" operation="add" value="8">
-    <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
-    <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest" /> <!-- The Superior Requirement -->
-    <requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
-  </triggered_effect>
+    <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp"
+                      operation="add" value="8">
+        <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+        <requirement name="RequirementBlockHasHarvestTags, SCore"
+                     tags="salvageHarvest"/> <!-- The Superior Requirement -->
+        <requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
+    </triggered_effect>
 </effect_group>
 ```
 
 ### 17\. `RequirementIsProgressionLocked, SCore`
 
-This requirement checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for the entity (typically the player) that triggered the event. This allows for conditional content or actions based on the player's progression lock status.
+This requirement checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for
+the entity (typically the player) that triggered the event. This allows for conditional content or actions based on the
+player's progression lock status.
 
 ```xml
 ```
@@ -306,22 +310,71 @@ This requirement checks whether a specified progression (such as an attribute, p
 **Explanation**: This requirement takes the following attributes:
 
 * **`name="RequirementIsProgressionLocked, SCore"`**: The name of the requirement.
-* **`progression_name`**: (Required) A string representing the ID of the progression to check (e.g., `attPerception` for the Perception attribute, or the ID of a specific perk or skill).
-* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted. This means it evaluates to `true` if the specified progression is *not* locked (i.e., it is unlocked). The XML shorthand `!` before the requirement name (e.g., `!RequirementIsProgressionLocked`) is equivalent to setting `invert="true"`.
+* **`progression_name`**: (Required) A string representing the ID of the progression to check (e.g., `attPerception` for
+  the Perception attribute, or the ID of a specific perk or skill).
+* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted. This means it evaluates
+  to `true` if the specified progression is *not* locked (i.e., it is unlocked). The XML shorthand `!` before the
+  requirement name (e.g., `!RequirementIsProgressionLocked`) is equivalent to setting `invert="true"`.
 
 **Example Usage:**
 
-You can use this requirement to make a recipe available only if a certain skill is unlocked, or to display a dialog option only if an attribute is still locked:
+You can use this requirement to make a recipe available only if a certain skill is unlocked, or to display a dialog
+option only if an attribute is still locked:
 
 ```xml
+
 <buff name="buffLBD_attPerception_LevelUpCheck" hidden="true">
-  <stack_type value="ignore"/><duration value="1"/>
-  <effect_group>
-    <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception" />
-    <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception" level="1"/>
-    <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="subtract" value="@$attperception_lbd_xptonext"/>
-    <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext" operation="multiply" value="1.3"/>
-    <triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
-  </effect_group>
+    <stack_type value="ignore"/>
+    <duration value="1"/>
+    <effect_group>
+        <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+        <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception"
+                          level="1"/>
+        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp"
+                          operation="subtract" value="@$attperception_lbd_xptonext"/>
+        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext"
+                          operation="multiply" value="1.3"/>
+        <triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
+    </effect_group>
 </buff>
 ```
+
+### `RequirementRecipeCraftArea`
+
+Checks if a recipe is crafted at one of the specified workstations.
+
+```xml
+
+<requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workstation"/>
+```
+
+**Explanation**: Requires the recipe to be crafted in either the "forge" or the "workstation". The `craft_area`
+parameter accepts a comma-separated list of valid workstation names.
+
+-----
+
+### `RequirementRecipeHasLongCraftTime`
+
+Checks if a recipe's base crafting time meets a certain condition.
+
+```xml
+
+<requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60"/>
+```
+
+**Explanation**: Requires the recipe's crafting time to be Greater Than or Equal To 60 seconds. The `operation` can be
+`LT`, `LTE`, `GT`, `GTE`, or `E`.
+
+-----
+
+### `RequirementRecipeHasTags`
+
+Checks if a recipe has at least one of the specified tags.
+
+```xml
+
+<requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey,tool"/>
+```
+
+**Explanation**: Requires the recipe to have either the "perkGreaseMonkey" or the "tool" tag. The `tags` parameter
+accepts a comma-separated list. By default, this requirement passes if **any** tag matches.

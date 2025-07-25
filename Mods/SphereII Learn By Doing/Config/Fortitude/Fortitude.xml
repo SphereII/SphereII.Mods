@@ -1,0 +1,145 @@
+<configs>
+    <!-- Append the LBD logic for attFortitude to the main Fortitude Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="Fortitude">
+
+            <!-- This group grants small amounts of synergy XP for various Fortitude-related activities. -->
+
+            <!-- Synergy XP for any general Fortitude action -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Fortitude Attribute - General Use Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="HoldingItemHasTags" tags="attFortitude"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="HoldingItemHasTags" tags="attFortitude"/>
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Synergy XP for harvesting animals (from The Huntsman) -->
+            <triggered_effect trigger="onSelfHarvestOther" action="LogMessage" message="LBD DEBUG: Fortitude Attribute - Huntsman Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="HoldingItemHasTags" tags="butcherTools"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="HoldingItemHasTags" tags="butcherTools"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Synergy XP for enduring damage (from Pain Tolerance) -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Fortitude Attribute - Pain Tolerance Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Synergy XP for enduring hunger/thirst (from Healing Factor / Slow Metabolism) -->
+            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Fortitude Attribute - Hunger/Thirst Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Fortitude Attribute - Hunger/Thirst Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+                <requirement name="NotHasBuff" buff="buffLBD_attFortitude_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application for all synergy actions -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attFortitude_XPCoolDown">
+                <requirement name="HoldingItemHasTags" tags="attFortitude"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_attFortitude_XPCoolDown">
+                <requirement name="HoldingItemHasTags" tags="butcherTools"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_attFortitude_XPCoolDown">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_attFortitude_XPCoolDown">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_attFortitude_XPCoolDown">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+            </triggered_effect>
+
+            <!-- Level Up Check for all synergy actions -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attFortitude_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attfortitude_lbd_xp" operation="GTE" value="@$attfortitude_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestOther" action="AddBuff" buff="buffLBD_attFortitude_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attfortitude_lbd_xp" operation="GTE" value="@$attfortitude_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_attFortitude_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attfortitude_lbd_xp" operation="GTE" value="@$attfortitude_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_attFortitude_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attfortitude_lbd_xp" operation="GTE" value="@$attfortitude_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_attFortitude_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$attfortitude_lbd_xp" operation="GTE" value="@$attfortitude_lbd_xptonext"/>
+            </triggered_effect>
+
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_attFortitude_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <!-- We keep this check to respect future balance changes or other mods. -->
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attFortitude" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attFortitude" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="subtract" value="@$attfortitude_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attFortitude" sound="read_skillbook_final" />
+                <!-- NEW: Trigger the Fortitude Mastery Checker buff -->
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attFortitude_MasteryChecker"/>
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attFortitude" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

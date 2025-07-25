@@ -1,0 +1,110 @@
+<!--
+    ====================================================================================================
+    ========================== FORTITUDE MASTERY LEARN BY DOING (LBD) SYSTEM ===========================
+    ====================================================================================================
+
+    This file defines the Mastery Checker buff for attFortitude.
+
+    HOW IT WORKS:
+    This temporary buff is triggered by `buffLBD_attFortitude_LevelUpCheck` whenever the player's
+    main `attFortitude` attribute levels up. It then checks the current level of `attFortitude`
+    and, if it matches a predefined milestone, triggers a level-up for `perkFortitudeMastery`.
+
+    -   **Progression Trigger:** This buff is applied by `buffLBD_attFortitude_LevelUpCheck`.
+    -   **Staggered Unlocks:** `perkFortitudeMastery` will level up at specific milestones of the `attFortitude` attribute:
+        -   Tier 1: at `attFortitude` Level 3
+        -   Tier 2: at `attFortitude` Level 5
+        -   Tier 3: at `attFortitude` Level 7
+        -   Tier 4: at `attFortitude` Level 9
+        -   Tier 5: at `attFortitude` Level 10
+    -   **Internal Tracking:** The `$perkfortitudemastery_lbd_level` CVar is used to ensure
+        each tier is only unlocked once.
+
+    This design ensures that overall proficiency in Fortitude (developed by enduring and surviving)
+    leads to the ultimate mastery of the attribute.
+
+    ====================================================================================================
+-->
+<configs>
+    <append xpath="/buffs">
+        <buff name="buffLBD_attFortitude_MasteryChecker" hidden="true">
+            <duration value="0.1"/> <!-- Very short duration, just long enough to process -->
+
+            <!-- Log message for debugging the checker's activation. -->
+            <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery Checker Fired. Checking for Mastery level up.">
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+
+            <!-- Level 1 Mastery (at attFortitude Level 3) -->
+            <effect_group name="Mastery Level 1">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="3"/>
+                <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 1)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 2 Mastery (at attFortitude Level 5) -->
+            <effect_group name="Mastery Level 2">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="5"/>
+                <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 2)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 3 Mastery (at attFortitude Level 7) -->
+            <effect_group name="Mastery Level 3">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="7"/>
+                <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="3"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 3)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck"/>
+            </effect_group>
+
+            <!-- Level 4 Mastery (at attFortitude Level 9) -->
+            <effect_group name="Mastery Level 4">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="9"/>
+                <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="4"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 4)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="9"/>
+                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="4"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Level 5 Mastery (at attFortitude Level 10) -->
+            <effect_group name="Mastery Level 5">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="10"/>
+                <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Triggering Level Up Check (Tier 5)">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkFortitudeMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attFortitude" operation="Equals" value="10"/>
+                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_lbd_level" operation="LT" value="5"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_perkFortitudeMastery_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFortitudeMastery" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_level" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFortitudeMastery" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

@@ -1,0 +1,19 @@
+<configs>
+    <append xpath="/buffs">
+
+        <!-- General LBD Supporting Buffs -->
+
+        <!-- Cooldown for Master Chef -->
+        <buff name="buffLBD_perkMasterChef_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for Living Off the Land -->
+        <buff name="buffLBD_perkLivingOffTheLand_XPCoolDown" hidden="true"><duration value="5"/></buff>
+
+        <!-- Cooldown for Lock Picking -->
+        <buff name="buffLBD_perkLockPicking_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <!-- Cooldown for Lucky Looter -->
+        <buff name="buffLBD_perkLuckyLooter_XPCoolDown" hidden="true"><duration value="1"/></buff>
+
+    </append>
+</configs>

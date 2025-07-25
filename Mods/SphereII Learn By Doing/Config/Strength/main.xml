@@ -98,4 +98,6 @@
     <!-- Includes all the supporting cooldown and special mechanic buffs for the Strength tree. -->
     <include filename="Cooldowns.xml" />
 
+    <!-- Strength Decay option -->
+    <include filename="Decay.xml" />
 </configs>

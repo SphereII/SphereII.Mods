@@ -1,0 +1,100 @@
+<!--
+    ====================================================================================================
+    ========================== FORTITUDE LEARN BY DOING (LBD) SYSTEM OVERVIEW ==========================
+    ====================================================================================================
+
+    This file contains the complete "Learn by Doing" (LBD) progression system for the Fortitude attribute
+    and all of its associated perks.
+
+    HOW IT WORKS:
+    This system is driven by a single, permanent, hidden "Manager Buff" (`buffLBD_FortitudeManager`)
+    that is always active on the player. This buff listens for player actions and grants small amounts
+    of LBD experience to hidden CVars. When a CVar's XP threshold is met, it triggers a level-up
+    for the corresponding perk, provided the player meets the vanilla progression requirements.
+
+    This centralized "Manager Buff" architecture is designed to be clean, scalable, and highly
+    compatible, as it does NOT directly modify any item files.
+
+     HOW TO LEVEL UP PERKS 
+
+    - Fortitude (Attribute):
+      Gain small amounts of XP from performing ANY Fortitude-related action. Specializing in
+      Fortitude perks will naturally level up your main Fortitude attribute over time.
+
+    - Brawler:
+      Gain XP by landing hits with Fists and Knuckles. XP is tiered, with more awarded for power attacks.
+
+    - Machine Gunner:
+      Gain XP by damaging enemies with Machine Guns.
+
+    - Flurry of Fortitude:
+      Gain bonus XP by landing rapid, successive strikes with Fists, Knuckles, or Machine Guns,
+      rewarding a "combo" playstyle.
+
+    - The Huntsman:
+      Gain XP by efficiently harvesting resources from animals using butchering tools.
+
+    - Siphoning Strikes:
+      Gain XP by successfully killing enemies with melee weapons, reflecting the act of "siphoning life."
+
+    - Pain Tolerance:
+      Gain XP by enduring damage from zombies and animals while injured. Additional XP is awarded
+      for being stunned, and a significant bonus for suffering a concussion.
+
+    - Healing Factor:
+      Gain XP by naturally regenerating health while experiencing hunger or thirst. XP is tiered,
+      with more awarded for more severe deprivation, rewarding resilience through struggle.
+
+    - Slow Metabolism:
+      Gain XP by strategically consuming food and water when not full, and by successfully recovering
+      from Dysentery, reflecting improved metabolic efficiency.
+
+    - Rule #1: Cardio:
+      Gain XP for sustained movement (running or walking), rewarding endurance and stamina efficiency.
+
+    ====================================================================================================
+-->
+<configs>
+    <!-- 
+      This is the master include file for the Fortitude LBD system.
+      It defines the main Manager Buff and then includes all the separate files
+      that contain the logic for the attribute and its individual perks.
+      This file is intended to be included by the top-level buffs.xml.
+    -->
+
+    <!-- First, define the empty shell of the Fortitude Manager buff. -->
+    <!-- This is CRITICAL. It must exist before the other files try to append to it. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_FortitudeManager" hidden="true">
+            <stack_type value="ignore"/>
+        </buff>
+    </append>
+
+    <!-- 
+      Include all the modular component files for the Fortitude LBD system.
+      The game will process these as if their content was pasted directly here.
+    -->
+
+    <!-- Includes the CVar initializers for the entire Fortitude tree. -->
+    <include filename="Init.xml" />
+
+    <!-- Includes the LBD logic for the main attFortitude attribute itself. -->
+    <include filename="Fortitude.xml" />
+
+    <!-- Includes the LBD logic for each individual perk in the Fortitude tree. -->
+    <include filename="Brawler.xml" />
+    <include filename="FlurryOfFortitude.xml" />
+    <include filename="HealingFactor.xml" />
+    <include filename="MachineGunner.xml" />
+    <include filename="PainTolerance.xml" />
+    <include filename="RuleOneCardio.xml" />
+    <include filename="SiphoningStrikes.xml" />
+    <include filename="SlowMetabolism.xml" />
+    <include filename="TheHuntsman.xml" />
+    
+    <!-- Includes all the supporting cooldown and special mechanic buffs for the Fortitude tree. -->
+    <include filename="Cooldowns.xml" />
+
+    <!-- Fortitude decay -->
+    <include filename="Decay.xml" />
+</configs>

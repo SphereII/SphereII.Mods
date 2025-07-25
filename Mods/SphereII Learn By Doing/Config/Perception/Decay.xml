@@ -1,0 +1,274 @@
+<configs>
+    <append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+        <effect_group name="Perception Decay LBD Settings">
+            <!-- NEW: Initialize Decay Counters for Perception -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_decay_counter" operation="set" value="0"/>
+
+            <!-- NEW: Decay Threshold CVar (number of intervals before decay) -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_decay_threshold_intervals" operation="set" value="7"/>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
+        <effect_group name="Decay">
+
+            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_Perception_DecayManager" />
+
+            <!-- NEW: Reset Decay Counter on Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attPerception"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+                <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+                <requirement name="HoldingItemHasTags" tags="tool"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+                <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <!-- Main permanent buff that handles all Perception decay logic. -->
+        <buff name="buffLBD_Perception_DecayManager" hidden="true">
+            <duration value="0"/> <!-- Permanent -->
+            <update_rate value="3000"/> <!-- Ticks based on global CVar -->
+
+            <effect_group name="Manager Log" >
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="Perception Decay is Active." />
+            </effect_group>
+            
+            <!-- Logic for attPerception Decay -->
+            <effect_group name="Perception Attribute Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$attperception_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attPerception_Decay">
+                    <requirement name="CVarCompare" cvar="$attperception_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkDeadEye Decay -->
+            <effect_group name="Dead Eye Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkdeadeye_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkDeadEye_Decay">
+                    <requirement name="CVarCompare" cvar="$perkdeadeye_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkDemolitionsExpert Decay -->
+            <effect_group name="Demolitions Expert Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkdemolitionsexpert_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_Decay">
+                    <requirement name="CVarCompare" cvar="$perkdemolitionsexpert_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkJavelinMaster Decay -->
+            <effect_group name="Javelin Master Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkjavelinmaster_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkJavelinMaster_Decay">
+                    <requirement name="CVarCompare" cvar="$perkjavelinmaster_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkSalvageOperations Decay -->
+            <effect_group name="Salvage Operations Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perksalvageoperations_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkSalvageOperations_Decay">
+                    <requirement name="CVarCompare" cvar="$perksalvageoperations_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkAnimalTracker Decay -->
+            <effect_group name="Animal Tracker Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkanimaltracker_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkAnimalTracker_Decay">
+                    <requirement name="CVarCompare" cvar="$perkanimaltracker_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFlurryOfPerception Decay -->
+            <effect_group name="Flurry of Perception Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_Decay">
+                    <requirement name="CVarCompare" cvar="$perkflurryofperception_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkThePenetrator Decay -->
+            <effect_group name="The Penetrator Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkPenetrator_Decay">
+                    <requirement name="CVarCompare" cvar="$perkpenetrator_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkTreasureHunter Decay -->
+            <effect_group name="Treasure Hunter Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkTreasureHunter_Decay">
+                    <requirement name="CVarCompare" cvar="$perktreasurehunter_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkInfiltrator Decay -->
+            <effect_group name="The Infiltrator Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkinfiltrator_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkInfiltrator_Decay">
+                    <requirement name="CVarCompare" cvar="$perkinfiltrator_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for Perception Mastery Perk Decay -->
+            <effect_group name="Perception Mastery Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkperceptionmastery_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkPerceptionMastery_Decay">
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the attPerception decay -->
+        <buff name="buffLBD_attPerception_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="attPerception" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attPerception" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkDeadEye decay -->
+        <buff name="buffLBD_perkDeadEye_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkDeadEye" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeadEye" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeadeye_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDeadEye" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkDemolitionsExpert decay -->
+        <buff name="buffLBD_perkDemolitionsExpert_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkDemolitionsExpert" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDemolitionsExpert" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdemolitionsexpert_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDemolitionsExpert" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkJavelinMaster decay -->
+        <buff name="buffLBD_perkJavelinMaster_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkJavelinMaster" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJavelinMaster" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkJavelinMaster" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkSalvageOperations decay -->
+        <buff name="buffLBD_perkSalvageOperations_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkSalvageOperations" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSalvageOperations" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSalvageOperations" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkAnimalTracker decay -->
+        <buff name="buffLBD_perkAnimalTracker_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkAnimalTracker" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAnimalTracker" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkanimaltracker_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAnimalTracker" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFlurryOfPerception decay -->
+        <buff name="buffLBD_perkFlurryOfPerception_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFlurryOfPerception" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfPerception" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfPerception" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkThePenetrator decay -->
+        <buff name="buffLBD_perkThePenetrator_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkThePenetrator" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkThePenetrator" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkThePenetrator" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkTreasureHunter decay -->
+        <buff name="buffLBD_perkTreasureHunter_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkTreasureHunter" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkTreasureHunter" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkTreasureHunter" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkInfiltrator decay -->
+        <buff name="buffLBD_perkInfiltrator_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkInfiltrator" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkinfiltrator" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkinfiltrator_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkInfiltrator" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkPerceptionMastery decay -->
+        <buff name="buffLBD_perkPerceptionMastery_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkPerceptionMastery" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPerceptionMastery" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPerceptionMastery" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+    </append>
+
+</configs>

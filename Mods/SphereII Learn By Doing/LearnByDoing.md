@@ -1,82 +1,100 @@
-# WARNING: Proof of Concept. Not complete, or even fully tested.
+# Learn by Doing: Character Progression Reimagined!
 
-# High-Level Overview: The "Learn by Doing" (LBD) Progression System
+Welcome to a new way of growing your survivor in the wasteland! Beyond just spending skill points, your character will
+now get stronger and more skilled simply by *doing* what they do best. This "Learn by Doing" (LBD) system adds a new
+layer of immersive progression, making every action count.
 
-## 1. The Vision: Immersive Character Growth
+## How Does "Learn by Doing" Work?
 
-This document outlines a dynamic "Learn by Doing" (LBD) progression system designed to create a more immersive and
-rewarding character development experience. The core goal is to allow players to level up their attributes and perks by
-actively performing related tasks, providing a natural sense of growth that complements the standard skill point system.
+Instead of earning skill points to unlock perk levels, certain perks and even your main attributes (Perception,
+Strength, etc.) will now level up automatically as you perform actions related to them.
 
-Instead of just spending points, players will feel their character getting stronger and more skilled simply by playing
-the game in their preferred style.
+Think of it like this:
 
-## 2. The Core Architecture: The "Manager Buff" System
+* **You swing a club at a zombie?** You're practicing your club.
+* **You harvest some iron ore?** You're honing your mining skills.
+* **You survive a brutal zombie attack?** You're getting tougher.
 
-After exploring several designs, we perfected a centralized, modular, and highly compatible architecture built around *
-*Attribute Manager Buffs**.
+The more you engage in an activity, the more proficient your character becomes in the related skill.
 
-**The Problem:** Modifying every single item in the game to grant XP is messy, creates a massive number of XML files,
-and is highly prone to conflicts with other mods.
+## What Levels Up by Doing?
 
-**The Solution:** We've decoupled the LBD logic from the items entirely. The system is run by a set of permanent, hidden
-buffs that are always active on the player.
+Every main attribute (Perception, Strength, Fortitude, Agility, Intellect) and many of their associated perks now have
+an LBD progression. Here’s a general idea of how each type of skill grows:
 
-The architecture consists of three main components:
+### Main Attributes (Perception, Strength, Fortitude, Agility, Intellect)
 
-* **A Single Global Initializer (`ProgressionLearnByDoing_Init`):** This one-time buff is applied to the player on first
-  spawn. Its only jobs are to create all the necessary CVars for tracking XP and to apply the permanent Manager Buffs.
-* **Attribute Manager Buffs (e.g., `buffLBD_PerceptionManager`):** This is the heart of the system. There is one
-  permanent Manager Buff for each attribute (Perception, Strength, etc.). This buff is always "listening" for player
-  actions (like attacking, harvesting, or crafting). When an action occurs, it checks the tags of the item the player is
-  holding or using to determine which LBD skill to grant XP to.
-* **Supporting Buffs (Cooldowns & Level-Up Handlers):** These are small, temporary buffs that handle specific tasks like
-  preventing XP spam or processing a level-up when an XP threshold is met.
+Your core attributes will increase as you perform **any** action related to that attribute's skill tree. For example,
+using a rifle, throwing a grenade, or digging for treasure will all contribute to your overall **Perception**. This
+means specializing in a few perks will naturally boost your main attribute over time.
 
-## 3. The Gameplay Loop in Action
+### Perk Progression
 
-From the player's perspective, the system is seamless. Here's what happens under the hood:
+Each perk levels up by performing specific, related actions:
 
-1. **Player Performs an Action:** A player hits an animal with a spear.
-2. **The Manager Buff Reacts:** The `buffLBD_PerceptionManager` detects the `onSelfDamagedOther` event.
-3. **Requirements are Checked:** It checks the held item's tags (`perkJavelinMaster`) and the target's tags (`animal`).
-4. **XP is Granted:** If the requirements are met, it adds a small amount of XP to a CVar (e.g.,
-   `$perkjavelinmaster_lbd_xp`).
-5. **Level Up Condition is Met:** The Manager Buff sees that the XP CVar has now reached its goal.
-6. **Processing the Level Up:** It applies a temporary `LevelUpCheck` buff. This buff contains the final logic: it uses
-   a custom requirement to validate that the perk is not locked by attribute requirements, then calls the vanilla
-   `AddProgressionLevel` action to level up the player's *actual* `perkJavelinMaster` perk.
-7. **The Goalposts Move:** The `LevelUpCheck` buff then subtracts the XP cost and calculates the new, higher XP
-   requirement for the next level.
+* **Combat Perks (e.g., Dead Eye, Brawler, Machine Gunner, Electrocutioner, Deep Cuts, Gunslinger, Javelin Master):**
+* **How to Level:** Deal damage or get kills using the specific weapons or attack types associated with the perk.
+* **Example:** Shooting zombies with a pistol levels up Gunslinger. Hitting enemies with **Fists or Knuckles** levels up
+  Brawler.
 
-## 4. Key Design Decisions & Rationale (The "Why")
+* **Utility & Specialist Combat Perks (e.g., Demolitions Expert, Flurry of [Attribute], The Penetrator, Siphoning
+  Strikes):**
+* **How to Level:** These perks require more specific actions.
+* **Example:** Demolitions Expert levels up for each enemy hit by your explosives. Flurry perks require landing rapid,
+  successive hits with specific weapon types. The Penetrator rewards hitting armored targets or getting multi-kills.
+  Siphoning Strikes grows as you successfully kill enemies with melee weapons (reflecting life siphoned).
 
-We made several critical design decisions to ensure the system is robust, balanced, and professional.
+* **Survival & Gathering Perks (e.g., Miner 69'r, The Huntsman, Living Off the Land, Salvage Operations, Junk Miner):**
+* **How to Level:** Perform resource gathering actions with the right tools.
+* **Example:** Mining ore levels up Miner 69'r. Harvesting animals levels up The Huntsman. Breaking down cars with a
+  pickaxe levels up Junk Miner.
 
-* **Why a Centralized Manager Buff?**
-  To eliminate conflicts and keep the system clean. By not editing `items.xml`, our mod is dramatically more compatible
-  with other mods and easier to manage.
+* **Movement & Defense Perks (e.g., Parkour, Light/Medium/Heavy Armor, Rule #1: Cardio, From the Shadows, Hidden Strike,
+  Pain Tolerance, Pack Mule, Slow Metabolism):**
+* **How to Level:** These perks improve as you put your body or gear to the test.
+* **Example:** Taking significant falls levels up Parkour. Taking damage while wearing light armor levels up Light
+  Armor. Moving while heavily burdened levels up Pack Mule. Enduring severe hunger/thirst levels up Slow Metabolism.
 
-* **Why Custom SCore Requirements?**
-  Because vanilla tools were insufficient. To create a truly smart system, we needed custom tools like
-  `RequirementIsProgressionLocked` and `RequirementBlockHasHarvestTags`. This allows our XML to directly ask the game
-  engine complex questions, resulting in cleaner and more powerful logic than any workaround could provide.
+* **Intellect & Influence Perks (e.g., Advanced Engineering, Grease Monkey, Better Barter, Daring Adventurer, Physician,
+  Charismatic Nature, Robotic Turrets, Master Chef, Lock Picking, Lucky Looter, The Infiltrator, Treasure Hunter):**
+* **How to Level:** Engage in crafting, trading, questing, healing, or managing technology.
+* **Example:** Crafting complex items levels up Advanced Engineering. Completing quests levels up Daring Adventurer.
+  Healing yourself or others levels up Physician. Crafting or placing traps levels up The Infiltrator.
 
-* **Why an Exploit-Proof System for Traps?**
-  The `perkInfiltrator` presented a unique challenge: how to reward placing a mine without letting players pick it up
-  and place it again for infinite XP. Our final "Placement Credit" system, which uses a CVar to track a player's "bank"
-  of placeable mines, is a lightweight, elegant, and completely exploit-proof solution that fairly rewards both crafting
-  and looting.
+### Mastery Perks (e.g., Perception Mastery, Strength Mastery, Fortitude Mastery, Agility Mastery, Intellect Mastery)
 
-* **Why Layered Logic for Complex Perks?**
-  For perks like `perkAnimalTracker`, we designed a multi-faceted system that rewards different aspects of the core
-  activity (e.g., a standard reward for a kill, a high reward for a skillful kill, and a bonus reward for harvesting).
-  This creates a deeper and more engaging progression.
+These are your ultimate capstone perks. They **do not** level up from gaining XP in the traditional sense. Instead, they
+represent your overall mastery of an attribute.
 
-* **Why Meticulous Debugging?**
-  A complex system requires robust testing. By adding `LogMessage` triggers gated by a `HasBuff` check for `god` mode,
-  we've built a powerful, developer-only debugging tool directly into the system. This allows for easy verification and
-  balancing without affecting the experience for the end-user.
+* **How to Level:** Mastery perks level up automatically as your **main attribute** (e.g., `Perception`) reaches
+  specific level milestones. For example, you might unlock a new tier of Perception Mastery when your `attPerception`
+  reaches Level 3, then Level 5, Level 7, Level 9, and finally Level 10.
+* **Why it's designed this way:** It ensures that overall proficiency in the attribute leads to the ultimate mastery.
 
-This LBD system represents a professional-grade framework for creating immersive, data-driven character progression that
-feels like a natural extension of the core gameplay loop.
+## Important Notes for Players:
+
+* **No Skill Points Needed:** You don't spend skill points on these LBD perks. They level up passively in the
+  background.
+* **Check Your Perks Window:** You can see the progress of your LBD perks and attributes in your character's Perks
+  window. Look for the progress bars!
+* **No Exploits:** The system is designed to prevent spamming actions for quick XP. There are internal cooldowns and
+  specific conditions that must be met for XP to be granted.
+* **Natural Progression:** Just play the game as you normally would! Your character will naturally become more skilled
+  in the areas you focus on.
+
+### Skill Decay: Use It or Lose It!
+
+To add a layer of realism and strategic depth, your skills (both main attributes and LBD perks) can now **decay** if you
+don't use them for a long period of time.
+
+* **How it Works:** Each LBD skill has a hidden "inactivity timer." Every few game days (or real-time hours, depending
+  on server settings), this timer will tick up if you haven't performed any actions related to that specific skill.
+* **When Decay Occurs:** If the inactivity timer for a skill reaches a certain threshold (e.g., 7 days of not using your
+  mining tools), you will lose one level in that skill.
+* **Resetting the Timer:** Simply performing any action related to that skill (e.g., hitting a zombie for Brawler,
+  harvesting an animal for The Huntsman, or mining ore for Miner 69'r) will reset its inactivity timer back to zero.
+* **Why it's Designed This Way:** It encourages players to diversify their activities and maintain proficiency across
+  their learned skills. It means your character's skills truly reflect their current gameplay style, adding a dynamic
+  challenge to long-term survival.
+
+Enjoy becoming a true master of the wasteland, one action at a time, and remember to keep those skills sharp!

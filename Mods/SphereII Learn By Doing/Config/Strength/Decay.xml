@@ -1,0 +1,307 @@
+<configs>
+    <append xpath="/buffs">
+        <!-- Main permanent buff that handles all Strength decay logic. -->
+        <buff name="buffLBD_Strength_DecayManager" hidden="true">
+            <duration value="0"/> <!-- Permanent -->
+            <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
+
+            <!-- Logic for attStrength Decay -->
+            <effect_group name="Strength Attribute Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$attstrength_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attStrength_Decay">
+                    <requirement name="CVarCompare" cvar="$attstrength_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkBoomstick Decay -->
+            <effect_group name="Boomstick Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkboomstick_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkBoomstick_Decay">
+                    <requirement name="CVarCompare" cvar="$perkboomstick_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkPummelPete Decay -->
+            <effect_group name="Pummel Pete Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkpummelpete_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkPummelPete_Decay">
+                    <requirement name="CVarCompare" cvar="$perkpummelpete_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkSkullCrusher Decay -->
+            <effect_group name="Skull Crusher Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkskullcrusher_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkSkullCrusher_Decay">
+                    <requirement name="CVarCompare" cvar="$perkskullcrusher_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkGrandSlam Decay -->
+            <effect_group name="Grand Slam Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkgrandslam_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkGrandSlam_Decay">
+                    <requirement name="CVarCompare" cvar="$perkgrandslam_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFlurryOfBlows Decay -->
+            <effect_group name="Flurry of Blows Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfBlows_Decay">
+                    <requirement name="CVarCompare" cvar="$perkflurryofblows_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkMiner69r Decay -->
+            <effect_group name="Miner 69'r Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkminer69r_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkMiner69r_Decay">
+                    <requirement name="CVarCompare" cvar="$perkminer69r_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkMotherLode Decay -->
+            <effect_group name="Mother Lode Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkmotherlode_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkMotherLode_Decay">
+                    <requirement name="CVarCompare" cvar="$perkmotherlode_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkJunkMiner Decay -->
+            <effect_group name="Junk Miner Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkjunkminer_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkJunkMiner_Decay">
+                    <requirement name="CVarCompare" cvar="$perkjunkminer_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkPackMule Decay -->
+            <effect_group name="Pack Mule Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkpackmule_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkPackMule_Decay">
+                    <requirement name="CVarCompare" cvar="$perkpackmule_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkStrengthMastery Decay -->
+            <effect_group name="Strength Mastery Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkstrengthmastery_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkStrengthMastery_Decay">
+                    <requirement name="CVarCompare" cvar="$perkstrengthmastery_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the attStrength decay -->
+        <buff name="buffLBD_attStrength_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="attStrength" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attStrength" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attStrength" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkBoomstick decay -->
+        <buff name="buffLBD_perkBoomstick_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkBoomstick" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkBoomstick" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkBoomstick" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkPummelPete decay -->
+        <buff name="buffLBD_perkPummelPete_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkPummelPete" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPummelPete" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPummelPete" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkSkullCrusher decay -->
+        <buff name="buffLBD_perkSkullCrusher_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkSkullCrusher" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSkullCrusher" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSkullCrusher" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkGrandSlam decay -->
+        <buff name="buffLBD_perkGrandSlam_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkGrandSlam" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGrandSlam" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkGrandSlam" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFlurryOfBlows decay -->
+        <buff name="buffLBD_perkFlurryOfBlows_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFlurryOfBlows" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfBlows" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfBlows" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkMiner69r decay -->
+        <buff name="buffLBD_perkMiner69r_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkMiner69r" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMiner69r" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMiner69r" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkMotherLode decay -->
+        <buff name="buffLBD_perkMotherLode_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkMotherLode" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMotherLode" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMotherLode" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkJunkMiner decay -->
+        <buff name="buffLBD_perkJunkMiner_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkJunkMiner" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJunkMiner" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkJunkMiner" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkPackMule decay -->
+        <buff name="buffLBD_perkPackMule_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkPackMule" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPackMule" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPackMule" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkStrengthMastery decay -->
+        <buff name="buffLBD_perkStrengthMastery_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkStrengthMastery" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkStrengthMastery" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkStrengthMastery" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+    </append>
+
+    <!-- Append the activity reset logic to the main Strength Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
+        <effect_group name="LBD Decay Activity Resets">
+            <!-- Reset Decay Counter on attStrength Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attstrength_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$attstrength_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkBoomstick Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkboomstick_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkBoomstick"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkPummelPete Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpummelpete_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkPummelPete"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkSkullCrusher Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkskullcrusher_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkSkullCrusher"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkGrandSlam Activity -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkgrandslam_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
+                <requirement name="EntityHasMovementTag" tags="running"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkFlurryOfBlows Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkMiner69r Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkminer69r_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="allHarvest,oreWoodHarvest"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkMotherLode Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkmotherlode_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkJunkMiner Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkjunkminer_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="perkJunkMiner"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkPackMule Activity -->
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkpackmule_decay_counter" operation="set" value="0">
+                <requirement name="HasBuff" buff="buffEncumberedInv"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_decay_counter" operation="set" value="0">
+                <requirement name="HasBuff" buff="buffEncumberedInv"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkStrengthMastery Activity -->
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$perkstrengthmastery_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDamagedOther" action="ModifyCVar" cvar="$perkstrengthmastery_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                    <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                </requirements>
+                <requirements compare_type="or">
+                    <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0" target="other"/>
+                    <requirement name="CVarCompare" cvar="_knocked_down" operation="GT" value="0" target="other"/>
+                </requirements>
+            </triggered_effect>
+        </effect_group>
+    </append>
+</configs>

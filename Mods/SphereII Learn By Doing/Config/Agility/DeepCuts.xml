@@ -1,0 +1,57 @@
+<configs>
+    <!-- Append the LBD logic for Deep Cuts to the main Agility Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_AgilityManager']">
+        <effect_group name="Deep Cuts">
+            <!-- Master requirement for the entire group. -->
+            <requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+            <requirement name="IsAlive" target="other"/>
+
+            <!-- XP Gain -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Deep Cuts - Attempting XP Gain (+@$lbd_xp_melee_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Deep Cuts - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeepCuts_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkDeepCuts_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Deep Cuts - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkdeepcuts_lbd_xp" operation="GTE" value="@$perkdeepcuts_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkDeepCuts_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkdeepcuts_lbd_xp" operation="GTE" value="@$perkdeepcuts_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Deep Cuts. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkDeepCuts_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkDeepCuts" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkDeepCuts" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xp" operation="subtract" value="@$perkdeepcuts_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkDeepCuts" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkDeepCuts" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Deep Cuts - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

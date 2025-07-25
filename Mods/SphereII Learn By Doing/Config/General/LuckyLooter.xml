@@ -1,0 +1,54 @@
+<configs>
+    <!-- Append the LBD logic for Lucky Looter to the new General Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="Lucky Looter">
+
+            <!-- XP Gain: Rewarding opening loot containers -->
+            <triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Attempting Looting XP (+@$lbd_xp_special_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application -->
+            <triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Applying Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkLuckyLooter_XPCoolDown"/>
+            </triggered_effect>
+
+            <!-- Level Up Check -->
+            <triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Lucky Looter - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkluckylooter_lbd_xp" operation="GTE" value="@$perkluckylooter_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_perkLuckyLooter_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkluckylooter_lbd_xp" operation="GTE" value="@$perkluckylooter_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Lucky Looter. -->
+    <append xpath="/buffs">
+        <buff name="buffLBD_perkLuckyLooter_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkLuckyLooter" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkLuckyLooter" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xp" operation="subtract" value="@$perkluckylooter_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkluckylooter_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkLuckyLooter" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkLuckyLooter" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Lucky Looter - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

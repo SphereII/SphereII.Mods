@@ -1,0 +1,317 @@
+<configs>
+    <append xpath="/buffs">
+        <!-- Main permanent buff that handles all Fortitude decay logic. -->
+        <buff name="buffLBD_Fortitude_DecayManager" hidden="true">
+            <duration value="0"/> <!-- Permanent -->
+            <update_rate value="3000"/> <!-- Ticks every 3000 seconds -->
+
+            <!-- Logic for attFortitude Decay -->
+            <effect_group name="Fortitude Attribute Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_attFortitude_Decay">
+                    <requirement name="CVarCompare" cvar="$attfortitude_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkBrawler Decay -->
+            <effect_group name="Brawler Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkbrawler_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkBrawler_Decay">
+                    <requirement name="CVarCompare" cvar="$perkbrawler_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkMachineGunner Decay -->
+            <effect_group name="Machine Gunner Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkmachinegunner_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkMachineGunner_Decay">
+                    <requirement name="CVarCompare" cvar="$perkmachinegunner_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFlurryOfFortitude Decay -->
+            <effect_group name="Flurry of Fortitude Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkflurryoffortitude_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFlurryOfFortitude_Decay">
+                    <requirement name="CVarCompare" cvar="$perkflurryoffortitude_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkTheHuntsman Decay -->
+            <effect_group name="The Huntsman Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkthehuntsman_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkTheHuntsman_Decay">
+                    <requirement name="CVarCompare" cvar="$perkthehuntsman_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkSiphoningStrikes Decay -->
+            <effect_group name="Siphoning Strikes Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perksiphoningstrikes_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkSiphoningStrikes_Decay">
+                    <requirement name="CVarCompare" cvar="$perksiphoningstrikes_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkPainTolerance Decay -->
+            <effect_group name="Pain Tolerance Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkpaintolerance_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkPainTolerance_Decay">
+                    <requirement name="CVarCompare" cvar="$perkpaintolerance_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkHealingFactor Decay -->
+            <effect_group name="Healing Factor Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkhealingfactor_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkHealingFactor_Decay">
+                    <requirement name="CVarCompare" cvar="$perkhealingfactor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkSlowMetabolism Decay -->
+            <effect_group name="Slow Metabolism Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkslowmetabolism_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkSlowMetabolism_Decay">
+                    <requirement name="CVarCompare" cvar="$perkslowmetabolism_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkRuleOneCardio Decay -->
+            <effect_group name="Rule #1: Cardio Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkRuleOneCardio_Decay">
+                    <requirement name="CVarCompare" cvar="$perkruleonecardio_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+
+            <!-- Logic for perkFortitudeMastery Decay -->
+            <effect_group name="Fortitude Mastery Perk Decay">
+                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="add" value="1"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_perkFortitudeMastery_Decay">
+                    <requirement name="CVarCompare" cvar="$perkfortitudemastery_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the attFortitude decay -->
+        <buff name="buffLBD_attFortitude_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attFortitude" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attFortitude" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkBrawler decay -->
+        <buff name="buffLBD_perkBrawler_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkBrawler" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkBrawler" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbrawler_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkBrawler" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkMachineGunner decay -->
+        <buff name="buffLBD_perkMachineGunner_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkMachineGunner" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMachineGunner" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmachinegunner_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMachineGunner" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFlurryOfFortitude decay -->
+        <buff name="buffLBD_perkFlurryOfFortitude_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFlurryOfFortitude" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfFortitude" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryoffortitude_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfFortitude" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkTheHuntsman decay -->
+        <buff name="buffLBD_perkTheHuntsman_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkTheHuntsman" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkTheHuntsman" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkthehuntsman_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkTheHuntsman" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkSiphoningStrikes decay -->
+        <buff name="buffLBD_perkSiphoningStrikes_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkSiphoningStrikes" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSiphoningStrikes" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksiphoningstrikes_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSiphoningStrikes" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkPainTolerance decay -->
+        <buff name="buffLBD_perkPainTolerance_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkPainTolerance" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPainTolerance" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPainTolerance" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkHealingFactor decay -->
+        <buff name="buffLBD_perkHealingFactor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkHealingFactor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkHealingFactor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhealingfactor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkHealingFactor" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkSlowMetabolism decay -->
+        <buff name="buffLBD_perkSlowMetabolism_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkSlowMetabolism" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSlowMetabolism" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSlowMetabolism" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkRuleOneCardio decay -->
+        <buff name="buffLBD_perkRuleOneCardio_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkRuleOneCardio" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRuleOneCardio" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRuleOneCardio" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+
+        <!-- Temporary buff that actually performs the perkFortitudeMastery decay -->
+        <buff name="buffLBD_perkFortitudeMastery_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkFortitudeMastery" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFortitudeMastery" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFortitudeMastery" sound="ui_skill_decay" />
+            </effect_group>
+        </buff>
+    </append>
+
+    <!-- NEW: Append the activity reset logic to the main Fortitude Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="LBD Decay Activity Resets">
+            <!-- Reset Decay Counter on attFortitude Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="attFortitude"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkTheHuntsman"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffEncumberedInv"/>
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$attfortitude_decay_counter" operation="set" value="0">
+                <requirements compare_type="or">
+                    <requirement name="HasBuff" buff="buffEncumberedInv"/>
+                    <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                    <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+                </requirements>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkBrawler Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkbrawler_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkbrawler_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkMachineGunner Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkmachinegunner_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkMachineGunner"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkFlurryOfFortitude Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryoffortitude_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler,perkMachineGunner"/>
+                <requirement name="IsAlive" target="other"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkTheHuntsman Activity -->
+            <triggered_effect trigger="onSelfHarvestOther" action="ModifyCVar" cvar="$perkthehuntsman_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkTheHuntsman"/>
+                <requirement name="EntityTagCompare" target="other" tags="animal"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkSiphoningStrikes Activity -->
+            <triggered_effect trigger="onSelfKilledOther" action="ModifyCVar" cvar="$perksiphoningstrikes_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="melee"/>
+            </triggered_effect>
+
+            <!-- Reset Decay Counter on perkPainTolerance Activity -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkpaintolerance_decay_counter" operation="set" value="0">
+                <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+                <requirement name="Health" operation="LTE" value=".75"/>
+            </triggered_effect>
+        
+            <!-- Reset Decay Counter on perkHealingFactor Activity -->
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkhealingfactor_decay_counter" operation="set" value="0">
+                <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkhealingfactor_decay_counter" operation="set" value="0">
+                <requirement name="HasBuff" buff="buffStatusHungry03"/>
+                <requirement name="HasBuff" buff="buffStatusThirsty03"/>
+            </triggered_effect>
+            
+            <!-- Reset Decay Counter on perkSlowMetabolism Activity -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="ModifyCVar" cvar="$perkslowmetabolism_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="food,drink"/>
+            </triggered_effect>
+           
+
+            <!-- Reset Decay Counter on perkRuleOneCardio Activity -->
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="set" value="0"/>
+
+            <!-- Reset Decay Counter on perkFortitudeMastery Activity -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="attFortitude" operation="GT" value="0"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+</configs>

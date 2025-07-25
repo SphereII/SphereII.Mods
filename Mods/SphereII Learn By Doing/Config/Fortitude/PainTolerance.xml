@@ -1,0 +1,123 @@
+<configs>
+    <!-- Append the LBD logic for Pain Tolerance to the main Fortitude Manager buff. -->
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="Pain Tolerance">
+            <!-- Master requirements for the entire group. -->
+            <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
+            <requirement name="Health" operation="LTE" value=".75"/> <!-- Below 75% health -->
+
+            <!-- XP Gain: Base amount for taking damage from a valid source -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Attempting Base Damage XP (+@$lbd_xp_damage_taken_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_DamageCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xp" operation="add" value="@$lbd_xp_damage_taken_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_DamageCoolDown"/>
+            </triggered_effect>
+
+            <!-- XP Gain: BONUS for being Stunned -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Attempting Stunned Bonus XP (+@$lbd_xp_stun_bonus)">
+                <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0"/> <!-- Check if player is stunned -->
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_StunCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xp" operation="add" value="@$lbd_xp_stun_bonus">
+                <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_StunCoolDown"/>
+            </triggered_effect>
+
+            <!-- CONCUSSION LOGIC: Apply a temporary buff to check for concussion AFTER the event chain -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Triggering Concussion Check Buff">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_ConcussionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkPainTolerance_ConcussionChecker">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_ConcussionCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application: For Damage Taken -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Applying Damage Cooldown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_DamageCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkPainTolerance_DamageCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_DamageCoolDown"/>
+            </triggered_effect>
+
+            <!-- Cooldown Application: For Stunned -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Applying Stun Cooldown">
+                <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_StunCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkPainTolerance_StunCoolDown">
+                <requirement name="CVarCompare" cvar="_stunned" operation="GT" value="0"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPainTolerance_StunCoolDown"/>
+            </triggered_effect>
+            
+            <!-- Level Up Check: This is now a single, universal check. -->
+            <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Triggering Level Up Check">
+                <requirement name="CVarCompare" cvar="$perkpaintolerance_lbd_xp" operation="GTE" value="@$perkpaintolerance_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_perkPainTolerance_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkpaintolerance_lbd_xp" operation="GTE" value="@$perkpaintolerance_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <!-- Define the Level-Up Handler buff for Pain Tolerance. -->
+    <append xpath="/buffs">
+        <!-- New temporary buff to check for concussion after the main damage event -->
+        <buff name="buffLBD_perkPainTolerance_ConcussionChecker" hidden="true">
+            <duration value="0.1"/>
+            <effect_group>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Concussion Checker Fired. Checking for concussion.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Concussion Check: Attempting XP Gain (+@$lbd_xp_concussion_bonus)">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xp" operation="add" value="@$lbd_xp_concussion_bonus">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                </triggered_effect>
+                <!-- Apply Concussion Cooldown -->
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Concussion Check: Applying Concussion Cooldown">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkPainTolerance_ConcussionCoolDown">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                </triggered_effect>
+                <!-- Level Up Check (from Concussion) -->
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Triggering Level Up Check (from Concussion)">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                    <requirement name="CVarCompare" cvar="$perkpaintolerance_lbd_xp" operation="GTE" value="@$perkpaintolerance_lbd_xptonext"/>
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_perkPainTolerance_LevelUpCheck">
+                    <requirement name="HasBuff" buff="buffInjuryConcussion"/>
+                    <requirement name="CVarCompare" cvar="$perkpaintolerance_lbd_xp" operation="GTE" value="@$perkpaintolerance_lbd_xptonext"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <buff name="buffLBD_perkPainTolerance_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPainTolerance" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPainTolerance" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xp" operation="subtract" value="@$perkpaintolerance_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpaintolerance_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPainTolerance" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPainTolerance" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pain Tolerance - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+    </append>
+</configs>
