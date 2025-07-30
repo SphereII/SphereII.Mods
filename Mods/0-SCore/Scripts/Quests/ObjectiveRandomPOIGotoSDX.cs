@@ -99,7 +99,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 			float numPlayerX = entityAlive.position.x;
 			float numPlayerZ = entityAlive.position.z;
 
-			if (prefabInstance != null)
+			if (prefabInstance == null)
 			{
 				Vector2 vector3a = new Vector2((float)prefabInstance.boundingBoxPosition.x + (float)prefabInstance.boundingBoxSize.x / 2f, (float)prefabInstance.boundingBoxPosition.z + (float)prefabInstance.boundingBoxSize.z / 2f);
 
@@ -171,10 +171,7 @@ public class ObjectiveRandomPOIGotoSDX : ObjectiveGoto
 				}
 			}
 
-			if (prefabInstance == null)
-			{
-				return Vector3.zero;
-			}
+	
 			if (prefabInstance != null)
 			{
 				Vector2 vector3 = new Vector2((float)prefabInstance.boundingBoxPosition.x + (float)prefabInstance.boundingBoxSize.x / 2f, (float)prefabInstance.boundingBoxPosition.z + (float)prefabInstance.boundingBoxSize.z / 2f);

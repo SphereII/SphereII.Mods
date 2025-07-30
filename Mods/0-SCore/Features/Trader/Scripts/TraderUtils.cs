@@ -11,6 +11,8 @@ public class TraderUtils
     
     public static TileEntityTrader GetCurrentTraderTileEntity(){
         var player = GameManager.Instance.World.GetPrimaryPlayer();
-        return player == null ? null : player.playerUI?.xui?.Trader?.TraderTileEntity;
+        if (player == null) return null;
+      
+        return player.playerUI?.xui?.Trader?.TraderTileEntity;
     }
 }

@@ -14,8 +14,7 @@ public class RequirementItemMetaData: TargetedCompareRequirementBase
             return false;
 
         var itemValue = this.target.inventory.holdingItemItemValue;
-        Debug.Log($"ItemValue: {itemValue} : Has MetaData: {itemValue.HasMetadata(strKey)}");
-        
+       
         return itemValue.HasMetadata(strKey);
     }
 

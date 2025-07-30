@@ -1,0 +1,8 @@
+<configs>
+    <append xpath="/buffs">
+
+        <!-- Cooldown for craftingRepairTools -->
+        <buff name="buffLBD_craftingRepairTools_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+
+    </append>
+</configs>

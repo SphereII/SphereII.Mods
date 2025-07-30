@@ -119,6 +119,7 @@ namespace Harmony.Recipes
 
                 var entityPlayer = __instance.xui.playerUI.entityPlayer;
                 if (entityPlayer == null) return true;
+                
                 var startedPlayer = GameManager.Instance.World.GetEntity(__instance.startingEntityId) as EntityPlayer;
                 
                 var minEventParams = GenerateMinEventParams(entityPlayer, startedPlayer, __instance.outputItemValue);

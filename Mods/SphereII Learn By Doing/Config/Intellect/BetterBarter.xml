@@ -1,74 +1,70 @@
 <configs>
-    <!-- Append the LBD logic for Better Barter to the main Intellect Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="Better Barter">
-            <!-- XP Gain: Rewarding items SOLD to the trader -->
-            <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Better Barter - Attempting Sold Item XP (+@$lbd_xp_special_base)">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Better Barter - Attempting Sold Item XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> 
+                <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_SoldCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemSold" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xp" operation="add" value="@$lbd_xp_special_base">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemSold" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> 
+                <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_SoldCoolDown"/>
             </triggered_effect>
 
-            <!-- XP Gain: Rewarding items BOUGHT from the trader -->
-            <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Better Barter - Attempting Bought Item XP (+@$lbd_xp_special_base)">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Better Barter - Attempting Bought Item XP (+@$lbd_xp_attribute_synergy_base)">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_BoughtCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfItemBought" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xp" operation="add" value="@$lbd_xp_special_base">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemBought" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_BoughtCoolDown"/>
             </triggered_effect>
 
-            <!-- Cooldown Application: For Sold Items -->
-            <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Better Barter - Applying Sold Cooldown">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Better Barter - Applying Cooldown (Sold)">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_SoldCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemSold" action="AddBuff" buff="buffLBD_perkBetterBarter_SoldCoolDown">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_SoldCoolDown"/>
             </triggered_effect>
 
-            <!-- Cooldown Application: For Bought Items -->
-            <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Better Barter - Applying Bought Cooldown">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Better Barter - Applying Cooldown (Bought)">
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_BoughtCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemBought" action="AddBuff" buff="buffLBD_perkBetterBarter_BoughtCoolDown">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkBetterBarter_BoughtCoolDown"/>
             </triggered_effect>
 
-            <!-- Level Up Check -->
             <triggered_effect trigger="onSelfItemSold" action="LogMessage" message="LBD DEBUG: Better Barter - Triggering Level Up Check (Sold)">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="CVarCompare" cvar="$perkbetterbarter_lbd_xp" operation="GTE" value="@$perkbetterbarter_lbd_xptonext"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemSold" action="AddBuff" buff="buffLBD_perkBetterBarter_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="CVarCompare" cvar="$perkbetterbarter_lbd_xp" operation="GTE" value="@$perkbetterbarter_lbd_xptonext"/>
             </triggered_effect>
+
             <triggered_effect trigger="onSelfItemBought" action="LogMessage" message="LBD DEBUG: Better Barter - Triggering Level Up Check (Bought)">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="CVarCompare" cvar="$perkbetterbarter_lbd_xp" operation="GTE" value="@$perkbetterbarter_lbd_xptonext"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfItemBought" action="AddBuff" buff="buffLBD_perkBetterBarter_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="_last_item_value" operation="GT" value="0"/>
+                <requirement name="CVarCompare" cvar="_item_value" operation="GT" value="20"/> <requirement name="CVarCompare" cvar="_last_item_value" operation="NotEquals" value="@_item_value"/>
                 <requirement name="CVarCompare" cvar="$perkbetterbarter_lbd_xp" operation="GTE" value="@$perkbetterbarter_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>
     </append>
 
-    <!-- Define the Level-Up Handler buff for Better Barter. -->
     <append xpath="/buffs">
         <buff name="buffLBD_perkBetterBarter_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
@@ -86,5 +82,9 @@
                 </triggered_effect>
             </effect_group>
         </buff>
+
+        <buff name="buffLBD_perkBetterBarter_SoldCoolDown" hidden="true"><duration value="5"/></buff>
+
+        <buff name="buffLBD_perkBetterBarter_BoughtCoolDown" hidden="true"><duration value="5"/></buff>
     </append>
 </configs>

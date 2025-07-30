@@ -1,0 +1,159 @@
+<configs>
+    <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
+        <effect_group name="LBD Crafting Skill - Machine Guns">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Attempting 'Repair' XP (+@$lbd_xp_repairing_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xp" operation="add" value="@$lbd_xp_repairing_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Applying Cooldown (Craft)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Applying Cooldown (Scrap)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Applying Cooldown (Repair)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingMachineGuns_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Triggering Level Up Check (Craft)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingMachineGuns_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Triggering Level Up Check (Scrap)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingMachineGuns_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="LBD DEBUG: Crafting Machine Guns - Triggering Level Up Check (Repair)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="AddBuff" buff="buffLBD_craftingMachineGuns_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_lbd_xp" operation="GTE" value="@$craftingmachineguns_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <effect_group name="LBD Decay Logic for MachineGuns">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
+                              cvar="$craftingmachineguns_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingMachineGuns_Decay">
+                <requirement name="CVarCompare" cvar="$craftingmachineguns_decay_counter" operation="GTE"
+                             value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
+                              cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
+                              cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
+                              cvar="$craftingmachineguns_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingMachineGuns"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_craftingMachineGuns_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingMachineGuns" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingMachineGuns" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xp" operation="subtract" value="@$craftingmachineguns_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingMachineGuns" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingMachineGuns" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Machine Guns - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <buff name="buffLBD_craftingMachineGuns_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <buff name="buffLBD_craftingMachineGuns_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingMachineGuns" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
+                                  progression_name="craftingMachineGuns" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
+                                  cvar="$craftingmachineguns_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingMachineGuns"
+                                  sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

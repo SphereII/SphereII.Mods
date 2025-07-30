@@ -1,0 +1,104 @@
+<configs>
+    <!-- This file will be included by the main buffs.xml after LBD_Global_Init.xml -->
+    <append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
+        <effect_group name="Crafting LBD Settings">
+            <!-- Global XP values for crafting actions -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_base" operation="set" value="1"/> <!-- XP for crafting an item -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_scrapping_base" operation="set" value="1"/> <!-- XP for scrapping an item -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_repairing_base" operation="set" value="1"/> <!-- XP for repairing an item -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_bigXP_base" operation="set" value="10"/> <!-- XP for repairing an item -->
+
+            <!-- Harvesting -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingharvestingtools_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingharvestingtools_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Repairing -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrepairtools_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrepairtools_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Salvage Tools -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Knuckles -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingknuckles_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingknuckles_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Knives -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingblades_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingblades_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Clubs -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingclubs_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingclubs_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Sledge Hammers -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsledgehammers_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsledgehammers_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Crafting Bows -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Crafting Spears -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingspears_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingspears_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Hand Guns -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftinghandguns_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftinghandguns_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Shot guns -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingshotguns_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingshotguns_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Rifles -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrifles_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrifles_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Machine Guns -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmachineguns_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Explosives -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingexplosives_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingexplosives_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Robotics -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrobotics_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrobotics_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Armor -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xptonext" operation="set" value="5"/>
+             <!-- Medical -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Food -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingfood_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingfood_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Seeds -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xptonext" operation="set" value="5"/>
+
+            <!-- Electrician -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Traps -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingtraps_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingtraps_lbd_xptonext" operation="set" value="5"/>
+            
+            <!-- Workstations -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_salvaging_workstation_base" operation="set" value="1"/> 
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_crafting_bigxp" operation="set" value="10"/> 
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_lbd_xptonext" operation="set" value="5"/>
+            <!-- Vehicles -->
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_lbd_xp" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_lbd_xptonext" operation="set" value="5"/>
+        </effect_group>
+    </append>
+</configs>

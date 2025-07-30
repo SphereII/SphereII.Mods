@@ -103,7 +103,7 @@ public class FireHandler : IFireHandler
         if (blockValue.ischild) return false;
         if (blockValue.isair) return false;
         if (blockValue.isWater) return false;
-
+        
         // if (blockValue.Block.Properties.Values.ContainsKey("Explosion.ParticleIndex")) return true;
 
         if (blockValue.Block.HasAnyFastTags(FastTags<TagGroup.Global>.Parse("flammable"))) return true;
@@ -252,7 +252,6 @@ public class FireHandler : IFireHandler
             return false;
         }
 
-        _pendingChanges.Add(new BlockChangeInfo(0, position, block));
 
         // Check for natural extinguishing
         var extinguishChance = chanceToExtinguish * (rainfallValue > 0.25f ? 2f : 1f);
@@ -261,6 +260,8 @@ public class FireHandler : IFireHandler
             blocksToRemove.Add(position);
             return false;
         }
+
+        _pendingChanges.Add(new BlockChangeInfo(0, position, block));
 
         _fireMap[position] = block;
         return true;
@@ -300,6 +301,8 @@ public class FireHandler : IFireHandler
             blockValue2.meta = block.meta;
         }
 
+        BlockUtilitiesSDX.removeParticles(position);
+        
         _pendingChanges.Add(new BlockChangeInfo(0, position, blockValue2));
     }
 
@@ -320,17 +323,17 @@ public class FireHandler : IFireHandler
         // Raise update event
         _events.RaiseFireUpdate(_fireMap.Count);
 
-        switch (_fireMap.Count)
-        {
-            case > 100:
-                _fireParticleOptimizer.UpdateCullDistance(2);
-                _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
-                break;
-            case > 30:
-                _fireParticleOptimizer.UpdateCullDistance(1);
-                _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
-                break;
-        }
+        // switch (_fireMap.Count)
+        // {
+        //     case > 100:
+        //         _fireParticleOptimizer.UpdateCullDistance(2);
+        //         _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
+        //         break;
+        //     case > 30:
+        //         _fireParticleOptimizer.UpdateCullDistance(1);
+        //         _fireParticleOptimizer.UpdateAndOptimizeFireParticles(_fireMap, _config.FireParticle);
+        //         break;
+        // }
         
 
         // Reset processing state
@@ -536,12 +539,17 @@ public class FireHandler : IFireHandler
     public void Reset()
     {
         Log.Out("Removing all blocks that are on fire and smoke.");
+        List<Vector3i> positionsToRemove = new List<Vector3i>();
         foreach (var position in _fireMap.Keys)
-            RemoveFire(position);
+            positionsToRemove.Add(position);
+
+         foreach( var position in positionsToRemove)
+             RemoveFire(position);
 
         foreach (var position in _extinguishedPositions.Keys)
             BlockUtilitiesSDX.removeParticles(position);
 
+        
         _fireMap.Clear();
         _extinguishedPositions.Clear();
         SaveState();

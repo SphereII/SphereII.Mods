@@ -1,62 +1,60 @@
-Buff Requirements are conditions that must be met for a buff to be applied, to persist on an entity, or for a buff's
-triggered effects to activate. This mod introduces several custom buff requirements that allow for more dynamic and
-context-aware buff behaviors.
 
-Here's a summary of the custom Buff Requirements available:
+# Buff and Action Requirements
 
-* **`TargetCVarCompare.cs`**: This requirement checks if a specific CVar (Console Variable) on the target entity
-  compares to a given value using a defined operator (e.g., greater than, less than, equals).
-* **`RequirementSameFactionSDX.cs`**: This requirement checks if the entity being evaluated is in the same faction as
-  another specified entity (e.g., the player or another NPC).
-* **`RequirementOnSpecificBiomeSDX.cs`**: This requirement checks if the entity is currently located within a specified
-  biome.
-* **`RequirementLookingAt.cs`**: This requirement checks if the entity is currently looking at another specific entity
-  or a type of entity.
-* **`RequirementIsUnderground.cs`**: This requirement checks if the entity is currently located underground.
-* **`RequirementIsOutdoor.cs`**: This requirement checks if the entity is currently located outdoors (not under a roof
-  or inside a structure).
-* **`RequirementIsNearFire.cs`**: This requirement checks if the entity is currently near an active fire.
-* **`RequirementIsBloodMoon.cs`**: This requirement checks if the current game time is during a Blood Moon event.
-* **`RequirementHoldingItemDurability.cs`**: This requirement checks the durability of the item the entity is currently
-  holding, allowing for buffs to be conditional on weapon/tool wear.
-* **`RequirementEveryXHourSDX.cs`**: This requirement checks if a specific number of in-game hours has passed, allowing
-  for time-based buff application or removal.
-* **`RequirementEveryXDaySDX.cs`**: This requirement checks if a specific number of in-game days has passed, similar to
-  the hour-based requirement but on a daily cycle.
-* **`RequirementEveryDawn.cs`**: This requirement checks if it is currently dawn in the game, allowing for buffs to be
-  tied to the start of a new day.
-* **`HoldingItemDurability.cs`**: This seems to be a helper class related to checking item durability, likely supporting
-  requirements like `RequirementHoldingItemDurability.cs`.
-* **`FactionRelationshipValue.cs`**: This requirement checks the relationship value between the entity and another
-  faction, allowing buffs to be conditional on faction standing.
+Requirements are conditions that must be met for certain actions to occur, such as a buff being applied, a triggered effect activating, or a game event firing. This mod introduces several custom requirements that allow for more dynamic and context-aware behaviors in the game.
 
-These custom buff requirements provide modders with granular control over when and how buffs affect entities, enabling
-complex and dynamic gameplay scenarios.
+### Summary of Requirements
 
-Here are conceptual XML examples for each of the custom Buff Requirements, illustrating how they might be used within a
-`<requirement>` tag in your `buffs.xml`.
+* **Entity & Environment State:**
+  * `TargetCVarCompare`: Checks a CVar on the target entity.
+  * `RequirementSameFactionSDX`: Checks if the entity is in the same faction as another.
+  * `RequirementOnSpecificBiomeSDX`: Checks if the entity is in a specific biome.
+  * `RequirementLookingAt`: Checks what the entity is looking at.
+  * `RequirementIsUnderground`: Checks if the entity is underground.
+  * `RequirementIsOutdoor`: Checks if the entity is outdoors.
+  * `RequirementIsNearFire`: Checks if the entity is near a fire source.
+  * `RequirementIsBloodMoon`: Checks if it is a Blood Moon.
+  * `FactionRelationshipValue`: Checks the relationship value with a faction.
+* **Time-Based:**
+  * `RequirementEveryXHourSDX`: Triggers every X in-game hours.
+  * `RequirementEveryXDaySDX`: Triggers every X in-game days.
+  * `RequirementEveryDawn`: Triggers at dawn.
+* **Player & Progression:**
+  * `RequirementQuestObjective`: Checks for active quest objectives.
+  * `RequirementIsProgressionLocked`: Checks if a perk, skill, or attribute is locked.
+* **Item-Based:**
+  * `RequirementHoldingItemDurability`: Checks the durability of the held item.
+  * `ItemHasProperty`: Checks if an item has a specific property and optional value.
+  * `ItemHasQuality`: Checks the quality of an item.
+  * `ItemPercentDamaged`: Checks the damage percentage of an item.
+* **Block-Based:**
+  * `RequirementIsTargetBlock`: Checks if the target block has specific tags.
+  * `RequirementBlockHasHarvestTags`: Checks if a block's harvest drops have specific tags.
+  * `BlockHasDestroyName`: Checks the name of a block being destroyed.
+  * `BlockHasName`: Checks the name of the block being interacted with.
+* **Recipe-Based:**
+  * `RequirementRecipeCraftArea`: Checks if a recipe is crafted at a specific workstation.
+  * `RequirementRecipeHasLongCraftTime`: Checks if a recipe's craft time meets a condition.
+  * `RequirementRecipeHasTags`: Checks if a recipe has specific tags.
+  * `RecipeHasIngredients`: Checks if a recipe contains specific ingredients.
 
-**Note**: These are conceptual examples based on the C\# script's parsing logic and typical `7 Days to Die` modding
-patterns. The exact context (e.g., within a specific `effect_group` and `buff` definition) is omitted for brevity.
+-----
 
 ### 1\. `TargetCVarCompare`
 
 Checks if a CVar on the target entity meets a comparison condition.
 
 ```xml
-
 <requirement name="TargetCVarCompare, SCore" target="self" cvar="myTargetCVar" value="10" operator="GTE"/>
 ```
 
-**Explanation**: Requires `myTargetCVar` on the target to be Greater Than or Equal to 10. `operator` can be `LT`, `LTE`,
-`GT`, `GTE`, `EQ`, `NEQ`.
+**Explanation**: Requires `myTargetCVar` on the target to be Greater Than or Equal to 10. `operator` can be `LT`, `LTE`, `GT`, `GTE`, `EQ`, `NEQ`.
 
 ### 2\. `RequirementSameFactionSDX`
 
 Checks if the entity is in the same faction as a specified other entity.
 
 ```xml
-
 <requirement name="SameFactionSDX, SCore" target="self" other_entity="player"/>
 ```
 
@@ -67,7 +65,6 @@ Checks if the entity is in the same faction as a specified other entity.
 Checks if the entity is in a specific biome.
 
 ```xml
-
 <requirement name="OnSpecificBiomeSDX, SCore" target="self" biome="pine_forest"/>
 ```
 
@@ -78,7 +75,6 @@ Checks if the entity is in a specific biome.
 Checks if the entity is looking at another entity or block.
 
 ```xml
-
 <requirement name="LookingAt, SCore" target="self" look_at_entity="player"/>
 ```
 
@@ -89,7 +85,6 @@ Checks if the entity is looking at another entity or block.
 Checks if the entity is underground.
 
 ```xml
-
 <requirement name="IsUnderground, SCore" target="self"/>
 ```
 
@@ -100,7 +95,6 @@ Checks if the entity is underground.
 Checks if the entity is outdoors.
 
 ```xml
-
 <requirement name="IsOutdoor, SCore" target="self"/>
 ```
 
@@ -111,7 +105,6 @@ Checks if the entity is outdoors.
 Checks if the entity is near fire.
 
 ```xml
-
 <requirement name="IsNearFire, SCore" target="self" range="5"/>
 ```
 
@@ -122,7 +115,6 @@ Checks if the entity is near fire.
 Checks if it is currently a Blood Moon night.
 
 ```xml
-
 <requirement name="IsBloodMoon, SCore"/>
 ```
 
@@ -133,7 +125,6 @@ Checks if it is currently a Blood Moon night.
 Checks the durability of the item the entity is holding.
 
 ```xml
-
 <requirement name="HoldingItemDurability, SCore" target="self" min_durability="0.5" max_durability="0.9"/>
 ```
 
@@ -144,7 +135,6 @@ Checks the durability of the item the entity is holding.
 Triggers every X in-game hours.
 
 ```xml
-
 <requirement name="EveryXHourSDX, SCore" hours="6"/>
 ```
 
@@ -155,7 +145,6 @@ Triggers every X in-game hours.
 Triggers every X in-game days.
 
 ```xml
-
 <requirement name="EveryXDaySDX, SCore" days="7"/>
 ```
 
@@ -166,7 +155,6 @@ Triggers every X in-game days.
 Triggers every dawn.
 
 ```xml
-
 <requirement name="EveryDawn, SCore"/>
 ```
 
@@ -177,204 +165,164 @@ Triggers every dawn.
 Checks the relationship value with a specific faction.
 
 ```xml
-
 <requirement name="FactionRelationshipValue, SCore" target="self" faction="bandits" value="500" operator="GTE"/>
 ```
 
-**Explanation**: Requires the entity's relationship with the "bandits" faction to be Greater Than or Equal to 500.
-`operator` can be `LT`, `LTE`, `GT`, `GTE`, `EQ`, `NEQ`.
+**Explanation**: Requires the entity's relationship with the "bandits" faction to be Greater Than or Equal to 500. `operator` can be `LT`, `LTE`, `GT`, `GTE`, `EQ`, `NEQ`.
 
-### 14\. `RequirementQuestObjective, SCore`
+### 14\. `RequirementQuestObjective`
 
-This requirement checks all in-progress quests for specific in-progress objectives, allowing modders to create
-conditional logic based on a player's active quest progression [cite: user\_provided\_code].
+Checks all in-progress quests for specific in-progress objectives.
 
 ```xml
-
-<requirement name="RequirementQuestObjective, SCore" id="cntBuriedLootStashChest"/>
-<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
-<requirement name="RequirementQuestObjective, SCore" objective="ObjectiveTreasureChest"/>
+<requirement name="RequirementQuestObjective, SCore" objective="TreasureChest" id="cntBuriedLootStashChest"/>
 ```
 
-**Explanation**: This requirement takes the following attributes:
+**Explanation**: This requirement will only return `true` if the player has an active `TreasureChest` quest for the block `cntBuriedLootStashChest` and is currently within the treasure's radius. It can also check for other objective types by `id` and `objective` type.
 
-* **`name="RequirementQuestObjective, SCore"`**: The name of the requirement [cite: user\_provided\_code].
-* **`id`**: (Optional) Specifies the ID of the objective to check. The interpretation of this `id` depends on the
-  objective's type [cite: user\_provided\_code]:
-    * For `TreasureChest` objectives, the `id` refers to the **block name** (e.g.,
-      `cntBuriedLootStashChest`) [cite: user\_provided\_code].
-    * For `EntityKill` objectives, it would be the **entity name(s)**.
-    * For `Goto` objectives, it would be the **location name**.
-    * The comparison is case-insensitive [cite: user\_provided\_code].
-* **`objective`**: (Optional) Specifies the type of objective to check. This can be the full class name (e.g.,
-  `ObjectiveTreasureChest`) or a shorthand (e.g., `TreasureChest`), as the code automatically prepends "Objective" if
-  missing and converts to lowercase for comparison [cite: user\_provided\_code].
-* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement evaluates to `true` if *no* matching
-  in-progress quest objective is found [cite: user\_provided\_code].
+### 15\. `RequirementIsTargetBlock`
 
-**Special Behavior for `TreasureChest` Objectives:**
-When checking for an `objective="TreasureChest"` (or `ObjectiveTreasureChest`), an additional radius check is
-performed [cite: user\_provided\_code]. The requirement will only return `true` if the player is currently **within
-the `CurrentRadius`** of the active `TreasureChest` objective's location [cite: user\_provided\_code]. This ensures that
-the condition is met only when the player is actively near the quest's treasure.
-
-### 15\. `RequirementIsTargetBlock, SCore`
-
-This requirement checks if the `BlockValue` associated with the current `MinEventParams` (i.e., the block at the event's
-target location) possesses specific tags. It allows for conditional logic based on the characteristics of the block that
-an event is interacting with.
+Checks if the block being interacted with possesses specific tags.
 
 ```xml
-
-<requirement name="RequirementIsTargetBlock, SCore" tags="wood,stone" has_all_tags="false" invert="false"/>
+<requirement name="RequirementIsTargetBlock, SCore" tags="wood,stone" has_all_tags="false"/>
 ```
 
-**Explanation**: This requirement takes the following attributes:
+**Explanation**: Requires the target block to have either the "wood" or "stone" tag. Set `has_all_tags` to `true` to require all listed tags.
 
-* **`name="RequirementIsTargetBlock, SCore"`**: The name of the requirement.
-* **`tags`**: (Required) A comma-separated string of `FastTags` that the target block will be checked against. The block
-  must possess these tags.
-* **`has_all_tags`**: (Optional) A boolean value. If `true`, the target block must have *all* of the tags specified in
-  the `tags` attribute. If `false` (default behavior), the block only needs to have *any* of the specified tags.
-* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted, meaning it evaluates to
-  `true` if the target block *does not* meet the specified tag conditions.
+### 16\. `RequirementBlockHasHarvestTags`
 
-**Example Usage:**
-
-You could use this requirement in an `effect_group` within an item or buff, or in a `response_entry` in a dialog, to
-ensure an action only triggers when a player interacts with a block that has certain properties:
+Checks if a block's harvestable items possess any of a set of tags.
 
 ```xml
-
-<effect_group>
-    <triggered_effect trigger="onSelfPrimaryActionEnd" action="PlaySound" sound="player_pickup">
-        <requirement name="RequirementIsTargetBlock, SCore" tags="wood,stone" has_all_tags="false"/>
-    </triggered_effect>
-
-    <triggered_effect trigger="onBlockDamaged">
-        <requirement name="RequirementIsTargetBlock, SCore" tags="electric,trap" has_all_tags="true"/>
-    </triggered_effect>
-
-    <triggered_effect trigger="onBlockPlaced">
-        <requirement name="RequirementIsTargetBlock, SCore" tags="decorative,furniture" has_all_tags="false"
-                     invert="true"/>
-    </triggered_effect>
-</effect_group>
-```
-
-### 16\. `RequirementBlockHasHarvestTags, SCore`
-
-This requirement checks if a target block, when harvested, is configured to drop items that possess any of a specified
-set of tags. This allows for conditional actions based on the harvestable properties of blocks.
-
-```xml
-
 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
 ```
 
-**Explanation**: This requirement takes the following attributes:
+**Explanation**: Requires the target block to drop at least one item during harvest that has the "salvageHarvest" tag.
 
-* **`name="RequirementBlockHasHarvestTags, SCore"`**: The name of the requirement.
-* **`tags`**: (Required) A comma-separated string of tags. The requirement evaluates to `true` if the target block has
-  configured harvest drops, and *any* of those harvestable items possess *any* of the tags specified in this attribute.
-* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted, meaning it evaluates to
-  `true` if the target block *does not* have harvest drops with the specified tags.
+### 17\. `RequirementIsProgressionLocked`
 
-**Example Usage:**
-
-You could use this requirement to trigger a special effect or provide a specific dialog option when a player harvests a
-block that yields items with certain characteristics:
+Checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for the player.
 
 ```xml
-
-<effect_group>
-    <triggered_effect trigger="onSelfHarvestBlock" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_xp"
-                      operation="add" value="8">
-        <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
-        <requirement name="RequirementBlockHasHarvestTags, SCore"
-                     tags="salvageHarvest"/> <!-- The Superior Requirement -->
-        <requirement name="NotHasBuff" buff="buffLBD_perkPerceptionMastery_HarvestCoolDown"/>
-    </triggered_effect>
-</effect_group>
+<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
 ```
 
-### 17\. `RequirementIsProgressionLocked, SCore`
+**Explanation**: This example returns `true` if the "attPerception" attribute is *unlocked*. The `!` prefix is shorthand for `invert="true"`.
 
-This requirement checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for
-the entity (typically the player) that triggered the event. This allows for conditional content or actions based on the
-player's progression lock status.
+### 18\. `ItemHasProperty`
+
+Checks if the item that triggered the action has a specific property.
 
 ```xml
+<requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingHarvestingTools" />
+
+<requirement name="ItemHasProperty, SCore" property="UnlockedBy" />
 ```
 
-**Explanation**: This requirement takes the following attributes:
+**Explanation**:
 
-* **`name="RequirementIsProgressionLocked, SCore"`**: The name of the requirement.
-* **`progression_name`**: (Required) A string representing the ID of the progression to check (e.g., `attPerception` for
-  the Perception attribute, or the ID of a specific perk or skill).
-* **`invert`**: (Optional, inherited) A boolean value. If `true`, the requirement is inverted. This means it evaluates
-  to `true` if the specified progression is *not* locked (i.e., it is unlocked). The XML shorthand `!` before the
-  requirement name (e.g., `!RequirementIsProgressionLocked`) is equivalent to setting `invert="true"`.
+* `name`: `ItemHasProperty, SCore`
+* `property`: The name of the property to check for.
+* `prop_value`: (Optional) The specific value the property must have.
 
-**Example Usage:**
+### 19\. `ItemHasQuality`
 
-You can use this requirement to make a recipe available only if a certain skill is unlocked, or to display a dialog
-option only if an attribute is still locked:
+Checks the quality level of the item that triggered the action.
 
 ```xml
-
-<buff name="buffLBD_attPerception_LevelUpCheck" hidden="true">
-    <stack_type value="ignore"/>
-    <duration value="1"/>
-    <effect_group>
-        <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
-        <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attPerception"
-                          level="1"/>
-        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp"
-                          operation="subtract" value="@$attperception_lbd_xptonext"/>
-        <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext"
-                          operation="multiply" value="1.3"/>
-        <triggered_effect trigger="onSelfBuffStart" action="PlaySound" sound="ui_level_up"/>
-    </effect_group>
-</buff>
+<requirement name="ItemHasQuality, SCore" operation="Equals" value="4"/>
 ```
 
-### `RequirementRecipeCraftArea`
+**Explanation**:
+
+* `name`: `ItemHasQuality, SCore`
+* `operation`: The comparison operator (e.g., `Equals`, `GTE`).
+* `value`: The quality level to compare against.
+
+### 20\. `ItemPercentDamaged`
+
+Checks the percentage of damage or usage of the item that triggered the action.
+
+```xml
+<requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+```
+
+**Explanation**:
+
+* `name`: `ItemPercentDamaged, SCore`
+* `operation`: The comparison operator (e.g., `GTE`).
+* `value`: The damage percentage as a decimal (0.0 to 1.0).
+
+### 21\. `BlockHasDestroyName`
+
+Checks the name of a block that is being destroyed. Supports wildcards.
+
+```xml
+<requirement name="BlockHasDestroyName, SCore" block_name="plantedGraceCorn1" />
+
+<requirement name="BlockHasDestroyName, SCore" block_name="planted*,blockTree*" />
+```
+
+**Explanation**:
+
+* `name`: `BlockHasDestroyName, SCore`
+* `block_name`: A comma-delimited list of block names to check for. `*` can be used as a wildcard.
+
+### 22\. `BlockHasName`
+
+Checks the name of the active block being interacted with. Supports wildcards.
+
+```xml
+<requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" />
+```
+
+**Explanation**:
+
+* `name`: `BlockHasName, SCore`
+* `block_name`: A comma-delimited list of block names to check for. `*` can be used as a wildcard.
+
+### 23\. `RequirementRecipeCraftArea`
 
 Checks if a recipe is crafted at one of the specified workstations.
 
 ```xml
-
-<requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workstation"/>
+<requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workbench"/>
 ```
 
-**Explanation**: Requires the recipe to be crafted in either the "forge" or the "workstation". The `craft_area`
-parameter accepts a comma-separated list of valid workstation names.
+**Explanation**: Requires the recipe to be crafted in either the "forge" or the "workbench". The `craft_area` parameter accepts a comma-separated list of valid workstation names.
 
------
-
-### `RequirementRecipeHasLongCraftTime`
+### 24\. `RequirementRecipeHasLongCraftTime`
 
 Checks if a recipe's base crafting time meets a certain condition.
 
 ```xml
-
 <requirement name="RequirementRecipeHasLongCraftTime, SCore" operation="GTE" value="60"/>
 ```
 
-**Explanation**: Requires the recipe's crafting time to be Greater Than or Equal To 60 seconds. The `operation` can be
-`LT`, `LTE`, `GT`, `GTE`, or `E`.
+**Explanation**: Requires the recipe's crafting time to be Greater Than or Equal To 60 seconds. The `operation` can be `LT`, `LTE`, `GT`, `GTE`, or `E`.
 
------
-
-### `RequirementRecipeHasTags`
+### 25\. `RequirementRecipeHasTags`
 
 Checks if a recipe has at least one of the specified tags.
 
 ```xml
-
 <requirement name="RequirementRecipeHasTags, SCore" tags="perkGreaseMonkey,tool"/>
 ```
 
-**Explanation**: Requires the recipe to have either the "perkGreaseMonkey" or the "tool" tag. The `tags` parameter
-accepts a comma-separated list. By default, this requirement passes if **any** tag matches.
+**Explanation**: Requires the recipe to have either the "perkGreaseMonkey" or the "tool" tag. The `tags` parameter accepts a comma-separated list.
+
+### 26\. `RecipeHasIngredients`
+
+Checks if the ingredients of a recipe match a given list of item names. Supports wildcards.
+
+```xml
+<requirement name="RecipeHasIngredients, SCore" ingredients="planted*" />
+
+<requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedCoffee*" />
+```
+
+**Explanation**:
+
+* `name`: `RecipeHasIngredients, SCore`
+* `ingredients`: A comma-delimited list of item names to check for in the recipe's ingredients. `*` can be used as a wildcard.

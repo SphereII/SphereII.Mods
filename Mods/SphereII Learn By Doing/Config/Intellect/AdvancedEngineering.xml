@@ -7,29 +7,29 @@
             <requirement name="RequirementRecipeCraftArea, SCore" craft_area="forge,workstation,chemistryStation" /> <!-- The Correct SCore Requirement -->
 
             <!-- XP Gain: Rewarding crafting at advanced workstations -->
-            <triggered_effect trigger="onRecipeCrafted" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Attempting Crafting XP (+@$lbd_xp_special_base)">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Attempting Crafting XP (+@$lbd_xp_special_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onRecipeCrafted" action="ModifyCVar" cvar="$perkadvancedengineering_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$perkadvancedengineering_lbd_xp" operation="add" value="@$lbd_xp_special_base">
                 <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Cooldown Application -->
-            <triggered_effect trigger="onRecipeCrafted" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Applying Cooldown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Applying Cooldown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onRecipeCrafted" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown">
                 <requirement name="NotHasBuff" buff="buffLBD_perkAdvancedEngineering_XPCoolDown"/>
             </triggered_effect>
 
             <!-- Level Up Check -->
-            <triggered_effect trigger="onRecipeCrafted" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Advanced Engineering - Triggering Level Up Check">
                 <requirement name="CVarCompare" cvar="$perkadvancedengineering_lbd_xp" operation="GTE" value="@$perkadvancedengineering_lbd_xptonext"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onRecipeCrafted" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_perkAdvancedEngineering_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkadvancedengineering_lbd_xp" operation="GTE" value="@$perkadvancedengineering_lbd_xptonext"/>
             </triggered_effect>
         </effect_group>

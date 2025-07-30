@@ -1,7 +1,11 @@
 <configs>
     <append xpath="/buffs/buff[@name='buffStatusCheck01']">
         <effect_group name="Learn By Doing">
-            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="ProgressionLearnByDoing_Init" />
+            <!-- Only init is there it's not set -->
+            
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="ProgressionLearnByDoing_Init" >
+                <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="LTE" value="0"/>
+            </triggered_effect>
             <triggered_effect trigger="onSelfEnteredGame" action="LogMessage" message="Learn By Doing Active"/>
         </effect_group>
     </append>
@@ -11,8 +15,9 @@
         <buff name="ProgressionLearnByDoing_Init" hidden="true">
             <stack_type value="ignore"/>
             <duration value="1"/>
+          
+            
             <!-- Included files below will add the respective settings for each perk tree -->
-
             <effect_group name="Global LBD Settings">
                 <!-- New: Global XP Gain Multipliers / Base Values -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_base"
@@ -105,5 +110,5 @@
     <include filename="Agility/main.xml"/>
     <include filename="Intellect/main.xml"/>
     <include filename="General/main.xml"/>
-
+    <include filename="CraftingSkills/main.xml" />
 </configs>

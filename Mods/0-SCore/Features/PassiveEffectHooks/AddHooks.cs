@@ -15,6 +15,9 @@ public static class AddHooks
         QuestEventManager.Current.CraftItem -= OnCraft.CheckForCrafting;    
         QuestEventManager.Current.CraftItem += OnCraft.CheckForCrafting;
 
+        QuestEventManager.Current.ScrapItem -= OnSelfItemScrap.CheckForScrapping;
+        QuestEventManager.Current.ScrapItem += OnSelfItemScrap.CheckForScrapping;
+        
         QuestEventManager.Current.QuestComplete -= OnSelfQuestCompleted.CompleteQuest;
         QuestEventManager.Current.QuestComplete += OnSelfQuestCompleted.CompleteQuest;
 

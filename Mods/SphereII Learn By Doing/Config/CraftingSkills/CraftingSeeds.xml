@@ -1,0 +1,104 @@
+<configs>
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Seeds">
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Crafting Seeds - Attempting 'Craft Small Seed' XP (+@$lbd_xp_crafting_seed_small_base)">
+                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_seed_small_base">
+                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Crafting Seeds - Attempting 'Craft Large Seed' XP (+@$lbd_xp_crafting_seed_large_base)">
+                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="add" value="@$lbd_xp_crafting_seed_large_base">
+                <requirement name="RecipeHasIngredients, SCore" ingredients="plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Crafting Seeds - Applying Cooldown (Craft)">
+                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
+                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                </requirement>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_craftingSeeds_ActionCoolDown">
+                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
+                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                </requirement>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingSeeds_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="LogMessage" message="LBD DEBUG: Crafting Seeds - Triggering Level Up Check (Craft)">
+                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
+                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                </requirement>
+                <requirement name="CVarCompare" cvar="$craftingseeds_lbd_xp" operation="GTE" value="@$craftingseeds_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCraftedRecipe" action="AddBuff" buff="buffLBD_craftingSeeds_LevelUpCheck">
+                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
+                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                </requirement>
+                <requirement name="CVarCompare" cvar="$craftingseeds_lbd_xp" operation="GTE" value="@$craftingseeds_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <effect_group name="LBD Decay Logic for Seeds">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
+                              cvar="$craftingseeds_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSeeds_Decay">
+                <requirement name="CVarCompare" cvar="$craftingseeds_decay_counter" operation="GTE"
+                             value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar"
+                              cvar="$craftingseeds_decay_counter" operation="set" value="0">
+                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
+                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
+                </requirement>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_craftingSeeds_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingSeeds" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSeeds" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="subtract" value="@$craftingseeds_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSeeds" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingSeeds" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Seeds - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <buff name="buffLBD_craftingSeeds_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <buff name="buffLBD_craftingSeeds_Decay" hidden="true">
+            <stack_type value="ignore"/>
+            <duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingSeeds" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
+                                  progression_name="craftingSeeds" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
+                                  cvar="$craftingseeds_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSeeds"
+                                  sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

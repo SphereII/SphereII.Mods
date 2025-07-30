@@ -28,7 +28,7 @@ namespace SCore.Features.LearnByDoing.Harmony
 
                 var currentLevel = entityPlayer.Buffs.GetCustomVar(perkCurrentLevel);
                 var toNextLevel = entityPlayer.Buffs.GetCustomVar(perkToNextLevel);
-                Log.Out($"Perk: {perkName} {perkCurrentLevel} : {currentLevel}  {perkToNextLevel} : {toNextLevel}");
+               // Log.Out($"Perk: {perkName} {perkCurrentLevel} : {currentLevel}  {perkToNextLevel} : {toNextLevel}");
                 if (toNextLevel > 0)
                 {
                     _value = (currentLevel / toNextLevel).ToString(CultureInfo.InvariantCulture);

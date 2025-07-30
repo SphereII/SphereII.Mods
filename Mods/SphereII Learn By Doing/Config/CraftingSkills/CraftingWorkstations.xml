@@ -1,0 +1,198 @@
+<configs>
+    <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
+        <effect_group name="LBD Crafting Skill - Workstations">
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="add" value="@$lbd_xp_crafting_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Attempting 'Scrap' XP (+@$lbd_xp_scrapping_base)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="add" value="@$lbd_xp_scrapping_base">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Attempting 'Primary Hit Salvage' XP (+@$lbd_xp_salvaging_workstation_small_hit)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_HitCoolDown"/> <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="add" value="@$lbd_xp_salvaging_workstation_small_hit">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_HitCoolDown"/> </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Attempting 'Destroyed Block Salvage' XP (+@$lbd_xp_crafting_bigxp)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="add" value="@$lbd_xp_crafting_bigxp">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Applying Cooldown (Craft)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Applying Cooldown (Scrap)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Applying Cooldown (Primary Hit Salvage)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_HitCoolDown"/> <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_craftingWorkstations_HitCoolDown">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_HitCoolDown"/> </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Applying Cooldown (Destroyed Block Salvage)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="NotHasBuff" buff="buffLBD_craftingWorkstations_ActionCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Triggering Level Up Check (Craft)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemCrafted" action="AddBuff" buff="buffLBD_craftingWorkstations_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfScrapItem" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Triggering Level Up Check (Scrap)">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="AddBuff" buff="buffLBD_craftingWorkstations_LevelUpCheck">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+                <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Triggering Level Up Check (Primary Hit Salvage)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_craftingWorkstations_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Crafting Workstations - Triggering Level Up Check (Destroyed Block Salvage)">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_craftingWorkstations_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" /> <requirement name="CVarCompare" cvar="$craftingworkstations_lbd_xp" operation="GTE" value="@$craftingworkstations_lbd_xptonext"/>
+            </triggered_effect>
+        </effect_group>
+
+        <effect_group name="LBD Decay Logic for Workstations">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingWorkstations_Decay">
+                <requirement name="CVarCompare" cvar="$craftingworkstations_decay_counter" operation="GTE"
+                             value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingWorkstations"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" />
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="set" value="0">
+                <requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
+                <requirement name="RequirementIsTargetBlock, SCore" tags="workstationSkill"/>
+                <requirement name="BlockHasName, SCore" block_name="DewCollector*,Workbench*,ChemistryStation*,CementMixer*" />
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_craftingWorkstations_LevelUpCheck" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingWorkstations" />
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingWorkstations" level="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp" operation="subtract" value="@$craftingworkstations_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingWorkstations" sound="read_skillbook_final" />
+            </effect_group>
+            <effect_group>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingWorkstations" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Workstations - Level Up FAILED. Perk is locked by requirements.">
+                    <requirement name="HasBuff" buff="god"/>
+                </triggered_effect>
+            </effect_group>
+        </buff>
+
+        <buff name="buffLBD_craftingWorkstations_ActionCoolDown" hidden="true"><duration value="1"/></buff>
+
+        <buff name="buffLBD_craftingWorkstations_HitCoolDown" hidden="true"><duration value="5"/></buff> <buff name="buffLBD_craftingWorkstations_Decay" hidden="true">
+        <stack_type value="ignore"/>
+        <duration value="1"/>
+        <effect_group>
+            <requirement name="ProgressionLevel" progression_name="craftingWorkstations" operation="GT" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
+                              progression_name="craftingWorkstations" level="-1"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
+                              cvar="$craftingworkstations_decay_counter" operation="set" value="0"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingWorkstations"
+                              sound="ui_skill_decay"/>
+        </effect_group>
+    </buff>
+    </append>
+</configs>
