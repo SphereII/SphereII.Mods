@@ -14,6 +14,7 @@ These define various conditions that players must fulfill to complete a quest st
 * **ObjectiveRandomGotoSDX**: Requires the player to go to a randomly determined location within the world.
 * **ObjectiveRandomPOIGotoSDX**: Requires the player to go to a randomly selected POI.
 * **ObjectiveRandomTaggedPOIGotoSDX**: Requires the player to go to a randomly selected POI that has specific tags.
+* **ObjectiveFetchByTags**: Requires the player to gather items bia tag.
 
 ### Quest Actions
 

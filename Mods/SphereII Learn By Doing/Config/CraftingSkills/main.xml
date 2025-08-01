@@ -1,20 +1,3 @@
-<!--
-Your Crafting Skills LBD system is designed for modularity and scalability. It operates through hidden "Manager Buffs" (e.g., `buffLBD_StrengthManager`, `buffLBD_PerceptionManager`, `buffLBD_IntellectManager`, `buffLBD_GeneralManager`) that are constantly active on the player.
-
-**How Progression Works:**
-* **Action-Based XP:** These Manager Buffs listen for specific player actions related to crafting, scrapping, repairing, or even salvaging.
-* **CVar Tracking:** When a relevant action occurs, a small amount of LBD experience is granted to a hidden CVar (e.g., `$craftingharvestingtools_lbd_xp`) associated with that specific crafting skill.
-* **Level-Up Trigger:** Once a CVar's XP reaches a predefined threshold, it triggers a "Level-Up Check" buff (e.g., `buffLBD_craftingHarvestingTools_LevelUpCheck`).
-* **Progression Advancement:** If the player meets any prerequisite requirements (such as minimum attribute levels or if the progression isn't already locked), the corresponding crafting skill's progression level is increased.
-* **XP Reset:** After a successful level-up, the CVar's XP is reset, and the threshold for the next level might increase (using a curve multiplier).
-
-**Key Features and Safeguards:**
-* **Cooldowns:** Each XP-gaining action has a cooldown period (e.g., `buffLBD_craftingHarvestingTools_ActionCoolDown`) to prevent rapid exploitation through spamming actions.
-* **Decay System:** A comprehensive decay system (`buffLBD_Intellect_DecayManager` and similar) periodically checks for inactivity in a skill. If no relevant actions are performed, the skill's progression level can slowly decrease. Performing any associated action resets the decay counter.
-* **Specific Requirements:** XP is often tied to very specific conditions using SCore requirements like `ItemHasProperty`, `RequirementRecipeCraftArea`, `RequirementRecipeHasTags`, `BlockHasDestroyName`, or `BlockHasName` to ensure only relevant actions count towards progression.
-* **Attribute Gates:** For some skills (e.g., `craftingHarvestingTools`), progression beyond initial levels may be gated by the player's primary attribute level, requiring balanced development.
-* **Anti-Spam for Trading:** For skills like Better Barter, measures are in place to prevent spamming transactions of identical items by checking if the current item's value is different from the last item's value.
--->
 <configs>
     <!-- Includes the CVar initializers for the entire Strength tree. -->
     <include filename="Init.xml"/>

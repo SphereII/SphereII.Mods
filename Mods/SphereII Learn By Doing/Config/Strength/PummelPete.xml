@@ -4,37 +4,41 @@
         <effect_group name="Pummel Pete">
             <requirement name="HoldingItemHasTags" tags="perkPummelPete"/>
 
-            <!-- XP Gain -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Attempting XP Gain (+10)">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="add" value="10">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
-            </triggered_effect>
-
-            <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Applying Cooldown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkPummelPete_XPCoolDown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
             </triggered_effect>
-
-            <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete - Triggering Level Up Check">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkpummelpete_LevelUpCheck">
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="CVarCompare" cvar="$perkpummelpete_lbd_xp" operation="GTE" value="@$perkpummelpete_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkPummelPete_XPCoolDown">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkpummelpete_LevelUpCheck">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="CVarCompare" cvar="$perkpummelpete_lbd_xp" operation="GTE" value="@$perkpummelpete_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete Primary - Attempting XP Gain">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkpummelpete_LevelUpCheck">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="CVarCompare" cvar="$perkpummelpete_lbd_xp" operation="GTE" value="@$perkpummelpete_lbd_xptonext"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Pummel Pete Power - Attempting XP Gain">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkPummelPete_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

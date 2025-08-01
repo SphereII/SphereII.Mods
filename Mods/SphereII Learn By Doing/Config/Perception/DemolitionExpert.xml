@@ -1,22 +1,30 @@
 <configs>
 	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
-		<!-- Group for Demolitions Expert Perk -->
 		<effect_group name="Demolitions Expert">
-			<!-- XP Gain: This trigger now fires for EACH enemy damaged by a player-caused explosion. -->
-			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert - Explosion Hit! Attempting XP Gain (+20)">
-				<requirement name="HasBuff" buff="god"/>
+
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="add" value="@$lbd_xp_demolitions_bonus">
 				<requirement name="IsAlive" target="other"/>
-
 			</triggered_effect>
-			<triggered_effect trigger="onSelfExplosionDamagedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="add" value="20"/>
-			<!-- Level Up Check: This also fires on each hit, allowing for immediate level-ups from multi-kills. -->
-			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert - Triggering Level Up Check">
-				<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
-				<requirement name="HasBuff" buff="god"/>
 
-			</triggered_effect>
 			<triggered_effect trigger="onSelfExplosionDamagedOther" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfExplosionAttackedOther" action="ModifyCVar" cvar="$perkdemolitionsexpert_lbd_xp" operation="add" value="@$lbd_xp_demolitions_bonus">
+				<requirement name="IsAlive" target="other"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfExplosionAttackedOther" action="AddBuff" buff="buffLBD_perkDemolitionsExpert_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkdemolitionsexpert_lbd_xp" operation="GTE" value="@$perkdemolitionsexpert_lbd_xptonext"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfExplosionDamagedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert (Damaged) - Explosion Hit! Attempting XP Gain (+@$lbd_xp_demolitions_bonus)">
+				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfExplosionAttackedOther" action="LogMessage" message="LBD DEBUG: Demolitions Expert (Attacked) - Explosion Hit! Attempting XP Gain (+@$lbd_xp_demolitions_bonus)">
+				<requirement name="HasBuff" buff="god"/>
+				<requirement name="IsAlive" target="other"/>
 			</triggered_effect>
 		</effect_group>
 	</append>

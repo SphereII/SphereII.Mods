@@ -2,32 +2,36 @@
 	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
 		<!-- Group for Salvage Operations Perk -->
 		<effect_group name="Salvage Operations">
-			<!-- Master requirements for the entire group -->
 			<requirement name="HoldingItemHasTags" tags="perkSalvageOperations"/>
 			<requirement name="RequirementBlockHasHarvestTags, SCore" tags="salvageHarvest"/>
-			<!-- XP Gain -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations - Attempting XP Gain (+8)">
+
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="@$lbd_xp_harvest_base">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="8">
-				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
-			</triggered_effect>
-			<!-- Cooldown Application -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations - Applying Cooldown">
-				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
 			</triggered_effect>
-			<!-- Level Up Check -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations - Triggering Level Up Check">
-				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSalvageOperations_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perksalvageoperations_lbd_xp" operation="GTE" value="@$perksalvageoperations_lbd_xptonext"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations Primary - Attempting XP Gain (+@$lbd_xp_harvest_base)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Salvage Operations Power - Attempting XP Gain (+@$lbd_xp_melee_power_base)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkSalvageOperations_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 		</effect_group>
 	</append>

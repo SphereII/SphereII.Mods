@@ -680,3 +680,44 @@ giver has followers defined by the "Leader" CVar) to become followers of the pla
 
 -----
 
+Of course. Here is the documentation for the `ObjectiveFetchByTags` class, formatted in the style of your examples file.
+
+-----
+
+The `ObjectiveFetchByTags` is a quest objective that requires the player to collect a certain number of items that have
+specific tags. It is a flexible alternative to the standard fetch objective, which tracks items by their specific name.
+
+## Functionality
+
+This objective becomes active during its quest phase and completes when the player has the required number of items with
+the specified tag(s) in their backpack and toolbelt. The objective periodically refreshes by scanning the player's
+inventory and counting all items that match the given tags, updating the quest status accordingly. The count is
+cumulative across all items that match the tags.
+
+### Properties
+
+You can configure `ObjectiveFetchByTags` within your `quests.xml` file using the following properties:
+
+* **`type`**: `FetchByTags, SCore` - Specifies that this is an SCore custom fetch-by-tags objective.
+* **`value`**: `int` - The total number of items with the specified tags that the player needs to collect.
+* **`phase`**: `int` - The quest phase to which this objective belongs.
+* **`tags`**: `string` - A comma-delimited list of item tags. The objective will count any item in the player's
+  inventory that possesses at least one of the tags listed.
+* **`Description`**: `string` (Optional) - A localization key to provide a custom description for the objective in the
+  quest log.
+
+## XML Example
+
+Here's an example of how to define `ObjectiveFetchByTags` in your `quests.xml`:
+
+```xml
+
+<objective type="FetchByTags, SCore" value="50" phase="1">
+    <property name="tags" value="ore"/>
+    <property name="Description" value="gather_ores_objective"/>
+</objective>
+```
+
+**Explanation**: This objective requires the player to gather a total of 50 items that have the `ore` tag. This could be
+a mix of iron ore, lead ore, coal, etc. The quest log will display the text associated with the `gather_ores_objective`
+localization key.

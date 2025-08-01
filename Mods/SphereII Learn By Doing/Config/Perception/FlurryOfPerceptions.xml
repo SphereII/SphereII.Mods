@@ -2,36 +2,39 @@
 	<!-- Append the LBD logic for Flurry of Perception to the main Perception Manager buff. -->
 	<append xpath="/buffs/buff[@name='buffLBD_PerceptionManager']">
 		<effect_group name="Flurry of Perception">
-			<!-- Master requirement: This group applies when holding a spear. -->
 			<requirement name="HoldingItemHasTags" tags="perkJavelinMaster"/>
 			<requirement name="IsAlive" target="other"/>
 
-			<!-- XP GAIN: BONUS for a Combo Hit -->
-			<!-- This trigger grants the bonus XP if you land a hit while the combo window is active. -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
-				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
 				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
 			</triggered_effect>
-
-
-			<!-- COMBO WINDOW LOGIC: This trigger starts or refreshes the combo window on ANY successful hit. -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Starting/Refreshing Combo Window">
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow">
-				<requirement name="IsAlive" target="other"/>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
 			</triggered_effect>
 
-			<!-- LEVEL UP CHECK: This checks for a level up on any successful hit. -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Triggering Level Up Check">
-				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow"/>
+
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfPerception_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkflurryofperception_lbd_xp" operation="GTE" value="@$perkflurryofperception_lbd_xptonext"/>
+			</triggered_effect>
+
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception Secondary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+				<requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception Primary - Starting/Refreshing Combo Window">
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Perception Secondary - Starting/Refreshing Combo Window">
+				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 		</effect_group>
 	</append>

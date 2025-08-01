@@ -4,37 +4,41 @@
         <effect_group name="Skull Crusher">
             <requirement name="HoldingItemHasTags" tags="perkSkullCrusher"/>
 
-            <!-- XP Gain -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher - Attempting XP Gain (+12)">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="add" value="12">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
-            </triggered_effect>
-
-            <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher - Applying Cooldown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
             </triggered_effect>
-
-            <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher - Triggering Level Up Check">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSkullCrusher_LevelUpCheck">
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="CVarCompare" cvar="$perkskullcrusher_lbd_xp" operation="GTE" value="@$perkskullcrusher_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkSkullCrusher_LevelUpCheck">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="CVarCompare" cvar="$perkskullcrusher_lbd_xp" operation="GTE" value="@$perkskullcrusher_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher Primary - Attempting XP Gain">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkSkullCrusher_LevelUpCheck">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="CVarCompare" cvar="$perkskullcrusher_lbd_xp" operation="GTE" value="@$perkskullcrusher_lbd_xptonext"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Skull Crusher Power - Attempting XP Gain">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkSkullCrusher_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

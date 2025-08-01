@@ -2,35 +2,39 @@
     <!-- Append the LBD logic for Flurry of Blows to the main Strength Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
         <effect_group name="Flurry of Blows">
-            <!-- Master requirement: This group applies when holding a Club or Sledgehammer. -->
             <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
             <requirement name="IsAlive" target="other"/>
 
-            <!-- XP GAIN: BONUS for a Combo Hit -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
-                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
             </triggered_effect>
-
-
-            <!-- COMBO WINDOW LOGIC: This trigger starts or refreshes the combo window on ANY successful hit. -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Starting/Refreshing Combo Window">
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Strength">
-                <requirement name="IsAlive" target="other"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
             </triggered_effect>
 
-            <!-- LEVEL UP CHECK: This checks for a level up on any successful hit. -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows - Triggering Level Up Check">
-                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfBlows_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfBlows_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkflurryofblows_lbd_xp" operation="GTE" value="@$perkflurryofblows_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Power - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Strength"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Primary - Starting/Refreshing Combo Window">
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Blows Power - Starting/Refreshing Combo Window">
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

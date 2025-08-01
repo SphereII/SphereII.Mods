@@ -3,48 +3,66 @@
     <!-- Append the LBD logic for attStrength to the main Strength Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
         <effect_group name="Strength">
-
-            <!-- This group grants small amounts of synergy XP for various Strength-related activities. -->
-
-            <!-- Synergy XP for any general Strength action -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute - General Use Synergy XP (+2)">
-                <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="2">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Synergy XP for destroying a high-value resource block -->
-            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP (+5)">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="5">
+
+            <triggered_effect trigger="onSelfDestroyedBlock" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="@$lbd_xp_strength_block_bonus">
                 <requirement name="HoldingItemHasTags" tags="miningTool"/>
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Cooldown Application for all synergy actions -->
+
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attStrength_XPCoolDown">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_attStrength_XPCoolDown">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_attStrength_XPCoolDown">
                 <requirement name="HoldingItemHasTags" tags="miningTool"/>
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Level Up Check for all synergy actions -->
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attStrength_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="CVarCompare" cvar="$attstrength_lbd_xp" operation="GTE" value="@$attstrength_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_attStrength_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="CVarCompare" cvar="$attstrength_lbd_xp" operation="GTE" value="@$attstrength_lbd_xptonext"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfDestroyedBlock" action="AddBuff" buff="buffLBD_attStrength_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
                 <requirement name="CVarCompare" cvar="$attstrength_lbd_xp" operation="GTE" value="@$attstrength_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Primary - General Use Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Power - General Use Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

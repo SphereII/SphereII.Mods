@@ -134,7 +134,7 @@
         </effect_group>
     </append>
 
-    <configs>
+
         <append xpath="/buffs">
             <buff name="buffLBD_craftingHarvestingTools_LevelUpCheck" hidden="true">
                 <stack_type value="ignore"/><duration value="1"/>
@@ -158,5 +158,5 @@
                 </effect_group>
             </buff>
         </append>
-    </configs>
+
 </configs>

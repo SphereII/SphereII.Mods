@@ -32,6 +32,22 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.1.20.931
+
+	[ Quests ]
+		- Added FetchByTags, which triggers when the item with the specified tag is added to the inventory.
+           <objective type="FetchByTags, SCore" value="5" phase="1">
+                <property name="tags" value="ore" />
+            </objective>
+
+	[ Localization ]
+		- Added German and Russia as a localization option.
+
+	[ SphereII Learn By Doing ]
+		- Fixed many issues as reported by arramus
+		- Added more Secondary Attacks
+		- Note: Some problems exists on the dedi that do not allow the flow of learn by doing, including turrets and explosions.
+
 Version: 2.1.18.1319
 	[ Triggered Event Hooks Up ]
 		- Added OnSelfItemScrap support

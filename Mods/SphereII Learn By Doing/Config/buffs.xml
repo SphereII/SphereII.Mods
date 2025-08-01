@@ -24,6 +24,7 @@
                                   operation="set" value="10"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_power_base"
                                   operation="set" value="15"/>
+                
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_ranged_base"
                                   operation="set" value="12"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_harvest_base"

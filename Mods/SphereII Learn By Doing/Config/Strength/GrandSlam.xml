@@ -5,37 +5,25 @@
             <requirement name="HoldingItemHasTags" tags="perkPummelPete,perkSkullCrusher"/>
             <requirement name="EntityHasMovementTag" tags="running"/>
 
-            <!-- XP Gain for landing a running power attack -->
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Grand Slam - Attempting XP Gain (+18)">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkGrandSlam_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkgrandslam_lbd_xp" operation="add" value="18">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkgrandslam_lbd_xp" operation="add" value="@$lbd_xp_special_base">
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkGrandSlam_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Grand Slam - Applying Cooldown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="NotHasBuff" buff="buffLBD_perkGrandSlam_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
             <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkGrandSlam_XPCoolDown">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="NotHasBuff" buff="buffLBD_perkGrandSlam_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Grand Slam - Triggering Level Up Check">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
-                <requirement name="CVarCompare" cvar="$perkgrandslam_lbd_xp" operation="GTE" value="@$perkgrandslam_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
             <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkGrandSlam_LevelUpCheck">
-                <requirement name="IsAlive" target="other"/> <!-- NEW -->
+                <requirement name="IsAlive" target="other"/>
                 <requirement name="CVarCompare" cvar="$perkgrandslam_lbd_xp" operation="GTE" value="@$perkgrandslam_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Grand Slam - Attempting XP Gain (+@$lbd_xp_special_base)">
+                <requirement name="IsAlive" target="other"/>
+                <requirement name="NotHasBuff" buff="buffLBD_perkGrandSlam_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

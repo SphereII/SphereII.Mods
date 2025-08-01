@@ -47,7 +47,10 @@
             <!-- perkPackMule -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xptonext" operation="set" value="750"/>
-
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier1" operation="set" value="1"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier2" operation="set" value="3"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier3" operation="set" value="5"/>
+            
             <!-- perkStrengthMastery -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xptonext" operation="set" value="3000"/>

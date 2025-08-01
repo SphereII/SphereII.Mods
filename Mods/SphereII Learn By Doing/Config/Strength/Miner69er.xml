@@ -3,36 +3,42 @@
 	<append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
 		<!-- Group for Miner 69'r Perk -->
 		<effect_group name="Miner 69'r">
-			<!-- 
-      These are the master requirements for the entire group.
-      None of the effects below will fire unless the player is holding a mining tool
-      AND hitting a block that is actually harvestable.
-    -->
-			<requirement name="HoldingItemHasTags" tags="miningTool"/>
+			<requirements compare_type="or">
+				<requirement name="HoldingItemHasTags" tags="miningTool"/>
+				<requirement name="HoldingItemHasTags" tags="shovel"/>
+			</requirements>
 			<requirement name="RequirementBlockHasHarvestTags, SCore" tags="allHarvest,oreWoodHarvest"/>
-			<!-- XP Gain -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Miner 69'r - Attempting XP Gain (+8)">
+
+			<!-- Primary swing -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkminer69r_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
 				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkminer69r_lbd_xp" operation="add" value="8">
-				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
-			</triggered_effect>
-			<!-- Cooldown Application -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Miner 69'r - Applying Cooldown">
-				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
-				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkMiner69r_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
 			</triggered_effect>
-			<!-- Level Up Check -->
-			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Miner 69'r - Triggering Level Up Check">
-				<requirement name="CVarCompare" cvar="$perkminer69r_lbd_xp" operation="GTE" value="@$perkminer69r_lbd_xptonext"/>
-				<requirement name="HasBuff" buff="god"/>
-			</triggered_effect>
 			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkMiner69r_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perkminer69r_lbd_xp" operation="GTE" value="@$perkminer69r_lbd_xptonext"/>
+			</triggered_effect>
+
+			<!-- Power strike -->
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkminer69r_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkMiner69r_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkMiner69r_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkminer69r_lbd_xp" operation="GTE" value="@$perkminer69r_lbd_xptonext"/>
+			</triggered_effect>
+
+			<!-- Debug Messages -->
+			<triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Miner 69'r Primary - Attempting XP Gain">
+				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Miner 69'r Power - Attempting XP Gain">
+				<requirement name="NotHasBuff" buff="buffLBD_perkMiner69r_XPCoolDown"/>
+				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
 		</effect_group>
 	</append>

@@ -116,7 +116,7 @@
             </property>
 
             <property class="AdvancedPlayerFeatures">
-                <property name="Logging" value="true"/>
+                <property name="Logging" value="false"/>
                 <property name="AntiNerdPole" value="false"/>
 
                 <!-- Player cannot jump and place a block under neath them-->

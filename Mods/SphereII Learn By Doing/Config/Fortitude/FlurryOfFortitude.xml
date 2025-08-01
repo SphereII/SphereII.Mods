@@ -2,36 +2,38 @@
     <!-- Append the LBD logic for Flurry of Fortitude to the main Fortitude Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
         <effect_group name="Flurry of Fortitude">
-            <!-- Master requirement: This group applies when holding a Brawling weapon OR a Machine Gun. -->
             <requirement name="HoldingItemHasTags" tags="perkBrawler,perkMachineGunner"/>
             <requirement name="IsAlive" target="other"/>
 
-            <!-- XP GAIN: BONUS for a Combo Hit -->
-            <!-- This trigger grants the bonus XP if you land a hit while the combo window is active. -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Fortitude - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
-                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$perkflurryoffortitude_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
                 <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
             </triggered_effect>
-
-
-            <!-- COMBO WINDOW LOGIC: This trigger starts or refreshes the combo window on ANY successful hit. -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Fortitude - Starting/Refreshing Combo Window">
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude">
-                <requirement name="IsAlive" target="other"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkflurryoffortitude_lbd_xp" operation="add" value="@$lbd_xp_flurry_bonus">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
             </triggered_effect>
 
-            <!-- LEVEL UP CHECK: This checks for a level up on any successful hit. -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Fortitude - Triggering Level Up Check">
-                <requirement name="CVarCompare" cvar="$perkflurryoffortitude_lbd_xp" operation="GTE" value="@$perkflurryoffortitude_lbd_xptonext"/>
-                <requirement name="HasBuff" buff="god"/>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
             </triggered_effect>
+
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfFortitude_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkflurryoffortitude_lbd_xp" operation="GTE" value="@$perkflurryoffortitude_lbd_xptonext"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkFlurryOfFortitude_LevelUpCheck">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+                <requirement name="CVarCompare" cvar="$perkflurryoffortitude_lbd_xp" operation="GTE" value="@$perkflurryoffortitude_lbd_xptonext"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Fortitude Primary - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Flurry of Fortitude Secondary (Brawling) - COMBO HIT! Applying Bonus XP (+@$lbd_xp_flurry_bonus)">
+                <requirement name="HoldingItemHasTags" tags="perkBrawler"/>
+                <requirement name="HasBuff" buff="buffLBD_Flurry_ComboWindow_Fortitude"/>
+                <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
         </effect_group>
     </append>

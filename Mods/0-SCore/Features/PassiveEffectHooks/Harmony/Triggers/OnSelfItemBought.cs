@@ -15,7 +15,7 @@ public static class OnBought
         var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
         minEventParams.Other = currentTrader;
 
-        // We want to set the _item_value to something, just case this is the first time.        
+        // We want to set the _item_value to something, just in case this is the first time.        
         var previousItemValue = minEventParams.Self.Buffs.GetCustomVar("_item_value");
         if (previousItemValue == 0)
             previousItemValue = 1f;
