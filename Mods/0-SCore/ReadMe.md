@@ -32,6 +32,11 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.7.1936
+	[ Challenges ]
+		- Fixed an issue in the KillByItem challenge which was automatically failing its biome check,
+			even if a biome check wasn't there.
+
 Version: 2.2.7.1848
 	[ Challenges ]
 		- Added preliminary support for <Requirements in challenges

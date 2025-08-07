@@ -136,8 +136,10 @@ namespace Challenges {
             if (!string.IsNullOrEmpty(entityTag) && !this.entityTags.Test_AnySet(killedEntity.EntityClass.Tags))
             {
                 return false;
+                
             }
-            if (this.biome != "" && this.Owner.Owner.Player.biomeStandingOn?.m_sBiomeName != this.biome)
+            if (!string.IsNullOrEmpty(biome) && this.Owner.Owner.Player.biomeStandingOn?.m_sBiomeName != this.biome)
+            //if (this.biome != "" && this.Owner.Owner.Player.biomeStandingOn?.m_sBiomeName != this.biome)
             {
                 return false;
             }
