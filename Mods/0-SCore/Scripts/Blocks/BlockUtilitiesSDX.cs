@@ -93,11 +93,12 @@ public static class BlockUtilitiesSDX
         }
     }
 
+  
     public static void addParticles(string strParticleName, Vector3i position)
     {
         if (GameManager.IsDedicatedServer) return;
 
-        if (strParticleName == null || strParticleName == "")
+        if (string.IsNullOrEmpty(strParticleName))
             strParticleName = "#@modfolder(0-SCore_sphereii):Resources/PathSmoke.unity3d?P_PathSmoke_X";
 
         if (!ParticleEffect.IsAvailable(strParticleName))

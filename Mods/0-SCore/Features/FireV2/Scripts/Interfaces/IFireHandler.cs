@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+
 public interface IFireHandler
 {
     void AddFire(Vector3i position, int entityId = -1);
@@ -17,4 +20,8 @@ public interface IFireHandler
     public void DisplayStatus(double elapsedTime);
     public bool IsProcessing();
     public int GetFiresPerFrame();
+
+    public List<BlockChangeInfo> GetPendingList();
+    public List<Vector3i> GetRemovalBlocks();
+    public void FinalizeBatchProcessing();
 }

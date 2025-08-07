@@ -122,7 +122,10 @@ namespace Challenges {
 
 
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
-        protected virtual bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive killedEntity) {
+        protected virtual bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive killedEntity)
+        {
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name) ) return false;
+            
             if (!HasPrerequisiteCondition(dmgResponse)) return false;
             var player = GameManager.Instance.World.GetPrimaryPlayer();
             return CheckAdditionalCondition(player, killedEntity);

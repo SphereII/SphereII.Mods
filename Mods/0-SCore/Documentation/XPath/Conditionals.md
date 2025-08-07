@@ -187,7 +187,7 @@ Several custom functions have been added to extend NCalc for specific game-relat
 
 <conditional>
 <!-- Checks if the SCore's ConfigFeatureBlock is available -->
-<if cond="xpath('//block[@name='ConfigFeatureBlock')">
+<if cond="xpath('/blocks/block[@name=&quot;ConfigFeatureBlock&quot;]') != null">
 </if>
 </conditional>
 ```

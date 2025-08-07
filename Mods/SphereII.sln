@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Disable Sway", "Sp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Challenges", "..\..\..\Users\kilpa\Documents\GitHub\SphereII.Mods\Mods\SphereII Challenges\SphereII Challenges.csproj", "{44065753-4709-4498-BD9E-CD3C16AC4C9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Learn By Doing", "SphereII Learn By Doing\SphereII Learn By Doing.csproj", "{BBADFA39-7F84-47F7-B43D-92070FC91D05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C6A0FC3-1A35-4EA3-AE07-186DD5E94900}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

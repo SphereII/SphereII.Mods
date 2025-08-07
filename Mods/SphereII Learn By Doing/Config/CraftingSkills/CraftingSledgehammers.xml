@@ -98,28 +98,7 @@
             </triggered_effect>
         </effect_group>
 
-        <effect_group name="LBD Decay Logic for Sledgehammers">
-            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
-                              cvar="$craftingsledgehammers_decay_counter" operation="add" value="1"/>
-            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingsledgehammers_Decay">
-                <requirement name="CVarCompare" cvar="$craftingsledgehammers_decay_counter" operation="GTE"
-                             value="@$lbd_decay_threshold_intervals"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
-                              cvar="$craftingsledgehammers_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSledgehammers"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
-                              cvar="$craftingsledgehammers_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSledgehammers"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
-                              cvar="$craftingsledgehammers_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingSledgehammers"/>
-                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
-            </triggered_effect>
-        </effect_group>
+      
     </append>
 
     <append xpath="/buffs">
@@ -142,18 +121,6 @@
 
         <buff name="buffLBD_craftingsledgehammers_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
-        <buff name="buffLBD_craftingsledgehammers_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingsledgehammers" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingsledgehammers" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingsledgehammers_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingsledgehammers"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
+    
     </append>
 </configs>

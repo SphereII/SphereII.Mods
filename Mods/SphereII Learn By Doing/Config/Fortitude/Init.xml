@@ -4,7 +4,7 @@
         <effect_group name="Fortitude Initializers">
 
             <!-- Apply the permanent Fortitude Manager Buff to the player -->
-            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_FortitudeManager"/>
+            <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_FortitudeManager"/>
 
             <!-- Initializers for Fortitude CVars -->
 

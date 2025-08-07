@@ -52,10 +52,14 @@ namespace SCore.Harmony.ZombieFeatures
                 var bestChunkEvent = _chunkData.FindBestEventAndReset();
                 if (bestChunkEvent == null) return true;
 
-                __instance.StartCooldownOnNeighbors(bestChunkEvent.Position);
-
                 // Determine if scouts should be spawned based on configured chance and playtesting status.
+                
+                bool flag = __instance.Director.random.RandomFloat < scoutSpawnChanceConfig && !GameUtils.IsPlaytesting();
+
                 if ((__instance.Director.random.RandomFloat > scoutSpawnChanceConfig) || GameUtils.IsPlaytesting()) return true;
+
+                __instance.StartCooldownOnNeighbors(bestChunkEvent.Position, flag);
+                if (!flag) return true;
 
                 _chunkData.SetLongDelay();
                 __instance.SpawnScouts(bestChunkEvent.Position.ToVector3());

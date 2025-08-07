@@ -27,6 +27,7 @@ namespace Features.Fire.Harmony
             var fireManager = GameManager.Instance.transform.gameObject.GetOrAddComponent<FireManager>();
             if (fireManager != null)
             {
+                Log.Out("Initializing Fire Manager");
                 fireManager.Init();
             }
             else

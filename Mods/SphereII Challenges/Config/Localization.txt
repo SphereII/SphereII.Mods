@@ -7,3 +7,4 @@ gather01_desc,"Gather any item that is tagged as junk. This includes resourceScr
 wear01_title,"Wear Head Armour"
 wear01_short,"Wear Head Armour"
 wear01_desc,"Wear any head armour with the tag of armorHead"
+

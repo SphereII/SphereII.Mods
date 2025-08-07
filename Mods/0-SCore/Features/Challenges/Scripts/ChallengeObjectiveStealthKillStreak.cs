@@ -45,7 +45,9 @@ namespace Challenges {
         }
 
         // If we pass the pre-requisite, call the base class of the KillWithTags to do the heavy lifting for us.
-        protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged) {
+        protected override bool Check_EntityKill(DamageResponse dmgResponse, EntityAlive entityDamaged)
+        {
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name) ) return false;
             if (dmgResponse.Source.BonusDamageType != EnumDamageBonusType.Sneak)
             {
                 SCoreMetrics.UpdateCVar(cvarName, Current);
@@ -71,6 +73,9 @@ namespace Challenges {
             if (e.HasAttribute("description_override"))
                 _descriptionOverride = e.GetAttribute("description_override");
         }
+        
+    
+        
 
         public override BaseChallengeObjective Clone() {
             return new ChallengeObjectiveStealthKillStreak {

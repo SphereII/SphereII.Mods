@@ -14,9 +14,11 @@ public class FireManager : MonoBehaviour
     private ILightManager _lightManager;
     private FireConfig _config;
     private FireEvents _events;
-    private IEnumerator _updateFires;
+    private Coroutine _updateFires;
+    private bool _isUpdateCycleRunning; // New flag to track if a cycle is in progress
 
-    public FireEvents Events {
+    public FireEvents Events
+    {
         get { return _events; }
     }
 
@@ -62,7 +64,12 @@ public class FireManager : MonoBehaviour
 
     private void InitializeSystem()
     {
-        InvokeRepeating(nameof(UpdateSystems), _config.CheckInterval, _config.CheckInterval);
+        if (SingletonMonoBehaviour<ConnectionManager>.Instance.IsServer)
+        {
+            // Initial call to start the repeating cycle.
+            // Subsequent calls will be scheduled at the end of the coroutine.
+            Invoke(nameof(StartUpdateCycle), _config.CheckInterval);
+        }
 
         // Subscribe to events
         _events.OnFireStarted += HandleFireStarted;
@@ -77,41 +84,84 @@ public class FireManager : MonoBehaviour
         _events.OnFireExtinguished -= HandleFireExtinguished;
     }
 
-    private IEnumerator UpdateFiresRoutine()
-    {
-        if (!_fireHandler.IsAnyFireBurning()) yield break;
-        
-        var stopwatch = new Stopwatch();
-        stopwatch.Restart(); // Start measuring time for this frame's processing chunk
-
-        do
-        {
-            _fireHandler.UpdateFires(); // Rename/modify this to process a batch
-            yield return null;
-        } while (_fireHandler.IsProcessing());
-
-        yield return null;
-        _fireHandler.DisplayStatus(stopwatch.Elapsed.TotalSeconds);
-
-        // Clear the reference when the coroutine finishes naturally
-        _updateFires = null;
-    }
-
-    private void UpdateSystems()
+    // New method to start the update cycle coroutine
+    private void StartUpdateCycle()
     {
         // Don't process fire if there's no players.
         var world = GameManager.Instance.World;
-        if (world?.Players == null || world.Players.Count == 0) return;
-
-        if (_updateFires == null)
+        if (world?.Players == null || world.Players.Count == 0)
         {
-            _updateFires = UpdateFiresRoutine();
-            StartCoroutine(_updateFires);
+            // If no players, reschedule for later.
+            Invoke(nameof(StartUpdateCycle), _config.CheckInterval);
+            return;
         }
 
+        // Only start a new coroutine if one isn't already running.
+        if (!_isUpdateCycleRunning)
+        {
+            StartCoroutine(UpdateSystemsRoutine());
+        }
+    }
+
+    // This coroutine now encapsulates the entire update cycle.
+    private IEnumerator UpdateSystemsRoutine()
+    {
+        _isUpdateCycleRunning = true;
+        var stopwatch = new Stopwatch();
+        stopwatch.Restart();
+
+        // Perform the updates for smoke and lights first.
         _smokeHandler.CheckSmokePositions();
         _lightManager.UpdateLights();
+
+        // Run the main fire processing coroutine.
+        if (_fireHandler.IsAnyFireBurning())
+        {
+            _updateFires = StartCoroutine(UpdateFiresRoutine());
+            yield return _updateFires; // Wait for the fire processing to fully complete.
+        }
+
+        stopwatch.Stop();
+
+        // Log the time taken for the whole process.
+        _fireHandler.DisplayStatus(stopwatch.Elapsed.TotalSeconds);
+
+        // Reset the running flag and schedule the next cycle.
+        _isUpdateCycleRunning = false;
+        Invoke(nameof(StartUpdateCycle), _config.CheckInterval);
     }
+    
+    // The UpdateFiresRoutine can be called as a sub-coroutine.
+    private IEnumerator UpdateFiresRoutine()
+    {
+        do
+        {
+            _fireHandler.UpdateFires(); // This is the batch-based processing
+            yield return null;
+        } while (_fireHandler.IsProcessing());
+
+        var pendingChanges = _fireHandler.GetPendingList();
+        if (pendingChanges.Count > 0)
+        {
+            GameManager.Instance.World.SetBlocksRPC(pendingChanges);
+            List<Vector3i> firePositions = new List<Vector3i>();
+            foreach (var change in pendingChanges)
+            {
+                firePositions.Add(change.pos);
+            }
+            _networkManager.SyncAddFireBatch(firePositions);
+        }
+
+        var removal = _fireHandler.GetRemovalBlocks();
+        if (removal.Count > 0)
+        {
+            _networkManager.SyncRemoveFireBatch(removal);
+        }
+  
+        _fireHandler.FinalizeBatchProcessing();
+        _updateFires = null;
+    }
+
 
     private Dictionary<int, Vector3i> playerSoundPositions = new Dictionary<int, Vector3i>();
 
@@ -203,7 +253,7 @@ public class FireManager : MonoBehaviour
         }
     }
 
-    public void ExtinguishFire(Vector3i blockPos, int entityId = -1)
+    public void ExtinguishFire(Vector3i blockPos, int entityId = -1, bool netSync = true)
     {
         if (!Enabled) return;
 
@@ -212,7 +262,8 @@ public class FireManager : MonoBehaviour
             _fireHandler.RemoveFire(blockPos, entityId);
             _smokeHandler.AddSmoke(blockPos);
             _events.RaiseFireExtinguished(blockPos, entityId);
-            _networkManager.SyncExtinguishFire(blockPos, entityId);
+            if (netSync)
+                _networkManager.SyncExtinguishFire(blockPos, entityId);
         }
         catch (Exception ex)
         {
@@ -223,7 +274,6 @@ public class FireManager : MonoBehaviour
     public void SyncExtinguishFire(Vector3i blockPos, int entityId = -1)
     {
         ExtinguishFire(blockPos, entityId);
-        _networkManager.SyncExtinguishFire(blockPos, entityId);
     }
 
     public void ClearPosition(Vector3i blockPos)
@@ -235,7 +285,7 @@ public class FireManager : MonoBehaviour
     private void HandleFireStarted(Vector3i position, int entityId)
     {
         // Handle any additional logic needed when fire starts
-        _lightManager.AddLight(position);
+        // _lightManager.AddLight(position);
     }
 
     private void HandleFireExtinguished(Vector3i position, int entityId)

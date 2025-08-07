@@ -98,28 +98,6 @@
             </triggered_effect>
         </effect_group>
 
-        <effect_group name="LBD Decay Logic for Knuckles">
-            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
-                              cvar="$craftingknuckles_decay_counter" operation="add" value="1"/>
-            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingKnuckles_Decay">
-                <requirement name="CVarCompare" cvar="$craftingknuckles_decay_counter" operation="GTE"
-                             value="@$lbd_decay_threshold_intervals"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
-                              cvar="$craftingknuckles_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
-                              cvar="$craftingknuckles_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
-                              cvar="$craftingknuckles_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingKnuckles"/>
-                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
-            </triggered_effect>
-        </effect_group>
     </append>
 
     <append xpath="/buffs">
@@ -142,18 +120,6 @@
 
         <buff name="buffLBD_craftingKnuckles_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
-        <buff name="buffLBD_craftingKnuckles_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingKnuckles" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingKnuckles" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingknuckles_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingKnuckles"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
+     
     </append>
 </configs>

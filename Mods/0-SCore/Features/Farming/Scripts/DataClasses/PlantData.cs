@@ -74,7 +74,7 @@ public class PlantData
 
         if (!RequiresWater() || WaterPos == Vector3i.zero) return;
 
-        if (WeatherManager.Instance.GetCurrentRainfallValue() > 0.25)
+        if (WeatherManager.Instance.GetCurrentRainfallPercent() > 0.25)
         {
             AdvLogging.DisplayLog(AdvFeatureClass, $"Using Rain Water for {BlockPos}.");
             return;

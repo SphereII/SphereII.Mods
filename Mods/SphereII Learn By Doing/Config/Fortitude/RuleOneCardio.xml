@@ -1,5 +1,4 @@
 <configs>
-    <!-- Append the LBD logic for Rule #1: Cardio to the main Fortitude Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_FortitudeManager']">
         <effect_group name="Rule #1: Cardio">
             <requirements compare_type="or">
@@ -11,16 +10,35 @@
                 <requirement name="EntityHasMovementTag" tags="crouchRun"/>
             </requirements>
 
-            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Run) - Attempting XP Gain (+@$perkruleonecardio_lbd_xp)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="add" value="@$perkruleonecardio_lbd_xptonext">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+
+            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Walk) - Attempting XP Gain (+@$perkruleonecardio_lbd_xptonext)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="add" value="@$perkruleonecardio_lbd_xptonext">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCrouchRun" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+
+            <triggered_effect trigger="onSelfCrouchRun" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Crouch Run) - Attempting XP Gain (+@$perkruleonecardio_lbd_xptonext)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCrouchRun" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="add" value="@$perkruleonecardio_lbd_xptonext">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfCrouchWalk" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+
+            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Crouch Walk) - Attempting XP Gain (+@$perkruleonecardio_lbd_xptonext)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfCrouchWalk" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="add" value="@$perkruleonecardio_lbd_xptonext">
                 <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
             </triggered_effect>
 
@@ -38,53 +56,45 @@
             </triggered_effect>
 
             <triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkRuleOneCardio_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkRuleOneCardio_lbd_xp" operation="GTE" value="@$perkRuleOneCardio_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkruleonecardio_lbd_xp" operation="GTE" value="@$perkruleonecardio_lbd_xptonext"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkRuleOneCardio_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkRuleOneCardio_lbd_xp" operation="GTE" value="@$perkRuleOneCardio_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkruleonecardio_lbd_xp" operation="GTE" value="@$perkruleonecardio_lbd_xptonext"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCrouchRun" action="AddBuff" buff="buffLBD_perkRuleOneCardio_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkRuleOneCardio_lbd_xp" operation="GTE" value="@$perkRuleOneCardio_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkruleonecardio_lbd_xp" operation="GTE" value="@$perkruleonecardio_lbd_xptonext"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfCrouchWalk" action="AddBuff" buff="buffLBD_perkRuleOneCardio_LevelUpCheck">
-                <requirement name="CVarCompare" cvar="$perkRuleOneCardio_lbd_xp" operation="GTE" value="@$perkRuleOneCardD_lbd_xptonext"/>
+                <requirement name="CVarCompare" cvar="$perkruleonecardio_lbd_xp" operation="GTE" value="@$perkruleonecardio_lbd_xptonext"/>
             </triggered_effect>
-
-            <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Run) - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Walk) - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfCrouchRun" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Crouch Run) - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfCrouchWalk" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio (Crouch Walk) - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
-                <requirement name="NotHasBuff" buff="buffLBD_perkRuleOneCardio_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-        </effect_group>
+</effect_group>
     </append>
 
-    <!-- Define the Level-Up Handler buff for Rule #1: Cardio. -->
     <append xpath="/buffs">
         <buff name="buffLBD_perkRuleOneCardio_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkRuleOneCardio" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRuleOneCardio" level="1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xp" operation="subtract" value="@$perkRuleOneCardio_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkRuleOneCardio_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="subtract" value="@$perkruleonecardio_lbd_xptonext"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRuleOneCardio" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
                 <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkRuleOneCardio" />
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Rule #1: Cardio - Level Up FAILED. Perk is locked by requirements.">
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Rule One: Cardio - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_perkRuleOneCardio_XPCoolDown" hidden="true"><duration value="1"/></buff>
+        <buff name="buffLBD_perkRuleOneCardio_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="perkRuleOneCardio" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRuleOneCardio" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRuleOneCardio" sound="ui_skill_decay"/>
             </effect_group>
         </buff>
     </append>

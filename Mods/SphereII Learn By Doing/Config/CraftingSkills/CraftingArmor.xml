@@ -1,7 +1,6 @@
 <configs>
-    <append xpath="/buffs">
-        <buff name="buffLBD_GeneralManager" hidden="true">
-            <duration value="0"/> <update_rate value="1"/> <effect_group name="LBD Crafting Skill - Armor">
+    <append xpath="/buffs/buff[@name='buffLBD_GeneralManager']">
+        <effect_group name="LBD Crafting Skill - Armor">
             <triggered_effect trigger="onSelfItemCrafted" action="LogMessage" message="LBD DEBUG: Crafting Armor - Attempting 'Craft' XP (+@$lbd_xp_crafting_base)">
                 <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
                 <requirement name="NotHasBuff" buff="buffLBD_craftingArmor_ActionCoolDown"/>
@@ -132,36 +131,27 @@
                 <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
                 <requirement name="CVarCompare" cvar="$craftingarmor_lbd_xp" operation="GTE" value="@$craftingarmor_lbd_xptonext"/>
             </triggered_effect>
-
         </effect_group>
 
-            <effect_group name="LBD Decay Logic for Armor">
-                <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
-                                  cvar="$craftingarmor_decay_counter" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingArmor_Decay">
-                    <requirement name="CVarCompare" cvar="$craftingarmor_decay_counter" operation="GTE"
-                                 value="@$lbd_decay_threshold_intervals"/>
-                </triggered_effect>
-
-                <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
-                                  cvar="$craftingarmor_decay_counter" operation="set" value="0">
-                    <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
-                                  cvar="$craftingarmor_decay_counter" operation="set" value="0">
-                    <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
-                                  cvar="$craftingarmor_decay_counter" operation="set" value="0">
-                    <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
-                    <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0">
-                    <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
-                    <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
-                </triggered_effect>
-            </effect_group>
-        </buff>
+        <effect_group name="LBD Decay Activity Resets for Crafting Armor">
+            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
+                              cvar="$craftingarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
+                              cvar="$craftingarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
+                              cvar="$craftingarmor_decay_counter" operation="set" value="0">
+                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingArmor"/>
+                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0">
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="LTE" value="5"/>
+                <requirement name="ItemHasProperty, SCore" property="ArmorGroup" prop_value="groupPrimitive"/>
+            </triggered_effect>
+        </effect_group>
     </append>
 
     <append xpath="/buffs">
@@ -187,23 +177,9 @@
                 </triggered_effect>
             </effect_group>
         </buff>
-
         <buff name="buffLBD_craftingArmor_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
         <buff name="buffLBD_craftingArmor_T0RepairCoolDown" hidden="true"><duration value="5"/></buff>
 
-        <buff name="buffLBD_craftingArmor_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingArmor" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingarmor_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingArmor"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
     </append>
 </configs>

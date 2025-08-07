@@ -141,5 +141,22 @@
 
         </challenge>
 
+        <challenge name="ClearPoi" title_key="ClearPoi_title" icon="ui_game_symbol_challenge_basics_wear_clothing" group="SCore04Group"
+                   hint="challengeClearPoiHint1"
+                   short_description_key="ClearPoi_short" description_key="ClearPoi_desc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+
+            <objective type="ClearSleepers,SCore" biome="pine_forest" count="20"/>
+
+        </challenge>
+
+        <challenge name="ClearPoi2" title_key="ClearPoi_title" icon="ui_game_symbol_challenge_basics_wear_clothing" group="SCore04Group"
+                   hint="challengeClearPoiHint1"
+                   short_description_key="ClearPoi_short" description_key="ClearPoi_desc"
+                   reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+
+            <objective type="ClearSleepers,SCore" biome="burnt_forest" count="20"/>
+
+        </challenge>
     </append>
 </configs>

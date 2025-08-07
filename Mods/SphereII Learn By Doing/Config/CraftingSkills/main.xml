@@ -28,5 +28,7 @@
     <include filename="CraftingTraps.xml"/>
     <include filename="CraftingVehicles.xml"/>
 
+    <!-- Decay Logic -->
+    <include filename="Crafting_Decay.xml" />
 
 </configs>

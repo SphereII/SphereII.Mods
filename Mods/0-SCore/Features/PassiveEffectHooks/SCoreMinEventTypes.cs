@@ -4,5 +4,7 @@ public enum SCoreMinEventTypes
     onQuestFailed = 201,
     onSelfLockpickSuccess = 202,
     onSelfScrapItem = 204,
-    onSelfCraftedRecipe = 205
+    onSelfCraftedRecipe = 205,
+    onSelfTurretDamagedOther = 206,
+    onSelfTurretKilledOther = 207
 }

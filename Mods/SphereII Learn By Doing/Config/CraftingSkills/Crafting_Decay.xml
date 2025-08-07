@@ -1,0 +1,334 @@
+<configs>
+    <append xpath="/buffs/buff[@name='buffLBD_Strength_DecayManager']">
+        <effect_group name="Crafting Harvesting Tools Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingharvestingtools_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingHarvestingTools_Decay">
+                <requirement name="CVarCompare" cvar="$craftingharvestingtools_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Repair Tools Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingRepairTools_Decay">
+                <requirement name="CVarCompare" cvar="$craftingrepairtools_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Clubs Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingClubs_Decay">
+                <requirement name="CVarCompare" cvar="$craftingclubs_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Shotguns Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingshotguns_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingShotguns_Decay">
+                <requirement name="CVarCompare" cvar="$craftingshotguns_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Sledgehammers Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingsledgehammers_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSledgehammers_Decay">
+                <requirement name="CVarCompare" cvar="$craftingsledgehammers_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs/buff[@name='buffLBD_Perception_DecayManager']">
+        <effect_group name="Crafting Salvage Tools Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingsalvagetools_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSalvageTools_Decay">
+                <requirement name="CVarCompare" cvar="$craftingsalvagetools_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Spears Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingspears_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSpears_Decay">
+                <requirement name="CVarCompare" cvar="$craftingspears_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Rifles Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingRifles_Decay">
+                <requirement name="CVarCompare" cvar="$craftingrifles_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Explosives Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingExplosives_Decay">
+                <requirement name="CVarCompare" cvar="$craftingexplosives_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs/buff[@name='buffLBD_Agility_DecayManager']">
+        <effect_group name="Crafting Bows Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingbows_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingBows_Decay">
+                <requirement name="CVarCompare" cvar="$craftingbows_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Handguns Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftinghandguns_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingHandguns_Decay">
+                <requirement name="CVarCompare" cvar="$craftinghandguns_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Blades Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingblades_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingBlades_Decay">
+                <requirement name="CVarCompare" cvar="$craftingblades_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs/buff[@name='buffLBD_Intellect_DecayManager']">
+        <effect_group name="Crafting Workstations Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingworkstations_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingWorkstations_Decay">
+                <requirement name="CVarCompare" cvar="$craftingworkstations_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Medical Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingMedical_Decay">
+                <requirement name="CVarCompare" cvar="$craftingmedical_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Electrician Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingelectrician_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingElectrician_Decay">
+                <requirement name="CVarCompare" cvar="$craftingelectrician_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Traps Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingtraps_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingTraps_Decay">
+                <requirement name="CVarCompare" cvar="$craftingtraps_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Robotics Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingrobotics_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingRobotics_Decay">
+                <requirement name="CVarCompare" cvar="$craftingrobotics_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Vehicles Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingvehicles_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingVehicles_Decay">
+                <requirement name="CVarCompare" cvar="$craftingvehicles_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs/buff[@name='buffLBD_General_DecayManager']">
+        <effect_group name="Crafting Armor Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingArmor_Decay">
+                <requirement name="CVarCompare" cvar="$craftingarmor_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Food Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingfood_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingFood_Decay">
+                <requirement name="CVarCompare" cvar="$craftingfood_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+        <effect_group name="Crafting Seeds Decay">
+            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="$craftingseeds_decay_counter" operation="add" value="1"/>
+            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSeeds_Decay">
+                <requirement name="CVarCompare" cvar="$craftingseeds_decay_counter" operation="GTE" value="@$lbd_decay_threshold_intervals"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+
+    <append xpath="/buffs">
+        <buff name="buffLBD_craftingHarvestingTools_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingHarvestingTools" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingHarvestingTools" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingharvestingtools_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingHarvestingTools" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingRepairTools_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingRepairTools" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingRepairTools" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrepairtools_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingRepairTools" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingClubs_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingClubs" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingClubs" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingclubs_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingClubs" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingShotguns_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingShotguns" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingShotguns" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingshotguns_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingShotguns" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingSledgehammers_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingSledgehammers" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSledgehammers" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsledgehammers_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSledgehammers" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingSalvageTools_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingSalvageTools" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSalvageTools" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingsalvagetools_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSalvageTools" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingSpears_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingSpears" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSpears" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingspears_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSpears" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingRifles_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingRifles" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingRifles" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrifles_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingRifles" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingExplosives_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingExplosives" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingExplosives" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingexplosives_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingExplosives" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingBows_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBows" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBows" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingHandguns_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingHandguns" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingHandguns" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftinghandguns_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingHandguns" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingBlades_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingBlades" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBlades" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingblades_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBlades" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingWorkstations_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingWorkstations" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingWorkstations" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingWorkstations" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingMedical_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingMedical" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingMedical" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingmedical_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingMedical" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingElectrician_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingElectrician" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingElectrician" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingelectrician_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingElectrician" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingTraps_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingTraps" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingTraps" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingtraps_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingTraps" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingRobotics_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingRobotics" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingRobotics" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingrobotics_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingRobotics" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingVehicles_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingVehicles" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingVehicles" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingvehicles_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingVehicles" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingArmor_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingArmor" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingArmor" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingArmor" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingFood_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingFood" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingFood" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingfood_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingFood" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+        <buff name="buffLBD_craftingSeeds_Decay" hidden="true">
+            <stack_type value="ignore"/><duration value="1"/>
+            <effect_group>
+                <requirement name="ProgressionLevel" progression_name="craftingSeeds" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSeeds" level="-1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_decay_counter" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSeeds" sound="ui_skill_decay"/>
+            </effect_group>
+        </buff>
+    </append>
+</configs>

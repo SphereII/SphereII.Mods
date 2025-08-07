@@ -4,7 +4,7 @@
         <effect_group name="General Perk Initializers">
 
             <!-- Apply the permanent General Manager Buff to the player -->
-            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_GeneralManager"/>
+            <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_GeneralManager"/>
 
             <!-- Initializers for General Perk CVars -->
 

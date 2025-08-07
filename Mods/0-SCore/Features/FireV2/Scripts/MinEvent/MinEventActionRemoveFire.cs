@@ -39,7 +39,6 @@ public class MinEventActionRemoveFire : MinEventActionRemoveBuff
                 for (var y = -range; y <= range; y++)
                 {
                     var vector = new Vector3i(position.x + x, position.y + y, position.z + z);
-                    if (!FireManager.Instance.IsBurning(vector)) continue;
                    // FireManager.Instance.Remove(vector);
                     FireManager.Instance.ExtinguishFire(vector,entityId);
 

@@ -50,21 +50,7 @@
             </triggered_effect>
         </effect_group>
 
-        <effect_group name="LBD Decay Logic for Seeds">
-            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
-                              cvar="$craftingseeds_decay_counter" operation="add" value="1"/>
-            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingSeeds_Decay">
-                <requirement name="CVarCompare" cvar="$craftingseeds_decay_counter" operation="GTE"
-                             value="@$lbd_decay_threshold_intervals"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfCraftedRecipe" action="ModifyCVar"
-                              cvar="$craftingseeds_decay_counter" operation="set" value="0">
-                <requirement name="requirements" type="HiddenForDisplay" match_all="true">
-                    <requirement name="RecipeHasIngredients, SCore" ingredients="plantedCotton1,plantedGoldenrod1,plantedCoffee1,plantedYucca1,plantedAloe1,plantedBlueberry1,plantedPumpkin1,plantedMushroom1,plantedCorn1,plantedPotato1"/>
-                </requirement>
-            </triggered_effect>
-        </effect_group>
+    
     </append>
 
     <append xpath="/buffs">
@@ -87,18 +73,5 @@
 
         <buff name="buffLBD_craftingSeeds_ActionCoolDown" hidden="true"><duration value="1"/></buff>
 
-        <buff name="buffLBD_craftingSeeds_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingSeeds" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingSeeds" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingseeds_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSeeds"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
     </append>
 </configs>

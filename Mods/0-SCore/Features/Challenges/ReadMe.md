@@ -254,7 +254,7 @@ This objective tracks placing blocks with a specific tag.
 
 ```xml
 
-<objective type="BlockPlaceByTag, SCore" count="2" block_tags="myTag"/>
+<objective type="PlaceBlockByTag, SCore" count="2" block_tags="myTag"/>
 ```
 
 **Explanation**: Counts when the player places blocks that have the specified `block_tags`.

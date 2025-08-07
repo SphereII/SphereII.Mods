@@ -6,6 +6,8 @@ public class FireConfig
 {
     private const string AdvFeatureClass = "FireManagement";
 
+    private readonly GameRandom _random = GameManager.Instance.World.GetGameRandom();
+
     // Core settings
     public bool Enabled { get; private set; }
     public bool FireSpread { get; private set; }
@@ -178,5 +180,37 @@ public class FireConfig
     {
         return $"FireConfig[Enabled={Enabled}, Spread={FireSpread}, Interval={CheckInterval}, " +
                $"Damage={FireDamage}, ExtinguishChance={ChanceToExtinguish}]";
+    }
+    
+    private string GetParticle(Vector3i blockPos, string propertyName, string configProperty, string randomConfigProperty)
+    {
+        var block = GameManager.Instance.World.GetBlock(blockPos);
+
+        if (block.Block.blockMaterial.Properties.Contains(propertyName))
+            return block.Block.blockMaterial.Properties.GetString(propertyName);
+
+        if (block.Block.Properties.Contains(propertyName))
+            return block.Block.Properties.GetString(propertyName);
+
+        var particleName = configProperty;
+        var randomParticles = Configuration.GetPropertyValue("FireManagement", randomConfigProperty);
+        if (!string.IsNullOrEmpty(randomParticles))
+        {
+            var particleArray = randomParticles.Split(',');
+            var randomIndex = _random.RandomRange(0, particleArray.Length);
+            particleName = particleArray[randomIndex];
+        }
+
+        return particleName;
+    }
+
+    public string GetRandomSmokeParticle(Vector3i blockPos)
+    {
+        return GetParticle(blockPos, "SmokeParticle", SmokeParticle, "RandomSmokeParticle");
+    }
+
+    public string GetRandomFireParticle(Vector3i blockPos)
+    {
+        return GetParticle(blockPos, "FireParticle", FireParticle, "RandomFireParticle");
     }
 }

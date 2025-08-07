@@ -82,5 +82,7 @@
     <!-- Includes all the supporting cooldown and special mechanic buffs for the General perks. -->
     <include filename="Cooldowns.xml" />
 
+    
     <include filename="Decay.xml" />
+    
 </configs>

@@ -4,7 +4,7 @@
         <effect_group name="Intellect Initializers">
 
             <!-- Apply the permanent Intellect Manager Buff to the player -->
-            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_IntellectManager"/>
+            <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_IntellectManager"/>
 
             <!-- Initializers for Intellect CVars -->
 

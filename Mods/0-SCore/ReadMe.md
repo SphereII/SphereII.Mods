@@ -32,6 +32,93 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.7.1848
+	[ Challenges ]
+		- Added preliminary support for <Requirements in challenges
+		- Added to the following Challenges:
+			EnterPOI, SCore
+			KillWithItem, SCore
+			StealthKillStreak, SCore
+
+		- Example:		
+		       <challenge name="enterPOI4" title_key="EnterPOI3" icon="ui_game_symbol_wood" group="ScoreTest" short_description_key="challengeGathererWoodShort" description_key="challengeGathererWoodDesc" reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+    		        <objective type="EnterPOI, SCore" prefab="abandoned_house_04" count="10"/>
+            		<requirement name="IsDay" />
+               </challenge>
+
+			   <challenge name="enterPOI5" title_key="EnterPOI5 Night" icon="ui_game_symbol_wood" group="ScoreTest" short_description_key="challengeGathererWoodShort" description_key="challengeGathererWoodDesc" reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+            	 	<objective type="EnterPOI, SCore" prefab="abandoned_house_04" count="10"/>
+        	    	<requirement name="!IsDay" />
+		       </challenge>
+
+	[ SphereII Learn By Doing ]
+		- Removed invalid Decay on Miner69er and RuleOneCardio
+		- Added xp gain for turrets beind held
+		- Removed invalid Decay on RepairTools
+		- Cleaned up misaligned Miner69 requirements, which was causing it to fire more often then it needed too.
+
+Version: 2.2.6.1649 Pre-Release
+
+	[ Triggered Events ]
+		- Added more support for OnSelfItemBought, and OnSelfItemSold
+		- onSelfItemSold supports the following cvars:
+			_totalSold:  The number of items sold at once
+			_sellPrice:  The total value of the sale.
+		- onSelfItemBought supports the following cvars:
+			_totalBought : The number of items bought at once
+			_buyPrice: The total value of the buy.
+
+        <requirement name="CVarCompare" cvar="_sellPrice" operation="GT" value="20"/>
+
+	[ Explosions ]
+		- Added in a patch to EntityAlive.FireEvent for onSelfExplosionDamagedOther, and onSelfExplosionAttackedOther
+		- These were only firing when the entity was local, so they did not fire when executed on a dedicated server.
+		- These triggers will work now on dedi.
+		- This also fixes the Demolitions' Perk in the Learn by Doing
+
+	[ Turrets ]
+		- Similarly, attacks from a place turret would not give credit to the player for Learn by Doing.
+		- This has been fixed.
+
+	[ Learn By Doing ]
+		- Updated Better Barter to work with the new event hooks
+		- Updated Demolition perk to work with the new event hooks
+		- Updated Turrets to work with the new event hooks
+		- Uncommented the Decay component in General perk.
+
+Version: 2.2.5.1216 Pre-Release
+
+	[ Challenges ]
+		- Added new Clear Sleeper Volume Challenge
+			<objective type="ClearSleepers, SCore" biome="pine_forest" count="200" />
+	
+	[ Fire Manager ]
+		- Many tweaks and performance updates to handle particles
+		- Added a new FireBlockData to help manage data a bit better
+		- Adjusted CheckInterval rate so the interval will include the time it takes to process.
+			- Example:  If CheckInterval is 20 seconds, but it takes 10 seconds process all the fires, 
+				the CheckInterval will be 30 seconds since the start of the previous one. 
+		- Fixed an issue with Random Fire Particles
+		- Added a default RandomFireParticle
+
+Version: 2.2.2.1139 Pre-Release
+	[ Documentation ]
+		- Fixed conditional example for the xpath() format
+		- Fixed Challenge Objective PlaceBlockByTag's documentation
+			- Previously, it was referenced as BlocKPlaceByTag.
+
+	[ 2.2 Update ]
+		- Updated to build and work against 2.2
+		- Fixed Updated rainfall / snowfall call to weather manager.
+			- Plant and FireV2 updated.
+		- Updated the AIDIrectorChunkEventComponentScout patch
+
+	[ SphereII Learn By Doing ]
+		- Refactored Crafting Skills to remove Decay from the main xml files
+		- Added a Crafting_Decay.xml that handles all decaying properly
+			- This fixes an issue where a crafting book may have to be read multiple times to work
+		- Updated DeepCuts, RuleOneCardio, Electrocutioner for fixes on power attack.
+
 Version: 2.1.20.931
 
 	[ Quests ]

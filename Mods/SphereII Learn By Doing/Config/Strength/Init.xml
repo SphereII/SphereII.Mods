@@ -4,7 +4,7 @@
         <effect_group name="Strength Initializers">
             
             <!-- Apply the permanent Strength Manager Buff to the player -->
-            <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_StrengthManager"/>
+            <triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_StrengthManager"/>
 
             <!-- Initializers for Strength CVars -->
 

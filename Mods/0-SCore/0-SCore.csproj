@@ -49,11 +49,13 @@
     <Compile Include="Features\Caves\Scripts\SCoreCavesUtils.cs" />
     <Compile Include="Features\Challenges\ChallengeTypeSCoreEnums.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
+    <Compile Include="Features\Challenges\Harmony\ChallengesFromXmlPatches.cs" />
     <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBigFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyed.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyedByFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockUpgrade.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveClearSleepers.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCompleteQuestStealth.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCraftWithIngredient.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveCraftWithTags.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStartFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveStealthKillStreak.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveWearTags.cs" />
+    <Compile Include="Features\Challenges\Scripts\ChallengeRequirementManager.cs" />
     <Compile Include="Features\Challenges\Scripts\IChallengeObjective.cs" />
     <Compile Include="Features\Challenges\Scripts\SCoreChallengeUtils.cs" />
     <Compile Include="Features\Drones\Harmony\EntityDronePatches.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Features\FireV2\Harmony\OnBlockAdded.cs" />
     <Compile Include="Features\FireV2\Harmony\PerformanceTweaks.cs" />
     <Compile Include="Features\FireV2\Harmony\UpdateCurrentBlockposAndValueFire.cs" />
+    <Compile Include="Features\FireV2\Scripts\FireBlockData.cs" />
     <Compile Include="Features\FireV2\Scripts\FireConfig.cs" />
     <Compile Include="Features\FireV2\Scripts\FireEvents.cs" />
     <Compile Include="Features\FireV2\Scripts\FireHandler.cs" />
@@ -170,8 +174,10 @@
     <Compile Include="Features\ParticleAttractor\Scripts\Particles\particleAttractorLinear.cs" />
     <Compile Include="Features\ParticlesOnBlocks\Harmony\Blocks.cs" />
     <Compile Include="Features\PassiveEffectHooks\AddHooks.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\EntityAliveFireEventPatch.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\ItemActionEntryScrapPostfix.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\MinEventActionBasePatch.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\OnBoughtOnSoldPatches.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnLootContainerPicked.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnRecipeCrafted.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfHarvest.cs" />
@@ -183,6 +189,7 @@
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfPlaceBlock.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfPrimaryActionMissEntity.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfQuestComplete.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfTurretAttackOther.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\XUiC_RecipeStackOutputStack.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\XUiMVehicleRepairVehicle.cs" />
     <Compile Include="Features\PassiveEffectHooks\SCoreMinEventTypes.cs" />
@@ -468,6 +475,7 @@
     <Compile Include="Scripts\Entities\ModGeneralUtilities.cs" />
     <Compile Include="Scripts\Events\EventOnClientKill.cs" />
     <Compile Include="Scripts\Events\EventOnCVarAdded.cs" />
+    <Compile Include="Scripts\Events\EventOnSleeperVolumeClearedUpdate.cs" />
     <Compile Include="Scripts\Events\OnRallyPointActivated.cs" />
     <Compile Include="Scripts\Events\OnBloodMoonEnd.cs" />
     <Compile Include="Scripts\Events\OnBloodMoonStart.cs" />

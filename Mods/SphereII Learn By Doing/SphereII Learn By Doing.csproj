@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{BBADFA39-7F84-47F7-B43D-92070FC91D05}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>SphereII_LearnBy_Doing</RootNamespace>
+		<AssemblyName>SphereII Learn By Doing</AssemblyName>
+		<TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<RunPostBuildEvent>Always</RunPostBuildEvent>
+		<Deterministic>true</Deterministic>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>full</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>bin\Debug\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+	
+	  <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
+ 
+
+	<ItemGroup>
+		<Reference Include="System"/>
+		<Reference Include="System.Core"/>
+		<Reference Include="System.Data"/>
+		<Reference Include="System.Xml"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Config\Agility\Agility.xml"/>
+		<Content Include="Config\Agility\AgilityMastery.xml"/>
+		<Content Include="Config\Agility\Archery.xml"/>
+		<Content Include="Config\Agility\Cooldowns.xml"/>
+		<Content Include="Config\Agility\Decay.xml"/>
+		<Content Include="Config\Agility\DeepCuts.xml"/>
+		<Content Include="Config\Agility\FlurryOfAgility.xml"/>
+		<Content Include="Config\Agility\FromTheShadows.xml"/>
+		<Content Include="Config\Agility\Gunslinger.xml"/>
+		<Content Include="Config\Agility\HardTarget.xml"/>
+		<Content Include="Config\Agility\HiddenStrike.xml"/>
+		<Content Include="Config\Agility\Init.xml"/>
+		<Content Include="Config\Agility\main.xml"/>
+		<Content Include="Config\Agility\Parkour.xml"/>
+		<Content Include="Config\Agility\RunAndGun.xml"/>
+		<Content Include="Config\buffs.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingArmor.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingBlades.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingBows.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingClubs.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingElectrician.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingExplosives.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingFood.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingHandguns.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingKnuckles.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingMachineGuns.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingMedical.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingRifles.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingRobotics.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingSalvageTools.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingSeeds.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingShotguns.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingSledgehammers.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingSpears.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingTraps.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingVehicles.xml"/>
+		<Content Include="Config\CraftingSkills\CraftingWorkstations.xml"/>
+		<Content Include="Config\CraftingSkills\Crafting_Decay.xml"/>
+		<Content Include="Config\CraftingSkills\HarvestingTools.xml"/>
+		<Content Include="Config\CraftingSkills\Init.xml"/>
+		<Content Include="Config\CraftingSkills\main.xml"/>
+		<Content Include="Config\CraftingSkills\RepairTools.xml"/>
+		<Content Include="Config\Fortitude\Brawler.xml"/>
+		<Content Include="Config\Fortitude\Cooldowns.xml"/>
+		<Content Include="Config\Fortitude\Decay.xml"/>
+		<Content Include="Config\Fortitude\FlurryOfFortitude.xml"/>
+		<Content Include="Config\Fortitude\Fortitude.xml"/>
+		<Content Include="Config\Fortitude\FortitudeMastery.xml"/>
+		<Content Include="Config\Fortitude\HealingFactor.xml"/>
+		<Content Include="Config\Fortitude\Init.xml"/>
+		<Content Include="Config\Fortitude\MachineGunner.xml"/>
+		<Content Include="Config\Fortitude\main.xml"/>
+		<Content Include="Config\Fortitude\PainTolerance.xml"/>
+		<Content Include="Config\Fortitude\RuleOneCardio.xml"/>
+		<Content Include="Config\Fortitude\SiphoningStrikes.xml"/>
+		<Content Include="Config\Fortitude\SlowMetabolism.xml"/>
+		<Content Include="Config\Fortitude\TheHuntsman.xml"/>
+		<Content Include="Config\General\Cooldowns.xml"/>
+		<Content Include="Config\General\Decay.xml"/>
+		<Content Include="Config\General\HeavyArmor.xml"/>
+		<Content Include="Config\General\Init.xml"/>
+		<Content Include="Config\General\LightArmor.xml"/>
+		<Content Include="Config\General\LivingOffTheLand.xml"/>
+		<Content Include="Config\General\LockPicking.xml"/>
+		<Content Include="Config\General\LuckyLooter.xml"/>
+		<Content Include="Config\General\main.xml"/>
+		<Content Include="Config\General\MasterChef.xml"/>
+		<Content Include="Config\General\MediumArmor.xml"/>
+		<Content Include="Config\General\TestCases.md"/>
+		<Content Include="Config\Intellect\AdvancedEngineering.xml"/>
+		<Content Include="Config\Intellect\BetterBarter.xml"/>
+		<Content Include="Config\Intellect\CharismaticNature.xml"/>
+		<Content Include="Config\Intellect\Cooldowns.xml"/>
+		<Content Include="Config\Intellect\DaringAdventurer.xml"/>
+		<Content Include="Config\Intellect\Decay.xml"/>
+		<Content Include="Config\Intellect\Electrocutioner.xml"/>
+		<Content Include="Config\Intellect\FlurryOfIntellect.xml"/>
+		<Content Include="Config\Intellect\GreaseMonkey.xml"/>
+		<Content Include="Config\Intellect\Init.xml"/>
+		<Content Include="Config\Intellect\Intellect.xml"/>
+		<Content Include="Config\Intellect\IntellectMastery.xml"/>
+		<Content Include="Config\Intellect\main.xml"/>
+		<Content Include="Config\Intellect\Physician.xml"/>
+		<Content Include="Config\Intellect\RoboticTurrets.xml"/>
+		<Content Include="Config\Perception\AnimalTracker.xml"/>
+		<Content Include="Config\Perception\Cooldowns.xml"/>
+		<Content Include="Config\Perception\DeadEye.xml"/>
+		<Content Include="Config\Perception\Decay.xml"/>
+		<Content Include="Config\Perception\DemolitionExpert.xml"/>
+		<Content Include="Config\Perception\FlurryOfPerceptions.xml"/>
+		<Content Include="Config\Perception\Init.xml"/>
+		<Content Include="Config\Perception\Javelin.xml"/>
+		<Content Include="Config\Perception\main.xml"/>
+		<Content Include="Config\Perception\Perception.xml"/>
+		<Content Include="Config\Perception\PerceptionMaster.xml"/>
+		<Content Include="Config\Perception\SalvageOperations.xml"/>
+		<Content Include="Config\Perception\TheInfiltrator.xml"/>
+		<Content Include="Config\Perception\ThePenetrator.xml"/>
+		<Content Include="Config\Perception\TreasureHunter.xml"/>
+		<Content Include="Config\Strength\Boomstick.xml"/>
+		<Content Include="Config\Strength\Cooldowns.xml"/>
+		<Content Include="Config\Strength\Decay.xml"/>
+		<Content Include="Config\Strength\FlurryOfBlows.xml"/>
+		<Content Include="Config\Strength\GrandSlam.xml"/>
+		<Content Include="Config\Strength\Init.xml"/>
+		<Content Include="Config\Strength\JunkMiner.xml"/>
+		<Content Include="Config\Strength\main.xml"/>
+		<Content Include="Config\Strength\Miner69er.xml"/>
+		<Content Include="Config\Strength\Motherlode.xml"/>
+		<Content Include="Config\Strength\PackMule.xml"/>
+		<Content Include="Config\Strength\PummelPete.xml"/>
+		<Content Include="Config\Strength\SkullCrusher.xml"/>
+		<Content Include="Config\Strength\Strength.xml"/>
+		<Content Include="Config\Strength\StrengthMastery.xml"/>
+		<Content Include="Config\XUi\controls.xml"/>
+		<Content Include="LearnByDoing.md"/>
+		<Content Include="ModInfo.xml"/>
+		<Content Include="Properties\AssemblyInfo.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+		</Content>
+		<Content Include="Test.md"/>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="Hello.cs" />
+		<Compile Include="Properties\AssemblyInfo.cs">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>AssemblyInfo.tt</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>

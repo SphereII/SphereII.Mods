@@ -22,6 +22,7 @@ public class LightManager : ILightManager
 
     public void AddLight(Vector3i position)
     {
+        
         if (_lightPositions.ContainsKey(position))
             return;
 

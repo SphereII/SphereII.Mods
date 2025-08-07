@@ -1,13 +1,10 @@
 <configs>
-    <!-- Append the LBD logic for Electrocutioner to the main Intellect Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_IntellectManager']">
         <effect_group name="Electrocutioner">
-            <!-- Master requirement for the entire group. -->
             <requirement name="HoldingItemHasTags" tags="perkElectrocutioner"/>
             <requirement name="IsAlive" target="other"/>
 
-            <!-- XP Gain -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Attempting XP Gain (+@$lbd_xp_melee_base)">
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Attempting Primary Hit XP (+@$lbd_xp_melee_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
@@ -15,8 +12,15 @@
                 <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Cooldown Application -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Applying Cooldown">
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Attempting Power Hit XP (+@$lbd_xp_melee_power_base)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="ModifyCVar" cvar="$perkelectrocutioner_lbd_xp" operation="add" value="@$lbd_xp_melee_power_base">
+                <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Applying Cooldown (Primary)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
@@ -24,18 +28,32 @@
                 <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
             </triggered_effect>
 
-            <!-- Level Up Check -->
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Triggering Level Up Check">
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Applying Cooldown (Secondary)">
+                <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown">
+                <requirement name="NotHasBuff" buff="buffLBD_perkElectrocutioner_XPCoolDown"/>
+            </triggered_effect>
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Triggering Level Up Check (Primary)">
                 <requirement name="CVarCompare" cvar="$perkelectrocutioner_lbd_xp" operation="GTE" value="@$perkelectrocutioner_lbd_xptonext"/>
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_perkElectrocutioner_LevelUpCheck">
                 <requirement name="CVarCompare" cvar="$perkelectrocutioner_lbd_xp" operation="GTE" value="@$perkelectrocutioner_lbd_xptonext"/>
             </triggered_effect>
+
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Electrocutioner - Triggering Level Up Check (Secondary)">
+                <requirement name="CVarCompare" cvar="$perkelectrocutioner_lbd_xp" operation="GTE" value="@$perkelectrocutioner_lbd_xptonext"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="AddBuff" buff="buffLBD_perkElectrocutioner_LevelUpCheck">
+                <requirement name="CVarCompare" cvar="$perkelectrocutioner_lbd_xp" operation="GTE" value="@$perkelectrocutioner_lbd_xptonext"/>
+            </triggered_effect>
         </effect_group>
     </append>
 
-    <!-- Define the Level-Up Handler buff for Electrocutioner. -->
     <append xpath="/buffs">
         <buff name="buffLBD_perkElectrocutioner_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>

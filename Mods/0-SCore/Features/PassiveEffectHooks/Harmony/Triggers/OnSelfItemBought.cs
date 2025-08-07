@@ -5,7 +5,6 @@ public static class OnBought
 {
     public static void BoughtItem(string traderName, int value)
     {
-        
         var minEventParams = new MinEventParams {
             TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
             Self = GameManager.Instance.World.GetPrimaryPlayer(),
@@ -23,6 +22,26 @@ public static class OnBought
         minEventParams.Self.Buffs.AddCustomVar("_item_value", value);
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfItemBought);
-        
     }
+    
+    public static void BoughtItem(ItemStack itemStack, int count, int buyPrice)
+    {
+        var minEventParams = new MinEventParams {
+            TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
+            Self = GameManager.Instance.World.GetPrimaryPlayer(),
+            ItemValue = itemStack.itemValue
+        };
+
+        minEventParams.Self.Buffs.AddCustomVar("_totalBought", count);
+        minEventParams.Self.Buffs.AddCustomVar("_buyPrice", buyPrice);
+
+        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
+        minEventParams.Other = currentTrader;
+        minEventParams.Self.MinEventContext = minEventParams;
+        minEventParams.Self.FireEvent(MinEventTypes.onSelfItemBought);
+        minEventParams.Self.Buffs.AddCustomVar("_totalBought", 0f);
+        minEventParams.Self.Buffs.AddCustomVar("_buyPrice", 0);
+
+    }
+
 }

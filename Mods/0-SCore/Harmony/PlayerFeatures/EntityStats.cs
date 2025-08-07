@@ -14,8 +14,12 @@ namespace SCore.Harmony.PlayerFeatures
         {
             private static void Postfix(EntityStats __instance)
             {
-                var rain = WeatherManager.Instance.GetCurrentRainfallValue();
-                var snow = WeatherManager.Instance.GetCurrentSnowfallValue();
+                //2.2
+                var rain = WeatherManager.Instance.GetCurrentRainfallPercent();
+                // 2.1
+                // var rain = WeatherManager.Instance.GetCurrentRainfallValue();
+
+                var snow = WeatherManager.Instance.GetCurrentSnowfallPercent();
                 var cloud = WeatherManager.Instance.GetCurrentCloudThicknessPercent();
                 __instance.m_entity.Buffs.SetCustomVar("_sc_rain", rain, true);
                 __instance.m_entity.Buffs.SetCustomVar("_sc_snow", snow, true);

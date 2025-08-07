@@ -133,32 +133,7 @@
             </triggered_effect>
         </effect_group>
 
-        <effect_group name="LBD Decay Logic for Bows">
-            <triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar"
-                              cvar="$craftingbows_decay_counter" operation="add" value="1"/>
-            <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffLBD_craftingBows_Decay">
-                <requirement name="CVarCompare" cvar="$craftingbows_decay_counter" operation="GTE"
-                             value="@$lbd_decay_threshold_intervals"/>
-            </triggered_effect>
-
-            <triggered_effect trigger="onSelfItemCrafted" action="ModifyCVar"
-                              cvar="$craftingbows_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfScrapItem" action="ModifyCVar"
-                              cvar="$craftingbows_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar"
-                              cvar="$craftingbows_decay_counter" operation="set" value="0">
-                <requirement name="ItemHasProperty, SCore" property="UnlockedBy" prop_value="craftingBows"/>
-                <requirement name="ItemPercentDamaged, SCore" operation="GTE" value="0.5"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfItemRepaired" action="ModifyCVar" cvar="$craftingbows_decay_counter" operation="set" value="0">
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="LTE" value="5"/>
-                <requirement name="ItemHasProperty, SCore" property="RepairTools" prop_value="resourceWood"/>
-            </triggered_effect>
-        </effect_group>
+      
     </append>
 
     <append xpath="/buffs">
@@ -189,18 +164,5 @@
 
         <buff name="buffLBD_craftingBows_T0RepairCoolDown" hidden="true"><duration value="5"/></buff>
 
-        <buff name="buffLBD_craftingBows_Decay" hidden="true">
-            <stack_type value="ignore"/>
-            <duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="craftingBows" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
-                                  progression_name="craftingBows" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$craftingbows_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingBows"
-                                  sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
     </append>
 </configs>

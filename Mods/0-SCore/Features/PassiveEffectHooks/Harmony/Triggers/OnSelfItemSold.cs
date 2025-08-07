@@ -22,4 +22,24 @@ public static class OnSell
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfItemSold);
     }
+    
+    public static void SellItem(ItemStack itemStack, int count, int sellPrice)
+    {
+        var minEventParams = new MinEventParams {
+            TileEntity = TraderUtils.GetCurrentTraderTileEntity(),
+            Self = GameManager.Instance.World.GetPrimaryPlayer(),
+            ItemValue = itemStack.itemValue
+        };
+        
+        minEventParams.Self.Buffs.AddCustomVar("_totalSold", count);
+        minEventParams.Self.Buffs.AddCustomVar("_sellPrice", sellPrice);
+
+        var currentTrader = GameManager.Instance.World.GetEntity(minEventParams.TileEntity.EntityId) as EntityNPC;
+        minEventParams.Other = currentTrader;
+        minEventParams.Self.MinEventContext = minEventParams;
+        minEventParams.Self.FireEvent(MinEventTypes.onSelfItemSold);
+        minEventParams.Self.Buffs.AddCustomVar("_totalSold", 0f);
+        minEventParams.Self.Buffs.AddCustomVar("_sellPrice", 0f);
+
+    }
 }

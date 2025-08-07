@@ -4,7 +4,7 @@
 	<append xpath="/buffs/buff[@name='ProgressionLearnByDoing_Init']">
 		<effect_group>
 			<!-- Apply the Perception Manager Buff -->
-			<triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_PerceptionManager"/>
+			<triggered_effect trigger="onSelfBuffRemove" action="AddBuff" buff="buffLBD_PerceptionManager"/>
 			<!-- Initializers for Perception CVars -->
 			<!-- attPerception -->
 			<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="set" value="0"/>

@@ -1,7 +1,9 @@
+
 using System;
 using System.Xml.Linq;
 using HarmonyLib;
 using Challenges;
+using UnityEngine;
 
 namespace Challenges {
     public class ChallengeObjectiveEnterPOI : BaseChallengeObjective {
@@ -58,7 +60,9 @@ namespace Challenges {
             return false;
         }
 
-        private void Current_PrefabEnter(PrefabInstance prefabInstance) {
+        private void Current_PrefabEnter(PrefabInstance prefabInstance)
+        {
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name) ) return ;
             var isValid = isValidPOI(prefabInstance);
             if (!isValid) return;
 

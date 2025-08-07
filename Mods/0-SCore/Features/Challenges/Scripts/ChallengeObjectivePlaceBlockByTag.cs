@@ -5,7 +5,7 @@ namespace Challenges
     /*
    * A new challenge objective to allow a player place a block to be checked by tag.
    *
-   * <objective type="BlockPlaceByTag, SCore" count="2" block_tags="myTag"/>
+   * <objective type="PlaceBlockByTag, SCore" count="2" block_tags="myTag"/>
    */
     public class ChallengeObjectivePlaceBlockByTag : BaseChallengeObjective
     {

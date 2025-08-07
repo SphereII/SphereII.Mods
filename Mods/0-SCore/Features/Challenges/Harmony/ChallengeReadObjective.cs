@@ -4,16 +4,19 @@ using Challenges;
 using HarmonyLib;
 using UnityEngine;
 
-namespace SCore.Features.Challenges.Harmony {
+namespace SCore.Features.Challenges.Harmony
+{
     [HarmonyPatch(typeof(BaseChallengeObjective))]
     [HarmonyPatch("ReadObjective")]
-    public class ChallengeReadObjective {
+    public class ChallengeReadObjective
+    {
         public static BaseChallengeObjective Postfix(BaseChallengeObjective __result, byte _currentVersion,
-            ChallengeObjectiveType _type, BinaryReader _br) {
-           // Debug.Log($"Type: {(ChallengeObjectiveType)_type}");
+            ChallengeObjectiveType _type, BinaryReader _br)
+        {
+            // Debug.Log($"Type: {(ChallengeObjectiveType)_type}");
             if (__result != null) return __result;
-            
-          //  Debug.Log($" SCore Type: {(ChallengeObjectiveTypeSCore)_type}");
+
+            //  Debug.Log($" SCore Type: {(ChallengeObjectiveTypeSCore)_type}");
             switch ((ChallengeObjectiveTypeSCore)_type)
             {
                 case ChallengeObjectiveTypeSCore.ChallengeObjectiveEnterPOI:
@@ -72,12 +75,12 @@ namespace SCore.Features.Challenges.Harmony {
                     __result = new ChallengeObjectiveBlockUpgradeSCore();
                     __result.Read(_currentVersion, _br);
                     break;
-                
+
                 case ChallengeObjectiveTypeSCore.ChallengeObjectiveGatherTags:
                     __result = new ChallengeObjectiveGatherTags();
                     __result.Read(_currentVersion, _br);
                     break;
-                
+
                 case ChallengeObjectiveTypeSCore.ChallengeObjectiveWearTags:
                     __result = new ChallengeObjectiveWearTags();
                     __result.Read(_currentVersion, _br);
@@ -94,18 +97,17 @@ namespace SCore.Features.Challenges.Harmony {
                     __result = new ChallengeObjectivePlaceBlockByTag();
                     __result.Read(_currentVersion, _br);
                     break;
-                    
-                
-                    
+                case ChallengeObjectiveTypeSCore.ChallengeObjectiveClearSleepers:
+                    __result = new ChallengeObjectiveClearSleepers();
+                    __result.Read(_currentVersion, _br);
+                    break;
             }
 
-            
-            
-            
+
             return __result;
         }
     }
-    
+
     // [HarmonyPatch(typeof(ChallengeClass))]
     // [HarmonyPatch("ResetObjectives")]
     // public class ChallengeClassResetObjective {

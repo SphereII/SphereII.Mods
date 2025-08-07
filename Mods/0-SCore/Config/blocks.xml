@@ -460,6 +460,9 @@
                 <property name="FireSpread" value="true"/> <!-- When enabled, fire can spread to neighborblocks.-->
                 <property name="ChanceToExtinguish"
                           value="0.05"/> <!-- chance that each block has to self-extinguish. This is re-tested for each CheckInterval -->
+
+                <property name="RandomFireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-HeavyLight,#@modfolder:Resources/guppySmokeParticles.unity3d?gupSmoke1,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis05-Heavy,#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis06-Heavy" />
+
                 <!-- Alternative included particles -->
                 <!--
                 <property name="FireParticle" value="#@modfolder:Resources/gupFireParticles.unity3d?gupBeavis02-CampFire" />
