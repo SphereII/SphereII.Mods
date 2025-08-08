@@ -51,6 +51,8 @@
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengesFromXmlPatches.cs" />
     <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
+    <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveKillV2.cs" />
+    <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveHarvestV2.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBigFire.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyed.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBlockDestroyedByFire.cs" />
@@ -139,8 +141,9 @@
     <Compile Include="Features\FoodSpoilageV2\Harmony\XUiC_ItemInfoWindow.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
-    <Compile Include="Features\ItemRepairDegradation\Scripts\MinEventActionModifyItem.cs" />
-    <Compile Include="Features\ItemRepairDegradation\Scripts\RequirementCompareItemProperty.cs" />
+    <Compile Include="Features\ItemDegradation\Harmony\ItemModificationDegradation.cs" />
+    <Compile Include="Features\ItemDegradation\Scripts\MinEventActionModifyItem.cs" />
+    <Compile Include="Features\ItemDegradation\Scripts\RequirementCompareItemProperty.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\BlockSecureLootEventData_Event.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillAttributeLevel.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\XUiC_SkillEntry.cs" />
@@ -372,6 +375,7 @@
     <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\ItemHasProperty.cs" />
     <Compile Include="Scripts\Buffs\ItemHasQuality.cs" />
+    <Compile Include="Scripts\Buffs\ItemModDurability.cs" />
     <Compile Include="Scripts\Buffs\ItemPercentDamaged.cs" />
     <Compile Include="Scripts\Buffs\RecipeHasIngredients.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
@@ -721,6 +725,7 @@
     <Content Include="Documentation\Examples\Farming.md" />
     <Content Include="Documentation\Examples\FireV2.md" />
     <Content Include="Documentation\Examples\FoodSpoilage.md" />
+    <Content Include="Documentation\Examples\ItemDegradation.md" />
     <Content Include="Documentation\Examples\LearnByDoing.md" />
     <Content Include="Documentation\Examples\LightlyModded.md" />
     <Content Include="Documentation\Examples\ReadMe.md" />
@@ -745,7 +750,7 @@
     <Content Include="Features\FireV2\Readme.md" />
     <Content Include="Features\FireV2\Scripts\MinEvent\MinEventActionCheckFireProximity.cs.bak" />
     <Content Include="Features\FoodSpoilageV2\ReadMe.md" />
-    <Content Include="Features\ItemRepairDegradation\ReadMe.md" />
+    <Content Include="Features\ItemDegradation\ReadMe.md" />
     <Content Include="Features\LockPicking\Scripts\README.txt.txt" />
     <Content Include="Features\MaterialModifier\ReadMe.md" />
     <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />
@@ -939,7 +944,6 @@
     <None Include="Scripts\Mods.dll.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\ItemRepairDegradation\Harmony\" />
     <Folder Include="Features\NPC_V3\Harmony\" />
     <Folder Include="Features\NPC_V3\Scripts\" />
     <Folder Include="Features\ParticleAttractor\Harmony\" />

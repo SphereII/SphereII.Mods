@@ -25,6 +25,9 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             minEventParams.Self.MinEventContext = minEventParams;
             minEventParams.Self.FireEvent(MinEventTypes.onSelfItemRepaired);
 
+            vehicle.itemValue.SetMetadata("DamageAmount", 0f, TypedMetadataValue.TypeTag.Float);
+            vehicle.itemValue.SetMetadata("PercentDamaged", 0f, TypedMetadataValue.TypeTag.Float);
+
         }
 
 

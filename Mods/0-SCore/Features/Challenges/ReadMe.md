@@ -35,6 +35,27 @@ In this example:
 * The `objective` tag specifies the custom challenge type (`type="EnterPOI, SCore"`) and its parameters (
   `prefab="abandoned_house_02"`, `count="10"`).
 
+##
+
+Using SCore, <requirements from the Buff system are supposed, using a patch on CheckBaseRequirements. This allows xml
+requirements to be applied to challenges.
+
+	<challenge name="gatherResources" title_key="challengeGatherResources" 
+         icon="ui_game_symbol_challenge_basics_gather_resources" 
+         group="Basics" hint="challengeGatherResourcesHint1"
+		 short_description_key="challengeGatherResourcesShort" 
+         description_key="challengeGatherResourcesDesc">
+
+         <!-- Must be in God mod, and holding a knife -->
+		<requirement name="HasBuff" buff="god"/>
+	    <requirement name="HoldingItemHasTags" tags="perkDeepCuts"/>
+
+		<objective type="Gather" item="resourceYuccaFibers" count="10"/>
+		<objective type="Gather" item="resourceWood" count="10"/>
+		<objective type="Gather" item="resourceRockSmall" count="5"/>
+	</challenge>
+
+
 ## Types of SCore Challenge Objectives
 
 The Challenges feature includes various pre-defined custom objective types that modders can utilize:

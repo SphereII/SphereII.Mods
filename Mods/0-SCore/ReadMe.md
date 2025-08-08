@@ -32,6 +32,41 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.8.1701
+	[ Item Degradation ]
+		- Added a patch for fun-sies to degrade item modifications.
+		- If an item_modifier has Quality, then a patch will trigger to degrade the durability of the item_modifier
+		- It works by looping around each modification, degrading it per its passive_effect.
+		- Once the degradation is complete, an item will either break, or its passive effects will be disabled.
+		- You can use the new ItemModDurability requirement in item_modifications to control it
+		- See Documentation/Examples/ItemDegradation.md
+		
+	[ Passive Effect Hooks ]
+		- Fixed a bug that triggered a crash when repairing a vehicle, then picking it up.
+
+	[ Buff requirements ]
+		- Made a buff requirement that checks mod durability.
+			<requirement name="ItemModDurability, SCore" operation="GTE" value="0.1"/>
+ 
+	[ Challenges ]
+		- Added patch to base CheckBaseRequirements() to support requirements. This works for all challenges.
+			- This works on the same principles as the buff requirements.
+		- Restructured the Requirement Checks to include the Player's MinEventContext.
+
+		- Created two new simplified Challenges for testing. 
+			- You would need to define the localization entry for each one.
+			<challenge name="Kill01" title_key="KillWithDeepCuts" icon="ui_game_symbol_wood" >
+				<requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+				<requirement name="HitLocation" body_parts="Head" />
+				<objective type="KillV2, SCore" count="200" />
+			</challenge>
+
+        	<challenge name="Harvesting02" title_key="Harvesting" icon="ui_game_symbol_wood" >
+            	<requirement name="RequirementBlockHasHarvestTags, SCore" tags="allHarvest,oreWoodHarvest"/>
+            	<requirement name="HoldingItemHasTags" tags="miningTool,shovel"/>
+            	<objective type="HarvestV2, SCore" count="200" />
+        	</challenge>
+
 Version: 2.2.7.1936
 	[ Challenges ]
 		- Fixed an issue in the KillByItem challenge which was automatically failing its biome check,
