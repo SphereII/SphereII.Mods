@@ -59,7 +59,7 @@ For each perk, perform the following:
 
 ### **3.1. `attPerception` (Main Attribute)**
 
-*   **Trigger:** `onSelfPrimaryActionRayHit` (with `attPerception` tag), `onSelfExplosionDamagedOther`, `onSelfKilledOther` (animal), `onSelfItemCrafted` (trap), `onSelfPrimaryActionRayHit` (digging treasure), `onSelfLootContainer` (treasure).
+*   **Trigger:** `onSelfPrimaryActionRayHit` (with `attPerception` tag), `onSelfExplosionDamagedOther`, `onSelfKilledOther` (animal), `onSelfItemCrafted` (trap), `onSelfPrimaryActionRayHit` (digging treasure), `onSelfCloseLootContainer` (treasure).
 *   **Test:** Perform each of the above actions.
 *   **Expected:** Visible increase in `attPerception` progress bar and corresponding log messages.
 
@@ -116,7 +116,7 @@ For each perk, perform the following:
 *   **Trigger 1 (Digging):** `onSelfPrimaryActionRayHit` (with `tool` on `treasureHunter` block, while quest active and in radius).
 *   **Test 1:** Start a treasure quest. Dig in the quest circle using a shovel.
 *   **Expected:** `Treasure Hunter - DIGGING! Attempting XP Gain` log and visible increase in `perkTreasureHunter` progress bar.
-*   **Trigger 2 (Discovery):** `onSelfLootContainer` (on `buriedTreasure` block).
+*   **Trigger 2 (Discovery):** `onSelfCloseLootContainer` (on `buriedTreasure` block).
 *   **Test 2:** Complete a treasure quest and open the buried chest.
 *   **Expected:** `Treasure Hunter - TREASURE CHEST OPENED! Attempting XP Gain` log and significant jump in `perkTreasureHunter` progress bar.
 

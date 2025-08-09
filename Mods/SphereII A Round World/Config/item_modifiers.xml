@@ -1,0 +1,31 @@
+<configs>
+    <!-- Add a requirement to the effect_groups to disable it when the durability is below a level -->
+    <!-- Apply them all first, so then we can add our own effect_group -->
+    <append xpath="//item_modifier/effect_group">
+        <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
+    </append>
+    
+    <append xpath="//item_modifier">
+        
+        <!-- Enable Quality for all item_modifier -->
+        <property name="ShowQuality" value="true"/>
+        
+        <!-- Let Them be repaired -->
+        <property name="RepairTools" value="resourceRepairKit"/>
+        
+        <!-- Break after they completely degrade? -->
+        <property name="DegradationBreaksAfter" value="false"/>
+
+        <effect_group name="Quality Mods" >
+            <passive_effect name="DegradationMax" operation="base_set" value="300,400" tier="1,6" />
+            <passive_effect name="DegradationPerUse" operation="base_set" value="1" />
+        </effect_group>
+        
+        <!-- Just a debug messages -->
+        <effect_group name="Item Broken">
+            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffStatusModBroken"/>
+        
+        </effect_group>
+    </append>
+</configs>

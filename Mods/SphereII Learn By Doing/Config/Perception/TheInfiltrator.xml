@@ -32,11 +32,11 @@
 			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
 		</triggered_effect>
 		<!-- CREDIT GAIN: "The Scavenger" (Looting) -->
-		<triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
+		<triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage" message="LBD DEBUG: The Infiltrator - Trap Looted! Adding Placement Credit.">
 			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
 			<requirement name="HasBuff" buff="god"/>
 		</triggered_effect>
-		<triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
+		<triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$infiltrator_placement_credits" operation="add" value="1">
 			<requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
 		</triggered_effect>
 		<!-- COOLDOWN & LEVEL UP LOGIC -->

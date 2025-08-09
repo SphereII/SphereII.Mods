@@ -1,4 +1,3 @@
 <configs>
-    <!-- Remove all prepared food items from loot groups -->
-    <remove xpath="//item[starts-with(@name, 'food')]"/>
+
 </configs>

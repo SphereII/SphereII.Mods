@@ -57,7 +57,7 @@
                 <requirement name="RequirementIsTargetBlock, SCore" tags="treasureHunter"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$attperception_decay_counter" operation="set" value="0">
                 <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
                 <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
             </triggered_effect>

@@ -1,5 +1,7 @@
 // 				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception" />
 
+using UnityEngine;
+
 public class RequirementIsProgressionLocked : ProgressionLevel
 {
     public override bool IsValid(MinEventParams _params)
@@ -9,10 +11,10 @@ public class RequirementIsProgressionLocked : ProgressionLevel
             return false;
         }
 
-        if (target.Progression == null) return false;
-        pv = target.Progression.GetProgressionValue(this.progressionId);
+        if (_params.Self.Progression == null) return false;
+        pv = _params.Self.Progression.GetProgressionValue(this.progressionId);
         if (pv == null) return false;
-        var result = pv.IsLocked(_params.Self);
+        var result = pv.CanPurchase(_params.Self, pv.Level);
         if (invert)
         {
             return !result;

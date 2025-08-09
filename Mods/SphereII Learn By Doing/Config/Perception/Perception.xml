@@ -44,7 +44,7 @@
                 <requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
             </triggered_effect>
 
-            <triggered_effect trigger="onSelfLootContainer" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="ModifyCVar" cvar="$attperception_lbd_xp" operation="add" value="@$lbd_xp_attribute_synergy_base">
                 <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
                 <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
@@ -72,7 +72,7 @@
                 <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_attPerception_XPCoolDown">
                 <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
             </triggered_effect>
@@ -99,7 +99,7 @@
                 <requirement name="ItemHasTags" tags="Mine,Mine2,Mine3,Mine4"/>
                 <requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfLootContainer" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="AddBuff" buff="buffLBD_attPerception_LevelUpCheck">
                 <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
                 <requirement name="CVarCompare" cvar="$attperception_lbd_xp" operation="GTE" value="@$attperception_lbd_xptonext"/>
             </triggered_effect>
@@ -148,7 +148,7 @@
                 <requirement name="HasBuff" buff="god"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attPerception_XPCoolDown"/>
             </triggered_effect>
-            <triggered_effect trigger="onSelfLootContainer" action="LogMessage" message="LBD DEBUG: Perception Attribute - Treasure Discovery Synergy XP (+@$lbd_xp_attribute_synergy_base)">
+            <triggered_effect trigger="onSelfCloseLootContainer" action="LogMessage" message="LBD DEBUG: Perception Attribute - Treasure Discovery Synergy XP (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="RequirementQuestObjective, SCore" objective="TreasureChest"/>
                 <requirement name="RequirementIsTargetBlock, SCore" tags="buriedTreasure"/>
                 <requirement name="HasBuff" buff="god"/>

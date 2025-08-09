@@ -32,6 +32,21 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.9.1016
+	[ Learn By Doing ]
+		- Fixed an issue with the IsProgressionLocked Requirement
+			- This bug caused red checkmarks
+
+	[ SphereII Learn By Doing ]
+		- Fixed an issue with RuleOneCardio not using the proper cvars
+		- Changed all the open loot container triggers to onSelfCloseLootContainer for dedi-compliant.
+			- The others do not trigger on dedi
+			- This affected LuckyLooter, Decay, Perception, The Infiltrator, and Treasure Hunter
+
+	[ SphereII A Round World ]
+		- Added example item_modifers and buff for degradation.
+		- Removed food loot remove.
+
 Version: 2.2.8.1701
 	[ Item Degradation ]
 		- Added a patch for fun-sies to degrade item modifications.
