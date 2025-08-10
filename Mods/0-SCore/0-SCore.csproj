@@ -142,6 +142,7 @@
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
     <Compile Include="Features\ItemDegradation\Harmony\ItemModificationDegradation.cs" />
+    <Compile Include="Features\ItemDegradation\Scripts\MinEventActionDegradeItemValue.cs" />
     <Compile Include="Features\ItemDegradation\Scripts\MinEventActionModifyItem.cs" />
     <Compile Include="Features\ItemDegradation\Scripts\RequirementCompareItemProperty.cs" />
     <Compile Include="Features\LearnByDoing\Harmony\BlockSecureLootEventData_Event.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Features\PassiveEffectHooks\AddHooks.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\EntityAliveFireEventPatch.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\ItemActionEntryScrapPostfix.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\ItemValueFireEventPatch.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\MinEventActionBasePatch.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\OnBoughtOnSoldPatches.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnLootContainerPicked.cs" />

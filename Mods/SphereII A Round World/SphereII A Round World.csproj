@@ -49,6 +49,7 @@
     <ItemGroup>
       <Content Include="Config\blocks.xml" />
       <Content Include="Config\buffs.xml" />
+      <Content Include="Config\items.xml" />
       <Content Include="Config\item_modifiers.xml" />
       <Content Include="Config\Localization.txt" />
       <Content Include="Config\loot.xml" />

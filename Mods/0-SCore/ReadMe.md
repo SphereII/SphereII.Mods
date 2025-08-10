@@ -32,9 +32,14 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.10.953
+	[ Item Degradation ]
+		- Fixed an issue where a sound would play constantly.
+		- Added a patch to ItemValue's FireEvent, to cascade events through item mods, allow item_modifers to have events.
+	
 Version: 2.2.9.1016
 	[ Learn By Doing ]
-		- Fixed an issue with the IsProgressionLocked Requirement
+		- Fixed an issue with the IsProgressionLocked Requirement  
 			- This bug caused red checkmarks
 
 	[ SphereII Learn By Doing ]

@@ -5,35 +5,68 @@ using UnityEngine;
 
 namespace SCore.Features.ItemDegradation.Harmony
 {
-    [HarmonyPatch(typeof(ItemAction))]
-    [HarmonyPatch(nameof(ItemAction.HandleItemBreak))]
-    public class ItemActionHandleItemBreak
+    public class ItemDegradationHelpers
     {
-        public static void Postfix(global::ItemActionData _actionData)
+        public static void CheckModification(ItemValue mod, EntityAlive player)
         {
-            var player = _actionData.invData.holdingEntity as EntityPlayerLocal;
-            if (player == null) return;
+            if (mod == null) return;
+            if (mod.IsEmpty()) return;
+            if (!mod.HasQuality) return;
+            if (mod.MaxUseTimes <= 1) return;
 
-            for (var i = 0; i < player.inventory.holdingItemItemValue.Modifications.Length; i++)
+            if (mod.MaxUseTimes > 2 && mod.UseTimes >= mod.MaxUseTimes)
             {
-                var mod = player.inventory.holdingItemItemValue.Modifications[i];
-                if (mod == null) continue;
-                if (mod.IsEmpty()) continue;
-                if (!mod.HasQuality) continue;
-
-                var maxUse =EffectManager.GetValue(PassiveEffects.DegradationMax, mod, 1f,
-                    _actionData.invData.holdingEntity, null,mod.ItemClass.ItemTags);
-                if (maxUse> 0 &&  mod.UseTimes >= maxUse)
+               // Manager.BroadcastPlay(player, "itembreak");
+                if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
                 {
-                    Manager.BroadcastPlay(_actionData.invData.holdingEntity, "itembreak");
-                    if (mod.ItemClass.MaxUseTimesBreaksAfter.Value)
-                    {
-                        player.inventory.holdingItemItemValue.Modifications[i] = ItemValue.None;
-                    }
-                    continue;
+                    mod = ItemValue.None;
                 }
-                mod.UseTimes +=EffectManager.GetValue(PassiveEffects.DegradationPerUse, mod, 1f,
-                    _actionData.invData.holdingEntity, null,mod.ItemClass.ItemTags);
+                return;
+            }
+
+            mod.UseTimes += EffectManager.GetValue(PassiveEffects.DegradationPerUse, mod, 1f,
+                player, null, mod.ItemClass.ItemTags);
+        }
+        public static void CheckModificationOnItem(ItemValue[] items, EntityAlive player)
+        {
+            for (var i = 0; i < items.Length; i++)
+            {
+                CheckModification(items[i],player);
+            }
+        }
+
+        [HarmonyPatch(typeof(ItemAction))]
+        [HarmonyPatch(nameof(ItemAction.HandleItemBreak))]
+        public class ItemActionHandleItemBreak
+        {
+            public static void Postfix(global::ItemActionData _actionData)
+            {
+                CheckModificationOnItem(_actionData.invData.holdingEntity.inventory.holdingItemItemValue.Modifications, _actionData.invData.holdingEntity);
+            }
+        }
+
+        [HarmonyPatch(typeof(EntityAlive))]
+        [HarmonyPatch(nameof(EntityAlive.ApplyLocalBodyDamage))]
+        public class EntityAliveApplyLocalBodyDamage
+        {
+            public static void Postfix(global::EntityAlive __instance, DamageResponse _dmResponse)
+            {
+               
+                if (__instance.equipment == null) return;
+                
+                var wornArmor = __instance.equipment.GetArmor();
+                foreach( var armor in wornArmor)
+                {
+                    if (armor.ItemClass is ItemClassArmor armorItemClass)
+                    {
+                        if (_dmResponse.ArmorSlot == armorItemClass.EquipSlot)
+                        {
+                            CheckModification(armor, __instance);
+                        }
+                    }
+                    
+                }
+
             }
         }
     }
