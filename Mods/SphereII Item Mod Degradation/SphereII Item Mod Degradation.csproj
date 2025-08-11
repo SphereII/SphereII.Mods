@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
             Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{44065753-4709-4498-BD9E-CD3C16AC4C9C}</ProjectGuid>
+        <ProjectGuid>{C442AE84-C437-491B-AE37-5A19C745EFF4}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>SphereII_A_Round_World</RootNamespace>
-        <AssemblyName>SphereII_A_Round_World</AssemblyName>
+        <RootNamespace>SphereII_Item_Mod_Degradation</RootNamespace>
+        <AssemblyName>SphereII_Item_Mod_Degradation</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
     </PropertyGroup>
@@ -33,30 +33,12 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Properties\versionTemplate.cs">
-          <DependentUpon>versionTemplate.tt</DependentUpon>
-          <AutoGen>True</AutoGen>
-          <DesignTime>True</DesignTime>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="Config\blocks.xml" />
+      <Content Include="Config\buffs.xml" />
+      <Content Include="Config\items.xml" />
+      <Content Include="Config\item_modifiers.xml" />
       <Content Include="Config\Localization.txt" />
-      <Content Include="Config\loot.xml" />
-      <Content Include="Config\recipes.xml" />
       <Content Include="ModInfo.xml" />
-      <Content Include="Properties\versionTemplate.tt">
-        <Generator>TextTemplatingFileGenerator</Generator>
-        <LastGenOutput>versionTemplate.cs</LastGenOutput>
-      </Content>
-      <Content Include="Readme.md" />
+      <Content Include="README.md" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -66,5 +48,4 @@
     <Target Name="AfterBuild">
     </Target>
     -->
-
 </Project>

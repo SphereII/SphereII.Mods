@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Challenges", "..\.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Learn By Doing", "SphereII Learn By Doing\SphereII Learn By Doing.csproj", "{BBADFA39-7F84-47F7-B43D-92070FC91D05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereII Item Mod Degradation", "SphereII Item Mod Degradation\SphereII Item Mod Degradation.csproj", "{C442AE84-C437-491B-AE37-5A19C745EFF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBADFA39-7F84-47F7-B43D-92070FC91D05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C442AE84-C437-491B-AE37-5A19C745EFF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

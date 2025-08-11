@@ -21,9 +21,11 @@ public class ObjectiveFetchByTags :  ObjectiveFetch
         ObjectiveFetchByTags objectiveFetch = new ObjectiveFetchByTags();
         this.CopyValues(objectiveFetch);
         objectiveFetch.KeepItems = true;
+        objectiveFetch.tags = tags;
         return objectiveFetch;
     }
 
+ 
     public override void RemoveObjectives()
     {
 
@@ -49,6 +51,7 @@ public class ObjectiveFetchByTags :  ObjectiveFetch
         {
             currentCount = itemCount;
         }
+
         SetupDisplay();
         if (currentCount != CurrentValue)
         {

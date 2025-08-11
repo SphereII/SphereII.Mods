@@ -4,44 +4,81 @@
 		<effect_group name="Pack Mule">
 			<requirement name="HasBuff" buff="buffEncumberedInv"/>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier1">
+			<triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier1">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="1"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="3"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier1">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="1"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="3"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier2">
+			<triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier2">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="4"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="6"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier2">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="4"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="6"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier3">
+			<triggered_effect trigger="onSelfRun" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier3">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="7"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="add" value="@$lbd_xp_packmule_tier3">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="7"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="AddBuff" buff="buffLBD_perkPackMule_XPCoolDown">
+			<triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkPackMule_XPCoolDown">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkPackMule_XPCoolDown">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="AddBuff" buff="buffLBD_perkPackMule_LevelUpCheck">
+			<triggered_effect trigger="onSelfRun" action="AddBuff" buff="buffLBD_perkPackMule_LevelUpCheck">
+				<requirement name="CVarCompare" cvar="$perkpackmule_lbd_xp" operation="GTE" value="@$perkpackmule_lbd_xptonext"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="AddBuff" buff="buffLBD_perkPackMule_LevelUpCheck">
 				<requirement name="CVarCompare" cvar="$perkpackmule_lbd_xp" operation="GTE" value="@$perkpackmule_lbd_xptonext"/>
 			</triggered_effect>
 
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - Low Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier1)">
+			<triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Pack Mule - Low Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier1)">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="1"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="3"/>
 				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - Medium Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier2)">
+			<triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - Low Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier1)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="1"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="3"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Pack Mule - Medium Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier2)">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="4"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="6"/>
 				<requirement name="HasBuff" buff="god"/>
 			</triggered_effect>
-			<triggered_effect trigger="onSelfRun,onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - High Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier3)">
+			<triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - Medium Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier2)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="4"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="LTE" value="6"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Pack Mule - High Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier3)">
+				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
+				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="7"/>
+				<requirement name="HasBuff" buff="god"/>
+			</triggered_effect>
+			<triggered_effect trigger="onSelfWalk" action="LogMessage" message="LBD DEBUG: Pack Mule - High Encumbrance! Attempting XP Gain (+@$lbd_xp_packmule_tier3)">
 				<requirement name="NotHasBuff" buff="buffLBD_perkPackMule_XPCoolDown"/>
 				<requirement name="CVarCompare" cvar="_encumberedslots" operation="GTE" value="7"/>
 				<requirement name="HasBuff" buff="god"/>

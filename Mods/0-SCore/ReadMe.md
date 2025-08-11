@@ -32,6 +32,26 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version:
+	[ Quest ]
+		- Fixed an issue with the ObjectiveFetchByTags not propagating Tags properly.
+			- Literally its only point, and it couldn't even do that.
+	
+	[ DegradeItemValue ]
+		- Added null check to itemvalue.
+
+	[ SphereII Learn By Doing ]
+		- Fixed a PackMule issue where the triggers were doubled up.
+		
+
+	[ SphereII Item Mod Degradation ]
+		- Added a testing modlet for item mod degradation
+		- Added special degradation for Helmet Light
+		- Added special degradation for Water Purifier
+
+	[ SphereII A Round World ]
+		- Moved Item Mod Degradation out into it's own modlet.
+
 Version: 2.2.10.953
 	[ Item Degradation ]
 		- Fixed an issue where a sound would play constantly.

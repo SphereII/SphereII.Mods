@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xml>
+    <Name value="sphereii_item_mod_degradation" />
+    <Author value="sphereii" />
+    <Description value="Experimental Modlet to allow item mod degradation" />
+    <DisplayName value="SphereII Item Mod Degradation" />
+    <Website value="" />
+    <Version value="2.0.0.0" />
+</xml>

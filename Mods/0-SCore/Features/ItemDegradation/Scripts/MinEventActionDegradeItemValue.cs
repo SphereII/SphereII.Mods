@@ -9,6 +9,8 @@ public class MinEventActionDegradeItemValueMod: MinEventActionTargetedBase
         if (player == null) return;
 
         var itemValue = _params.ItemValue;
+        if (itemValue == null) return;
+        
         // Only Work on a mod.
         if (!itemValue.IsMod) return;
         ItemDegradationHelpers.CheckModification(itemValue, player);

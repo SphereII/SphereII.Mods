@@ -1,0 +1,27 @@
+<configs>
+    <append xpath="/buffs">
+        <buff name="buffStatusModBroken" name_key="buffStatusModBrokenName" description_key="buffStatusModBrokenDesc" 
+              tooltip_key="buffStatusModBrokenTooltip" icon="ui_game_symbol_modded" 
+              icon_color="255,0,0" icon_blink="true">
+            <stack_type value="ignore"/>
+            <display_value_key value="buffStatusModBrokenNameShort"/>
+            <display_value value="xxx"/>
+        </buff>
+
+        <!-- Degrades Helmet light when it's on, over time. -->
+        <buff name="buffHiddenLightOnDurabilityCheck" hidden="true">
+            <stack_type value="ignore"/>
+            <update_rate value="100"/>
+            <effect_group name="Damage During Use">
+                <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="DegradeItemValueMod, SCore"/>
+            </effect_group>
+            <effect_group name="Item Broken">
+                <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffStatusModBroken"/>
+                <triggered_effect trigger="onSelfBuffUpdate" action="SetPartActive" part="HeadLight" active="false" />
+            </effect_group>
+        </buff>
+      
+    </append>
+</configs>
