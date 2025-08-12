@@ -33,14 +33,14 @@
         <buff name="buffLBD_perkGrandSlam_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkGrandSlam" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkGrandSlam" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkGrandSlam" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xp" operation="subtract" value="@$perkgrandslam_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xptonext" operation="multiply" value="1.2"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkGrandSlam" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkGrandSlam" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkGrandSlam" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Grand Slam - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

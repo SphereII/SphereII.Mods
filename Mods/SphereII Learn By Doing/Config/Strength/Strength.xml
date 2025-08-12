@@ -1,8 +1,24 @@
-
 <configs>
-    <!-- Append the LBD logic for attStrength to the main Strength Manager buff. -->
     <append xpath="/buffs/buff[@name='buffLBD_StrengthManager']">
         <effect_group name="Strength">
+
+            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Primary - General Use Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Power - General Use Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="attStrength"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP">
+                <requirement name="HoldingItemHasTags" tags="miningTool"/>
+                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
+                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
+                <requirement name="HasBuff" buff="god"/>
+            </triggered_effect>
+
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="add" value="@$lbd_xp_melee_base">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
@@ -18,7 +34,6 @@
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
                 <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
             </triggered_effect>
-
 
             <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffLBD_attStrength_XPCoolDown">
                 <requirement name="HoldingItemHasTags" tags="attStrength"/>
@@ -47,43 +62,25 @@
                 <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
                 <requirement name="CVarCompare" cvar="$attstrength_lbd_xp" operation="GTE" value="@$attstrength_lbd_xptonext"/>
             </triggered_effect>
-
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Primary - General Use Synergy XP">
-                <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfSecondaryActionRayHit" action="LogMessage" message="LBD DEBUG: Strength Attribute Power - General Use Synergy XP">
-                <requirement name="HoldingItemHasTags" tags="attStrength"/>
-                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
-            <triggered_effect trigger="onSelfDestroyedBlock" action="LogMessage" message="LBD DEBUG: Strength Attribute - Master Miner Synergy XP">
-                <requirement name="HoldingItemHasTags" tags="miningTool"/>
-                <requirement name="RequirementBlockHasHarvestTags, SCore" tags="oreWoodHarvest"/>
-                <requirement name="NotHasBuff" buff="buffLBD_attStrength_XPCoolDown"/>
-                <requirement name="HasBuff" buff="god"/>
-            </triggered_effect>
         </effect_group>
     </append>
 
-    <!-- Define the Level-Up Handler buff for attStrength. -->
     <append xpath="/buffs">
         <buff name="buffLBD_attStrength_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <!-- We keep this check to respect future balance changes or other mods. -->
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attStrength" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="attStrength" />
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="Level Up Check 1" />
+
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attStrength" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="subtract" value="@$attstrength_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="multiply" value="1.3"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attStrength" sound="read_skillbook_final" />
 
-                <!-- NEW: Trigger the Strength Mastery Checker buff -->
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attStrength_MasteryChecker"/>
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attStrength" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="attStrength" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Strength - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

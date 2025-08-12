@@ -141,7 +141,7 @@
         <buff name="buffLBD_craftingClubs_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingClubs" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingClubs" />
                 <requirement name="ProgressionLevel" progression_name="attStrength" operation="GTE" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingClubs" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingclubs_lbd_xp" operation="subtract" value="@$craftingclubs_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingclubs_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -154,7 +154,7 @@
             </effect_group>
             <effect_group>
                 <requirement name="CVarCompare" cvar="$craftingclubs_lbd_xp" operation="GTE" value="@$craftingclubs_lbd_xptonext"/>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingClubs" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingClubs" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Clubs - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

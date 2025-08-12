@@ -199,7 +199,7 @@
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingWorkstations"/>
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingWorkstations"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
                                   progression_name="craftingWorkstations" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingworkstations_lbd_xp"
@@ -211,7 +211,7 @@
                                   sound="read_skillbook_final"/>
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingWorkstations"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingWorkstations"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Workstations - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>

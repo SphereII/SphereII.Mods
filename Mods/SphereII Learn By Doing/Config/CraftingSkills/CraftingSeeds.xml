@@ -57,14 +57,14 @@
         <buff name="buffLBD_craftingSeeds_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingSeeds" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingSeeds" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingSeeds" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xp" operation="subtract" value="@$craftingseeds_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingseeds_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingSeeds" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingSeeds" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingSeeds" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Seeds - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

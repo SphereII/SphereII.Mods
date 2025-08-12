@@ -12,7 +12,7 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             if (__result == false) return;
              vehicle ??= _xui.vehicle.GetVehicle();
             
-             vehicle.itemValue.SetMetadata("DamageAmount", vehicle.GetHealth(), TypedMetadataValue.TypeTag.Float);
+             vehicle.itemValue.SetMetadata("DamageAmount", vehicle.GetHealth(), TypedMetadataValue.TypeTag.Integer);
              vehicle.itemValue.SetMetadata("PercentDamaged", vehicle.GetHealthPercent(), TypedMetadataValue.TypeTag.Float);
              
             var entityPlayer = _xui.playerUI.entityPlayer;
@@ -24,12 +24,6 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             vehicle.itemValue.ItemClass.FireEvent(MinEventTypes.onSelfItemRepaired, minEventParams);
             minEventParams.Self.MinEventContext = minEventParams;
             minEventParams.Self.FireEvent(MinEventTypes.onSelfItemRepaired);
-
-            vehicle.itemValue.SetMetadata("DamageAmount", 0f, TypedMetadataValue.TypeTag.Float);
-            vehicle.itemValue.SetMetadata("PercentDamaged", 0f, TypedMetadataValue.TypeTag.Float);
-
         }
-
-
     }
 }

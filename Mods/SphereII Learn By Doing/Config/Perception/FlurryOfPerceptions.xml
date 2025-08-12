@@ -50,14 +50,14 @@
 		<buff name="buffLBD_perkFlurryOfPerception_LevelUpCheck" hidden="true">
 			<stack_type value="ignore"/><duration value="1"/>
 			<effect_group>
-				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception" />
+				<requirement name="CanPurchasePerk, SCore" progression_name="perkFlurryOfPerception" />
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfPerception" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xp" operation="subtract" value="@$perkflurryofperception_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofperception_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfPerception" sound="read_skillbook_final" />
 			</effect_group>
 			<effect_group>
-				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfPerception" />
+				<requirement name="!CanPurchasePerk, SCore" progression_name="perkFlurryOfPerception" />
 				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Perception - Level Up FAILED. Perk is locked by requirements.">
 					<requirement name="HasBuff" buff="god"/>
 				</triggered_effect>

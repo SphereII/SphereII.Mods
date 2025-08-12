@@ -63,6 +63,7 @@
     <Content Include="Config\Dialogs\General\ZombiesDialog.txt" />
     <Content Include="Config\Dialogs\General\ZombiesDialog.xml" />
     <Content Include="Config\entityclasses.xml" />
+    <Content Include="Config\items.xml" />
     <Content Include="Config\Localization.txt" />
     <Content Include="Config\npc.xml" />
     <Content Include="Config\quests.xml" />

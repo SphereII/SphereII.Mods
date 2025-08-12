@@ -38,6 +38,7 @@ public class NetPackageMinEventSharedReading : NetPackage
         {
             return;
         }
+
         
         var entityAlive = _world.GetEntity(selfEntityID) as EntityPlayer;
         if (entityAlive == null) return;
@@ -53,7 +54,10 @@ public class NetPackageMinEventSharedReading : NetPackage
                 package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, itemValue);
                 ConnectionManager.Instance.SendPackage(package);
             }
+
+            return;
         }
+        
         ApplyMinEffect(entityAlive);
 
         var unlock = itemValue.ItemClass.Properties.GetString("Unlocks");

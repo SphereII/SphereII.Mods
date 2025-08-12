@@ -46,14 +46,14 @@
         <buff name="buffLBD_perkFlurryOfIntellect_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfIntellect" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkFlurryOfIntellect" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFlurryOfIntellect" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="subtract" value="@$perkflurryofintellect_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFlurryOfIntellect" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFlurryOfIntellect" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkFlurryOfIntellect" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Flurry of Intellect - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

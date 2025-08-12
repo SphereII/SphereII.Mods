@@ -50,14 +50,14 @@
         <buff name="buffLBD_perkMasterChef_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkMasterChef" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkMasterChef" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMasterChef" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmasterchef_lbd_xp" operation="subtract" value="@$perkmasterchef_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmasterchef_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMasterChef" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkMasterChef" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkMasterChef" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Master Chef - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

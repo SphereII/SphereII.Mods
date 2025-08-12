@@ -22,13 +22,23 @@ namespace SCore.Features.SharedReading.Harmony
                 if (ent is not EntityPlayerLocal readingPlayer) return;
                 if (readingPlayer.Party == null) return;
 
-                foreach (var member in readingPlayer.Party.MemberList)
+                if (ConnectionManager.Instance.IsServer)
                 {
-                    if (ent.entityId == member.entityId) continue;
-                    var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
-                    package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
-                    ConnectionManager.Instance.SendToClientsOrServer(package);
+                    foreach (var member in readingPlayer.Party.MemberList)
+                    {
+                        if (ent.entityId == member.entityId) continue;
+                        var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
+                        package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
+                        ConnectionManager.Instance.SendPackage(package);
+                    }
                 }
+                else
+                {
+                    var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
+                    package.Setup(readingPlayer.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
+                    ConnectionManager.Instance.SendToServer(package);
+                }
+
                 var unlock = stack.itemValue.ItemClass.Properties.GetString("Unlocks");
                 unlock = SCoreLocalizationHelper.GetLocalization(unlock);
                 var toolTipDisplay = $"{Localization.Get("sharedReadingSourceDesc")} :: {unlock}";

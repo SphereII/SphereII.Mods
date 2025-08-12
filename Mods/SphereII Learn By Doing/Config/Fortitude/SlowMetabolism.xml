@@ -89,14 +89,14 @@
         <buff name="buffLBD_perkSlowMetabolism_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkSlowMetabolism" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkSlowMetabolism" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSlowMetabolism" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xp" operation="subtract" value="@$perkslowmetabolism_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkslowmetabolism_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSlowMetabolism" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkSlowMetabolism" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkSlowMetabolism" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Slow Metabolism - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

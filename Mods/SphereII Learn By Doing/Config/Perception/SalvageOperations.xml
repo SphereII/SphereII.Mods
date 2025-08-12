@@ -40,7 +40,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1"/>
 			<effect_group>
-				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkSalvageOperations"/>
+				<requirement name="CanPurchasePerk, SCore" progression_name="perkSalvageOperations"/>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSalvageOperations" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xp" operation="subtract" value="@$perksalvageoperations_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perksalvageoperations_lbd_xptonext" operation="multiply" value="1.2"/>

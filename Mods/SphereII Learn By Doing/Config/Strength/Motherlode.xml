@@ -42,14 +42,14 @@
         <buff name="buffLBD_perkMotherLode_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkMotherLode" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkMotherLode" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMotherLode" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xp" operation="subtract" value="@$perkmotherlode_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="multiply" value="1.2"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMotherLode" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkMotherLode" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkMotherLode" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Mother Lode - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

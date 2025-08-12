@@ -32,7 +32,21 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
-Version:
+Version: 2.2.12.1420
+	[ Requirements ]
+		- Added new CanPurchasePerk requirement to replace RequirementIsProgressionLocked.
+		- This seems to fire more accurately than the old one.
+			<requirement name="CanPurchasePerk, SCore" progression_name="attPerception" />
+
+	[ SphereII Learn By Doing ]
+		- Reordered Strength for logging to work
+		- Replace RequirementIsProgressionLocked with CanPurchasePerk
+			( Note: SCore version MUST be above 2.2.12 for this to work )
+
+	[ Shared Reading ]
+		- Fixed an issue where SharedReading gave more books than necessary. Maybe.
+
+Version: 2.2.11.825
 	[ Quest ]
 		- Fixed an issue with the ObjectiveFetchByTags not propagating Tags properly.
 			- Literally its only point, and it couldn't even do that.

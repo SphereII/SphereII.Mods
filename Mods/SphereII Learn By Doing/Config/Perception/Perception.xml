@@ -162,7 +162,7 @@
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+                <requirement name="CanPurchasePerk, SCore" progression_name="attPerception"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
                                   progression_name="attPerception" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xp"
@@ -176,7 +176,7 @@
             </effect_group>
 
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="attPerception"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Perception - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>

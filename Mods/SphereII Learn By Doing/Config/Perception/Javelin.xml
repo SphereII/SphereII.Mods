@@ -47,7 +47,7 @@
 			<stack_type value="ignore"/>
 			<duration value="1"/>
 			<effect_group>
-				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkJavelinMaster"/>
+				<requirement name="CanPurchasePerk, SCore" progression_name="perkJavelinMaster"/>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJavelinMaster" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xp" operation="subtract" value="@$perkjavelinmaster_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjavelinmaster_lbd_xptonext" operation="multiply" value="1.2"/>

@@ -373,6 +373,7 @@
     <Compile Include="Scripts\Blocks\BlockUtilitiesSDX.cs" />
     <Compile Include="Scripts\Buffs\BlockHasDestroyTags.cs" />
     <Compile Include="Scripts\Buffs\BlockHasName.cs" />
+    <Compile Include="Scripts\Buffs\CanPurchasePerk.cs" />
     <Compile Include="Scripts\Buffs\FactionRelationshipValue.cs" />
     <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\ItemHasProperty.cs" />

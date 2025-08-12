@@ -48,14 +48,14 @@
         <buff name="buffLBD_perkSkullCrusher_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkSkullCrusher" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkSkullCrusher" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkSkullCrusher" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="subtract" value="@$perkskullcrusher_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xptonext" operation="multiply" value="1.2"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSkullCrusher" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkSkullCrusher" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkSkullCrusher" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Skull Crusher - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

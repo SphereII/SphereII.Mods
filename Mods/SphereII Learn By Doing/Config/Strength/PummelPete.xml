@@ -48,14 +48,14 @@
         <buff name="buffLBD_perkPummelPete_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPummelPete" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkPummelPete" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPummelPete" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="subtract" value="@$perkpummelpete_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xptonext" operation="multiply" value="1.2"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPummelPete" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPummelPete" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkPummelPete" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Pummel Pete - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

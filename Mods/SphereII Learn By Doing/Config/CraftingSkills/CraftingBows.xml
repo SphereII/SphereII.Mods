@@ -140,7 +140,7 @@
         <buff name="buffLBD_craftingBows_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingBows" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingBows" />
                 <requirement name="ProgressionLevel" progression_name="attAgility" operation="GTE" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingBows" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xp" operation="subtract" value="@$craftingbows_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingbows_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -153,7 +153,7 @@
             </effect_group>
             <effect_group>
                 <requirement name="CVarCompare" cvar="$craftingbows_lbd_xp" operation="GTE" value="@$craftingbows_lbd_xptonext"/>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingBows" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingBows" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Bows - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

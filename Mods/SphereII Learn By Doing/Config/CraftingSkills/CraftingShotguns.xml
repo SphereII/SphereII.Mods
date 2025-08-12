@@ -105,14 +105,14 @@
         <buff name="buffLBD_craftingshotguns_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="craftingShotguns" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="craftingShotguns" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingShotguns" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingshotguns_lbd_xp" operation="subtract" value="@$craftingshotguns_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingshotguns_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingShotguns" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingShotguns" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="craftingShotguns" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Shotguns - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

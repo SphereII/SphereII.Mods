@@ -94,13 +94,13 @@
         <buff name="buffLBD_perkFortitudeMastery_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkFortitudeMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFortitudeMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_level" operation="add" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFortitudeMastery" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkFortitudeMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

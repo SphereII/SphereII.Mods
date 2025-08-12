@@ -95,13 +95,13 @@
         <buff name="buffLBD_perkAgilityMastery_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkAgilityMastery" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkAgilityMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAgilityMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_lbd_level" operation="add" value="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAgilityMastery" sound="read_skillbook_final" />
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkAgilityMastery" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkAgilityMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Agility Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

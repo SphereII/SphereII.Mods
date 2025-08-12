@@ -153,7 +153,7 @@
                 </effect_group>
                 <effect_group>
                     <requirement name="CVarCompare" cvar="$craftingharvestingtools_lbd_xp" operation="GTE" value="@$craftingharvestingtools_lbd_xptonext"/>
-                    <requirement name="RequirementIsProgressionLocked, SCore" progression_name="craftingHarvestingTools" />
+                    <requirement name="!CanPurchasePerk, SCore" progression_name="craftingHarvestingTools" />
                     <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Harvesting Tools - Level Up FAILED. Perk is locked by requirements.">
                         <requirement name="HasBuff" buff="god"/>
                     </triggered_effect>

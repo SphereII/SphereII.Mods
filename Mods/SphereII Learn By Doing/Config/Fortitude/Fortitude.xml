@@ -127,7 +127,7 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <!-- We keep this check to respect future balance changes or other mods. -->
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attFortitude" />
+                <requirement name="CanPurchasePerk, SCore" progression_name="attFortitude" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attFortitude" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xp" operation="subtract" value="@$attfortitude_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attfortitude_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
@@ -136,7 +136,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attFortitude_MasteryChecker"/>
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="attFortitude" />
+                <requirement name="!CanPurchasePerk, SCore" progression_name="attFortitude" />
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: Fortitude - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>
                 </triggered_effect>

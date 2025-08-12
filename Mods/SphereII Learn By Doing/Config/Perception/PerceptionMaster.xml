@@ -102,7 +102,7 @@
             <duration value="1"/>
             <effect_group>
                 <!-- Master requirement: Ensure the perk is not locked by its own progression requirements -->
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkPerceptionMastery"/>
 
                 <!-- 1. THE REWARD: Level up the actual Mastery perk. -->
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
@@ -122,7 +122,7 @@
 
             <!-- This effect group handles the case where the level up is LOCKED -->
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkPerceptionMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Perception Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>

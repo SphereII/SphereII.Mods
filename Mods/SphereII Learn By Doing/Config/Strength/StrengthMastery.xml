@@ -109,7 +109,7 @@
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
+                <requirement name="CanPurchasePerk, SCore" progression_name="perkStrengthMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
                                   progression_name="perkStrengthMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_level"
@@ -118,7 +118,7 @@
                                   sound="read_skillbook_final"/>
             </effect_group>
             <effect_group>
-                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
+                <requirement name="!CanPurchasePerk, SCore" progression_name="perkStrengthMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Strength Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>

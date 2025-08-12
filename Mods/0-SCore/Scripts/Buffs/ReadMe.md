@@ -22,6 +22,8 @@ Requirements are conditions that must be met for certain actions to occur, such 
 * **Player & Progression:**
   * `RequirementQuestObjective`: Checks for active quest objectives.
   * `RequirementIsProgressionLocked`: Checks if a perk, skill, or attribute is locked.
+  * `CanPurchasePerk` : Checks if a perk, skill, or attribute is able to be purchased, which means all requirements are available.
+`
 * **Item-Based:**
   * `RequirementHoldingItemDurability`: Checks the durability of the held item.
   * `ItemHasProperty`: Checks if an item has a specific property and optional value.
@@ -200,12 +202,12 @@ Checks if a block's harvestable items possess any of a set of tags.
 
 **Explanation**: Requires the target block to drop at least one item during harvest that has the "salvageHarvest" tag.
 
-### 17\. `RequirementIsProgressionLocked`
+### 17\. `CanPurchasePerk`
 
 Checks whether a specified progression (such as an attribute, perk, or skill) is currently locked for the player.
 
 ```xml
-<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="attPerception"/>
+<requirement name="!CanPurchasePerk, SCore" progression_name="attPerception"/>
 ```
 
 **Explanation**: This example returns `true` if the "attPerception" attribute is *unlocked*. The `!` prefix is shorthand for `invert="true"`.

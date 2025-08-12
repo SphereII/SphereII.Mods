@@ -66,14 +66,14 @@
 		<buff name="buffLBD_perkPenetrator_LevelUpCheck" hidden="true">
 			<stack_type value="ignore"/><duration value="1"/>
 			<effect_group>
-				<requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPenetrator" />
+				<requirement name="CanPurchasePerk, SCore" progression_name="perkPenetrator" />
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPenetrator" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="subtract" value="@$perkpenetrator_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xptonext" operation="multiply" value="1.2"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPenetrator" sound="read_skillbook_final" />
 			</effect_group>
 			<effect_group>
-				<requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPenetrator" />
+				<requirement name="!CanPurchasePerk, SCore" progression_name="perkPenetrator" />
 				<triggered_effect trigger="onSelfBuffStart" action="LogMessage" message="LBD DEBUG: The Penetrator - Level Up FAILED. Perk is locked by requirements.">
 					<requirement name="HasBuff" buff="god"/>
 				</triggered_effect>
