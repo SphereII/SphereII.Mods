@@ -1,4 +1,10 @@
 <configs>
+    <append xpath="//buff[@name='buffStatusCheck01']">
+        <effect_group name="Routine Update Trigger Buff ">
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffRoutineUpdateTrigger" />
+        </effect_group>
+    </append>
+    
     <append xpath="/buffs">
         <buff name="buffStatusModBroken" name_key="buffStatusModBrokenName" description_key="buffStatusModBrokenDesc" 
               tooltip_key="buffStatusModBrokenTooltip" icon="ui_game_symbol_modded" 
@@ -8,18 +14,15 @@
             <display_value value="xxx"/>
         </buff>
 
-        <!-- Degrades Helmet light when it's on, over time. -->
-        <buff name="buffHiddenLightOnDurabilityCheck" hidden="true">
+        <!-- Periodically send an update on everything the player is wearing-->
+        <buff name="buffRoutineUpdateTrigger" hidden="true" >
             <stack_type value="ignore"/>
             <update_rate value="100"/>
-            <effect_group name="Damage During Use">
-                <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="DegradeItemValueMod, SCore"/>
-            </effect_group>
-            <effect_group name="Item Broken">
-                <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffStatusModBroken"/>
-                <triggered_effect trigger="onSelfBuffUpdate" action="SetPartActive" part="HeadLight" active="false" />
+            <effect_group name="Routine Update">
+                <!--
+                <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Routine Update" />
+                -->
+                <triggered_effect trigger="onSelfBuffUpdate" action="RoutineUpdate, SCore" slots="bag,inventory,equipment"/>
             </effect_group>
         </buff>
       

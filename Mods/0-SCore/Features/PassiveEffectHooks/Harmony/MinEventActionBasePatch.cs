@@ -20,7 +20,8 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             return false;
 
         }
-        
+    
     }
+   
 }
 

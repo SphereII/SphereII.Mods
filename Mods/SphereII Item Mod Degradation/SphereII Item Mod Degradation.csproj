@@ -34,6 +34,7 @@
     </PropertyGroup>
     <ItemGroup>
       <Content Include="Config\buffs.xml" />
+      <Content Include="Config\ItemModifiers\General.xml" />
       <Content Include="Config\items.xml" />
       <Content Include="Config\item_modifiers.xml" />
       <Content Include="Config\Localization.txt" />

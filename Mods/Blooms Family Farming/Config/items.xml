@@ -1,0 +1,85 @@
+<configs>
+    <append xpath="/items">
+    <item name="sphereiiHoe">
+        <property name="Tags" value="axe,melee,light,tool,longShaft,repairTool,miningTool,perkSalvageOperations,perkMiner69r,perkMotherLode,perkTheHuntsman,canHaveCosmetic,harvestingSkill,corpseRemoval"/>
+        <property name="DisplayType" value="meleeRepairTool"/>
+        <property name="HoldType" value="32"/>
+        <property name="Meshfile" value="@:Other/Items/Weapons/Melee/Axe/stone_axePrefab.prefab"/>
+        <property name="Material" value="Mstone"/>
+        <property name="TintColor" value="107, 107, 71"/>
+        <property name="ScrapTimeOverride" value="10.0"/>
+        <property name="RepairTools" value="resourceRockSmall"/>
+        <property name="EconomicValue" value="200"/>
+        <property name="EconomicBundleSize" value="1"/>
+        <property name="TraderStageTemplate" value="baseTier0"/><!-- meleeToolRepairT0StoneAxe -->
+        <property name="SellableToTrader" value="false"/>
+        <property name="DegradationBreaksAfter" value="false"/>
+        <property name="SoundJammed" value="ItemNeedsRepair"/>
+        <property name="SoundDestroy" value="wooddestroy1"/>
+        <property name="ShowQuality" value="true"/>
+        <!-- <property name="UnlockedBy" value="perkMiner69r,craftingHarvestingTools"/> -->
+        <property name="Group" value="Tools/Traps,Basics"/>
+        <property name="RepairExpMultiplier" value="5.5"/>
+        <property name="SoundUnholster" value="weapon_unholster"/>
+        <property name="SoundHolster" value="weapon_holster"/>
+        <property name="SoundPickup" value="axe_stone_grab"/>
+        <property name="SoundPlace" value="axe_stone_place"/>
+
+        <property class="Action0">
+            <property name="Class" value="MakeFertile"/>
+            <property name="Sphere" value=".1"/>
+            <property name="Sound_start" value="axe_stone_swing"/>
+            <property name="ToolCategory.Butcher" value="0" param1="4"/><!-- damage vs entity corpses -->
+            <property name="GrazeStart" value=".15"/>
+            <property name="GrazeEnd" value=".3"/>
+            <property name="SwingDegrees" value="45"/>
+            <property name="SwingAngle" value="135"/>
+            <property name="UseGrazingHits" value="true"/>
+            <property class="HitSounds">
+                <property name="Override0" value="organic" param1="stonehitorganic"/>
+            </property>
+            <property class="GrazeSounds">
+                <property name="Override0" value="organic" param1="metalgrazeorganic"/>
+            </property>
+            
+            <property name="Fertileblock" value="terrFertileScore" />
+            <property name="Adjacentblock" value="terrFertileScore" />
+        </property>
+        
+        <property class="Action1"> <!-- UseAction -->
+            <property name="Class" value="Repair"/>
+            <property name="Repair_amount" value="30"/>
+            <property name="Upgrade_hit_offset" value="-4"/>
+            <property name="Sound_start" value="repair_block"/>
+            <property name="Delay" value="1.3"/> <!-- Repair actions still need the delay amount -->
+            <property name="Upgrade_action_sound" value="ImpactSurface/metalhitearth"/>
+            <property name="Allowed_upgrade_items" value="meleeToolHoeIron,resourceClayLump"/>
+        </property>
+      
+        <effect_group name="meleeToolRepairT0StoneAxe">
+            <passive_effect name="AttacksPerMinute" operation="base_set" value="105" tags="perkMiner69r,axe"/>
+            <passive_effect name="StaminaLoss" operation="base_set" value="8" tags="primary"/>
+            <passive_effect name="DegradationMax" operation="base_set" value="250,500" tier="1,6" tags="perkMiner69r"/>
+            <passive_effect name="DegradationPerUse" operation="base_set" value="1" tags="perkMiner69r"/>
+            <passive_effect name="MaxRange" operation="base_set" value="2.4" tags="perkMiner69r"/>
+            <passive_effect name="BlockRange" operation="base_set" value="3" tags="perkMiner69r"/>
+            <passive_effect name="ModSlots" operation="base_set" value="1,1,1,2,2,3" tier="1,2,3,4,5,6"/>
+            <passive_effect name="ModPowerBonus" operation="perc_add" value=".10" tags="EntityDamage,BlockDamage"/>
+            <passive_effect name="ModPowerBonus" operation="base_add" value="300" tags="EconomicValue"/>
+            <passive_effect name="EntityDamage" operation="base_set" value="6" tags="perkMiner69r"/>
+            <passive_effect name="EntityDamage" operation="perc_add" value=".1,.5" tier="2,6" tags="perkMiner69r"/> <!-- tier bonus -->
+            <passive_effect name="BlockDamage" operation="base_set" value="22" tags="perkMiner69r"/>
+            <passive_effect name="BlockDamage" operation="perc_add" value=".15,.75" tier="2,6" tags="perkMiner69r"/> <!-- tier bonus -->
+            <display_value name="dBlockRepairAmount" value="100"/>
+            <passive_effect name="HarvestCount" operation="base_set" value=".7" tags="butcherHarvest"/>
+            <passive_effect name="DamageModifier" operation="perc_add" value="-.85" tags="earth"/>
+            <passive_effect name="DamageModifier" operation="perc_add" value="-.33" tags="stone"/>
+            <passive_effect name="DamageModifier" operation="perc_add" value="-.5" tags="metal"/>
+            <passive_effect name="DamageModifier" operation="base_set" value="1" tags="head,perkMiner69r" match_all_tags="true"/>
+            <passive_effect name="DismemberChance" operation="base_set" value=".05" tags="perkMiner69r"/>
+        </effect_group>
+
+    </item>
+    </append>
+    
+</configs>

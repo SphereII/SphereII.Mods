@@ -142,6 +142,10 @@
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConfig.cs" />
     <Compile Include="Features\FoodSpoilageV2\Scripts\SpoilageConstants.cs" />
     <Compile Include="Features\ItemDegradation\Harmony\ItemModificationDegradation.cs" />
+    <Compile Include="Features\ItemDegradation\Harmony\TileEntityDewCollectorHandleModChanged.cs" />
+    <Compile Include="Features\ItemDegradation\Harmony\TileEntityWorkstationUpdateTick.cs" />
+    <Compile Include="Features\ItemDegradation\Harmony\XUiCBasePartStackGetBindingValue.cs" />
+    <Compile Include="Features\ItemDegradation\Harmony\XUiCWorkstationToolGridHasRequirement.cs" />
     <Compile Include="Features\ItemDegradation\Scripts\MinEventActionDegradeItemValue.cs" />
     <Compile Include="Features\ItemDegradation\Scripts\MinEventActionModifyItem.cs" />
     <Compile Include="Features\ItemDegradation\Scripts\RequirementCompareItemProperty.cs" />
@@ -188,12 +192,14 @@
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfHarvest.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemBought.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemCraft.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemDegrade.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemRepaired.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemScrap.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfItemSold.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfPlaceBlock.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfPrimaryActionMissEntity.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfQuestComplete.cs" />
+    <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfRoutineUpdate.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\Triggers\OnSelfTurretAttackOther.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\XUiC_RecipeStackOutputStack.cs" />
     <Compile Include="Features\PassiveEffectHooks\Harmony\XUiMVehicleRepairVehicle.cs" />
@@ -378,7 +384,7 @@
     <Compile Include="Scripts\Buffs\HoldingItemDurability.cs" />
     <Compile Include="Scripts\Buffs\ItemHasProperty.cs" />
     <Compile Include="Scripts\Buffs\ItemHasQuality.cs" />
-    <Compile Include="Scripts\Buffs\ItemModDurability.cs" />
+    <Compile Include="Scripts\Buffs\ItemPercentUsed.cs" />
     <Compile Include="Scripts\Buffs\ItemPercentDamaged.cs" />
     <Compile Include="Scripts\Buffs\RecipeHasIngredients.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
@@ -515,6 +521,7 @@
     <Compile Include="Scripts\MinEvents\MinEventActionOpenWindow.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionRoutineUpdate.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionSetDateToCVar.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAttachPrefabWithAnimationsToEntity.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionClearOwner.cs" />

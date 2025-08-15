@@ -96,5 +96,22 @@
 			<property name="WaterRange" value="25" />
 			<property name="MuteSound" value="true" />
 		</block>
+
+		<block name="terrFertileScore">
+			<property name="Extends" value="terrDirt" param1="DescriptionKey"/>
+			<property name="Material" value="Mfarmland"/>
+			<property name="CanMobsSpawnOn" value="false"/>
+		</block>
 	</append>
+	
+	<append xpath="/blocks/block[property[@name='Tags' and @value='treasureHunter']]">
+	
+		<property class="UpgradeBlock">
+			<property name="ToBlock" value="terrFertileScore"/>
+			<property name="Item" value="sphereiiHoe"/>
+			<property name="ItemCount" value="0"/>
+			<property name="UpgradeHitCount" value="4"/>
+		</property>
+	</append>
+	
 </configs>

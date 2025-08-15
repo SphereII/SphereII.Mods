@@ -36,6 +36,9 @@ namespace Challenges {
 
         private void Current_SleepersCleared(Vector3 pos)
         {
+            // Check all the requirements
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name)) return;
+            
             var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
             if (primaryPlayer == null) return;
             if (primaryPlayer.prefab == null) return;

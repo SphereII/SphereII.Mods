@@ -6,11 +6,6 @@ public class CanPurchasePerk : ProgressionLevel
 {
     public override bool IsValid(MinEventParams _params)
     {
-        if (!base.IsValid(_params))
-        {
-            return false;
-        }
-
         if (_params.Self.Progression == null) return false;
         pv = _params.Self.Progression.GetProgressionValue(this.progressionId);
         if (pv == null) return false;
@@ -19,7 +14,6 @@ public class CanPurchasePerk : ProgressionLevel
         {
             return !result;
         }
-
         return result;
     }
 }

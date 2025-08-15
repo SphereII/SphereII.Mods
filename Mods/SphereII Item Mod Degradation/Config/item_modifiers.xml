@@ -1,65 +1,45 @@
 <configs>
-    <!-- Add a requirement to the effect_groups to disable it when the durability is below a level -->
-    <!-- Apply them all first, so then we can add our own effect_group -->
-    <append xpath="//item_modifier/effect_group[@tiered='false']">
-        <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
-    </append>
 
-    <append xpath="//item_modifier">
-        <!-- Enable Quality for all item_modifier -->
-        <property name="ShowQuality" value="true"/>
-
-        <!-- Let Them be repaired -->
-        <property name="RepairTools" value="resourceRepairKit"/>
-
-        <!-- Break after they completely degrade? -->
-        <property name="DegradationBreaksAfter" value="false"/>
-
-        <effect_group name="Quality Mods">
-            <passive_effect name="DegradationMax" operation="base_set" value="300,400" tier="1,6"/>
-            <passive_effect name="DegradationPerUse" operation="base_set" value="1"/>
-        </effect_group>
-
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="AddBuff" buff="buffStatusModBroken"/>
-        </effect_group>
-    </append>
+    <include filename="ItemModifiers/General.xml"/>
 
     <!-- Water Purifier -->
     <append xpath="//item_modifier[@name='modArmorWaterPurifier']">
-        <effect_group name="Damage During Use">
-            <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
+        <effect_group name="Damage During Use Override">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <requirement name="IsEquipped" />
             
             <!-- Player hand -->
             <triggered_effect trigger="onSelfAction2End" action="DegradeItemValueMod, SCore"/>
-            
+
             <!-- Murky water -->
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="DegradeItemValueMod, SCore"/>
         </effect_group>
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
+        
+        <effect_group name="Item Broken Override">
+            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
+            <requirement name="IsEquipped" />
             <triggered_effect trigger="onSelfAction2End" action="AddBuff" buff="buffStatusModBroken"/>
             <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffStatusModBroken"/>
         </effect_group>
     </append>
 
 
-    <!-- Helmet Light -->
-    <!-- Remove the global one and place it with a custom one, since it uses a different activate -->
-    <remove xpath="//item_modifer[@name='modArmorHelmetLight']/effect_group[@name='Item Broken']" />
-    <append xpath="//item_modifier[@name='modArmorHelmetLight']" >
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
-            <triggered_effect trigger="onSelfItemActivate" action="AddBuff" buff="buffStatusModBroken"/>
+    <!-- Helmet Light  -->
+    <append xpath="//item_modifier[@name='modArmorHelmetLight']/effect_group[@name='BrokenHooks']">
+        <triggered_effect trigger="onSelfRoutineUpdate" action="SetPartActive" part="HeadLight" active="false" />
+    </append>
+    
+    <append xpath="//item_modifier[@name='modArmorHelmetLight']">
+        <effect_group name="Item Broken Helmet Light">
+            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
+            <requirement name="IsEquipped" />
+            <triggered_effect trigger="onSelfItemActivate" action="SetPartActive" part="HeadLight" active="false" />
         </effect_group>
     </append>
-
-    <!-- Add to the effect group that determines if it's equipped, to add the hidden buff -->
-    <append xpath="//item_modifier[@name='modArmorHelmetLight']/effect_group[requirement/@name='IsEquipped']" >
-        <triggered_effect trigger="onSelfItemActivate" action="AddBuff" buff="buffHiddenLightOnDurabilityCheck"/>
-        <triggered_effect trigger="onSelfItemDeactivate" action="RemoveBuff" buff="buffHiddenLightOnDurabilityCheck"/>
-        <triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffHiddenLightOnDurabilityCheck"/>
+    <!--
+    <append xpath="//item_modifier[@name='modArmorHelmetLight']/effect_group/triggered_effect[@trigger='onSelfItemActivate']">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
     </append>
+    -->
 
 </configs>

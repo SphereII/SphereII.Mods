@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Platform;
 
 namespace Harmony.TileEntities {
     /**
@@ -58,6 +59,8 @@ namespace Harmony.TileEntities {
             }
         }
 
+     
+
         [HarmonyPatch(typeof(TileEntityWorkstation))]
         [HarmonyPatch("UpdateTick")]
         public class TileEntityWorkstationHandleFuel {
@@ -88,7 +91,8 @@ namespace Harmony.TileEntities {
                     return true;
 
                 if (!RequirePower(__instance)) return true;
-                
+         
+
                 // If there's no fuel, then check for wireless power.
                 if (IsEmpty(___fuel))
                 {

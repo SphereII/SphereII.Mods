@@ -6,5 +6,8 @@ public enum SCoreMinEventTypes
     onSelfScrapItem = 204,
     onSelfCraftedRecipe = 205,
     onSelfTurretDamagedOther = 206,
-    onSelfTurretKilledOther = 207
+    onSelfTurretKilledOther = 207,
+    onSelfItemDegrade = 208,
+    onSelfRoutineUpdate = 209
+    
 }

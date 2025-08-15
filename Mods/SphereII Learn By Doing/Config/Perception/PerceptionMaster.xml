@@ -1,128 +1,127 @@
 <!--
-    ====================================================================================================
-    =========================== PERCEPTION MASTERY LEARN BY DOING (LBD) SYSTEM ===========================
-    ====================================================================================================
+### Perception Mastery LBD System
 
-    This file defines the Mastery Checker buff for attPerception.
+The Perception Mastery is a **learn by doing** (LBD) perk that automatically levels up as the player's main `attPerception` attribute increases. This represents a holistic mastery of Perception-related skills, developed through using ranged weapons, explosives, and scavenging.
 
-    HOW IT WORKS:
-    This temporary buff is triggered by `buffLBD_attPerception_LevelUpCheck` whenever the player's
-    main `attPerception` attribute levels up. It then checks the current level of `attPerception`
-    and, if it matches a predefined milestone, triggers a level-up for `perkPerceptionMastery`.
+***
 
-    -   **Progression Trigger:** This buff is applied by `buffLBD_attPerception_LevelUpCheck`.
-    -   **Staggered Unlocks:** `perkPerceptionMastery` will level up at specific milestones of the `attPerception` attribute:
-        -   Tier 1: at `attPerception` Level 3
-        -   Tier 2: at `attPerception` Level 5
-        -   Tier 3: at `attPerception` Level 7
-        -   Tier 4: at `attPerception` Level 9
-        -   Tier 5: at `attPerception` Level 10
-    -   **Internal Tracking:** The `$perkperceptionmastery_lbd_level` CVar is used to ensure
-        each tier is only unlocked once.
+### How It Works
 
-    This design ensures that overall proficiency in Perception (developed by using ranged weapons,
-    explosives, and scavenging) leads to the ultimate mastery of the attribute.
+The system is controlled by a temporary buff named `buffLBD_attPerception_MasteryChecker` that is applied whenever the player's main `attPerception` attribute levels up. This buff has a very short duration and is designed to process its logic instantly.
 
-    ====================================================================================================
+Inside this buff, a series of sequential checks are performed to determine if a new mastery level should be granted. Each check verifies two key requirements:
+* The player's current **`attPerception` level** matches a specific milestone.
+* The **mastery level** for the perk has not yet been unlocked for that milestone.
+
+When both of these conditions are met, a second buff, `buffLBD_perkPerceptionMastery_LevelUpCheck`, is triggered to handle the actual level-up process.
+
+***
+
+### Progression Milestones
+
+The `perkPerceptionMastery` levels up at specific milestones of the `attPerception` attribute, and an internal CVar (`$perkperceptionmastery_lbd_level`) is used to track the progress and ensure each tier is unlocked only once.
+
+* **Tier 1:** Unlocks at `attPerception` Level **6**
+* **Tier 2:** Unlocks at `attPerception` Level **7**
+* **Tier 3:** Unlocks at `attPerception` Level **8**
+* **Tier 4:** Unlocks at `attPerception` Level **9**
+* **Tier 5:** Unlocks at `attPerception` Level **10**
+
+This design ensures that a player's overall proficiency in Perception leads to the ultimate mastery of the attribute.
+
 -->
 <configs>
-       <append xpath="/buffs">
+    <append xpath="/buffs">
         <buff name="buffLBD_attPerception_MasteryChecker" hidden="true">
-            <duration value="0.1"/> <!-- Very short duration, just long enough to process -->
+            <duration value="0.1"/>
 
-            <!-- Log message for debugging the checker's activation. -->
             <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                               message="LBD DEBUG: Perception Mastery Checker Fired. Checking for Mastery level up.">
                 <requirement name="HasBuff" buff="god"/>
             </triggered_effect>
 
-            <!-- Level 1 Mastery (at attPerception Level 3) -->
-            <effect_group name="Mastery Level 1">
-                <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="3"/>
-                <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
-                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 1)">
-                    <requirement name="HasBuff" buff="god"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
-                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck"/>
-            </effect_group>
-
-            <!-- Level 2 Mastery (at attPerception Level 5) -->
-            <effect_group name="Mastery Level 2">
-                <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="5"/>
-                <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
-                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 2)">
-                    <requirement name="HasBuff" buff="god"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
-                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck"/>
-            </effect_group>
-
-            <!-- Level 3 Mastery (at attPerception Level 7) -->
-            <effect_group name="Mastery Level 3">
-                <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="7"/>
-                <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="3"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
-                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 3)">
-                    <requirement name="HasBuff" buff="god"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
-                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck"/>
-            </effect_group>
-
-            <!-- Level 4 Mastery (at attPerception Level 9) -->
-            <effect_group name="Mastery Level 4">
-                <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="9"/>
-                <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="4"/>
-                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
-                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 4)">
-                    <requirement name="HasBuff" buff="god"/>
-                </triggered_effect>
-                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
-                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck"/>
-            </effect_group>
-
-            <!-- Level 5 Mastery (at attPerception Level 10) -->
-            <effect_group name="Mastery Level 5">
-                <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="10"/>
-                <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="5"/>
+            <effect_group name="Mastery Levels">
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 5)">
                     <requirement name="HasBuff" buff="god"/>
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals"
+                                 value="10"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="5"/>
                 </triggered_effect>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
-                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck"/>
+                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals"
+                                 value="10"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="5"/>
+                </triggered_effect>
+
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 4)">
+                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="9"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="4"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="9"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="4"/>
+                </triggered_effect>
+
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 3)">
+                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="8"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="3"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="8"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="3"/>
+                </triggered_effect>
+
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 2)">
+                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="7"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="2"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="7"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="2"/>
+                </triggered_effect>
+
+                <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
+                                  message="LBD DEBUG: Perception Mastery - Triggering Level Up Check (Tier 1)">
+                    <requirement name="HasBuff" buff="god"/>
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="6"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="1"/>
+                </triggered_effect>
+                <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
+                                  buff="buffLBD_perkPerceptionMastery_LevelUpCheck">
+                    <requirement name="ProgressionLevel" progression_name="attPerception" operation="Equals" value="6"/>
+                    <requirement name="CVarCompare" cvar="$perkperceptionmastery_lbd_level" operation="LT" value="1"/>
+                </triggered_effect>
             </effect_group>
         </buff>
-
         <buff name="buffLBD_perkPerceptionMastery_LevelUpCheck" hidden="true">
             <stack_type value="ignore"/>
             <duration value="1"/>
             <effect_group>
-                <!-- Master requirement: Ensure the perk is not locked by its own progression requirements -->
-                <requirement name="CanPurchasePerk, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
 
-                <!-- 1. THE REWARD: Level up the actual Mastery perk. -->
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel"
                                   progression_name="perkPerceptionMastery" level="1"/>
 
-                <!-- 2. UPDATE LBD LEVEL TRACKER: Crucial for the staggered progression. -->
-                <!-- This CVar is just a counter, so we increment it by 1. -->
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_level"
                                   operation="add" value="1"/>
 
-                <!-- No XP subtraction or next XP multiplier here, as this perk is leveled by attribute level, not accumulated XP. -->
-
-                <!-- 3. PLAYER FEEDBACK: Show on-screen notification. -->
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPerceptionMastery"
                                   sound="read_skillbook_final"/>
             </effect_group>
 
-            <!-- This effect group handles the case where the level up is LOCKED -->
             <effect_group>
-                <requirement name="!CanPurchasePerk, SCore" progression_name="perkPerceptionMastery"/>
+                <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkPerceptionMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="LogMessage"
                                   message="LBD DEBUG: Perception Mastery - Level Up FAILED. Perk is locked by requirements.">
                     <requirement name="HasBuff" buff="god"/>

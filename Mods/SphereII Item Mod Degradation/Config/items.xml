@@ -1,29 +1,30 @@
 <configs>
-    
-<!--
-    <insertBefore xpath="//item[@name='meleeHandPlayer']/effect_group[@name='Drink']">
-        <effect_group name="Damage During Use">
-            <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="DegradeItemValueMod, SCore"/>
-        </effect_group>
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffStatusModBroken"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="RemoveBuff" buff="buffWaterPurifier"/>
-        </effect_group>
-    </insertBefore>
+    <append xpath="//item[starts-with(@name,'tool')]">
+        <!-- Enable Quality for all item_modifier -->
+        <property name="ShowQuality" value="true"/>
 
-    
-    <insertBefore xpath="//item[@name='drinkJarRiverWater']/effect_group[@name='Drink Tier 0']">
+        <!-- Let Them be repaired -->
+        <property name="RepairTools" value="resourceRepairKit"/>
+
+        <!-- Break after they completely degrade? -->
+        <property name="DegradationBreaksAfter" value="false"/>
+        
+        <!-- Color of item to be broken down into -->
+        <property name="BrokenTint" value="210,0,0" />
+        
+        <effect_group name="Quality Mods" tiered="true">
+            <passive_effect name="DegradationMax" operation="base_set" value="500,4000" tier="1,6"/>
+            <passive_effect name="DegradationPerUse" operation="base_set" value="1"/>
+        </effect_group>
+
         <effect_group name="Damage During Use">
-            <requirement name="ItemModDurability, SCore" operation="GT" value="0"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="DegradeItemValueMod, SCore"/>
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore"/>
         </effect_group>
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffStatusModBroken"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="RemoveBuff" buff="buffWaterPurifier"/>
-        </effect_group>
-    </insertBefore>
-    -->
+    </append>
+    
+    <append xpath="//item[@name='toolAnvil']/effect_group[@tiered='false']">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+    </append>
 </configs>
+

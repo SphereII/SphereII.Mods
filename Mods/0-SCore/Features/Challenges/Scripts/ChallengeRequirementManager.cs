@@ -41,10 +41,8 @@ public static class ChallengeRequirementManager
         }
         
         var player = GameManager.Instance.World.GetPrimaryPlayer();
-//        Debug.Log($"Validating {id} Challenge: ");
         foreach (var t in requirements)
         {
- //           Debug.Log($"\tChecking Requirement {t} :: Result {t.IsValid(player.MinEventContext)}");
             if (t.IsValid(player.MinEventContext) == false)
             {
                 return false;

@@ -14,6 +14,8 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
             var originalItem = _eventParms.ItemValue;
             foreach (var mod in __instance.Modifications)
             {
+                if ( mod == null ) continue;
+                if ( mod.IsEmpty()) continue;
                 _eventParms.ItemValue = mod;
                 mod.FireEvent(_eventType, _eventParms);
             }

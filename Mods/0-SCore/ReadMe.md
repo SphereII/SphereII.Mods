@@ -32,6 +32,58 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.15.160 
+
+	[ Challenges ]
+		- Added support for the <requirements for ClearSleepers challenge
+
+	[ Item Degradation ]
+		- In continuation for item degradation, more hooks have been added.
+		- ItemDegradationHelpers provides a few methods such as CanDegrade, IsDegraded, and CheckModification, which handles item degradation
+		- Added hooks to allow Item Mods to degrade and stop being effective
+		- Added patches to DewCollector, Workstation UpdateTick to degrade mods, if they are set to degrade.
+		- See SphereII Item Mod Degradation for details.
+
+	[ Triggered Events ]
+		- Added onSelfItemDegrade trigger on an ItemValue.
+		- Added OnSelfRoutineUpdate to trigger on an ItemValue
+		- Updated OnSelfItemRepaired to also repair attached Mods, if applicable.
+		
+	[ Requirements ]
+		- Added a new ItemPercentUsed requirement, which checks the Used Times vs Max Times.
+			<requirement name="ItemPercentUsed, SCore" operation="LTE" value="0.5"/>
+
+	[ MinEvent Action ]
+		- Aded a new RoutineUpdate action. This will cycle through all the passed in slots to trigger any onSelfRoutineUpdate triggers on each item.
+			<!-- Will run on player's equipment, backpack, and tool belt -->
+			<triggered_effect trigger="onSelfBuffUpdate" action="RoutineUpdate, SCore" slots="bag,inventory,equipment"/>
+
+	[ SphereII Learn By Doing ]
+		- Refactored Master Perk for each attribute to not be so dumb, and avoids the Red Checkmarks.
+
+	[ SphereII Item Mod Degradation ] - New Mod
+		- Created new modlet to show support for Item Mod Degradation.
+		- This is not balanced, and not really meant to be used as-is.
+		- Enables Item Mod degradation for all items in armour, items, and workstations.
+		- Some mods degrade over time, such as the Dew Collector, while others are more active, such as Forge and Campfire.
+		- A Completely degraded item will have:
+			- it's item colour tinted with the BrokenTint property on the item class.
+			- It's passive effects will be disabled, through a requimrent for ItemPercentUsed
+			- A sound will play from it being broken.
+		- An item being repaired will also repair all mods using the same repair item.
+		- Individual item mods can be repaired with resourceRepairKit
+		- Item Mods also have quality with a range of durability.
+
+		- A buff is placed on the player when they enter the game, "buffRoutineUpdateTrigger".
+		- This buff is an example buff that will do an update_rate of 100 by default.
+		- Each time the buff updates, it'll trigger a RoutineUpdate call on bag, inventory, and equipment items.
+		- Any time with the onSelfRoutineUpdate trigger event will fire.
+
+		- Some items, such as the water purifier, will degrade as you drink murky water.
+
+		- This modlet is not complete. It isn't even really good. But it shows all the xml necessary to pull off.
+
+
 Version: 2.2.12.1420
 	[ Requirements ]
 		- Added new CanPurchasePerk requirement to replace RequirementIsProgressionLocked.

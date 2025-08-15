@@ -91,7 +91,7 @@
                 <requirement name="CVarCompare" cvar="_fallSpeed" operation="GTE" value=".08"/>
             </triggered_effect>
             <triggered_effect trigger="onOtherDamagedSelf" action="AddBuff" buff="buffLBD_attAgility_XPCoolDown">
-                <requirements compare_type="or">
+                <requirements >
                     <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
                     <requirement name="HasBuff" buff="buffLightArmorEquipped"/>
                     <requirement name="CVarCompare" cvar="_crouching" operation="Equals" value="1"/>

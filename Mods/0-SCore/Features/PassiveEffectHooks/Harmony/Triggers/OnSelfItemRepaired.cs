@@ -1,4 +1,5 @@
 using HarmonyLib;
+using SCore.Features.ItemDegradation.Harmony;
 using UnityEngine;
 
 public static class OnRepair
@@ -15,6 +16,13 @@ public static class OnRepair
             Self = GameManager.Instance.World.GetPrimaryPlayer()
         };
 
+        foreach (var mod in stack.Modifications)
+        {
+            if (ItemDegradationHelpers.IsDegraded(mod))
+            {
+                mod.UseTimes = 1f;
+            }
+        }
         stack.ItemClass.FireEvent(MinEventTypes.onSelfItemRepaired, minEventParams);
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent(MinEventTypes.onSelfItemRepaired);
