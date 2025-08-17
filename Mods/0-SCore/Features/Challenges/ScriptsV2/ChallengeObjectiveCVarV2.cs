@@ -2,24 +2,23 @@ using System;
 using System.Xml.Linq;
 
 namespace Challenges {
-    public class ChallengeObjectiveCVar : BaseChallengeObjective {
+    public class ChallengeObjectiveCVarV2 : BaseChallengeObjective {
         // When myCVar is set to 20
-        // <objective type="CVar, SCore" cvar="myCVar" count="20" description_key="onCraft" />
-
+        
+       // <objective type="CVarV2, SCore" cvar="player_m_desert" count="5000" cvar_override="xuiCVar" description_key="xuiTravel"/>
 
         public override ChallengeObjectiveType ObjectiveType =>
             (ChallengeObjectiveType)ChallengeObjectiveTypeSCore.ChallengeObjectiveCVar;
 
         private string _cvarName;
         public string LocalizationKey = "challengeObjectiveOnCVar";
-
+        public string cvar_override = "";
         private string _descriptionOverride;
 
         public override string DescriptionText {
             get {
-                if (string.IsNullOrEmpty(_descriptionOverride))
-                   return Localization.Get($"{LocalizationKey}", false) + " " + _cvarName + ":";
-                return Localization.Get(_descriptionOverride);
+                   return Localization.Get($"{LocalizationKey}", false) + " " + cvar_override + ":";
+
             }
         }
 
@@ -28,6 +27,10 @@ namespace Challenges {
         }
 
         private void CheckCVar(EntityAlive entityAlive, string cvarname, float cvarvalue) {
+            
+            // Check all the requirements
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name)) return;
+
             // Quick check to make sure that we are the local player, rather than querying the the game manager.
             if (entityAlive is not EntityPlayerLocal player) return;
             if (string.IsNullOrEmpty(cvarname)) return;
@@ -51,13 +54,15 @@ namespace Challenges {
 
             if (e.HasAttribute("description_key"))
                 LocalizationKey = e.GetAttribute("description_key");
+            if (e.HasAttribute("cvar_override"))
+                cvar_override = e.GetAttribute("cvar_override");
         }
 
         public override BaseChallengeObjective Clone() {
-            return new ChallengeObjectiveCVar {
+            return new ChallengeObjectiveCVarV2 {
                 _cvarName = _cvarName,
-                _descriptionOverride = _descriptionOverride
-
+                _descriptionOverride = _descriptionOverride,
+                cvar_override = cvar_override
 
             };
         }

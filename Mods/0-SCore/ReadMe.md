@@ -32,6 +32,20 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.2.17.929
+	[ Challenges ]
+		- Added ObjectiveCVarV2 for better localization support and buff requirement hooks
+			<objective type="CVarV2, SCore" cvar="player_m_desert" count="5000" cvar_override="xuiCVar" description_key="xuiTravel"/>
+		- Further added coded to HarvestV2 to actually do stuff, rather than auto-commit.
+
+	[ Buff requirements ]
+		- Modified the new ItemPercentUsed requirement to support an optional tracked_item attribute
+		- This tracked_item is the unlocalized name of the item, and will help in troubleshooting.
+		- This attribute controls *logging*, and has no function beyond that.
+		- If this attribute exists, and if the item being checked is the same, then a printout in the log appear
+            Log.Out($"ItemValue: {_params.ItemValue.ItemClass.GetItemName()} :: {_params.ItemValue.UseTimes} / {_params.ItemValue.MaxUseTimes}");
+
+
 Version: 2.2.15.160 
 
 	[ Challenges ]

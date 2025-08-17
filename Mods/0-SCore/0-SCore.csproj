@@ -51,6 +51,7 @@
     <Compile Include="Features\Challenges\Harmony\ChallengeReadObjective.cs" />
     <Compile Include="Features\Challenges\Harmony\ChallengesFromXmlPatches.cs" />
     <Compile Include="Features\Challenges\Harmony\DebugChallenges.cs" />
+    <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveCVarV2.cs" />
     <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveKillV2.cs" />
     <Compile Include="Features\Challenges\ScriptsV2\ChallengeObjectiveHarvestV2.cs" />
     <Compile Include="Features\Challenges\Scripts\ChallengeObjectiveBigFire.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="Features\WeaponCameraSway\Harmony\vp_FPWeapon.cs" />
     <Compile Include="Features\WeaponCameraSway\Scripts\ConsoleCmdWeaponSway.cs" />
     <Compile Include="Features\WeaponCameraSway\Scripts\SwayUtilities.cs" />
+    <Compile Include="Features\XMLParsing\Harmony\ItemClassInit.cs" />
     <Compile Include="Harmony\AIDirectorBloodMoon\AiDirectorBloodMoonParty.cs" />
     <Compile Include="Harmony\Animation\AnimalAvatarController.cs" />
     <Compile Include="Harmony\Animation\AnimatorMapper.cs" />

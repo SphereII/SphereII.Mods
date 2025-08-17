@@ -12,9 +12,9 @@ system.
   `passive_effect`.
 * **Outcome**: Once the degradation is complete, an item will either break, or its `passive_effect`s will be disabled.
 
-#### Using the `ItemModDurability` Requirement
+#### Using the `ItemPercentUsed` Requirement
 
-A new `ItemModDurability` requirement has been added for use within `item_modifications`. This allows modders to control
+A new `ItemPercentUsed` requirement has been added for use within `item_modifications`. This allows modders to control
 the effects of a modifier based on the item's remaining durability percentage.
 
 You can use this requirement within an `effect_group` to enable or disable effects when an item's durability falls below
@@ -23,41 +23,53 @@ a certain threshold.
 Consider the following `item_modifier.xml` patch as an example:
 
 ```xml
-
 <configs>
-    <!-- This will disable the effect_group from executing if the durability is below the threshold,
-        ie, the passive effects.
-    -->
-    <append xpath="//item_modifier/effect_group">
-        <requirement name="ItemModDurability, SCore" operation="GTE" value="0.9"/>
-    </append>
+  <!-- Add a requirement to the effect_groups to disable it when the durability is below a level -->
+  <!-- Apply them all first, so then we can add our own effect_group -->
+  <!--
+      <append xpath="//item_modifier/effect_group[passive_effect]">
+          <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+      </append>
+      -->
+  <append xpath="//item_modifier/effect_group">
+    <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+  </append>
 
-    <!-- This sets up the quality for the item, and sets up its DegradationPerUse -->
-    <append xpath="//item_modifier">
+  <append xpath="//item_modifier">
+    <!-- Enable Quality for all item_modifier -->
+    <property name="ShowQuality" value="true"/>
 
-        <!-- Enable Quality for all item_modifier -->
-        <property name="ShowQuality" value="true"/>
+    <!-- Let Them be repaired -->
+    <property name="RepairTools" value="resourceRepairKit"/>
 
-        <!-- Let Them be repaired -->
-        <property name="RepairTools" value="resourceRepairKit"/>
+    <!-- Break after they completely degrade?-->
+    <property name="DegradationBreaksAfter" value="false"/>
 
-        <!-- Break after they completely degrade? -->
-        <property name="DegradationBreaksAfter" value="true"/>
+    <effect_group name="Quality Durability" >
+      <passive_effect name="DegradationMax" operation="base_set" value="300"/>
+      <passive_effect name="DegradationPerUse" operation="base_set" value="100"/>
+    </effect_group>
 
-        <property name="ShowQuality" value="true"/>
-        <effect_group name="Quality Mods">
-            <passive_effect name="DegradationMax" operation="base_set" value="300,400" tier="1,6"/>
-            <passive_effect name="DegradationPerUse" operation="base_set" value="1"/>
-        </effect_group>
+    <effect_group name="DamageHooks">
+      <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+      <requirement name="IsItemActive"/>
+      <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+    </effect_group>
 
-        <!-- This is optional, just to let you show a log message -->
-        <effect_group name="Item Broken">
-            <requirement name="ItemModDurability, SCore" operation="LTE" value="0.9"/>
-            <triggered_effect trigger="onSelfPrimaryActionRayHit" action="LogMessage"
-                              message="Mod is damaged, it's not longer working.">
-            </triggered_effect>
-        </effect_group>
-    </append>
+    <effect_group name="BrokenHooks">
+      <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
+      <requirement name="IsItemActive"/>
+      <triggered_effect trigger="onSelfRoutineUpdate" action="AddBuff" buff="buffStatusModBroken"/>
+    </effect_group>
+
+    <effect_group name="EquipHooks">
+      <triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffStatusModBroken"/>
+      <triggered_effect trigger="onSelfEquipStart" action="RemoveBuff" buff="buffStatusModBroken">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+      </triggered_effect>
+    </effect_group>
+
+  </append>
 </configs>
 ```
 

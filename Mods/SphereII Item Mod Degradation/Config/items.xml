@@ -1,4 +1,5 @@
 <configs>
+    
     <append xpath="//item[starts-with(@name,'tool')]">
         <!-- Enable Quality for all item_modifier -->
         <property name="ShowQuality" value="true"/>
@@ -25,6 +26,18 @@
     
     <append xpath="//item[@name='toolAnvil']/effect_group[@tiered='false']">
         <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+    </append>
+
+    <append xpath="//item[@name='meleeToolFlashlight02']">
+        <property class="Import">
+            <property name="StandardSettings" value="Block" />
+            <property name="StandardActiveSettings" value="Block" />
+        </property>
+       
+        <effect_group name="Degradation" >
+            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"  tracked_item="meleeToolFlashlight02" />
+            <triggered_effect trigger="onSelfItemActivate" action="SetTransformActive" active="false" parent_transform="#HeldItemRoot" transform_path="lightSource" />
+        </effect_group>
     </append>
 </configs>
 

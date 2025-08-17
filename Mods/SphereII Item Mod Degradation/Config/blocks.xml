@@ -1,0 +1,45 @@
+<configs>
+    <append xpath="/blocks">
+        <block name="StandardSettings">
+            <property name="Extends" value="terrDirt" />           
+            
+            <!-- Enable Quality for all item_modifier -->
+            <property name="ShowQuality" value="true"/>
+
+            <!-- Let Them be repaired -->
+            <property name="RepairTools" value="resourceRepairKit"/>
+
+            <!-- Break after they completely degrade?-->
+            <property name="DegradationBreaksAfter" value="false"/>
+
+            <effect_group name="Quality Durability">
+                <passive_effect name="DegradationMax" operation="base_set" value="300"/>
+                <passive_effect name="DegradationPerUse" operation="base_set" value="100"/>
+            </effect_group>
+
+            <effect_group name="EquipHooks">
+                <triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffStatusModBroken"/>
+                <triggered_effect trigger="onSelfEquipStart" action="RemoveBuff" buff="buffStatusModBroken">
+                    <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+                </triggered_effect>
+            </effect_group>
+        </block>
+
+        <block name="StandardActiveSettings">
+            <property name="Extends" value="terrDirt" />
+
+            <effect_group name="DamageHooks">
+                <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+                <requirement name="IsItemActive"/>
+                <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+            </effect_group>
+
+            <effect_group name="BrokenHooks">
+                <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
+                <requirement name="IsItemActive"/>
+                <triggered_effect trigger="onSelfRoutineUpdate" action="AddBuff" buff="buffStatusModBroken"/>
+            </effect_group>
+        </block>
+
+    </append>
+</configs>

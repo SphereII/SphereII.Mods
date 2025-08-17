@@ -33,6 +33,7 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+      <Content Include="Config\blocks.xml" />
       <Content Include="Config\buffs.xml" />
       <Content Include="Config\ItemModifiers\General.xml" />
       <Content Include="Config\items.xml" />

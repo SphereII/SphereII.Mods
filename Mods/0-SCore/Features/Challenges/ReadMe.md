@@ -55,7 +55,6 @@ requirements to be applied to challenges.
 		<objective type="Gather" item="resourceRockSmall" count="5"/>
 	</challenge>
 
-
 ## Types of SCore Challenge Objectives
 
 The Challenges feature includes various pre-defined custom objective types that modders can utilize:
@@ -79,6 +78,12 @@ The Challenges feature includes various pre-defined custom objective types that 
 * **`ChallengeObjectiveStartFire`**: Start a certain number of fires.
 * **`ChallengeObjectiveStealthKillStreak`**: Achieve a streak of stealth kills.
 * **`ChallengeObjectiveWearTags`**: Wear armor or clothing items with specific tags.
+
+New Challenges have been created using a V2 suffix that supports buff requirement style.
+
+* **`ChallengeObjectiveCVarV2`** : Checks if the cvar is set to a specific value.
+* **`ChallengeObjectiveHarvestV2`**: Checks for blocks or items being harvested.
+* **`ChallengeObjectiveKillV2`**: Checks kill conditions.
 
 These custom objectives allow for highly diverse and engaging challenges beyond the vanilla game's offerings.
 
@@ -317,3 +322,52 @@ This objective tracks wearing items that have specific tags or mods.
 
 **Explanation**: Counts when the player wears items (including modifications and cosmetic mods) that match specified
 `item_tags`, `item_mod` names, `installable_tags`, or `modifier_tags`.
+
+*** V2 Challenges
+V2 Challenges support buff style requirements.
+
+### CVarV2
+
+This objective tracks a CVar and provides a custom description and display name.
+
+```xml
+
+<objective type="CVarV2,SCore" cvar="player_m_desert" count="5000" cvar_override="xuiCVar" description_key="xuiTravel"/>
+```
+
+**Explanation**: Counts when the specified `cvar` reaches or exceeds the specified `count`. The `cvar_override` is used
+to provide a custom display name for the `cvar`, and the `description_key` is a localization key that overrides the
+default description text.
+
+### HarvestV2 With Requirements
+
+This objective tracks various harvesting tasks using requirements.
+
+This is an example of a **HarvestV2** objective used within a **Challenge** that has multiple requirements. The
+challenge is only active when both requirements are met.
+
+```xml
+
+<challenge name="Harvesting02" title_key="Harvesting" icon="ui_game_symbol_wood">
+    <requirement name="RequirementBlockHasHarvestTags, SCore" tags="allHarvest,oreWoodHarvest"/>
+    <requirement name="HoldingItemHasTags" tags="miningTool,shovel"/>
+    <objective type="HarvestV2, SCore" count="200"/>
+</challenge>
+```
+
+**Explanation**: This challenge counts each item harvested (`count="200"`) only when the player is harvesting a block
+that has the `allHarvest` or `oreWoodHarvest` tags and is holding an item with the `miningTool` or `shovel` tags.
+
+### ObjectiveKillV2 With Requirements
+
+This objective tracks killing any type of enemy.
+
+```xml
+<challenge name="Kill01" title_key="KillWithDeepCuts" icon="ui_game_symbol_wood" >
+   <requirement name="HoldingItemHasTags" tags="perkDeadEye"/>
+   <requirement name="HitLocation" body_parts="Head" />
+   <objective type="KillV2, SCore" count="200" />
+</challenge>
+```
+
+**Explanation**: Counts when the player kills any entity. The objective is completed when the total number of kills reaches the specified **count**.
