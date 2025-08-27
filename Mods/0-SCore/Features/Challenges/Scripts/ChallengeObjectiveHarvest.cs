@@ -51,7 +51,7 @@ namespace Challenges {
             QuestEventManager.Current.HarvestItem -= Current_HarvestItem;
         }
 
-        private void Current_HarvestItem(ItemValue held, ItemStack stack, BlockValue bv) {
+        public virtual void Current_HarvestItem(ItemValue held, ItemStack stack, BlockValue bv) {
             if ( !string.IsNullOrEmpty(held_tags))
                 if (!SCoreChallengeUtils.IsHoldingItemHasTag(held_tags)) return;
 
@@ -99,7 +99,9 @@ namespace Challenges {
                 itemClass = itemClass,
                 blockTag = blockTag,
                 held_tags = held_tags,
-                _descriptionOverride = _descriptionOverride
+                _descriptionOverride = _descriptionOverride,
+                itemTag = itemTag
+                
             };
         }
     }

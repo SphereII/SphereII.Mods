@@ -12,6 +12,7 @@
         <AssemblyName>SphereII_Item_Mod_Degradation</AssemblyName>
         <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+			<Deterministic>true</Deterministic>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,12 +36,25 @@
     <ItemGroup>
       <Content Include="Config\blocks.xml" />
       <Content Include="Config\buffs.xml" />
-      <Content Include="Config\ItemModifiers\General.xml" />
+      <Content Include="Config\ItemModifiers\modArmorHelmetLight.xml" />
+      <Content Include="Config\ItemModifiers\modArmorWaterPurifier.xml" />
+      <Content Include="Config\ItemModifiers\modGunFlashlight.xml" />
+      <Content Include="Config\ItemModifiers\StandardSettings.xml" />
       <Content Include="Config\items.xml" />
       <Content Include="Config\item_modifiers.xml" />
       <Content Include="Config\Localization.txt" />
       <Content Include="ModInfo.xml" />
+      <Content Include="Properties\AssemblyInfo.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
+        <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+      </Content>
       <Content Include="README.md" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Update="Properties\AssemblyInfo.cs">
+        <DependentUpon>AssemblyInfo.tt</DependentUpon>
+      </Compile>
+      <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -50,4 +64,22 @@
     <Target Name="AfterBuild">
     </Target>
     -->
+	 <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+
+			:: Update the ModInfo.xml
+			IF EXIST "$(ProjectDir)ModInfo.xml" (
+				IF EXIST "$(ProjectDir)..\Tools\bin\sed.exe" (
+					:: Sort out the version number from the Configuration, and grab the last digits of the Version number
+					echo Updating Version number to @(VersionNumber)
+					"$(ProjectDir)..\Tools\bin\sed.exe" -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" "$(ProjectDir)ModInfo.xml"
+				)
+			)
+		</PostBuildEvent>
+  </PropertyGroup>
 </Project>

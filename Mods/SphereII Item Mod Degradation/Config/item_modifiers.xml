@@ -1,45 +1,51 @@
 <configs>
 
-    <include filename="ItemModifiers/General.xml"/>
-
-    <!-- Water Purifier -->
-    <append xpath="//item_modifier[@name='modArmorWaterPurifier']">
-        <effect_group name="Damage During Use Override">
-            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
-            <requirement name="IsEquipped" />
-            
-            <!-- Player hand -->
-            <triggered_effect trigger="onSelfAction2End" action="DegradeItemValueMod, SCore"/>
-
-            <!-- Murky water -->
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="DegradeItemValueMod, SCore"/>
-        </effect_group>
-        
-        <effect_group name="Item Broken Override">
-            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
-            <requirement name="IsEquipped" />
-            <triggered_effect trigger="onSelfAction2End" action="AddBuff" buff="buffStatusModBroken"/>
-            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffStatusModBroken"/>
-        </effect_group>
-    </append>
-
-
-    <!-- Helmet Light  -->
-    <append xpath="//item_modifier[@name='modArmorHelmetLight']/effect_group[@name='BrokenHooks']">
-        <triggered_effect trigger="onSelfRoutineUpdate" action="SetPartActive" part="HeadLight" active="false" />
-    </append>
-    
-    <append xpath="//item_modifier[@name='modArmorHelmetLight']">
-        <effect_group name="Item Broken Helmet Light">
-            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
-            <requirement name="IsEquipped" />
-            <triggered_effect trigger="onSelfItemActivate" action="SetPartActive" part="HeadLight" active="false" />
-        </effect_group>
-    </append>
-    <!--
-    <append xpath="//item_modifier[@name='modArmorHelmetLight']/effect_group/triggered_effect[@trigger='onSelfItemActivate']">
+    <!-- Add a requirement to the effect_groups to disable it when the durability is below a level -->
+    <!-- Apply them all first, so then we can add our own effect_group -->
+    <append xpath="//item_modifier/effect_group[passive_effect]">
         <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
     </append>
-    -->
+
+    <append xpath="//item_modifier">
+
+        <!-- Enable Quality  -->
+        <property name="ShowQuality" value="true"/>
+
+        <!-- Let Them be repaired -->
+        <property name="RepairTools" value="resourceRepairKit"/>
+
+        <!-- Set max use per quality tier -->
+        <property name="DegradationMaxUse" value="100,600" param1="1,6"/>
+        <property name="DegradationPerUse" value="1"/>
+
+        <!-- Break after they completely degrade?-->
+        <property name="DegradationBreaksAfter" value="false"/>
+
+        <!-- Damage over time if the item is active -->
+        <effect_group name="DamageHooks">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <requirement name="IsItemActive"/>
+            <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+
+        <!-- Damages when onSelfItemDegrade gets triggered -->
+        <effect_group name="DamageHooks Degrade">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+        
+        <effect_group name="EquipHooks">
+            <triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffStatusModBroken"/>
+            <triggered_effect trigger="onSelfEquipStart" action="RemoveBuff" buff="buffStatusModBroken">
+                <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            </triggered_effect>
+        </effect_group>
+
+    </append>
+
+    <include filename="ItemModifiers/modArmorWaterPurifier.xml" />
+    <include filename="ItemModifiers/modArmorHelmetLight.xml" />
+    <include filename="ItemModifiers/modGunFlashlight.xml" />
+    
 
 </configs>

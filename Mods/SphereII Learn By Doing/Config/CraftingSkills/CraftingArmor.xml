@@ -159,7 +159,8 @@
             <stack_type value="ignore"/><duration value="1"/>
             <effect_group>
                 <requirement name="CanPurchasePerk, SCore" progression_name="craftingArmor" />
-                <requirement name="ProgressionLevel" progression_name="attGeneral" operation="GTE" value="2"/> <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingArmor" level="1"/>
+                <requirement name="ProgressionLevel" progression_name="attGeneral" operation="GTE" value="2"/> 
+                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="craftingArmor" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xp" operation="subtract" value="@$craftingarmor_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$craftingarmor_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="craftingArmor" sound="read_skillbook_final" />

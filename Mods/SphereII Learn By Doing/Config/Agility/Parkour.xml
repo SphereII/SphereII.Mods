@@ -43,7 +43,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkParkour" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_lbd_xp" operation="subtract" value="@$perkparkour_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkParkour" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkParkourLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkParkour" />

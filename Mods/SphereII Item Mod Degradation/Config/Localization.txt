@@ -1,7 +1,7 @@
-key,english
+Key,english
 buffStatusModBroken,"Broken Mod"
 buffStatusModBrokenName,"Broken Mod"
-buffStatusModBrokenDesc,"A mod is broken one one of your items, and is no longer working."
+buffStatusModBrokenDesc,"A mod is broken one of your items, and is no longer working."
 buffStatusModBrokenTooltip,"A mod is broken. It must be repaired."
 buffStatusModBrokenNameShort,"A mod is broken"
 

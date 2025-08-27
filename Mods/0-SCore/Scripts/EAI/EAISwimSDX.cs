@@ -50,11 +50,11 @@ public class EAISwimSDX : EAIWander
         if (this.theEntity.IsAlert)
         {
             num2 *= 2;
-            vector = RandomPositionGenerator.CalcAway(this.theEntity, 0, num2, 4, this.theEntity.LastTargetPos);
+            vector = RandomPositionGenerator.CalcAway(this.theEntity, 0, num2, 4, this.theEntity.position);
         }
         else
         {
-            vector = RandomPositionGenerator.Calc(this.theEntity, num2, 4);
+            vector = RandomPositionGenerator.CalcAround(this.theEntity, num2, 4);
         }
 
         if (vector.Equals(Vector3.zero))

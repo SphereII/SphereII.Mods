@@ -94,8 +94,8 @@
 				<requirement name="CanPurchasePerk, SCore" progression_name="perkPackMule"/>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPackMule" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="subtract" value="@$perkpackmule_lbd_xptonext"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xptonext" operation="multiply" value="1.2"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPackMule" sound="read_skillbook_final"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkPackMuleLeveledUp"/>
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkPackMule"/>

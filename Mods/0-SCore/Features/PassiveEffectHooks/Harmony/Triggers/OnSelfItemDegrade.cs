@@ -1,5 +1,6 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Harmony;
+using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
 
@@ -20,4 +21,5 @@ public static class OnSelfItemDegrade
         minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade);
 
     }
+ 
 }

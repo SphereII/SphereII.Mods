@@ -48,9 +48,12 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="Config\blocks.xml" />
+      <Content Include="Config\items.xml" />
       <Content Include="Config\Localization.txt" />
       <Content Include="Config\loot.xml" />
       <Content Include="Config\recipes.xml" />
+      <Content Include="Config\ui_display.xml" />
+      <Content Include="Config\XUi\windows.xml" />
       <Content Include="ModInfo.xml" />
       <Content Include="Properties\versionTemplate.tt">
         <Generator>TextTemplatingFileGenerator</Generator>

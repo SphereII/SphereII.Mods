@@ -34,39 +34,51 @@ public class NetPackageMinEventSharedReading : NetPackage
 
     public override void ProcessPackage(World _world, GameManager _callbacks)
     {
-        if (_world == null)
+        // This method should only run on the server
+        if (!ConnectionManager.Instance.IsServer)
         {
+            // If it's a client, apply the effect and display the tooltip
+            var entityAlive = _world.GetEntity(selfEntityID) as EntityPlayerLocal;
+            if (entityAlive == null) return;
+
+            var readingPlayer = _world.GetEntity(otherEntityID) as EntityPlayer;
+            if (readingPlayer == null) return;
+
+            ApplyMinEffect(entityAlive);
+            DisplayTooltip(entityAlive, readingPlayer);
             return;
         }
 
-        
-        var entityAlive = _world.GetEntity(selfEntityID) as EntityPlayer;
-        if (entityAlive == null) return;
-        
-        var readingPlayer = _world.GetEntity(otherEntityID) as EntityPlayer;
-        if (readingPlayer == null) return;
-        if (ConnectionManager.Instance.IsServer)    
+        // Server-side logic to broadcast the message to all party members except the sender
+        var readingPlayerServer = _world.GetEntity(selfEntityID) as EntityPlayer;
+        if (readingPlayerServer?.Party == null) return;
+
+        foreach (var member in readingPlayerServer.Party.MemberList)
         {
-            foreach (var member in readingPlayer.Party.MemberList)
+            // Skip the player who initiated the action (selfEntityID)
+            if (otherEntityID == member.entityId) continue;
+
+            if (member is EntityPlayerLocal localplayer)
             {
-                if (readingPlayer.entityId == member.entityId) continue;
-                var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
-                package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, itemValue);
-                ConnectionManager.Instance.SendPackage(package);
+                ApplyMinEffect(localplayer);
+                DisplayTooltip(localplayer, readingPlayerServer);
+                continue;
             }
-
-            return;
+            var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
+            package.Setup(member.entityId, selfEntityID, MinEventTypes.onSelfSecondaryActionEnd, itemValue);
+            ConnectionManager.Instance.SendPackage(package);
         }
-        
-        ApplyMinEffect(entityAlive);
+    }
 
+
+    public void DisplayTooltip(EntityPlayerLocal entityAlive, EntityAlive readingPlayer)
+    {
         var unlock = itemValue.ItemClass.Properties.GetString("Unlocks");
         unlock = SCoreLocalizationHelper.GetLocalization(unlock);
         var toolTipDisplay = $"{Localization.Get("sharedReadingDesc")} {readingPlayer.EntityName} :: {unlock}";
-        GameManager.ShowTooltip(entityAlive as EntityPlayerLocal, toolTipDisplay);
+        GameManager.ShowTooltip(entityAlive, toolTipDisplay);
 
     }
-
     public virtual void ApplyMinEffect(EntityPlayer entityAlive)
     {
         entityAlive.MinEventContext.Self = entityAlive;

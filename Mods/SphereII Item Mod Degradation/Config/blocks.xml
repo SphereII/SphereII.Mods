@@ -1,45 +1,100 @@
 <configs>
-    <append xpath="/blocks">
-        <block name="StandardSettings">
-            <property name="Extends" value="terrDirt" />           
+    <append xpath="//block[@name='campfire']">
+        <property name="DowngradeBlock" value="cntCollapsedCampfire"/>
+        <property name="DegradationPerUse" value="1"/>
+        <effect_group name="DamageHooks Degrade">
             
-            <!-- Enable Quality for all item_modifier -->
-            <property name="ShowQuality" value="true"/>
-
-            <!-- Let Them be repaired -->
-            <property name="RepairTools" value="resourceRepairKit"/>
-
-            <!-- Break after they completely degrade?-->
-            <property name="DegradationBreaksAfter" value="false"/>
-
-            <effect_group name="Quality Durability">
-                <passive_effect name="DegradationMax" operation="base_set" value="300"/>
-                <passive_effect name="DegradationPerUse" operation="base_set" value="100"/>
-            </effect_group>
-
-            <effect_group name="EquipHooks">
-                <triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffStatusModBroken"/>
-                <triggered_effect trigger="onSelfEquipStart" action="RemoveBuff" buff="buffStatusModBroken">
-                    <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
-                </triggered_effect>
-            </effect_group>
-        </block>
-
-        <block name="StandardActiveSettings">
-            <property name="Extends" value="terrDirt" />
-
-            <effect_group name="DamageHooks">
-                <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
-                <requirement name="IsItemActive"/>
-                <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
-            </effect_group>
-
-            <effect_group name="BrokenHooks">
-                <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
-                <requirement name="IsItemActive"/>
-                <triggered_effect trigger="onSelfRoutineUpdate" action="AddBuff" buff="buffStatusModBroken"/>
-            </effect_group>
-        </block>
-
+            <!-- Don't downgrade each tick that's active. Gate it behind a random roll -->
+            <triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore">
+                <requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+            </triggered_effect>
+        </effect_group>
     </append>
+    <append xpath="//block[@name='cntCollapsedCampfire']">
+        <property class="UpgradeBlock">
+            <property name="ToBlock" value="campfire"/>
+            <property name="Item" value="resourceCobblestones"/>
+            <property name="ItemCount" value="5"/>
+            <property name="UpgradeHitCount" value="4"/>
+        </property>
+    </append>
+    <csv xpath="//block[@name='cntCollapsedCampfire']/property[@name='Extends']/@param1" op="add">DowngradeBlock</csv>
+
+    <append xpath="//block[@name='forge']">
+        <property name="DowngradeBlock" value="cntForgeWorkstationBroken"/>
+        <property name="DegradationPerUse" value="1"/>
+        <effect_group name="DamageHooks Degrade">
+
+            <!-- Don't downgrade each tick that's active. Gate it behind a random roll -->
+            <triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore">
+                <requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+    <append xpath="//block[@name='cntForgeWorkstationBroken']">
+        <property class="UpgradeBlock">
+            <property name="ToBlock" value="forge"/>
+            <property name="Item" value="resourceCobblestones"/>
+            <property name="ItemCount" value="15"/>
+            <property name="UpgradeHitCount" value="4"/>
+        </property>
+    </append>
+
+    <append xpath="//block[@name='workbench']">
+        <property name="DowngradeBlock" value="cntCollapsedWorkbench"/>
+        <effect_group name="DamageHooks Degrade">
+
+            <!-- Don't downgrade each tick that's active. Gate it behind a random roll -->
+            <triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore">
+                <requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+    <append xpath="//block[@name='cntCollapsedWorkbench']">
+        <property class="UpgradeBlock">
+            <property name="ToBlock" value="workbench"/>
+            <property name="Item" value="resourceForgedIron"/>
+            <property name="ItemCount" value="10"/>
+            <property name="UpgradeHitCount" value="4"/>
+        </property>
+    </append>
+
+    <append xpath="//block[@name='chemistryStation']">
+        <property name="DowngradeBlock" value="cntCollapsedChemistryStation"/>
+        <effect_group name="DamageHooks Degrade">
+
+            <!-- Don't downgrade each tick that's active. Gate it behind a random roll -->
+            <triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore">
+                <requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+    <append xpath="//block[@name='cntCollapsedChemistryStation']">
+        <property class="UpgradeBlock">
+            <property name="ToBlock" value="chemistryStation"/>
+            <property name="Item" value="resourceForgedIron"/>
+            <property name="ItemCount" value="10"/>
+            <property name="UpgradeHitCount" value="4"/>
+        </property>
+    </append>
+
+    <append xpath="//block[@name='cntDewCollector']">
+        <property name="DowngradeBlock" value="cntCollapsedDewCollector"/>
+        <effect_group name="DamageHooks Degrade">
+
+            <!-- Don't downgrade each tick that's active. Gate it behind a random roll -->
+            <triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore">
+                <requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+            </triggered_effect>
+        </effect_group>
+    </append>
+    <append xpath="//block[@name='cntCollapsedDewCollector']">
+        <property class="UpgradeBlock">
+            <property name="ToBlock" value="cntDewCollector"/>
+            <property name="Item" value="resourceScrapPolymers"/>
+            <property name="ItemCount" value="10"/>
+            <property name="UpgradeHitCount" value="4"/>
+        </property>
+    </append>
+
 </configs>

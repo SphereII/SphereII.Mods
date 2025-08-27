@@ -1,4 +1,5 @@
 using HarmonyLib;
+using InControl.NativeDeviceProfiles;
 using UnityEngine;
 
 namespace Harmony.PlayerFeatures
@@ -13,74 +14,83 @@ namespace Harmony.PlayerFeatures
         private static readonly string AdvFeatureClass = "AdvancedPlayerFeatures";
         private static readonly string Feature = "OneBlockCrouch";
 
-        [HarmonyPatch(typeof(EntityPlayerLocal))]
-        [HarmonyPatch("Init")]
-        public class EntityPlayerLocalInit
-        {
-            private static void Postfix(EntityPlayerLocal __instance)
-            {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
-
-                AdvLogging.DisplayLog(AdvFeatureClass, "Activating One Block Crouch");
-                var heightModifier = 0.49f;
-                var strPhysicsCrouchHeightModifier = Configuration.GetPropertyValue(AdvFeatureClass, "PhysicsCrouchHeightModifier");
-                if (!string.IsNullOrEmpty(strPhysicsCrouchHeightModifier))
-                {
-                    // Read in and validate the crouch modifier to make sure it's not too small.
-                    heightModifier = StringParsers.ParseFloat(strPhysicsCrouchHeightModifier);
-                    if (heightModifier < 0.10)
-                        heightModifier = 0.10f;
-                    // We don't really care if the modders want to make it higher. Bad knees, maybe?
-                }
-                //__instance.vp_FPController.PhysicsCrouchHeightModifier = 0.49f;
-                __instance.vp_FPController.PhysicsCrouchHeightModifier = heightModifier;
-                __instance.vp_FPController.SyncCharacterController();
-            }
-        }
-
-
         [HarmonyPatch(typeof(vp_FPController))]
-        [HarmonyPatch("SyncCharacterController")]
-        public class SCoreOneBlockCrouch_GetEyeHeight
+        [HarmonyPatch(nameof(vp_FPController.OnStart_Crouch))]
+        public class vp_FPControllerOnStart_Crouch
         {
-            private static void Postfix(vp_FPController __instance, ref float ___m_NormalHeight)
+            private const float DefaultCrouchHeightModifier = 0.49f;
+            private const float StandardCrouchHeightModifier = 0.7f;
+
+            private static bool Prefix(ref vp_FPController __instance)
             {
-                // Check if this feature is enabled.
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
+                {
+                    return true;
+                }
+        
+                float heightModifier;
 
-
-                //if (__instance.playerInput.Crouch.IsPressed && !___entityPlayerLocal.IsFlyMode.Value) ___entityPlayerLocal.cameraTransform.position -= Vector3.down;
-                AdvLogging.DisplayLog(AdvFeatureClass,
-                    $"Crouch Height {___m_NormalHeight} Crouch Height: {___m_NormalHeight * __instance.PhysicsCrouchHeightModifier}");
+                if (__instance.localPlayer.Buffs.HasCustomVar("NoOneBlockCrouch"))
+                {
+                    heightModifier = StandardCrouchHeightModifier;
+                }
+                else
+                {
+                    string strPhysicsCrouchHeightModifier = Configuration.GetPropertyValue(AdvFeatureClass, "PhysicsCrouchHeightModifier");
+                    if (!string.IsNullOrEmpty(strPhysicsCrouchHeightModifier) && float.TryParse(strPhysicsCrouchHeightModifier, out float parsedModifier))
+                    {
+                        heightModifier = Mathf.Max(parsedModifier, 0.10f);
+                    }
+                    else
+                    {
+                        heightModifier = DefaultCrouchHeightModifier;
+                    }
+                }
+        
+                __instance.m_CrouchHeight = __instance.m_NormalHeight * heightModifier;
+                __instance.m_CrouchCenter = __instance.m_NormalCenter * heightModifier;
+        
+                return true;
             }
         }
-
 
         [HarmonyPatch(typeof(vp_FPCamera))]
-        [HarmonyPatch("FixedUpdate")]
+        [HarmonyPatch(nameof(vp_FPCamera.FixedUpdate))]
         public class vpFPCameraFixedUpdate
         {
-            private static void Postfix(vp_FPCamera __instance,  vp_FPPlayerEventHandler ___m_Player)
-            {
-                // Check if this feature is enabled.
-                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature))
-                    return;
+            private const float NormalPositionOffset = 1.30f;
+            private const float CrouchCameraOffset = 0.31f;
 
-                if (___m_Player.Driving.Active) return;
-                
-                // If the player is not crouching, do not lower the camera.
-                if (!___m_Player.Crouch.Active)
+            private static void Postfix(vp_FPCamera __instance, vp_FPPlayerEventHandler ___m_Player)
+            {
+                // Early exit for conditions that don't require the patch logic
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature) ||
+                    ___m_Player.Driving.Active ||
+                    !___m_Player.Crouch.Active)
                 {
                     return;
                 }
-                
-                
-                // this lowers the camera to prevent clipping of the terrain.
-                if (__instance.PositionOffset.y == 1.30f)
-                    __instance.PositionOffset.y -= 0.31f;
+
+                // It is safer to get the player instance on demand
+                EntityPlayerLocal playerLocal = GameManager.Instance.World.GetPrimaryPlayer();
+                if (playerLocal == null)
+                {
+                    return;
+                }
+
+                // If the player has the buff, set to the standard crouch height and exit
+                if (playerLocal.Buffs.HasCustomVar("NoOneBlockCrouch"))
+                {
+                    __instance.PositionOffset.y = NormalPositionOffset;
+                    return;
+                }
+
+                // Adjust the camera height for one-block crouching
+                // Check for an approximate value to avoid floating-point comparison issues
+                if (Mathf.Abs(__instance.PositionOffset.y - NormalPositionOffset) < 0.001f)
+                {
+                    __instance.PositionOffset.y -= CrouchCameraOffset;
+                }
             }
         }
     }

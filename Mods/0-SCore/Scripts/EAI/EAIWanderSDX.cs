@@ -87,9 +87,9 @@ internal class EAIWanderSDX : EAIWander
             var maxDistance = 30;
 
             if (theEntity.IsAlert)
-                position = RandomPositionGenerator.CalcAway(theEntity, 0, maxDistance, 10, theEntity.LastTargetPos);
+                position = RandomPositionGenerator.CalcAway(theEntity, 0, maxDistance, 10, theEntity.position);
             else
-                position = RandomPositionGenerator.Calc(theEntity, maxDistance, 10);
+                position = RandomPositionGenerator.CalcAround(theEntity, maxDistance, 10);
         }
 
         time = 0f;

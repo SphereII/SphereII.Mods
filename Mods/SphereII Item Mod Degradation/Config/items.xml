@@ -1,27 +1,13 @@
 <configs>
     
     <append xpath="//item[starts-with(@name,'tool')]">
-        <!-- Enable Quality for all item_modifier -->
-        <property name="ShowQuality" value="true"/>
+        <!-- Read the snippet file, and merge all the Snippet nodes that match the label. -->
+        <!-- If label is omitted, the file itself will be merged, minus the root node -->
+        <ref_file snippet="ItemModifiers/StandardSettings.xml" label="StandardItemActiveSettings, StandardSettings"/>
 
-        <!-- Let Them be repaired -->
-        <property name="RepairTools" value="resourceRepairKit"/>
-
-        <!-- Break after they completely degrade? -->
-        <property name="DegradationBreaksAfter" value="false"/>
-        
-        <!-- Color of item to be broken down into -->
-        <property name="BrokenTint" value="210,0,0" />
-        
-        <effect_group name="Quality Mods" tiered="true">
-            <passive_effect name="DegradationMax" operation="base_set" value="500,4000" tier="1,6"/>
-            <passive_effect name="DegradationPerUse" operation="base_set" value="1"/>
-        </effect_group>
-
-        <effect_group name="Damage During Use">
-            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
-            <triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore"/>
-        </effect_group>
+        <!-- Make the tools degrade over a longer period of time, as they fire more often -->
+        <property name="DegradationMaxUse" value="1000,6000" param1="1,6"/>
+        <property name="DegradationPerUse" value="100"/>
     </append>
     
     <append xpath="//item[@name='toolAnvil']/effect_group[@tiered='false']">
@@ -29,15 +15,14 @@
     </append>
 
     <append xpath="//item[@name='meleeToolFlashlight02']">
-        <property class="Import">
-            <property name="StandardSettings" value="Block" />
-            <property name="StandardActiveSettings" value="Block" />
-        </property>
-       
-        <effect_group name="Degradation" >
-            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"  tracked_item="meleeToolFlashlight02" />
-            <triggered_effect trigger="onSelfItemActivate" action="SetTransformActive" active="false" parent_transform="#HeldItemRoot" transform_path="lightSource" />
-        </effect_group>
+        <!-- Read the snippet file, and merge all the Snippet nodes that match the label. -->
+        <!-- If label is omitted, the file itself will be merged, minus the root node -->
+        <ref_file snippet="ItemModifiers/StandardSettings.xml" label="StandardItemActiveSettings, StandardSettings"/>
     </append>
+        
+    <append xpath="//item[@name='meleeToolFlashlight02']//triggered_effect[@trigger='onSelfItemActivate']">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1" />
+    </append>
+    
 </configs>
 

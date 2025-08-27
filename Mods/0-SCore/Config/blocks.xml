@@ -117,15 +117,20 @@
 
             <property class="AdvancedPlayerFeatures">
                 <property name="Logging" value="false"/>
-                <property name="AntiNerdPole" value="false"/>
 
                 <!-- Player cannot jump and place a block under neath them-->
+                <property name="AntiNerdPole" value="false"/>
+
+                <!-- Allow you to fit through one block spaces -->
                 <property name="OneBlockCrouch" value="false"/>
                 <property name="PhysicsCrouchHeightModifier" value="0.49"/>
 
-                <!-- Allow you to fit through one block spaces -->
-                <property name="SoftHands" value="false"/>
+                
+                
                 <!-- Damages the player if they hit something with their bare hands. -->
+                <property name="SoftHands" value="false"/>
+                <!-- Check for gloves if set to true. If it's false, it'll skip checking for hand armour to cushion the damage-->
+                <property name="CheckHandArmor" value="true" />
 
                 <property name="VehicleNoTake" value="false"/>
 

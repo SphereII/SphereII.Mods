@@ -174,7 +174,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attIntellect" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attintellect_lbd_xp" operation="subtract" value="@$attintellect_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attintellect_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attIntellect" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="attIntellectLeveledUp"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attIntellect_MasteryChecker"/>
             </effect_group>
             <effect_group>

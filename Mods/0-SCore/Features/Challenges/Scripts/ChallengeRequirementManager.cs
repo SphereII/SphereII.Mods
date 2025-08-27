@@ -21,29 +21,26 @@ public static class ChallengeRequirementManager
 
         if (requirements.Count > 0)
         {
-            // var message = $"Challenge ID: {id}\n";
-            // foreach (var requirement in requirements)
-            // {
-            //     message += $"\t{requirement}\n ";
-            // }
-            //
-            // Debug.Log(message);
             ChallengeRequirements.TryAdd(id.ToLower(), requirements);
         }
 
     }
 
-    public static bool IsValid(string id) 
+    public static bool IsValid(string id, MinEventParams minEventContext = null) 
     {
         if (!ChallengeRequirements.TryGetValue(id.ToLower(), out var requirements))
         {
             return true;
         }
+        var primaryPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+        if ( minEventContext == null )
+            minEventContext = primaryPlayer.MinEventContext;
+
+        minEventContext.Biome = primaryPlayer.biomeStandingOn;
         
-        var player = GameManager.Instance.World.GetPrimaryPlayer();
         foreach (var t in requirements)
         {
-            if (t.IsValid(player.MinEventContext) == false)
+            if (t.IsValid(minEventContext) == false)
             {
                 return false;
             }

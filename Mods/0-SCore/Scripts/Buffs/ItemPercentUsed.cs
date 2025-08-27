@@ -9,6 +9,7 @@
 
 using System;
 using System.Xml.Linq;
+using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
 public class ItemPercentUsed : TargetedCompareRequirementBase
@@ -20,11 +21,12 @@ public class ItemPercentUsed : TargetedCompareRequirementBase
         if (!base.IsValid(_params)) return false;
 
         if (_params.ItemValue == null) return false;
-        
+
+        var percent = ItemDegradationHelpers.GetPercentUsed(_params.ItemValue);
         if ( !string.IsNullOrEmpty(tracked_item) && tracked_item.EqualsCaseInsensitive(_params.ItemValue.ItemClass.GetItemName()))
-            Log.Out($"ItemValue: {_params.ItemValue.ItemClass.GetItemName()} :: {_params.ItemValue.UseTimes} / {_params.ItemValue.MaxUseTimes}");
+            Log.Out($"ItemValue: {_params.ItemValue.ItemClass.GetItemName()} :: {_params.ItemValue.UseTimes} / {ItemDegradationHelpers.GetMaxUseTimes(_params.ItemValue)} = {percent}");
         
-        var percent = _params.ItemValue.UseTimes / _params.ItemValue.MaxUseTimes;
+        
         return compareValues(percent, operation, value);
     }
 

@@ -44,7 +44,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAdvancedEngineering" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkadvancedengineering_lbd_xp" operation="subtract" value="@$perkadvancedengineering_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkadvancedengineering_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAdvancedEngineering" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkAdvancedEngineeringLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkAdvancedEngineering" />

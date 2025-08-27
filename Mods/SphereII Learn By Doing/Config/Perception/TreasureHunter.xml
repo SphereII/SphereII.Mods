@@ -97,7 +97,7 @@
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkTreasureHunter" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xp" operation="subtract" value="@$perktreasurehunter_lbd_xptonext"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perktreasurehunter_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkTreasureHunter" sound="read_skillbook_final"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkTreasureHunterLeveledUp"/>
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkTreasureHunter"/>

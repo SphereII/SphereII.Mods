@@ -1,4 +1,5 @@
 using SCore.Features.ItemDegradation.Harmony;
+using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
 public class MinEventActionDegradeItemValueMod: MinEventActionTargetedBase
@@ -14,6 +15,7 @@ public class MinEventActionDegradeItemValueMod: MinEventActionTargetedBase
         // Only Work on a mod.
      //   if (!itemValue.IsMod) return;
         ItemDegradationHelpers.CheckModification(itemValue, player);
+        
     }
  
 }

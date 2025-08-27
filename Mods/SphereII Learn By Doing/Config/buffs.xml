@@ -2,114 +2,76 @@
     <append xpath="/buffs/buff[@name='buffStatusCheck01']">
         <effect_group name="Learn By Doing">
             <!-- Only init is there it's not set -->
-            
-            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="ProgressionLearnByDoing_Init" >
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="ProgressionLearnByDoing_Init">
                 <requirement name="CVarCompare" cvar="$lbd_xp_melee_base" operation="LTE" value="0"/>
             </triggered_effect>
             <triggered_effect trigger="onSelfEnteredGame" action="LogMessage" message="Learn By Doing Active"/>
         </effect_group>
     </append>
-    
     <append xpath="/buffs">
         <!-- 1. THE GLOBAL INITIALIZER -->
         <buff name="ProgressionLearnByDoing_Init" hidden="true">
             <stack_type value="ignore"/>
             <duration value="1"/>
-          
-            
             <!-- Included files below will add the respective settings for each perk tree -->
             <effect_group name="Global LBD Settings">
+
                 <!-- New: Global XP Gain Multipliers / Base Values -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_base"
-                                  operation="set" value="10"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_power_base"
-                                  operation="set" value="15"/>
-                
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_ranged_base"
-                                  operation="set" value="12"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_harvest_base"
-                                  operation="set" value="8"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_special_base"
-                                  operation="set" value="15"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_attribute_synergy_base"
-                                  operation="set" value="2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_flurry_bonus"
-                                  operation="set" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_base" operation="set" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_power_base" operation="set" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_ranged_base" operation="set" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_harvest_base" operation="set" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_special_base" operation="set" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_attribute_synergy_base" operation="set" value="1"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_flurry_bonus" operation="set" value="5"/>
 
                 <!-- New: Global XP Curve Multiplier -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_curve_multiplier"
-                                  operation="set" value="1.2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_damage_taken_base"
-                                  operation="set" value="3"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_curve_multiplier" operation="set" value="1.2"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_damage_taken_base" operation="set" value="3"/>
 
                 <!-- Pain Tolerance -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_stun_bonus"
-                                  operation="set" value="6"/> <!-- Base * 2 -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_concussion_bonus"
-                                  operation="set" value="15"/> <!-- Base * 5 -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_stun_bonus" operation="set" value="5"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_concussion_bonus" operation="set" value="10"/>
 
                 <!-- Healing -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier1_bonus"
-                                  operation="set" value="2"/> <!-- Mild: +2 -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier2_bonus"
-                                  operation="set" value="5"/> <!-- Moderate: +5 -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier3_bonus"
-                                  operation="set" value="10"/> <!-- Severe: +10 -->
-
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_slowmetabolism_bonus"
-                                  operation="set" value="2"/> <!-- Mild: +2 -->
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier1_bonus" operation="set" value="2"/>
+                <!-- Mild: +2 -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier2_bonus" operation="set" value="5"/>
+                <!-- Moderate: +5 -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier3_bonus" operation="set" value="10"/>
+                <!-- Severe: +10 -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_slowmetabolism_bonus" operation="set" value="2"/>
+                <!-- Mild: +2 -->
                 <!-- New: Synergy XP Multipliers (Pre-calculated) -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_parkour_bonus"
-                                  operation="set"
-                                  value="4"/> <!-- Assuming $lbd_xp_attribute_synergy_base is 2, then 2 * 2 = 4 -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$lbd_xp_synergy_hiddenstrike_bonus" operation="set"
-                                  value="4"/> <!-- Assuming $lbd_xp_attribute_synergy_base is 2, then 2 * 2 = 4 -->
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_parkour_bonus" operation="set" value="4"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_hiddenstrike_bonus" operation="set" value="4"/>
                 <!-- Daring Adventure -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_base"
-                                  operation="set" value="200"/>
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_base" operation="set" value="200"/>
                 <!-- You might also want a multiplier per tier, e.g., $lbd_xp_quest_tier_multiplier -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_tier_multiplier"
-                                  operation="set" value="100"/> <!-- Bonus XP per tier -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_quest_bonus"
-                                  operation="set" value="6"/>
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_tier_multiplier" operation="set" value="100"/>
+                <!-- Bonus XP per tier -->
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_synergy_quest_bonus" operation="set" value="6"/>
                 <!-- Long crafting bonus xp -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$lbd_xp_greasemonkey_longcraft_bonus" operation="set" value="30"/>
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_greasemonkey_longcraft_bonus" operation="set" value="30"/>
                 <!-- Long crafting bonus for food -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
-                                  cvar="$lbd_xp_masterchef_longcraft_bonus" operation="set" value="20"/>
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_masterchef_longcraft_bonus" operation="set" value="20"/>
             </effect_group>
             <effect_group name="Master Level">
                 <!-- NEW: LBD Level Trackers for Mastery Perks -->
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_level"
-                                  operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_level"
-                                  operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_level"
-                                  operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_lbd_level"
-                                  operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkintellectmastery_lbd_level"
-                                  operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_level" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_level" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_level" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_lbd_level" operation="set" value="0"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkintellectmastery_lbd_level" operation="set" value="0"/>
             </effect_group>
         </buff>
     </append>
-
     <!-- Include the manager file for each attribute -->
     <include filename="Perception/main.xml"/>
-    
     <include filename="Strength/main.xml"/>
-    
     <include filename="Fortitude/main.xml"/>
     <include filename="Agility/main.xml"/>
     <include filename="Intellect/main.xml"/>
     <include filename="General/main.xml"/>
-    <include filename="CraftingSkills/main.xml" />
+    <include filename="CraftingSkills/main.xml"/>
 </configs>

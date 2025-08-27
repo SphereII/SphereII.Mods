@@ -14,7 +14,7 @@
 
             <!-- perkArchery -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkarchery_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkarchery_lbd_xptonext" operation="set" value="1100"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkarchery_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkGunslinger -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgunslinger_lbd_xp" operation="set" value="0"/>
@@ -22,11 +22,11 @@
 
             <!-- perkDeepCuts -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xptonext" operation="set" value="1000"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdeepcuts_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkParkour -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkparkour_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkhardTarget -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhardtarget_lbd_xp" operation="set" value="0"/>
@@ -34,19 +34,19 @@
 
             <!-- perkRunAndGun -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xptonext" operation="set" value="1300"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkHiddenStrike -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhiddenstrike_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhiddenstrike_lbd_xptonext" operation="set" value="2000"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkhiddenstrike_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkFromTheShadows -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xptonext" operation="set" value="1800"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfromtheshadows_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkFlurryOfAgility -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofagility_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofagility_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofagility_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkAgilityMastery -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_lbd_xp" operation="set" value="0"/>

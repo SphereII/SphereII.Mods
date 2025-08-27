@@ -11,6 +11,8 @@ public static class EventOnSleeperVolumeClearedUpdate {
     public class SleeperVolumeClearedUpdatePatch {
         private static void Postfix(SleeperVolume __instance)
         {
+            if (__instance?.groupCountList == null) return;
+            
             // Don't fire the event if there was no spawn.
             var count = 0;
             foreach (var group in __instance.groupCountList)

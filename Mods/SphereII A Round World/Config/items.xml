@@ -1,0 +1,10 @@
+<configs>
+    <append xpath="//item[@name='meleeWpnClubT0WoodenClub']">
+        <effect_group name="Kill Tracker">
+            <triggered_effect trigger="onSelfKilledOther" action="LogMessage" message="Zombie Kills + 1" />
+
+            <triggered_effect trigger="onSelfKilledOther" action="SetItemMetaFloat" change="1" relative="true" key="ZombieKills"/>            
+        </effect_group>
+    </append>
+
+</configs>

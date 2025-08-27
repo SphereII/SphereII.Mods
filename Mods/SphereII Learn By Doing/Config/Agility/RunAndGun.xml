@@ -45,7 +45,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRunAndGun" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xp" operation="subtract" value="@$perkrunandgun_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkrunandgun_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRunAndGun" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkRunAndGunLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkRunAndGun" />

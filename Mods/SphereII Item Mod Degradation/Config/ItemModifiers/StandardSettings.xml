@@ -1,0 +1,34 @@
+<configs>
+    
+    <!-- Actively degrades when the item is considered active -->
+    <Snippet label="StandardItemActiveSettings">
+        <!-- Damage over time if the item is active -->
+        <effect_group name="DamageHooks">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <requirement name="IsItemActive"/>
+            <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+        
+        <!-- Damages when onSelfItemDegrade gets triggered -->
+        <effect_group name="DamageHooks Degrade">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+    </Snippet>
+
+    <Snippet label="StandardSettings">
+        <!-- Enable Quality  -->
+        <property name="ShowQuality" value="true"/>
+
+        <!-- Let Them be repaired -->
+        <property name="RepairTools" value="resourceRepairKit"/>
+
+        <!-- Set max use per quality tier -->
+        <property name="DegradationMaxUse" value="100,600" param1="1,6"/>
+        <property name="DegradationPerUse" value="1"/>
+        
+        <!-- Break after they completely degrade?-->
+        <property name="DegradationBreaksAfter" value="false"/>
+
+    </Snippet>
+</configs>

@@ -101,7 +101,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMediumArmor" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xp" operation="subtract" value="@$perkmediumarmor_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmediumarmor_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMediumArmor" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkMediumArmorLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkMediumArmor" />

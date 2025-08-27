@@ -1,0 +1,5 @@
+<configs>
+    <append xpath="//item_display_info[@display_type='melee']">
+        <display_entry name="ZombieKills" title_key="zombieKillsTitle" display_type="Decimal1" tags="perkMiner69r,perkSalvageOperations,perkElectrocutioner,perkJavelinMaster,perkPummelPete,perkSkullCrusher,perkDeepCuts,perkBrawler,admin"/>
+    </append>
+</configs>

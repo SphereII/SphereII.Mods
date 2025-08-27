@@ -69,8 +69,8 @@
 				<requirement name="CanPurchasePerk, SCore" progression_name="perkPenetrator" />
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkPenetrator" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xp" operation="subtract" value="@$perkpenetrator_lbd_xptonext"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xptonext" operation="multiply" value="1.2"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPenetrator" sound="read_skillbook_final" />
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpenetrator_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkPenetratorLeveledUp"/>
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkPenetrator" />

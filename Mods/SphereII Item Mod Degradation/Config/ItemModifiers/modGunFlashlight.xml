@@ -1,0 +1,14 @@
+<configs>
+    <!-- Helmet Light  -->
+    <append xpath="//item_modifier[@name='modGunFlashlight']">
+        <effect_group name="DamageHooks Deactivate">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <requirement name="IsItemActive"/>
+            <triggered_effect trigger="onSelfRoutineUpdate"  action="SetTransformActive" active="false" parent_transform="Side" transform_path="lightSource" />
+        </effect_group>
+    </append>
+
+    <append xpath="//item_modifier[@name='modGunFlashlight']/effect_group/triggered_effect[@trigger='onSelfItemActivate']">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1" />
+    </append>
+</configs>

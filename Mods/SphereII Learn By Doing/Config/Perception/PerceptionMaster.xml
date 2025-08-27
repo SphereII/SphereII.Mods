@@ -116,8 +116,7 @@ This design ensures that a player's overall proficiency in Perception leads to t
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkperceptionmastery_lbd_level"
                                   operation="add" value="1"/>
 
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkPerceptionMastery"
-                                  sound="read_skillbook_final"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkPerceptionMasteryLeveledUp"/>
             </effect_group>
 
             <effect_group>

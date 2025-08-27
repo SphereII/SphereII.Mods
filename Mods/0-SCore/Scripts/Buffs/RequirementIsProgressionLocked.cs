@@ -8,7 +8,11 @@ public class RequirementIsProgressionLocked : ProgressionLevel
     {
         if (_params.Self.Progression == null) return false;
         pv = _params.Self.Progression.GetProgressionValue(this.progressionId);
-        if (pv == null) return false;
+
+        if (pv == null)
+        {
+            return false;
+        }
         var result = pv.IsLocked(_params.Self);
         if (invert)
         {
@@ -17,4 +21,6 @@ public class RequirementIsProgressionLocked : ProgressionLevel
 
         return result;
     }
+    
+    
 }

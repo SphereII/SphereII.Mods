@@ -131,7 +131,7 @@ namespace Harmony.ItemActions
                         return false;
                     case ItemActionEntryRepair.StateTypes.NotEnoughMaterials:
                         GameManager.ShowTooltip(__instance.ItemController.xui.playerUI.entityPlayer, __instance.lblNeedMaterials);
-                        return false;
+                        break;
                     case ItemActionEntryRepair.StateTypes.Normal:
                         break;
                     default:
@@ -147,22 +147,24 @@ namespace Harmony.ItemActions
                 {
                     var dynamicProperties3 = forId.Properties.Classes["RepairItems"];
                     stack = ItemsUtilities.ParseProperties(dynamicProperties3);
-                    ItemsUtilities.CheckIngredients(stack, __instance.ItemController.xui.playerUI.entityPlayer);
-                    return false;
+                    if ( !ItemsUtilities.CheckIngredients(stack, __instance.ItemController.xui.playerUI.entityPlayer))
+                        return false;
+                    
                 }
 
                 if (forId.Properties.Contains("RepairItems")) // to support <property name="RepairItems" value="resourceWood,10,resourceForgedIron,10" />
                 {
                     var strData = forId.Properties.Values["RepairItems"];
                     stack = ItemsUtilities.ParseProperties(strData);
-                    ItemsUtilities.CheckIngredients(stack, __instance.ItemController.xui.playerUI.entityPlayer);
-                    return false;
+                    if ( !ItemsUtilities.CheckIngredients(stack, __instance.ItemController.xui.playerUI.entityPlayer)) 
+                        return false;
                 }
 
                 if (forId.RepairTools != null && forId.RepairTools.Length > 0) return true;
 
                 var recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);
-                ItemsUtilities.CheckIngredients(recipe.ingredients, __instance.ItemController.xui.playerUI.entityPlayer);
+                if (!ItemsUtilities.CheckIngredients(recipe.ingredients, __instance.ItemController.xui.playerUI.entityPlayer) )
+                    return false;
                 return false;
             }
         }

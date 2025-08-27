@@ -23,3 +23,7 @@ Explore real-world XML examples and see how to get things done.
 [Give Buffs and Quests by Sounds](Sounds.md)
 
 [Learn By Doing](LearnByDoing.md)
+
+[Item Degradation](ItemDegradation.md)
+
+[Workstation Degradation](WorkstationDegradation.md)

@@ -3,7 +3,7 @@ using Audio;
 using HarmonyLib;
 using UnityEngine;
 
-namespace Harmony.Recipes
+namespace Harmony.RecipesPatches
 {
     /*
     <recipe name="ammo45ACPCase" count="30" craft_time="5" craft_area="MillingMachine" tags="workbenchCrafting,PerkHOHMachineGuns">
@@ -31,100 +31,26 @@ namespace Harmony.Recipes
      */
     public class XUiCRecipeStackOutputStackPatches
     {
+        // Used for crafting with the workstation open.
         [HarmonyPatch(typeof(XUiC_RecipeStack))]
         [HarmonyPatch(nameof(XUiC_RecipeStack.outputStack))]
         public class XUiCRecipeStackOutputStack
         {
-            private static void DisplayTooltip(EntityPlayerLocal entityPlayer, string text)
-            {
-                GameManager.ShowTooltip(entityPlayer, text);
-                Manager.PlayInsidePlayerHead("ui_denied");
-            }
-
-            private static void DisplayInventoryFull(EntityPlayerLocal entityPlayer)
-            {
-                string text = "No room in inventory, crafting has been halted until space is cleared.";
-                if (Localization.Exists("wrnInventoryFull", false))
-                {
-                    text = Localization.Get("wrnInventoryFull", false);
-                }
-
-                DisplayTooltip(entityPlayer, text);
-            }
-
-            private static void DisplayWorkstationInventoryFull(EntityPlayerLocal entityPlayer)
-            {
-                var text =
-                    "No room in workstation output, crafting has been halted until space is cleared.";
-                if (Localization.Exists("wrnWorkstationOutputFull", false))
-                {
-                    text = Localization.Get("wrnWorkstationOutputFull", false);
-                }
-
-                DisplayTooltip(entityPlayer, text);
-            }
-
-            private static List<ItemStack> GetAdditionalOutput(Recipe recipe, MinEventParams minEventParams)
-            {
-                List<ItemStack> items = new List<ItemStack>();
-                foreach (var minEffectGroup in recipe.Effects.EffectGroups)
-                {
-                    // Fire off all the events that may be on there.
-                    minEffectGroup.FireEvent(MinEventTypes.onSelfItemCrafted, minEventParams);
-
-                    // We need to grab the data from the xml, which is only stored in this minevent. We have to loop around looking for it.
-                    foreach (var minEventActionBase in minEffectGroup.GetTriggeredEffects(MinEventTypes
-                                 .onSelfItemCrafted))
-                    {
-                        if (minEventActionBase is not MinEventActionAddAdditionalOutput additionalOutput) continue;
-                        if (!minEventActionBase.CanExecute(MinEventTypes.onSelfItemCrafted, minEventParams)) continue;
-
-                        var itemStack = additionalOutput.GetItemStack();
-                        items.Add(itemStack);
-                    }
-                }
-                return items;
-            }
-
-            // Identify the correct recipe via the crafting area.
-            private static Recipe GetRecipe(Recipe currentRecipe)
-            {
-                var recipeName = currentRecipe.GetName();
-                var craftingArea = currentRecipe.craftingArea;
-                foreach (var recipe in CraftingManager.GetRecipes(recipeName))
-                {
-                    if (recipe.craftingArea == craftingArea) return recipe;
-                }
-
-                return currentRecipe;
-            }
-
-            public static MinEventParams GenerateMinEventParams(EntityPlayer currentPlayer, EntityPlayer starterPlayer, ItemValue outputItemValue)
-            {
-                var minEventParams = new MinEventParams();
-                minEventParams.TileEntity = TraderUtils.GetCurrentTraderTileEntity();
-                minEventParams.Self = currentPlayer;
-                minEventParams.Other = starterPlayer;
-                minEventParams.Biome = currentPlayer.biomeStandingOn;
-                minEventParams.ItemValue = outputItemValue;
-                return minEventParams;
-            }
+    
             public static bool Prefix(ref bool __result, XUiC_RecipeStack __instance)
             {
                 if (__instance.recipe == null) return true;
-                var recipe = GetRecipe(__instance.recipe);
+                var recipe = RecipeUtils.GetRecipe(__instance.recipe);
 
                 // no effects? Don't bother.
                 if (recipe.Effects == null) return true;
-
                 var entityPlayer = __instance.xui.playerUI.entityPlayer;
                 if (entityPlayer == null) return true;
                 
                 var startedPlayer = GameManager.Instance.World.GetEntity(__instance.startingEntityId) as EntityPlayer;
                 
-                var minEventParams = GenerateMinEventParams(entityPlayer, startedPlayer, __instance.outputItemValue);
-                List<ItemStack> items = GetAdditionalOutput(recipe, minEventParams);
-                
+                var minEventParams = RecipeUtils.GenerateMinEventParams(entityPlayer, startedPlayer, __instance.outputItemValue);
+                List<ItemStack> items = RecipeUtils.GetAdditionalOutput(recipe, minEventParams);
                 if (items.Count == 0) return true;
                 // if we have a workstation open
                 var childByType = __instance.windowGroup.Controller.GetChildByType<XUiC_WorkstationOutputGrid>();
@@ -141,7 +67,7 @@ namespace Harmony.Recipes
                         }
 
                         __instance.isInventoryFull = true;
-                        DisplayWorkstationInventoryFull(entityPlayer);
+                        RecipeUtils.DisplayWorkstationInventoryFull(entityPlayer);
                         __result = false;
                         return false;
                     }
@@ -160,7 +86,7 @@ namespace Harmony.Recipes
                     }
 
                     __instance.isInventoryFull = true;
-                    DisplayInventoryFull(entityPlayer);
+                    RecipeUtils.DisplayInventoryFull(entityPlayer);
                     __result = false;
                     return false;
                 }

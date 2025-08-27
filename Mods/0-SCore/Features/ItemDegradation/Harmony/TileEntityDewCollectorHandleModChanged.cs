@@ -1,4 +1,5 @@
 using HarmonyLib;
+using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
 namespace SCore.Features.ItemDegradation.Harmony
@@ -17,6 +18,8 @@ namespace SCore.Features.ItemDegradation.Harmony
                     var mod = __instance.modSlots[i];
                     if ( mod.IsEmpty() ) continue;
                 
+                    if ( !ItemDegradationHelpers.CanDegrade(mod.itemValue)) continue;
+                    
                     // Reset the conversions based on if each type is degraded. 
                     OnSelfItemDegrade.CheckForDegradation(mod);
                     

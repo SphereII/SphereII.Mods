@@ -40,7 +40,11 @@ namespace SCore.Features.Challenges.Harmony
                 { ChallengeObjectiveTypeSCore.ChallengeObjectivePlaceBlockByTag, () => new ChallengeObjectivePlaceBlockByTag() },
                 { ChallengeObjectiveTypeSCore.ChallengeObjectiveClearSleepers, () => new ChallengeObjectiveClearSleepers() },
                 { ChallengeObjectiveTypeSCore.ChallengeObjectiveKillV2, () => new ChallengeObjectiveKillV2() },
-                { ChallengeObjectiveTypeSCore.ChallengeObjectiveHarvestV2, () => new ChallengeObjectiveHarvestV2() }
+                { ChallengeObjectiveTypeSCore.ChallengeObjectiveHarvestV2, () => new ChallengeObjectiveHarvestV2() },
+                { ChallengeObjectiveTypeSCore.ChallengeObjectivePlaceBlockByTagV2, () => new ChallengeObjectivePlaceBlockByTagV2() },
+                { ChallengeObjectiveTypeSCore.ChallengeObjectiveCVarV2, () => new ChallengeObjectiveCVarV2() }
+
+
 
             };
         }

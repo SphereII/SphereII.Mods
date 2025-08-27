@@ -16,11 +16,11 @@
 
         <!-- Periodically send an update on everything the player is wearing-->
         <buff name="buffRoutineUpdateTrigger" hidden="true" >
-            <stack_type value="ignore"/>
-            <update_rate value="100"/>
+            <stack_type value="replace"/>
+            <update_rate value="10"/>
             <effect_group name="Routine Update">
                 <!--
-                <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Routine Update" />
+                <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Running Routine Update" />
                 -->
                 <triggered_effect trigger="onSelfBuffUpdate" action="RoutineUpdate, SCore" slots="bag,inventory,equipment"/>
             </effect_group>

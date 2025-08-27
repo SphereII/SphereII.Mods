@@ -169,8 +169,7 @@
                                   operation="subtract" value="@$attperception_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attperception_lbd_xptonext"
                                   operation="multiply" value="1.3"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attPerception"
-                                  sound="read_skillbook_final"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="attPerceptionLeveledUp"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff"
                                   buff="buffLBD_attPerception_MasteryChecker"/>
             </effect_group>

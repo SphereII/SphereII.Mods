@@ -32,6 +32,181 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.11.1608
+	[ One Block Crouch ]
+		- Fixed an issue with the cvar check being done too early to be ineffective.
+		- Refactored implementation.
+
+	[ Item Degradation ]	
+		- Fixed an issue where a bad localization was being displayed when Learn by Doing was not available.
+		- added a localilzation entry to tag broken tool's Broken on the tooltip
+		- Added degradation in the worokstations to prevent crafting when a mod is degraded.
+		- Currently, after each recipe that is crafted, the tool requirement will degrade.
+
+	[ Additional Output ]
+		- Fixed a null reference when some player data wasn't available.
+
+	[ New Script ]
+		- Added guppycur's randomAnimationScript
+		- This script is designed to trigger a random animation on an associated Animator component every five minutes 
+			of in-game time. It is a time-based animation controller, useful for adding subtle, random environmental 
+			or character animations without relying on complex state machines or frequent, performance-heavy checks.
+
+
+Version: 2.3.10.1017
+	[ Learn By Doing ]
+		- Fixed an issue with CanPurchasePerk to be more accurate.
+		- Added two new patches to the SkillCraftingINfoWindow, and SkillPerkInfoWindow
+			- It reads the localization entry, if it exists, and populates the perk window when a level is not displayed.
+			- Format:
+				attStrengthLearnByDoingDesc,"Progress your strength by performing any strength-related action."
+
+	[ Fire Manager ]
+		- Fixed a possible null ref in AddExtinguishPosition
+
+	[ Recipes ]
+		- Fixed an issue where work stations were not generating additional outputs when the workstation was closed.
+
+	[ Documentation ]
+		- Added csv documentation
+
+	[ Item Degradation ]
+		- Added a BlockEffectsManager
+		- This adds the ability to read and keep track of any effect_groups that are part of its blocks.xml
+		- Currently, only onSelfItemDegrade trigger is hooked to as part of the Item Degradation effort.
+		- In this case, we wanted to degrade active workstations over time. However the most practical hook was on the TileEntity's UpdateTick.
+		- This happens too frequently, so by adding in support for effect_groups, we can add in further requirements through xml.
+		- For Example: 
+
+   			<append xpath="//block[@name='workbench']">
+        		<property name="DowngradeBlock" value="cntCollapsedWorkbench"/>
+        		<property name="DegradationPerUse" value="1"/>
+        		<effect_group name="DamageHooks Degrade">
+					<!-- Random roll rather than every tick -->
+            		<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="10"/>
+
+					<!-- This is called only when the workstation is active -->
+            		<triggered_effect trigger="onSelfItemDegrade" action="LogMessage" message="Damaging Block" />
+            		<triggered_effect trigger="onSelfItemDegrade" action="DamageBlock, SCore"/>
+        		</effect_group>
+    		</append>
+
+	[ SphereII Learn By Doing ]
+		- Added Readme.md detailing changes for history log.
+		- Added a line to the Grandpa's Forgettin' elixir to call the Init buff, to reset progression.
+		- Set every perk to have a To Next Level of 1200.
+		- Set all base action xp to 1. Special or Power action is set to 5.
+		- Set every attribute to have a To Next Level of 5000.
+		- Removed errant cvars in Intellect/Init.xml that re-set the buff.xml's cvars
+		- Added localization entries for each perk / attribute, describing what needs to be leveled up.
+		- Changed Level Up Checks to use the ShowToolBelt message, with Localizationentries added.
+		- Fixed hard coded references of 1.2 and 1.3, and converted them to using curve_multiplier
+		- Fixed missing Javelin level up logic
+		- Added automatic version numbers.
+
+	[ SphereII A Better Life ]
+		- Fixed an issue with the block spawners not spawning fish.
+		- Added automatic version numbers.
+
+Version: 2.3.7.1356 - Experimental
+	[ Random Sizes ]
+		- Fixed a few issues with Random Sizes not doing Random Sizes.
+
+	[ File Management ]
+		- Removed Readme.txt and ModInfo.txt
+
+	[ Soft Hands ]
+		- Added new Configuration block setting
+                <property name="CheckHandArmor" value="true" />
+		- If this is set to true, Soft Hands will be negated if the player is wearing gloves.
+		- If this is set to false, then the player will take damage from hitting globes with just their hands.
+
+	[ SphereII Item Degradation ]
+		- Fixed an issue where pistol would re-holster on update
+
+	[ Challenges ]
+		- Added check for a null reference on Sleeper Volume Group Count for ClearedUpdate event.
+
+Version: 2.3.6.1759 - Experimental
+	[ Challenges ]
+		- Fixed another issue with the V2 tags.
+			- The side effect may have been re-ordering of challenges.
+		- Added PlaceBlockByTagV2
+			<challenge name="burntSurvivalPlantTrees" title_key="challengeBurntPlantTrees" icon="ui_game_symbol_tree" group="ScoreTest"
+					short_description_key="challengeBurntPlantTreesShort" description_key="challengeBurntPlantTreesDesc"
+					reward_text_key="challenge_reward_1000xp" reward_event="challenge_reward_1000">
+				<requirement name="InBiome" biome="9"/>
+				<requirement name="BlockHasTags" tags="wood"/>
+				<objective type="PlaceBlockByTagV2, SCore" count="25" />
+			</challenge>
+		- Changed CVar event for CVar Challenges to not look at the super spammy _CvarName's
+
+	[ OneBlock Crouch ]
+		- Added a check for a cvar that will block the One Block Crouch:
+			NoOneBlockCrouch
+		- If this cvar is set to anything greater than 0, the OneBlock Crouch will be blocked.
+
+Version: 2.3.5.2007 - Experimental
+	[ Shared Reading ]
+		- Refactored shared reading to be more reliable.
+			- Tested on Client, Client -> Server, and Server -> Client(s)
+
+	[ Advanced Repairs ]
+		- Fixed an issue with Advanced Repairs not showing the pop up when items are not available.
+
+	[ Challenges ]
+		- Fixed an issue with CVarV2's Localization not being cloned properly.
+		- HarvestV2 was cleaned out as empty Challenge.  Harvest supports the <requirements now.
+		- Fixed a localization issue with ClearSleepers.
+
+	[ Item Degradation ]
+		- Work is ongoing for this project, but proceeding slowly.
+
+	[ XML Patching ]
+		- Added to the XmlPatcher to help avoid some repetitiveness for item degradation.
+		- This will replace the ref_file node with everything inside the passed in label.
+		- You probably don't want to use this.
+		- If label is not specified, the entire file contents is merged (minus the root node )
+    
+			<append xpath="//item[starts-with(@name,'tool')]">
+        		<!-- Read the snippet file, and merge all the Snippet nodes that match the label. -->
+        		<!-- If label is omitted, the file itself will be merged, minus the root node -->
+        		<ref_file snippet="ItemModifiers/StandardSettings.xml" label="StandardActiveSettings, StandardSettings"/>
+			</append>
+
+		With StandardSettings.xml:
+			<configs>
+			
+				<!-- Actively degrades when the item is considered active -->
+				<Snippet label="StandardActiveSettings">
+					<effect_group name="DamageHooks">
+						<requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+						<requirement name="IsItemActive"/>
+						<triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+					</effect_group>
+			
+					<effect_group name="BrokenHooks">
+						<requirement name="ItemPercentUsed, SCore" operation="GTE" value="1"/>
+						<requirement name="IsItemActive"/>
+						<triggered_effect trigger="onSelfRoutineUpdate" action="AddBuff" buff="buffStatusModBroken"/>
+					</effect_group>
+				</Snippet>
+			
+				<Snippet label="StandardSettings">
+					<!-- Enable Quality  -->
+					<property name="ShowQuality" value="true"/>
+
+
+Version: 2.3.2.1055 - Experimental
+	[ General ]
+		- Rebuilt against 2.3
+
+	[ UAI / EAI ]
+		- Fixed broken references to RandomPositionGenerator's Calc calls.
+
+	[ XML Parsing ]
+		- Added experimental xml hook. Don't use it.
+
 Version: 2.2.17.929
 	[ Challenges ]
 		- Added ObjectiveCVarV2 for better localization support and buff requirement hooks

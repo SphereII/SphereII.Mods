@@ -68,8 +68,8 @@
                 <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkStrengthMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xp" operation="subtract" value="@$perkstrengthmastery_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xptonext" operation="multiply" value="1.3"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkStrengthMastery" sound="read_skillbook_final"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkstrengthmastery_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkStrengthMasteryLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkStrengthMastery"/>

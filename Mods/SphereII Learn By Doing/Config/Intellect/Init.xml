@@ -14,7 +14,7 @@
 
             <!-- perkElectrocutioner -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkelectrocutioner_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkelectrocutioner_lbd_xptonext" operation="set" value="1100"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkelectrocutioner_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkRoboticTurrets -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkturrets_lbd_xp" operation="set" value="0"/>
@@ -22,11 +22,11 @@
 
             <!-- perkFlurryOfIntellect -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofintellect_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkBetterBarter -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xptonext" operation="set" value="1300"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkbetterbarter_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkDaringAdventurer -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkdaringadventurer_lbd_xp" operation="set" value="0"/>
@@ -34,7 +34,7 @@
 
             <!-- perkPhysician -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkphysician_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkphysician_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkphysician_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkAdvancedEngineering -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkadvancedengineering_lbd_xp" operation="set" value="0"/>
@@ -52,30 +52,6 @@
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkintellectmastery_lbd_xp" operation="set" value="0"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkintellectmastery_lbd_xptonext" operation="set" value="3000"/>
 
-            <!-- Global XP values -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_base" operation="set" value="10"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_melee_power_base" operation="set" value="15"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_ranged_base" operation="set" value="12"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_harvest_base" operation="set" value="8"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_special_base" operation="set" value="15"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_attribute_synergy_base" operation="set" value="2"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_flurry_bonus" operation="set" value="5"/>
-
-            <!-- Tiered XP for Pain Tolerance (multipliers) -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_stun_bonus" operation="set" value="6"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_concussion_bonus" operation="set" value="15"/>
-
-            <!-- Tiered XP for Healing Factor (multipliers) -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier2_bonus" operation="set" value="5"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_healingfactor_tier3_bonus" operation="set" value="10"/>
-
-            <!-- Tiered XP for Daring Adventurer (multipliers) -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_base" operation="set" value="50"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_quest_tier_multiplier" operation="set" value="100"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$temp_quest_xp_bonus" operation="set" value="0"/>
-
-            <!-- Bonus XP for long crafting times (Grease Monkey) -->
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_greasemonkey_longcraft_bonus" operation="set" value="30"/>
 
         </effect_group>
     </append>

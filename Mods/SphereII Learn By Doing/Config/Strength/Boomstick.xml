@@ -47,8 +47,8 @@
 				<requirement name="CanPurchasePerk, SCore" progression_name="perkBoomstick"/>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkBoomstick" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xp" operation="subtract" value="@$perkboomstick_lbd_xptonext"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xptonext" operation="multiply" value="1.2"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkBoomstick" sound="read_skillbook_final"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkboomstick_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkBoomstickLeveledUp"/>
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkBoomstick"/>

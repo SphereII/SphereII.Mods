@@ -1,5 +1,6 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Harmony;
+using SCore.Features.ItemDegradation.Utils;
 using UnityEngine;
 
 public static class OnRepair
@@ -18,7 +19,7 @@ public static class OnRepair
 
         foreach (var mod in stack.Modifications)
         {
-            if (ItemDegradationHelpers.IsDegraded(mod))
+            if (ItemDegradationHelpers.CanDegrade(mod))
             {
                 mod.UseTimes = 1f;
             }
@@ -29,6 +30,7 @@ public static class OnRepair
         
         minEventParams.ItemValue.SetMetadata("DamageAmount", 0f, TypedMetadataValue.TypeTag.Float);
         minEventParams.ItemValue.SetMetadata("PercentDamaged", 0f, TypedMetadataValue.TypeTag.Float);
+        
 
     }
     

@@ -34,8 +34,7 @@
 		<WarningLevel>4</WarningLevel>
 	</PropertyGroup>
 	
-	  <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
- 
+
 
 	<ItemGroup>
 		<Reference Include="System"/>
@@ -128,6 +127,8 @@
 		<Content Include="Config\Intellect\main.xml"/>
 		<Content Include="Config\Intellect\Physician.xml"/>
 		<Content Include="Config\Intellect\RoboticTurrets.xml"/>
+		<Content Include="Config\items.xml" />
+		<Content Include="Config\Localization.txt" />
 		<Content Include="Config\Perception\AnimalTracker.xml"/>
 		<Content Include="Config\Perception\Cooldowns.xml"/>
 		<Content Include="Config\Perception\DeadEye.xml"/>
@@ -165,22 +166,33 @@
 			<Generator>TextTemplatingFileGenerator</Generator>
 			<LastGenOutput>AssemblyInfo.cs</LastGenOutput>
 		</Content>
+		<Content Include="ReadMe.md" />
 		<Content Include="Test.md"/>
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Include="Hello.cs" />
 		<Compile Include="Properties\AssemblyInfo.cs">
 			<AutoGen>True</AutoGen>
 			<DesignTime>True</DesignTime>
 			<DependentUpon>AssemblyInfo.tt</DependentUpon>
 		</Compile>
 	</ItemGroup>
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
+	 <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\Tools\Directory.Build.targets" Condition="Exists('$(SolutionDir)\Tools\Directory.Build.targets')" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+
+			:: Update the ModInfo.xml
+			IF EXIST "$(ProjectDir)ModInfo.xml" (
+				IF EXIST "$(ProjectDir)..\Tools\bin\sed.exe" (
+					:: Sort out the version number from the Configuration, and grab the last digits of the Version number
+					echo Updating Version number to @(VersionNumber)
+					"$(ProjectDir)..\Tools\bin\sed.exe" -i "s/Version value=\"*.*.*.*\"/Version value=\"@(VersionNumber)\"/g" "$(ProjectDir)ModInfo.xml"
+				)
+			)
+		</PostBuildEvent>
+  </PropertyGroup>
 </Project>

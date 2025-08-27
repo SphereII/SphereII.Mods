@@ -18,6 +18,7 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
                     return;
             }
 
+            
             if (!__instance.isEntityRemote) return;
             
             var minEventContext = __instance.MinEventContext;

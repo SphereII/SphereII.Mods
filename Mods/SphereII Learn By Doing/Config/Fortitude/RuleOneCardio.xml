@@ -78,7 +78,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRuleOneCardio" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xp" operation="subtract" value="@$perkruleonecardio_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRuleOneCardio" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkRuleOneCardioLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkRuleOneCardio" />
@@ -87,15 +87,6 @@
                 </triggered_effect>
             </effect_group>
         </buff>
-        <buff name="buffLBD_perkRuleOneCardio_XPCoolDown" hidden="true"><duration value="1"/></buff>
-        <buff name="buffLBD_perkRuleOneCardio_Decay" hidden="true">
-            <stack_type value="ignore"/><duration value="1"/>
-            <effect_group>
-                <requirement name="ProgressionLevel" progression_name="perkRuleOneCardio" operation="GT" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkRuleOneCardio" level="-1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkruleonecardio_decay_counter" operation="set" value="0"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkRuleOneCardio" sound="ui_skill_decay"/>
-            </effect_group>
-        </buff>
+ 
     </append>
 </configs>

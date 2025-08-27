@@ -27,7 +27,7 @@
 
 		 <block name="terrWaterSpawner">
 			<property name="Extends" value="SpawnCube"/>
-			<property name="Class" value="SpawnCube2SDX, SCore" />
+			<property name="Class" value="SpawnCubeRepeater, SCore" />
 			<property name="Config" value="eg=AnimalSwiming;buff=buffOrderStay;pc=0;keep=0" />
 		 </block>
 

@@ -262,6 +262,112 @@ Beyond `set`, several other XPath commands allow for diverse modifications.
   ```
   This removes the `value` attribute from the `attribute` named `attPerception`.
 
+### `csv` 
+
+The `<csv>` command is a powerful tool for directly modifying comma-separated lists within strings, like a property's `value` attribute or a node's text content. This command prevents you from having to replace the entire string just to add or remove a single entry.
+
+-----
+
+## Command Structure 🛠️
+
+The `<csv>` command uses a structured format with specific attributes to define its behavior.
+
+```xml
+<csv
+xpath="[path to the string to modify]"
+delim="[separator character, e.g., ',' or '\n']"
+op="[operation: 'add' or 'remove']">
+</csv>
+```
+
+| Attribute | Description |
+| :--- | :--- |
+| **xpath** | The path to the string value you want to modify. |
+| **delim** | The single character that separates the items in the list. This is often a comma (`,`) but can also be a newline (`\n`) for list-like text nodes. If omitted, the default is a comma. |
+| **op** | Specifies the operation to perform. It can be either `add` or `remove`. |
+| **Content** | The item or items you want to add or remove from the list. |
+
+-----
+
+## Operation Details ⚙️
+
+- **`op="add"`**: Adds a new item to the list.
+- **`op="remove"`**: Removes an item from the list. Wildcards (`*`) may be used to match multiple items.
+
+-----
+
+## Examples 💡
+
+### Example 1: Modifying Starting Items
+
+Instead of using a `<set>` operation to replace a whole string, the `<csv>` command allows for precise modifications.
+
+**Before:**
+If you wanted to remove `keystoneBlock` from the starting items list, you would have to replace the entire string.
+
+```xml
+<set xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value">drinkJarBoiledWater,foodCanChili,medicalFirstAidBandage,meleeToolTorch,noteDuke01</set>
+```
+
+**After:**
+Using `<csv>` is more direct and efficient.
+
+```xml
+<csv xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value" delim="," op="remove">keystoneBlock</csv>
+
+<csv xpath="/entity_classes/entity_class[@name='playerMale']/property[starts-with(@name, 'ItemsOnEnterGame')]/@value" delim="," op="add">gunRifleT0PipeRifle</csv>
+```
+
+The `<csv>` command can also be used to manipulate other lists, such as `Tags`.
+
+**XML before modification:**
+
+```xml
+<property name="Tags" value="entity,player,human"/>
+```
+
+**New `<csv>` operations:**
+
+```xml
+<csv xpath="/entity_classes/entity_class[@name='playerMale']/property[@name='Tags']/@value" delim="," op="add">zombie</csv>
+<csv xpath="/entity_classes/entity_class[@name='playerMale']/property[@name='Tags']/@value" delim="," op="remove">entity</csv>
+```
+
+-----
+
+### Example 2: Modifying Entity Groups
+
+In `entitygroups.xml`, you can now manipulate existing groups without replacing the entire block of text. For this, you must use a newline delimiter (`\n`) and the `text()` XPath keyword instead of `@value`.
+
+**XML snippet:**
+
+```xml
+<entitygroup name="ZombiesAll">
+    zombieBoe
+    zombieJoe
+    zombieSteve
+    zombieBiker, .3
+    zombieBikerFeral, .3
+    zombieBiker
+    zombieFatHawaiian, .3
+</entitygroup>
+```
+
+**`<csv>` operations:**
+
+```xml
+<csv xpath="/entitygroups/entitygroup[@name='ZombiesAll']/text()" delim="\n" op="remove">zombieJoe</csv>
+
+<csv xpath="/entitygroups/entitygroup[@name='ZombiesAll']/text()" delim="\n" op="remove">zombieBiker*</csv>
+
+<csv xpath="/entitygroups/entitygroup[@name='ZombiesAll']/text()" delim="\n" op="add">
+    zombieFatHawaiian2, .3
+    zombieFatHawaiian3, .3
+    zombieFatHawaiian4, .3
+    zombieFatHawaiian5, .3
+</csv>
+```
+
 -----
 
 ## XPath Advanced Conditionals

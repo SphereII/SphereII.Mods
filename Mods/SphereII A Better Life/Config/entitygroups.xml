@@ -10,8 +10,8 @@
 			fishOctopus, 1
 			fishPerch, 1
 			fishPike, 1
-			fishBabyShark, 1			
-			none, 91.0
+			fishBabyShark, 1
+			none, 91
 		</entitygroup>
 	</insertAfter>
 </configs>

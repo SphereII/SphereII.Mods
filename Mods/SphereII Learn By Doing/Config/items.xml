@@ -1,0 +1,5 @@
+<configs>
+    <append xpath="//item[@name='drinkJarGrandpasForgettingElixir']/effect_group">
+        <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="ProgressionLearnByDoing_Init" />
+    </append>
+</configs>

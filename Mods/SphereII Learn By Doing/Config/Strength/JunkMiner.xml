@@ -45,8 +45,8 @@
 				<requirement name="CanPurchasePerk, SCore" progression_name="perkJunkMiner"/>
 				<triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkJunkMiner" level="1"/>
 				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xp" operation="subtract" value="@$perkjunkminer_lbd_xptonext"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xptonext" operation="multiply" value="1.2"/>
-				<triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkJunkMiner" sound="read_skillbook_final"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkJunkMinerLeveledUp"/>
 			</effect_group>
 			<effect_group>
 				<requirement name="!CanPurchasePerk, SCore" progression_name="perkJunkMiner"/>

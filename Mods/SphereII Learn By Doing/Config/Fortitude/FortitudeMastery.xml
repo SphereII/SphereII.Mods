@@ -63,7 +63,7 @@
                 <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkFortitudeMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkfortitudemastery_lbd_level" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkFortitudeMastery" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkFortitudeMasteryLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkFortitudeMastery" />

@@ -228,3 +228,5 @@ sharedReadingDesc,"Shared Reading from","","Geteiltes Lesen von","Совмест
 sharedReadingSourceDesc,"Sharing To Party Members","","Teilen mit Gruppenmitgliedern","Поделиться с членами группы"
 poi_no_building,"No Building Within This POI.","","Kein Gebäude in diesem POI.","В этом POI нет зданий."
 LearnByDoingLevelUp,"Skill Level Up! You are a better","","Fähigkeitslevel aufgestiegen! Du bist ein besserer","Уровень навыка повышен! Вы стали лучше"
+challengePlaceBlockByTag,"Place Block with Tag","",""
+BrokenItem,"Broken","",""

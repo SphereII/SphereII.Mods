@@ -1,0 +1,28 @@
+<configs>
+    <!-- Water Purifier -->
+    <append xpath="//item_modifier[@name='modArmorWaterPurifier']">
+        <effect_group name="Damage During Use Override">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1" />
+            <requirement name="IsEquipped" />
+            <!-- Player hand -->
+            <triggered_effect trigger="onSelfAction2End" action="DegradeItemValueMod, SCore"/>
+            <!-- Murky water -->
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+
+        <effect_group name="Item Broken">
+            <requirement name="IsEquipped" />
+            <requirement name="ItemPercentUsed, SCore" operation="GTE" value="1" />
+            <triggered_effect trigger="onSelfAction2End" action="AddBuff" buff="buffStatusModBroken"/>
+            <triggered_effect trigger="onSelfPrimaryActionEnd" action="AddBuff" buff="buffStatusModBroken"/>
+        </effect_group>
+
+        <property name="DegradationMaxUse" value="10,600" param1="1,6"/>
+        <property name="DegradationPerUse" value="1"/>
+    </append>
+
+    <append xpath="//item_modifier[@name='modArmorWaterPurifier']/effect_group/passive_effect[@name='BuffResistance']">
+        <requirement name="ItemPercentUsed, SCore" operation="LT" value="1" />
+    </append>
+
+</configs>

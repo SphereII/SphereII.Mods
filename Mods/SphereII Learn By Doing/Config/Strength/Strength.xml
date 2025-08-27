@@ -74,9 +74,8 @@
 
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attStrength" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xp" operation="subtract" value="@$attstrength_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="multiply" value="1.3"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attStrength" sound="read_skillbook_final" />
-
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attstrength_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="attStrengthLeveledUp"/>
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attStrength_MasteryChecker"/>
             </effect_group>
             <effect_group>

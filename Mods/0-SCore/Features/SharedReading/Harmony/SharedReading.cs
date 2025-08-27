@@ -19,31 +19,35 @@ namespace SCore.Features.SharedReading.Harmony
                 if (!stack.itemValue.ItemClass.Properties.Contains("Unlocks")) return;
                 if (stack.itemValue.ItemClass.Properties.Contains("NoSharedReading")) return;
 
+                // The entity performing the action is always local
                 if (ent is not EntityPlayerLocal readingPlayer) return;
                 if (readingPlayer.Party == null) return;
 
-                if (ConnectionManager.Instance.IsServer)
-                {
-                    foreach (var member in readingPlayer.Party.MemberList)
-                    {
-                        if (ent.entityId == member.entityId) continue;
-                        var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
-                        package.Setup(member.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
-                        ConnectionManager.Instance.SendPackage(package);
-                    }
-                }
-                else
-                {
-                    var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
-                    package.Setup(readingPlayer.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
-                    ConnectionManager.Instance.SendToServer(package);
-                }
-
+              
+                // Show the tooltip for the local player.
                 var unlock = stack.itemValue.ItemClass.Properties.GetString("Unlocks");
                 unlock = SCoreLocalizationHelper.GetLocalization(unlock);
                 var toolTipDisplay = $"{Localization.Get("sharedReadingSourceDesc")} :: {unlock}";
                 GameManager.ShowTooltip(readingPlayer, toolTipDisplay);
 
+                // Now, handle the network broadcasting.
+                // This is only necessary if the player is a client connected to a server.
+                if (!ConnectionManager.Instance.IsServer)
+                {
+                    // The client sends a package to the server to trigger the broadcast.
+                    // Use the same package setup, but send it to the server.
+                    var broadcastPackage = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
+                    broadcastPackage.Setup(readingPlayer.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
+                    ConnectionManager.Instance.SendToServer(broadcastPackage);
+                }
+                else
+                {
+                    // Process the event locally first. This handles the player who initiated the action.
+                    var package = NetPackageManager.GetPackage<NetPackageMinEventSharedReading>();
+                    package.Setup(readingPlayer.entityId, readingPlayer.entityId, MinEventTypes.onSelfSecondaryActionEnd, stack.itemValue);
+                    package.ProcessPackage(readingPlayer.world, GameManager.Instance);
+
+                }
             }
         }
     }

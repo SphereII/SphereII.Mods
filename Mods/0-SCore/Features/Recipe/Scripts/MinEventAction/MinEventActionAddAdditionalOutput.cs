@@ -1,9 +1,6 @@
 using System.Xml;
 using System.Xml.Linq;
 using UnityEngine;
-
-//        <triggered_effect trigger = "onSelfBuffUpdate" action="AddAdditionalOutput, SCore" target="selfAOE" range="4" buff="buffAnimalFertility"  />
-//        <triggered_effect trigger = "onSelfBuffUpdate" action="AddAdditionalOutput, SCore" target="selfAOE" range="4" mustmatch="true" buff="buffAnimalFertility"  />
 public class MinEventActionAddAdditionalOutput : MinEventActionBuffModifierBase
 {
     private string _createItem = string.Empty;
@@ -21,6 +18,7 @@ public class MinEventActionAddAdditionalOutput : MinEventActionBuffModifierBase
         var item= ItemClass.GetItem(_createItem);
         return new ItemStack(item, _createItemCount);
     }
+    
     public override bool ParseXmlAttribute(XAttribute _attribute)
     {
         var flag = base.ParseXmlAttribute(_attribute);

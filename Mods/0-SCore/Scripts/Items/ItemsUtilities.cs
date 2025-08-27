@@ -70,12 +70,12 @@ public static class ItemsUtilities
         foreach (var scrapStack in scrapIngredients)
         {
             var totalCount = scrapStack.count * OriginalStack.count;
-            if (  totalCount == 0 ) continue;
+            if (totalCount == 0) continue;
             scrapStack.count = totalCount;
             if (!ItemController.xui.PlayerInventory.AddItem(scrapStack, true))
                 ItemController.xui.PlayerInventory.DropItem(scrapStack);
         }
-        
+
         ((XUiC_ItemStack)ItemController).ItemStack = ItemStack.Empty.Clone();
         ((XUiC_ItemStack)ItemController).WindowGroup.Controller.SetAllChildrenDirty();
     }
@@ -107,7 +107,8 @@ public static class ItemsUtilities
         return result;
     }
 
-    public static bool ConvertAndCraft(string strRecipe, int Reduction, EntityPlayerLocal player, XUiController ItemController)
+    public static bool ConvertAndCraft(string strRecipe, int Reduction, EntityPlayerLocal player,
+        XUiController ItemController)
     {
         var result = false;
         var newRecipe = GetReducedRecipes(strRecipe, Reduction);
@@ -117,7 +118,6 @@ public static class ItemsUtilities
 
     public static Recipe GetReducedRecipes(string recipeName, int Reduction)
     {
-
         // If there's a recipe, grab it, and change it into a repair recipe.
         var recipeOriginal = CraftingManager.GetRecipe(recipeName);
         if (recipeOriginal == null) return null;
@@ -142,15 +142,20 @@ public static class ItemsUtilities
         var result = true;
         foreach (var ingredient in ingredients)
         {
-            // Check if the player hs the items in their inventory or bag.
+            // Check if the player has the items in their inventory or bag.
             var playerHas = player.inventory.GetItemCount(ingredient.itemValue);
             if (ingredient.count > playerHas)
             {
                 playerHas = player.bag.GetItemCount(ingredient.itemValue);
-                if (ingredient.count > playerHas) result = false;
+                if (ingredient.count > playerHas)
+                {
+                    result = false;
+                    player.AddUIHarvestingItem(ingredient, true);
+                }
             }
         }
-          return result;
+
+        return result;
     }
 
     public static List<BlockRadiusEffect> GetRadiusEffect(string strItemClass)

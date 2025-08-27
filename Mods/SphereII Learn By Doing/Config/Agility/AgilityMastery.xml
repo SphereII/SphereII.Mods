@@ -65,7 +65,7 @@
                 <requirement name="RequirementIsProgressionLocked, SCore" progression_name="perkAgilityMastery" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkAgilityMastery" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkagilitymastery_lbd_level" operation="add" value="1"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkAgilityMastery" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkAgilityMasteryLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!RequirementIsProgressionLocked, SCore" progression_name="perkAgilityMastery" />

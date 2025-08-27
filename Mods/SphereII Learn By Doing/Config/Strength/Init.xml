@@ -18,35 +18,35 @@
 
             <!-- perkPummelPete -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xptonext" operation="set" value="1000"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpummelpete_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkSkullCrusher -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xptonext" operation="set" value="1100"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkskullcrusher_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkGrandSlam -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xptonext" operation="set" value="1800"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkgrandslam_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkFlurryOfBlows -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkflurryofblows_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkMiner69r -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xptonext" operation="set" value="800"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkMotherLode -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="set" value="1500"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkJunkMiner -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xptonext" operation="set" value="1000"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkjunkminer_lbd_xptonext" operation="set" value="1200"/>
 
             <!-- perkPackMule -->
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xp" operation="set" value="0"/>
-            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xptonext" operation="set" value="750"/>
+            <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkpackmule_lbd_xptonext" operation="set" value="1200"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier1" operation="set" value="1"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier2" operation="set" value="3"/>
             <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$lbd_xp_packmule_tier3" operation="set" value="5"/>

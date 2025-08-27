@@ -13,7 +13,6 @@ public class MinEventActionCheckWeapon : MinEventActionTargetedBase
             return;
         
         var currentWeaponId = (int) entityAliveSdx.Buffs.GetCustomVar("CurrentWeaponID");
-        Debug.Log($"Current Weapon ID: {currentWeaponId}");
         var item = ItemClass.GetForId(currentWeaponId);
         if (item == null) return;
         var itemValue = ItemClass.GetItem(item.GetItemName());

@@ -9,5 +9,4 @@ public enum SCoreMinEventTypes
     onSelfTurretKilledOther = 207,
     onSelfItemDegrade = 208,
     onSelfRoutineUpdate = 209
-    
 }

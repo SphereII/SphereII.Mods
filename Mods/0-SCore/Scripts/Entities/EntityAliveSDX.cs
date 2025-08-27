@@ -516,7 +516,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         //    return base.OnEntityActivated(_indexInBlockActivationCommands, _tePos, _entityFocusing);
         //}
         Quest nextCompletedQuest =
-            (entityFocusing as EntityPlayerLocal).QuestJournal.GetNextCompletedQuest(null, this.entityId);
+            (entityFocusing as EntityPlayerLocal)?.QuestJournal.GetNextCompletedQuest(null, this.entityId);
         // If the quest giver is not defined, don't let them close out the quest. We only want them to close out their own.
 
         if (nextCompletedQuest != null && nextCompletedQuest.QuestGiverID != entityId)

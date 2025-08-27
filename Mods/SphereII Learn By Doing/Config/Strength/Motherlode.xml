@@ -45,8 +45,8 @@
                 <requirement name="CanPurchasePerk, SCore" progression_name="perkMotherLode" />
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="perkMotherLode" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xp" operation="subtract" value="@$perkmotherlode_lbd_xptonext"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="multiply" value="1.2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMotherLode" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkmotherlode_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkMotherLodeLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkMotherLode" />

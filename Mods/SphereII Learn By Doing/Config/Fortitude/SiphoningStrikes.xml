@@ -58,8 +58,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar"
                                   cvar="$perksiphoningstrikes_lbd_xptonext" operation="multiply"
                                   value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkSiphoningStrikes"
-                                  sound="read_skillbook_final"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkSiphoningStrikesLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkSiphoningStrikes"/>

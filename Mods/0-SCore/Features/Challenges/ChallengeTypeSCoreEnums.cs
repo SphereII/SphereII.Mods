@@ -19,6 +19,8 @@ public enum ChallengeObjectiveTypeSCore : byte {
     ChallengeObjectiveCraftWithTags=117,
     ChallengeObjectivePlaceBlockByTag=118,
     ChallengeObjectiveClearSleepers=119,
-    ChallengeObjectiveKillV2=220,
-    ChallengeObjectiveHarvestV2
+    ChallengeObjectiveKillV2=120,
+    ChallengeObjectiveHarvestV2=122,
+    ChallengeObjectivePlaceBlockByTagV2=123,
+    ChallengeObjectiveCVarV2 = 124
 }

@@ -141,7 +141,7 @@
                 <triggered_effect trigger="onSelfBuffStart" action="AddProgressionLevel" progression_name="attAgility" level="1"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attagility_lbd_xp" operation="subtract" value="@$attagility_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$attagility_lbd_xptonext" operation="multiply" value="@$lbd_xp_curve_multiplier"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="attAgility" sound="read_skillbook_final" />
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="attAgilityLeveledUp"/>
                 <!-- NEW: Trigger the Agility Mastery Checker buff -->
                 <triggered_effect trigger="onSelfBuffStart" action="AddBuff" buff="buffLBD_attAgility_MasteryChecker"/>
             </effect_group>

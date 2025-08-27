@@ -62,8 +62,7 @@
                                   operation="subtract" value="@$perkminer69r_lbd_xptonext"/>
                 <triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="$perkminer69r_lbd_xptonext"
                                   operation="multiply" value="1.2"/>
-                <triggered_effect trigger="onSelfBuffStart" action="ShowPerkLevelUp, SCore" perk="perkMiner69r"
-                                  sound="read_skillbook_final"/>
+                <triggered_effect trigger="onSelfBuffStart" action="ShowToolbeltMessage" message_key="perkMiner69rLeveledUp"/>
             </effect_group>
             <effect_group>
                 <requirement name="!CanPurchasePerk, SCore" progression_name="perkMiner69r"/>
