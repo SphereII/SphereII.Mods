@@ -16,7 +16,8 @@
                 if (__instance.bUserAccessing || __instance.queue.Length == 0 || (__instance.isModuleUsed[3] && !__instance.isBurning)) return true;
                 
                 var recipeQueueItem = __instance.queue[__instance.queue.Length - 1];
-                if (recipeQueueItem == null) return true;
+                if (recipeQueueItem?.Recipe == null) return true;
+                
                 if (__instance.Tools == null) return true;
                 
                 ItemStack[] slots = __instance.Tools;
@@ -24,6 +25,7 @@
                 {
                     if (slots[i].IsEmpty()) continue;
                     var itemValue = slots[i].itemValue;
+                    if (itemValue == null) continue;
                     if (itemValue.type != recipeQueueItem.Recipe.craftingToolType) continue;
                     if (!ItemDegradationHelpers.CanDegrade(itemValue)) continue;
                     if (ItemDegradationHelpers.IsDegraded(slots[i].itemValue))

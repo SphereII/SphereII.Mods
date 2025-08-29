@@ -31,6 +31,8 @@ namespace Challenges {
         }
 
         private void Check_Block(int count) {
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name)) return;
+
             Current = count;
             CheckObjectiveComplete();
         }

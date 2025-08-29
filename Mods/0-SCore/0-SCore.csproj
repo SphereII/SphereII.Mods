@@ -155,9 +155,6 @@
     <Compile Include="Features\ItemDegradation\Harmony\XUiCRequiredItemStackGetBindingValue.cs" />
     <Compile Include="Features\ItemDegradation\Harmony\XUiCWorkstationFuelGridTurnOn.cs" />
     <Compile Include="Features\ItemDegradation\Harmony\XUiCWorkstationToolGridHasRequirement.cs" />
-    <Compile Include="Features\ItemDegradation\Scripts\MinEventActionDegradeItemValue.cs" />
-    <Compile Include="Features\ItemDegradation\Scripts\MinEventActionModifyItem.cs" />
-    <Compile Include="Features\ItemDegradation\Scripts\RequirementCompareItemProperty.cs" />
     <Compile Include="Features\ItemDegradation\Utils\ItemModificationDegradation.cs" />
     <Compile Include="Features\ItemDisplayEntry\Harmony\XUiMItemStackGetCustomValue.cs" />
     <Compile Include="Features\ItemDisplayEntry\Scripts\ItemDisplayEntryUtils.cs" />
@@ -223,7 +220,6 @@
     <Compile Include="Features\Recipe\Harmony\TileEntityWorkstationHandleRecipeQueue.cs" />
     <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
     <Compile Include="Features\Recipe\SCoreTabTypes.cs" />
-    <Compile Include="Features\Recipe\Scripts\MinEventAction\MinEventActionAddAdditionalOutput.cs" />
     <Compile Include="Features\Recipe\Scripts\RecipeUtils.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\DropBoxToContainers.cs" />
     <Compile Include="Features\RemoteCrafting\Harmony\IngredientsFromContainers.cs" />
@@ -378,7 +374,7 @@
     </Compile>
     <Compile Include="Scripts\Animation\AvatarAnimalControllerSDX.cs" />
     <Compile Include="Scripts\Animation\MecanimSDX.cs" />
-    <Compile Include="Scripts\Animation\RandomAnimatinScript.cs" />
+    <Compile Include="Scripts\Animation\RandomAnimationScript.cs" />
     <Compile Include="Scripts\Blocks\BlockClockDMT.cs" />
     <Compile Include="Scripts\Blocks\BlockClockScript.cs" />
     <Compile Include="Scripts\Blocks\BlockMortSpawner.cs" />
@@ -406,6 +402,7 @@
     <Compile Include="Scripts\Buffs\ItemPercentUsed.cs" />
     <Compile Include="Scripts\Buffs\ItemPercentDamaged.cs" />
     <Compile Include="Scripts\Buffs\RecipeHasIngredients.cs" />
+    <Compile Include="Scripts\Buffs\RequirementCompareItemProperty.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryDawn.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXDaySDX.cs" />
     <Compile Include="Scripts\Buffs\RequirementEveryXHourSDX.cs" />
@@ -526,6 +523,7 @@
     <Compile Include="Scripts\Managers\Broadcastmanager.cs" />
     <Compile Include="Scripts\Managers\PortalManager.cs" />
     <Compile Include="Scripts\Managers\SCoreQuestEventManager.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionAddAdditionalOutput.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffByFactionSDX.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddBuffToPrimaryPlayer.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionAddParticleToBlock.cs" />
@@ -539,6 +537,8 @@
     <Compile Include="Scripts\MinEvents\MinEventActionCheckWeapon.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionConvertItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionDamageBlock.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionDegradeItemValue.cs" />
+    <Compile Include="Scripts\MinEvents\MinEventActionModifyItem.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionOpenWindow.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionRecalculateEncumbrance.cs" />
     <Compile Include="Scripts\MinEvents\MinEventActionExecuteConsoleCommandCVars.cs" />
@@ -753,6 +753,7 @@
     <Content Include="Documentation\Challenges\FireChallenges.md" />
     <Content Include="Documentation\Challenges\KillChallenges.md" />
     <Content Include="Documentation\Challenges\PlayerChallenges.md" />
+    <Content Include="Documentation\Examples\AdditionalRecipeOutput.md" />
     <Content Include="Documentation\Examples\Challenges.md" />
     <Content Include="Documentation\Examples\Farming.md" />
     <Content Include="Documentation\Examples\FireV2.md" />
@@ -771,6 +772,8 @@
     <Content Include="Documentation\Factions.md" />
     <Content Include="Documentation\Features\Craft From Containers\Examples\blocks.xml" />
     <Content Include="Documentation\Features\Craft From Containers\Readme.md" />
+    <Content Include="Documentation\Features\Degradation\ItemDegradation.md" />
+    <Content Include="Documentation\Features\Degradation\Main.md" />
     <Content Include="Documentation\FireManager.md" />
     <Content Include="Documentation\MinEvents\MinEvents.md" />
     <Content Include="Documentation\MinEvents\MinEvents_01.md" />
@@ -788,7 +791,6 @@
     <Content Include="Features\MaterialModifier\ReadMe.md" />
     <Content Include="Features\ParticlesOnBlocks\ReadMe.md" />
     <Content Include="Features\PassiveEffectHooks\Readme.md" />
-    <Content Include="Features\Recipe\ReadMe.md" />
     <Content Include="Features\RemoteCrafting\ReadMe.md" />
     <Content Include="Features\SharedReading\ReadMe.md" />
     <Content Include="Features\Signs\ReadMe.md" />
@@ -1001,7 +1003,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="AstarPathfindingProject">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
+      <HintPath>..\..\7DaysToDie_Data\Managed\AstarPathfindingProject.dll</HintPath>
     </Reference>
     <Reference Include="InControl">
       <HintPath>..\..\7DaysToDie_Data\Managed\InControl.dll</HintPath>
@@ -1011,92 +1013,7 @@
       <HintPath>..\..\7DaysToDie_Data\Managed\LogLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.RemoteControl, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.RemoteControl.16.3.52\lib\net45\Microsoft.VisualStudio.RemoteControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Telemetry, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Telemetry.17.11.20\lib\net45\Microsoft.VisualStudio.Telemetry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.17.5.33428.366\lib\net472\Microsoft.VisualStudio.TextTemplating.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.17.10.40152\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.17.0.32112.339\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.17.0.32112.339\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Utilities.Internal, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Utilities.Internal.16.3.73\lib\net45\Microsoft.VisualStudio.Utilities.Internal.dll</HintPath>
-    </Reference>
-    <Reference Include="netstandard" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NGUI">
-      <HintPath>..\..\..\..\Program Files (x86)\Steam\steamapps\common\7 Days To Die\7DaysToDie_Data\Managed\NGUI.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.9.0.0-rc.2.24473.5\lib\net462\System.Collections.Immutable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-	<!--
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualStudio.RemoteControl, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.RemoteControl.16.3.44\lib\net45\Microsoft.VisualStudio.RemoteControl.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Telemetry, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Telemetry.16.6.21\lib\net45\Microsoft.VisualStudio.Telemetry.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.17.5.33428.366\lib\net472\Microsoft.VisualStudio.TextTemplating.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces, Version=17.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.17.5.33428.366\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.17.0.31902.203\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.10.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TextTemplating.Interfaces.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.17.0.31902.203\lib\net472\Microsoft.VisualStudio.TextTemplating.Interfaces.11.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.Utilities.Internal, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.VisualStudio.Utilities.Internal.16.3.38\lib\net45\Microsoft.VisualStudio.Utilities.Internal.dll</HintPath>
-    </Reference>
-    <Reference Include="netstandard" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.6.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
-    </Reference>
 
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-	-->
     <Reference Include="System.Xml">
       <HintPath>..\..\7DaysToDie_Data\Managed\System.Xml.dll</HintPath>
       <Private>False</Private>

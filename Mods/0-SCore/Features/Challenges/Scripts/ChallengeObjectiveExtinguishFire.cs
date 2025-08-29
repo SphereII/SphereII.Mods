@@ -49,13 +49,13 @@ namespace Challenges {
             if (entityId == -1) return false;
 
             // Retrieve the local player and check if they match the entity who extinguished the fire
-            var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
+            var localPlayer = Owner.Owner.Player;
             return localPlayer.entityId == entityId;
         }
 
         // Updates the objective progress and checks for completion
         private void UpdateProgress(int extinguishCount) {
-            Current = extinguishCount;
+            Current += extinguishCount;
             CheckObjectiveComplete();
         }
 

@@ -15,7 +15,7 @@ public class MinEventActionAddAdditionalOutput : MinEventActionBuffModifierBase
     {
         if ( string.IsNullOrEmpty(_createItem))
             return ItemStack.Empty;
-        var item= ItemClass.GetItem(_createItem);
+        var item= ItemClass.GetItem(_createItem, true);
         return new ItemStack(item, _createItemCount);
     }
     

@@ -27,3 +27,5 @@ Explore real-world XML examples and see how to get things done.
 [Item Degradation](ItemDegradation.md)
 
 [Workstation Degradation](WorkstationDegradation.md)
+
+[Additional Recipe Output](AdditionalRecipeOutput.md)

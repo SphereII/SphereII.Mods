@@ -32,6 +32,31 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version:	
+	[ Fire Manager ]
+		- Added a check to make sure we are on the main thread before trying to do particles.
+
+Version: 2.3.12.1652
+	[ Challenges ]
+		- Added description_key to the Clone() call for ClearSleepers
+		- Added buff requirements to Big Fire Challenge
+		- Added buff requirements to Start Fire Challenge
+		- Fixed an issue with Extinguish Challenge not counting
+		- Fixed BlockDestroyedByFire challenge by connecting to the right event, rather than an event that never was called.
+
+	[ Maintenance ]
+		- Renamed a file that was mispelled
+
+Version: 2.3.12.844
+	[ Recipes ]
+		- Fixed additional Output recipes to work on servers
+
+	[ Item Degradation ]
+		- Added documentation.
+
+	[ Project Clean up ]
+		- Fixed broken, incorrect, and not-necessary dependencies in vcproj.
+
 Version: 2.3.11.1608
 	[ One Block Crouch ]
 		- Fixed an issue with the cvar check being done too early to be ineffective.

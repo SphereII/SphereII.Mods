@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms.VisualStyles;
-using System.Xml;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using UnityEngine;
 
 // <triggered_effect trigger="onSelfBuffRemove" action="CreateItemSDX, SCore" item="drinkJarCoffee" count="2"/>

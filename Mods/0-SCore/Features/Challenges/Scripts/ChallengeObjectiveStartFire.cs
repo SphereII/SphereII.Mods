@@ -54,6 +54,7 @@ namespace Challenges
             // Early exit if entityId is invalid (-1)
             if (entityId == -1) return false;
 
+
             // Retrieve the local player
             var localPlayer = GameManager.Instance.World.GetPrimaryPlayer();
             return localPlayer.entityId == entityId;
@@ -62,6 +63,7 @@ namespace Challenges
         // Increment the progress of the objective and check for completion
         private void IncrementObjectiveProgress()
         {
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name)) return;
             Current++;
             CheckObjectiveComplete();
         }

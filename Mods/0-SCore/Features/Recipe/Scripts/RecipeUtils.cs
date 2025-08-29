@@ -48,8 +48,7 @@ public class RecipeUtils
                          .onSelfItemCrafted))
             {
                 if (minEventActionBase is not MinEventActionAddAdditionalOutput additionalOutput) continue;
-                if (!minEventActionBase.CanExecute(MinEventTypes.onSelfItemCrafted, minEventParams)) continue;
-
+                var results = minEventActionBase.CanExecute(MinEventTypes.onSelfItemCrafted, minEventParams);
                 var itemStack = additionalOutput.GetItemStack();
                 items.Add(itemStack);
             }
@@ -75,6 +74,7 @@ public class RecipeUtils
     {
         foreach (var recipe in CraftingManager.GetRecipes(recipeName))
         {
+            if ( string.IsNullOrEmpty(recipe.craftingArea)) continue;
             if (recipe.craftingArea == craftingArea) return recipe;
         }
 

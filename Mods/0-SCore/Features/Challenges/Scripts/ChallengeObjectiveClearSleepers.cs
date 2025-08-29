@@ -50,6 +50,8 @@ namespace Challenges {
             var biomeName = GetBiomeOfPrefab(pos);
             if (!biomeName.EqualsCaseInsensitive(biomeName)) return;
             
+            if (!ChallengeRequirementManager.IsValid(Owner.ChallengeClass.Name)) return;
+
             Current++;
             if (Current < MaxCount) return;
 
@@ -85,7 +87,8 @@ namespace Challenges {
         public override BaseChallengeObjective Clone()
         {
             return new ChallengeObjectiveClearSleepers {
-                biome = this.biome
+                biome = this.biome,
+                LocalizationKey = LocalizationKey
             };
         }
     }
