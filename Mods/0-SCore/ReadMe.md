@@ -32,9 +32,15 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
-Version:	
+Version: 2.3.14.1308	
 	[ Fire Manager ]
 		- Added a check to make sure we are on the main thread before trying to do particles.
+
+	[ Food Spoilage ]
+		- Fixed an issue where food spoilage was being calculated, but not applied, until after pulled from preserved container.
+	
+	[ OnBought / OnSold
+		- Added a null reference check for possible failure.
 
 Version: 2.3.12.1652
 	[ Challenges ]

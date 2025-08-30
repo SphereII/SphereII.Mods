@@ -458,7 +458,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
                     {
                         // Reset next tick to effectively pause spoilage while preserved
                         SetNextSpoilageTick(__instance.ItemStack.itemValue, CalculateNextSpoilageTick(currentWorldTime, tickPerLoss));
-                        UpdateDisplayMetadata(__instance, GetCurrentSpoilage(__instance.ItemStack.itemValue), spoilageMax); // Update display
+                       // UpdateDisplayMetadata(__instance, GetCurrentSpoilage(__instance.ItemStack.itemValue), spoilageMax); // Update display
                         return true; // Skip applying spoilage
                     }
 

@@ -72,7 +72,8 @@ namespace SCore.Features.PassiveEffectHooks.Harmony
         public static void Postfix(ItemActionEntryPurchase __instance)
         {
             var currentItem = ((XUiC_TraderItemEntry)__instance.ItemController).Item;
-            if (currentItem.IsEmpty())
+           
+            if (currentItem == null || currentItem.IsEmpty())
             {
                 OnBought.BoughtItem(_currentItemStack, _currentItemStack.count, _buyPrice);
                 return;
