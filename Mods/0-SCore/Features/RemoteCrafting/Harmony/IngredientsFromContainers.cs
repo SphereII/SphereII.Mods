@@ -71,7 +71,7 @@ namespace Features.RemoteCrafting
         /// Hijacks the GetBindingValue so we can get an accurate count of all the items we have available, including from local storage.
         /// </summary>
         [HarmonyPatch(typeof(XUiC_IngredientEntry))]
-        [HarmonyPatch("GetBindingValue")]
+        [HarmonyPatch("GetBindingValueInternal")]
         public class GetBindingValue
         {
             public static bool Prefix(XUiC_IngredientEntry __instance, ref bool __result, ref string value,

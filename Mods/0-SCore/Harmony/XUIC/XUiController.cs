@@ -10,7 +10,7 @@ namespace Harmony.XUiC
     {
 
         [HarmonyPatch(typeof(XUiController))]
-        [HarmonyPatch(nameof(XUiController.GetBindingValue))]
+        [HarmonyPatch(nameof(XUiController.GetBindingValueInternal))]
         public class XUiControllerGetBindingValue
         {
             public static bool Postfix(bool __result, ref string _value, string _bindingName)

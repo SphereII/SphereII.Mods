@@ -82,7 +82,7 @@ namespace Harmony.ItemActions
 
             // Used to display the repair requirements
             [HarmonyPatch(typeof(XUiC_ItemInfoWindow))]
-            [HarmonyPatch(nameof(XUiC_ItemInfoWindow.GetBindingValue))]
+            [HarmonyPatch(nameof(XUiC_ItemInfoWindow.GetBindingValueInternal))]
             [HarmonyPatch(new[] { typeof(string), typeof(string) })]
             public static bool Prefix(ref string value, string binding, ItemClass ___itemClass)
             {

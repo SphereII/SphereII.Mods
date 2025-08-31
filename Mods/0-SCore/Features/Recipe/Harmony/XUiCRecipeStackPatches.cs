@@ -48,7 +48,6 @@ namespace Harmony.RecipesPatches
                 if (entityPlayer == null) return true;
                 
                 var startedPlayer = GameManager.Instance.World.GetEntity(__instance.startingEntityId) as EntityPlayer;
-                
                 var minEventParams = RecipeUtils.GenerateMinEventParams(entityPlayer, startedPlayer, __instance.outputItemValue);
                 List<ItemStack> items = RecipeUtils.GetAdditionalOutput(recipe, minEventParams);
                 if (items.Count == 0) return true;

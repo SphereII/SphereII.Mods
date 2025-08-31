@@ -35,9 +35,9 @@
     //    base.OnClose();
     //}
 
-    public override bool GetBindingValue(ref string value, string binding)
+    public override bool GetBindingValueInternal(ref string value, string binding)
     {
-        if (binding == null) return base.GetBindingValue(ref value, binding);
+        if (binding == null) return base.GetBindingValueInternal(ref value, binding);
 
         var fieldName = "";
 

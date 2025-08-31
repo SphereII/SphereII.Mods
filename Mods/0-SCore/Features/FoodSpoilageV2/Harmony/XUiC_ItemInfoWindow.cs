@@ -42,7 +42,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
 
         // Patch for the main Item Info Window
         [HarmonyPatch(typeof(XUiC_ItemInfoWindow))]
-        [HarmonyPatch("GetBindingValue")]
+        [HarmonyPatch("GetBindingValueInternal")]
         public class ItemInfoWindowGetBindingValuePatch
         {
             private static bool Prefix(ref bool __result, XUiC_ItemInfoWindow __instance, ref string value, string bindingName)
@@ -66,7 +66,7 @@ namespace SphereII.FoodSpoilage.HarmonyPatches
 
         // Patch for the ItemStack UI element itself (used in inventory grids, etc.)
         [HarmonyPatch(typeof(XUiC_ItemStack))]
-        [HarmonyPatch("GetBindingValue")]
+        [HarmonyPatch("GetBindingValueInternal")]
         public class XUiC_ItemStackGetBindingValuePatch
         {
              // Parameters renamed slightly from original decompiled code for clarity (_value, _bindingName)

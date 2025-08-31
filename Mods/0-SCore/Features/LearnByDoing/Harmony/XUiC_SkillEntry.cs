@@ -5,7 +5,7 @@ using UnityEngine;
 namespace SCore.Features.LearnByDoing.Harmony
 {
     [HarmonyPatch(typeof(XUiC_SkillEntry))]
-    [HarmonyPatch(nameof(XUiC_SkillEntry.GetBindingValue))]
+    [HarmonyPatch(nameof(XUiC_SkillEntry.GetBindingValueInternal))]
     public class XUICSkillGetBindingValue
     {
         public static readonly CachedStringFormatterXuiRgbaColor staticoncolorFormatter = new CachedStringFormatterXuiRgbaColor();

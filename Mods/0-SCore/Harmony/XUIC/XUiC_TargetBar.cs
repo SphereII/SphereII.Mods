@@ -27,7 +27,7 @@ namespace Harmony.XUiC
         }
         
         [HarmonyPatch(typeof(XUiC_TargetBar))]
-        [HarmonyPatch(nameof(XUiC_TargetBar.GetBindingValue))]
+        [HarmonyPatch(nameof(XUiC_TargetBar.GetBindingValueInternal))]
         public class XUICTargetHealthBar_GetBindingValue
         {
             public static void Postfix(XUiC_TargetBar __instance, ref string value, string bindingName)

@@ -144,7 +144,7 @@ public class VersionCheck
     }
 
     [HarmonyPatch(typeof(XUiC_MessageBoxWindowGroup))]
-    [HarmonyPatch(nameof(XUiC_MessageBoxWindowGroup.GetBindingValue))]
+    [HarmonyPatch(nameof(XUiC_MessageBoxWindowGroup.GetBindingValueInternal))]
 
     public class MessageBoxWindowGroupPatch
     {

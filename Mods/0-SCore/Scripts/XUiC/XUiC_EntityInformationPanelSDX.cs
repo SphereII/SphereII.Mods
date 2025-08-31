@@ -1,6 +1,6 @@
 ﻿internal class XUiC_EntityInformationPanelSDX : XUiController
 {
-    public override bool GetBindingValue(ref string value, string binding)
+    public override bool GetBindingValueInternal(ref string value, string binding)
     {
         EntityPlayer player = xui.playerUI.entityPlayer;
         if (player == null)

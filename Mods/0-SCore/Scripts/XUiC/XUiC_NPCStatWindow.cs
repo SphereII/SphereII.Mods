@@ -17,9 +17,9 @@ public class XUiC_NPCStatWindow : XUiController
         base.Init();
     }
 
-    public override bool GetBindingValue(ref string value, string bindingName)
+    public override bool GetBindingValueInternal(ref string value, string bindingName)
     {
-        if (bindingName == null) return base.GetBindingValue(ref value, bindingName);
+        if (bindingName == null) return base.GetBindingValueInternal(ref value, bindingName);
 
         
         // These bindings only exist under our special class

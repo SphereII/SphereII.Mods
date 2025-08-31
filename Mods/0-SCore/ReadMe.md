@@ -32,6 +32,26 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.15.1134
+	[ Item Degradation ]
+		- Changed default DegradationPerUse from the test value 100 back to 1.
+
+	[ Additional Output ]
+		- Re-Added support for requirements. 
+		- This still needs to be tested on a dedi. Not all requirements may work.
+		- My test XML:
+		<append xpath="/recipes/recipe[@name='drinkJarRedTea']">
+			<effect_group name="Additional Output">
+				<triggered_effect trigger="onSelfItemCrafted" action="AddAdditionalOutput, SCore" item="foodCropPumpkin" count="4">
+					<requirement name="RandomRoll" seed_type="Random" min_max="0,100" operation="LTE" value="50"/>
+				</triggered_effect>
+			</effect_group>
+		</append>
+
+Version: 2.3.15.2120
+	[ Maintenance ]
+		- Fixed GetBindingValue references to GetBindingValueInternal for 2.3b8
+
 Version: 2.3.14.1308	
 	[ Fire Manager ]
 		- Added a check to make sure we are on the main thread before trying to do particles.

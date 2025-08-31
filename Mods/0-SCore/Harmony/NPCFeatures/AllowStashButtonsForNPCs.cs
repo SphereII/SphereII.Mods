@@ -4,7 +4,7 @@ using HarmonyLib;
 namespace Harmony.NPCFeatures
 {
     [HarmonyPatch(typeof(XUiC_BackpackWindow))]
-    [HarmonyPatch("GetBindingValue")]
+    [HarmonyPatch("GetBindingValueInternal")]
     public class xuic_Backpack_GetBindingValue
     {
         private static void Postfix(ref bool __result, XUiC_Backpack __instance, ref  string value, string bindingName)

@@ -49,6 +49,7 @@ public class RecipeUtils
             {
                 if (minEventActionBase is not MinEventActionAddAdditionalOutput additionalOutput) continue;
                 var results = minEventActionBase.CanExecute(MinEventTypes.onSelfItemCrafted, minEventParams);
+                if ( !results) continue;
                 var itemStack = additionalOutput.GetItemStack();
                 items.Add(itemStack);
             }
@@ -86,7 +87,7 @@ public class RecipeUtils
     {
         var minEventParams = new MinEventParams();
         minEventParams.TileEntity = TraderUtils.GetCurrentTraderTileEntity();
-        minEventParams.Self = currentPlayer;
+        minEventParams.Self = currentPlayer == null ? starterPlayer : currentPlayer;
         minEventParams.Other = starterPlayer;
         minEventParams.Biome = currentPlayer?.biomeStandingOn;
         minEventParams.ItemValue = outputItemValue;

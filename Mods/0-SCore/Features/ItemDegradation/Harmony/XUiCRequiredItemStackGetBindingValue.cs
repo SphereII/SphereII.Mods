@@ -5,7 +5,7 @@ using SCore.Features.ItemDegradation.Utils;
 namespace SCore.Features.ItemDegradation.Harmony
 {
     [HarmonyPatch(typeof(XUiC_ItemStack))]
-    [HarmonyPatch(nameof(XUiC_ItemStack.GetBindingValue))]
+    [HarmonyPatch(nameof(XUiC_ItemStack.GetBindingValueInternal))]
 
     public class XUiCRequiredItemStackGetBindingValue
     {

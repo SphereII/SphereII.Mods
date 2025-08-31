@@ -120,7 +120,7 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
     }
 
 
-    public override bool GetBindingValue(ref string value, string binding)
+    public override bool GetBindingValueInternal(ref string value, string binding)
     {
         if (!entity)
             return false;
@@ -149,6 +149,6 @@ public class XUiC_CharacterFrameWindowSDX : XUiController
                 return true;
         }
 
-        return base.GetBindingValue(ref value, binding);
+        return base.GetBindingValueInternal(ref value, binding);
     }
 }
