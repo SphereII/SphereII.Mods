@@ -32,7 +32,37 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
-Version: 2.3.15.1134
+Version: 2.3.18.1533
+	[ Vehicles ]
+		- Added the ability to change the type of fuel a vehicle can use.
+		- Add a new property to vehicles.xml to add support.
+			<configs>
+				<append xpath="//vehicle[@name='vehicleMinibike']/property[@class='fuelTank']">
+					<property name="fuelType" value="drinkJarRiverWater" />
+				</append>
+			</configs>
+		- Items being used must have FuelValue property on it
+			<append xpath="//item[@name='drinkJarRiverWater']">
+				<property name="FuelValue" value="100" />
+			</append>
+
+	[ Additional Output ]
+		- Added more biome checks to be used for requirements.
+
+	[ Wireless Powered Workstation ]
+		- This feature allows you to require workstations to have a nearby power source.
+		- Added a new XUiC_WorkstationFuelGridSDX.
+		- This is paired with a new windowFuelPoweredSDX, which is included in 0-SCore's Config/XUi/windows.xml.
+			- The window can be changed to whatever you need to, as long as the controller reference remains in tact.
+		- Instead of "Fuel" it shows "Power". This is defined by the Localization entry: xuiNeedPower
+		- This disables the ability to manually add fuel, and instead relies on the Powered Workstation Feature's:
+	        <property name="RequirePower" value="true" />
+		- This also requires the Configuration Block setting "EnablePoweredWorkstations" to be true:
+		    <set xpath="/blocks/block[@name='ConfigFeatureBlock']/property[@class='AdvancedWorkstationFeatures']/property[@name='EnablePoweredWorkstations']/@value">true</set>
+
+
+
+Version: 2.3.16.1209
 	[ Item Degradation ]
 		- Changed default DegradationPerUse from the test value 100 back to 1.
 

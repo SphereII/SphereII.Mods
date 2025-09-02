@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Audio;
 using Harmony.SoundFeatures;
 using UnityEngine;
@@ -330,7 +331,7 @@ public class FireHandler : IFireHandler
 
     private void StartFireEffects(Vector3i position, string fireParticle)
     {
-        if (!string.IsNullOrEmpty(fireParticle))
+        if (!string.IsNullOrEmpty(fireParticle) && ThreadManager.IsMainThread())
         {
             BlockUtilitiesSDX.addParticlesCentered(fireParticle, position);
         }
@@ -487,6 +488,8 @@ public class FireHandler : IFireHandler
     {
         var pooledExpandableMemoryStream =
             (PooledExpandableMemoryStream)threadInfo.parameter;
+        if (!Directory.Exists(GameIO.GetSaveGameDir())) return -1;
+
         var text = $"{GameIO.GetSaveGameDir()}/{SaveFile}";
         if (File.Exists(text))
             File.Copy(text, $"{GameIO.GetSaveGameDir()}/{SaveFile}.bak", true);

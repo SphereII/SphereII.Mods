@@ -172,7 +172,30 @@
             </panel>
         </window>
 
-    
+
+        <window name="windowFuelPoweredSDX" width="228" height="166" panel="Right" cursor_area="true">
+            <panel style="header.panel">
+                <sprite style="header.icon" sprite="ui_game_symbol_fire"/>
+                <label style="header.name.iconright" text="Power" text_key="xuiNeedPower" />
+                <label style="header.timer"/>
+            </panel>
+
+            <rect name="content" depth="0" pos="0,1" height="1" >
+                <rect disablefallthrough="true">
+                    <grid rows="1" cols="3" pos="3,-3" cell_width="75" cell_height="1" controller="WorkstationFuelGridSDX, SCore" repeat_content="true">
+                    </grid>
+                </rect>
+            </rect>
+            <panel name="buttonContent" depth="5" pos="0, -46" height="40" backgroundcolor="[black]" bordercolor="[black]">
+                <sprite depth="5" name="backgroundMain" sprite="menu_empty3px" color="[black]" type="sliced" fillcenter="false" />
+                <rect depth="1" pos="3,-3" width="225" height="34">
+                    <button name="button" sprite="menu_empty" defaultcolor="[mediumGrey]" disabledcolor="[mediumGrey]" hoversprite="ui_game_select_row" hovercolor="[white]" type="sliced" width="222"  hoverscale="1.0" />
+                    <sprite depth="2" name="flameIcon" style="icon32px" pos="5,0" sprite="ui_game_symbol_fire" />
+                    <label depth="2" name="onoff" pos="0,-6" justify="center" text="TURN ON" text_key="xuiTurnOn" font_size="26" />
+                </rect>
+            </panel>
+        </window>
+
     </append>
 
     <append xpath="/windows/window[@name='windowLooting']//rect[@controller='ContainerStandardControls']">

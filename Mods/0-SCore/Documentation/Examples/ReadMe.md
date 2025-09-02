@@ -29,3 +29,5 @@ Explore real-world XML examples and see how to get things done.
 [Workstation Degradation](WorkstationDegradation.md)
 
 [Additional Recipe Output](AdditionalRecipeOutput.md)
+
+[Powered Workstations](PoweredWorkstations.md)

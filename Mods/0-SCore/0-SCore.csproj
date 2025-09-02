@@ -42,6 +42,9 @@
     <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Features\AdvancedWorkstations\Harmony\PoweredWorkstations.cs" />
+    <Compile Include="Features\AdvancedWorkstations\Harmony\XUiCWorkstationFuelGridAddItem.cs" />
+    <Compile Include="Features\AdvancedWorkstations\Scripts\XUiC_WorkstationFuelGridSDX.cs" />
     <Compile Include="Features\BlockEffectManager\Harmony\BlocksFromXmlParseBlock.cs" />
     <Compile Include="Features\BlockEffectManager\Scripts\BlockEffectsManager.cs" />
     <Compile Include="Features\BloodMoonTweaks\Harmony\AIDirectorBloodMoonParty.cs" />
@@ -334,7 +337,6 @@
     <Compile Include="Harmony\SphereIICore_Init.cs" />
     <Compile Include="Harmony\Standard\ModInitModCode.cs" />
     <Compile Include="Harmony\Standard\XMLDebugging.cs" />
-    <Compile Include="Harmony\TileEntities\PoweredWorkstations.cs" />
     <Compile Include="Harmony\TileEntities\TileEntity.cs" />
     <Compile Include="Harmony\TileEntities\TileEntityAlwaysActive.cs" />
     <Compile Include="Harmony\TileEntities\TileEntityLootContainer.cs" />
@@ -349,11 +351,13 @@
     <Compile Include="Harmony\UtilityAI\UtilityAIPatches.cs" />
     <Compile Include="Harmony\Vehicles\EntityVehicleDropCorpse.cs" />
     <Compile Include="Harmony\Vehicles\NoVehicleTake.cs" />
+    <Compile Include="Harmony\Vehicles\VehicleGetFuelType.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiController.cs" />
+    <Compile Include="Harmony\XUIC\XUiCWorkstationFuelGridPatches.cs" />
     <Compile Include="Harmony\XUIC\XUiC_DialogWindowGroup.cs" />
     <Compile Include="Harmony\XUIC\XUiC_ItemStack.cs" />
     <Compile Include="Harmony\XUIC\XUiC_ItemStack_SlotTags.cs" />
@@ -761,6 +765,7 @@
     <Content Include="Documentation\Examples\ItemDegradation.md" />
     <Content Include="Documentation\Examples\LearnByDoing.md" />
     <Content Include="Documentation\Examples\LightlyModded.md" />
+    <Content Include="Documentation\Examples\PoweredWorkstations.md" />
     <Content Include="Documentation\Examples\ReadMe.md" />
     <Content Include="Documentation\Examples\RecipeEffects.md" />
     <Content Include="Documentation\Examples\Sounds.md" />
