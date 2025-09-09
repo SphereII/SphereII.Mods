@@ -5,7 +5,7 @@
             <!-- Master requirements for the entire group. -->
             <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
             <!-- Player must be wearing at least 3 pieces of light armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            <requirement name="WornItems" tags="lightArmor" operation="GTE" value="3"/>
 
             <!-- XP Gain -->
             <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Light Armor - Attempting Nimble Tank XP (+@$lbd_xp_damage_taken_base)">
@@ -36,7 +36,7 @@
         </effect_group>
         <effect_group name="Light Armor Movement">
             <!-- Player must be wearing at least 3 pieces of Light armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorLightWorn" operation="GTE" value="3"/>
+            <requirement name="WornItems" tags="lightArmor" operation="GTE" value="3"/>
 
             <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Light Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkLightArmor_XPCoolDown"/>

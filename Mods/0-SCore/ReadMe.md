@@ -32,6 +32,33 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.23.913
+	[ EntityAliveSDX ]
+		- Added a new CheckLeaderProximity check.
+		- A hired entity will allow allied players to 'phase' through them if they are too close, allowing you to run past them in tight spots.
+		
+	[ Crop Manager ]
+		- Fixed an issue where sprinkler range was not being considered for plant growth.
+
+	[ Custom Trader Currency ]
+		- Added a patch to block the sale of a custom currency to the trader with the custom currency
+		- If a trader takes old cash, you will no longer be able to sell it old cash at a profit.
+
+Version: 2.3.20.707
+	[ Advanced Scrapping ]
+		- Fixed an issue where items failed to scrap properly if no recipes were defined.
+		- Moved logic for getting the recipe to the bottom of the logic conditions.
+
+Version: 2.3.19.1401
+	[ Trader Currency ]
+		- Fixed an issue with custom currency where the Sell options were returning default currency, and not the custom one.
+
+	[ Challenges ]
+		- Added a null check on the CraftWithIngredient
+
+	[ EntityAlive SDX ]
+		- Added a try catch to track down a bad error when talking to NPCs.
+
 Version: 2.3.18.1533
 	[ Vehicles ]
 		- Added the ability to change the type of fuel a vehicle can use.

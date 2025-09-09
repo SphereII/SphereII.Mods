@@ -12,7 +12,7 @@
 	<!-- Setting up defaults -->
 	<append xpath="/blocks/block[@name='cropsGrowingMaster']">
 			<property name="RequireWater" value="true" /> <!-- If the crop needs water to survive. Default: false -->
-			<property name="WaterRange" value="5" />  <!-- how far away that block can be from a water source: Default is 5 -->
+			<property name="WaterRange" value="1" />  <!-- how far away that block can be from a water source: Default is 5 -->
 			<property name="PlantGrowing.Wilt" value="treeDeadPineLeaf"/> <!-- The block the crop downgrades too if its dead. Default: Air-->
 	</append>
 	<set xpath="/blocks/block[@name='cropsGrowingMaster']/property[@name='PlantGrowing.GrowthRate']/@value">10</set>

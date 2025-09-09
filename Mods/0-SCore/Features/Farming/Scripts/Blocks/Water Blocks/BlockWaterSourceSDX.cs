@@ -6,7 +6,7 @@ using UnityEngine;
 // State stored in static dictionaries keyed by block position.
 public class BlockWaterSourceSDX : BlockBaseWaterSystem
 {
-    private float WaterRange = 5f;
+    private float _waterRange = 5f;
     private string waterType = "Limited";
     private static readonly int IsSprinklerOn = Animator.StringToHash("isSprinklerOn");
     private bool _muteSprinklerSound = false;
@@ -41,7 +41,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     {
         base.LateInit();
         if (this.Properties.Values.ContainsKey("WaterRange"))
-            WaterRange = StringParsers.ParseFloat(this.Properties.Values["WaterRange"]);
+            _waterRange = StringParsers.ParseFloat(this.Properties.Values["WaterRange"]);
 
         if (Properties.Values.ContainsKey("WaterType"))
             waterType = Properties.Values["WaterType"];
@@ -57,7 +57,7 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
     }
     public float GetWaterRange()
     {
-        return WaterRange;
+        return _waterRange;
     }
 
     // --- Block Lifecycle & State Cleanup ---
@@ -337,4 +337,6 @@ public class BlockWaterSourceSDX : BlockBaseWaterSystem
         //           otherwise it relies on the next scheduled UpdateTick.
         // Example: GameManager.Instance.World.GetWBT().AddScheduledBlockUpdate(....);
     }
+
+ 
 }

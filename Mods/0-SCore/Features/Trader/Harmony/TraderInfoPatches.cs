@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace Features.Trader
 {
-    public class TraderInfoPatches
-    {
   
         // Hijack the Getter for CurrencyItem, and check to see if they exist in our alt_currency dictionary.
         [HarmonyPatch(typeof(TraderInfo))]
@@ -15,10 +13,10 @@ namespace Features.Trader
             public static void Postfix(ref string __result, TraderInfo __instance)
             {
                 var id = TraderUtils.GetCurrentTraderID();
-                if (id == -1) return;
-                
-                if ( TraderCurrencyManager.HasCustomCurrency(id))
+                if (TraderCurrencyManager.HasCustomCurrency(id))
+                {
                     __result = TraderCurrencyManager.GetTraderCurrency(id);
+                }
             }
         }
 
@@ -76,5 +74,5 @@ namespace Features.Trader
                 return false;
             }
         }
-    }
+ 
 }

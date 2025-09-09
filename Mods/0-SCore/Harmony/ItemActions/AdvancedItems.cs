@@ -258,11 +258,6 @@ namespace Harmony.ItemActions
                 var forId = ItemClass.GetForId(itemStack.itemValue.type);
                  if (forId.RepairTools is { Length: > 0 }) return true;
 
-                 if (CraftingManager.GetRecipe(forId.GetItemName()) == null) return true;
-
-                 if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
-                    return true;
-
                  var blockList = CheckProperties(forId.GetBlock()?.Properties);
                  if (blockList.Count > 0)
                  {
@@ -273,6 +268,7 @@ namespace Harmony.ItemActions
                  var list = CheckProperties(forId.Properties);
                  if (list.Count > 0)
                  {
+                     Debug.Log($"ItemUtilis.Scrap(): {list.Count}");
                      ItemsUtilities.Scrap(list, itemStack, __instance.ItemController);
                      return false;
                  }
@@ -305,6 +301,14 @@ namespace Harmony.ItemActions
                 //
                 //
                 if (!Configuration.CheckFeatureStatus(AdvFeatureClass, "DisableScrapFallback"))
+                {
+                    Debug.Log("Disabling Scrap FAll back");
+                    return true;
+                }
+
+                if (CraftingManager.GetRecipe(forId.GetItemName()) == null) return true;
+
+                if (CraftingManager.GetRecipe(forId.GetItemName()).tags.Test_AnySet(FastTags<TagGroup.Global>.Parse("usevanillascrap")))
                     return true;
                 // If there's a recipe, reduce it
                 var recipe = ItemsUtilities.GetReducedRecipes(forId.GetItemName(), 2);

@@ -533,8 +533,17 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             }
             else
             {
-                this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
-                    entityFocusing.entityId);
+                try
+                {
+                    this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
+                        entityFocusing.entityId);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log($"Caught Exception: {ex.ToString()}");
+                    activeQuests = null;
+                }
+
                 if (this.activeQuests == null)
                 {
                     this.activeQuests = this.PopulateActiveQuests(entityFocusing as EntityPlayer, -1);
@@ -595,7 +604,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
     public override bool CanBePushed() {
         return true;
     }
-
+    
    
     public override void InitLocation(Vector3 _pos, Vector3 _rot) {
         base.InitLocation(_pos, _rot);
@@ -1107,6 +1116,40 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
 
     int expireLeaderCache = 30;
 
+    private Transform _largeEntityBlocker = null;
+
+    public void CheckLeaderProximity()
+    {
+     
+        List<Entity> entitiesInBounds = GameManager.Instance.World.GetEntitiesInBounds(this, new Bounds(this.position, Vector3.one * 2f));
+        if (entitiesInBounds.Count > 0)
+        {
+            foreach (var t in entitiesInBounds)
+            {
+                if (t is not EntityPlayer) continue;
+                var entityPlayer = t as EntityPlayer;
+                if ( entityPlayer == null ) continue;
+                if (EntityUtilities.IsAnAlly(entityId, entityPlayer.entityId))
+                {
+                    ToggleCollisions(false, this);
+                    return;
+                }
+            }
+        }
+        ToggleCollisions(true, this);    
+    }
+
+    private void ToggleCollisions(bool value, EntityAlive entity) {
+        if ( _largeEntityBlocker == null)
+            _largeEntityBlocker = GameUtils.FindTagInChilds(RootTransform, "LargeEntityBlocker");
+        if (_largeEntityBlocker)
+        {
+            _largeEntityBlocker.gameObject.SetActive(value);
+        }
+
+        entity.PhysicsTransform.gameObject.SetActive(value);
+        entity.IsNoCollisionMode.Value = !value;
+    }
     public void LeaderUpdate() {
         if (IsDead()) return;
 
@@ -1120,6 +1163,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             return;
         }
 
+        CheckLeaderProximity();
 
         if (Owner == null)
         {
@@ -1183,7 +1227,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
                 var distanceToLeader = GetDistance(leader);
                 if (distanceToLeader > 60)
                     TeleportToPlayer(leader);
-
+         
                 if (player && AddNPCToCompanion && IsAlive())
                 {
                     if (player.Companions.IndexOf(this) < 0)

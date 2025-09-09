@@ -233,6 +233,8 @@ public class PlantData
             var blockValue = GameManager.Instance.World.GetBlock(sprinklerPos);
             if (blockValue.Block is not BlockWaterSourceSDX waterBlock) continue;
 
+            rangeToCheckSq = waterBlock.GetWaterRange() * waterBlock.GetWaterRange(); // Check against sprinkler's range
+
             // Check distance from plant to sprinkler using the plant's waterRange
             if (Vector3.SqrMagnitude(BlockPos - sprinklerPos) <= rangeToCheckSq) // Use plant's range
             // Alternative: Check against sprinkler's range: <= waterBlock.GetWaterRange() * waterBlock.GetWaterRange() ?

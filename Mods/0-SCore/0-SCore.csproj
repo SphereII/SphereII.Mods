@@ -241,6 +241,7 @@
     <Compile Include="Features\StoryEvents\Scripts\Story.cs" />
     <Compile Include="Features\StoryEvents\Scripts\StoryManager.cs" />
     <Compile Include="Features\TemplateManager\Interface\ITemplateManager.cs" />
+    <Compile Include="Features\Trader\Harmony\ItemActionEntrySellPatches.cs" />
     <Compile Include="Features\Trader\Harmony\TraderInfoPatches.cs" />
     <Compile Include="Features\Trader\Scripts\TraderCurrencyManager.cs" />
     <Compile Include="Features\Trader\Scripts\TraderUtils.cs" />

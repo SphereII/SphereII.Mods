@@ -6,7 +6,7 @@
             <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
 
             <!-- Player must be wearing at least 3 pieces of medium armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorMediumWorn" operation="GTE" value="3"/>
+            <requirement name="WornItems" tags="mediumArmor" operation="GTE" value="3"/>
 
             <!-- XP Gain -->
             <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
@@ -38,7 +38,7 @@
 
         <effect_group name="Medium Armor Movement">
             <!-- Player must be wearing at least 3 pieces of medium armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorMediumWorn" operation="GTE" value="3"/>
+            <requirement name="WornItems" tags="mediumArmor" operation="GTE" value="3"/>
 
             <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Medium Armor - Attempting XP Gain (+@$lbd_xp_attribute_synergy_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkMediumArmor_XPCoolDown"/>

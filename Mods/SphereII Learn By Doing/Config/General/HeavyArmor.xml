@@ -5,8 +5,7 @@
             <!-- Master requirements for the entire group. -->
             <requirement name="EntityTagCompare" target="other" tags="walker,animal"/>
             <!-- Player must be wearing at least 3 pieces of heavy armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
-
+            <requirement name="WornItems" tags="heavyArmor" operation="GTE" value="3"/>
             <!-- XP Gain -->
             <triggered_effect trigger="onOtherDamagedSelf" action="LogMessage" message="LBD DEBUG: Heavy Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
@@ -37,8 +36,8 @@
 
         <effect_group name="Heavy Armor Movement">
             <!-- Player must be wearing at least 3 pieces of Heavy armor. -->
-            <requirement name="CVarCompare" cvar=".ArmorHeavyWorn" operation="GTE" value="3"/>
-
+            <requirement name="WornItems" tags="heavyArmor" operation="GTE" value="3"/>
+            
             <triggered_effect trigger="onSelfRun" action="LogMessage" message="LBD DEBUG: Heavy Armor - Attempting XP Gain (+@$lbd_xp_damage_taken_base)">
                 <requirement name="NotHasBuff" buff="buffLBD_perkHeavyArmor_XPCoolDown"/>
                 <requirement name="HasBuff" buff="god"/>
