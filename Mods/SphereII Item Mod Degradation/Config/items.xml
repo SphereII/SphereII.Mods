@@ -23,6 +23,25 @@
     <append xpath="//item[@name='meleeToolFlashlight02']//triggered_effect[@trigger='onSelfItemActivate']">
         <requirement name="ItemPercentUsed, SCore" operation="LT" value="1" />
     </append>
+
+    <set xpath="//item[@name='biomeWeatherItem1']/property[@name='ShowQuality']/@value">true</set>
+    <append xpath="//item[@name='biomeWeatherItem1']">
+        <!-- Let Them be repaired -->
+        <property name="RepairTools" value="resourceRepairKit"/>
+
+        <!-- Break after they completely degrade?-->
+        <property name="DegradationBreaksAfter" value="false"/>
+        
+        <effect_group name="DamageHooks">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <triggered_effect trigger="onSelfRoutineUpdate" action="LogMessage" message="DegradeItemValue:: biome Badge" />
+            <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+        </effect_group>
+
+        <!-- Make the tools degrade over a longer period of time, as they fire more often -->
+        <property name="DegradationMaxUse" value="1000,6000" param1="1,6"/>
+        <property name="DegradationPerUse" value="1"/>
+    </append>
     
 </configs>
 

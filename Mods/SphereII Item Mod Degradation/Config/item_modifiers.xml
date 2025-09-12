@@ -46,6 +46,7 @@
     <include filename="ItemModifiers/modArmorWaterPurifier.xml" />
     <include filename="ItemModifiers/modArmorHelmetLight.xml" />
     <include filename="ItemModifiers/modGunFlashlight.xml" />
-    
+    <include filename="ItemModifiers/modVehicleOffRoadHeadlights.xml" />
+
 
 </configs>

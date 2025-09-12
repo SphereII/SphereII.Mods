@@ -13,9 +13,18 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
     private bool bEquipment;
     private bool bToolbelt;
     private bool bBag;
+    private bool bVehicle;
     
     public override void Execute(MinEventParams _params)
     {
+        if (bVehicle)
+        {
+            var entityVehicle = _params.Self as EntityVehicle;
+            if (entityVehicle == null) return;
+            var vehicle = entityVehicle.vehicle;
+            CheckItemValue(vehicle.itemValue, null);
+            return;
+        }
         var localPlayer = _params.Self as EntityPlayerLocal;
         var playerUI = localPlayer?.playerUI;
         if (playerUI == null) return;
@@ -56,6 +65,7 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
             }
           
         }
+
     }
 
     private void CheckItemValue(ItemValue itemValue, XUiC_ItemStack stack)
@@ -89,6 +99,8 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
         bBag = slots.Contains("bag");
         bEquipment = slots.Contains("equipment");
         bToolbelt = slots.Contains("inventory");
+        bVehicle = slots.Contains("vehicle");
+
         return true;
 
     }

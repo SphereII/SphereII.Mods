@@ -4,6 +4,12 @@
             <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffRoutineUpdateTrigger" />
         </effect_group>
     </append>
+
+    <append xpath="//buff[@name='buffStatusCheck01']">
+        <effect_group name="Routine Update Trigger Buff ">
+            <triggered_effect trigger="onSelfEnteredGame" action="AddBuff" buff="buffRoutineUpdateTrigger" />
+        </effect_group>
+    </append>
     
     <append xpath="/buffs">
         <buff name="buffStatusModBroken" name_key="buffStatusModBrokenName" description_key="buffStatusModBrokenDesc" 
@@ -15,14 +21,26 @@
         </buff>
 
         <!-- Periodically send an update on everything the player is wearing-->
-        <buff name="buffRoutineUpdateTrigger" hidden="true" >
+        <buff name="buffRoutineUpdateTrigger" hidden="true" remove_on_death="false" >
             <stack_type value="replace"/>
-            <update_rate value="10"/>
+            <update_rate value="100"/>
             <effect_group name="Routine Update">
                 <!--
                 <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Running Routine Update" />
                 -->
                 <triggered_effect trigger="onSelfBuffUpdate" action="RoutineUpdate, SCore" slots="bag,inventory,equipment"/>
+            </effect_group>
+        </buff>
+
+        <buff name="buffRoutineVehicleUpdateTrigger"  hidden="true" remove_on_death="false" >
+            <stack_type value="ignore"/>
+            <damage_type value="heat"/>
+            <update_rate value="100"/>
+            <effect_group name="Routine Update">
+                <!--
+                <triggered_effect trigger="onSelfBuffUpdate" action="LogMessage" message="Running Routine Update for Vehicle" />
+                -->
+                <triggered_effect trigger="onSelfBuffUpdate" action="RoutineUpdate, SCore" slots="vehicle"/>
             </effect_group>
         </buff>
       

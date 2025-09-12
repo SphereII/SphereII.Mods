@@ -36,9 +36,11 @@
     <ItemGroup>
       <Content Include="Config\blocks.xml" />
       <Content Include="Config\buffs.xml" />
+      <Content Include="Config\entityclasses.xml" />
       <Content Include="Config\ItemModifiers\modArmorHelmetLight.xml" />
       <Content Include="Config\ItemModifiers\modArmorWaterPurifier.xml" />
       <Content Include="Config\ItemModifiers\modGunFlashlight.xml" />
+      <Content Include="Config\ItemModifiers\modVehicleOffRoadHeadlights.xml" />
       <Content Include="Config\ItemModifiers\StandardSettings.xml" />
       <Content Include="Config\items.xml" />
       <Content Include="Config\item_modifiers.xml" />

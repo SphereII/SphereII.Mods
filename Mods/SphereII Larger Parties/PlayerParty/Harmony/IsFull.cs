@@ -6,7 +6,7 @@ namespace LargerParties.PlayerParty.Harmony {
         [HarmonyPatch("IsFull")]
         public class PartyIsFull {
             public static bool Prefix(ref bool __result) {
-                __result = true;
+                __result = false;
                 return false;
             }
         }

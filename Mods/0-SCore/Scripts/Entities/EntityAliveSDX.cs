@@ -460,6 +460,19 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
         };
     }
 
+    public virtual void InitializeQuestList(EntityAlive entityFocusing)
+    {
+        if (entityFocusing is not EntityPlayer player) return;
+        if (!QuestEventManager.Current.npcQuestData.ContainsKey(entityId)) return;
+        var npcquestData = QuestEventManager.Current.npcQuestData[entityId];
+        if (npcquestData?.PlayerQuestList == null) return;
+        if (!npcquestData.PlayerQuestList.TryGetValue(player.entityId, out var playerQuestData)) return;
+
+        if (playerQuestData?.QuestList == null)
+        {
+            SetupActiveQuestsForPlayer(player);
+        }
+    }
     public override bool OnEntityActivated(int indexInBlockActivationCommands, Vector3i tePos,
         EntityAlive entityFocusing) {
         var localPlayer = entityFocusing as EntityPlayerLocal;
@@ -535,6 +548,7 @@ public class EntityAliveSDX : EntityTrader, IEntityOrderReceiverSDX {
             {
                 try
                 {
+                    InitializeQuestList(entityFocusing);
                     this.activeQuests = QuestEventManager.Current.GetQuestList(GameManager.Instance.World, this.entityId,
                         entityFocusing.entityId);
                 }

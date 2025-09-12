@@ -1,7 +1,7 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
 
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.Workstations
 {
     [HarmonyPatch(typeof(XUiC_WorkstationFuelGrid))]
     [HarmonyPatch(nameof(XUiC_WorkstationFuelGrid.TurnOn))]

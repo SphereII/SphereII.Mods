@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
-using UnityEngine;
 
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.ItemStacks
 {
     public class XUiCRecipeStackOutputStackPatches
     {

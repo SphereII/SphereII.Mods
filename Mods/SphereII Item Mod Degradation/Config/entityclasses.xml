@@ -1,0 +1,16 @@
+<configs>
+    <!-- We will use a conditional to check if the 'Buffs' property exists on the vehicle class. -->
+    <conditional>
+        <!-- The cond attribute uses the xpath() function to check for the property's existence. -->
+        <if cond="xpath('//entity_class[starts-with(@name, &quot;vehicle&quot;)]/property[@name=&quot;Buffs&quot;]') != null">
+            <!-- If the property already exists, append the value using the csv hook. -->
+            <csv xpath="//entity_class[starts-with(@name,'vehicle')]/property[@name='Buffs']/@value" op="add">buffRoutineVehicleUpdateTrigger</csv>
+        </if>
+        <else>
+            <!-- If the property does not exist, append the entire property node as an append operation. -->
+            <append xpath="//entity_class[starts-with(@name,'vehicle')]">
+                <property name="Buffs" value="buffRoutineVehicleUpdateTrigger"/>
+            </append>
+        </else>
+    </conditional>
+</configs>

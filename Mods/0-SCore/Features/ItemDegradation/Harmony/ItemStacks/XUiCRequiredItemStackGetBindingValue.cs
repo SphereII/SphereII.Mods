@@ -2,7 +2,7 @@ using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
 
 // Updates the UI to show ( Broken ) on the Tool grid or item.
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.ItemStacks
 {
     [HarmonyPatch(typeof(XUiC_ItemStack))]
     [HarmonyPatch(nameof(XUiC_ItemStack.GetBindingValueInternal))]

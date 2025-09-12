@@ -1,7 +1,7 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
 
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.Workstations
 {
     // If the recipe has a requirement that is degraded, block it.
     [HarmonyPatch(typeof(XUiC_WorkstationToolGrid))]

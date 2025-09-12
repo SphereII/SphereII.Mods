@@ -79,6 +79,11 @@
                 <property name="Distance" value="40"/>
             </property>
 
+            <property class="ItemDegradation">
+                <property name="BrokenTint" value="210,0,0" />
+                <property name="RepairModsWithItem" value="true" />
+            </property>
+            
             <property class="AdvancedLockpicking">
                 <!-- This feature is only available when this modlet is loaded. -->
                 <property name="RequiredModlet" value="Locks"/>
@@ -104,7 +109,7 @@
             <property class="AdvancedItemFeatures">
                 <property name="Logging" value="false"/>
                 <property name="AdvancedItemRepair" value="false"/>
-                <!-- If AdvanedItemRepair is set to true, but RepairItems or ScrapItems is not defined, a reduced raw ingredients recipe
+                <!-- If AdvancedItemRepair is set to true, but RepairItems or ScrapItems is not defined, a reduced raw ingredients recipe
                     will be created. Turn this feature on to disable that, allowing only scraping or repairitems on items specifically listed 
                     -->
                 <property name="DisableScrapFallback" value="false"/>

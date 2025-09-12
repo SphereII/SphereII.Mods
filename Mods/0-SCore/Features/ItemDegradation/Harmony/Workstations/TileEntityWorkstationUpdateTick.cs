@@ -1,8 +1,7 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
-using UnityEngine;
 
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.Workstations
 {
     [HarmonyPatch(typeof(TileEntityWorkstation))]
     [HarmonyPatch(nameof(TileEntityWorkstation.UpdateTick))]

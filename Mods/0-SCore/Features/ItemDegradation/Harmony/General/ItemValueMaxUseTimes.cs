@@ -1,8 +1,7 @@
 using HarmonyLib;
 using SCore.Features.ItemDegradation.Utils;
-using UnityEngine;
 
-namespace SCore.Features.ItemDegradation.Harmony
+namespace SCore.Features.ItemDegradation.Harmony.General
 {
     [HarmonyPatch(typeof(ItemValue))]
     [HarmonyPatch(nameof(ItemValue.MaxUseTimes), MethodType.Getter)]

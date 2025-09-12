@@ -1,0 +1,13 @@
+<configs>
+    <!-- Helmet Light  -->
+    <append xpath="//item_modifier[@name='modVehicleOffRoadHeadlights']">
+        <effect_group name="DamageHooks Deactivate">
+            <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
+            <triggered_effect trigger="onSelfRoutineUpdate" action="LogMessage" message="DegradeItemValue:: HeadLight" />
+            <triggered_effect trigger="onSelfRoutineUpdate" action="DegradeItemValueMod, SCore"/>
+
+        </effect_group>
+    </append>
+
+   
+</configs>
