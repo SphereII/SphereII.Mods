@@ -144,10 +144,16 @@ namespace SCore.Features.ItemDegradation.Utils
             for (var i = 0; i < items.Length; i++)
             {
                 if (items[i]?.ItemClass == null) continue;
-                CheckModification(items[i], player);
+                //CheckModification(items[i], player);
+                CheckModsForDegradation(items[i], player);
             }
         }
         
+        public static void CheckModsForDegradation(ItemValue mod, EntityAlive player)
+        {
+                OnSelfItemDegrade.CheckForDegradation(mod, player);
+        }
+
         public static void CheckToolsForDegradation(TileEntityWorkstation instance, global::Recipe recipe)
         {
             if (instance.bUserAccessing || instance.queue.Length == 0 || (instance.isModuleUsed[3] && !instance.isBurning)) return;

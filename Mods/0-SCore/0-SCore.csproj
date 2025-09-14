@@ -360,6 +360,7 @@
     <Compile Include="Harmony\Vehicles\VehicleGetFuelType.cs" />
     <Compile Include="Harmony\WorldGen\CaveProject.cs" />
     <Compile Include="Harmony\WorldGen\HeightMapCaveSystem.cs" />
+    <Compile Include="Harmony\WorldGen\PoiMapElementConstructor.cs" />
     <Compile Include="Harmony\XML\ModInfoPatches.cs" />
     <Compile Include="Harmony\XUIC\SirillionThings.cs" />
     <Compile Include="Harmony\XUIC\XUiController.cs" />

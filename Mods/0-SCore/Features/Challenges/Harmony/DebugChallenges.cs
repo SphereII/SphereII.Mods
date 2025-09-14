@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace SCore.Features.Challenges.Harmony {
     public class DebugChallenges {
+        
+        private static readonly string AdvFeatureClass = "AdvancedTroubleshootingFeatures";
+        private static readonly string Feature = "Challenges";
+
+        
         [HarmonyPatch(typeof(ChallengeJournal))]
         [HarmonyPatch(nameof(ChallengeJournal.AddChallenge))]
         public class ChallengeJournalAddChallenge {
@@ -19,7 +24,10 @@ namespace SCore.Features.Challenges.Harmony {
         [HarmonyPatch(MethodType.Constructor)]
         [HarmonyPatch(new[] { typeof(string) })]
         public class RequirementObjectiveGroupGatherIngredientsConstructor {
-            public static void Postfix(RequirementObjectiveGroupGatherIngredients __instance) {
+            public static void Postfix(RequirementObjectiveGroupGatherIngredients __instance)
+            {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
+                    
                 if ( string.IsNullOrEmpty(__instance.ItemID))
                     Log.Out($"GroupGatherIngredients: ItemID is null.");
                 if (__instance.itemRecipe == null)
@@ -33,6 +41,7 @@ namespace SCore.Features.Challenges.Harmony {
         public class RequirementObjectiveGroupPlaceConstructor {
             public static void Postfix(RequirementObjectiveGroupPlace __instance)
             {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
                 if (string.IsNullOrEmpty(__instance.ItemID))
                     Log.Out($"RequirementObjectiveGroupPlace: ItemID is null.");
                 var recipe = CraftingManager.GetRecipe(__instance.ItemID);
@@ -47,6 +56,7 @@ namespace SCore.Features.Challenges.Harmony {
         public class RequirementObjectiveGroupCraftConstructor {
             public static void Postfix(RequirementObjectiveGroupCraft __instance)
             {
+                if (!Configuration.CheckFeatureStatus(AdvFeatureClass, Feature)) return;
                 if (string.IsNullOrEmpty(__instance.ItemID))
                     Log.Out($"RequirementObjectiveGroupCraft: ItemID is null.");
                 var recipe = CraftingManager.GetRecipe(__instance.ItemID);

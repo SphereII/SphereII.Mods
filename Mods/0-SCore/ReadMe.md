@@ -32,6 +32,14 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.30.1720
+	[ Challenges ]
+		- Added new Challenges entry to AdvancedTroubleshootingFeatures to toggle advanced troubleshooting output
+
+	[ Item Degradation ]
+		- Fixed an issue where onSelfItemDegrade wasn't being called properly for item mods.
+
+
 Version: 2.3.28.928
 	[ Challenges ]
 		- Added troubleshooting to a few Challenge Group setting to help track down typos. 
@@ -51,6 +59,9 @@ Version: 2.3.28.928
  		- Added new option for MinEventActionRoutineUpdate to take a 'vehicle' parameter. 
 			- This tells the MinEvent that it should only run on a vehicle.
 
+	[ EntityAliveSDX ]
+		- Added a potential fix for the GetQuestList() null reference being reported when talking with NPCs at night.
+
 	[ SphereII Item Degradation Mod ]
 		- New buffRoutineVehicleUpdateTrigger buff to support degrading mods on vehicles when left on
 		- Added new buff to any entity starting with vehicle.
@@ -58,9 +69,6 @@ Version: 2.3.28.928
 
 	[ SphereII LArger Parties ]
 		- Fixed a potential issue when the Party was being set to full when it was not.
-
-	[ EntityAliveSDX ]
-		- Added a potential fix for the GetQuestList() null reference being reported when talking with NPCs at night.
 
 Version: 2.3.23.913
 	[ EntityAliveSDX ]

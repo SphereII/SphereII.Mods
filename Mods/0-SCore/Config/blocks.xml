@@ -315,6 +315,9 @@
                 <property name="UtilityAILoggingMin" value="false"/>
                 <property name="UtilityAILoggingTask" value="false"/>
 
+                <!-- Turns on advanced troubleshooting for challenges -->
+                <property name="Challenges" value="false"/>
+
             </property>
 
             <property class="AdvancedPrefabFeatures">

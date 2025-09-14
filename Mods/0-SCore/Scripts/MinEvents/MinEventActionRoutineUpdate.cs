@@ -42,7 +42,6 @@ public class MinEventActionRoutineUpdate : MinEventActionTargetedBase
         {
             foreach (var item in _params.Self.equipment.GetItems())
                 CheckItemValue(item, null);
-            
         }
 
         // Tool Belt.

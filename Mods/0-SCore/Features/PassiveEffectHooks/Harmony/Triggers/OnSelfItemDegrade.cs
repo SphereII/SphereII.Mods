@@ -9,14 +9,18 @@ public static class OnSelfItemDegrade
     public static void CheckForDegradation(ItemStack stack)
     {
         if (stack == null || stack.IsEmpty()) return;
-        if (!ItemDegradationHelpers.CanDegrade(stack.itemValue)) return;
-        
+        CheckForDegradation(stack.itemValue, GameManager.Instance.World.GetPrimaryPlayer());
+    }
+    
+    public static void CheckForDegradation(ItemValue itemValue, EntityAlive playerAlive)
+    {
+        if (!ItemDegradationHelpers.CanDegrade(itemValue)) return;
         var minEventParams = new MinEventParams {
-            ItemValue = stack.itemValue,
-            Self = GameManager.Instance.World.GetPrimaryPlayer()
+            ItemValue = itemValue,
+            Self = playerAlive
         };
 
-        stack.itemValue.ItemClass.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade, minEventParams);
+        itemValue.ItemClass.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade, minEventParams);
         if (minEventParams.Self == null) return;
         minEventParams.Self.MinEventContext = minEventParams;
         minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade);
