@@ -32,6 +32,11 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.32.1830
+ 	[ Item Degradation ]
+		- Fixed an issue where onSelfItemRepaired, onSelfItemScrap, and onSelfItemDegrade was running twice: Once on the item, once on the player.
+			- This was double-firing the trigger.
+
 Version:  2.3.32.1604
 	[ Item Degradation ]
 		- Removed a block on only degrading an item if it was used as part of crafting.

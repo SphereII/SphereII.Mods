@@ -30,7 +30,7 @@ public static class OnRepair
 
         stack.ItemClass.FireEvent(MinEventTypes.onSelfItemRepaired, minEventParams);
         minEventParams.Self.MinEventContext = minEventParams;
-        minEventParams.Self.FireEvent(MinEventTypes.onSelfItemRepaired);
+     //   minEventParams.Self.FireEvent(MinEventTypes.onSelfItemRepaired);
         
         minEventParams.ItemValue.SetMetadata("DamageAmount", 0f, TypedMetadataValue.TypeTag.Float);
         minEventParams.ItemValue.SetMetadata("PercentDamaged", 0f, TypedMetadataValue.TypeTag.Float);

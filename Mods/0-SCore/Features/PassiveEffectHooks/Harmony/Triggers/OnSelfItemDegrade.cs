@@ -21,9 +21,9 @@ public static class OnSelfItemDegrade
         };
 
         itemValue.ItemClass.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade, minEventParams);
-        if (minEventParams.Self == null) return;
-        minEventParams.Self.MinEventContext = minEventParams;
-        minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade);
+        // if (minEventParams.Self == null) return;
+        // minEventParams.Self.MinEventContext = minEventParams;
+        // minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfItemDegrade);
 
     }
  

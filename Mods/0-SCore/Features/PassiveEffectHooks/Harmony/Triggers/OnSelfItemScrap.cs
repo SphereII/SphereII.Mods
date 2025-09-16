@@ -16,7 +16,7 @@ public static class OnSelfItemScrap
 
         
         stack.itemValue.ItemClass.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfScrapItem, minEventParams);
-        minEventParams.Self.MinEventContext = minEventParams;
-        minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfScrapItem);
+        // minEventParams.Self.MinEventContext = minEventParams;
+        // minEventParams.Self.FireEvent((MinEventTypes)SCoreMinEventTypes.onSelfScrapItem);
     }
 }
