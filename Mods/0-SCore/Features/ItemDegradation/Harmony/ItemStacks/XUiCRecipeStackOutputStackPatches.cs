@@ -22,7 +22,7 @@ namespace SCore.Features.ItemDegradation.Harmony.ItemStacks
                 {
                     if (slot.itemStack.IsEmpty() || slot.itemStack.itemValue == null) continue;
                     var itemValue = slot.itemStack.itemValue;
-                    if (itemValue.type != recipe.craftingToolType) continue;
+                   // if (itemValue.type != recipe.craftingToolType) continue;
                     if (!ItemDegradationHelpers.CanDegrade(itemValue)) continue;
                     if (ItemDegradationHelpers.IsDegraded(itemValue))
                     {

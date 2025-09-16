@@ -1,7 +1,9 @@
-using HarmonyLib;
-using SCore.Features.ItemDegradation.Utils;
-
-namespace SCore.Features.ItemDegradation.Harmony.Workstations
+    
+    using HarmonyLib;
+    using SCore.Features.ItemDegradation.Utils;
+    using UnityEngine;
+    
+    namespace SCore.Features.ItemDegradation.Harmony
     {
         [HarmonyPatch(typeof(TileEntityWorkstation))]
         [HarmonyPatch(nameof(TileEntityWorkstation.HandleRecipeQueue))]

@@ -41,6 +41,7 @@ namespace Challenges {
 
         private void Current_CraftItem(ItemStack stack) {
             var itemClass = stack.itemValue.ItemClass;
+            if (itemClass == null) return;
             var tags = FastTags<TagGroup.Global>.Parse(item_tags);
             if (!itemClass.HasAnyTags(tags)) return;
             Current++;

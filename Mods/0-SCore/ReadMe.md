@@ -32,6 +32,17 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version:  2.3.32.1604
+	[ Item Degradation ]
+		- Removed a block on only degrading an item if it was used as part of crafting.
+			- Now all mods will degrade when an item is being crafted
+	
+	[ Dialog ]
+		- Set the QuestGiverID as part of the DialogActionGiveQuestSDX, so that quest must be returned to that NPC.
+
+	[ Challenges ]
+		- Added a null check in CraftWithTags
+
 Version: 2.3.30.1720
 	[ Challenges ]
 		- Added new Challenges entry to AdvancedTroubleshootingFeatures to toggle advanced troubleshooting output
