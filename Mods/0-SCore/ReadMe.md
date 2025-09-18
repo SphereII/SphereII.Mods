@@ -32,6 +32,19 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
+Version: 2.3.34.1901
+	[ Quality Levels ]
+		- Initial implementation for Quality Tiers.
+		- New Configuration options under AdvancedItemFeatures
+			<property name="CustomQualityLevels" value="false" />
+			<property name="QualityLevels" value="0,700" />
+		- If CustomQualityLevels is set to true, then Quality will generate based on the range of QualityLevels.
+		- There may still be gaps in this patch, but it seems to mostly work.
+
+	[ SphereII Larger Parties ]
+		- Added a debug line to troubleshoot exp with large parties
+		- Removed the check on member list count.
+
 Version: 2.3.32.1830
  	[ Item Degradation ]
 		- Fixed an issue where onSelfItemRepaired, onSelfItemScrap, and onSelfItemDegrade was running twice: Once on the item, once on the player.

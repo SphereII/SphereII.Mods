@@ -14,6 +14,8 @@
             <requirement name="ItemPercentUsed, SCore" operation="LT" value="1"/>
             <triggered_effect trigger="onSelfItemDegrade" action="DegradeItemValueMod, SCore"/>
         </effect_group>
+
+      
     </Snippet>
 
     <Snippet label="StandardSettings">

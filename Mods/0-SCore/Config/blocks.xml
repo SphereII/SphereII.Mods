@@ -118,6 +118,9 @@
                 <!-- Enables more repair options for more complicated repair and scrapping recipes. -->
                 <property name="DurabilityAffectsDamage" value="false"/>
                 <!-- For melee, a weapon is reduced as durability goes down. Fix your stuff! -->
+                
+                <property name="CustomQualityLevels" value="false" />
+                <property name="QualityLevels" value="0,700" />
             </property>
 
             <property class="AdvancedPlayerFeatures">

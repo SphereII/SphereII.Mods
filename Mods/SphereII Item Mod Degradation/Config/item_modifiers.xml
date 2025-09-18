@@ -41,6 +41,10 @@
             </triggered_effect>
         </effect_group>
 
+        <effect_group name="DamageHooks Repair">
+            <triggered_effect trigger="onSelfItemRepaired" action="LogMessage" message="DegradeItemValue:: Damage Hooks Repair" />
+            <triggered_effect trigger="onSelfItemRepaired" action="ModifyItem, SCore"/>
+        </effect_group>
     </append>
 
     <include filename="ItemModifiers/modArmorWaterPurifier.xml" />

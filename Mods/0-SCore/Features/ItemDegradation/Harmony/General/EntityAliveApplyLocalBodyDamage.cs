@@ -24,6 +24,7 @@ namespace SCore.Features.ItemDegradation.Harmony.General
                     ItemDegradationHelpers.CheckModificationOnItem(armor.Modifications, __instance);
                 }
             }
+            
         }
     }
 }

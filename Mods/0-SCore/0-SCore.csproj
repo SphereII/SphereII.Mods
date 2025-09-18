@@ -225,6 +225,15 @@
     <Compile Include="Features\PassiveEffectHooks\TestingHooks.cs" />
     <Compile Include="Features\PlayerMetrics\KillTracking\Scripts\SCoreKillTracker.cs" />
     <Compile Include="Features\PlayerMetrics\SCoreMetrics.cs" />
+    <Compile Include="Features\Quality\Harmony\ItemValueConstructor.cs" />
+    <Compile Include="Features\Quality\Harmony\QualityInfoCleanUp.cs" />
+    <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityColor.cs" />
+    <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityColorHex.cs" />
+    <Compile Include="Features\Quality\Harmony\QualityInfoGetQualityLevelName.cs" />
+    <Compile Include="Features\Quality\Harmony\QualityInfoGetTierColor.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiMTraderGetBuyPrice.cs" />
+    <Compile Include="Features\Quality\Harmony\XUiMTraderGetSellPrice.cs" />
+    <Compile Include="Features\Quality\Scripts\QualityUtils.cs" />
     <Compile Include="Features\Recipe\Harmony\TileEntityWorkstationHandleRecipeQueue.cs" />
     <Compile Include="Features\Recipe\Harmony\XUiCRecipeStackPatches.cs" />
     <Compile Include="Features\Recipe\SCoreTabTypes.cs" />
