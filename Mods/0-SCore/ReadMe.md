@@ -32,7 +32,7 @@ This release of 0-SCore introduces significant enhancements across several core 
 
 
 [ Change Log ]
-Version:
+Version: 2.3.35.1444
 	[ Item Degradation ]
 		- Added new MinEventAction that can be triggered from any trigger
 		- This action can search your bag, toolbelt, and equipment slots ( including biome badges ) on any triggers.
